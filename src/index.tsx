@@ -1,3 +1,4 @@
-export { default as UpSet } from './UpSet';
-export * from './UpSet';
+export { default as UpSet } from './components/UpSet';
+export * from './components/UpSet';
 export * from './theme';
+export * from './data';

@@ -58,5 +58,9 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
+    "@types/d3-scale": "^2.1.1",
+    "@types/js-combinatorics": "^0.5.31",
+    "d3-scale": "^3.2.1",
+    "js-combinatorics": "^0.5.5"
   }
 }

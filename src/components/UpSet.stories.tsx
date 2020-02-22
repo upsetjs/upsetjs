@@ -6,14 +6,12 @@ export default {
   title: 'UpSet',
 };
 
-const style = {
-  height: 50,
-};
+const style = {};
 const data = Array(100)
   .fill(0)
   .map(() => Math.random());
 
-const common = { data, style };
+const common = { data, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <UpSet {...common} />;
