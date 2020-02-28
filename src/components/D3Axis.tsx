@@ -20,6 +20,63 @@ function center<T>(scale: ScaleBand<T>) {
   }
   return (d: T) => scale(d)! + offset;
 }
+declare type TickProps = {
+  pos: number;
+  spacing: number;
+  tickSizeInner: number;
+  orient: 'top' | 'bottom' | 'left' | 'right';
+  name: string;
+};
+
+const D3HorizontalTick = React.memo(function D3HorizontalTick({
+  pos,
+  spacing,
+  tickSizeInner,
+  orient,
+  name,
+}: PropsWithChildren<TickProps>) {
+  const k = orient === 'top' || orient === 'left' ? -1 : 1;
+  return (
+    <g transform={`translate(0, ${pos + 0.5})`}>
+      <text
+        x={k * spacing}
+        dy={'0.32em'}
+        style={{
+          textAnchor: orient === 'right' ? 'start' : 'end',
+          fill: 'currentColor',
+        }}
+      >
+        {name}
+      </text>
+      <line x2={k * tickSizeInner} style={{ stroke: 'currentColor' }} />
+    </g>
+  );
+});
+
+const D3VerticalTick = React.memo(function D3VerticalTick({
+  pos,
+  name,
+  spacing,
+  orient,
+  tickSizeInner,
+}: PropsWithChildren<TickProps>) {
+  const k = orient === 'top' || orient === 'left' ? -1 : 1;
+  return (
+    <g transform={`translate(${pos + 0.5}, 0)`}>
+      <text
+        y={k * spacing}
+        dy={orient === 'top' ? '0em' : '0.71em'}
+        style={{
+          textAnchor: 'middle',
+          fill: 'currentColor',
+        }}
+      >
+        {name}
+      </text>
+      <line y2={k * tickSizeInner} style={{ stroke: 'currentColor' }} />
+    </g>
+  );
+});
 
 export default function D3Axis({
   d3Scale: scale,
@@ -32,34 +89,26 @@ export default function D3Axis({
   const values = isBandScale(scale) ? scale.domain() : scale.ticks();
   const format = isBandScale(scale) ? String : scale.tickFormat();
 
-  const k = orient === 'top' || orient === 'left' ? -1 : 1;
-  const x = orient === 'left' || orient === 'right' ? 'x' : 'y';
-
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
   const range = scale.range();
   const range0 = +range[0] + 0.5;
   const range1 = +range[range.length - 1] + 0.5;
   const position = isBandScale(scale) ? center(scale) : scale;
+  const k = orient === 'top' || orient === 'left' ? -1 : 1;
+
+  const D3Tick = orient === 'left' || orient === 'right' ? D3HorizontalTick : D3VerticalTick;
 
   return (
     <g {...extras} style={{ fill: 'none', fontSize: 10, fontFamily: 'sans-serif', ...(extras.style ?? {}) }}>
       {values.map(d => (
-        <g
-          key={position(d)}
-          transform={`translate(${x === 'x' ? '0,' : ''}${position(d) + 0.5}${x === 'x' ? '' : ',0'})`}
-        >
-          <text
-            {...{ [x]: k * spacing }}
-            dy={orient === 'top' ? '0em' : orient === 'bottom' ? '0.71em' : '0.32em'}
-            style={{
-              textAnchor: orient === 'right' ? 'start' : orient === 'left' ? 'end' : 'middle',
-              fill: 'currentColor',
-            }}
-          >
-            {format(d)}
-          </text>
-          <line {...{ [`${x}2`]: k * tickSizeInner }} style={{ stroke: 'currentColor' }} />
-        </g>
+        <D3Tick
+          key={d}
+          pos={position(d)}
+          name={format(d)}
+          spacing={spacing}
+          tickSizeInner={tickSizeInner}
+          orient={orient}
+        />
       ))}
       <path
         style={{ stroke: 'currentColor' }}
