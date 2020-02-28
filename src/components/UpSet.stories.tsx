@@ -1,5 +1,6 @@
 import React from 'react';
 import UpSet from './UpSet';
+import { extractSets } from '../data';
 
 export default {
   component: UpSet,
@@ -7,11 +8,14 @@ export default {
 };
 
 const style = {};
-const data = Array(100)
-  .fill(0)
-  .map(() => Math.random());
+const base = Array.from('ABCDEF');
+const sets = extractSets(
+  Array(100)
+    .fill(0)
+    .map(() => ({ sets: base.filter(() => Math.random() > 0.7) }))
+);
 
-const common = { data, width: 1200, height: 500, style };
+const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <UpSet {...common} />;
