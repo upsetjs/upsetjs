@@ -44,7 +44,9 @@ export type UpSetDataProps<T> = {
 
 export type UpSetSelectionProps<T> = {
   selection?: ISet<T> | IIntersectionSet<T> | null;
-  onSelectionChanged?(selection: ISet<T> | IIntersectionSet<T> | null): void;
+  onMouseEnter?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onMouseLeave?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
 };
 
 export type UpSetStyleProps = {
@@ -88,8 +90,9 @@ function defineStyle(size: {
 declare type UpSetStyles = ReturnType<typeof defineStyle>;
 
 declare type UpSetSelection = {
-  setSelection(s: ISet<any> | IIntersectionSet<any>): void;
-  clearSelection(): void;
+  onMouseEnter(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
+  onMouseLeave(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
+  onClick(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
 };
 
 function generateScales(sets: ISets<any>, intersections: IIntersectionSets<any>, styles: UpSetStyles) {
@@ -120,8 +123,9 @@ declare type UpSetScales = ReturnType<typeof generateScales>;
 const SetChart = React.memo(function SetChart<T>({
   sets,
   scales,
-  setSelection,
-  clearSelection,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
   color,
   labelStyle,
 }: PropsWithChildren<
@@ -142,8 +146,9 @@ const SetChart = React.memo(function SetChart<T>({
           <g
             key={d.name}
             transform={`translate(0, ${scales.sets.y(d.name)})`}
-            onMouseEnter={() => setSelection(d)}
-            onMouseLeave={clearSelection}
+            onMouseEnter={onMouseEnter(d)}
+            onMouseLeave={onMouseLeave(d)}
+            onClick={onClick(d)}
           >
             <title>
               {d.name}: {d.cardinality}
@@ -201,8 +206,9 @@ function SetSelectionChart<T>({
 const IntersectionChart = React.memo(function IntersectionChart<T>({
   intersections,
   scales,
-  setSelection,
-  clearSelection,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   labelStyle,
   color,
 }: PropsWithChildren<
@@ -223,8 +229,9 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
           <g
             key={d.name}
             transform={`translate(${scales.intersections.x(d.name)}, 0)`}
-            onMouseEnter={() => setSelection(d)}
-            onMouseLeave={clearSelection}
+            onMouseEnter={onMouseEnter(d)}
+            onMouseLeave={onMouseLeave(d)}
+            onClick={onClick(d)}
           >
             <title>
               {d.name}: {d.cardinality}
@@ -284,8 +291,9 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
   i,
   scales,
   styles,
-  setSelection,
-  clearSelection,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   alternatingBackgroundColor,
   setLabelStyle,
 }: PropsWithChildren<
@@ -301,8 +309,9 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
   return (
     <g
       transform={`translate(0, ${scales.sets.y(d.name)})`}
-      onMouseEnter={() => setSelection(d)}
-      onMouseLeave={clearSelection}
+      onMouseEnter={onMouseEnter(d)}
+      onMouseLeave={onMouseLeave(d)}
+      onClick={onClick(d)}
     >
       <rect
         width={styles.labels.w + styles.intersections.w}
@@ -324,8 +333,9 @@ const Labels = React.memo(function Labels<T>({
   sets,
   scales,
   styles,
-  setSelection,
-  clearSelection,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   alternatingBackgroundColor,
   setLabelStyle,
 }: PropsWithChildren<
@@ -346,8 +356,9 @@ const Labels = React.memo(function Labels<T>({
           i={i}
           scales={scales}
           styles={styles}
-          setSelection={setSelection}
-          clearSelection={clearSelection}
+          onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           alternatingBackgroundColor={alternatingBackgroundColor}
           setLabelStyle={setLabelStyle}
         />
@@ -405,10 +416,11 @@ const UpSetLine = React.memo(function UpSetLine<T>({
   cy,
   scales,
   height,
-  setSelection,
   color,
   notMemberColor,
-  clearSelection,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
 }: PropsWithChildren<
   {
     sets: ISets<T>;
@@ -427,8 +439,9 @@ const UpSetLine = React.memo(function UpSetLine<T>({
   return (
     <g
       transform={`translate(${scales.intersections.x(d.name)}, 0)`}
-      onMouseEnter={() => setSelection(d)}
-      onMouseLeave={clearSelection}
+      onMouseEnter={onMouseEnter(d)}
+      onMouseLeave={onMouseLeave(d)}
+      onClick={onClick(d)}
     >
       <title>{d.name}</title>
       <rect width={width} height={height} style={{ fill: 'transparent' }} />
@@ -462,8 +475,9 @@ const UpSetChart = React.memo(function UpSetChart<T>({
   intersections,
   scales,
   styles,
-  setSelection,
-  clearSelection,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   color,
   notMemberColor,
 }: PropsWithChildren<
@@ -496,8 +510,9 @@ const UpSetChart = React.memo(function UpSetChart<T>({
           height={height}
           scales={scales}
           r={r}
-          setSelection={setSelection}
-          clearSelection={clearSelection}
+          onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           color={color}
           notMemberColor={notMemberColor}
         />
@@ -562,6 +577,21 @@ function UpSetSelectionChart<T>({
   );
 }
 
+function noop() {
+  return undefined;
+}
+
+function wrap<T>(f?: (set: ISet<T> | IIntersectionSet<T>) => void) {
+  if (!f) {
+    return noop;
+  }
+  return (set: ISet<T> | IIntersectionSet<T>) => {
+    return function(this: any) {
+      return f.call(this, set);
+    };
+  };
+}
+
 export default function UpSet<T>({
   className,
   style,
@@ -573,7 +603,9 @@ export default function UpSet<T>({
   sets,
   intersections = generateSetIntersections(sets),
   selection = null,
-  onSelectionChanged,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   intersectionName = 'Intersection Size',
   setName = 'Set Size',
   selectionColor = 'orange',
@@ -599,8 +631,9 @@ export default function UpSet<T>({
   const scales = React.useMemo(() => generateScales(sets, intersections, styles), [sets, intersections, styles]);
 
   // const [selection, setSelection] = useState(null as ISet<T> | null);
-  const setSelection = onSelectionChanged ?? (() => undefined);
-  const clearSelection = () => setSelection(null);
+  const onClickImpl = wrap(onClick);
+  const onMouseEnterImpl = wrap(onMouseEnter);
+  const onMouseLeaveImpl = wrap(onMouseLeave);
 
   const selectedElems = new Set(selection == null ? [] : selection.elems);
   const elemOverlap = (s: ISet<T> | IIntersectionSet<T>) => {
@@ -620,8 +653,9 @@ export default function UpSet<T>({
           <IntersectionChart
             scales={scales}
             intersections={intersections}
-            setSelection={setSelection}
-            clearSelection={clearSelection}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
             labelStyle={labelStyle}
             color={color}
           />
@@ -650,8 +684,9 @@ export default function UpSet<T>({
           <SetChart
             scales={scales}
             sets={sets}
-            setSelection={setSelection}
-            clearSelection={clearSelection}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
             labelStyle={labelStyle}
             color={color}
           />
@@ -674,8 +709,9 @@ export default function UpSet<T>({
             scales={scales}
             sets={sets}
             styles={styles}
-            setSelection={setSelection}
-            clearSelection={clearSelection}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
             alternatingBackgroundColor={alternatingBackgroundColor}
             setLabelStyle={setLabelStyle}
           />
@@ -684,8 +720,9 @@ export default function UpSet<T>({
             sets={sets}
             styles={styles}
             intersections={intersections}
-            setSelection={setSelection}
-            clearSelection={clearSelection}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
             color={color}
             notMemberColor={notMemberColor}
           />
@@ -707,5 +744,5 @@ export default function UpSet<T>({
 
 export function InteractiveUpSet<T>(props: PropsWithChildren<UpSetProps<T>>) {
   const [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<T> | null);
-  return <UpSet selection={selection} onSelectionChanged={setSelection} {...props} />;
+  return <UpSet selection={selection} onMouseEnter={setSelection} onMouseLeave={() => setSelection(null)} {...props} />;
 }
