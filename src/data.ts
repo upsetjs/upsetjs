@@ -1,17 +1,34 @@
 import C from 'js-combinatorics';
 
-export interface ISet<T> {
+/**
+ * represents an internal set
+ */
+export interface ISetBase<T> {
   readonly name: string;
-  readonly primary: boolean;
-
+  /**
+   * elements in this set
+   */
   readonly elems: ReadonlyArray<T>;
-  readonly sets: ReadonlySet<ISet<T>>;
-
   readonly cardinality: number;
+}
+export interface ISet<T> extends ISetBase<T> {
+  readonly type: 'set';
+}
+
+export interface IIntersectionSet<T> extends ISetBase<T> {
+  /**
+   * whether it is a set or an intersection
+   */
+  readonly type: 'intersection';
+  /**
+   * sets this
+   */
+  readonly sets: ReadonlySet<ISet<T>>;
   readonly degree: number;
 }
 
 export declare type ISets<T> = ReadonlyArray<ISet<T>>;
+export declare type IIntersectionSets<T> = ReadonlyArray<IIntersectionSet<T>>;
 
 export function extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISets<T> {
   const sets = new Map<string, T[]>();
@@ -28,19 +45,20 @@ export function extractSets<T extends { sets: string[] }>(elements: ReadonlyArra
   return Array.from(sets).map(([set, elems]) => {
     const s = new Set<ISet<T>>();
     const r: ISet<T> = {
-      primary: true,
+      type: 'set',
       elems,
-      sets: s,
       name: set.toString(),
       cardinality: elems.length,
-      degree: 1,
     };
     s.add(r); // itself
     return r;
   });
 }
 
-export function generateSetIntersections<T>(sets: ISets<T>, { min = 0, max = Infinity, empty = false } = {}): ISets<T> {
+export function generateSetIntersections<T>(
+  sets: ISets<T>,
+  { min = 0, max = Infinity, empty = false } = {}
+): IIntersectionSets<T> {
   const setElems = new Map(sets.map(s => [s, new Set(s.elems)]));
 
   function computeIntersection(intersection: ISet<T>[]) {
@@ -56,20 +74,19 @@ export function generateSetIntersections<T>(sets: ISets<T>, { min = 0, max = Inf
     )!;
     return smallest.filter(elem => intersection.every(s => setElems.get(s)!.has(elem)));
   }
-  let i = 0;
+
   const intersections = C.power(sets as ISet<T>[])
     .filter(d => d.length >= min && d.length <= max)
     .map(intersection => {
       const elems = computeIntersection(intersection);
       return {
-        index: i++,
-        primary: false,
+        type: 'intersection',
         elems: elems,
         sets: new Set(intersection),
         name: intersection.map(d => d.name).join(' ∩ '),
         cardinality: elems.length,
         degree: intersection.length,
-      };
+      } as IIntersectionSet<T>;
     });
 
   return empty ? intersections : intersections.filter(d => d.elems.length > 0);
@@ -79,15 +96,11 @@ export function asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(
   sets: ReadonlyArray<S>
 ): (S & ISet<T>)[] {
   return sets.map(set => {
-    const s = new Set<ISet<T>>();
     const r: S & ISet<T> = {
       ...set,
-      primary: true,
-      sets: s,
+      type: 'set',
       cardinality: set.elems.length,
-      degree: 1,
     };
-    s.add(r); // itself
     return r;
   });
 }
