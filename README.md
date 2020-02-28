@@ -4,6 +4,14 @@
 
 UpSet.js
 
+![UpSet.js](https://user-images.githubusercontent.com/4129778/75592833-5ac60880-5a51-11ea-89a5-eb06a3f52267.png)
+
+# Interactivity
+
+![Interactive UpSet.js](https://user-images.githubusercontent.com/4129778/75592831-5a2d7200-5a51-11ea-9b75-d2e5f49fec3d.png)
+
+# Components
+
 ## Commands
 
 ### Storybook
