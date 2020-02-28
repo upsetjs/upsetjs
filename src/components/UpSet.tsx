@@ -13,8 +13,11 @@ export type UpSetSizeProps = {
 export type UpSetDataProps<T> = {
   sets: ReadonlyArray<ISet<T>>;
   intersections?: ReadonlyArray<ISet<T>>;
-  selection?: ISet<T>;
-  onSelectionChanged?(selection?: ISet<T>): void;
+};
+
+export type UpSetSelectionProps<T> = {
+  selection?: ISet<T> | null;
+  onSelectionChanged?(selection: ISet<T> | null): void;
 };
 
 export type UpSetStyleProps = {};
@@ -458,11 +461,14 @@ export default function UpSet<T>({
   margin = 20,
   sets,
   intersections = generateSetIntersections(sets),
-}: PropsWithChildren<UpSetProps<T>>) {
+  selection = null,
+  onSelectionChanged,
+}: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
   const styles = React.useMemo(() => defineStyle({ width, height, margin }), [width, height, margin]);
   const scales = React.useMemo(() => generateScales(sets, intersections, styles), [sets, intersections, styles]);
 
-  const [selection, setSelection] = useState(null as ISet<T> | null);
+  // const [selection, setSelection] = useState(null as ISet<T> | null);
+  const setSelection = onSelectionChanged ?? (() => undefined);
   const clearSelection = () => setSelection(null);
 
   const selectedElems = new Set(selection == null ? [] : selection.elems);
@@ -533,4 +539,9 @@ export default function UpSet<T>({
       {children}
     </svg>
   );
+}
+
+export function InteractiveUpSet<T>(props: PropsWithChildren<UpSetProps<T>>) {
+  const [selection, setSelection] = React.useState(null as ISet<any> | null);
+  return <UpSet selection={selection} onSelectionChanged={setSelection} {...props} />;
 }

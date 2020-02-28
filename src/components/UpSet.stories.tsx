@@ -1,5 +1,5 @@
 import React from 'react';
-import UpSet from './UpSet';
+import UpSet, { InteractiveUpSet } from './UpSet';
 import { extractSets } from '../data';
 
 export default {
@@ -19,4 +19,8 @@ const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <UpSet {...common} />;
+};
+
+export const Selection = () => {
+  return <InteractiveUpSet {...common} />;
 };
