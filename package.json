@@ -1,8 +1,17 @@
 {
   "name": "upsetjs",
-  "author": "Samuel Gratzl",
+  "description": "UpSetR React component implementation",
   "version": "0.1.0",
   "license": "AGPL-3.0",
+  "author": {
+    "name": "Samuel Gratzl",
+    "email": "samu@sgratzl.com",
+    "url": "https://wwww.sgratzl.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgratzl/upsetjs.git"
+  },
   "module": "dist/upsetjs.esm.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
