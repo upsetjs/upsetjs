@@ -173,12 +173,12 @@ function SetSelectionChart<T>({
   sets,
   scales,
   elemOverlap,
-  selectionColor,
+  color,
 }: PropsWithChildren<{
   sets: ISets<T>;
   scales: UpSetScales;
   elemOverlap: (s: ISet<any>) => number;
-  selectionColor: string;
+  color: string;
 }>) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
@@ -194,7 +194,7 @@ function SetSelectionChart<T>({
               y={scales.sets.y(d.name)}
               width={width - sel}
               height={height}
-              style={{ fill: selectionColor, pointerEvents: 'none' }}
+              style={{ fill: color, pointerEvents: 'none' }}
             />
           )
         );
@@ -256,12 +256,12 @@ function IntersectionSelectionChart<T>({
   intersections,
   scales,
   elemOverlap,
-  selectionColor,
+  color,
 }: PropsWithChildren<{
   intersections: IIntersectionSets<T>;
   scales: UpSetScales;
   elemOverlap: (s: ISet<any> | IIntersectionSet<T>) => number;
-  selectionColor: string;
+  color: string;
 }>) {
   const width = scales.intersections.x.bandwidth();
   const height = scales.intersections.y.range()[0];
@@ -277,7 +277,7 @@ function IntersectionSelectionChart<T>({
               y={sel}
               height={height - sel}
               width={width}
-              style={{ fill: selectionColor, pointerEvents: 'none' }}
+              style={{ fill: color, pointerEvents: 'none' }}
             />
           )
         );
@@ -663,7 +663,7 @@ export default function UpSet<T>({
             scales={scales}
             intersections={intersections}
             elemOverlap={elemOverlap}
-            selectionColor={selectionColor}
+            color={selectionColor}
           />
           <D3Axis d3Scale={scales.intersections.y} orient="left" style={axisStyle} />
           <line
@@ -690,7 +690,7 @@ export default function UpSet<T>({
             labelStyle={labelStyle}
             color={color}
           />
-          <SetSelectionChart scales={scales} sets={sets} elemOverlap={elemOverlap} selectionColor={selectionColor} />
+          <SetSelectionChart scales={scales} sets={sets} elemOverlap={elemOverlap} color={selectionColor} />
           <D3Axis
             d3Scale={scales.sets.x}
             orient="bottom"
