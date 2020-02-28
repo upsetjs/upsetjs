@@ -73,17 +73,26 @@ function SetChart<T>({
   sets,
   scales,
   elemOverlap,
-}: PropsWithChildren<{
-  sets: ISets<T>;
-  scales: UpSetScales;
-  styles: UpSetStyles;
-  elemOverlap: (s: ISet<any>) => number;
-}>) {
+  setSelection,
+  clearSelection,
+}: PropsWithChildren<
+  {
+    sets: ISets<T>;
+    scales: UpSetScales;
+    styles: UpSetStyles;
+    elemOverlap: (s: ISet<any>) => number;
+  } & UpSetSelection
+>) {
   const width = scales.sets.x.range()[0];
   return (
     <g>
       {sets.map(d => (
-        <g key={d.name} transform={`translate(0, ${scales.sets.y(d.name)})`}>
+        <g
+          key={d.name}
+          transform={`translate(0, ${scales.sets.y(d.name)})`}
+          onMouseEnter={() => setSelection(d)}
+          onMouseLeave={clearSelection}
+        >
           <title>
             {d.name}: {d.cardinality}
           </title>
@@ -116,17 +125,26 @@ function IntersectionChart<T>({
   intersections,
   scales,
   elemOverlap,
-}: PropsWithChildren<{
-  intersections: ISets<T>;
-  scales: UpSetScales;
-  styles: UpSetStyles;
-  elemOverlap: (s: ISet<any>) => number;
-}>) {
+  setSelection,
+  clearSelection,
+}: PropsWithChildren<
+  {
+    intersections: ISets<T>;
+    scales: UpSetScales;
+    styles: UpSetStyles;
+    elemOverlap: (s: ISet<any>) => number;
+  } & UpSetSelection
+>) {
   const height = scales.intersections.y.range()[0];
   return (
     <g>
       {intersections.map(d => (
-        <g key={d.name} transform={`translate(${scales.intersections.x(d.name)}, 0)`}>
+        <g
+          key={d.name}
+          transform={`translate(${scales.intersections.x(d.name)}, 0)`}
+          onMouseEnter={() => setSelection(d)}
+          onMouseLeave={clearSelection}
+        >
           <title>
             {d.name}: {d.cardinality}
           </title>
@@ -143,7 +161,7 @@ function IntersectionChart<T>({
           />
           <text
             y={scales.intersections.y(d.cardinality)}
-            dx="-1"
+            dy={-1}
             x={scales.intersections.x.bandwidth() / 2}
             style={{ textAnchor: 'middle', fontSize: 'small' }}
           >
@@ -206,16 +224,22 @@ function UpSetChart<T>({
   const r = Math.min(cx, cy) * (1 - styles.padding);
   const height = scales.sets.y.range()[1];
   const rsets = sets.slice().reverse();
+  const width = scales.intersections.x.bandwidth();
 
   return (
-    <g transform={`translate(${styles.labels.w}, 0))`}>
+    <g transform={`translate(${styles.labels.w}, 0)`}>
       {intersections.map(d => {
         const sel = isSelected(d);
         return (
-          <g key={d.name} transform={`translate(${scales.intersections.x(d.name)}, 0)`}>
+          <g
+            key={d.name}
+            transform={`translate(${scales.intersections.x(d.name)}, 0)`}
+            onMouseEnter={() => setSelection(d)}
+            onMouseLeave={clearSelection}
+          >
             <title>{d.name}</title>
             <rect
-              width={scales.intersections.x.bandwidth()}
+              width={width}
               height={height}
               style={{ fill: 'transparent', stroke: sel ? 'orange' : 'transparent' }}
             />
@@ -229,8 +253,6 @@ function UpSetChart<T>({
                     cx={cx}
                     cy={scales.sets.y(s.name)! + cy}
                     style={{ fill: sel ? 'orange' : has ? 'black' : 'lightgray' }}
-                    onMouseEnter={() => setSelection(d)}
-                    onMouseLeave={clearSelection}
                   >
                     <title>{has ? s.name : d.name}</title>
                   </circle>
@@ -265,7 +287,7 @@ export default function UpSet<T>({
   const scales = generateScales(sets, intersections, styles);
 
   const [selection, setSelection] = useState(null as ISet<T> | null);
-  const isSelected = (s: ISet<T>) => s === selection;
+  const isSelected = (s: ISet<T>) => selection != null && s.name === selection.name;
   const clearSelection = () => setSelection(null);
   const s = { isSelected, setSelection, clearSelection };
   const selectedElems = new Set(selection == null ? [] : selection.elems);
@@ -283,8 +305,14 @@ export default function UpSet<T>({
     <svg className={className} style={style} width={width} height={height}>
       <g transform={`translate(${margin},${margin})`}>
         <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-          <IntersectionChart scales={scales} intersections={intersections} styles={styles} elemOverlap={elemOverlap} />
-          <D3Axis transform={`translate(0,${styles.sets.h})`} d3Scale={scales.intersections.y} orient="left" />
+          <IntersectionChart
+            scales={scales}
+            intersections={intersections}
+            styles={styles}
+            elemOverlap={elemOverlap}
+            {...s}
+          />
+          <D3Axis d3Scale={scales.intersections.y} orient="left" />
           <line
             x1={0}
             x2={styles.intersections.w}
@@ -300,8 +328,8 @@ export default function UpSet<T>({
           </text>
         </g>
         <g transform={`translate(0,${styles.intersections.h})`}>
-          <SetChart scales={scales} sets={sets} styles={styles} elemOverlap={elemOverlap} />
-          <D3Axis d3Scale={scales.sets.x} orient="bottom" />
+          <SetChart scales={scales} sets={sets} styles={styles} elemOverlap={elemOverlap} {...s} />
+          <D3Axis d3Scale={scales.sets.x} orient="bottom" transform={`translate(0, ${styles.sets.h})`} />
           <text style={{ textAnchor: 'middle' }} transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}>
             Set Size
           </text>

@@ -42,9 +42,12 @@ export default function D3Axis({
   const position = isBandScale(scale) ? center(scale) : scale;
 
   return (
-    <g {...extras}>
+    <g {...extras} style={{ fill: 'none', fontSize: 10, fontFamily: 'sans-serif', ...(extras.style ?? {}) }}>
       {values.map(d => (
-        <g key={position(d)} transform={`translate${x === 'x' ? 'Y' : 'X'}(${position(d) + 0.5})`}>
+        <g
+          key={position(d)}
+          transform={`translate(${x === 'x' ? '0,' : ''}${position(d) + 0.5}${x === 'x' ? '' : ',0'})`}
+        >
           <text
             {...{ [x]: k * spacing }}
             dy={orient === 'top' ? '0em' : orient === 'bottom' ? '0.71em' : '0.32em'}
@@ -59,6 +62,7 @@ export default function D3Axis({
         </g>
       ))}
       <path
+        style={{ stroke: 'currentColor' }}
         d={
           orient === 'left' || orient === 'right'
             ? tickSizeOuter
