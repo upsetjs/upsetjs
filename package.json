@@ -2,7 +2,7 @@
   "name": "upsetjs",
   "author": "Samuel Gratzl",
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "module": "dist/upsetjs.esm.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
