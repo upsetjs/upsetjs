@@ -4,3 +4,6 @@ node_modules
 .cache
 dist
 .vscode
+/storybook-static
+src/**/*.d.ts
+.storybook/**/*.d.ts
