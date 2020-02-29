@@ -7,3 +7,4 @@ dist
 /storybook-static
 src/**/*.d.ts
 .storybook/**/*.d.ts
+*.tgz
