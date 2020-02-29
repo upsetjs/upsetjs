@@ -42,11 +42,19 @@ export type UpSetDataProps<T> = {
   intersections?: IIntersectionSets<T>;
 };
 
+export type UpSetQuery<T> = {
+  name: string;
+  color: string;
+  elems: ReadonlyArray<T> | Set<T>;
+};
+
 export type UpSetSelectionProps<T> = {
   selection?: ISet<T> | IIntersectionSet<T> | null;
   onMouseEnter?(selection: ISet<T> | IIntersectionSet<T>): void;
   onMouseLeave?(selection: ISet<T> | IIntersectionSet<T>): void;
   onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
+
+  queries?: ReadonlyArray<UpSetQuery<T>>;
 };
 
 export type UpSetStyleProps = {
@@ -61,6 +69,7 @@ export type UpSetStyleProps = {
   setNameStyle?: React.CSSProperties;
   axisStyle?: React.CSSProperties;
   intersectionNameStyle?: React.CSSProperties;
+  triangleSize?: number;
 };
 
 export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
@@ -138,6 +147,12 @@ const SetChart = React.memo(function SetChart<T>({
 >) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
+  const lStyle: React.CSSProperties = {
+    textAnchor: 'end',
+    dominantBaseline: 'central',
+    fontSize: 'small',
+    ...(labelStyle ?? {}),
+  };
   return (
     <g>
       {sets.map(d => {
@@ -154,12 +169,7 @@ const SetChart = React.memo(function SetChart<T>({
               {d.name}: {d.cardinality}
             </title>
             <rect x={x} width={width - x} height={height} style={{ fill: color }} />
-            <text
-              x={x}
-              dx={-1}
-              y={height / 2}
-              style={{ textAnchor: 'end', dominantBaseline: 'central', fontSize: 'small', ...(labelStyle ?? {}) }}
-            >
+            <text x={x} dx={-1} y={height / 2} style={lStyle}>
               {d.cardinality}
             </text>
           </g>
@@ -174,29 +184,47 @@ function SetSelectionChart<T>({
   scales,
   elemOverlap,
   color,
+  triangleSize,
+  secondary,
+  tooltip,
 }: PropsWithChildren<{
   sets: ISets<T>;
   scales: UpSetScales;
   elemOverlap: (s: ISet<any>) => number;
   color: string;
+  triangleSize: number;
+  secondary?: boolean;
+  tooltip?: string;
 }>) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
+  const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
   return (
     <g>
       {sets.map(d => {
-        const sel = scales.sets.x(elemOverlap(d));
-        return (
-          sel < width && (
-            <rect
+        const o = elemOverlap(d);
+        if (o === 0) {
+          return null;
+        }
+        const x = scales.sets.x(o);
+        const y = scales.sets.y(d.name)!;
+        const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+        if (secondary) {
+          return (
+            <polygon
               key={d.name}
-              x={sel}
-              y={scales.sets.y(d.name)}
-              width={width - sel}
-              height={height}
-              style={{ fill: color, pointerEvents: 'none' }}
-            />
-          )
+              transform={`translate(${x}, ${y + height})`}
+              points={`0,0 -${triangleSize},${triangleSize} ${triangleSize},${triangleSize}`}
+              style={style}
+            >
+              {title}
+            </polygon>
+          );
+        }
+        return (
+          <rect key={d.name} x={x} y={y} width={width - x} height={height} style={style}>
+            {title}
+          </rect>
         );
       })}
     </g>
@@ -221,6 +249,7 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
 >) {
   const width = scales.intersections.x.bandwidth();
   const height = scales.intersections.y.range()[0];
+  const lStyle: React.CSSProperties = { textAnchor: 'middle', fontSize: 'small', ...(labelStyle ?? {}) };
   return (
     <g>
       {intersections.map(d => {
@@ -237,12 +266,7 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
               {d.name}: {d.cardinality}
             </title>
             <rect y={y} height={height - y} width={width} style={{ fill: color }} />
-            <text
-              y={y}
-              dy={-1}
-              x={width / 2}
-              style={{ textAnchor: 'middle', fontSize: 'small', ...(labelStyle ?? {}) }}
-            >
+            <text y={y} dy={-1} x={width / 2} style={lStyle}>
               {d.cardinality}
             </text>
           </g>
@@ -257,29 +281,48 @@ function IntersectionSelectionChart<T>({
   scales,
   elemOverlap,
   color,
+  triangleSize,
+  secondary,
+  tooltip,
 }: PropsWithChildren<{
   intersections: IIntersectionSets<T>;
   scales: UpSetScales;
   elemOverlap: (s: ISet<any> | IIntersectionSet<T>) => number;
   color: string;
+  triangleSize: number;
+  secondary?: boolean;
+  tooltip?: string;
 }>) {
   const width = scales.intersections.x.bandwidth();
   const height = scales.intersections.y.range()[0];
+  const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
   return (
     <g>
       {intersections.map(d => {
-        const sel = scales.intersections.y(elemOverlap(d));
-        return (
-          sel < height && (
-            <rect
+        const o = elemOverlap(d);
+        if (o === 0) {
+          return null;
+        }
+        const y = scales.intersections.y(o);
+        const x = scales.intersections.x(d.name)!;
+
+        const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+        if (secondary) {
+          return (
+            <polygon
               key={d.name}
-              x={scales.intersections.x(d.name)}
-              y={sel}
-              height={height - sel}
-              width={width}
-              style={{ fill: color, pointerEvents: 'none' }}
-            />
-          )
+              transform={`translate(${x}, ${y})`}
+              points={`0,0 -${triangleSize},-${triangleSize} -${triangleSize},${triangleSize}`}
+              style={style}
+            >
+              {title}
+            </polygon>
+          );
+        }
+        return (
+          <rect key={d.name} x={x} y={y} height={height - y} width={width} style={style}>
+            {title}
+          </rect>
         );
       })}
     </g>
@@ -592,6 +635,16 @@ function wrap<T>(f?: (set: ISet<T> | IIntersectionSet<T>) => void) {
   };
 }
 
+function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
+  const elems = query instanceof Set ? query : new Set(query);
+  return (s: ISet<T> | IIntersectionSet<T>) => {
+    if (s.elems === query) {
+      return s.cardinality;
+    }
+    return s.elems.reduce((acc, e) => acc + (elems.has(e) ? 1 : 0), 0);
+  };
+}
+
 export default function UpSet<T>({
   className,
   style,
@@ -611,7 +664,8 @@ export default function UpSet<T>({
   selectionColor = 'orange',
   color = 'black',
   notMemberColor = 'lightgray',
-  alternatingBackgroundColor = '#eee',
+  alternatingBackgroundColor = '#f5f5f5',
+  triangleSize = 5,
   labelStyle,
   setLabelStyle,
   intersectionNameStyle = {},
@@ -619,6 +673,7 @@ export default function UpSet<T>({
   axisStyle,
   widthRatios = [0.25, 0.1, 0.6],
   heightRatios = [0.6, 0.4],
+  queries = [],
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
     width,
@@ -629,42 +684,19 @@ export default function UpSet<T>({
     heightRatios,
   ]);
   const scales = React.useMemo(() => generateScales(sets, intersections, styles), [sets, intersections, styles]);
+  const qs = React.useMemo(() => queries.map(q => ({ ...q, overlap: elemOverlapOf(q.elems) })), [queries]);
 
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
   const onMouseEnterImpl = wrap(onMouseEnter);
   const onMouseLeaveImpl = wrap(onMouseLeave);
 
-  const selectedElems = new Set(selection == null ? [] : selection.elems);
-  const elemOverlap = (s: ISet<T> | IIntersectionSet<T>) => {
-    if (selection == null) {
-      return 0;
-    }
-    if (s === selection) {
-      return s.cardinality;
-    }
-    return s.elems.reduce((acc, e) => acc + (selectedElems.has(e) ? 1 : 0), 0);
-  };
+  const elemOverlap = selection ? elemOverlapOf(selection.elems) : () => 0;
 
   return (
     <svg className={className} style={style} width={width} height={height}>
       <g transform={`translate(${margin},${margin})`}>
         <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-          <IntersectionChart
-            scales={scales}
-            intersections={intersections}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            labelStyle={labelStyle}
-            color={color}
-          />
-          <IntersectionSelectionChart
-            scales={scales}
-            intersections={intersections}
-            elemOverlap={elemOverlap}
-            color={selectionColor}
-          />
           <D3Axis d3Scale={scales.intersections.y} orient="left" style={axisStyle} />
           <line
             x1={0}
@@ -679,18 +711,41 @@ export default function UpSet<T>({
           >
             {intersectionName}
           </text>
-        </g>
-        <g transform={`translate(0,${styles.intersections.h})`}>
-          <SetChart
+          <IntersectionChart
             scales={scales}
-            sets={sets}
+            intersections={intersections}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             labelStyle={labelStyle}
             color={color}
           />
-          <SetSelectionChart scales={scales} sets={sets} elemOverlap={elemOverlap} color={selectionColor} />
+          <g>
+            {selection && (
+              <IntersectionSelectionChart
+                scales={scales}
+                intersections={intersections}
+                elemOverlap={elemOverlap}
+                color={selectionColor}
+                triangleSize={triangleSize}
+                tooltip={onMouseEnter ? undefined : selection.name}
+              />
+            )}
+            {qs.map((q, i) => (
+              <IntersectionSelectionChart
+                key={q.name}
+                scales={scales}
+                intersections={intersections}
+                elemOverlap={q.overlap}
+                color={q.color}
+                secondary={selection != null || i > 0}
+                triangleSize={triangleSize}
+                tooltip={onMouseEnter && !(selection != null || i > 0) ? undefined : q.name}
+              />
+            ))}
+          </g>
+        </g>
+        <g transform={`translate(0,${styles.intersections.h})`}>
           <D3Axis
             d3Scale={scales.sets.x}
             orient="bottom"
@@ -703,6 +758,39 @@ export default function UpSet<T>({
           >
             {setName}
           </text>
+          <SetChart
+            scales={scales}
+            sets={sets}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            labelStyle={labelStyle}
+            color={color}
+          />
+          <g>
+            {selection && (
+              <SetSelectionChart
+                scales={scales}
+                sets={sets}
+                elemOverlap={elemOverlap}
+                color={selectionColor}
+                triangleSize={triangleSize}
+                tooltip={onMouseEnter ? undefined : selection.name}
+              />
+            )}
+            {qs.map((q, i) => (
+              <SetSelectionChart
+                key={q.name}
+                scales={scales}
+                sets={sets}
+                elemOverlap={q.overlap}
+                color={q.color}
+                secondary={selection != null || i > 0}
+                triangleSize={triangleSize}
+                tooltip={onMouseEnter && !(selection != null || i > 0) ? undefined : q.name}
+              />
+            ))}
+          </g>
         </g>
         <g transform={`translate(${styles.sets.w},${styles.intersections.h})`}>
           <Labels
@@ -726,15 +814,19 @@ export default function UpSet<T>({
             color={color}
             notMemberColor={notMemberColor}
           />
-          <LabelsSelection scales={scales} styles={styles} selection={selection} selectionColor={selectionColor} />
-          <UpSetSelectionChart
-            scales={scales}
-            sets={sets}
-            styles={styles}
-            selection={selection}
-            selectionColor={selectionColor}
-            notMemberColor={notMemberColor}
-          />
+          {selection && (
+            <LabelsSelection scales={scales} styles={styles} selection={selection} selectionColor={selectionColor} />
+          )}
+          {selection && (
+            <UpSetSelectionChart
+              scales={scales}
+              sets={sets}
+              styles={styles}
+              selection={selection}
+              selectionColor={selectionColor}
+              notMemberColor={notMemberColor}
+            />
+          )}
         </g>
       </g>
       {children}
