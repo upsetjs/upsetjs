@@ -150,7 +150,7 @@ const SetChart = React.memo(function SetChart<T>({
   const lStyle: React.CSSProperties = {
     textAnchor: 'end',
     dominantBaseline: 'central',
-    fontSize: 'small',
+    fontSize: 10,
     ...(labelStyle ?? {}),
   };
   return (
@@ -249,7 +249,7 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
 >) {
   const width = scales.intersections.x.bandwidth();
   const height = scales.intersections.y.range()[0];
-  const lStyle: React.CSSProperties = { textAnchor: 'middle', fontSize: 'small', ...(labelStyle ?? {}) };
+  const lStyle: React.CSSProperties = { textAnchor: 'middle', fontSize: 10, ...(labelStyle ?? {}) };
   return (
     <g>
       {intersections.map(d => {
@@ -479,6 +479,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
   } & UpSetSelection
 >) {
   const width = cx * 2;
+  const lineStyle: React.CSSProperties = { stroke: color, strokeWidth: r * 0.6, pointerEvents: 'none' };
   return (
     <g
       transform={`translate(${scales.intersections.x(d.name)}, 0)`}
@@ -506,7 +507,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
           y1={scales.sets.y(sets.find(p => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find(p => d.sets.has(p))!.name)! + cy}
-          style={{ stroke: color, strokeWidth: r * 0.6, pointerEvents: 'none' }}
+          style={lineStyle}
         />
       )}
     </g>

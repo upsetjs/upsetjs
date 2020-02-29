@@ -1,3 +1,4 @@
+import { withInfo } from '@storybook/addon-info';
 import React from 'react';
 import UpSet, { InteractiveUpSet } from './UpSet';
 import { extractSets } from '../data';
@@ -5,6 +6,12 @@ import { extractSets } from '../data';
 export default {
   component: UpSet,
   title: 'UpSet',
+  decorators: [withInfo],
+  parameters: {
+    info: {
+      inline: true,
+    },
+  },
 };
 
 const style = {};
