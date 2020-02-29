@@ -62,7 +62,7 @@
     "react": "^16.12.0",
     "react-docgen-typescript-loader": "^3.6.0",
     "react-dom": "^16.13.0",
-    "release-it": "^12.6.2",
+    "release-it": "~12.4.3",
     "ts-loader": "^6.2.1",
     "tsdx": "^0.12.3",
     "tslib": "^1.11.1",
