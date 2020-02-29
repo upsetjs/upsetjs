@@ -4,13 +4,19 @@
 
 UpSet.js
 
-![UpSet.js](https://user-images.githubusercontent.com/4129778/75592833-5ac60880-5a51-11ea-89a5-eb06a3f52267.png)
+![UpSet.js](https://user-images.githubusercontent.com/4129778/75599825-a8a13780-5a76-11ea-8cd4-b775f4791a91.png)
 
-# Interactivity
+Interactivity
 
-![Interactive UpSet.js](https://user-images.githubusercontent.com/4129778/75592831-5a2d7200-5a51-11ea-9b75-d2e5f49fec3d.png)
+![Interactive UpSet.js](https://user-images.githubusercontent.com/4129778/75599827-a9d26480-5a76-11ea-9024-e44bc729b741.png)
+
+Queries
+
+![Queries UpSet.js](https://user-images.githubusercontent.com/4129778/75599826-a939ce00-5a76-11ea-9f47-6b6f3a076099.png)
 
 # Components
+
+see storybook at https://upsetjs.netlify.com/
 
 ## Commands
 
