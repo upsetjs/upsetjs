@@ -9,6 +9,7 @@ export default {
   decorators: [withInfo],
   parameters: {
     info: {
+      source: false,
       inline: true,
     },
   },
@@ -32,7 +33,7 @@ export const Default = () => {
   return <UpSet {...common} />;
 };
 
-export const Selection = () => {
+export const Interactivity = () => {
   return <InteractiveUpSet {...common} />;
 };
 
