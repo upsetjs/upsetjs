@@ -42,7 +42,7 @@
     "babel-loader": "^8.0.6",
     "husky": "^4.2.3",
     "lerna": "^3.20.2",
-    "rimraf": "^2.6.3",
+    "tsdx": "^0.12.3",
     "ts-loader": "^6.2.1",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
