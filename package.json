@@ -17,7 +17,7 @@
     }
   },
   "scripts": {
-    "postinstall": "lerna bootstrap",
+    "postinstallX": "lerna bootstrap --ignore-scripts",
     "clean": "lerna clean",
     "publish:canary": "lerna publish --canary",
     "lint": "lerna run --stream lint --if-present",

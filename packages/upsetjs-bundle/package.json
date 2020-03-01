@@ -23,14 +23,14 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepareX": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
     "tsdx": "^0.12.3",
     "@storybook/html": "^5.3.14",
-    "upsetjs": "file:../upsetjs",
+    "@upsetjs/react": "file:../upsetjs-react",
     "preact": "^10.3.2"
   }
 }

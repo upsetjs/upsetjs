@@ -1,5 +1,5 @@
 {
-  "name": "upsetjs",
+  "name": "@upsetjs/react",
   "description": "UpSetR React component implementation",
   "version": "0.1.0",
   "license": "AGPL-3.0",
@@ -23,7 +23,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepareX": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
