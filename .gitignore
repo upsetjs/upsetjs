@@ -9,3 +9,6 @@ src/**/*.d.ts
 .storybook/**/*.d.ts
 *.tgz
 *.tsbuildinfo
+.yarn
+.yarnrc.yml
+.pnp.js

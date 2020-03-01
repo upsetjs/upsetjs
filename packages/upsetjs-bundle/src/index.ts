@@ -1,8 +1,8 @@
 import { render, h } from 'preact';
-import UpSet from 'upsetjs';
+import UpSet, { UpSetProps } from '@upsetjs/react';
 
-export { extractSets } from 'upsetjs';
+export { extractSets } from '@upsetjs/react';
 
-export function renderUpSet(node: HTMLElement, props: any) {
-  render(h(UpSet, props), node);
+export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
+  render(h(UpSet as any, props), node);
 }
