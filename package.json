@@ -38,5 +38,16 @@
     "husky": "^4.2.3",
     "prettier": "^1.19.1",
     "typescript": "^3.8.3"
+  },
+  "dependenciesMeta": {
+    "@storybook/*": {
+      "unplugged": true
+    },
+    "@storybook/components": {
+      "unplugged": true
+    },
+    "@storybook/core": {
+      "unplugged": true
+    }
   }
 }

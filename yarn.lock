@@ -2649,6 +2649,7 @@ __metadata:
     "@upsetjs/model": "workspace:*"
     "@upsetjs/react": "workspace:*"
     babel-loader: ^8.0.6
+    pnp-webpack-plugin: ^1.6.4
     preact: ^10.3.2
     ts-loader: ^6.2.1
     tsdx: ^0.12.3
@@ -2689,6 +2690,7 @@ __metadata:
     "@upsetjs/model": "workspace:*"
     babel-loader: ^8.0.6
     d3-scale: ^3.2.1
+    pnp-webpack-plugin: ^1.6.4
     react: ^16.12.0
     react-docgen-typescript-loader: ^3.6.0
     react-dom: ^16.13.0
@@ -11691,6 +11693,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"pnp-webpack-plugin@npm:^1.6.4":
+  version: 1.6.4
+  resolution: "pnp-webpack-plugin@npm:1.6.4"
+  dependencies:
+    ts-pnp: ^1.1.6
+  checksum: 2/39a484182f8fc08cb1420d4a5ccf16457c6498a4546bfbad9e00df7238ba7d98796e9aa6f82a4e803a627860409ffed491a55c5a1384e09bed60cefeb618586d
+  languageName: node
+  linkType: hard
+
 "polished@npm:^3.3.1":
   version: 3.4.4
   resolution: "polished@npm:3.4.4"
@@ -13232,6 +13243,13 @@ resolve@1.12.0:
     husky: ^4.2.3
     prettier: ^1.19.1
     typescript: ^3.8.3
+  dependenciesMeta:
+    "@storybook/*":
+      unplugged: true
+    "@storybook/components":
+      unplugged: true
+    "@storybook/core":
+      unplugged: true
   languageName: unknown
   linkType: soft
 
@@ -14724,7 +14742,7 @@ resolve@1.12.0:
   languageName: node
   linkType: hard
 
-"ts-pnp@npm:^1.1.2":
+"ts-pnp@npm:^1.1.2, ts-pnp@npm:^1.1.6":
   version: 1.1.6
   resolution: "ts-pnp@npm:1.1.6"
   peerDependencies:

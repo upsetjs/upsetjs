@@ -104,16 +104,10 @@ yarn pnpify --sdk
 
 Run inside another terminal:
 
-```
-npm run storybook
-```
-
-### Example
-
-```
-cd example
-npm install
-npm start
+```sh
+yarn unplug @storybook/core
+yarn unplug @storybook/components
+yarn workspace @upsetjs/react start-storybook
 ```
 
 To run tests, use `npm test` or `yarn test`.
