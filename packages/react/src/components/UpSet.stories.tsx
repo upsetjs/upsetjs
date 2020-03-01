@@ -1,7 +1,7 @@
 import { withInfo } from '@storybook/addon-info';
 import React from 'react';
 import UpSet from './UpSet';
-import { extractSets, ISet, IIntersectionSet } from '../data';
+import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
 
 export default {
   component: UpSet,

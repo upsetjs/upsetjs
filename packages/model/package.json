@@ -1,5 +1,5 @@
 {
-  "name": "@upsetjs/bundle",
+  "name": "@upsetjs/model",
   "description": "UpSetR React component implementation",
   "version": "0.1.0",
   "license": "AGPL-3.0",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "module": "dist/bundle.esm.js",
+  "module": "dist/model.esm.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -23,31 +23,20 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepareX": "tsdx build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prepareX": "tsdx build"
   },
   "workspaces": {
-    "nohoist": [
-      "@storybook/html",
-      "preact"
-    ]
+    "nohoist": []
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "@storybook/addon-actions": "^5.3.14",
-    "@storybook/addon-info": "^5.3.14",
-    "@storybook/addon-links": "^5.3.14",
-    "@storybook/addons": "^5.3.14",
-    "@storybook/html": "^5.3.14",
     "@types/jest": "^25.1.3",
-    "@types/storybook__addon-info": "^5.2.1",
-    "@upsetjs/model": "workspace:*",
-    "@upsetjs/react": "workspace:*",
-    "babel-loader": "^8.0.6",
-    "preact": "^10.3.2",
-    "ts-loader": "^6.2.1",
     "tsdx": "^0.12.3",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/js-combinatorics": "^0.5.31",
+    "js-combinatorics": "^0.5.5",
+    "tslib": "^1.11.1"
   }
 }

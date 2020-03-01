@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { ExtraStyles } from '../theme';
-import { ISet, generateSetIntersections, ISets, IIntersectionSet, IIntersectionSets } from '../data';
+import { ISet, generateSetIntersections, ISets, IIntersectionSet, IIntersectionSets } from '@upsetjs/model';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import D3Axis from './D3Axis';
 
