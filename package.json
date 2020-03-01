@@ -18,17 +18,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "yarn lint"
     }
   },
   "scripts": {
-    "postinstallX": "lerna bootstrap --ignore-scripts",
-    "clean": "lerna clean",
-    "publish:canary": "lerna publish --canary",
-    "lint": "lerna run --stream lint --if-present",
-    "test": "lerna run --stream test",
-    "build": "lerna run --stream build --if-present",
-    "start": "lerna run --stream"
+    "lint": "yarn workspaces foreach --topological-dev run lint",
+    "test": "yarn workspaces foreach --topological-dev test",
+    "build": "yarn workspaces foreach --topological-dev run build"
   },
   "prettier": {
     "printWidth": 120,

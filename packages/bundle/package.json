@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "module": "dist/upsetjs.esm.js",
+  "module": "dist/bundle.esm.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

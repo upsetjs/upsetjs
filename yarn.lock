@@ -2634,9 +2634,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/bundle@workspace:packages/upsetjs-bundle":
+"@upsetjs/bundle@workspace:packages/bundle":
   version: 0.0.0-use.local
-  resolution: "@upsetjs/bundle@workspace:packages/upsetjs-bundle"
+  resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
     "@babel/core": ^7.8.6
     "@storybook/addon-actions": ^5.3.14
@@ -2656,9 +2656,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@workspace:*, @upsetjs/react@workspace:packages/upsetjs-react":
+"@upsetjs/react@workspace:*, @upsetjs/react@workspace:packages/react":
   version: 0.0.0-use.local
-  resolution: "@upsetjs/react@workspace:packages/upsetjs-react"
+  resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
     "@babel/core": ^7.8.6
     "@storybook/addon-actions": ^5.3.14

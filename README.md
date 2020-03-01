@@ -93,6 +93,7 @@ const UpSetSelection = (props: any) => {
 ```sh
 npm i -g yarn
 yarn set version berry
+yarn plugin import @yarnpkg/plugin-workspace-tools
 yarn
 yarn pnpify --sdk
 ```
