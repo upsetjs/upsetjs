@@ -37,6 +37,7 @@
     "react": ">=16"
   },
   "devDependencies": {
+    "tsdx": "^0.12.3",
     "@storybook/react": "^5.3.14",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",

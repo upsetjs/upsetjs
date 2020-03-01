@@ -3,18 +3,7 @@
   "version": "0.0.0",
   "command": {
     "bootstrap": {
-      "hoist": true,
-      "nohoist": [
-        "@storybook/react",
-        "@storybook/html",
-        "preact",
-        "react",
-        "react-dom",
-        "@types/react",
-        "@types/react-dom",
-        "react-docgen-typescript-loader",
-        "upsetjs"
-      ]
+      "hoist": ["tsdx"]
     }
   }
 }

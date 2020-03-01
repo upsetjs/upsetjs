@@ -28,6 +28,7 @@
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
+    "tsdx": "^0.12.3",
     "@storybook/html": "^5.3.14",
     "upsetjs": "file:../upsetjs",
     "preact": "^10.3.2"
