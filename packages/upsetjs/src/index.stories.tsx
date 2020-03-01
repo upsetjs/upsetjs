@@ -1,3 +1,3 @@
 export default {
-  title: 'Welcome',
+  title: 'Welcome UpSet React',
 };

@@ -1,5 +1,5 @@
 {
-  "name": "upsetjs",
+  "name": "@upsetjs/bundle",
   "description": "UpSetR React component implementation",
   "version": "0.1.0",
   "license": "AGPL-3.0",
@@ -27,26 +27,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "prettier": {
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "peerDependencies": {
-    "react": ">=16"
-  },
   "devDependencies": {
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "react": "^16.12.0",
-    "react-docgen-typescript-loader": "^3.6.0",
-    "react-dom": "^16.13.0"
-  },
-  "dependencies": {
-    "@types/d3-scale": "^2.1.1",
-    "@types/js-combinatorics": "^0.5.31",
-    "d3-scale": "^3.2.1",
-    "js-combinatorics": "^0.5.5"
+    "upsetjs": "file:../upsetjs",
+    "preact": "^10.3.2"
   }
 }

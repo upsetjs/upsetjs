@@ -1,7 +1,7 @@
 import { withInfo } from '@storybook/addon-info';
 import React from 'react';
-import UpSet, { InteractiveUpSet } from './UpSet';
-import { extractSets } from '../data';
+import UpSet from './UpSet';
+import { extractSets, ISet, IIntersectionSet } from '../data';
 
 export default {
   component: UpSet,
@@ -56,7 +56,8 @@ export const Default = () => {
 };
 
 export const Interactivity = () => {
-  return <InteractiveUpSet {...common} />;
+  const [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<any> | null);
+  return <UpSet {...common} selection={selection} onHover={setSelection} />;
 };
 
 export const Queries = () => {
