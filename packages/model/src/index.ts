@@ -1,5 +1,5 @@
 export type {GenerateSetIntersectionsOptions} from './generateIntersections';
-export { default as generateSetIntersections } from './generateIntersections';
+export { default as generateIntersections } from './generateIntersections';
 export type {GenerateSetUnionsOptions} from './generateUnions';
 export { default as generateUnions } from './generateUnions';
 export { default as asSets } from './asSets';
