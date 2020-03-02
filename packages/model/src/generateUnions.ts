@@ -14,7 +14,7 @@ export declare type GenerateSetUnionsOptions = {
   max?: number;
 };
 
-export default function generateIntersections<T>(
+export default function generateUnions<T>(
   sets: ISets<T>,
   { min = 2, max = Infinity }: GenerateSetUnionsOptions = {}
 ): ReadonlyArray<ISetUnion<T>> {
@@ -51,12 +51,7 @@ export default function generateIntersections<T>(
 
   const unions: ISetUnion<T>[] = [];
 
-  const it = powerSet(sets, { min, max });
-  let n = it.next();
-  while (!n.done) {
-    const union = n.value;
-    n = it.next();
-
+  powerSet(sets, { min, max }).forEach((union) => {
     const elems = computeUnion(union);
     unions.push({
       type: 'union',
@@ -66,7 +61,7 @@ export default function generateIntersections<T>(
       cardinality: elems.length,
       degree: union.length,
     });
-  }
+  });
 
   return unions;
 }

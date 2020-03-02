@@ -41,15 +41,10 @@ export default function generateIntersections<T>(
 
   const intersections: ISetIntersection<T>[] = [];
 
-  const it = powerSet(sets, { min, max });
-  let n = it.next();
-  while (!n.done) {
-    const intersection = n.value;
-    n = it.next();
-
+  powerSet(sets, { min, max }).forEach((intersection) => {
     const elems = computeIntersection(intersection);
     if (!empty && elems.length === 0) {
-      continue;
+      return;
     }
     intersections.push({
       type: 'intersection',
@@ -59,7 +54,7 @@ export default function generateIntersections<T>(
       cardinality: elems.length,
       degree: intersection.length,
     });
-  }
+  });
 
   return intersections;
 }

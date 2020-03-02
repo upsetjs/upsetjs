@@ -3,10 +3,11 @@ export declare type PowerSetOptions = {
   max: number;
 };
 
-export function* powerSetNumber<T>(
+export function powerSetNumber<T>(
   arr: ReadonlyArray<T>,
+  onSet: (set: ReadonlyArray<T>) => void,
   { min = 0, max = Infinity } = {}
-): IterableIterator<ReadonlyArray<T>> {
+) {
   const total = 2 ** arr.length;
   let lastBit = 0;
   let lastBitAcc = 1;
@@ -28,15 +29,16 @@ export function* powerSetNumber<T>(
       }
     }
     if (sub.length >= min && sub.length <= max) {
-      yield sub;
+      onSet(sub);
     }
   }
 }
 
-export function* powerSetBigInt<T>(
+export function powerSetBigInt<T>(
   arr: ReadonlyArray<T>,
+  onSet: (set: ReadonlyArray<T>) => void,
   { min = 0, max = Infinity } = {}
-): IterableIterator<ReadonlyArray<T>> {
+) {
   const zero = BigInt(0);
   const one = BigInt(1);
   const two = BigInt(2);
@@ -62,59 +64,56 @@ export function* powerSetBigInt<T>(
       }
     }
     if (sub.length >= min && sub.length <= max) {
-      yield sub;
+      onSet(sub);
     }
   }
 }
 
-export function* powerSetRecursive<T>(
+export function powerSetRecursive<T>(
   arr: ReadonlyArray<T>,
+  onSet: (set: ReadonlyArray<T>) => void,
   { min = 0, max = Infinity } = {}
-): IterableIterator<ReadonlyArray<T>> {
+) {
   const check = (len: number) => len >= min && len <= max;
-  function* iter(subset: T[], start: number): IterableIterator<ReadonlyArray<T>> {
+  function iter(subset: T[], start: number) {
     if (subset.length >= max) {
       return;
     }
     for (let i = start; i < arr.length; i++) {
       subset.push(arr[i]);
       if (check(subset.length)) {
-        yield subset.slice();
+        onSet(subset.slice());
       }
-      const gen = iter(subset, i + 1);
-      let n = gen.next();
-      while (!n.done) {
-        yield n.value;
-        n = gen.next();
-      }
+      iter(subset, i + 1);
       subset.pop();
     }
   }
 
   if (check(0)) {
-    yield [];
+    onSet([]);
   }
 
-  const gen = iter([], 0);
-  let n = gen.next();
-  while (!n.done) {
-    yield n.value;
-    n = gen.next();
-  }
+  iter([], 0);
 }
 
 export default function powerSet<T>(
   arr: ReadonlyArray<T>,
   options: Partial<PowerSetOptions> = {}
-): IterableIterator<ReadonlyArray<T>> {
+): { forEach(cb: (set: ReadonlyArray<T>) => void): void } {
   const total = Math.pow(2, arr.length);
 
+  const asForEach = (f: typeof powerSetNumber) => {
+    return {
+      forEach: (cb: (set: ReadonlyArray<T>) => void) => f(arr, cb, options),
+    };
+  };
+
   if (total < Number.MAX_SAFE_INTEGER) {
-    return powerSetNumber(arr, options);
+    return asForEach(powerSetNumber);
   }
   if (typeof window.BigInt !== 'undefined') {
-    return powerSetBigInt(arr, options);
+    return asForEach(powerSetBigInt);
   }
 
-  return powerSetRecursive(arr, options);
+  return asForEach(powerSetRecursive);
 }
