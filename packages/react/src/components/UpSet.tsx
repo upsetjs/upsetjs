@@ -1,4 +1,11 @@
-import { generateSetIntersections, IIntersectionSet, IIntersectionSets, ISet, ISets } from '@upsetjs/model';
+import {
+  generateSetIntersections,
+  IIntersectionSet,
+  IIntersectionSets,
+  ISet,
+  ISets,
+  setOverlapFactory,
+} from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { ExtraStyles } from '../theme';
 import D3Axis from './D3Axis';
@@ -98,12 +105,9 @@ function wrap<T>(f?: (set: ISet<T> | IIntersectionSet<T>) => void) {
 }
 
 function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
-  const elems = query instanceof Set ? query : new Set(query);
+  const f = setOverlapFactory(query);
   return (s: ISet<T> | IIntersectionSet<T>) => {
-    if (s.elems === query) {
-      return s.cardinality;
-    }
-    return s.elems.reduce((acc, e) => acc + (elems.has(e) ? 1 : 0), 0);
+    return f(s.elems).intersection;
   };
 }
 
