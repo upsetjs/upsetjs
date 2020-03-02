@@ -10,7 +10,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - run: npm i -g yarn
       - run: yarn set version berry
       - run: yarn plugin import @yarnpkg/plugin-workspace-tools
       - name: Get yarn cache directory path
@@ -23,8 +22,15 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - run: yarn
+      - run: yarn install --immutable
+        env:
+          CI: true
       - run: yarn build
-      - run: yarn test
+        env:
+          CI: true
+      - run: yarn lint
+        env:
+          CI: true
+      - run: yarn test --ci --coverage --maxWorkers=2
         env:
           CI: true
