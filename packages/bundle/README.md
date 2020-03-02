@@ -2,12 +2,7 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-## Building
-
-```sh
-npm install
-npm run build
-```
+TODO
 
 ## License
 
