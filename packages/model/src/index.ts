@@ -4,11 +4,15 @@ import C from 'js-combinatorics';
  * represents an internal set
  */
 export interface ISetBase<T> {
+  /**
+   * name of the set
+   */
   readonly name: string;
   /**
    * elements in this set
    */
   readonly elems: ReadonlyArray<T>;
+
   readonly cardinality: number;
 }
 export interface ISet<T> extends ISetBase<T> {

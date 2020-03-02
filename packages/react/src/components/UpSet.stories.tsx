@@ -6,7 +6,6 @@ import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
 export default {
   component: UpSet,
   title: 'UpSet',
-  // decorators: [withInfo],
   parameters: {
     docs: {
       container: DocsContainer,

@@ -23,7 +23,7 @@
   },
   "scripts": {
     "lint": "yarn workspaces foreach --topological-dev run lint",
-    "test": "yarn workspaces foreach --topological-dev test",
+    "test": "yarn workspaces foreach --topological-dev run test",
     "build": "yarn workspaces foreach --topological-dev run build"
   },
   "prettier": {
