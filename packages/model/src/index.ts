@@ -1,4 +1,4 @@
-import { power } from 'js-combinatorics';
+import powerSet from './powerSet';
 
 /**
  * represents an internal set
@@ -83,7 +83,7 @@ export function generateSetIntersections<T>(
 ): IIntersectionSets<T> {
   const setElems = new Map(sets.map(s => [s, new Set(s.elems)]));
 
-  function computeIntersection(intersection: ISet<T>[]) {
+  function computeIntersection(intersection: ISets<T>) {
     if (intersection.length === 0) {
       return [];
     }
@@ -99,13 +99,15 @@ export function generateSetIntersections<T>(
 
   const intersections: IIntersectionSet<T>[] = [];
 
-  power(sets as ISet<T>[]).forEach(intersection => {
-    if (intersection.length < min || intersection.length > max) {
-      return;
-    }
+  const it = powerSet(sets, { min, max });
+  let n = it.next();
+  while (!n.done) {
+    const intersection = n.value;
+    n = it.next();
+
     const elems = computeIntersection(intersection);
     if (empty && elems.length === 0) {
-      return;
+      continue;
     }
     intersections.push({
       type: 'intersection',
@@ -115,7 +117,7 @@ export function generateSetIntersections<T>(
       cardinality: elems.length,
       degree: intersection.length,
     });
-  });
+  }
 
   return intersections;
 }
