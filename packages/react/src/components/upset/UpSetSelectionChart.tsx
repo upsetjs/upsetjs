@@ -1,4 +1,4 @@
-import type { IIntersectionSet, ISet, ISets } from '@upsetjs/model';
+import type { ISetLike, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import type { UpSetStyles } from './defineStyle';
 import type { UpSetScales } from './generateScales';
@@ -15,23 +15,23 @@ function UpSetSelectionChart<T>({
   sets: ISets<T>;
   scales: UpSetScales;
   styles: UpSetStyles;
-  selection: ISet<T> | IIntersectionSet<T> | null;
+  selection: ISetLike<T> | null;
   selectionColor: string;
   notMemberColor: string;
 }>) {
   const cy = scales.sets.y.bandwidth() / 2;
-  const cx = scales.intersections.x.bandwidth() / 2;
+  const cx = scales.combinations.x.bandwidth() / 2;
   const r = Math.min(cx, cy) * (1 - styles.padding);
   const height = scales.sets.y.range()[1];
   const rsets = sets.slice().reverse();
-  const width = scales.intersections.x.bandwidth();
+  const width = scales.combinations.x.bandwidth();
 
-  if (!selection || selection.type !== 'intersection') {
+  if (!selection || selection.type === 'set') {
     return null;
   }
   const d = selection;
   return (
-    <g transform={`translate(${styles.labels.w + scales.intersections.x(d.name)!}, 0)`}>
+    <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
       <rect width={width} height={height} style={{ stroke: 'orange', pointerEvents: 'none', fill: 'none' }} />
       {sets.map(s => {
         const has = d.sets.has(s);

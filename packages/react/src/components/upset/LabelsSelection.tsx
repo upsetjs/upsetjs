@@ -1,4 +1,4 @@
-import type { IIntersectionSet, ISet } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import type { UpSetStyles } from './defineStyle';
 import type { UpSetScales } from './generateScales';
@@ -11,7 +11,7 @@ export default function LabelsSelection<T>({
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
-  selection: ISet<T> | IIntersectionSet<T> | null;
+  selection: ISetLike<T> | null;
   selectionColor: string;
 }>) {
   if (!selection || selection.type !== 'set') {
@@ -21,7 +21,7 @@ export default function LabelsSelection<T>({
   return (
     <rect
       y={scales.sets.y(d.name)}
-      width={styles.labels.w + styles.intersections.w}
+      width={styles.labels.w + styles.combinations.w}
       height={scales.sets.y.bandwidth()}
       style={{ stroke: selectionColor, fill: 'none', pointerEvents: 'none' }}
     />

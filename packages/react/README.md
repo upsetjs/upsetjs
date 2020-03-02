@@ -33,12 +33,12 @@ The most relevant and required properties of the `UpSet` component are:
   height: number;
 
   sets: ISet<T>[];
-  intersections?: IIntersectionSet<T>[];
+  combinations?: ISetCombination<T>[];
 
-  selection?: ISet<T> | IIntersectionSet<T> | null;
+  selection?: ISetLike<T> | null;
 
-  onHover?(selection: ISet<T> | IIntersectionSet<T> | null): void;
-  onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onHover?(selection: ISetLike<T> | null): void;
+  onClick?(selection: ISetLike<T>): void;
 
   queries?: {name: string, color: string, elems: T[]}[];
 }
@@ -52,8 +52,8 @@ The most relevant and required properties of the `UpSet` component are:
   given an array of elements where each is having a property called `.sets` containing a list of set names in which this element is part of. e.g. `{ sets: ['Blue Hair', 'Female']}`. The return value is a list of sets in the required data structures and having a `.elems` with an array of the input elements.
 - `asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(sets: ReadonlyArray<S>): (S & ISet<T>)[]`
   extends the given basic set objects (`name` and `elems`) with the required attributes for `UpSet`
-- `generateSetIntersections<T>(sets: ISets<T>, { min = 0, max = Infinity, empty = false } = {}): IIntersectionSet<T>[]`
-  one needs to generate the list of the intersections to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set intersections (aka. power set). The options allow to limit the generation to skip `empty` set intersections or enforce a minimum/maximum amount of sets in the intersection.
+- `generateSetIntersections<T>(sets: ISets<T>, { min = 0, max = Infinity, empty = false } = {}): ISetCombination<T>[]`
+  one needs to generate the list of the combinations to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set combinations (aka. power set). The options allow to limit the generation to skip `empty` set combinations or enforce a minimum/maximum amount of sets in the intersection.
 
 ## Usage
 
@@ -69,22 +69,22 @@ const elems = [
 ];
 
 const sets = extractSets(elems);
-const intersections = generateSetIntersections(elems);
+const combinations = generateSetIntersections(elems);
 
 
-<UpSet sets={sets} intersections={intersections} />
+<UpSet sets={sets} combinations={combinations} />
 ```
 
 with stored selection
 
 ```ts
 const UpSetSelection = (props: any) => {
-  [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<any> | null);
+  [selection, setSelection] = React.useState(null as ISet<any> | ISetCombination<any> | null);
 
   return <UpSet {...props} selection={selection} onHover={setSelection} />;
 };
 
-<UpSetSelection sets={sets} intersections={intersections} />;
+<UpSetSelection sets={sets} combinations={combinations} />;
 ```
 
 ## Commands

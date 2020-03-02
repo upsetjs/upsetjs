@@ -1,7 +1,7 @@
-import type { IIntersectionSet, ISet } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 
 export declare type UpSetSelection = {
-  onMouseEnter(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
-  onMouseLeave(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
-  onClick(selection: ISet<any> | IIntersectionSet<any>): (() => void) | undefined;
+  onMouseEnter(selection: ISetLike<any>): (() => void) | undefined;
+  onMouseLeave(selection: ISetLike<any>): (() => void) | undefined;
+  onClick(selection: ISetLike<any>): (() => void) | undefined;
 };

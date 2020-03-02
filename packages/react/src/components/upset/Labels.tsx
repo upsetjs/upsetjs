@@ -32,7 +32,7 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
       onClick={onClick(d)}
     >
       <rect
-        width={styles.labels.w + styles.intersections.w}
+        width={styles.labels.w + styles.combinations.w}
         height={scales.sets.y.bandwidth()}
         style={{ fill: i % 2 === 1 ? alternatingBackgroundColor : 'transparent' }}
       />

@@ -35,11 +35,11 @@ The most relevant and required properties of the `UpSet` component are:
   sets: ISet<T>[];
   intersections?: IIntersectionSet<T>[];
 
-  selection?: ISet<T> | IIntersectionSet<T> | null;
+  selection?: ISetLike<T> | null;
 
-  onMouseEnter?(selection: ISet<T> | IIntersectionSet<T>): void;
-  onMouseLeave?(selection: ISet<T> | IIntersectionSet<T>): void;
-  onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onMouseEnter?(selection: ISetLike<T>): void;
+  onMouseLeave?(selection: ISetLike<T>): void;
+  onClick?(selection: ISetLike<T>): void;
 
   queries?: {name: string, color: string, elems: T[]}[];
 }

@@ -1,4 +1,4 @@
-import type { ISets, IIntersectionSet, IIntersectionSets } from './model';
+import type { ISets, ISetIntersection } from './model';
 import powerSet from './powerSet';
 
 export declare type GenerateSetIntersectionsOptions = {
@@ -19,10 +19,10 @@ export declare type GenerateSetIntersectionsOptions = {
   empty?: boolean;
 };
 
-export default function generateSetIntersections<T>(
+export default function generateIntersections<T>(
   sets: ISets<T>,
   { min = 0, max = Infinity, empty = false }: GenerateSetIntersectionsOptions = {}
-): IIntersectionSets<T> {
+): ReadonlyArray<ISetIntersection<T>> {
   const setElems = new Map(sets.map(s => [s, new Set(s.elems)]));
 
   function computeIntersection(intersection: ISets<T>) {
@@ -39,7 +39,7 @@ export default function generateSetIntersections<T>(
     return smallest.filter(elem => intersection.every(s => setElems.get(s)!.has(elem)));
   }
 
-  const intersections: IIntersectionSet<T>[] = [];
+  const intersections: ISetIntersection<T>[] = [];
 
   const it = powerSet(sets, { min, max });
   let n = it.next();
@@ -55,7 +55,7 @@ export default function generateSetIntersections<T>(
       type: 'intersection',
       elems: elems,
       sets: new Set(intersection),
-      name: intersection.map(d => d.name).join(' ∩ '),
+      name: intersection.length === 1 ? intersection[0].name : `(${intersection.map(d => d.name).join(' ∩ ')})`,
       cardinality: elems.length,
       degree: intersection.length,
     });

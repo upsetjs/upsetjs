@@ -7,7 +7,7 @@ export default function defineStyle(size: {
   heightRatios: [number, number];
 }) {
   return {
-    intersections: {
+    combinations: {
       w: (size.width - 2 * size.margin) * size.widthRatios[2],
       h: (size.height - 2 * size.margin - 20) * size.heightRatios[0],
     },

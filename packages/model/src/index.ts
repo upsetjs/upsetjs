@@ -1,7 +1,9 @@
-export type {GenerateSetIntersectionsOptions} from './generateSetIntersections';
-export { default as generateSetIntersections } from './generateSetIntersections';
+export type {GenerateSetIntersectionsOptions} from './generateIntersections';
+export { default as generateSetIntersections } from './generateIntersections';
+export type {GenerateSetUnionsOptions} from './generateUnions';
+export { default as generateUnions } from './generateUnions';
 export { default as asSets } from './asSets';
-export type {IIntersectionSet, IIntersectionSets, ISet, ISets, ISetBase} from './model';
+export type {ISetCombination, ISetCombinations, ISetComposite, ISetIntersection, ISetLike, ISetLikes, ISet, ISets, IBaseSet} from './model';
 export { default as extractSets } from './extractSets';
 
 export * from './setOverlap';

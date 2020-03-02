@@ -1,7 +1,7 @@
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import UpSet from './UpSet';
-import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
+import { extractSets, ISetLike } from '@upsetjs/model';
 
 export default {
   component: UpSet,
@@ -55,7 +55,7 @@ export const Default = () => {
 };
 
 export const Interactivity = () => {
-  const [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<any> | null);
+  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return <UpSet {...common} selection={selection} onHover={setSelection} />;
 };
 

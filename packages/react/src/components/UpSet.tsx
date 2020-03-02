@@ -1,18 +1,11 @@
-import {
-  generateSetIntersections,
-  IIntersectionSet,
-  IIntersectionSets,
-  ISet,
-  ISets,
-  setOverlapFactory,
-} from '@upsetjs/model';
+import { generateIntersections, ISetLike, ISets, ISetCombinations, setOverlapFactory } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { ExtraStyles } from '../theme';
 import D3Axis from './D3Axis';
 import defineStyle from './upset/defineStyle';
 import generateScales from './upset/generateScales';
-import IntersectionChart from './upset/IntersectionChart';
-import IntersectionSelectionChart from './upset/IntersectionSelectionChart';
+import CombinationChart from './upset/CombinationChart';
+import CombinationSelectionChart from './upset/CombinationSelectionChart';
 import Labels from './upset/Labels';
 import LabelsSelection from './upset/LabelsSelection';
 import SetChart from './upset/SetChart';
@@ -53,9 +46,9 @@ export type UpSetDataProps<T> = {
    */
   sets: ISets<T>;
   /**
-   * the intersections to visualize by default all intersections
+   * the combinations to visualize by default all combinations
    */
-  intersections?: IIntersectionSets<T>;
+  combinations?: ISetCombinations<T>;
 };
 
 export type UpSetQuery<T> = {
@@ -65,16 +58,16 @@ export type UpSetQuery<T> = {
 };
 
 export type UpSetSelectionProps<T> = {
-  selection?: ISet<T> | IIntersectionSet<T> | null;
-  onHover?(selection: ISet<T> | IIntersectionSet<T> | null): void;
-  onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
+  selection?: ISetLike<T> | null;
+  onHover?(selection: ISetLike<T> | null): void;
+  onClick?(selection: ISetLike<T>): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 };
 
 export type UpSetStyleProps = {
   setName?: string | React.ReactNode;
-  intersectionName?: string | React.ReactNode;
+  combinationName?: string | React.ReactNode;
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
@@ -83,7 +76,7 @@ export type UpSetStyleProps = {
   setLabelStyle?: React.CSSProperties;
   setNameStyle?: React.CSSProperties;
   axisStyle?: React.CSSProperties;
-  intersectionNameStyle?: React.CSSProperties;
+  combinationNameStyle?: React.CSSProperties;
   triangleSize?: number;
 };
 
@@ -93,11 +86,11 @@ function noop() {
   return undefined;
 }
 
-function wrap<T>(f?: (set: ISet<T> | IIntersectionSet<T>) => void) {
+function wrap<T>(f?: (set: ISetLike<T>) => void) {
   if (!f) {
     return noop;
   }
-  return (set: ISet<T> | IIntersectionSet<T>) => {
+  return (set: ISetLike<T>) => {
     return function(this: any) {
       return f.call(this, set);
     };
@@ -106,7 +99,7 @@ function wrap<T>(f?: (set: ISet<T> | IIntersectionSet<T>) => void) {
 
 function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
   const f = setOverlapFactory(query);
-  return (s: ISet<T> | IIntersectionSet<T>) => {
+  return (s: ISetLike<T>) => {
     return f(s.elems).intersection;
   };
 }
@@ -120,11 +113,11 @@ export default function UpSet<T>({
   padding: margin = 20,
   barPadding = 0.3,
   sets,
-  intersections = generateSetIntersections(sets),
+  combinations = generateIntersections(sets),
   selection = null,
   onClick,
   onHover,
-  intersectionName = 'Intersection Size',
+  combinationName = 'Intersection Size',
   setName = 'Set Size',
   selectionColor = 'orange',
   color = 'black',
@@ -133,7 +126,7 @@ export default function UpSet<T>({
   triangleSize = 5,
   labelStyle,
   setLabelStyle,
-  intersectionNameStyle = {},
+  combinationNameStyle = {},
   setNameStyle = {},
   axisStyle,
   widthRatios = [0.25, 0.1, 0.6],
@@ -148,7 +141,7 @@ export default function UpSet<T>({
     widthRatios,
     heightRatios,
   ]);
-  const scales = React.useMemo(() => generateScales(sets, intersections, styles), [sets, intersections, styles]);
+  const scales = React.useMemo(() => generateScales(sets, combinations, styles), [sets, combinations, styles]);
   const qs = React.useMemo(() => queries.map(q => ({ ...q, overlap: elemOverlapOf(q.elems) })), [queries]);
 
   // const [selection, setSelection] = useState(null as ISet<T> | null);
@@ -162,23 +155,23 @@ export default function UpSet<T>({
     <svg className={className} style={style} width={width} height={height}>
       <g transform={`translate(${margin},${margin})`}>
         <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-          <D3Axis d3Scale={scales.intersections.y} orient="left" style={axisStyle} />
+          <D3Axis d3Scale={scales.combinations.y} orient="left" style={axisStyle} />
           <line
             x1={0}
-            x2={styles.intersections.w}
-            y1={styles.intersections.h + 1}
-            y2={styles.intersections.h + 1}
+            x2={styles.combinations.w}
+            y1={styles.combinations.h + 1}
+            y2={styles.combinations.h + 1}
             style={{ stroke: 'black' }}
           />
           <text
-            style={{ textAnchor: 'middle', ...intersectionNameStyle }}
-            transform={`translate(${-30}, ${styles.intersections.h / 2})rotate(-90)`}
+            style={{ textAnchor: 'middle', ...combinationNameStyle }}
+            transform={`translate(${-30}, ${styles.combinations.h / 2})rotate(-90)`}
           >
-            {intersectionName}
+            {combinationName}
           </text>
-          <IntersectionChart
+          <CombinationChart
             scales={scales}
-            intersections={intersections}
+            combinations={combinations}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
@@ -187,9 +180,9 @@ export default function UpSet<T>({
           />
           <g>
             {selection && (
-              <IntersectionSelectionChart
+              <CombinationSelectionChart
                 scales={scales}
-                intersections={intersections}
+                combinations={combinations}
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
@@ -197,10 +190,10 @@ export default function UpSet<T>({
               />
             )}
             {qs.map((q, i) => (
-              <IntersectionSelectionChart
+              <CombinationSelectionChart
                 key={q.name}
                 scales={scales}
-                intersections={intersections}
+                combinations={combinations}
                 elemOverlap={q.overlap}
                 color={q.color}
                 secondary={selection != null || i > 0}
@@ -210,7 +203,7 @@ export default function UpSet<T>({
             ))}
           </g>
         </g>
-        <g transform={`translate(0,${styles.intersections.h})`}>
+        <g transform={`translate(0,${styles.combinations.h})`}>
           <D3Axis
             d3Scale={scales.sets.x}
             orient="bottom"
@@ -257,7 +250,7 @@ export default function UpSet<T>({
             ))}
           </g>
         </g>
-        <g transform={`translate(${styles.sets.w},${styles.intersections.h})`}>
+        <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
           <Labels
             scales={scales}
             sets={sets}
@@ -272,7 +265,7 @@ export default function UpSet<T>({
             scales={scales}
             sets={sets}
             styles={styles}
-            intersections={intersections}
+            combinations={combinations}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}

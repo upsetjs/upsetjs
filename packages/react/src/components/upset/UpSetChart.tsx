@@ -1,4 +1,4 @@
-import type { IIntersectionSet, IIntersectionSets, ISets } from '@upsetjs/model';
+import type { ISetCombination, ISetCombinations, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import type { UpSetStyles } from './defineStyle';
 import type { UpSetScales } from './generateScales';
@@ -39,7 +39,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
     scales: UpSetScales;
     height: number;
     rsets: ISets<T>;
-    d: IIntersectionSet<T>;
+    d: ISetCombination<T>;
     r: number;
     cx: number;
     cy: number;
@@ -51,7 +51,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
   const lineStyle: React.CSSProperties = { stroke: color, strokeWidth: r * 0.6, pointerEvents: 'none' };
   return (
     <g
-      transform={`translate(${scales.intersections.x(d.name)}, 0)`}
+      transform={`translate(${scales.combinations.x(d.name)}, 0)`}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave(d)}
       onClick={onClick(d)}
@@ -85,7 +85,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
 
 const UpSetChart = React.memo(function UpSetChart<T>({
   sets,
-  intersections,
+  combinations,
   scales,
   styles,
   onClick,
@@ -96,7 +96,7 @@ const UpSetChart = React.memo(function UpSetChart<T>({
 }: PropsWithChildren<
   {
     sets: ISets<T>;
-    intersections: IIntersectionSets<T>;
+    combinations: ISetCombinations<T>;
     scales: UpSetScales;
     styles: UpSetStyles;
     color: string;
@@ -104,7 +104,7 @@ const UpSetChart = React.memo(function UpSetChart<T>({
   } & UpSetSelection
 >) {
   const cy = scales.sets.y.bandwidth() / 2;
-  const width = scales.intersections.x.bandwidth();
+  const width = scales.combinations.x.bandwidth();
   const cx = width / 2;
   const r = Math.min(cx, cy) * (1 - styles.padding);
   const height = scales.sets.y.range()[1];
@@ -112,7 +112,7 @@ const UpSetChart = React.memo(function UpSetChart<T>({
 
   return (
     <g transform={`translate(${styles.labels.w}, 0)`}>
-      {intersections.map(d => (
+      {combinations.map(d => (
         <UpSetLine
           key={d.name}
           d={d}

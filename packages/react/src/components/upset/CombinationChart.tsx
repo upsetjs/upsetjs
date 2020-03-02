@@ -1,10 +1,10 @@
-import type { IIntersectionSets } from '@upsetjs/model';
+import type { ISetCombinations } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import type { UpSetSelection } from './interfaces';
 
-const IntersectionChart = React.memo(function IntersectionChart<T>({
-  intersections,
+const CombinationChart = React.memo(function CombinationChart<T>({
+  combinations,
   scales,
   onClick,
   onMouseEnter,
@@ -13,23 +13,23 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
   color,
 }: PropsWithChildren<
   {
-    intersections: IIntersectionSets<T>;
+    combinations: ISetCombinations<T>;
     scales: UpSetScales;
     color: string;
     labelStyle?: React.CSSProperties;
   } & UpSetSelection
 >) {
-  const width = scales.intersections.x.bandwidth();
-  const height = scales.intersections.y.range()[0];
+  const width = scales.combinations.x.bandwidth();
+  const height = scales.combinations.y.range()[0];
   const lStyle: React.CSSProperties = { textAnchor: 'middle', fontSize: 10, ...(labelStyle ?? {}) };
   return (
     <g>
-      {intersections.map(d => {
-        const y = scales.intersections.y(d.cardinality);
+      {combinations.map(d => {
+        const y = scales.combinations.y(d.cardinality);
         return (
           <g
             key={d.name}
-            transform={`translate(${scales.intersections.x(d.name)}, 0)`}
+            transform={`translate(${scales.combinations.x(d.name)}, 0)`}
             onMouseEnter={onMouseEnter(d)}
             onMouseLeave={onMouseLeave(d)}
             onClick={onClick(d)}
@@ -48,4 +48,4 @@ const IntersectionChart = React.memo(function IntersectionChart<T>({
   );
 });
 
-export default IntersectionChart;
+export default CombinationChart;

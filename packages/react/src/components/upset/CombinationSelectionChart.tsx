@@ -1,9 +1,9 @@
-import type { IIntersectionSet, IIntersectionSets, ISet } from '@upsetjs/model';
+import type { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import type { UpSetScales } from './generateScales';
 
-function IntersectionSelectionChart<T>({
-  intersections,
+function CombinationSelectionChart<T>({
+  combinations,
   scales,
   elemOverlap,
   color,
@@ -11,26 +11,26 @@ function IntersectionSelectionChart<T>({
   secondary,
   tooltip,
 }: PropsWithChildren<{
-  intersections: IIntersectionSets<T>;
+  combinations: ISetCombinations<T>;
   scales: UpSetScales;
-  elemOverlap: (s: ISet<any> | IIntersectionSet<T>) => number;
+  elemOverlap: (s: ISet<any> | ISetCombination<T>) => number;
   color: string;
   triangleSize: number;
   secondary?: boolean;
   tooltip?: string;
 }>) {
-  const width = scales.intersections.x.bandwidth();
-  const height = scales.intersections.y.range()[0];
+  const width = scales.combinations.x.bandwidth();
+  const height = scales.combinations.y.range()[0];
   const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
   return (
     <g>
-      {intersections.map(d => {
+      {combinations.map(d => {
         const o = elemOverlap(d);
         if (o === 0) {
           return null;
         }
-        const y = scales.intersections.y(o);
-        const x = scales.intersections.x(d.name)!;
+        const y = scales.combinations.y(o);
+        const x = scales.combinations.x(d.name)!;
 
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         if (secondary) {
@@ -55,4 +55,4 @@ function IntersectionSelectionChart<T>({
   );
 }
 
-export default IntersectionSelectionChart;
+export default CombinationSelectionChart;
