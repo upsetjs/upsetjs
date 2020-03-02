@@ -1,7 +1,7 @@
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import UpSet from './UpSet';
-import { extractSets, ISetLike } from '@upsetjs/model';
+import { extractSets, ISetLike, generateUnions } from '@upsetjs/model';
 
 export default {
   component: UpSet,
@@ -52,6 +52,10 @@ const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <UpSet {...common} />;
+};
+
+export const Unions = () => {
+  return <UpSet {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
 };
 
 export const Interactivity = () => {

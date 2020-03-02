@@ -14,7 +14,13 @@ import UpSetChart from './upset/UpSetChart';
 import UpSetSelectionChart from './upset/UpSetSelectionChart';
 
 export type UpSetSizeProps = {
+  /**
+   * width of the chart
+   */
   width: number;
+  /**
+   * height of the chart
+   */
   height: number;
   /**
    * padding within the svg
@@ -51,11 +57,38 @@ export type UpSetDataProps<T> = {
   combinations?: ISetCombinations<T>;
 };
 
-export type UpSetQuery<T> = {
+export type UpSetElemQuery<T> = {
+  /**
+   * name of this query for the tooltip
+   */
   name: string;
+  /**
+   * color for highlighting
+   */
   color: string;
+
   elems: ReadonlyArray<T> | Set<T>;
 };
+
+export type UpSetCalcQuery<T> = {
+  /**
+   * name of this query for the tooltip
+   */
+  name: string;
+  /**
+   * color for highlighting
+   */
+  color: string;
+
+  /**
+   * computes the overlap of the given set to this query
+   * @param s the current set to evaluate
+   * @return at most `s.cardinality`
+   */
+  overlap(s: ISetLike<T>): number;
+};
+
+export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T>;
 
 export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null;
@@ -95,6 +128,10 @@ function wrap<T>(f?: (set: ISetLike<T>) => void) {
       return f.call(this, set);
     };
   };
+}
+
+function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
+  return Array.isArray((q as UpSetElemQuery<T>).elems);
 }
 
 function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
@@ -142,7 +179,10 @@ export default function UpSet<T>({
     heightRatios,
   ]);
   const scales = React.useMemo(() => generateScales(sets, combinations, styles), [sets, combinations, styles]);
-  const qs = React.useMemo(() => queries.map(q => ({ ...q, overlap: elemOverlapOf(q.elems) })), [queries]);
+  const qs = React.useMemo(
+    () => queries.map(q => ({ ...q, overlap: isElemQuery(q) ? elemOverlapOf(q.elems) : q.overlap })),
+    [queries]
+  );
 
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
