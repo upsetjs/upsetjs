@@ -1,4 +1,4 @@
-import C from 'js-combinatorics';
+import * as C from 'js-combinatorics';
 
 /**
  * represents an internal set

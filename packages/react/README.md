@@ -37,8 +37,7 @@ The most relevant and required properties of the `UpSet` component are:
 
   selection?: ISet<T> | IIntersectionSet<T> | null;
 
-  onMouseEnter?(selection: ISet<T> | IIntersectionSet<T>): void;
-  onMouseLeave?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onHover?(selection: ISet<T> | IIntersectionSet<T> | null): void;
   onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
 
   queries?: {name: string, color: string, elems: T[]}[];
@@ -80,9 +79,9 @@ with stored selection
 
 ```ts
 const UpSetSelection = (props: any) => {
-  [selection, setSelection] = React.useState(null as ISet<any> | null);
+  [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<any> | null);
 
-  return <UpSet {...props} selection={selection} onMouseEnter={setSelection} onMouseLeave={() => setSelection(null)} />;
+  return <UpSet {...props} selection={selection} onHover={setSelection} />;
 };
 
 <UpSetSelection sets={sets} intersections={intersections} />;

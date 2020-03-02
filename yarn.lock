@@ -1745,7 +1745,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^11.0.0":
+"@rollup/plugin-alias@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@rollup/plugin-alias@npm:3.0.1"
+  dependencies:
+    slash: ^3.0.0
+  peerDependencies:
+    rollup: ^1.20.0
+  checksum: 2/eaf241db457c65d98a157aa8276949ce7fc95bc479b2fc2609e579db50d60a31b50009c65660c176e4e8a55f6205fdbe3f485abc8ae359f02ee689779f46a752
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-commonjs@npm:^11.0.0, @rollup/plugin-commonjs@npm:^11.0.2":
   version: 11.0.2
   resolution: "@rollup/plugin-commonjs@npm:11.0.2"
   dependencies:
@@ -3371,16 +3382,19 @@ __metadata:
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
     "@babel/core": ^7.8.6
+    "@rollup/plugin-alias": ^3.0.1
+    "@rollup/plugin-commonjs": ^11.0.2
     "@storybook/addons": ^6.0.0-alpha.20
     "@storybook/client-api": ^6.0.0-alpha.20
     "@storybook/html": ^6.0.0-alpha.20
     "@types/jest": ^25.1.3
     "@types/storybook__addon-info": ^5.2.1
-    "@upsetjs/model": "workspace:*"
-    "@upsetjs/react": "workspace:*"
+    "@upsetjs/model": 0.1.0
+    "@upsetjs/react": 0.1.0
     babel-loader: ^8.0.6
     pnp-webpack-plugin: ^1.6.4
-    preact: ^10.3.2
+    preact: ^10.3.3
+    rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^6.2.1
     tsdx: ^0.12.3
     tslib: ^1.11.1
@@ -3388,7 +3402,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/model@workspace:*, @upsetjs/model@workspace:packages/model":
+"@upsetjs/model@0.1.0, @upsetjs/model@workspace:packages/model":
   version: 0.0.0-use.local
   resolution: "@upsetjs/model@workspace:packages/model"
   dependencies:
@@ -3402,7 +3416,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@workspace:*, @upsetjs/react@workspace:packages/react":
+"@upsetjs/react@0.1.0, @upsetjs/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -3415,7 +3429,7 @@ __metadata:
     "@types/jest": ^25.1.3
     "@types/react": ^16.9.23
     "@types/react-dom": ^16.9.5
-    "@upsetjs/model": "workspace:*"
+    "@upsetjs/model": 0.1.0
     babel-loader: ^8.0.6
     d3-scale: ^3.2.1
     pnp-webpack-plugin: ^1.6.4
@@ -12945,7 +12959,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.3.2":
+"preact@npm:^10.3.3":
   version: 10.3.3
   resolution: "preact@npm:10.3.3"
   checksum: 2/57600e0a23eb0a9692ddace7a796b65915eaabe0249f140e66ea6e1b078a4762e77ebf10c194f7bf38ca0a22336b188f6c7af6270edb8725891f316d93cd0ab5
@@ -14488,6 +14502,13 @@ resolve@1.12.0:
     "@babel/core": 7 || ^7.0.0-rc.2
     rollup: ">=0.60.0 <2"
   checksum: 2/5b474e8c9010cc95a4b35680c79e83acaecabcbdd4ed20532e4225b3e28a9e2551c212e949339cb57dd7c4cebb846717031d9d3983e6b12628a608349379699c
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-pnp-resolve@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "rollup-plugin-pnp-resolve@npm:2.0.0"
+  checksum: 2/6fd37cfa9f5191920defd57c778c7b3eab784eb2743669c89e0903b169e08edcb3f6485115c5e7a4be42d22172f97c86bc950129e2f6d8b155efb7a9d132bf0b
   languageName: node
   linkType: hard
 

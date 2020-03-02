@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@rollup/plugin-alias": "^3.0.1",
+    "@rollup/plugin-commonjs": "^11.0.2",
     "@storybook/addons": "^6.0.0-alpha.20",
     "@storybook/client-api": "^6.0.0-alpha.20",
     "@storybook/html": "^6.0.0-alpha.20",
@@ -44,7 +46,8 @@
     "@upsetjs/react": "0.1.0",
     "babel-loader": "^8.0.6",
     "pnp-webpack-plugin": "^1.6.4",
-    "preact": "^10.3.2",
+    "preact": "^10.3.3",
+    "rollup-plugin-pnp-resolve": "^2.0.0",
     "ts-loader": "^6.2.1",
     "tsdx": "^0.12.3",
     "tslib": "^1.11.1",
