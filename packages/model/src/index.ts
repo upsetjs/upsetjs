@@ -1,4 +1,4 @@
-import * as C from 'js-combinatorics';
+import { power } from 'js-combinatorics';
 
 /**
  * represents an internal set
@@ -99,7 +99,7 @@ export function generateSetIntersections<T>(
 
   const intersections: IIntersectionSet<T>[] = [];
 
-  C.power(sets as ISet<T>[]).forEach(intersection => {
+  power(sets as ISet<T>[]).forEach(intersection => {
     if (intersection.length < min || intersection.length > max) {
       return;
     }

@@ -3421,6 +3421,7 @@ __metadata:
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
     "@babel/core": ^7.8.6
+    "@rollup/plugin-commonjs": ^11.0.2
     "@storybook/addon-docs": ^6.0.0-alpha.20
     "@storybook/addons": ^6.0.0-alpha.20
     "@storybook/client-api": ^6.0.0-alpha.20
@@ -3437,6 +3438,7 @@ __metadata:
     react-docgen-typescript-loader: ^3.6.0
     react-dom: ^16.13.0
     react-is: ^16.13.0
+    rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^6.2.1
     tsdx: ^0.12.3
     tslib: ^1.11.1
