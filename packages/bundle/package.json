@@ -19,8 +19,8 @@
     "dist"
   ],
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
+    "start": "tsdx watch --name UpSetJS --format esm,umd",
+    "build": "tsdx build --name UpSetJS --format esm,umd",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepareX": "tsdx build",
@@ -52,5 +52,8 @@
     "tsdx": "^0.12.3",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "eventemitter3": "^4.0.0"
   }
 }

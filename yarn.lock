@@ -3385,6 +3385,7 @@ __metadata:
     "@upsetjs/model": 0.1.0
     "@upsetjs/react": 0.1.0
     babel-loader: ^8.0.6
+    eventemitter3: ^4.0.0
     pnp-webpack-plugin: ^1.6.4
     preact: ^10.3.3
     rollup-plugin-pnp-resolve: ^2.0.0
