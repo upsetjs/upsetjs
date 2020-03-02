@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@types/d3-scale": "^2.1.1",
-    "@upsetjs/model": "workspace:*",
+    "@upsetjs/model": "0.1.0",
     "d3-scale": "^3.2.1"
   }
 }
