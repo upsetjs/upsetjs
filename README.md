@@ -106,8 +106,7 @@ Run inside another terminal:
 
 ```sh
 yarn unplug @storybook/core
-yarn unplug @storybook/components
-yarn workspace @upsetjs/react start-storybook
+yarn workspace @upsetjs/react storybook
 ```
 
 To run tests, use `npm test` or `yarn test`.

@@ -1,4 +1,4 @@
-import { withInfo } from '@storybook/addon-info';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import UpSet from './UpSet';
 import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
@@ -6,11 +6,11 @@ import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
 export default {
   component: UpSet,
   title: 'UpSet',
-  decorators: [withInfo],
+  // decorators: [withInfo],
   parameters: {
-    info: {
-      source: false,
-      inline: true,
+    docs: {
+      container: DocsContainer,
+      page: DocsPage,
     },
   },
 };
