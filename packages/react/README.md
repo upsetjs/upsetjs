@@ -88,25 +88,22 @@ const UpSetSelection = (props: any) => {
 <UpSetSelection sets={sets} intersections={intersections} />;
 ```
 
-## Dev Environment
-
-```sh
-npm i -g yarn
-yarn set version berry
-yarn plugin import @yarnpkg/plugin-workspace-tools
-yarn
-yarn pnpify --sdk
-```
-
 ## Commands
 
 ### Storybook
 
 Run inside another terminal:
 
-```sh
-yarn unplug @storybook/core
-yarn workspace @upsetjs/react storybook
+```
+npm run storybook
+```
+
+### Example
+
+```
+cd example
+npm install
+npm start
 ```
 
 To run tests, use `npm test` or `yarn test`.

@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { ExtraStyles } from '../theme';
-import { ISet, generateSetIntersections, ISets, IIntersectionSet, IIntersectionSets } from '../data';
+import { ISet, generateSetIntersections, ISets, IIntersectionSet, IIntersectionSets } from '@upsetjs/model';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import D3Axis from './D3Axis';
 
@@ -50,8 +50,7 @@ export type UpSetQuery<T> = {
 
 export type UpSetSelectionProps<T> = {
   selection?: ISet<T> | IIntersectionSet<T> | null;
-  onMouseEnter?(selection: ISet<T> | IIntersectionSet<T>): void;
-  onMouseLeave?(selection: ISet<T> | IIntersectionSet<T>): void;
+  onHover?(selection: ISet<T> | IIntersectionSet<T> | null): void;
   onClick?(selection: ISet<T> | IIntersectionSet<T>): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
@@ -658,8 +657,7 @@ export default function UpSet<T>({
   intersections = generateSetIntersections(sets),
   selection = null,
   onClick,
-  onMouseEnter,
-  onMouseLeave,
+  onHover,
   intersectionName = 'Intersection Size',
   setName = 'Set Size',
   selectionColor = 'orange',
@@ -689,8 +687,8 @@ export default function UpSet<T>({
 
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
-  const onMouseEnterImpl = wrap(onMouseEnter);
-  const onMouseLeaveImpl = wrap(onMouseLeave);
+  const onMouseEnterImpl = wrap(onHover);
+  const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
 
   const elemOverlap = selection ? elemOverlapOf(selection.elems) : () => 0;
 
@@ -729,7 +727,7 @@ export default function UpSet<T>({
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
-                tooltip={onMouseEnter ? undefined : selection.name}
+                tooltip={onHover ? undefined : selection.name}
               />
             )}
             {qs.map((q, i) => (
@@ -741,7 +739,7 @@ export default function UpSet<T>({
                 color={q.color}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
-                tooltip={onMouseEnter && !(selection != null || i > 0) ? undefined : q.name}
+                tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
               />
             ))}
           </g>
@@ -776,7 +774,7 @@ export default function UpSet<T>({
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
-                tooltip={onMouseEnter ? undefined : selection.name}
+                tooltip={onHover ? undefined : selection.name}
               />
             )}
             {qs.map((q, i) => (
@@ -788,7 +786,7 @@ export default function UpSet<T>({
                 color={q.color}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
-                tooltip={onMouseEnter && !(selection != null || i > 0) ? undefined : q.name}
+                tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
               />
             ))}
           </g>
@@ -833,9 +831,4 @@ export default function UpSet<T>({
       {children}
     </svg>
   );
-}
-
-export function InteractiveUpSet<T>(props: PropsWithChildren<UpSetProps<T>>) {
-  const [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<T> | null);
-  return <UpSet selection={selection} onMouseEnter={setSelection} onMouseLeave={() => setSelection(null)} {...props} />;
 }

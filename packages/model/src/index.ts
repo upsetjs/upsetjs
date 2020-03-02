@@ -4,11 +4,15 @@ import C from 'js-combinatorics';
  * represents an internal set
  */
 export interface ISetBase<T> {
+  /**
+   * name of the set
+   */
   readonly name: string;
   /**
    * elements in this set
    */
   readonly elems: ReadonlyArray<T>;
+
   readonly cardinality: number;
 }
 export interface ISet<T> extends ISetBase<T> {
@@ -55,9 +59,27 @@ export function extractSets<T extends { sets: string[] }>(elements: ReadonlyArra
   });
 }
 
+export declare type GenerateSetIntersectionsOptions = {
+  /**
+   * minimum number of intersecting sets
+   * @default 0
+   */
+  min?: number;
+  /**
+   * maximum number of intersecting sets
+   * @default Infinity
+   */
+  max?: number;
+  /**
+   * include empty intersections
+   * @default false
+   */
+  empty?: boolean;
+};
+
 export function generateSetIntersections<T>(
   sets: ISets<T>,
-  { min = 0, max = Infinity, empty = false } = {}
+  { min = 0, max = Infinity, empty = false }: GenerateSetIntersectionsOptions = {}
 ): IIntersectionSets<T> {
   const setElems = new Map(sets.map(s => [s, new Set(s.elems)]));
 
@@ -75,21 +97,27 @@ export function generateSetIntersections<T>(
     return smallest.filter(elem => intersection.every(s => setElems.get(s)!.has(elem)));
   }
 
-  const intersections = C.power(sets as ISet<T>[])
-    .filter(d => d.length >= min && d.length <= max)
-    .map(intersection => {
-      const elems = computeIntersection(intersection);
-      return {
-        type: 'intersection',
-        elems: elems,
-        sets: new Set(intersection),
-        name: intersection.map(d => d.name).join(' ∩ '),
-        cardinality: elems.length,
-        degree: intersection.length,
-      } as IIntersectionSet<T>;
-    });
+  const intersections: IIntersectionSet<T>[] = [];
 
-  return empty ? intersections : intersections.filter(d => d.elems.length > 0);
+  C.power(sets as ISet<T>[]).forEach(intersection => {
+    if (intersection.length < min || intersection.length > max) {
+      return;
+    }
+    const elems = computeIntersection(intersection);
+    if (empty && elems.length === 0) {
+      return;
+    }
+    intersections.push({
+      type: 'intersection',
+      elems: elems,
+      sets: new Set(intersection),
+      name: intersection.map(d => d.name).join(' ∩ '),
+      cardinality: elems.length,
+      degree: intersection.length,
+    });
+  });
+
+  return intersections;
 }
 
 export function asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(

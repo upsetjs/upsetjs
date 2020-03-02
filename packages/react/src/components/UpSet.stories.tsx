@@ -1,16 +1,15 @@
-import { withInfo } from '@storybook/addon-info';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import UpSet, { InteractiveUpSet } from './UpSet';
-import { extractSets } from '../data';
+import UpSet from './UpSet';
+import { extractSets, ISet, IIntersectionSet } from '@upsetjs/model';
 
 export default {
   component: UpSet,
   title: 'UpSet',
-  decorators: [withInfo],
   parameters: {
-    info: {
-      source: false,
-      inline: true,
+    docs: {
+      container: DocsContainer,
+      page: DocsPage,
     },
   },
 };
@@ -56,7 +55,8 @@ export const Default = () => {
 };
 
 export const Interactivity = () => {
-  return <InteractiveUpSet {...common} />;
+  const [selection, setSelection] = React.useState(null as ISet<any> | IIntersectionSet<any> | null);
+  return <UpSet {...common} selection={selection} onHover={setSelection} />;
 };
 
 export const Queries = () => {

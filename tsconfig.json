@@ -1,5 +1,4 @@
 {
-  "include": ["src", "types", "test"],
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -7,7 +6,7 @@
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
-    "rootDir": "./",
+    "composite": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -20,11 +19,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "@": ["./"],
-      "*": ["src/*", "node_modules/*"]
-    },
     "jsx": "react",
     "esModuleInterop": true
   }

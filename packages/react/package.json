@@ -1,0 +1,74 @@
+{
+  "name": "@upsetjs/react",
+  "description": "UpSetR React component implementation",
+  "version": "0.1.0",
+  "license": "AGPL-3.0",
+  "author": {
+    "name": "Samuel Gratzl",
+    "email": "samu@sgratzl.com",
+    "url": "https://wwww.sgratzl.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgratzl/upsetjs.git"
+  },
+  "module": "dist/react.esm.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepareX": "tsdx build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "prettier": {
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "workspaces": {
+    "nohoist": [
+      "@storybook/react",
+      "react*",
+      "@types/react*"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@storybook/addon-docs": "^6.0.0-alpha.20",
+    "@storybook/addons": "^6.0.0-alpha.20",
+    "@storybook/client-api": "^6.0.0-alpha.20",
+    "@storybook/react": "^6.0.0-alpha.20",
+    "@types/jest": "^25.1.3",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "babel-loader": "^8.0.6",
+    "pnp-webpack-plugin": "^1.6.4",
+    "react": "^16.12.0",
+    "react-docgen-typescript-loader": "^3.6.0",
+    "react-dom": "^16.13.0",
+    "react-is": "^16.13.0",
+    "ts-loader": "^6.2.1",
+    "tsdx": "^0.12.3",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/d3-scale": "^2.1.1",
+    "@upsetjs/model": "workspace:*",
+    "d3-scale": "^3.2.1"
+  }
+}

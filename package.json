@@ -1,40 +1,31 @@
 {
-  "name": "upsetjs",
-  "description": "UpSetR React component implementation",
-  "version": "0.1.0",
+  "name": "root",
+  "private": true,
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
     "email": "samu@sgratzl.com",
     "url": "https://wwww.sgratzl.com"
   },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "module": "dist/upsetjs.esm.js",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "release:major": "release-it major",
-    "release:minor": "release-it minor",
-    "release:patch": "release-it patch",
-    "release:pre": "release-it --preRelease=alpha --npm.tag=next"
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "yarn lint"
     }
+  },
+  "scripts": {
+    "lint": "yarn workspaces foreach --topological-dev run lint",
+    "test": "yarn workspaces foreach --topological-dev run test",
+    "build": "yarn workspaces foreach --topological-dev run build",
+    "website": "yarn workspace @upsetjs/react run build-storybook"
   },
   "prettier": {
     "printWidth": 120,
@@ -42,36 +33,22 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "peerDependencies": {
-    "react": ">=16"
-  },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
-    "@storybook/addon-actions": "^5.3.14",
-    "@storybook/addon-info": "^5.3.14",
-    "@storybook/addon-links": "^5.3.14",
-    "@storybook/addons": "^5.3.14",
-    "@storybook/react": "^5.3.14",
-    "@testing-library/jest-dom": "^5.1.1",
-    "@testing-library/react": "^9.4.1",
-    "@types/jest": "^25.1.3",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "babel-loader": "^8.0.6",
+    "@yarnpkg/pnpify": "^2.0.0-rc.18",
+    "eslint": "^6.8.0",
     "husky": "^4.2.3",
-    "react": "^16.12.0",
-    "react-docgen-typescript-loader": "^3.6.0",
-    "react-dom": "^16.13.0",
-    "release-it": "~12.6.2",
-    "ts-loader": "^6.2.1",
-    "tsdx": "^0.12.3",
-    "tslib": "^1.11.1",
+    "prettier": "^1.19.1",
     "typescript": "^3.8.3"
   },
-  "dependencies": {
-    "@types/d3-scale": "^2.1.1",
-    "@types/js-combinatorics": "^0.5.31",
-    "d3-scale": "^3.2.1",
-    "js-combinatorics": "^0.5.5"
+  "dependenciesMeta": {
+    "@storybook/*": {
+      "unplugged": true
+    },
+    "@storybook/components": {
+      "unplugged": true
+    },
+    "@storybook/core": {
+      "unplugged": true
+    }
   }
 }

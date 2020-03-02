@@ -1,4 +1,6 @@
 const path = require('path');
+const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
+
 module.exports = ({ config }) => {
   config.module.rules.push({
     test: /\.tsx?$/,
@@ -21,5 +23,11 @@ module.exports = ({ config }) => {
   });
   config.resolve.extensions.push('.ts', '.tsx');
   config.resolve.alias = Object.assign(config.resolve.alias, { '@': path.resolve(__dirname, '..') });
+
+  // pnp
+  config.resolve.plugins = (config.resolve.plugins || []).concat([PnpWebpackPlugin]);
+  config.resolveLoader = {
+    plugins: [PnpWebpackPlugin.moduleLoader(module)],
+  };
   return config;
 };
