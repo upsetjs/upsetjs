@@ -24,7 +24,8 @@
   "scripts": {
     "lint": "yarn workspaces foreach --topological-dev run lint",
     "test": "yarn workspaces foreach --topological-dev run test",
-    "build": "yarn workspaces foreach --topological-dev run build"
+    "build": "yarn workspaces foreach --topological-dev run build",
+    "website": "yarn workspace @upsetjs/react run build-storybook"
   },
   "prettier": {
     "printWidth": 120,
