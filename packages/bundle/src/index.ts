@@ -1,6 +1,5 @@
 import { render, h } from 'preact';
-import UpSetElement, { UpSetProps, ISetLike, ISets } from '@upsetjs/react';
-import Eventemitter from 'eventemitter3';
+import UpSetElement, { UpSetProps } from '@upsetjs/react';
 
 export * from '@upsetjs/model';
 
