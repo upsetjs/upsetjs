@@ -2,9 +2,83 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-UpSet.js is a React based reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The `UpSet` component is implemented as a pure functional component soley depending on the given properties.
+UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component soley depending on the given properties.
 
 ![UpSet.js](https://user-images.githubusercontent.com/4129778/75599825-a8a13780-5a76-11ea-8cd4-b775f4791a91.png)
+
+## Usage
+
+### React
+
+```sh
+npm install @upsetjs/react react react-dom
+```
+
+```ts
+import React from 'react';
+import UpSet, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+const combinations = generateIntersections(elems);
+
+<UpSet sets={sets} combinations={combinations} width={500} height={300} />;
+```
+
+with stored selection
+
+```ts
+const UpSetSelection = (props: any) => {
+  [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+
+  return <UpSet {...props} selection={selection} onHover={setSelection} />;
+};
+
+<UpSetSelection sets={sets} combinations={combinations} />;
+```
+
+### Bundle
+
+```sh
+npm install @upsetjs/bundle
+```
+
+```js
+import * as UpSetJS from '@upsetjs/bundle';
+
+const elems = [...];
+
+const sets = UpSetJS.extractSets(elems);
+const combinations = UpSetJS.generateIntersections(elems);
+
+UpSetJS.renderUpSet(document.body, {sets, combinations, width: 500, height: 300});
+```
+
+with stored selection
+
+```js
+let selection = null;
+
+function onHover(set) {
+  selection = set;
+  render();
+}
+
+function render() {
+  const props = { sets, combinations, width: 500, height: 300, selection, onHover };
+  UpSetJS.renderUpSet(document.body, props);
+}
+
+render();
+```
+
+see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/bGdYBzL)
 
 **Interactivity**
 
@@ -57,38 +131,6 @@ The most relevant and required properties of the `UpSet` component are:
 - `generateUnions<T>(sets: ISets<T>, { min = 2, max = Infinity } = {}): ISetUnion<T>[]`
   one needs to generate the list of the unions to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set unions (aka. power set). The options allow to enforce a minimum/maximum amount of sets in the union.
 
-## Usage
-
-```ts
-import React from 'react';
-import UpSet {extractSets, generateIntersections, ISetLike} from 'upsetjs';
-
-const elems = [
-    {name: 'A', sets: ['S1', 'S2']},
-    {name: 'B', sets: ['S1']},
-    {name: 'C', sets: ['S2']},
-    {name: 'D', sets: ['S1', 'S3']}
-];
-
-const sets = extractSets(elems);
-const combinations = generateIntersections(elems);
-
-
-<UpSet sets={sets} combinations={combinations} />
-```
-
-with stored selection
-
-```ts
-const UpSetSelection = (props: any) => {
-  [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-
-  return <UpSet {...props} selection={selection} onHover={setSelection} />;
-};
-
-<UpSetSelection sets={sets} combinations={combinations} />;
-```
-
 ## Dev Environment
 
 ```sh
@@ -96,7 +138,7 @@ npm i -g yarn
 yarn set version berry
 yarn plugin import version
 yarn plugin import @yarnpkg/plugin-workspace-tools
-yarn
+yarn install
 yarn pnpify --sdk
 ```
 
@@ -111,13 +153,25 @@ yarn unplug @storybook/core
 yarn workspace @upsetjs/react storybook
 ```
 
-To run tests, use `npm test` or `yarn test`.
+## Testing
+
+```sh
+yarn test
+```
+
+## Linting
+
+TODO not working atm
+
+```sh
+yarn lint
+```
 
 ## Building
 
 ```sh
-npm install
-npm run build
+yarn install
+yarn build
 ```
 
 ## License
@@ -130,7 +184,8 @@ If you want to use Upset.js for a commercial application the commercial license 
 
 GNU AGPLv3
 
-[npm-image]: https://badge.fury.io/js/upsetjs.svg
-[npm-url]: https://npmjs.org/package/upsetjs
+[npm-image]: https://badge.fury.io/js/@upsetjs/react.svg
+[npm-url]: https://npmjs.org/package/@upsetjs/react
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
