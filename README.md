@@ -10,6 +10,8 @@ UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation
 
 ### React
 
+see https://github.com/upsetjs/upsetjs/tree/master/packages/react
+
 ```sh
 npm install @upsetjs/react react react-dom
 ```
@@ -26,7 +28,7 @@ const elems = [
 ];
 
 const sets = extractSets(elems);
-const combinations = generateIntersections(elems);
+const combinations = generateIntersections(sets);
 
 <UpSet sets={sets} combinations={combinations} width={500} height={300} />;
 ```
@@ -45,6 +47,8 @@ const UpSetSelection = (props: any) => {
 
 ### Bundle
 
+see https://github.com/upsetjs/upsetjs/tree/master/packages/bundle
+
 ```sh
 npm install @upsetjs/bundle
 ```
@@ -52,12 +56,17 @@ npm install @upsetjs/bundle
 ```js
 import * as UpSetJS from '@upsetjs/bundle';
 
-const elems = [...];
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
 
 const sets = UpSetJS.extractSets(elems);
-const combinations = UpSetJS.generateIntersections(elems);
+const combinations = UpSetJS.generateIntersections(sets);
 
-UpSetJS.renderUpSet(document.body, {sets, combinations, width: 500, height: 300});
+UpSetJS.renderUpSet(document.body, { sets, combinations, width: 500, height: 300 });
 ```
 
 with stored selection
@@ -92,6 +101,17 @@ Similar to the original UpSetR, `UpSet` allows to specify queries by a set of el
 The first query is shown in full detail while others are shown using small indicators.
 
 ![Queries UpSet.js](https://user-images.githubusercontent.com/4129778/75599826-a939ce00-5a76-11ea-9f47-6b6f3a076099.png)
+
+```ts
+const queries = [
+  { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
+  { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
+];
+
+UpSetJS.renderUpSet(document.body, { sets, combinations, width: 500, height: 300, queries });
+```
+
+see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
 ## Components
 

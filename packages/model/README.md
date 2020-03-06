@@ -2,7 +2,7 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-TODO
+This is a helper model containing the data definition and model methods (like `extractSets`) for the different UpSet.js implementations.
 
 ## License
 

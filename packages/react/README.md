@@ -2,7 +2,46 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-TODO
+UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The library is written in React. The `UpSet` React component is implemented as a pure functional component soley depending on the given properties.
+
+A detailed description can be found at the README on the main [Github Monorepo](https://github.com/upsetjs/upsetjs).
+
+![UpSet.js](https://user-images.githubusercontent.com/4129778/75599825-a8a13780-5a76-11ea-8cd4-b775f4791a91.png)
+
+## Usage
+
+```sh
+npm install @upsetjs/react react react-dom
+```
+
+```ts
+import React from 'react';
+import UpSet, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+const combinations = generateIntersections(sets);
+
+<UpSet sets={sets} combinations={combinations} width={500} height={300} />;
+```
+
+with stored selection
+
+```ts
+const UpSetSelection = (props: any) => {
+  [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+
+  return <UpSet {...props} selection={selection} onHover={setSelection} />;
+};
+
+<UpSetSelection sets={sets} combinations={combinations} />;
+```
 
 ## License
 
