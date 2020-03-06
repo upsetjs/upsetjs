@@ -16,11 +16,6 @@
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "scripts": {
     "lint": "yarn workspaces foreach --topological-dev run lint",
     "test": "yarn workspaces foreach --topological-dev run test",
@@ -30,7 +25,6 @@
   "devDependencies": {
     "@yarnpkg/pnpify": "^2.0.0-rc.18",
     "eslint": "^6.8.0",
-    "husky": "^4.2.3",
     "prettier": "^1.19.1",
     "typescript": "^3.8.3"
   },
