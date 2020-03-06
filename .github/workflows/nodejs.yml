@@ -13,13 +13,10 @@ jobs:
       - run: npm i -g yarn
       - run: yarn set version berry
       - run: yarn plugin import @yarnpkg/plugin-workspace-tools
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache Node.js modules
         uses: actions/cache@v1
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ./.yarn
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
