@@ -25,7 +25,7 @@
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
     "lint": "tsdx lint",
-    "prepareX": "tsdx build",
+    "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

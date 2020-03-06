@@ -25,7 +25,7 @@
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
     "lint": "tsdx lint",
-    "prepareX": "tsdx build"
+    "prepare": "tsdx build"
   },
   "workspaces": {
     "nohoist": []
