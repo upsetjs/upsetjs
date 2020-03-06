@@ -22,6 +22,8 @@
     "start": "tsdx watch --name UpSetJS --format esm,umd",
     "build": "tsdx build --name UpSetJS --format esm,umd",
     "test": "tsdx test --passWithNoTests",
+    "test:watch": "tsdx test --passWithNoTests --watch",
+    "test:coverage": "tsdx test --passWithNoTests --coverage",
     "lint": "tsdx lint",
     "prepareX": "tsdx build",
     "storybook": "start-storybook -p 6006",
