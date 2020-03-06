@@ -19,8 +19,8 @@
     "dist"
   ],
   "scripts": {
-    "start": "tsdx watch --format esm",
-    "build": "tsdx build --format esm",
+    "start": "tsdx watch",
+    "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
