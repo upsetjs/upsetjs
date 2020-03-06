@@ -151,6 +151,43 @@ The most relevant and required properties of the `UpSet` component are:
 - `generateUnions<T>(sets: ISets<T>, { min = 2, max = Infinity } = {}): ISetUnion<T>[]`
   one needs to generate the list of the unions to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set unions (aka. power set). The options allow to enforce a minimum/maximum amount of sets in the union.
 
+## Integration
+
+### Observable HQ
+
+A [ObservableHQ](https://observablehq.com/) wrapper is located at [lineup-observable-library](https://observablehq.com/@sgratzl/upset-observable-library).
+
+```js
+data = fetch(
+  'https://raw.githubusercontent.com/upsetjs/upsetjs/master/packages/bundle/example/simpsons.json'
+).then(r => r.json())
+}
+```
+
+```js
+import { extractSets, UpSet, generateIntersections } from '@sgratzl/upset-observable-library';
+```
+
+```js
+sets = extractSets(data);
+```
+
+```js
+intersections = generateIntersections(sets);
+```
+
+```js
+viewof selection = UpSet(sets, intersections)
+```
+
+```js
+selection ? selection.elems.map(d => d.name) : 'None';
+```
+
+[ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-example)
+
+An advanced example showing all datasets from the live UpSet demo is located at [ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-dataset-chooser-example)
+
 ## Dev Environment
 
 ```sh
