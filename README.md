@@ -155,7 +155,7 @@ The most relevant and required properties of the `UpSet` component are:
 
 ### Observable HQ
 
-A [ObservableHQ](https://observablehq.com/) wrapper is located at [lineup-observable-library](https://observablehq.com/@sgratzl/upset-observable-library).
+A [ObservableHQ](https://observablehq.com/) wrapper is located at [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library).
 
 ```js
 data = fetch(
