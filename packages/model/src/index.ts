@@ -3,7 +3,7 @@ export { default as generateIntersections } from './generateIntersections';
 export type {GenerateSetUnionsOptions} from './generateUnions';
 export { default as generateUnions } from './generateUnions';
 export { default as asSets, asSet } from './asSets';
-export { default as asCombinations, asCombination } from './asCombinations';
+export { default as asCombinations, asCombination, fromSetName } from './asCombinations';
 export type {ISetCombination, ISetCombinations, ISetComposite, ISetIntersection, ISetLike, ISetLikes, ISet, ISets, IBaseSet} from './model';
 export { default as extractSets } from './extractSets';
 
