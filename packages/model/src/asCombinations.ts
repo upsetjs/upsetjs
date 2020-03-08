@@ -1,7 +1,7 @@
 import type { ISet, ISetCombination } from './model';
 
 
-export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪]/) {
+export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
   const byName = new Map(sets.map((s) => [s.name, s]));
   return (s: { name: string }) => {
     return s.name.split(symbol).map((setName) => byName.get(setName.trim())!);
