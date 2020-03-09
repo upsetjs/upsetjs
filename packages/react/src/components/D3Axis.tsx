@@ -11,6 +11,7 @@ export type D3AxisProps = {
   tickSizeInner?: number;
   tickSizeOuter?: number;
   tickPadding?: number;
+  integersOnly?: boolean;
 } & React.SVGProps<SVGGElement>;
 
 function center<T>(scale: ScaleBand<T>) {
@@ -78,16 +79,38 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   );
 });
 
+function fixTicks(ticks: number[], integersOnly?: boolean) {
+  if (!integersOnly) {
+    return ticks;
+  }
+  // round to integers and then remove duplicates
+  const rounded = ticks.map(d => Math.round(d));
+  let last = Number.NEGATIVE_INFINITY;
+  // since sorted same can just be neighbors
+  return rounded.filter(d => {
+    if (last === Number.NEGATIVE_INFINITY) {
+      last = d;
+      return true;
+    }
+    if (last === d) {
+      return false;
+    }
+    last = d;
+    return true;
+  });
+}
+
 export default function D3Axis({
   d3Scale: scale,
   orient,
   tickSizeInner = 6,
   tickSizeOuter = 6,
   tickPadding = 3,
+  integersOnly,
   ...extras
 }: PropsWithChildren<D3AxisProps>) {
-  const values = isBandScale(scale) ? scale.domain() : scale.ticks();
-  const format = isBandScale(scale) ? String : scale.tickFormat();
+  const values = isBandScale(scale) ? scale.domain() : fixTicks(scale.ticks(), integersOnly);
+  const format = isBandScale(scale) || integersOnly ? String : scale.tickFormat();
 
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
   const range = scale.range();

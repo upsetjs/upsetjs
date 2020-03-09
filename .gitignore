@@ -5,7 +5,7 @@ node_modules
 dist
 .vscode
 storybook-static
-src/**/*.d.ts
+**/src/**/*.d.ts
 .storybook/**/*.d.ts
 *.tgz
 *.tsbuildinfo

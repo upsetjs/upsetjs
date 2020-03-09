@@ -216,7 +216,7 @@ export default function UpSet<T>({
     <svg className={className} style={style} width={width} height={height}>
       <g transform={`translate(${margin},${margin})`}>
         <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-          <D3Axis d3Scale={scales.combinations.y} orient="left" style={axisStyle} />
+          <D3Axis d3Scale={scales.combinations.y} orient="left" style={axisStyle} integersOnly />
           <line
             x1={0}
             x2={styles.combinations.w}
@@ -270,6 +270,7 @@ export default function UpSet<T>({
             orient="bottom"
             transform={`translate(0, ${styles.sets.h})`}
             style={axisStyle}
+            integersOnly
           />
           <text
             style={{ textAnchor: 'middle', ...setNameStyle }}

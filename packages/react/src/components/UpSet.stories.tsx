@@ -1,7 +1,7 @@
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import UpSet from './UpSet';
-import { extractSets, ISetLike, generateUnions } from '@upsetjs/model';
+import { extractSets, ISetLike, generateUnions, asSets } from '@upsetjs/model';
 
 export default {
   component: UpSet,
@@ -65,4 +65,27 @@ export const Interactivity = () => {
 
 export const Queries = () => {
   return <UpSet {...common} queries={queries} />;
+};
+
+export const SmallSets = () => {
+  return (
+    <div>
+      <UpSet
+        {...common}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
+          { name: 'two', elems: [1, 2, 4, 5, 10] },
+          { name: 'three', elems: [1, 5, 6, 7, 8, 9, 10, 12, 13] },
+        ])}
+      />
+      <UpSet
+        {...common}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3] },
+          { name: 'two', elems: [1, 2, 4, 5] },
+          { name: 'three', elems: [1, 5] },
+        ])}
+      />
+    </div>
+  );
 };
