@@ -70,6 +70,19 @@ export type UpSetElemQuery<T> = {
   elems: ReadonlyArray<T> | Set<T>;
 };
 
+export type UpSetSetQuery<T> = {
+  /**
+   * name of this query for the tooltip
+   */
+  name: string;
+  /**
+   * color for highlighting
+   */
+  color: string;
+
+  set: ISetLike<T>;
+};
+
 export type UpSetCalcQuery<T> = {
   /**
    * name of this query for the tooltip
@@ -88,7 +101,7 @@ export type UpSetCalcQuery<T> = {
   overlap(s: ISetLike<T>): number;
 };
 
-export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T>;
+export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
 
 export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null;
@@ -132,6 +145,10 @@ function wrap<T>(f?: (set: ISetLike<T>) => void) {
 
 function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);
+}
+
+function isSetQuery<T>(q: UpSetQuery<T>): q is UpSetSetQuery<T> {
+  return (q as UpSetSetQuery<T>).set != null;
 }
 
 function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
@@ -180,7 +197,11 @@ export default function UpSet<T>({
   ]);
   const scales = React.useMemo(() => generateScales(sets, combinations, styles), [sets, combinations, styles]);
   const qs = React.useMemo(
-    () => queries.map(q => ({ ...q, overlap: isElemQuery(q) ? elemOverlapOf(q.elems) : q.overlap })),
+    () =>
+      queries.map(q => ({
+        ...q,
+        overlap: isElemQuery(q) ? elemOverlapOf(q.elems) : isSetQuery(q) ? elemOverlapOf(q.set.elems) : q.overlap,
+      })),
     [queries]
   );
 
