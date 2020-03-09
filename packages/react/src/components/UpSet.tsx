@@ -12,6 +12,10 @@ import SetChart from './upset/SetChart';
 import SetSelectionChart from './upset/SetSelectionChart';
 import UpSetChart from './upset/UpSetChart';
 import UpSetSelectionChart from './upset/UpSetSelectionChart';
+import { UpSetQuery, isElemQuery, isSetQuery } from './upset/queries';
+import QueryLegend from './upset/QueryLegend';
+
+export type { UpSetCalcQuery, UpSetElemQuery, UpSetQuery, UpSetSetQuery } from './upset/queries';
 
 export type UpSetSizeProps = {
   /**
@@ -57,52 +61,6 @@ export type UpSetDataProps<T> = {
   combinations?: ISetCombinations<T>;
 };
 
-export type UpSetElemQuery<T> = {
-  /**
-   * name of this query for the tooltip
-   */
-  name: string;
-  /**
-   * color for highlighting
-   */
-  color: string;
-
-  elems: ReadonlyArray<T> | Set<T>;
-};
-
-export type UpSetSetQuery<T> = {
-  /**
-   * name of this query for the tooltip
-   */
-  name: string;
-  /**
-   * color for highlighting
-   */
-  color: string;
-
-  set: ISetLike<T>;
-};
-
-export type UpSetCalcQuery<T> = {
-  /**
-   * name of this query for the tooltip
-   */
-  name: string;
-  /**
-   * color for highlighting
-   */
-  color: string;
-
-  /**
-   * computes the overlap of the given set to this query
-   * @param s the current set to evaluate
-   * @return at most `s.cardinality`
-   */
-  overlap(s: ISetLike<T>): number;
-};
-
-export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
-
 export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null;
   onHover?(selection: ISetLike<T> | null): void;
@@ -124,6 +82,7 @@ export type UpSetStyleProps = {
   axisStyle?: React.CSSProperties;
   combinationNameStyle?: React.CSSProperties;
   triangleSize?: number;
+  queryLegend?: boolean;
 };
 
 export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
@@ -141,14 +100,6 @@ function wrap<T>(f?: (set: ISetLike<T>) => void) {
       return f.call(this, set);
     };
   };
-}
-
-function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
-  return Array.isArray((q as UpSetElemQuery<T>).elems);
-}
-
-function isSetQuery<T>(q: UpSetQuery<T>): q is UpSetSetQuery<T> {
-  return (q as UpSetSetQuery<T>).set != null;
 }
 
 function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
@@ -186,6 +137,7 @@ export default function UpSet<T>({
   widthRatios = [0.25, 0.1, 0.6],
   heightRatios = [0.6, 0.4],
   queries = [],
+  queryLegend
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
     width,
@@ -349,6 +301,7 @@ export default function UpSet<T>({
           )}
         </g>
       </g>
+      {queryLegend && <QueryLegend queries={queries} />}
       {children}
     </svg>
   );
