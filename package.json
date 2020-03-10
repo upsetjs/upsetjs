@@ -30,6 +30,9 @@
     "prettier": "^1.19.1",
     "typescript": "^3.8.3"
   },
+  "resolutions": {
+    "tsdx/rollup-plugin-typescript2": "^0.26.0"
+  },
   "dependenciesMeta": {
     "@storybook/*": {
       "unplugged": true
