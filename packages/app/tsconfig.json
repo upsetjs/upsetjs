@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src", "types", "test"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "baseUrl": "./",
+    "composite": false,
+    "declaration": false,
+    "paths": {
+      "@": ["./"],
+      "*": ["src/*", "node_modules/*"]
+    }
+  }
+}

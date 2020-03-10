@@ -1,0 +1,65 @@
+{
+  "name": "@upsetjs/app",
+  "description": "UpSetR React component implementation",
+  "version": "0.2.0",
+  "private": true,
+  "license": "AGPL-3.0",
+  "author": {
+    "name": "Samuel Gratzl",
+    "email": "samu@sgratzl.com",
+    "url": "https://wwww.sgratzl.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgratzl/upsetjs.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch --name UpSetJS --format umd",
+    "build": "tsdx build --name UpSetJS --format umd",
+    "test": "tsdx test --passWithNoTests",
+    "test:watch": "tsdx test --passWithNoTests --watch",
+    "test:coverage": "tsdx test --passWithNoTests --coverage",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "prettier": {
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "workspaces": {
+    "nohoist": [
+      "react*",
+      "@types/react*"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@types/jest": "^25.1.3",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-pnp-resolve": "^2.0.0",
+    "tsdx": "^0.12.3",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@rollup/plugin-html": "^0.1.1",
+    "@upsetjs/model": "0.2.0",
+    "@upsetjs/react": "0.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.13.0",
+    "react-is": "^16.13.0"
+  }
+}
