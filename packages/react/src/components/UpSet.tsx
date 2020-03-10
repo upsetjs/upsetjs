@@ -48,6 +48,12 @@ export type UpSetSizeProps = {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
+
+  /**
+   * legend width
+   * @default 150
+   */
+  queryLegendWidth?: number;
 };
 
 export type UpSetDataProps<T> = {
@@ -82,6 +88,10 @@ export type UpSetStyleProps = {
   axisStyle?: React.CSSProperties;
   combinationNameStyle?: React.CSSProperties;
   triangleSize?: number;
+  /**
+   * show a legend of queries
+   * enabled by default when queries are set
+   */
   queryLegend?: boolean;
 };
 
@@ -137,15 +147,17 @@ export default function UpSet<T>({
   widthRatios = [0.25, 0.1, 0.6],
   heightRatios = [0.6, 0.4],
   queries = [],
-  queryLegend
+  queryLegend = queries.length > 0,
+  queryLegendWidth = 150
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
-  const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
+  const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }), [
     width,
     height,
     margin,
     barPadding,
     widthRatios,
     heightRatios,
+    queryLegendWidth,
   ]);
   const scales = React.useMemo(() => generateScales(sets, combinations, styles), [sets, combinations, styles]);
   const qs = React.useMemo(
@@ -301,7 +313,7 @@ export default function UpSet<T>({
           )}
         </g>
       </g>
-      {queryLegend && <QueryLegend queries={queries} />}
+      {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
       {children}
     </svg>
   );

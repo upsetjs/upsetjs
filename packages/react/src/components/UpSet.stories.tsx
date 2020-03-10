@@ -64,7 +64,7 @@ export const Interactivity = () => {
 };
 
 export const Queries = () => {
-  return <UpSet {...common} queries={queries} />;
+  return <UpSet {...common} queries={queries} queryLegend />;
 };
 
 export const SmallSets = () => {

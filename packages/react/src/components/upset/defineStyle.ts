@@ -5,6 +5,7 @@ export default function defineStyle(size: {
   barPadding: number;
   widthRatios: [number, number, number];
   heightRatios: [number, number];
+  queryLegendWidth: number;
 }) {
   return {
     combinations: {
@@ -17,6 +18,9 @@ export default function defineStyle(size: {
       h: (size.height - 2 * size.margin - 20) * size.heightRatios[1],
     },
     padding: size.barPadding,
+    legend: {
+      x: size.width - size.margin - size.queryLegendWidth,
+    },
   };
 }
 

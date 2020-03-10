@@ -10,8 +10,8 @@ const QueryLegend = React.memo(function QueryLegend<T>({
   } & React.SVGAttributes<SVGGElement>
 >) {
   return (
-    <g {...extras}>
-      {queries.map(q => {
+    <g {...extras} style={{ fontSize: 10 }}>
+      {queries.map((q, i) => {
         let count: number | null = null;
         if (isSetQuery(q)) {
           count = q.set.cardinality;
@@ -19,9 +19,9 @@ const QueryLegend = React.memo(function QueryLegend<T>({
           count = q.elems instanceof Set ? q.elems.size : q.elems.length;
         }
         return (
-          <g key={q.name}>
-            <rect x={2} width={5} height={5} style={{ fill: q.color }} />
-            <text x={7} style={{ dominantBaseline: 'central' }}>
+          <g key={q.name} transform={`translate(0, ${i * 12 + 7})`}>
+            <rect y={1} width={8} height={8} style={{ fill: q.color }} />
+            <text x={12} y={5} style={{ dominantBaseline: 'central' }}>
               {q.name} {count != null && <tspan>({count})</tspan>}
             </text>
           </g>
