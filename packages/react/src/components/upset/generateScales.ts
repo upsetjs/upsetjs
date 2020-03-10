@@ -1,41 +1,33 @@
 import type { ISetCombinations, ISets } from '@upsetjs/model';
-import { scaleBand, scaleLinear, ScaleBand, ScaleLinear } from 'd3-scale';
 import type { UpSetStyles } from './defineStyle';
+import type { NumericScaleLike, BandScaleLike} from './interfaces';
 
 export declare type UpSetScales = {
   sets: {
-    x: ScaleLinear<number, number>;
-    y: ScaleBand<string>;
+    x: NumericScaleLike;
+    y: BandScaleLike;
   };
   combinations: {
-    x: ScaleBand<string>;
-    y: ScaleLinear<number, number>;
+    x: BandScaleLike;
+    y: NumericScaleLike;
   };
 };
 
 export default function generateScales(
   sets: ISets<any>,
   combinations: ISetCombinations<any>,
-  styles: UpSetStyles
+  styles: UpSetStyles,
+  linearScaleFactory: (domain: [number, number], range: [number, number]) => NumericScaleLike,
+  bandScaleFactory: (domain: string[], range: [number, number], padding: number) => BandScaleLike
 ): UpSetScales {
   return {
     sets: {
-      x: scaleLinear()
-        .domain([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)])
-        .range([styles.sets.w, 0]),
-      y: scaleBand()
-        .domain(sets.map(d => d.name))
-        .range([0, styles.sets.h])
-        .padding(styles.padding),
+      x: linearScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.sets.w, 0]),
+      y: bandScaleFactory(sets.map(d => d.name), [0, styles.sets.h], styles.padding),
     },
     combinations: {
-      x: scaleBand()
-        .domain(combinations.map(d => d.name))
-        .range([0, styles.combinations.w])
-        .padding(styles.padding),
-      y: scaleLinear()
-        .domain([0, combinations.reduce((acc, d) => Math.max(acc, d.cardinality), 0)])
-        .range([styles.combinations.h, 0]),
+      x: bandScaleFactory(combinations.map(d => d.name),[0, styles.combinations.w], styles.padding),
+      y: linearScaleFactory([0, combinations.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.combinations.h, 0]),
     },
   };
 }

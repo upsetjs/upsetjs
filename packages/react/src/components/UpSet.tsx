@@ -14,7 +14,10 @@ import UpSetChart from './upset/UpSetChart';
 import UpSetSelectionChart from './upset/UpSetSelectionChart';
 import { UpSetQuery, isElemQuery, isSetQuery } from './upset/queries';
 import QueryLegend from './upset/QueryLegend';
+import { scaleBand, scaleLinear } from 'd3-scale';
+import type { NumericScaleLike, BandScaleLike} from './upset/interfaces';
 
+export type { NumericScaleLike, BandScaleLike} from './upset/interfaces';
 export type { UpSetCalcQuery, UpSetElemQuery, UpSetQuery, UpSetSetQuery } from './upset/queries';
 
 export type UpSetSizeProps = {
@@ -93,7 +96,25 @@ export type UpSetStyleProps = {
    * enabled by default when queries are set
    */
   queryLegend?: boolean;
+
+  linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
+  bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
 };
+
+
+function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
+  return scaleLinear()
+    .domain(domain)
+    .range(range);
+}
+
+
+function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
+  return scaleBand()
+    .domain(domain)
+    .range(range)
+    .padding(padding);
+}
 
 export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
 
@@ -148,7 +169,9 @@ export default function UpSet<T>({
   heightRatios = [0.6, 0.4],
   queries = [],
   queryLegend = queries.length > 0,
-  queryLegendWidth = 150
+  queryLegendWidth = 150,
+  linearScaleFactory = linearScale,
+  bandScaleFactory = bandScale
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }), [
     width,
@@ -159,7 +182,7 @@ export default function UpSet<T>({
     heightRatios,
     queryLegendWidth,
   ]);
-  const scales = React.useMemo(() => generateScales(sets, combinations, styles), [sets, combinations, styles]);
+  const scales = React.useMemo(() => generateScales(sets, combinations, styles, linearScaleFactory, bandScaleFactory), [sets, combinations, styles, linearScaleFactory, bandScaleFactory]);
   const qs = React.useMemo(
     () =>
       queries.map(q => ({

@@ -1,12 +1,12 @@
-import { ScaleLinear, ScaleBand } from 'd3-scale';
 import React, { PropsWithChildren } from 'react';
+import type { BandScaleLike, NumericScaleLike } from './upset/interfaces';
 
-function isBandScale(scale: ScaleLinear<any, number> | ScaleBand<any>): scale is ScaleBand<any> {
-  return typeof (scale as ScaleBand<any>).bandwidth === 'function';
+function isBandScale(scale: BandScaleLike | NumericScaleLike): scale is BandScaleLike {
+  return typeof (scale as BandScaleLike).bandwidth === 'function';
 }
 
 export type D3AxisProps = {
-  d3Scale: ScaleLinear<any, number> | ScaleBand<any>;
+  d3Scale: BandScaleLike | NumericScaleLike;
   orient: 'top' | 'bottom' | 'left' | 'right';
   tickSizeInner?: number;
   tickSizeOuter?: number;
@@ -14,12 +14,12 @@ export type D3AxisProps = {
   integersOnly?: boolean;
 } & React.SVGProps<SVGGElement>;
 
-function center<T>(scale: ScaleBand<T>) {
+function center(scale: BandScaleLike) {
   let offset = Math.max(0, scale.bandwidth() - 1) / 2; // Adjust for 0.5px offset.
   if (scale.round()) {
     offset = Math.round(offset);
   }
-  return (d: T) => scale(d)! + offset;
+  return (d: string) => scale(d)! + offset;
 }
 declare type TickProps = {
   pos: number;
@@ -109,30 +109,33 @@ export default function D3Axis({
   integersOnly,
   ...extras
 }: PropsWithChildren<D3AxisProps>) {
-  const values = isBandScale(scale) ? scale.domain() : fixTicks(scale.ticks(), integersOnly);
-  const format = isBandScale(scale) || integersOnly ? String : scale.tickFormat();
-
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
   const range = scale.range();
   const range0 = +range[0] + 0.5;
   const range1 = +range[range.length - 1] + 0.5;
-  const position = isBandScale(scale) ? center(scale) : scale;
-  const k = orient === 'top' || orient === 'left' ? -1 : 1;
 
+  const k = orient === 'top' || orient === 'left' ? -1 : 1;
   const D3Tick = orient === 'left' || orient === 'right' ? D3HorizontalTick : D3VerticalTick;
+
+  const genBandTicks = (scale: BandScaleLike) => {
+    const values = scale.domain();
+    const position = center(scale);
+    return values.map(d => (
+      <D3Tick key={d} pos={position(d)} name={d} spacing={spacing} tickSizeInner={tickSizeInner} orient={orient} />
+    ));
+  };
+  const genNumericTicks = (scale: NumericScaleLike) => {
+    const values = fixTicks(scale.ticks(), integersOnly);
+    const format = integersOnly ? String : scale.tickFormat();
+    return values.map(d => (
+      <D3Tick key={d} pos={scale(d)} name={format(d)} spacing={spacing} tickSizeInner={tickSizeInner} orient={orient} />
+    ));
+  };
+  const ticks = isBandScale(scale) ? genBandTicks(scale) : genNumericTicks(scale);
 
   return (
     <g {...extras} style={{ fill: 'none', fontSize: 10, fontFamily: 'sans-serif', ...(extras.style ?? {}) }}>
-      {values.map(d => (
-        <D3Tick
-          key={d}
-          pos={position(d)}
-          name={format(d)}
-          spacing={spacing}
-          tickSizeInner={tickSizeInner}
-          orient={orient}
-        />
-      ))}
+      {ticks}
       <path
         style={{ stroke: 'currentColor' }}
         d={
