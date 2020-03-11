@@ -22,28 +22,29 @@
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
-    "lint": "tsdx lint src",
+    "lint": "tsdx lint src --ext .ts,.tsx",
     "prepare": "tsdx build"
   },
   "browserslist": [
     "defaults"
   ],
-  "prettier": {
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "workspaces": {
-    "nohoist": [
-      "react*",
-      "@types/react*"
-    ]
-  },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@types/jest": "^25.1.3",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "@yarnpkg/pnpify": "^2.0.0-rc.18",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "prettier": "^1.19.1",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-pnp-resolve": "^2.0.0",
     "tsdx": "^0.12.3",
