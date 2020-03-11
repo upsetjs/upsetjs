@@ -1,7 +1,22 @@
 import { render, h } from 'preact';
-import UpSetElement, { UpSetProps } from '@upsetjs/react';
+import UpSetElement, { UpSetDataProps, UpSetSizeProps, UpSetStyleProps } from '@upsetjs/react';
 
 export * from '@upsetjs/model';
+export { UpSetDataProps, UpSetSizeProps, UpSetStyleProps } from '@upsetjs/react';
+
+export declare type UpSetCSSPrpos = CSSStyleDeclaration;
+
+export declare type UpSetPlainStyleProps = {
+  setName?: string;
+  combinationName?: string;
+  labelStyle?: UpSetCSSPrpos;
+  setLabelStyle?: UpSetCSSPrpos;
+  setNameStyle?: UpSetCSSPrpos;
+  axisStyle?: UpSetCSSPrpos;
+  combinationNameStyle?: UpSetCSSPrpos;
+};
+
+export declare type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetPlainStyleProps;
 
 export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
   render(h(UpSetElement as any, props), node);

@@ -1,6 +1,15 @@
-import { generateIntersections, ISetLike, ISets, ISetCombinations, setOverlapFactory } from '@upsetjs/model';
+import {
+  generateIntersections,
+  ISetLike,
+  ISets,
+  ISetCombinations,
+  NumericScaleLike,
+  BandScaleLike,
+  UpSetQuery,
+  queryOverlap,
+  setOverlapFactory,
+} from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { ExtraStyles } from '../theme';
 import D3Axis from './D3Axis';
 import defineStyle from './upset/defineStyle';
 import generateScales from './upset/generateScales';
@@ -12,13 +21,8 @@ import SetChart from './upset/SetChart';
 import SetSelectionChart from './upset/SetSelectionChart';
 import UpSetChart from './upset/UpSetChart';
 import UpSetSelectionChart from './upset/UpSetSelectionChart';
-import { UpSetQuery, isElemQuery, isSetQuery } from './upset/queries';
 import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { NumericScaleLike, BandScaleLike } from './upset/interfaces';
-
-export { NumericScaleLike, BandScaleLike } from './upset/interfaces';
-export { UpSetCalcQuery, UpSetElemQuery, UpSetQuery, UpSetSetQuery } from './upset/queries';
 
 export type UpSetSizeProps = {
   /**
@@ -78,18 +82,23 @@ export type UpSetSelectionProps<T> = {
   queries?: ReadonlyArray<UpSetQuery<T>>;
 };
 
-export type UpSetStyleProps = {
+export type UpSetReactStyleProps = {
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
-  selectionColor?: string;
-  alternatingBackgroundColor?: string;
-  color?: string;
-  notMemberColor?: string;
   labelStyle?: React.CSSProperties;
   setLabelStyle?: React.CSSProperties;
   setNameStyle?: React.CSSProperties;
   axisStyle?: React.CSSProperties;
   combinationNameStyle?: React.CSSProperties;
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+export type UpSetStyleProps = {
+  selectionColor?: string;
+  alternatingBackgroundColor?: string;
+  color?: string;
+  notMemberColor?: string;
   triangleSize?: number;
   /**
    * show a legend of queries
@@ -114,7 +123,7 @@ function bandScale(domain: string[], range: [number, number], padding: number): 
     .padding(padding);
 }
 
-export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
+export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetReactStyleProps;
 
 function noop() {
   return undefined;
@@ -186,7 +195,7 @@ export default function UpSet<T>({
     () =>
       queries.map(q => ({
         ...q,
-        overlap: isElemQuery(q) ? elemOverlapOf(q.elems) : isSetQuery(q) ? elemOverlapOf(q.set.elems) : q.overlap,
+        overlap: queryOverlap(q),
       })),
     [queries]
   );

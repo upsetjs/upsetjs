@@ -1,6 +1,5 @@
-import { ISetCombinations, ISets } from '@upsetjs/model';
+import { ISetCombinations, ISets, NumericScaleLike, BandScaleLike } from '@upsetjs/model';
 import { UpSetStyles } from './defineStyle';
-import { NumericScaleLike, BandScaleLike } from './interfaces';
 
 export declare type UpSetScales = {
   sets: {

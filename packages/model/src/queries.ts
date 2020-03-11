@@ -1,4 +1,5 @@
-import { ISetLike } from '@upsetjs/model';
+import { ISetLike } from './model';
+import { setOverlapFactory, SetOverlap } from './setOverlap';
 
 export type UpSetElemQuery<T> = {
   /**
@@ -50,6 +51,20 @@ export function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);
 }
 
+export function isCalcQuery<T>(q: UpSetQuery<T>): q is UpSetCalcQuery<T> {
+  return typeof (q as UpSetCalcQuery<T>).overlap === 'function';
+}
+
 export function isSetQuery<T>(q: UpSetQuery<T>): q is UpSetSetQuery<T> {
   return (q as UpSetSetQuery<T>).set != null;
+}
+
+export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap) {
+  if (isCalcQuery(q)) {
+    return q.overlap;
+  }
+  const f = setOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems);
+  return (s: ISetLike<T>) => {
+    return f(s.elems)[what];
+  };
 }

@@ -1,6 +1,7 @@
 const alias = require('@rollup/plugin-alias');
 const commonjs = require('@rollup/plugin-commonjs');
 const resolve = require('rollup-plugin-pnp-resolve');
+const ts = require('@wessberg/rollup-plugin-ts');
 
 module.exports = {
   rollup(config, options) {
@@ -14,6 +15,11 @@ module.exports = {
       }),
       resolve(),
       commonjs()
+    );
+    config.plugins.splice(
+      config.plugins.findIndex(d => d.name === 'rpt2'),
+      1,
+      ts({})
     );
     return config;
   },

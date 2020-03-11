@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { UpSetQuery, isSetQuery, isElemQuery } from './queries';
+import { UpSetQuery, isSetQuery, isElemQuery } from '@upsetjs/model';
 
 const QueryLegend = React.memo(function QueryLegend<T>({
   queries,

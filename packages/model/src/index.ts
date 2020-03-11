@@ -22,3 +22,6 @@ export { default as setOverlap } from './setOverlap';
 
 export { PowerSetOptions } from './powerSet';
 export { default as powerSet } from './powerSet';
+
+export * from './queries';
+export { BandScaleLike, NumericScaleLike } from './scales';
