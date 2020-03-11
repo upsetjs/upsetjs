@@ -195,7 +195,7 @@ export default function UpSet<T>({
     () =>
       queries.map(q => ({
         ...q,
-        overlap: queryOverlap(q),
+        overlap: queryOverlap(q, 'intersection'),
       })),
     [queries]
   );

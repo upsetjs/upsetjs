@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { BandScaleLike, NumericScaleLike } from './upset/interfaces';
+import { BandScaleLike, NumericScaleLike } from '@upsetjs/model';
 
 function isBandScale(scale: BandScaleLike | NumericScaleLike): scale is BandScaleLike {
   return typeof (scale as BandScaleLike).bandwidth === 'function';
