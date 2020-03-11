@@ -15,12 +15,12 @@ import UpSetSelectionChart from './upset/UpSetSelectionChart';
 import { UpSetQuery, isElemQuery, isSetQuery } from './upset/queries';
 import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { NumericScaleLike, BandScaleLike} from './upset/interfaces';
+import { NumericScaleLike, BandScaleLike } from './upset/interfaces';
 
-export { NumericScaleLike, BandScaleLike} from './upset/interfaces';
+export { NumericScaleLike, BandScaleLike } from './upset/interfaces';
 export { UpSetCalcQuery, UpSetElemQuery, UpSetQuery, UpSetSetQuery } from './upset/queries';
 
-export UpSetSizeProps = {
+export type UpSetSizeProps = {
   /**
    * width of the chart
    */
@@ -59,7 +59,7 @@ export UpSetSizeProps = {
   queryLegendWidth?: number;
 };
 
-export UpSetDataProps<T> = {
+export type UpSetDataProps<T> = {
   /**
    * the sets to visualize
    */
@@ -70,7 +70,7 @@ export UpSetDataProps<T> = {
   combinations?: ISetCombinations<T>;
 };
 
-export UpSetSelectionProps<T> = {
+export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T>): void;
@@ -78,7 +78,7 @@ export UpSetSelectionProps<T> = {
   queries?: ReadonlyArray<UpSetQuery<T>>;
 };
 
-export UpSetStyleProps = {
+export type UpSetStyleProps = {
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
   selectionColor?: string;
@@ -101,13 +101,11 @@ export UpSetStyleProps = {
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
 };
 
-
 function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
   return scaleLinear()
     .domain(domain)
     .range(range);
 }
-
 
 function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
   return scaleBand()
@@ -116,7 +114,7 @@ function bandScale(domain: string[], range: [number, number], padding: number): 
     .padding(padding);
 }
 
-export UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
+export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & ExtraStyles;
 
 function noop() {
   return undefined;
@@ -171,18 +169,19 @@ export default function UpSet<T>({
   queryLegend = queries.length > 0,
   queryLegendWidth = 150,
   linearScaleFactory = linearScale,
-  bandScaleFactory = bandScale
+  bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
-  const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }), [
-    width,
-    height,
-    margin,
-    barPadding,
-    widthRatios,
-    heightRatios,
-    queryLegendWidth,
+  const styles = React.useMemo(
+    () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }),
+    [width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth]
+  );
+  const scales = React.useMemo(() => generateScales(sets, combinations, styles, linearScaleFactory, bandScaleFactory), [
+    sets,
+    combinations,
+    styles,
+    linearScaleFactory,
+    bandScaleFactory,
   ]);
-  const scales = React.useMemo(() => generateScales(sets, combinations, styles, linearScaleFactory, bandScaleFactory), [sets, combinations, styles, linearScaleFactory, bandScaleFactory]);
   const qs = React.useMemo(
     () =>
       queries.map(q => ({

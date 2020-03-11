@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export ExtraStyles = {
+export type ExtraStyles = {
   className?: string;
   style?: CSSProperties;
 };

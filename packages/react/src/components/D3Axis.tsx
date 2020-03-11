@@ -5,7 +5,7 @@ function isBandScale(scale: BandScaleLike | NumericScaleLike): scale is BandScal
   return typeof (scale as BandScaleLike).bandwidth === 'function';
 }
 
-export D3AxisProps = {
+export type D3AxisProps = {
   d3Scale: BandScaleLike | NumericScaleLike;
   orient: 'top' | 'bottom' | 'left' | 'right';
   tickSizeInner?: number;
