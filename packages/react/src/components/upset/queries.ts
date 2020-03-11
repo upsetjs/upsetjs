@@ -1,6 +1,6 @@
 import { ISetLike } from '@upsetjs/model';
 
-export type UpSetElemQuery<T> = {
+export UpSetElemQuery<T> = {
   /**
    * name of this query for the tooltip
    */
@@ -13,7 +13,7 @@ export type UpSetElemQuery<T> = {
   elems: ReadonlyArray<T> | Set<T>;
 };
 
-export type UpSetSetQuery<T> = {
+export UpSetSetQuery<T> = {
   /**
    * name of this query for the tooltip
    */
@@ -26,7 +26,7 @@ export type UpSetSetQuery<T> = {
   set: ISetLike<T>;
 };
 
-export type UpSetCalcQuery<T> = {
+export UpSetCalcQuery<T> = {
   /**
    * name of this query for the tooltip
    */
@@ -44,7 +44,7 @@ export type UpSetCalcQuery<T> = {
   overlap(s: ISetLike<T>): number;
 };
 
-export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
+export UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
 
 export function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);

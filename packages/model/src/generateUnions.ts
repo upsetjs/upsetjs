@@ -1,4 +1,4 @@
-import type { ISets, ISetUnion } from './model';
+import { ISets, ISetUnion } from './model';
 import powerSet from './powerSet';
 
 export declare type GenerateSetUnionsOptions = {
@@ -33,12 +33,12 @@ export default function generateUnions<T>(
     const all: T[] = largest.slice();
     const contained = new Set(all);
 
-    union.forEach((set) => {
+    union.forEach(set => {
       if (set.elems === largest) {
         // already included
         return;
       }
-      set.elems.forEach((elem) => {
+      set.elems.forEach(elem => {
         if (!contained.has(elem)) {
           all.push(elem);
           contained.add(elem);
@@ -51,7 +51,7 @@ export default function generateUnions<T>(
 
   const unions: ISetUnion<T>[] = [];
 
-  powerSet(sets, { min, max }).forEach((union) => {
+  powerSet(sets, { min, max }).forEach(union => {
     const elems = computeUnion(union);
     unions.push({
       type: 'union',

@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react';
-import type { BandScaleLike, NumericScaleLike } from './upset/interfaces';
+import { BandScaleLike, NumericScaleLike } from './upset/interfaces';
 
 function isBandScale(scale: BandScaleLike | NumericScaleLike): scale is BandScaleLike {
   return typeof (scale as BandScaleLike).bandwidth === 'function';
 }
 
-export type D3AxisProps = {
+export D3AxisProps = {
   d3Scale: BandScaleLike | NumericScaleLike;
   orient: 'top' | 'bottom' | 'left' | 'right';
   tickSizeInner?: number;

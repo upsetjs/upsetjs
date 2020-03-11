@@ -1,4 +1,4 @@
-import type { ISets, ISetIntersection } from './model';
+import { ISets, ISetIntersection } from './model';
 import powerSet from './powerSet';
 
 export declare type GenerateSetIntersectionsOptions = {
@@ -41,7 +41,7 @@ export default function generateIntersections<T>(
 
   const intersections: ISetIntersection<T>[] = [];
 
-  powerSet(sets, { min, max }).forEach((intersection) => {
+  powerSet(sets, { min, max }).forEach(intersection => {
     const elems = computeIntersection(intersection);
     if (!empty && elems.length === 0) {
       return;

@@ -58,7 +58,7 @@ export function powerSetBigInt<T>(
     }
     const sub = [];
     for (let j = 0; j < lastBit; j++) {
-      if ((i & bits[j]) != zero) {
+      if ((i & bits[j]) !== zero) {
         // jth bit set in i
         sub.push(arr[j]);
       }

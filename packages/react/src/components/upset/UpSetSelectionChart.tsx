@@ -1,7 +1,7 @@
-import type { ISetLike, ISets } from '@upsetjs/model';
+import { ISetLike, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetStyles } from './defineStyle';
-import type { UpSetScales } from './generateScales';
+import { UpSetStyles } from './defineStyle';
+import { UpSetScales } from './generateScales';
 import { UpSetDot } from './UpSetChart';
 
 function UpSetSelectionChart<T>({

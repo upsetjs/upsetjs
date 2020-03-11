@@ -1,7 +1,7 @@
-import type { ISetCombinations } from '@upsetjs/model';
+import { ISetCombinations } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
-import type { UpSetSelection } from './interfaces';
+import { UpSetSelection } from './interfaces';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
   combinations,

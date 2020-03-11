@@ -1,7 +1,7 @@
-import type { ISets } from '@upsetjs/model';
+import { ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetScales } from './generateScales';
-import type { UpSetSelection } from './interfaces';
+import { UpSetScales } from './generateScales';
+import { UpSetSelection } from './interfaces';
 
 const SetChart = React.memo(function SetChart<T>({
   sets,

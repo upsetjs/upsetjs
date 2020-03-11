@@ -1,4 +1,4 @@
-import type {ISets, ISet} from './model';
+import { ISets, ISet } from './model';
 
 export default function extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISets<T> {
   const sets = new Map<string, T[]>();

@@ -1,8 +1,6 @@
-import type { ISet } from './model';
+import { ISet } from './model';
 
-export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(
-  set: S
-): (S & ISet<T>) {
+export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(set: S): S & ISet<T> {
   const r: S & ISet<T> = {
     type: 'set',
     cardinality: set.elems.length,

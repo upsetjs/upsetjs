@@ -1,6 +1,6 @@
-import type { ISet, ISets } from '@upsetjs/model';
+import { ISet, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetScales } from './generateScales';
+import { UpSetScales } from './generateScales';
 
 function SetSelectionChart<T>({
   sets,

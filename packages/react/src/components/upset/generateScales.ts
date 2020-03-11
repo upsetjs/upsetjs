@@ -1,6 +1,6 @@
-import type { ISetCombinations, ISets } from '@upsetjs/model';
-import type { UpSetStyles } from './defineStyle';
-import type { NumericScaleLike, BandScaleLike} from './interfaces';
+import { ISetCombinations, ISets } from '@upsetjs/model';
+import { UpSetStyles } from './defineStyle';
+import { NumericScaleLike, BandScaleLike } from './interfaces';
 
 export declare type UpSetScales = {
   sets: {
@@ -23,11 +23,22 @@ export default function generateScales(
   return {
     sets: {
       x: linearScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.sets.w, 0]),
-      y: bandScaleFactory(sets.map(d => d.name), [0, styles.sets.h], styles.padding),
+      y: bandScaleFactory(
+        sets.map(d => d.name),
+        [0, styles.sets.h],
+        styles.padding
+      ),
     },
     combinations: {
-      x: bandScaleFactory(combinations.map(d => d.name),[0, styles.combinations.w], styles.padding),
-      y: linearScaleFactory([0, combinations.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.combinations.h, 0]),
+      x: bandScaleFactory(
+        combinations.map(d => d.name),
+        [0, styles.combinations.w],
+        styles.padding
+      ),
+      y: linearScaleFactory(
+        [0, combinations.reduce((acc, d) => Math.max(acc, d.cardinality), 0)],
+        [styles.combinations.h, 0]
+      ),
     },
   };
 }

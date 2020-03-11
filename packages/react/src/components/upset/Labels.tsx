@@ -1,8 +1,8 @@
-import type { ISet, ISets } from '@upsetjs/model';
+import { ISet, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetStyles } from './defineStyle';
-import type { UpSetScales } from './generateScales';
-import type { UpSetSelection } from './interfaces';
+import { UpSetStyles } from './defineStyle';
+import { UpSetScales } from './generateScales';
+import { UpSetSelection } from './interfaces';
 
 const UpSetLabel = React.memo(function UpSetLabel<T>({
   d,

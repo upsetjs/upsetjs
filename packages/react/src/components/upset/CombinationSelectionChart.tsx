@@ -1,6 +1,6 @@
-import type { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
+import { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetScales } from './generateScales';
+import { UpSetScales } from './generateScales';
 
 function CombinationSelectionChart<T>({
   combinations,

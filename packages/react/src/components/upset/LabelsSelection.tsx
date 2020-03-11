@@ -1,7 +1,7 @@
-import type { ISetLike } from '@upsetjs/model';
+import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import type { UpSetStyles } from './defineStyle';
-import type { UpSetScales } from './generateScales';
+import { UpSetStyles } from './defineStyle';
+import { UpSetScales } from './generateScales';
 
 export default function LabelsSelection<T>({
   scales,
