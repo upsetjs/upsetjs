@@ -24,7 +24,7 @@
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
-    "lint": "tsdx lint",
+    "lint": "tsdx lint src --ext .ts,.tsx",
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -32,21 +32,8 @@
   "browserslist": [
     "defaults"
   ],
-  "prettier": {
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "peerDependencies": {
     "react": ">=16"
-  },
-  "workspaces": {
-    "nohoist": [
-      "@storybook/react",
-      "react*",
-      "@types/react*"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -59,7 +46,9 @@
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "babel-loader": "^8.0.6",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "pnp-webpack-plugin": "^1.6.4",
     "react": "^16.12.0",
     "react-docgen-typescript-loader": "^3.6.0",

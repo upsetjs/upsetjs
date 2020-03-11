@@ -3674,7 +3674,9 @@ __metadata:
     "@upsetjs/model": 0.2.0
     babel-loader: ^8.0.6
     d3-scale: ^3.2.1
+    eslint-config-prettier: ^6.10.0
     eslint-config-react-app: ^5.2.0
+    eslint-plugin-prettier: ^3.1.2
     pnp-webpack-plugin: ^1.6.4
     react: ^16.12.0
     react-docgen-typescript-loader: ^3.6.0
@@ -7571,7 +7573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^6.0.0":
+"eslint-config-prettier@npm:^6.0.0, eslint-config-prettier@npm:^6.10.0":
   version: 6.10.0
   resolution: "eslint-config-prettier@npm:6.10.0"
   dependencies:
@@ -7675,7 +7677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.1.0":
+"eslint-plugin-prettier@npm:^3.1.0, eslint-plugin-prettier@npm:^3.1.2":
   version: 3.1.2
   resolution: "eslint-plugin-prettier@npm:3.1.2"
   dependencies:
