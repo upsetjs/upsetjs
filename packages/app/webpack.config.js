@@ -1,10 +1,28 @@
 const path = require('path');
+const pkg = require('./package.json');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const babel = {
+  loader: require.resolve('babel-loader'),
+  options: {
+    cacheDirectory: true,
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: pkg.browserslist,
+          useBuiltIns: 'entry',
+          corejs: pkg.dependencies['core-js'],
+        },
+      ],
+    ],
+  },
+};
+
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/index.tsx'],
+    app: './src/index.tsx',
   },
   output: {
     filename: 'bundle.js',
@@ -15,6 +33,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: [
+          babel,
           {
             loader: require.resolve('ts-loader'),
           },
@@ -22,14 +41,7 @@ module.exports = {
       },
       {
         test: /\.js?$/,
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
-        ],
+        use: [babel],
       },
     ],
   },
