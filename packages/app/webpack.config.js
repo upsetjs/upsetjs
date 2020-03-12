@@ -3,7 +3,9 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    app: ['babel-polyfill', './src/index.tsx'],
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -15,6 +17,17 @@ module.exports = {
         use: [
           {
             loader: require.resolve('ts-loader'),
+          },
+        ],
+      },
+      {
+        test: /\.js?$/,
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              presets: ['@babel/preset-env'],
+            },
           },
         ],
       },
