@@ -6,6 +6,8 @@ dist
 .vscode
 storybook-static
 **/src/**/*.d.ts
+**/src/**/*.js
+*.map
 .storybook/**/*.d.ts
 *.tgz
 *.tsbuildinfo

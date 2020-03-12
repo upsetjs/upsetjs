@@ -22,7 +22,8 @@
     "test": "yarn workspaces foreach --topological-dev run test",
     "build": "yarn workspaces foreach --topological-dev run build",
     "website": "yarn workspace @upsetjs/react run build-storybook",
-    "storybook": "yarn workspace @upsetjs/react run storybook"
+    "storybook": "yarn workspace @upsetjs/react run storybook",
+    "app": "yarn workspace @upsetjs/app run start"
   },
   "resolutions": {
     "tsdx/rollup-plugin-typescript2": "^0.26.0",
