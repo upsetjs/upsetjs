@@ -1,10 +1,44 @@
 import { ISet, ISetCombination } from './model';
+import { byCardinality, byComposite, byDegree, byGroup, byName } from './utils';
 
 export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
   const byName = new Map(sets.map(s => [s.name, s]));
   return (s: { name: string }) => {
     return s.name.split(symbol).map(setName => byName.get(setName.trim())!);
   };
+}
+
+export declare type PostprocessCombinationsOptions = {
+  order?: 'group' | 'cardinality' | 'name' | 'degree' | ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'>;
+  limit?: number;
+};
+
+/**
+ * @internal
+ */
+export function postprocessCombinations<T, S extends ISetCombination<T>>(
+  sets: ReadonlyArray<ISet<T>>,
+  combinations: S[],
+  options: PostprocessCombinationsOptions = {}
+) {
+  let r = combinations as S[];
+  if (options.order) {
+    const order: ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'> = Array.isArray(options.order)
+      ? options.order
+      : [options.order];
+    const lookup = {
+      cardinality: byCardinality,
+      name: byName,
+      degree: byDegree,
+      group: byGroup(sets) as any,
+    };
+    const sorter = byComposite(order.map(v => lookup[v]));
+    r = r.sort(sorter);
+  }
+  if (options.limit != null) {
+    return r.slice(0, options.limit);
+  }
+  return r;
 }
 
 /**

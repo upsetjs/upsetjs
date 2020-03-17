@@ -1,7 +1,8 @@
 import { ISets, ISetIntersection } from './model';
 import powerSet from './powerSet';
+import { PostprocessCombinationsOptions, postprocessCombinations } from './asCombinations';
 
-export declare type GenerateSetIntersectionsOptions = {
+export declare type GenerateSetIntersectionsOptions = PostprocessCombinationsOptions & {
   /**
    * minimum number of intersecting sets
    * @default 0
@@ -21,7 +22,7 @@ export declare type GenerateSetIntersectionsOptions = {
 
 export default function generateIntersections<T>(
   sets: ISets<T>,
-  { min = 0, max = Infinity, empty = false }: GenerateSetIntersectionsOptions = {}
+  { min = 0, max = Infinity, empty = false, ...postprocess }: GenerateSetIntersectionsOptions = {}
 ): ReadonlyArray<ISetIntersection<T>> {
   const setElems = new Map(sets.map(s => [s, new Set(s.elems)]));
 
@@ -56,5 +57,5 @@ export default function generateIntersections<T>(
     });
   });
 
-  return intersections;
+  return postprocessCombinations(sets, intersections, postprocess);
 }
