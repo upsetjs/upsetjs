@@ -3576,6 +3576,9 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^2.5.0
     html-webpack-plugin: ^3.2.0
+    mobx: ^5.15.4
+    mobx-react: ^6.1.8
+    mobx-router: ^0.0.20
     pnp-webpack-plugin: ^1.6.4
     prettier: ^1.19.1
     react: ^16.12.0
@@ -5119,7 +5122,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-runtime@npm:^6.22.0, babel-runtime@npm:^6.26.0":
+"babel-runtime@npm:^6.11.6, babel-runtime@npm:^6.22.0, babel-runtime@npm:^6.26.0":
   version: 6.26.0
   resolution: "babel-runtime@npm:6.26.0"
   dependencies:
@@ -7177,6 +7180,13 @@ __metadata:
     arrify: ^1.0.1
     path-type: ^3.0.0
   checksum: 2/e826e4aa5a5f0fb2f75d7ba534481dc0bdf3179fd4c34ddc15f34ee88fb60e5ad6fba095b23aa26ffc3386fa3d94e409a4603ff889391dad33bbc6e5d85e3920
+  languageName: node
+  linkType: hard
+
+"director@npm:1.2.8":
+  version: 1.2.8
+  resolution: "director@npm:1.2.8"
+  checksum: 2/197135e10aff076b5567338cf93c1e61b36eff67d03045e67483043ae66dddf5e8bd4bf94f4e292891283304821ee72af54ed125814a262477a5169d8d642844
   languageName: node
   linkType: hard
 
@@ -12527,6 +12537,50 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mobx-react-lite@npm:^1.4.2":
+  version: 1.5.2
+  resolution: "mobx-react-lite@npm:1.5.2"
+  peerDependencies:
+    mobx: ^4.0.0 || ^5.0.0
+    react: ^16.8.0
+  checksum: 2/15d262b65a3b2aa1ed021185ae0e7e5e75c8cc7285f2e86c261d9b4be550fe165af47d091bfe1ea66e15c28bca924bc3bfe841abb6228dd0516a4f2d513e04c2
+  languageName: node
+  linkType: hard
+
+"mobx-react@npm:^6.1.8":
+  version: 6.1.8
+  resolution: "mobx-react@npm:6.1.8"
+  dependencies:
+    mobx-react-lite: ^1.4.2
+  peerDependencies:
+    mobx: ^5.15.4 || ^4.15.4
+    react: ^16.8.0 || 16.9.0-alpha.0
+  checksum: 2/a2ae393931d7b5341f0f68267016c32637a7dadb22a37ac090fd6abc6bb67a1b15bde4dd8b9e7473225e1a6cf07bc7546f17b834de300bc6b7006a51be87f478
+  languageName: node
+  linkType: hard
+
+"mobx-router@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "mobx-router@npm:0.0.20"
+  dependencies:
+    babel-runtime: ^6.11.6
+    director: 1.2.8
+    query-string: ^5.0.1
+  peerDependencies:
+    mobx: ^3.x
+    mobx-react: ^4.x
+    react: 16.x
+  checksum: 2/619789eb77b2373f49a728f1a807017f8e9dfcf9ddec6081dae4c2f3396b59c44652354525c6d52f17cc5e789548e3077645e74454cc55e550c60a82c2670921
+  languageName: node
+  linkType: hard
+
+"mobx@npm:^5.15.4":
+  version: 5.15.4
+  resolution: "mobx@npm:5.15.4"
+  checksum: 2/4f34a46414e9f0c6f707b68d92224078da74c0796f1163d1b97a1534474d080e41ab7d0aff2636c975c5ccb5164bc265bf2c558c296dd1ca89315603a327edea
+  languageName: node
+  linkType: hard
+
 "move-concurrently@npm:^1.0.1":
   version: 1.0.1
   resolution: "move-concurrently@npm:1.0.1"
@@ -14407,6 +14461,17 @@ fsevents@^1.2.7:
     object-assign: ^4.1.0
     strict-uri-encode: ^1.0.0
   checksum: 2/fcdbc2e76024a3afd0c5ea3addda75311d5d10402ddb5a03542dec430d36dbc44c87a11765ffa952d53e0b96e187298929561b88cc196a828f8728d2a3545ab8
+  languageName: node
+  linkType: hard
+
+"query-string@npm:^5.0.1":
+  version: 5.1.1
+  resolution: "query-string@npm:5.1.1"
+  dependencies:
+    decode-uri-component: ^0.2.0
+    object-assign: ^4.1.0
+    strict-uri-encode: ^1.0.0
+  checksum: 2/68d4ad519a9fc288bc9ade3e515ce89a6806b88fd92e1459277570dca753665bb1b43e4cc7747012fc3b19b3d4283a724d519b568859943f57aaa3668c4d5b4b
   languageName: node
   linkType: hard
 

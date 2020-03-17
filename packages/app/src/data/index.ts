@@ -1,7 +1,7 @@
 import { ISets } from '@upsetjs/model';
 import simpsons from './simpsons';
 
-export interface IDataset {
+export interface IDataSet {
   name: string;
   sets(): Promise<ISets<any>>;
 }
