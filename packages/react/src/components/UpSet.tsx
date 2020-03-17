@@ -1,5 +1,6 @@
 import {
-  generateIntersections,
+  GenerateSetCombinationsOptions,
+  generateCombinations,
   ISetLike,
   ISets,
   ISetCombinations,
@@ -71,7 +72,7 @@ export type UpSetDataProps<T> = {
   /**
    * the combinations to visualize by default all combinations
    */
-  combinations?: ISetCombinations<T>;
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
 };
 
 export type UpSetSelectionProps<T> = {
@@ -147,6 +148,12 @@ function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
   };
 }
 
+function areCombinations<T>(
+  combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
+): combinations is ISetCombinations<T> {
+  return Array.isArray(combinations);
+}
+
 export default function UpSet<T>({
   className,
   style,
@@ -156,7 +163,7 @@ export default function UpSet<T>({
   padding: margin = 20,
   barPadding = 0.3,
   sets,
-  combinations = generateIntersections(sets),
+  combinations = { type: 'intersection' },
   selection = null,
   onClick,
   onHover,
@@ -180,13 +187,14 @@ export default function UpSet<T>({
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
+  const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
   const styles = React.useMemo(
     () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }),
     [width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth]
   );
-  const scales = React.useMemo(() => generateScales(sets, combinations, styles, linearScaleFactory, bandScaleFactory), [
+  const scales = React.useMemo(() => generateScales(sets, cs, styles, linearScaleFactory, bandScaleFactory), [
     sets,
-    combinations,
+    cs,
     styles,
     linearScaleFactory,
     bandScaleFactory,
@@ -227,7 +235,7 @@ export default function UpSet<T>({
           </text>
           <CombinationChart
             scales={scales}
-            combinations={combinations}
+            combinations={cs}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
@@ -238,7 +246,7 @@ export default function UpSet<T>({
             {selection && (
               <CombinationSelectionChart
                 scales={scales}
-                combinations={combinations}
+                combinations={cs}
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
@@ -249,7 +257,7 @@ export default function UpSet<T>({
               <CombinationSelectionChart
                 key={q.name}
                 scales={scales}
-                combinations={combinations}
+                combinations={cs}
                 elemOverlap={q.overlap}
                 color={q.color}
                 secondary={selection != null || i > 0}
@@ -322,7 +330,7 @@ export default function UpSet<T>({
             scales={scales}
             sets={sets}
             styles={styles}
-            combinations={combinations}
+            combinations={cs}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}

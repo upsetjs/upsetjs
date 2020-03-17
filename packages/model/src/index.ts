@@ -2,8 +2,15 @@ export { GenerateSetIntersectionsOptions } from './generateIntersections';
 export { default as generateIntersections } from './generateIntersections';
 export { GenerateSetUnionsOptions } from './generateUnions';
 export { default as generateUnions } from './generateUnions';
-export { default as asSets, asSet } from './asSets';
-export { default as asCombinations, asCombination, fromSetName } from './asCombinations';
+export { GenerateSetCombinationsOptions } from './generateCombinations';
+export { default as generateCombinations } from './generateCombinations';
+export { default as asSets, asSet, PostprocessSetOptions } from './asSets';
+export {
+  default as asCombinations,
+  asCombination,
+  fromSetName,
+  PostprocessCombinationsOptions,
+} from './asCombinations';
 export {
   ISetCombination,
   ISetCombinations,
