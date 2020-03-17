@@ -1,46 +1,39 @@
 import 'core-js';
 import 'regenerator-runtime';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import Button from '@material-ui/core/Button';
 import UpSet from '@upsetjs/react';
-import { extractSets } from '@upsetjs/model';
-
-const data = [
-  { name: 'Lisa', sets: ['School'] },
-  { name: 'Bart', sets: ['School', 'Male'] },
-  { name: 'Homer', sets: ['Duff Fan', 'Male'] },
-  { name: 'Marge', sets: ['Blue Hair'] },
-  { name: 'Maggie', sets: [] },
-  { name: 'Barney', sets: ['Duff Fan', 'Male'] },
-  { name: 'Mr. Burns', sets: ['Evil', 'Male'] },
-  { name: 'Mo', sets: ['Duff Fan', 'Male'] },
-  { name: 'Ned', sets: ['Male'] },
-  { name: 'Milhouse', sets: ['School', 'Blue Hair', 'Male'] },
-  { name: 'Grampa', sets: ['Male'] },
-  { name: 'Krusty', sets: ['Duff Fan', 'Evil', 'Male'] },
-  { name: 'Smithers', sets: ['Evil', 'Male'] },
-  { name: 'Ralph', sets: ['School', 'Male'] },
-  { name: 'Sideshow Bob', sets: ['Evil', 'Male'] },
-  { name: 'Kent Brockman', sets: ['Male'] },
-  { name: 'Fat Tony', sets: ['Evil', 'Male'] },
-  { name: 'Jacqueline Bouvier ', sets: ['Blue Hair'] },
-  { name: 'Patty Bouvier', sets: [] },
-  { name: 'Selma Bouvier', sets: [] },
-  { name: 'Lenny Leonard', sets: ['Duff Fan', 'Male'] },
-  { name: 'Carl Carlson', sets: ['Duff Fan', 'Male'] },
-  { name: 'Nelson', sets: ['School', 'Evil', 'Male'] },
-  { name: 'Martin Prince', sets: ['School', 'Male'] },
-];
-
-const sets = extractSets(data);
+import { ISets } from '@upsetjs/model';
+import datasets, { IDataset } from './data';
+import { TextField, MenuItem } from '@material-ui/core';
 
 function App() {
+  const [dataset, setDataset] = useState(null as null | (IDataset & { resolved: ISets<any> }));
   return (
     <div>
-      <Button color="primary">Hello World</Button>
-      <UpSet sets={sets} width={1200} height={300} />
+      <TextField
+        select
+        label="DataSet"
+        onChange={v => {
+          console.log(v.currentTarget.value);
+          const ds = datasets.find(d => d.name === v.currentTarget.value)!;
+          if (!ds) {
+            setDataset(null);
+            return;
+          }
+          ds.sets().then(resolved => setDataset({ ...ds, resolved }));
+        }}
+        value={dataset?.name || ''}
+      >
+        <MenuItem value={''}>Choose...</MenuItem>
+        {datasets.map(d => (
+          <MenuItem key={d.name} value={d.name}>
+            {d.name}
+          </MenuItem>
+        ))}
+      </TextField>
+      {dataset && dataset.resolved && <UpSet sets={dataset.resolved} width={1200} height={300} />}
     </div>
   );
 }
