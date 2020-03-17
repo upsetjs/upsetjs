@@ -1,7 +1,15 @@
 import { render, h } from 'preact';
 import UpSetElement, { UpSetProps as UpSetElementProps } from '@upsetjs/react';
 
-import { ISets, ISetLike, ISetCombinations, UpSetQuery, NumericScaleLike, BandScaleLike } from '@upsetjs/model';
+import {
+  ISets,
+  ISetLike,
+  ISetCombinations,
+  UpSetQuery,
+  NumericScaleLike,
+  BandScaleLike,
+  GenerateSetCombinationsOptions,
+} from '@upsetjs/model';
 export * from '@upsetjs/model';
 
 export type UpSetSizeProps = {
@@ -51,7 +59,7 @@ export type UpSetDataProps<T> = {
   /**
    * the combinations to visualize by default all combinations
    */
-  combinations?: ISetCombinations<T>;
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
 };
 
 export type UpSetSelectionProps<T> = {
