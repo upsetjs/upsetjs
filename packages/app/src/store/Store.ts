@@ -6,13 +6,13 @@ export default class Store {
   @observable
   readonly ui = {};
 
-  @observable
+  @observable.shallow
   readonly datasets = datasets;
 
   @observable
   dataset: IDataSet | null = null;
 
-  @observable
+  @observable.shallow
   sets: ISets<any> = [];
 
   @action

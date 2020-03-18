@@ -1,12 +1,12 @@
 import React from 'react';
 import Store from './Store';
-import { useLocalStore } from 'mobx-react'; // 6.x or mobx-react-lite@1.4.0
+import { useLocalStore } from 'mobx-react-lite';
 
 const storeContext = React.createContext<Store | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
   const store = useLocalStore(() => new Store());
-  return <storeContext.Provider value={savedStore}> {children} </storeContext.Provider>;
+  return <storeContext.Provider value={store}> {children} </storeContext.Provider>;
 };
 
 export const useStore = () => {

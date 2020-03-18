@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
 
 import TextField from '@material-ui/core/TextField';
