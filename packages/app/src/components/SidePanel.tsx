@@ -2,18 +2,17 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
 
-import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 const SidePanel: React.FC = observer(() => {
   const store = useStore();
   return (
     <aside>
-      <TextField
-        select
+      <Select
         label="DataSet"
         onChange={v => {
-          store.selectDataSet(v.currentTarget.value);
+          store.selectDataSet(v.target.value as string);
         }}
         value={store.dataset?.name || ''}
       >
@@ -23,7 +22,7 @@ const SidePanel: React.FC = observer(() => {
             {d.name}
           </MenuItem>
         ))}
-      </TextField>
+      </Select>
     </aside>
   );
 });
