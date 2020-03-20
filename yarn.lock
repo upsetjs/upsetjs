@@ -4559,8 +4559,8 @@ __metadata:
     "@types/react-router": ^5.1.4
     "@typescript-eslint/eslint-plugin": ^2.23.0
     "@typescript-eslint/parser": ^2.23.0
-    "@upsetjs/model": 0.2.0
-    "@upsetjs/react": 0.2.0
+    "@upsetjs/model": ^0.3.0
+    "@upsetjs/react": ^0.3.0
     babel-eslint: ^10.1.0
     babel-loader: ^8.0.6
     core-js: ^3.6.4
@@ -4606,8 +4606,8 @@ __metadata:
     "@types/storybook__addon-info": ^5.2.1
     "@typescript-eslint/eslint-plugin": ^2.23.0
     "@typescript-eslint/parser": ^2.23.0
-    "@upsetjs/model": 0.2.0
-    "@upsetjs/react": 0.2.0
+    "@upsetjs/model": ^0.3.0
+    "@upsetjs/react": ^0.3.0
     babel-eslint: ^10.1.0
     babel-loader: ^8.0.6
     dts-bundle-generator: ^3.3.1
@@ -4632,7 +4632,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/model@0.2.0, @upsetjs/model@workspace:packages/model":
+"@upsetjs/model@^0.3.0, @upsetjs/model@workspace:packages/model":
   version: 0.0.0-use.local
   resolution: "@upsetjs/model@workspace:packages/model"
   dependencies:
@@ -4658,7 +4658,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@0.2.0, @upsetjs/react@workspace:packages/react":
+"@upsetjs/react@^0.3.0, @upsetjs/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -4674,7 +4674,7 @@ __metadata:
     "@types/react-dom": ^16.9.5
     "@typescript-eslint/eslint-plugin": ^2.23.0
     "@typescript-eslint/parser": ^2.23.0
-    "@upsetjs/model": 0.2.0
+    "@upsetjs/model": ^0.3.0
     "@yarnpkg/pnpify": ^2.0.0-rc.18
     babel-eslint: ^10.1.0
     babel-loader: ^8.0.6
