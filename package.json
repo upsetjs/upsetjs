@@ -24,7 +24,9 @@
     "website": "yarn workspace @upsetjs/react run build-storybook",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
-    "postversion": "yarn"
+    "postversion": "yarn",
+    "release:canary": "lerna publish --canary",
+    "release": "lerna publish"
   },
   "resolutions": {
     "tsdx/rollup-plugin-typescript2": "^0.26.0",
