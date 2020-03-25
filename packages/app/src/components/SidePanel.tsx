@@ -11,13 +11,13 @@ const SidePanel: React.FC = observer(() => {
     <aside>
       <Select
         label="DataSet"
-        onChange={v => {
+        onChange={(v) => {
           store.selectDataSet(v.target.value as string);
         }}
         value={store.dataset?.name || ''}
       >
         <MenuItem value={''}>Choose...</MenuItem>
-        {store.datasets.map(d => (
+        {store.datasets.map((d) => (
           <MenuItem key={d.name} value={d.name}>
             {d.name}
           </MenuItem>

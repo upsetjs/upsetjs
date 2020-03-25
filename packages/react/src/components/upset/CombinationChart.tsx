@@ -24,7 +24,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   const lStyle: React.CSSProperties = { textAnchor: 'middle', fontSize: 10, ...(labelStyle ?? {}) };
   return (
     <g>
-      {combinations.map(d => {
+      {combinations.map((d) => {
         const y = scales.combinations.y(d.cardinality);
         return (
           <g

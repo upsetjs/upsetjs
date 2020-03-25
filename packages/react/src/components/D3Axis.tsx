@@ -84,10 +84,10 @@ function fixTicks(ticks: number[], integersOnly?: boolean) {
     return ticks;
   }
   // round to integers and then remove duplicates
-  const rounded = ticks.map(d => Math.round(d));
+  const rounded = ticks.map((d) => Math.round(d));
   let last = Number.NEGATIVE_INFINITY;
   // since sorted same can just be neighbors
-  return rounded.filter(d => {
+  return rounded.filter((d) => {
     if (last === Number.NEGATIVE_INFINITY) {
       last = d;
       return true;
@@ -120,14 +120,14 @@ export default function D3Axis({
   const genBandTicks = (scale: BandScaleLike) => {
     const values = scale.domain();
     const position = center(scale);
-    return values.map(d => (
+    return values.map((d) => (
       <D3Tick key={d} pos={position(d)} name={d} spacing={spacing} tickSizeInner={tickSizeInner} orient={orient} />
     ));
   };
   const genNumericTicks = (scale: NumericScaleLike) => {
     const values = fixTicks(scale.ticks(), integersOnly);
     const format = integersOnly ? String : scale.tickFormat();
-    return values.map(d => (
+    return values.map((d) => (
       <D3Tick key={d} pos={scale(d)} name={format(d)} spacing={spacing} tickSizeInner={tickSizeInner} orient={orient} />
     ));
   };

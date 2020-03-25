@@ -33,12 +33,12 @@ export default function generateUnions<T>(
     const all: T[] = largest.slice();
     const contained = new Set(all);
 
-    union.forEach(set => {
+    union.forEach((set) => {
       if (set.elems === largest) {
         // already included
         return;
       }
-      set.elems.forEach(elem => {
+      set.elems.forEach((elem) => {
         if (!contained.has(elem)) {
           all.push(elem);
           contained.add(elem);
@@ -51,13 +51,13 @@ export default function generateUnions<T>(
 
   const unions: ISetUnion<T>[] = [];
 
-  powerSet(sets, { min, max }).forEach(union => {
+  powerSet(sets, { min, max }).forEach((union) => {
     const elems = computeUnion(union);
     unions.push({
       type: 'union',
       elems: elems,
       sets: new Set(union),
-      name: union.length === 1 ? union[0].name : `(${union.map(d => d.name).join(' ∪ ')})`,
+      name: union.length === 1 ? union[0].name : `(${union.map((d) => d.name).join(' ∪ ')})`,
       cardinality: elems.length,
       degree: union.length,
     });

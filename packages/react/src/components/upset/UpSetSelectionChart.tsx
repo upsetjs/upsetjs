@@ -33,7 +33,7 @@ function UpSetSelectionChart<T>({
   return (
     <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
       <rect width={width} height={height} style={{ stroke: 'orange', pointerEvents: 'none', fill: 'none' }} />
-      {sets.map(s => {
+      {sets.map((s) => {
         const has = d.sets.has(s);
         return (
           <UpSetDot
@@ -50,9 +50,9 @@ function UpSetSelectionChart<T>({
       {d.sets.size > 1 && (
         <line
           x1={cx}
-          y1={scales.sets.y(sets.find(p => d.sets.has(p))!.name)! + cy}
+          y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
-          y2={scales.sets.y(rsets.find(p => d.sets.has(p))!.name)! + cy}
+          y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
           style={{ stroke: selectionColor, strokeWidth: r * 0.6, pointerEvents: 'none' }}
         />
       )}

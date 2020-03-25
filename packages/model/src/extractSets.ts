@@ -3,8 +3,8 @@ import { ISets, ISet } from './model';
 export default function extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISets<T> {
   const sets = new Map<string, T[]>();
 
-  elements.forEach(elem => {
-    elem.sets.forEach(set => {
+  elements.forEach((elem) => {
+    elem.sets.forEach((set) => {
       if (!sets.has(set)) {
         sets.set(set, [elem]);
       } else {

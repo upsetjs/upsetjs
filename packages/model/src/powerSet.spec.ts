@@ -3,13 +3,13 @@ import powerSet, { powerSetRecursive, powerSetNumber, PowerSetOptions } from './
 
 function expectPowerSet(arg: number[], options: Partial<PowerSetOptions> = {}) {
   let arr: ReadonlyArray<number>[] = [];
-  powerSet(arg, options).forEach(s => arr.push(s));
+  powerSet(arg, options).forEach((s) => arr.push(s));
   return expect(JSON.stringify(arr.sort()));
 }
 
 function expectS(f: typeof powerSetNumber, arg: number[], options: Partial<PowerSetOptions> = {}) {
   let arr: ReadonlyArray<number>[] = [];
-  f(arg, s => arr.push(s), options);
+  f(arg, (s) => arr.push(s), options);
   return expect(JSON.stringify(arr.sort()));
 }
 

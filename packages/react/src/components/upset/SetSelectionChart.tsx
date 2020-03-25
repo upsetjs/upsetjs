@@ -24,7 +24,7 @@ function SetSelectionChart<T>({
   const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
   return (
     <g>
-      {sets.map(d => {
+      {sets.map((d) => {
         const o = elemOverlap(d);
         if (o === 0) {
           return null;

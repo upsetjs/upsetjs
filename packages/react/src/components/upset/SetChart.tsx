@@ -29,7 +29,7 @@ const SetChart = React.memo(function SetChart<T>({
   };
   return (
     <g>
-      {sets.map(d => {
+      {sets.map((d) => {
         const x = scales.sets.x(d.cardinality);
         return (
           <g

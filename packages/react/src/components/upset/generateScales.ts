@@ -23,14 +23,14 @@ export default function generateScales(
     sets: {
       x: linearScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.sets.w, 0]),
       y: bandScaleFactory(
-        sets.map(d => d.name),
+        sets.map((d) => d.name),
         [0, styles.sets.h],
         styles.padding
       ),
     },
     combinations: {
       x: bandScaleFactory(
-        combinations.map(d => d.name),
+        combinations.map((d) => d.name),
         [0, styles.combinations.w],
         styles.padding
       ),

@@ -21,12 +21,12 @@ export default class Store {
 
   @action
   selectDataSet(name: string) {
-    this.dataset = this.datasets.find(d => d.name === name) ?? null;
+    this.dataset = this.datasets.find((d) => d.name === name) ?? null;
 
     this.sets = [];
     const p = this.dataset?.sets() ?? Promise.resolve([]);
     this.setsPromise = fromPromise(p, this.setsPromise);
-    p.then(sets =>
+    p.then((sets) =>
       runInAction(() => {
         this.sets = sets;
       })

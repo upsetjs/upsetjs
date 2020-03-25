@@ -6,7 +6,7 @@ import { useStore } from '../store';
 const UpSetWrapper: React.FC = observer(() => {
   const store = useStore();
   return store.setsPromise.case({
-    fulfilled: sets => <UpSet sets={sets} width={1200} height={300} />,
+    fulfilled: (sets) => <UpSet sets={sets} width={1200} height={300} />,
     pending: () => <div></div>,
   });
 });

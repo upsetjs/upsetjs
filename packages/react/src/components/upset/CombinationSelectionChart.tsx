@@ -24,7 +24,7 @@ function CombinationSelectionChart<T>({
   const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
   return (
     <g>
-      {combinations.map(d => {
+      {combinations.map((d) => {
         const o = elemOverlap(d);
         if (o === 0) {
           return null;

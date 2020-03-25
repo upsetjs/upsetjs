@@ -2,9 +2,9 @@ import { ISet, ISetCombination } from './model';
 import { byCardinality, byComposite, byDegree, byGroup, byName } from './utils';
 
 export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
-  const byName = new Map(sets.map(s => [s.name, s]));
+  const byName = new Map(sets.map((s) => [s.name, s]));
   return (s: { name: string }) => {
-    return s.name.split(symbol).map(setName => byName.get(setName.trim())!);
+    return s.name.split(symbol).map((setName) => byName.get(setName.trim())!);
   };
 }
 
@@ -32,7 +32,7 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
       degree: byDegree,
       group: byGroup(sets) as any,
     };
-    const sorter = byComposite(order.map(v => lookup[v]));
+    const sorter = byComposite(order.map((v) => lookup[v]));
     r = r.sort(sorter);
   }
   if (options.limit != null) {
@@ -70,5 +70,5 @@ export default function asCombinations<T, S extends { name: string; elems: Reado
   type: 'intersection' | 'union' | 'composite',
   toSets: (s: S) => ReadonlyArray<ISet<T>>
 ): (S & ISetCombination<T>)[] {
-  return sets.map(set => asCombination(set, type, toSets));
+  return sets.map((set) => asCombination(set, type, toSets));
 }

@@ -19,8 +19,8 @@ export function byComposite<T>(func: ((a: T, b: T) => number)[]) {
 export function byGroup<E, S extends { sets: ReadonlySet<E> }>(sets: ReadonlyArray<E>) {
   return (a: S, b: S) => {
     const fixNotFound = (v: number) => (v < 0 ? Number.POSITIVE_INFINITY : v);
-    const aIndex = fixNotFound(sets.findIndex(s => a.sets.has(s)));
-    const bIndex = fixNotFound(sets.findIndex(s => b.sets.has(s)));
+    const aIndex = fixNotFound(sets.findIndex((s) => a.sets.has(s)));
+    const bIndex = fixNotFound(sets.findIndex((s) => b.sets.has(s)));
     return aIndex - bIndex;
   };
 }

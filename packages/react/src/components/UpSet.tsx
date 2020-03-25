@@ -112,16 +112,11 @@ export type UpSetStyleProps = {
 };
 
 function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
-  return scaleLinear()
-    .domain(domain)
-    .range(range);
+  return scaleLinear().domain(domain).range(range);
 }
 
 function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
-  return scaleBand()
-    .domain(domain)
-    .range(range)
-    .padding(padding);
+  return scaleBand().domain(domain).range(range).padding(padding);
 }
 
 export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetReactStyleProps;
@@ -135,7 +130,7 @@ function wrap<T>(f?: (set: ISetLike<T>) => void) {
     return noop;
   }
   return (set: ISetLike<T>) => {
-    return function(this: any) {
+    return function (this: any) {
       return f.call(this, set);
     };
   };
@@ -201,7 +196,7 @@ export default function UpSet<T>({
   ]);
   const qs = React.useMemo(
     () =>
-      queries.map(q => ({
+      queries.map((q) => ({
         ...q,
         overlap: queryOverlap(q, 'intersection'),
       })),
