@@ -1,5 +1,5 @@
 import { ISetLike } from './model';
-import { setOverlapFactory, SetOverlap } from './setOverlap';
+import { setOverlapFactory, SetOverlap } from './data/setOverlap';
 
 export type UpSetElemQuery<T> = {
   /**

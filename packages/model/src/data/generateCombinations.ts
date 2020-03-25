@@ -1,5 +1,5 @@
 import generateIntersections, { GenerateSetIntersectionsOptions } from './generateIntersections';
-import { ISets } from './model';
+import { ISets } from '../model';
 import generateUnions, { GenerateSetUnionsOptions } from './generateUnions';
 
 export declare type GenerateSetCombinationsOptions = {

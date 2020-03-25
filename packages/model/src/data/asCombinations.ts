@@ -1,4 +1,4 @@
-import { ISet, ISetCombination } from './model';
+import { ISet, ISetCombination } from '../model';
 import { byCardinality, byComposite, byDegree, byGroup, byName } from './utils';
 
 export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {

@@ -1,4 +1,4 @@
-import { ISets, ISetIntersection } from './model';
+import { ISets, ISetIntersection } from '../model';
 import powerSet from './powerSet';
 import { PostprocessCombinationsOptions, postprocessCombinations } from './asCombinations';
 

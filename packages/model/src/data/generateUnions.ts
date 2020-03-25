@@ -1,4 +1,4 @@
-import { ISets, ISetUnion } from './model';
+import { ISets, ISetUnion } from '../model';
 import powerSet from './powerSet';
 
 export declare type GenerateSetUnionsOptions = {
