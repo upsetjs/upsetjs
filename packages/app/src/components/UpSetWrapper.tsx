@@ -1,14 +1,24 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import UpSet from '@upsetjs/react';
+import UpSet, { UpSetProps } from '@upsetjs/react';
 import { useStore } from '../store';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ReactResizeDetector from 'react-resize-detector';
 
-const UpSetWrapper: React.FC = observer(() => {
+const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
+  return (
+    <ReactResizeDetector
+      handleWidth
+      handleHeight
+      render={({ width, height }) => <UpSet width={width} height={height} {...props} />}
+    />
+  );
+};
+
+export default observer(() => {
   const store = useStore();
   return store.setsPromise.case({
-    fulfilled: (sets) => <UpSet sets={sets} width={1200} height={300} />,
-    pending: () => <div></div>,
+    fulfilled: (sets) => <UpSetW sets={sets} />,
+    pending: () => <CircularProgress />,
   });
 });
-
-export default UpSetWrapper;

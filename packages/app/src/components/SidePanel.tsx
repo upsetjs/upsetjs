@@ -5,7 +5,7 @@ import { useStore } from '../store';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const SidePanel: React.FC = observer(() => {
+export default observer(() => {
   const store = useStore();
   return (
     <aside>
@@ -26,5 +26,3 @@ const SidePanel: React.FC = observer(() => {
     </aside>
   );
 });
-
-export default SidePanel;
