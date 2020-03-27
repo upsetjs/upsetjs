@@ -211,13 +211,10 @@ export default function UpSet<T>({
   .clickAble {
     cursor: pointer;
   }
-  .interactive:hover > rect,
-  .interactive:hover > line,
-  .interactive:hover > circle.fillPrimary {
-    filter: drop-shadow(0 0 2px #cccccc);
-  }
-  .interactive:hover > .fillTransparent {
-    fill: white;
+
+  .interactive:hover > rect {
+    // filter: drop-shadow(0 0 2px #cccccc);
+    stroke: #cccccc;
   }
   `;
 
