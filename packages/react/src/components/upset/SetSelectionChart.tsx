@@ -21,7 +21,7 @@ function SetSelectionChart<T>({
 }>) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
-  const clazz = `q${suffix}${!tooltip ? ' pnone' : ''}`;
+  const clazz = `fill${suffix}${!tooltip ? ' pnone' : ''}`;
   return (
     <g>
       {sets.map((d) => {

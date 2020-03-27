@@ -52,7 +52,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
       onClick={onClick(d)}
     >
       <title>{d.name}</title>
-      <rect width={width} height={height} className="qT" />
+      <rect width={width} height={height} className="fillTransparent" />
       <g>
         {sets.map((s) => (
           <UpSetDot
@@ -61,7 +61,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
             cx={cx}
             cy={scales.sets.y(s.name)! + cy}
             name={d.sets.has(s) ? s.name : d.name}
-            clazz={d.sets.has(s) ? 'qB' : 'qM'}
+            clazz={d.sets.has(s) ? 'fillPrimary' : 'fillNotMember'}
           />
         ))}
       </g>
@@ -71,7 +71,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className="sB uLine"
+          className="strokePrimary upsetLine"
         />
       )}
     </g>

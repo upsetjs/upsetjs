@@ -10,8 +10,10 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   onMouseEnter,
   onMouseLeave,
   labelStyle,
+  transform,
 }: PropsWithChildren<
   {
+    transform: string;
     combinations: ISetCombinations<T>;
     scales: UpSetScales;
     labelStyle?: React.CSSProperties;
@@ -20,7 +22,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
   return (
-    <g>
+    <g transform={transform}>
       {combinations.map((d) => {
         const y = scales.combinations.y(d.cardinality);
         return (
@@ -34,8 +36,8 @@ const CombinationChart = React.memo(function CombinationChart<T>({
             <title>
               {d.name}: {d.cardinality}
             </title>
-            <rect y={y} height={height - y} width={width} className="qB" />
-            <text y={y} dy={-1} x={width / 2} style={labelStyle} className="barLabel cBarLabel">
+            <rect y={y} height={height - y} width={width} className="fillPrimary" />
+            <text y={y} dy={-1} x={width / 2} style={labelStyle} className="labelStyle middleText">
               {d.cardinality}
             </text>
           </g>

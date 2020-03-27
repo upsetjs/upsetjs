@@ -10,17 +10,19 @@ const SetChart = React.memo(function SetChart<T>({
   onMouseLeave,
   onClick,
   labelStyle,
+  transform,
 }: PropsWithChildren<
   {
     sets: ISets<T>;
     scales: UpSetScales;
     labelStyle?: React.CSSProperties;
+    transform: string;
   } & UpSetSelection
 >) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
   return (
-    <g>
+    <g transform={transform}>
       {sets.map((d) => {
         const x = scales.sets.x(d.cardinality);
         return (
@@ -34,8 +36,8 @@ const SetChart = React.memo(function SetChart<T>({
             <title>
               {d.name}: {d.cardinality}
             </title>
-            <rect x={x} width={width - x} height={height} className="qB" />
-            <text x={x} dx={-1} y={height / 2} style={labelStyle} className="barLabel sBarLabel">
+            <rect x={x} width={width - x} height={height} className="fillPrimary" />
+            <text x={x} dx={-1} y={height / 2} style={labelStyle} className="labelStyle endText centralText">
               {d.cardinality}
             </text>
           </g>

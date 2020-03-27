@@ -21,7 +21,7 @@ function CombinationSelectionChart<T>({
 }>) {
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
-  const clazz = `q${suffix}${!tooltip ? ' pnone' : ''}`;
+  const clazz = `fill${suffix}${!tooltip ? ' pnone' : ''}`;
   return (
     <g>
       {combinations.map((d) => {

@@ -20,8 +20,8 @@ const QueryLegend = React.memo(function QueryLegend<T>({
         }
         return (
           <g key={q.name} transform={`translate(0, ${i * 12 + 7})`}>
-            <rect y={1} width={8} height={8} className={`q${i}`} />
-            <text x={12} y={5} className="legendText">
+            <rect y={1} width={8} height={8} className={`fillQ${i}`} />
+            <text x={12} y={5} className="labelStyle centralText">
               {q.name} {count != null && <tspan>({count})</tspan>}
             </text>
           </g>

@@ -32,9 +32,14 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
       <rect
         width={styles.labels.w + styles.combinations.w}
         height={scales.sets.y.bandwidth()}
-        className={`${i % 2 === 1 ? 'qA' : 'qT'}`}
+        className={i % 2 === 1 ? 'fillAlternating' : 'fillTransparent'}
       />
-      <text x={styles.labels.w / 2} y={scales.sets.y.bandwidth() / 2} className="labelText" style={setLabelStyle}>
+      <text
+        x={styles.labels.w / 2}
+        y={scales.sets.y.bandwidth() / 2}
+        className="middleText centralText"
+        style={setLabelStyle}
+      >
         {d.name}
       </text>
     </g>

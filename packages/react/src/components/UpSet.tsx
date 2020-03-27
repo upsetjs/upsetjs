@@ -219,57 +219,53 @@ export default function UpSet<T>({
     : () => 0;
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
-  const clickStyle: React.CSSProperties = {};
-  if (onClick) {
-    clickStyle.cursor = 'pointer';
-  }
-
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
 
   const rules = `
-  .barLabel {
+  .labelStyle {
     font-size: 10px;
+  }
+  .clickAble {
+    cursor: pointer;
   }
   .middleText {
     text-anchor: middle;
   }
-  .sBarLabel {
+  .startText {
+    text-anchor: start;
+  }
+  .endText {
     text-anchor: end;
+  }
+  .centralText {
     dominant-baseline: central;
   }
-  .labelBGOdd {
-    fill: ${alternatingBackgroundColor};
-  }
-  .labelText {
-    text-anchor: middle;
-    dominant-baseline: central;
-  }
-  .labelSelection {
-    fill: none;
-    pointer-events: none;
-  }
-  .legendText {
-    font-size: 10px;
-    dominant-baseline: central;
-  }
-  .uBG {
-    fill: transparent;
-  }
-  .uLine {
+  .upsetLine {
     stroke-width: ${r * 0.6};
-    pointer-events: none;
   }
   .pnone {
     pointer-events: none;
   }
-  .qB { fill: ${color}; }
-  .qS { fill: ${selectionColor}; }
-  .qM { fill: ${notMemberColor}; }
-  .qO { fill: ${alternatingBackgroundColor}; }
-  .qN { fill: none; }
-  .qT { fill: transparent; }
-  .sS { stroke: ${selectionColor}; }
-  ${queries.map((q, i) => `.q${i} { fill: ${q.color}; }`).join('\n')}
+  .fillPrimary { fill: ${color}; }
+  .fillSelection { fill: ${selectionColor}; }
+  .fillNotMember { fill: ${notMemberColor}; }
+  .fillAlternating { fill: ${alternatingBackgroundColor}; }
+  .fillNone { fill: none; }
+  .fillTransparent { fill: transparent; }
+  ${queries.map((q, i) => `.fillQ${i} { fill: ${q.color}; }`).join('\n')}
+
+  .strokePrimary { stroke: ${color}; }
+  .strokeSelection { stroke: ${selectionColor}; }
+
+  .axisTick {
+    fill: none;
+    font-size: 10;
+    font-family: sans-serif;
+  }
+  .axisLine {
+    fill: none;
+    stroke: black;
+  }
   `;
 
   return (
@@ -286,10 +282,11 @@ export default function UpSet<T>({
               x2={styles.combinations.w}
               y1={styles.combinations.h + 1}
               y2={styles.combinations.h + 1}
-              style={{ stroke: 'black' }}
+              className="axisLine"
             />
             <text
-              style={{ textAnchor: 'middle', ...combinationNameStyle }}
+              className="middleText"
+              style={combinationNameStyle}
               transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
             >
               {combinationName}
@@ -304,7 +301,8 @@ export default function UpSet<T>({
               integersOnly
             />
             <text
-              style={{ textAnchor: 'middle', ...setNameStyle }}
+              className="middleText"
+              style={setNameStyle}
               transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}
             >
               {setName}
@@ -312,27 +310,25 @@ export default function UpSet<T>({
           </g>
         </g>
         {/* chart */}
-        <g style={clickStyle}>
-          <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-            <CombinationChart
-              scales={scales}
-              combinations={cs}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-              labelStyle={labelStyle}
-            />
-          </g>
-          <g transform={`translate(0,${styles.combinations.h})`}>
-            <SetChart
-              scales={scales}
-              sets={sets}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-              labelStyle={labelStyle}
-            />
-          </g>
+        <g className={onClick ? 'clickAble' : undefined}>
+          <CombinationChart
+            transform={`translate(${styles.sets.w + styles.labels.w},0)`}
+            scales={scales}
+            combinations={cs}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            labelStyle={labelStyle}
+          />
+          <SetChart
+            transform={`translate(0,${styles.combinations.h})`}
+            scales={scales}
+            sets={sets}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            labelStyle={labelStyle}
+          />
           <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
             <Labels
               scales={scales}
@@ -362,7 +358,7 @@ export default function UpSet<T>({
                 scales={scales}
                 combinations={cs}
                 elemOverlap={selectionOverlap}
-                suffix="S"
+                suffix="Selection"
                 triangleSize={triangleSize}
                 tooltip={onHover ? undefined : selectionName}
               />
@@ -373,7 +369,7 @@ export default function UpSet<T>({
                 scales={scales}
                 combinations={cs}
                 elemOverlap={q.overlap}
-                suffix={`${i}`}
+                suffix={`Q${i}`}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
                 tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
@@ -386,7 +382,7 @@ export default function UpSet<T>({
                 scales={scales}
                 sets={sets}
                 elemOverlap={selectionOverlap}
-                suffix="S"
+                suffix="Selection"
                 triangleSize={triangleSize}
                 tooltip={onHover ? undefined : selectionName}
               />
@@ -397,7 +393,7 @@ export default function UpSet<T>({
                 scales={scales}
                 sets={sets}
                 elemOverlap={q.overlap}
-                suffix={`${i}`}
+                suffix={`Q${i}`}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
                 tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}

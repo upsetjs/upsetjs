@@ -21,7 +21,7 @@ export default function LabelsSelection<T>({
       y={scales.sets.y(d.name)}
       width={styles.labels.w + styles.combinations.w}
       height={scales.sets.y.bandwidth()}
-      className="sS labelSelection"
+      className="strokeSelection fillTransparent pnone"
     />
   );
 }

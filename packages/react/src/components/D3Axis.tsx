@@ -39,17 +39,10 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
     <g transform={`translate(0, ${pos + 0.5})`}>
-      <text
-        x={k * spacing}
-        dy={'0.32em'}
-        style={{
-          textAnchor: orient === 'right' ? 'start' : 'end',
-          fill: 'currentColor',
-        }}
-      >
+      <text x={k * spacing} dy={'0.32em'} className={`axisTick ${orient === 'right' ? 'startText' : 'endText'}`}>
         {name}
       </text>
-      <line x2={k * tickSizeInner} style={{ stroke: 'currentColor' }} />
+      <line x2={k * tickSizeInner} className="axisLine" />
     </g>
   );
 });
@@ -64,17 +57,10 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
     <g transform={`translate(${pos + 0.5}, 0)`}>
-      <text
-        y={k * spacing}
-        dy={orient === 'top' ? '0em' : '0.71em'}
-        style={{
-          textAnchor: 'middle',
-          fill: 'currentColor',
-        }}
-      >
+      <text y={k * spacing} dy={orient === 'top' ? '0em' : '0.71em'} className={`axisTick middleText`}>
         {name}
       </text>
-      <line y2={k * tickSizeInner} style={{ stroke: 'currentColor' }} />
+      <line y2={k * tickSizeInner} className="axisLine" />
     </g>
   );
 });
@@ -134,10 +120,10 @@ export default function D3Axis({
   const ticks = isBandScale(scale) ? genBandTicks(scale) : genNumericTicks(scale);
 
   return (
-    <g {...extras} style={{ fill: 'none', fontSize: 10, fontFamily: 'sans-serif', ...(extras.style ?? {}) }}>
+    <g {...extras}>
       {ticks}
       <path
-        style={{ stroke: 'currentColor' }}
+        className="axisLine"
         d={
           orient === 'left' || orient === 'right'
             ? tickSizeOuter

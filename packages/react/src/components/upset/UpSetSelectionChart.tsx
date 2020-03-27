@@ -28,7 +28,7 @@ function UpSetSelectionChart<T>({
   const d = selection;
   return (
     <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
-      <rect width={width} height={height} className="qS sN pnone" />
+      <rect width={width} height={height} className="fillTransparent strokeSelection pnone" />
       {sets.map((s) => {
         const has = d.sets.has(s);
         return (
@@ -38,7 +38,7 @@ function UpSetSelectionChart<T>({
             cx={cx}
             cy={scales.sets.y(s.name)! + cy}
             name={has ? s.name : d.name}
-            clazz={has ? 'qS' : 'qM'}
+            clazz={has ? 'fillSelection' : 'fillNotMember'}
             interactive={false}
           />
         );
@@ -49,7 +49,7 @@ function UpSetSelectionChart<T>({
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className="qS uLine pnone"
+          className="upsetLine strokeSelection pnone"
         />
       )}
     </g>
