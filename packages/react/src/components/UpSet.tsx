@@ -16,11 +16,9 @@ import defineStyle from './upset/defineStyle';
 import generateScales from './upset/generateScales';
 import CombinationChart from './upset/CombinationChart';
 import CombinationSelectionChart from './upset/CombinationSelectionChart';
-import Labels from './upset/Labels';
 import LabelsSelection from './upset/LabelsSelection';
 import SetChart from './upset/SetChart';
 import SetSelectionChart from './upset/SetSelectionChart';
-import UpSetChart from './upset/UpSetChart';
 import UpSetSelectionChart from './upset/UpSetSelectionChart';
 import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
@@ -224,9 +222,7 @@ export default function UpSet<T>({
   const rules = `
   .labelStyle {
     font-size: 10px;
-  }
-  .clickAble {
-    cursor: pointer;
+    font-family: sans-serif;
   }
   .middleText {
     text-anchor: middle;
@@ -257,14 +253,20 @@ export default function UpSet<T>({
   .strokePrimary { stroke: ${color}; }
   .strokeSelection { stroke: ${selectionColor}; }
 
-  .axisTick {
-    fill: none;
-    font-size: 10;
-    font-family: sans-serif;
-  }
   .axisLine {
     fill: none;
     stroke: black;
+  }
+  .clickAble {
+    cursor: pointer;
+  }
+  .interactive:hover > rect,
+  .interactive:hover > line,
+  .interactive:hover > circle.fillPrimary {
+    filter: drop-shadow(0 0 2px #cccccc);
+  }
+  .interactive:hover > .fillTransparent {
+    fill: white;
   }
   `;
 
@@ -311,15 +313,6 @@ export default function UpSet<T>({
         </g>
         {/* chart */}
         <g className={onClick ? 'clickAble' : undefined}>
-          <CombinationChart
-            transform={`translate(${styles.sets.w + styles.labels.w},0)`}
-            scales={scales}
-            combinations={cs}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            labelStyle={labelStyle}
-          />
           <SetChart
             transform={`translate(0,${styles.combinations.h})`}
             scales={scales}
@@ -327,28 +320,24 @@ export default function UpSet<T>({
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
+            className={onClick || onHover ? 'interactive' : undefined}
             labelStyle={labelStyle}
+            styles={styles}
+            setLabelStyle={setLabelStyle}
           />
-          <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
-            <Labels
-              scales={scales}
-              sets={sets}
-              styles={styles}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-              setLabelStyle={setLabelStyle}
-            />
-            <UpSetChart
-              scales={scales}
-              sets={sets}
-              styles={styles}
-              combinations={cs}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-            />
-          </g>
+          <CombinationChart
+            transform={`translate(${styles.sets.w + styles.labels.w},0)`}
+            scales={scales}
+            styles={styles}
+            combinations={cs}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            className={onClick || onHover ? 'interactive' : undefined}
+            labelStyle={labelStyle}
+            sets={sets}
+            r={r}
+          />
         </g>
         {/* selection */}
         <g className={onHover ? 'pnone' : undefined}>

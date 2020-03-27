@@ -39,7 +39,11 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
     <g transform={`translate(0, ${pos + 0.5})`}>
-      <text x={k * spacing} dy={'0.32em'} className={`axisTick ${orient === 'right' ? 'startText' : 'endText'}`}>
+      <text
+        x={k * spacing}
+        dy={'0.32em'}
+        className={`labelStyle fillPrimary ${orient === 'right' ? 'startText' : 'endText'}`}
+      >
         {name}
       </text>
       <line x2={k * tickSizeInner} className="axisLine" />
@@ -57,7 +61,7 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
     <g transform={`translate(${pos + 0.5}, 0)`}>
-      <text y={k * spacing} dy={orient === 'top' ? '0em' : '0.71em'} className={`axisTick middleText`}>
+      <text y={k * spacing} dy={orient === 'top' ? '0em' : '0.71em'} className={`labelStyle fillPrimary middleText`}>
         {name}
       </text>
       <line y2={k * tickSizeInner} className="axisLine" />
