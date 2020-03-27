@@ -7,19 +7,14 @@ import {
   NumericScaleLike,
   BandScaleLike,
   UpSetQuery,
-  queryOverlap,
-  setOverlapFactory,
 } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import D3Axis from './D3Axis';
 import defineStyle from './upset/defineStyle';
 import generateScales from './upset/generateScales';
-import CombinationChart from './upset/CombinationChart';
-import CombinationSelectionChart from './upset/CombinationSelectionChart';
-import LabelsSelection from './upset/LabelsSelection';
-import SetChart from './upset/SetChart';
-import SetSelectionChart from './upset/SetSelectionChart';
-import UpSetSelectionChart from './upset/UpSetSelectionChart';
+import UpSetAxis from './upset/UpSetAxis';
+import UpSetQueries from './upset/UpSetQueries';
+import UpSetSelection from './upset/UpSetSelection';
+import UpSetChart from './upset/UpSetChart';
 import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
 
@@ -120,36 +115,10 @@ function bandScale(domain: string[], range: [number, number], padding: number): 
 
 export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetReactStyleProps;
 
-function noop() {
-  return undefined;
-}
-
-function wrap<T>(f?: (set: ISetLike<T>) => void) {
-  if (!f) {
-    return noop;
-  }
-  return (set: ISetLike<T>) => {
-    return function (this: any) {
-      return f.call(this, set);
-    };
-  };
-}
-
-function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
-  const f = setOverlapFactory(query);
-  return (s: ISetLike<T>) => {
-    return f(s.elems).intersection;
-  };
-}
-
 function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
 ): combinations is ISetCombinations<T> {
   return Array.isArray(combinations);
-}
-
-function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
-  return s != null && !Array.isArray(s);
 }
 
 export default function UpSet<T>({
@@ -198,24 +167,6 @@ export default function UpSet<T>({
     linearScaleFactory,
     bandScaleFactory,
   ]);
-  const qs = React.useMemo(
-    () =>
-      queries.map((q) => ({
-        ...q,
-        overlap: queryOverlap(q, 'intersection'),
-      })),
-    [queries]
-  );
-
-  // const [selection, setSelection] = useState(null as ISet<T> | null);
-  const onClickImpl = wrap(onClick);
-  const onMouseEnterImpl = wrap(onHover);
-  const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
-
-  const selectionOverlap = selection
-    ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
-    : () => 0;
-  const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
 
@@ -275,127 +226,46 @@ export default function UpSet<T>({
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
       <g transform={`translate(${margin},${margin})`}>
-        {/* axis */}
-        <g>
-          <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-            <D3Axis d3Scale={scales.combinations.y} orient="left" style={axisStyle} integersOnly />
-            <line
-              x1={0}
-              x2={styles.combinations.w}
-              y1={styles.combinations.h + 1}
-              y2={styles.combinations.h + 1}
-              className="axisLine"
-            />
-            <text
-              className="middleText"
-              style={combinationNameStyle}
-              transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
-            >
-              {combinationName}
-            </text>
-          </g>
-          <g transform={`translate(0,${styles.combinations.h})`}>
-            <D3Axis
-              d3Scale={scales.sets.x}
-              orient="bottom"
-              transform={`translate(0, ${styles.sets.h})`}
-              style={axisStyle}
-              integersOnly
-            />
-            <text
-              className="middleText"
-              style={setNameStyle}
-              transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}
-            >
-              {setName}
-            </text>
-          </g>
-        </g>
-        {/* chart */}
-        <g className={onClick ? 'clickAble' : undefined}>
-          <SetChart
-            transform={`translate(0,${styles.combinations.h})`}
-            scales={scales}
-            sets={sets}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? 'interactive' : undefined}
-            labelStyle={labelStyle}
-            styles={styles}
-            setLabelStyle={setLabelStyle}
-          />
-          <CombinationChart
-            transform={`translate(${styles.sets.w + styles.labels.w},0)`}
-            scales={scales}
-            styles={styles}
-            combinations={cs}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? 'interactive' : undefined}
-            labelStyle={labelStyle}
-            sets={sets}
-            r={r}
-          />
-        </g>
-        {/* selection */}
-        <g className={onHover ? 'pnone' : undefined}>
-          <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-            {selection && (
-              <CombinationSelectionChart
-                scales={scales}
-                combinations={cs}
-                elemOverlap={selectionOverlap}
-                suffix="Selection"
-                triangleSize={triangleSize}
-                tooltip={onHover ? undefined : selectionName}
-              />
-            )}
-            {qs.map((q, i) => (
-              <CombinationSelectionChart
-                key={q.name}
-                scales={scales}
-                combinations={cs}
-                elemOverlap={q.overlap}
-                suffix={`Q${i}`}
-                secondary={selection != null || i > 0}
-                triangleSize={triangleSize}
-                tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
-              />
-            ))}
-          </g>
-          <g transform={`translate(0,${styles.combinations.h})`}>
-            {selection && (
-              <SetSelectionChart
-                scales={scales}
-                sets={sets}
-                elemOverlap={selectionOverlap}
-                suffix="Selection"
-                triangleSize={triangleSize}
-                tooltip={onHover ? undefined : selectionName}
-              />
-            )}
-            {qs.map((q, i) => (
-              <SetSelectionChart
-                key={q.name}
-                scales={scales}
-                sets={sets}
-                elemOverlap={q.overlap}
-                suffix={`Q${i}`}
-                secondary={selection != null || i > 0}
-                triangleSize={triangleSize}
-                tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
-              />
-            ))}
-          </g>
-          <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
-            {isSetLike(selection) && <LabelsSelection scales={scales} styles={styles} selection={selection} />}
-            {isSetLike(selection) && (
-              <UpSetSelectionChart scales={scales} sets={sets} styles={styles} selection={selection} />
-            )}
-          </g>
-        </g>
+        <UpSetAxis
+          combinationName={combinationName}
+          combinationNameAxisOffset={combinationNameAxisOffset}
+          scales={scales}
+          setName={setName}
+          styles={styles}
+          axisStyle={axisStyle}
+          combinationNameStyle={combinationNameStyle}
+          setNameStyle={setNameStyle}
+        />
+        <UpSetChart
+          cs={cs}
+          r={r}
+          scales={scales}
+          sets={sets}
+          styles={styles}
+          labelStyle={labelStyle}
+          onClick={onClick}
+          onHover={onHover}
+          setLabelStyle={setLabelStyle}
+        />
+        <UpSetQueries
+          cs={cs}
+          scales={scales}
+          sets={sets}
+          styles={styles}
+          onHover={onHover}
+          queries={queries}
+          secondary={selection != null}
+          triangleSize={triangleSize}
+        />
+        <UpSetSelection
+          cs={cs}
+          scales={scales}
+          sets={sets}
+          styles={styles}
+          onHover={onHover}
+          selection={selection}
+          triangleSize={triangleSize}
+        />
       </g>
       {children}
     </svg>
