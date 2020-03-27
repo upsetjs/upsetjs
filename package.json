@@ -21,7 +21,7 @@
     "lint": "yarn workspaces foreach --topological-dev run lint",
     "test": "yarn workspaces foreach --topological-dev run test",
     "build": "yarn workspaces foreach --topological-dev run build",
-    "website": "yarn workspace @upsetjs/react run build-storybook",
+    "website": "yarn workspace @upsetjs/react run build-storybook && yarn workspace @upsetjs/app run build",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
     "postversion": "yarn && git commit -am 'update yarn.lock'"
