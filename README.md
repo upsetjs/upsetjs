@@ -218,8 +218,6 @@ yarn test
 
 ## Linting
 
-TODO not working atm
-
 ```sh
 yarn lint
 ```
