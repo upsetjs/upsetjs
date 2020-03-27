@@ -181,7 +181,7 @@ viewof selection = UpSet(sets, intersections)
 ```
 
 ```js
-selection ? selection.elems.map(d => d.name) : 'None';
+selection ? selection.elems.map((d) => d.name) : 'None';
 ```
 
 [ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-example)
@@ -199,7 +199,7 @@ yarn install
 yarn pnpify --sdk
 ```
 
-## Commands
+### Commands
 
 ### Storybook
 
@@ -210,23 +210,38 @@ yarn unplug @storybook/core
 yarn workspace @upsetjs/react storybook
 ```
 
-## Testing
+### Testing
 
 ```sh
 yarn test
 ```
 
-## Linting
+### Linting
 
 ```sh
 yarn lint
 ```
 
-## Building
+### Building
 
 ```sh
 yarn install
 yarn build
+```
+
+### Release
+
+```sh
+yarn workspace @upsetjs/model version patch
+yarn workspace @upsetjs/react version patch
+yarn workspace @upsetjs/bundle version patch
+yarn workspace @upsetjs/app version patch
+git commit -am 'release vX.X.X'
+git push
+git tag vX.X.X
+git push --tags
+yarn build
+yarn workspaces foreach npm publish --access public
 ```
 
 ## License
