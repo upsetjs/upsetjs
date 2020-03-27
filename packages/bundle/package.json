@@ -65,5 +65,6 @@
   "dependencies": {
     "@upsetjs/model": "^0.3.2",
     "eventemitter3": "^4.0.0"
-  }
+  },
+  "gitHead": "acc6b69ac271cf93ec7d3f9fceac1deefebd96e6"
 }

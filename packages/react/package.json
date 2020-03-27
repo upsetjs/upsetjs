@@ -75,5 +75,6 @@
     "@types/react": "^16.9.25",
     "@upsetjs/model": "^0.3.2",
     "d3-scale": "^3.2.1"
-  }
+  },
+  "gitHead": "acc6b69ac271cf93ec7d3f9fceac1deefebd96e6"
 }
