@@ -10,7 +10,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
   } & React.SVGAttributes<SVGGElement>
 >) {
   return (
-    <g {...extras} style={{ fontSize: 10 }}>
+    <g {...extras}>
       {queries.map((q, i) => {
         let count: number | null = null;
         if (isSetQuery(q)) {
@@ -20,8 +20,8 @@ const QueryLegend = React.memo(function QueryLegend<T>({
         }
         return (
           <g key={q.name} transform={`translate(0, ${i * 12 + 7})`}>
-            <rect y={1} width={8} height={8} style={{ fill: q.color }} />
-            <text x={12} y={5} style={{ dominantBaseline: 'central' }}>
+            <rect y={1} width={8} height={8} className={`q${i}`} />
+            <text x={12} y={5} className="legendText">
               {q.name} {count != null && <tspan>({count})</tspan>}
             </text>
           </g>

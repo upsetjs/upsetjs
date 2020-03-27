@@ -6,22 +6,22 @@ function CombinationSelectionChart<T>({
   combinations,
   scales,
   elemOverlap,
-  color,
   triangleSize,
   secondary,
   tooltip,
+  suffix,
 }: PropsWithChildren<{
   combinations: ISetCombinations<T>;
   scales: UpSetScales;
+  suffix: string;
   elemOverlap: (s: ISet<any> | ISetCombination<T>) => number;
-  color: string;
   triangleSize: number;
   secondary?: boolean;
   tooltip?: string;
 }>) {
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
-  const style: React.CSSProperties = { fill: color, pointerEvents: tooltip ? undefined : 'none' };
+  const clazz = `q${suffix}${!tooltip ? ' pnone' : ''}`;
   return (
     <g>
       {combinations.map((d) => {
@@ -39,14 +39,14 @@ function CombinationSelectionChart<T>({
               key={d.name}
               transform={`translate(${x}, ${y})`}
               points={`0,0 -${triangleSize},-${triangleSize} -${triangleSize},${triangleSize}`}
-              style={style}
+              className={clazz}
             >
               {title}
             </polygon>
           );
         }
         return (
-          <rect key={d.name} x={x} y={y} height={height - y} width={width} style={style}>
+          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={clazz}>
             {title}
           </rect>
         );

@@ -7,12 +7,10 @@ export default function LabelsSelection<T>({
   scales,
   styles,
   selection,
-  selectionColor,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
   selection: ISetLike<T> | null;
-  selectionColor: string;
 }>) {
   if (!selection || selection.type !== 'set') {
     return null;
@@ -23,7 +21,7 @@ export default function LabelsSelection<T>({
       y={scales.sets.y(d.name)}
       width={styles.labels.w + styles.combinations.w}
       height={scales.sets.y.bandwidth()}
-      style={{ stroke: selectionColor, fill: 'none', pointerEvents: 'none' }}
+      className="sS labelSelection"
     />
   );
 }

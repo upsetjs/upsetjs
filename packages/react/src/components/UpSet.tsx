@@ -214,7 +214,7 @@ export default function UpSet<T>({
   const onMouseEnterImpl = wrap(onHover);
   const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
 
-  const elemOverlap = selection
+  const selectionOverlap = selection
     ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
     : () => 0;
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
@@ -224,8 +224,57 @@ export default function UpSet<T>({
     clickStyle.cursor = 'pointer';
   }
 
+  const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
+
+  const rules = `
+  .barLabel {
+    font-size: 10px;
+  }
+  .middleText {
+    text-anchor: middle;
+  }
+  .sBarLabel {
+    text-anchor: end;
+    dominant-baseline: central;
+  }
+  .labelBGOdd {
+    fill: ${alternatingBackgroundColor};
+  }
+  .labelText {
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .labelSelection {
+    fill: none;
+    pointer-events: none;
+  }
+  .legendText {
+    font-size: 10px;
+    dominant-baseline: central;
+  }
+  .uBG {
+    fill: transparent;
+  }
+  .uLine {
+    stroke-width: ${r * 0.6};
+    pointer-events: none;
+  }
+  .pnone {
+    pointer-events: none;
+  }
+  .qB { fill: ${color}; }
+  .qS { fill: ${selectionColor}; }
+  .qM { fill: ${notMemberColor}; }
+  .qO { fill: ${alternatingBackgroundColor}; }
+  .qN { fill: none; }
+  .qT { fill: transparent; }
+  .sS { stroke: ${selectionColor}; }
+  ${queries.map((q, i) => `.q${i} { fill: ${q.color}; }`).join('\n')}
+  `;
+
   return (
     <svg className={className} style={style} width={width} height={height}>
+      <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
       <g transform={`translate(${margin},${margin})`}>
         {/* axis */}
@@ -272,7 +321,6 @@ export default function UpSet<T>({
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
               labelStyle={labelStyle}
-              color={color}
             />
           </g>
           <g transform={`translate(0,${styles.combinations.h})`}>
@@ -283,7 +331,6 @@ export default function UpSet<T>({
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
               labelStyle={labelStyle}
-              color={color}
             />
           </g>
           <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
@@ -294,7 +341,6 @@ export default function UpSet<T>({
               onClick={onClickImpl}
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
-              alternatingBackgroundColor={alternatingBackgroundColor}
               setLabelStyle={setLabelStyle}
             />
             <UpSetChart
@@ -305,20 +351,18 @@ export default function UpSet<T>({
               onClick={onClickImpl}
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
-              color={color}
-              notMemberColor={notMemberColor}
             />
           </g>
         </g>
         {/* selection */}
-        <g style={{ pointerEvents: 'none' }}>
+        <g className={onHover ? 'pnone' : undefined}>
           <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
             {selection && (
               <CombinationSelectionChart
                 scales={scales}
                 combinations={cs}
-                elemOverlap={elemOverlap}
-                color={selectionColor}
+                elemOverlap={selectionOverlap}
+                suffix="S"
                 triangleSize={triangleSize}
                 tooltip={onHover ? undefined : selectionName}
               />
@@ -329,7 +373,7 @@ export default function UpSet<T>({
                 scales={scales}
                 combinations={cs}
                 elemOverlap={q.overlap}
-                color={q.color}
+                suffix={`${i}`}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
                 tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
@@ -341,8 +385,8 @@ export default function UpSet<T>({
               <SetSelectionChart
                 scales={scales}
                 sets={sets}
-                elemOverlap={elemOverlap}
-                color={selectionColor}
+                elemOverlap={selectionOverlap}
+                suffix="S"
                 triangleSize={triangleSize}
                 tooltip={onHover ? undefined : selectionName}
               />
@@ -353,7 +397,7 @@ export default function UpSet<T>({
                 scales={scales}
                 sets={sets}
                 elemOverlap={q.overlap}
-                color={q.color}
+                suffix={`${i}`}
                 secondary={selection != null || i > 0}
                 triangleSize={triangleSize}
                 tooltip={onHover && !(selection != null || i > 0) ? undefined : q.name}
@@ -361,18 +405,9 @@ export default function UpSet<T>({
             ))}
           </g>
           <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
+            {isSetLike(selection) && <LabelsSelection scales={scales} styles={styles} selection={selection} />}
             {isSetLike(selection) && (
-              <LabelsSelection scales={scales} styles={styles} selection={selection} selectionColor={selectionColor} />
-            )}
-            {isSetLike(selection) && (
-              <UpSetSelectionChart
-                scales={scales}
-                sets={sets}
-                styles={styles}
-                selection={selection}
-                selectionColor={selectionColor}
-                notMemberColor={notMemberColor}
-              />
+              <UpSetSelectionChart scales={scales} sets={sets} styles={styles} selection={selection} />
             )}
           </g>
         </g>

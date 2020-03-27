@@ -12,7 +12,6 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  alternatingBackgroundColor,
   setLabelStyle,
 }: PropsWithChildren<
   {
@@ -20,7 +19,6 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
     i: number;
     scales: UpSetScales;
     styles: UpSetStyles;
-    alternatingBackgroundColor: string;
     setLabelStyle?: React.CSSProperties;
   } & UpSetSelection
 >) {
@@ -34,13 +32,9 @@ const UpSetLabel = React.memo(function UpSetLabel<T>({
       <rect
         width={styles.labels.w + styles.combinations.w}
         height={scales.sets.y.bandwidth()}
-        style={{ fill: i % 2 === 1 ? alternatingBackgroundColor : 'transparent' }}
+        className={`${i % 2 === 1 ? 'qA' : 'qT'}`}
       />
-      <text
-        x={styles.labels.w / 2}
-        y={scales.sets.y.bandwidth() / 2}
-        style={{ textAnchor: 'middle', dominantBaseline: 'central', ...(setLabelStyle ?? {}) }}
-      >
+      <text x={styles.labels.w / 2} y={scales.sets.y.bandwidth() / 2} className="labelText" style={setLabelStyle}>
         {d.name}
       </text>
     </g>
@@ -54,14 +48,12 @@ const Labels = React.memo(function Labels<T>({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  alternatingBackgroundColor,
   setLabelStyle,
 }: PropsWithChildren<
   {
     sets: ISets<T>;
     scales: UpSetScales;
     styles: UpSetStyles;
-    alternatingBackgroundColor: string;
     setLabelStyle?: React.CSSProperties;
   } & UpSetSelection
 >) {
@@ -77,7 +69,6 @@ const Labels = React.memo(function Labels<T>({
           onClick={onClick}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          alternatingBackgroundColor={alternatingBackgroundColor}
           setLabelStyle={setLabelStyle}
         />
       ))}

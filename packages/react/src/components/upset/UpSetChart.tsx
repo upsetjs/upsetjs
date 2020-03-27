@@ -9,11 +9,11 @@ export const UpSetDot = React.memo(function UpSetDot({
   r,
   cy,
   name,
-  color,
+  clazz,
   interactive = true,
-}: PropsWithChildren<{ r: number; cx: number; cy: number; color: string; name: string; interactive?: boolean }>) {
+}: PropsWithChildren<{ r: number; cx: number; cy: number; clazz: string; name: string; interactive?: boolean }>) {
   return (
-    <circle r={r} cx={cx} cy={cy} style={{ fill: color, pointerEvents: interactive ? undefined : 'none' }}>
+    <circle r={r} cx={cx} cy={cy} className={`${clazz}${!interactive ? ' pnone' : ''}`}>
       <title>{name}</title>
     </circle>
   );
@@ -28,8 +28,6 @@ const UpSetLine = React.memo(function UpSetLine<T>({
   cy,
   scales,
   height,
-  color,
-  notMemberColor,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -43,12 +41,9 @@ const UpSetLine = React.memo(function UpSetLine<T>({
     r: number;
     cx: number;
     cy: number;
-    notMemberColor: string;
-    color: string;
   } & UpSetSelection
 >) {
   const width = cx * 2;
-  const lineStyle: React.CSSProperties = { stroke: color, strokeWidth: r * 0.6, pointerEvents: 'none' };
   return (
     <g
       transform={`translate(${scales.combinations.x(d.name)}, 0)`}
@@ -57,7 +52,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
       onClick={onClick(d)}
     >
       <title>{d.name}</title>
-      <rect width={width} height={height} style={{ fill: 'transparent' }} />
+      <rect width={width} height={height} className="qT" />
       <g>
         {sets.map((s) => (
           <UpSetDot
@@ -66,7 +61,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
             cx={cx}
             cy={scales.sets.y(s.name)! + cy}
             name={d.sets.has(s) ? s.name : d.name}
-            color={d.sets.has(s) ? color : notMemberColor}
+            clazz={d.sets.has(s) ? 'qB' : 'qM'}
           />
         ))}
       </g>
@@ -76,7 +71,7 @@ const UpSetLine = React.memo(function UpSetLine<T>({
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          style={lineStyle}
+          className="sB uLine"
         />
       )}
     </g>
@@ -91,16 +86,12 @@ const UpSetChart = React.memo(function UpSetChart<T>({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  color,
-  notMemberColor,
 }: PropsWithChildren<
   {
     sets: ISets<T>;
     combinations: ISetCombinations<T>;
     scales: UpSetScales;
     styles: UpSetStyles;
-    color: string;
-    notMemberColor: string;
   } & UpSetSelection
 >) {
   const cy = scales.sets.y.bandwidth() / 2;
@@ -126,8 +117,6 @@ const UpSetChart = React.memo(function UpSetChart<T>({
           onClick={onClick}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          color={color}
-          notMemberColor={notMemberColor}
         />
       ))}
     </g>

@@ -9,15 +9,11 @@ function UpSetSelectionChart<T>({
   scales,
   styles,
   selection,
-  selectionColor,
-  notMemberColor,
 }: PropsWithChildren<{
   sets: ISets<T>;
   scales: UpSetScales;
   styles: UpSetStyles;
   selection: ISetLike<T> | null;
-  selectionColor: string;
-  notMemberColor: string;
 }>) {
   const cy = scales.sets.y.bandwidth() / 2;
   const cx = scales.combinations.x.bandwidth() / 2;
@@ -32,7 +28,7 @@ function UpSetSelectionChart<T>({
   const d = selection;
   return (
     <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
-      <rect width={width} height={height} style={{ stroke: 'orange', pointerEvents: 'none', fill: 'none' }} />
+      <rect width={width} height={height} className="qS sN pnone" />
       {sets.map((s) => {
         const has = d.sets.has(s);
         return (
@@ -42,7 +38,7 @@ function UpSetSelectionChart<T>({
             cx={cx}
             cy={scales.sets.y(s.name)! + cy}
             name={has ? s.name : d.name}
-            color={has ? selectionColor : notMemberColor}
+            clazz={has ? 'qS' : 'qM'}
             interactive={false}
           />
         );
@@ -53,7 +49,7 @@ function UpSetSelectionChart<T>({
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          style={{ stroke: selectionColor, strokeWidth: r * 0.6, pointerEvents: 'none' }}
+          className="qS uLine pnone"
         />
       )}
     </g>
