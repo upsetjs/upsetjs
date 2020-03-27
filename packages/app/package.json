@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
-    "build": "webpack-cli -d",
+    "prebuild": "rimraf dist",
+    "build": "webpack-cli -p",
     "start": "webpack-dev-server"
   },
   "browserslist": [
@@ -44,6 +45,7 @@
     "html-webpack-plugin": "^4.0.1",
     "pnp-webpack-plugin": "^1.6.4",
     "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
     "ts-loader": "^6.2.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3",

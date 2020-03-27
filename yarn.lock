@@ -3824,6 +3824,7 @@ __metadata:
     react-resize-detector: ^4.2.1
     react-router: ^5.1.2
     regenerator-runtime: ^0.13.5
+    rimraf: ^3.0.2
     ts-loader: ^6.2.2
     tslib: ^1.11.1
     typescript: ^3.8.3
@@ -16120,7 +16121,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^3.0.0":
+"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
   dependencies:
