@@ -76,7 +76,7 @@ export type UpSetDataProps<T> = {
 };
 
 export type UpSetSelectionProps<T> = {
-  selection?: ISetLike<T> | null;
+  selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T>): void;
 
@@ -150,6 +150,10 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
+function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
+  return s != null && !Array.isArray(s);
+}
+
 export default function UpSet<T>({
   className,
   style,
@@ -210,7 +214,10 @@ export default function UpSet<T>({
   const onMouseEnterImpl = wrap(onHover);
   const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
 
-  const elemOverlap = selection ? elemOverlapOf(selection.elems) : () => 0;
+  const elemOverlap = selection
+    ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
+    : () => 0;
+  const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
   return (
     <svg className={className} style={style} width={width} height={height}>
@@ -247,7 +254,7 @@ export default function UpSet<T>({
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
-                tooltip={onHover ? undefined : selection.name}
+                tooltip={onHover ? undefined : selectionName}
               />
             )}
             {qs.map((q, i) => (
@@ -295,7 +302,7 @@ export default function UpSet<T>({
                 elemOverlap={elemOverlap}
                 color={selectionColor}
                 triangleSize={triangleSize}
-                tooltip={onHover ? undefined : selection.name}
+                tooltip={onHover ? undefined : selectionName}
               />
             )}
             {qs.map((q, i) => (
@@ -334,10 +341,10 @@ export default function UpSet<T>({
             color={color}
             notMemberColor={notMemberColor}
           />
-          {selection && (
+          {isSetLike(selection) && (
             <LabelsSelection scales={scales} styles={styles} selection={selection} selectionColor={selectionColor} />
           )}
-          {selection && (
+          {isSetLike(selection) && (
             <UpSetSelectionChart
               scales={scales}
               sets={sets}

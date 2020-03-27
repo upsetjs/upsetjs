@@ -63,7 +63,7 @@ export type UpSetDataProps<T> = {
 };
 
 export type UpSetSelectionProps<T> = {
-  selection?: ISetLike<T> | null;
+  selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T>): void;
 
