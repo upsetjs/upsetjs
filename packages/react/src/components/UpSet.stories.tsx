@@ -63,6 +63,11 @@ export const Interactivity = () => {
   return <UpSet {...common} selection={selection} onHover={setSelection} />;
 };
 
+export const Click = () => {
+  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+  return <UpSet {...common} selection={selection} onClick={setSelection} />;
+};
+
 export const Queries = () => {
   return <UpSet {...common} queries={queries} queryLegend />;
 };
