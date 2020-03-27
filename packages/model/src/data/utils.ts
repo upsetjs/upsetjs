@@ -3,11 +3,13 @@ export function byName<T extends { name: string }>(a: T, b: T) {
 }
 
 export function byCardinality<T extends { cardinality: number }>(a: T, b: T) {
+  // dereasing
   return b.cardinality - a.cardinality;
 }
 
 export function byDegree<T extends { degree: number }>(a: T, b: T) {
-  return b.degree - a.degree;
+  // increasing
+  return a.degree - b.degree;
 }
 
 export function byComposite<T>(func: ((a: T, b: T) => number)[]) {

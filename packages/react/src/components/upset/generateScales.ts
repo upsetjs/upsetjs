@@ -23,7 +23,7 @@ export default function generateScales(
     sets: {
       x: linearScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [styles.sets.w, 0]),
       y: bandScaleFactory(
-        sets.map((d) => d.name),
+        sets.map((d) => d.name).reverse(), // reverse order
         [0, styles.sets.h],
         styles.padding
       ),
