@@ -86,6 +86,7 @@ export type UpSetSelectionProps<T> = {
 export type UpSetReactStyleProps = {
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
+  combinationNameAxisOffset?: number;
   labelStyle?: React.CSSProperties;
   setLabelStyle?: React.CSSProperties;
   setNameStyle?: React.CSSProperties;
@@ -163,6 +164,7 @@ export default function UpSet<T>({
   onClick,
   onHover,
   combinationName = 'Intersection Size',
+  combinationNameAxisOffset = 30,
   setName = 'Set Size',
   selectionColor = 'orange',
   color = 'black',
@@ -224,7 +226,7 @@ export default function UpSet<T>({
           />
           <text
             style={{ textAnchor: 'middle', ...combinationNameStyle }}
-            transform={`translate(${-30}, ${styles.combinations.h / 2})rotate(-90)`}
+            transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
           >
             {combinationName}
           </text>

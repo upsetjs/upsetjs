@@ -93,6 +93,7 @@ export declare type UpSetCSSStyles = CSSStyleDeclaration & {
 export declare type UpSetPlainStyleProps = {
   setName?: string;
   combinationName?: string;
+  combinationNameAxisOffset?: number;
   labelStyle?: UpSetCSSStyles;
   setLabelStyle?: UpSetCSSStyles;
   setNameStyle?: UpSetCSSStyles;
