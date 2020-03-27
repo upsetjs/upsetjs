@@ -8,8 +8,8 @@ export declare type GenerateSetCombinationsOptions = {
   GenerateSetUnionsOptions;
 
 export default function generateCombinations<T>(sets: ISets<T>, options: GenerateSetCombinationsOptions) {
-  if (options.type === 'intersection') {
-    return generateIntersections(sets, options);
+  if (options.type === 'union') {
+    return generateUnions(sets, options);
   }
-  return generateUnions(sets, options);
+  return generateIntersections(sets, options);
 }
