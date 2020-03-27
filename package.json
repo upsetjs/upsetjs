@@ -24,7 +24,7 @@
     "website": "yarn workspace @upsetjs/react run build-storybook",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
-    "postversion": "yarn",
+    "postversion": "yarn && git commit -am 'update yarn.lock'",
     "release:canary": "lerna publish --canary",
     "release": "lerna publish"
   },
