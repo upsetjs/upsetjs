@@ -24,9 +24,7 @@
     "website": "yarn workspace @upsetjs/react run build-storybook",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
-    "postversion": "yarn && git commit -am 'update yarn.lock'",
-    "release:canary": "lerna publish --canary",
-    "release": "lerna publish"
+    "postversion": "yarn && git commit -am 'update yarn.lock'"
   },
   "resolutions": {
     "tsdx/rollup-plugin-typescript2": "^0.26.0",
@@ -48,7 +46,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "lerna": "^3.20.2",
     "prettier": "^2.0.2",
     "typescript": "^3.8.3"
   },

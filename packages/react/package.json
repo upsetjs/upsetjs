@@ -41,6 +41,7 @@
     "@storybook/addon-docs": "^6.0.0-alpha.20",
     "@storybook/addons": "^6.0.0-alpha.20",
     "@storybook/client-api": "^6.0.0-alpha.20",
+    "@storybook/client-logger": "^5.3.17",
     "@storybook/react": "^6.0.0-alpha.20",
     "@types/jest": "^25.1.4",
     "@types/react-dom": "^16.9.5",
