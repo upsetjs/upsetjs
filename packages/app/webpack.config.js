@@ -2,6 +2,7 @@ const path = require('path');
 const pkg = require('./package.json');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const babel = {
   loader: require.resolve('babel-loader'),
@@ -25,8 +26,10 @@ module.exports = {
     app: './src/index.tsx',
   },
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    filename: `[name].js`,
+    chunkFilename: '[chunkhash].js',
+    publicPath: '', //no public path = relative
   },
   module: {
     rules: [
@@ -50,11 +53,18 @@ module.exports = {
       title: 'UpSet.js App',
       template: path.resolve('./src/index.html'),
     }),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+    }),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: { '@': path.resolve(__dirname) },
     plugins: [PnpWebpackPlugin],
+    symlinks: false,
   },
   resolveLoader: {
     plugins: [PnpWebpackPlugin.moduleLoader(module)],

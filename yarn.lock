@@ -4244,6 +4244,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dexie@npm:^1.3.1":
+  version: 1.3.32
+  resolution: "@types/dexie@npm:1.3.32"
+  checksum: 2/e4988cc66cbd7ad3ec280398fca10c8a725e35bd17c52d8b08e465e70be197d58008c708bd32d5674680cbddf8f2b412cf6646798fa535f1d72ddc00ca4cf4a1
+  languageName: node
+  linkType: hard
+
 "@types/emscripten@npm:^1.38.0":
   version: 1.39.3
   resolution: "@types/emscripten@npm:1.39.3"
@@ -4712,6 +4719,7 @@ __metadata:
     "@babel/preset-env": ^7.9.0
     "@material-ui/core": ^4.9.7
     "@material-ui/icons": ^4.9.1
+    "@types/dexie": ^1.3.1
     "@types/jest": ^25.1.4
     "@types/papaparse": ^5.0.3
     "@types/react": ^16.9.25
@@ -4725,6 +4733,7 @@ __metadata:
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
     core-js: ^3.6.4
+    dexie: ^2.0.4
     eslint: ^6.8.0
     eslint-config-prettier: ^6.10.1
     eslint-config-react-app: ^5.2.1
@@ -8863,6 +8872,13 @@ __metadata:
     detect: ./bin/detect-port
     detect-port: ./bin/detect-port
   checksum: 2/4ebfc40948cd3dc20c5bbef95018ead433d522b6ef0e2efae2d20943632a815db80435a78212525f05b492331b05e66af51d260e42f8bfe6145f66e2a223f054
+  languageName: node
+  linkType: hard
+
+"dexie@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "dexie@npm:2.0.4"
+  checksum: 2/885066dcb59018ba58ff8002ad57ecafd1ecd5877335417fe87c1cd1e648819aed190e07d26f9d87989e57ef2920483a23917716d32ef86d8a8a8f2b0e11760c
   languageName: node
   linkType: hard
 
