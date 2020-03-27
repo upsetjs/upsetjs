@@ -100,7 +100,11 @@ export declare type UpSetPlainStyleProps = {
   combinationNameStyle?: UpSetCSSStyles;
 };
 
-export declare type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetPlainStyleProps;
+export declare type UpSetProps<T> = UpSetDataProps<T> &
+  UpSetSizeProps &
+  UpSetStyleProps &
+  UpSetPlainStyleProps &
+  UpSetSelectionProps<T>;
 
 export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
