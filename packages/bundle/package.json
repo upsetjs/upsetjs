@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/bundle",
   "description": "UpSetR React component implementation",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -42,7 +42,7 @@
     "@types/storybook__addon-info": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
-    "@upsetjs/react": "^0.3.2",
+    "@upsetjs/react": "^0.3.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "eslint": "^6.8.0",
@@ -64,7 +64,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@upsetjs/model": "^0.3.2",
+    "@upsetjs/model": "^0.3.5",
     "eventemitter3": "^4.0.0"
   },
   "gitHead": "acc6b69ac271cf93ec7d3f9fceac1deefebd96e6"

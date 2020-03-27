@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.0",
+  "version": "0.3.3",
   "private": true,
   "license": "AGPL-3.0",
   "author": {
@@ -23,8 +23,7 @@
     "build": "yarn workspaces foreach --topological-dev run build",
     "website": "yarn workspace @upsetjs/react run build-storybook && yarn workspace @upsetjs/app run build",
     "storybook": "yarn workspace @upsetjs/react run storybook",
-    "app": "yarn workspace @upsetjs/app run start",
-    "postversion": "yarn && git commit -am 'update yarn.lock'"
+    "app": "yarn workspace @upsetjs/app run start"
   },
   "resolutions": {
     "tsdx/rollup-plugin-typescript2": "^0.26.0",
