@@ -4,7 +4,7 @@ rm -rf node_modules
 yarn set version berry
 yarn plugin import @yarnpkg/plugin-workspace-tools
 yarn config set checksumBehavior ignore
-yarn install --immutable > /dev/null
+yarn install --immutable
 
 yarn workspace @upsetjs/react run build-storybook
 yarn workspace @upsetjs/app run build
