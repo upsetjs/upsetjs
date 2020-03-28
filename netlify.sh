@@ -4,6 +4,7 @@ set -e
 rm -rf node_modules
 rm -rf .yarnrc.yml
 rm -rf .yarn
+git checkout yarn.lock
 
 yarn set version berry
 yarn plugin import @yarnpkg/plugin-workspace-tools
