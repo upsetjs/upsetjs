@@ -17,6 +17,7 @@ import UpSetSelection from './upset/UpSetSelection';
 import UpSetChart from './upset/UpSetChart';
 import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
+import ExportButtons from './upset/ExportButtons';
 
 export type UpSetSizeProps = {
   /**
@@ -29,7 +30,7 @@ export type UpSetSizeProps = {
   height: number;
   /**
    * padding within the svg
-   * @default 20
+   * @default 5
    */
   padding?: number;
   /**
@@ -147,7 +148,7 @@ export default function UpSet<T>({
   combinationNameStyle = {},
   setNameStyle = {},
   axisStyle,
-  widthRatios = [0.25, 0.1, 0.6],
+  widthRatios = [0.25, 0.1, 0.65],
   heightRatios = [0.6, 0.4],
   queries = [],
   queryLegend = queries.length > 0,
@@ -155,6 +156,8 @@ export default function UpSet<T>({
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
+  const ref = React.useRef(null as SVGSVGElement | null);
+
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
   const styles = React.useMemo(
     () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }),
@@ -204,6 +207,8 @@ export default function UpSet<T>({
   .strokePrimary { stroke: ${color}; }
   .strokeSelection { stroke: ${selectionColor}; }
 
+  .strokeScaledSelection { stroke-width: ${r * 0.6 * 1.1}; }
+
   .axisLine {
     fill: none;
     stroke: black;
@@ -216,12 +221,25 @@ export default function UpSet<T>({
     // filter: drop-shadow(0 0 2px #cccccc);
     stroke: #cccccc;
   }
+
+  .exportButtons {
+    dominant-baseline: hanging;
+    text-anchor: end;
+    font-size: 10px;
+  }
+  .exportButton {
+    cursor: pointer;
+  }
+  .exportButton:hover {
+    font-weight: bold;
+  }
   `;
 
   return (
-    <svg className={className} style={style} width={width} height={height}>
+    <svg className={className} style={style} width={width} height={height} ref={ref}>
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
+      <ExportButtons transform={`translate(${styles.w - 2},2)`} />
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect

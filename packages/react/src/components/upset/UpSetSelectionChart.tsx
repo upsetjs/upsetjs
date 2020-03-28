@@ -29,27 +29,28 @@ function UpSetSelectionChart<T>({
   return (
     <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
       <rect width={width} height={height} className="fillTransparent strokeSelection pnone" />
-      {sets.map((s) => {
-        const has = d.sets.has(s);
-        return (
-          <UpSetDot
-            key={s.name}
-            r={r}
-            cx={cx}
-            cy={scales.sets.y(s.name)! + cy}
-            name={has ? s.name : d.name}
-            clazz={has ? 'fillSelection' : 'fillNotMember'}
-            interactive={false}
-          />
-        );
-      })}
+      {sets
+        .filter((s) => d.sets.has(s))
+        .map((s) => {
+          return (
+            <UpSetDot
+              key={s.name}
+              r={r * 1.1}
+              cx={cx}
+              cy={scales.sets.y(s.name)! + cy}
+              name={s.name}
+              clazz="fillSelection"
+              interactive={false}
+            />
+          );
+        })}
       {d.sets.size > 1 && (
         <line
           x1={cx}
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className="upsetLine strokeSelection pnone"
+          className="upsetLine strokeSelection strokeScaledSelection pnone"
         />
       )}
     </g>

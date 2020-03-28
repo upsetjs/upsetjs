@@ -7,20 +7,25 @@ export default function defineStyle(size: {
   heightRatios: [number, number];
   queryLegendWidth: number;
 }) {
+  const h = size.height - 2 * size.margin - 20;
+  const w = size.width - 2 * size.margin;
   return {
     combinations: {
-      w: (size.width - 2 * size.margin) * size.widthRatios[2],
-      h: (size.height - 2 * size.margin - 20) * size.heightRatios[0],
+      w: w * size.widthRatios[2],
+      h: h * size.heightRatios[0],
     },
-    labels: { w: (size.width - 2 * size.margin) * size.widthRatios[1] },
+    labels: { w: w * size.widthRatios[1] },
     sets: {
-      w: (size.width - 2 * size.margin) * size.widthRatios[0],
-      h: (size.height - 2 * size.margin - 20) * size.heightRatios[1],
+      w: w * size.widthRatios[0],
+      h: h * size.heightRatios[1],
     },
     padding: size.barPadding,
     legend: {
       x: size.width - size.margin - size.queryLegendWidth,
     },
+    margin: size.margin,
+    w: size.width,
+    h: size.height,
   };
 }
 
