@@ -4,21 +4,7 @@ import { UpSetStyles } from './defineStyle';
 import { ISets, ISetCombinations, ISetLike } from '@upsetjs/model';
 import SetChart from './SetChart';
 import CombinationChart from './CombinationChart';
-
-function noop() {
-  return undefined;
-}
-
-function wrap<T>(f?: (set: ISetLike<T>) => void) {
-  if (!f) {
-    return noop;
-  }
-  return (set: ISetLike<T>) => {
-    return function (this: any) {
-      return f.call(this, set);
-    };
-  };
-}
+import { wrap } from './utils';
 
 export default React.memo(function UpSetChart<T>({
   scales,
@@ -37,7 +23,7 @@ export default React.memo(function UpSetChart<T>({
   cs: ISetCombinations<T>;
   r: number;
   onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T>): void;
+  onClick?(selection: ISetLike<T> | null): void;
   labelStyle?: React.CSSProperties;
   setLabelStyle?: React.CSSProperties;
 }>) {

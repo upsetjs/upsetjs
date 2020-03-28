@@ -50,11 +50,11 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       <title>
         {d.name}: {d.cardinality}
       </title>
+      <rect width={combinationBarWidth} height={styles.sets.h + combinationBarHeight} className="fillTransparent" />
       <rect y={y} height={combinationBarHeight - y} width={combinationBarWidth} className="fillPrimary" />
       <text y={y} dy={-1} x={combinationBarWidth / 2} style={labelStyle} className="labelStyle middleText">
         {d.cardinality}
       </text>
-      <rect y={combinationBarHeight} width={combinationBarWidth} height={styles.sets.h} className="fillTransparent" />
       {sets.map((s) => (
         <UpSetDot
           key={s.name}

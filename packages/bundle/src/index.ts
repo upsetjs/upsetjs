@@ -65,7 +65,7 @@ export type UpSetDataProps<T> = {
 export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T>): void;
+  onClick?(selection: ISetLike<T> | null): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 };

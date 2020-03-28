@@ -42,16 +42,23 @@ const SetChart = React.memo(function SetChart<T>({
       <title>
         {d.name}: {d.cardinality}
       </title>
+      <rect
+        width={setBarWidth + styles.labels.w + styles.combinations.w}
+        height={scales.sets.y.bandwidth()}
+        className="fillTransparent"
+      />
+      {i % 2 === 1 && (
+        <rect
+          x={setBarWidth}
+          width={styles.labels.w + styles.combinations.w}
+          height={scales.sets.y.bandwidth()}
+          className="fillAlternating"
+        />
+      )}
       <rect x={x} width={setBarWidth - x} height={setBarHeight} className="fillPrimary" />
       <text x={x} dx={-1} y={setBarHeight / 2} style={labelStyle} className="labelStyle endText centralText">
         {d.cardinality}
       </text>
-      <rect
-        x={setBarWidth}
-        width={styles.labels.w + styles.combinations.w}
-        height={scales.sets.y.bandwidth()}
-        className={i % 2 === 1 ? 'fillAlternating' : 'fillTransparent'}
-      />
       <text
         x={setBarWidth + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}

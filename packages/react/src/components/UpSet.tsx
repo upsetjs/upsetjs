@@ -71,7 +71,7 @@ export type UpSetDataProps<T> = {
 export type UpSetSelectionProps<T> = {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T>): void;
+  onClick?(selection: ISetLike<T> | null): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 };
@@ -223,6 +223,14 @@ export default function UpSet<T>({
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
       <g transform={`translate(${margin},${margin})`}>
+        {onClick && (
+          <rect
+            width={styles.sets.w + styles.labels.w}
+            height={styles.combinations.h}
+            onClick={() => onClick(null)}
+            className="fillTransparent"
+          />
+        )}
         <UpSetAxis
           combinationName={combinationName}
           combinationNameAxisOffset={combinationNameAxisOffset}
