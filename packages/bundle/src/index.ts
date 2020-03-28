@@ -43,12 +43,6 @@ export type UpSetSizeProps = {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
-
-  /**
-   * legend width
-   * @default 150
-   */
-  queryLegendWidth?: number;
 };
 
 export type UpSetDataProps<T> = {
@@ -81,6 +75,12 @@ export type UpSetStyleProps = {
    * enabled by default when queries are set
    */
   queryLegend?: boolean;
+
+  /**
+   * show export buttons
+   * @default true
+   */
+  exportButtons?: boolean;
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;

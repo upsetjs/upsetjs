@@ -95,6 +95,11 @@ export type UpSetStyleProps = {
    * enabled by default when queries are set
    */
   queryLegend?: boolean;
+  /**
+   * show export buttons
+   * @default true
+   */
+  exportButtons?: boolean;
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
@@ -146,6 +151,7 @@ export default function UpSet<T>({
   heightRatios = [0.6, 0.4],
   queries = [],
   queryLegend = queries.length > 0,
+  exportButtons = true,
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
@@ -246,7 +252,7 @@ export default function UpSet<T>({
     <svg className={className} style={style} width={width} height={height} ref={ref}>
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
-      <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />
+      {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
