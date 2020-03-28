@@ -11,7 +11,7 @@ yarn plugin import @yarnpkg/plugin-workspace-tools
 yarn config set checksumBehavior ignore
 
 echo "yarn install"
-yarn install --immutable --cache-folder $NETLIFY_BUILD_BASE/.yarn_cache
+yarn install --immutable --cache-folder $NETLIFY_BUILD_BASE/.yarn_cache > /dev/null
 
 echo "build things"
 yarn workspace @upsetjs/react run build-storybook
