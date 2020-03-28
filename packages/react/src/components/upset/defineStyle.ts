@@ -5,7 +5,6 @@ export default function defineStyle(size: {
   barPadding: number;
   widthRatios: [number, number, number];
   heightRatios: [number, number];
-  queryLegendWidth: number;
 }) {
   const h = size.height - 2 * size.margin - 20;
   const w = size.width - 2 * size.margin;
@@ -21,7 +20,7 @@ export default function defineStyle(size: {
     },
     padding: size.barPadding,
     legend: {
-      x: size.width - size.margin - size.queryLegendWidth,
+      x: size.width / 2,
     },
     margin: size.margin,
     w: size.width,

@@ -50,12 +50,6 @@ export type UpSetSizeProps = {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
-
-  /**
-   * legend width
-   * @default 150
-   */
-  queryLegendWidth?: number;
 };
 
 export type UpSetDataProps<T> = {
@@ -152,17 +146,20 @@ export default function UpSet<T>({
   heightRatios = [0.6, 0.4],
   queries = [],
   queryLegend = queries.length > 0,
-  queryLegendWidth = 150,
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
   const ref = React.useRef(null as SVGSVGElement | null);
 
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
-  const styles = React.useMemo(
-    () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth }),
-    [width, height, margin, barPadding, widthRatios, heightRatios, queryLegendWidth]
-  );
+  const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
+    width,
+    height,
+    margin,
+    barPadding,
+    widthRatios,
+    heightRatios,
+  ]);
   const scales = React.useMemo(() => generateScales(sets, cs, styles, linearScaleFactory, bandScaleFactory), [
     sets,
     cs,
@@ -217,29 +214,39 @@ export default function UpSet<T>({
     cursor: pointer;
   }
 
+  .legend {
+    text-anchor: middle;
+    dominant-baseline: hanging;
+    pointer-events: none;
+  }
+
   .interactive:hover > rect {
     // filter: drop-shadow(0 0 2px #cccccc);
     stroke: #cccccc;
   }
 
   .exportButtons {
-    dominant-baseline: hanging;
-    text-anchor: end;
+    text-anchor: middle;
     font-size: 10px;
   }
   .exportButton {
     cursor: pointer;
+    opacity: 0.5;
   }
   .exportButton:hover {
-    font-weight: bold;
+    opacity: 1;
+  }
+  .exportButton > rect {
+    fill: none;
+    stroke: black;
   }
   `;
 
   return (
     <svg className={className} style={style} width={width} height={height} ref={ref}>
       <style>{rules}</style>
-      {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},0)`} />}
-      <ExportButtons transform={`translate(${styles.w - 2},2)`} />
+      {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
+      <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
