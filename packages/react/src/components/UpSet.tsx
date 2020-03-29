@@ -125,7 +125,7 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
-export default function UpSet<T>({
+export default React.forwardRef(function UpSet<T>({
   className,
   style,
   children,
@@ -159,8 +159,6 @@ export default function UpSet<T>({
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
 }: PropsWithChildren<UpSetProps<T>>) {
-  const ref = React.useRef(null as SVGSVGElement | null);
-
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
     width,
@@ -253,7 +251,7 @@ export default function UpSet<T>({
   `;
 
   return (
-    <svg className={className} style={style} width={width} height={height} ref={ref}>
+    <svg className={className} style={style} width={width} height={height}>
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
       {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}
@@ -310,4 +308,4 @@ export default function UpSet<T>({
       {children}
     </svg>
   );
-}
+});
