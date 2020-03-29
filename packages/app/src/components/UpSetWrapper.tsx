@@ -25,9 +25,6 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
       handleWidth
       handleHeight
       render={({ width, height }) => {
-        if (props.sets.length === 0) {
-          return <Loading />;
-        }
         return (
           <Suspense fallback={<Loading />}>
             <UpSet width={width} height={height} {...props} />
@@ -44,12 +41,17 @@ export default observer(() => {
 
   return (
     <div className={classes.root}>
-      <UpSetW
-        sets={store.sets}
-        selection={store.hover || store.selection}
-        onHover={store.setHover}
-        onClick={store.setSelection}
-      />
+      {store.props && store.dataset && (
+        <UpSetW
+          sets={[]}
+          {...store.props}
+          selection={store.hover || store.selection}
+          onHover={store.setHover}
+          onClick={store.setSelection}
+        />
+      )}
+      {!store.dataset && <Loading>Choose Dataset</Loading>}
+      {!store.props && store.dataset && <Loading />}
     </div>
   );
 });

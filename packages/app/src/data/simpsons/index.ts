@@ -6,9 +6,16 @@ const simpsons: IDataSet = {
   name: 'Simpsons',
   description: 'Simpsons Dataset',
   creationDate: new Date(),
-  sets: () =>
+  load: () =>
     import('./data.json').then((data) => {
-      return extractSets(data.default);
+      return {
+        sets: extractSets(data.default),
+        combinations: {
+          type: 'intersection',
+          order: 'cardinality',
+          limit: 100,
+        },
+      };
     }),
 };
 

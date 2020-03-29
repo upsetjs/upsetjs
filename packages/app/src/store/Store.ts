@@ -1,36 +1,41 @@
 import { observable, action, runInAction } from 'mobx';
-import datasets, { IDataSet } from '../data';
-import { ISets, ISetLike } from '@upsetjs/model';
+import listDataSets, { IDataSet, ILoadedDataSet } from '../data';
+import { ISetLike } from '@upsetjs/model';
 
 export default class Store {
   @observable
   readonly ui = {};
 
   @observable.shallow
-  readonly datasets = datasets;
+  datasets: IDataSet[] = [];
 
-  @observable
+  @observable.ref
   dataset: IDataSet | null = null;
 
-  @observable.shallow
-  sets: ISets<any> = [];
+  @observable.ref
+  props: ILoadedDataSet | null = null;
 
   @observable.ref
   hover: ISetLike<any> | null = null;
   @observable.ref
   selection: ISetLike<any> | null = null;
 
+  constructor() {
+    listDataSets().then((r) =>
+      runInAction(() => {
+        this.datasets = r;
+      })
+    );
+  }
+
   @action
   selectDataSet(name: string) {
     this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
 
-    this.sets = [];
-    const p = this.dataset?.sets() ?? Promise.resolve([]);
-    p.then((sets) =>
-      runInAction(() => {
-        this.sets = sets;
-      })
-    );
+    this.props = null;
+    if (this.dataset) {
+      this.dataset.load().then((props) => runInAction(() => (this.props = props)));
+    }
   }
 
   @action.bound

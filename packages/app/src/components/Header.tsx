@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   select: {
-    minWidth: '6em',
+    marginLeft: '1rem',
+    minWidth: '20em',
+    color: 'white',
   },
 }));
 

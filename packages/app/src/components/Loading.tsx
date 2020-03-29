@@ -10,12 +10,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function () {
+export default function ({ children }: React.PropsWithChildren<{}>) {
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <CircularProgress />
-    </div>
-  );
+  return <div className={classes.root}>{children ?? <CircularProgress />}</div>;
 }
