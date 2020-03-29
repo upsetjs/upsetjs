@@ -1,9 +1,7 @@
-import { ISets } from '@upsetjs/model';
 import simpsons from './simpsons';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
 
-export interface IDataSet {
-  name: string;
-  sets(): Promise<ISets<any>>;
-}
+export * from './interfaces';
 
 export default [simpsons];

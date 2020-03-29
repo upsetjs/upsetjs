@@ -1,6 +1,12 @@
 import { extractSets } from '@upsetjs/model';
+import { IDataSet } from '../interfaces';
 
-export default {
+const simpsons: IDataSet = {
+  id: 'simpsons',
   name: 'Simpsons',
+  description: 'Simpsons Dataset',
+  creationDate: new Date(),
   sets: () => import('./data.json').then((data) => extractSets(data)),
 };
+
+export default simpsons;
