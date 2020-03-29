@@ -115,7 +115,7 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
 ## Components
 
-see storybook at https://upsetjs.netlify.com/ for demos and properties.
+see storybook at https://upsetjs.netlify.com/api/?path=/docs/upset--default for demos and properties.
 
 ### UpSet
 

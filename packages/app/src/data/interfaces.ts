@@ -1,15 +1,23 @@
-import { UpSetDataProps, UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
+import { ISets, UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 
-export declare type ILoadedDataSet = UpSetDataProps<any> & UpSetReactStyleProps & UpSetStyleProps;
+export interface ILoadedDataSet {
+  sets: ISets<any>;
+  props: UpSetReactStyleProps & UpSetStyleProps;
+}
 
 export interface IDataSet {
   id: string;
+
   name: string;
   description: string;
-  creationDate: Date;
+  author: string;
+
+  creationDate?: Date;
   load(): Promise<ILoadedDataSet>;
+  // TODO export
 }
 
 export interface IStoredDataSet extends IDataSet {
   uid: number;
+  creationDate: Date;
 }

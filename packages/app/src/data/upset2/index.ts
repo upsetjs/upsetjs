@@ -1,6 +1,6 @@
 import { parse } from 'papaparse';
 import { IDataSet } from '../interfaces';
-import { extractSets } from '../../../../model/dist';
+import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {
   const u = new URL(url);
@@ -90,32 +90,17 @@ async function elementsFromDataset(ds: IUpSetDataSet) {
 }
 
 function asDataSet(ds: IUpSetDataSet): IDataSet {
-  let description = ds.description ?? '';
-  if (ds.author) {
-    description += ` by ${ds.author}`;
-  }
-  if (ds.source) {
-    description += ` source: ${ds.source}`;
-  }
   return {
     id: ds.name,
     name: ds.name,
-    description,
-    creationDate: new Date(),
+    description: ds.description ?? '',
+    author: ds.author ?? '',
     load: async () => {
       const elems = await elementsFromDataset(ds);
-      let sets = extractSets(elems).slice();
-      sets.sort((a, b) => b.cardinality - a.cardinality);
-      if (sets.length > 5) {
-        sets = sets.slice(0, 5);
-      }
+      const sets = extractSets(elems);
       return {
         sets,
-        combinations: {
-          type: 'intersection',
-          order: 'cardinality',
-          limit: 100,
-        },
+        props: {},
       };
     },
   };

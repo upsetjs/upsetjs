@@ -1,6 +1,7 @@
 import { observable, action, runInAction } from 'mobx';
-import listDataSets, { IDataSet, ILoadedDataSet } from '../data';
-import { ISetLike } from '@upsetjs/model';
+import listDataSets, { IDataSet } from '../data';
+import { ISetLike, ISets } from '@upsetjs/model';
+import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 
 export default class Store {
   @observable
@@ -12,8 +13,11 @@ export default class Store {
   @observable.ref
   dataset: IDataSet | null = null;
 
+  @observable.shallow
+  sets: ISets<any> = [];
+
   @observable.ref
-  props: ILoadedDataSet | null = null;
+  props: UpSetReactStyleProps & UpSetStyleProps = {};
 
   @observable.ref
   hover: ISetLike<any> | null = null;
@@ -24,6 +28,7 @@ export default class Store {
     listDataSets().then((r) =>
       runInAction(() => {
         this.datasets = r;
+        this.selectDataSet(r[0].name);
       })
     );
   }
@@ -32,9 +37,15 @@ export default class Store {
   selectDataSet(name: string) {
     this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
 
-    this.props = null;
+    this.sets = [];
+    this.props = {};
     if (this.dataset) {
-      this.dataset.load().then((props) => runInAction(() => (this.props = props)));
+      this.dataset.load().then((d) =>
+        runInAction(() => {
+          this.sets = d.sets;
+          this.props = d.props;
+        })
+      );
     }
   }
 
@@ -42,6 +53,7 @@ export default class Store {
   setHover(set: ISetLike<any> | null) {
     this.hover = set;
   }
+
   @action.bound
   setSelection(set: ISetLike<any> | null) {
     this.selection = set;

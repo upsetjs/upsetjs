@@ -31,11 +31,12 @@ export function editDataset(dataset: IStoredDataSet): Promise<IStoredDataSet> {
     .update(dataset.uid, {
       name: dataset.name,
       description: dataset.description,
+      author: dataset.author,
     })
     .then(() => dataset);
 }
 
-function byCreationDate<T extends { creationDate: Date }>(arr: T[]) {
+function byCreationDate(arr: IStoredDataSet[]) {
   for (const entry of arr) {
     entry.creationDate = entry.creationDate instanceof Date ? entry.creationDate : new Date(entry.creationDate);
   }
