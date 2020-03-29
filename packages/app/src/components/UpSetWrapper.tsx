@@ -48,6 +48,7 @@ export default observer(() => {
     <div className={classes.root}>
       {store.sets.length > 0 && store.dataset && (
         <UpSetW
+          theme="dark"
           className={classes.wrapper}
           {...store.props}
           sets={store.visibleSets}

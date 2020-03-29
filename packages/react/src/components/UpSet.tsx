@@ -84,11 +84,38 @@ export interface UpSetReactStyleProps {
   style?: React.CSSProperties;
 }
 
-export interface UpSetStyleProps {
+export interface UpSetThemeProps {
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
+  textColor?: string;
+  hoverHintColor?: string;
   notMemberColor?: string;
+}
+
+const lightTheme: Required<UpSetThemeProps> = {
+  selectionColor: 'orange',
+  color: 'black',
+  textColor: 'black',
+  hoverHintColor: '#cccccc',
+  notMemberColor: 'lightgray',
+  alternatingBackgroundColor: '#f5f5f5',
+};
+const darkTheme: Required<UpSetThemeProps> = {
+  selectionColor: 'orange',
+  color: 'white',
+  textColor: 'white',
+  hoverHintColor: '#cccccc',
+  notMemberColor: 'darkgray',
+  alternatingBackgroundColor: '#444444',
+};
+
+function getTheme(theme?: 'light' | 'dark') {
+  return theme === 'dark' ? darkTheme : lightTheme;
+}
+
+export interface UpSetStyleProps extends UpSetThemeProps {
+  theme?: 'light' | 'dark';
   triangleSize?: number;
   /**
    * show a legend of queries
@@ -138,13 +165,16 @@ export default React.forwardRef(function UpSet<T>({
   selection = null,
   onClick,
   onHover,
+  theme,
   combinationName = 'Intersection Size',
   combinationNameAxisOffset = 30,
   setName = 'Set Size',
-  selectionColor = 'orange',
-  color = 'black',
-  notMemberColor = 'lightgray',
-  alternatingBackgroundColor = '#f5f5f5',
+  selectionColor = getTheme(theme).selectionColor,
+  color = getTheme(theme).color,
+  textColor = getTheme(theme).textColor,
+  hoverHintColor = getTheme(theme).hoverHintColor,
+  notMemberColor = getTheme(theme).notMemberColor,
+  alternatingBackgroundColor = getTheme(theme).alternatingBackgroundColor,
   triangleSize = 5,
   labelStyle,
   setLabelStyle,
@@ -182,6 +212,10 @@ export default React.forwardRef(function UpSet<T>({
   .labelStyle {
     font-size: 10px;
     font-family: sans-serif;
+    fill: ${textColor};
+  }
+  .nameStyle {
+    font-size: 16px;
   }
   .middleText {
     text-anchor: middle;
@@ -216,7 +250,7 @@ export default React.forwardRef(function UpSet<T>({
 
   .axisLine {
     fill: none;
-    stroke: black;
+    stroke: ${textColor};
   }
   .clickAble {
     cursor: pointer;
@@ -230,7 +264,7 @@ export default React.forwardRef(function UpSet<T>({
 
   .interactive:hover > rect {
     // filter: drop-shadow(0 0 2px #cccccc);
-    stroke: #cccccc;
+    stroke: ${hoverHintColor};
   }
 
   .exportButtons {
@@ -246,7 +280,10 @@ export default React.forwardRef(function UpSet<T>({
   }
   .exportButton > rect {
     fill: none;
-    stroke: black;
+    stroke: ${textColor};
+  }
+  .exportButton > text {
+    fill: ${textColor};
   }
   `;
 

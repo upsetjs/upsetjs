@@ -62,7 +62,7 @@ const SetChart = React.memo(function SetChart<T>({
       <text
         x={setBarWidth + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
-        className="middleText centralText"
+        className="labelStyle nameStyle middleText centralText"
         style={setLabelStyle}
       >
         {d.name}

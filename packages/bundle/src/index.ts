@@ -65,9 +65,12 @@ export interface UpSetSelectionProps<T> {
 }
 
 export interface UpSetStyleProps {
+  theme?: 'light' | 'dark';
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
+  textColor?: string;
+  hoverHintColor?: string;
   notMemberColor?: string;
   triangleSize?: number;
   /**
