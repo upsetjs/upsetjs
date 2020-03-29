@@ -46,6 +46,13 @@ module.exports = {
         test: /\.js?$/,
         use: [babel],
       },
+      {
+        test: /\.(png|jpg|gif|jpeg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 20000, //inline <= 20kb
+        },
+      },
     ],
   },
   plugins: [

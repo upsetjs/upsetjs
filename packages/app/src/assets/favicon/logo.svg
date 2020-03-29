@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta2 (1609ba5, 2020-01-08)"
+   sodipodi:docname="upset.svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 256 256.00001"
+   height="256"
+   width="256">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-grids="true"
+     units="px"
+     showgrid="true"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="111.32903"
+     inkscape:cx="154.27747"
+     inkscape:zoom="2.8"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <inkscape:grid
+       empspacing="8"
+       id="grid12"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <circle
+       r="24"
+       cy="32"
+       cx="32"
+       id="path10"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2"
+       id="circle20"
+       cx="96"
+       cy="32"
+       r="24" />
+    <circle
+       r="24"
+       cy="32"
+       cx="160"
+       id="circle22"
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2"
+       id="circle24"
+       cx="224"
+       cy="32"
+       r="24" />
+    <circle
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
+       id="circle26"
+       cx="32"
+       cy="96"
+       r="24" />
+    <circle
+       r="24"
+       cy="96"
+       cx="96"
+       id="circle28"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
+       id="circle30"
+       cx="160"
+       cy="96"
+       r="24" />
+    <circle
+       r="24"
+       cy="96"
+       cx="224"
+       id="circle32"
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       r="24"
+       cy="160"
+       cx="32"
+       id="circle34"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
+       id="circle36"
+       cx="96"
+       cy="160"
+       r="24" />
+    <circle
+       r="24"
+       cy="160"
+       cx="160"
+       id="circle38"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2"
+       id="circle40"
+       cx="224"
+       cy="160"
+       r="24" />
+    <circle
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
+       id="circle42"
+       cx="32"
+       cy="224"
+       r="24" />
+    <circle
+       r="24"
+       cy="224"
+       cx="96"
+       id="circle44"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2" />
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.2"
+       id="circle46"
+       cx="160"
+       cy="224"
+       r="24" />
+    <circle
+       r="24"
+       cy="224"
+       cx="224"
+       id="circle48"
+       style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2" />
+    <rect
+       style="fill:#000000;stroke:none"
+       id="rect52"
+       width="192"
+       height="16"
+       x="32"
+       y="24" />
+    <rect
+       y="152"
+       x="32"
+       height="16"
+       width="192"
+       id="rect59"
+       style="fill:#000000;stroke:none" />
+    <rect
+       y="216"
+       x="96"
+       height="16"
+       width="64"
+       id="rect61"
+       style="fill:#000000;stroke:none;stroke-width:0.707107" />
+  </g>
+</svg>
