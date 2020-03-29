@@ -1,6 +1,6 @@
 # UpSet.js
 
-[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
+[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url] [![Netlify Status][netlify-image]][netlify-url]
 
 UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component soley depending on the given properties.
 
@@ -188,6 +188,21 @@ selection ? selection.elems.map((d) => d.name) : 'None';
 
 An advanced example showing all datasets from the live UpSet demo is located at [ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-dataset-chooser-example)
 
+### R/RMarkdown/RShiny HTMLWidget
+
+A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [upset_r](https://github.com/upsetjs/upsetjs_r). The API follows the building pattern using the chaining operator `%>%`.
+In constrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
+
+```R
+devtools::install_github("upsetjs/upsetjs_r")
+library(upsetjs)
+```
+
+```R
+l <- list(one=c(1, 2, 3, 5, 7, 8, 11, 12, 13), two=c(1, 2, 4, 5, 10), three=c(1, 5, 6, 7, 8, 9, 10, 12, 13))
+upsetjs() %>% fromList(l) %>% interactiveChart()
+```
+
 ## Dev Environment
 
 ```sh
@@ -258,4 +273,6 @@ GNU AGPLv3
 [npm-url]: https://npmjs.org/package/@upsetjs/react
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[netlify-image]: https://api.netlify.com/api/v1/badges/22f99fef-9985-46eb-8715-9eb91e16190f/deploy-status
+[netlify-url]: https://app.netlify.com/sites/upsetjs/deploys
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
