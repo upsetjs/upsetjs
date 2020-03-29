@@ -51,10 +51,12 @@ export default observer(() => {
           className={classes.wrapper}
           {...store.props}
           sets={store.visibleSets}
+          queries={store.visibleQueries}
           combinations={store.visibleCombinations}
           selection={store.hover || store.selection}
           onHover={store.setHover}
           onClick={store.setSelection}
+          selectionColor={store.selectionColor}
         />
       )}
       {!store.dataset && <Loading>Choose Dataset</Loading>}

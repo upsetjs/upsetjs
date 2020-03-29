@@ -1,6 +1,6 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import listDataSets, { IDataSet } from '../data';
-import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations } from '@upsetjs/model';
+import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetQuery } from '@upsetjs/model';
 import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 import { stableSort } from './utils';
 
@@ -125,5 +125,24 @@ export default class Store {
   @action
   changeTableOptions(delta: Partial<ISetTableOptions>) {
     Object.assign(this.ui.setTable, delta);
+  }
+
+  @computed
+  get visibleQueries(): UpSetQuery<any>[] {
+    if (!this.hover || !this.selection) {
+      return [];
+    }
+    return [
+      {
+        name: 'Selected Set',
+        color: 'darkorange',
+        set: this.selection,
+      },
+    ];
+  }
+
+  @computed
+  get selectionColor() {
+    return !this.hover && this.selection ? 'darkorange' : undefined;
   }
 }
