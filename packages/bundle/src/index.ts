@@ -12,7 +12,7 @@ import {
 } from '@upsetjs/model';
 export * from '@upsetjs/model';
 
-export type UpSetSizeProps = {
+export interface UpSetSizeProps {
   /**
    * width of the chart
    */
@@ -43,9 +43,9 @@ export type UpSetSizeProps = {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
-};
+}
 
-export type UpSetDataProps<T> = {
+export interface UpSetDataProps<T> {
   /**
    * the sets to visualize
    */
@@ -54,17 +54,17 @@ export type UpSetDataProps<T> = {
    * the combinations to visualize by default all combinations
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
-};
+}
 
-export type UpSetSelectionProps<T> = {
+export interface UpSetSelectionProps<T> {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T> | null): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
-};
+}
 
-export type UpSetStyleProps = {
+export interface UpSetStyleProps {
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
@@ -84,13 +84,13 @@ export type UpSetStyleProps = {
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
-};
+}
 
 export declare type UpSetCSSStyles = CSSStyleDeclaration & {
   backfaceVisibility: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'hidden' | 'visible';
 };
 
-export declare type UpSetPlainStyleProps = {
+export interface UpSetPlainStyleProps {
   setName?: string;
   combinationName?: string;
   combinationNameAxisOffset?: number;
@@ -99,7 +99,7 @@ export declare type UpSetPlainStyleProps = {
   setNameStyle?: UpSetCSSStyles;
   axisStyle?: UpSetCSSStyles;
   combinationNameStyle?: UpSetCSSStyles;
-};
+}
 
 export declare type UpSetProps<T> = UpSetDataProps<T> &
   UpSetSizeProps &

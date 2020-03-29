@@ -19,7 +19,7 @@ import QueryLegend from './upset/QueryLegend';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import ExportButtons from './upset/ExportButtons';
 
-export type UpSetSizeProps = {
+export interface UpSetSizeProps {
   /**
    * width of the chart
    */
@@ -50,9 +50,9 @@ export type UpSetSizeProps = {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
-};
+}
 
-export type UpSetDataProps<T> = {
+export interface UpSetDataProps<T> {
   /**
    * the sets to visualize
    */
@@ -61,17 +61,17 @@ export type UpSetDataProps<T> = {
    * the combinations to visualize by default all combinations
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
-};
+}
 
-export type UpSetSelectionProps<T> = {
+export interface UpSetSelectionProps<T> {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T> | null): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
-};
+}
 
-export type UpSetReactStyleProps = {
+export interface UpSetReactStyleProps {
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
   combinationNameAxisOffset?: number;
@@ -82,9 +82,9 @@ export type UpSetReactStyleProps = {
   combinationNameStyle?: React.CSSProperties;
   className?: string;
   style?: React.CSSProperties;
-};
+}
 
-export type UpSetStyleProps = {
+export interface UpSetStyleProps {
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
@@ -103,7 +103,7 @@ export type UpSetStyleProps = {
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
-};
+}
 
 function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
   return scaleLinear().domain(domain).range(range);
