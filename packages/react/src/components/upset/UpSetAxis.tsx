@@ -34,7 +34,7 @@ export default React.memo(function UpSetAxis({
           className="axisLine"
         />
         <text
-          className="middleText"
+          className="labelStyle nameStyle middleText"
           style={combinationNameStyle}
           transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
         >
@@ -50,7 +50,7 @@ export default React.memo(function UpSetAxis({
           integersOnly
         />
         <text
-          className="middleText"
+          className="labelStyle nameStyle middleText"
           style={setNameStyle}
           transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}
         >
