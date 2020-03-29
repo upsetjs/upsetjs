@@ -42,7 +42,9 @@ export default class Store {
     listDataSets().then((r) =>
       runInAction(() => {
         this.datasets = r;
-        this.selectDataSet(r[0].name);
+        if (r.length > 0) {
+          this.selectDataSet(r[0].name);
+        }
       })
     );
   }

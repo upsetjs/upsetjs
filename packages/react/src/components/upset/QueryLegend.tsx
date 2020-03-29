@@ -23,7 +23,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
             <tspan className={`fillQ${i} x`}>{'  ⬤ '}</tspan>
             <tspan>
               {q.name}
-              {count != null ? ` (${count})` : ''}
+              {count != null ? `: ${count}` : ''}
             </tspan>
           </React.Fragment>
         );

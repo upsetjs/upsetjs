@@ -109,33 +109,35 @@ export default observer(() => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {store.sortedSets.map((row) => {
-              const isItemSelected = isSelected(row.name);
-              return (
-                <TableRow
-                  hover
-                  onClick={(event) => handleClick(event, row.name)}
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={row.name}
-                  selected={isItemSelected}
-                  className={classes.pointer}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox checked={isItemSelected} />
-                  </TableCell>
-                  <TableCell component="th" scope="row" padding="none">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right" className={classes.cell}>
-                    <div className={classes.bar} style={{ width: c2w(row.cardinality) }} />
-                    {row.cardinality}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          {store.ui.sidePanelExpanded.has('sets') && (
+            <TableBody>
+              {store.sortedSets.map((row) => {
+                const isItemSelected = isSelected(row.name);
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.name)}
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.name}
+                    selected={isItemSelected}
+                    className={classes.pointer}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox checked={isItemSelected} />
+                    </TableCell>
+                    <TableCell component="th" scope="row" padding="none">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right" className={classes.cell}>
+                      <div className={classes.bar} style={{ width: c2w(row.cardinality) }} />
+                      {row.cardinality}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </SidePanelEntry>
