@@ -14,8 +14,8 @@ echo "yarn install"
 yarn install --immutable --cache-folder $NETLIFY_BUILD_BASE/.yarn_cache > /dev/null
 
 echo "build things"
+yarn build
 yarn workspace @upsetjs/react run build-storybook
-yarn workspace @upsetjs/app run build
 
 echo "copy things"
 mkdir -p dist/api
