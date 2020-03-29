@@ -71,4 +71,10 @@ export default class Store {
     max: 3,
     empty: false,
   };
+
+  @action
+  changeCombinations(delta: Partial<GenerateSetCombinationsOptions>) {
+    Object.assign(this.visibleCombinations, delta);
+    console.log({ ...this.visibleCombinations });
+  }
 }

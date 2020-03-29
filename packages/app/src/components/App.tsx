@@ -1,11 +1,10 @@
 import React from 'react';
 import { StoreProvider } from '../store';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import SidePanel from './SidePanel';
 import UpSetWrapper from './UpSetWrapper';
 import Header from './Header';
-import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles({
   root: {
@@ -21,18 +20,26 @@ const useStyles = makeStyles({
   },
 });
 
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+});
+
 export default function App() {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
-      <CssBaseline />
-      <StoreProvider>
-        <Header />
-        <main className={classes.main}>
-          <SidePanel />
-          <UpSetWrapper />
-        </main>
-      </StoreProvider>
-    </Card>
+    <div className={classes.root}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <StoreProvider>
+          <Header />
+          <main className={classes.main}>
+            <SidePanel />
+            <UpSetWrapper />
+          </main>
+        </StoreProvider>
+      </ThemeProvider>
+    </div>
   );
 }

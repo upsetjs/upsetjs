@@ -51,7 +51,7 @@ export default observer(() => {
           className={classes.wrapper}
           {...store.props}
           sets={store.visibleSets}
-          combinations={store.visibleCombinations}
+          combinations={Object.assign({}, store.visibleCombinations)}
           selection={store.hover || store.selection}
           onHover={store.setHover}
           onClick={store.setSelection}
