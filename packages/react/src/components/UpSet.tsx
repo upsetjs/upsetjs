@@ -130,11 +130,11 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   /**
    * @default 16px
    */
-  fontSize: string;
+  fontSize?: string;
   /**
    * @default 10px
    */
-  axisFontSize: string;
+  axisFontSize?: string;
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
@@ -160,45 +160,48 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
-export default React.forwardRef(function UpSet<T>({
-  className,
-  style,
-  children,
-  width,
-  height,
-  padding: margin = 20,
-  barPadding = 0.3,
-  sets,
-  combinations = { type: 'intersection' },
-  selection = null,
-  onClick,
-  onHover,
-  theme,
-  combinationName = 'Intersection Size',
-  combinationNameAxisOffset = 30,
-  setName = 'Set Size',
-  selectionColor = getTheme(theme).selectionColor,
-  color = getTheme(theme).color,
-  textColor = getTheme(theme).textColor,
-  hoverHintColor = getTheme(theme).hoverHintColor,
-  notMemberColor = getTheme(theme).notMemberColor,
-  alternatingBackgroundColor = getTheme(theme).alternatingBackgroundColor,
-  triangleSize = 5,
-  labelStyle,
-  fontSize = '16px',
-  axisFontSize = '10px',
-  setLabelStyle,
-  combinationNameStyle = {},
-  setNameStyle = {},
-  axisStyle,
-  widthRatios = [0.25, 0.1, 0.65],
-  heightRatios = [0.6, 0.4],
-  queries = [],
-  queryLegend = queries.length > 0,
-  exportButtons = true,
-  linearScaleFactory = linearScale,
-  bandScaleFactory = bandScale,
-}: PropsWithChildren<UpSetProps<T>>) {
+export default React.forwardRef(function UpSet<T>(
+  {
+    className,
+    style,
+    children,
+    width,
+    height,
+    padding: margin = 20,
+    barPadding = 0.3,
+    sets,
+    combinations = { type: 'intersection' },
+    selection = null,
+    onClick,
+    onHover,
+    theme,
+    combinationName = 'Intersection Size',
+    combinationNameAxisOffset = 30,
+    setName = 'Set Size',
+    selectionColor = getTheme(theme).selectionColor,
+    color = getTheme(theme).color,
+    textColor = getTheme(theme).textColor,
+    hoverHintColor = getTheme(theme).hoverHintColor,
+    notMemberColor = getTheme(theme).notMemberColor,
+    alternatingBackgroundColor = getTheme(theme).alternatingBackgroundColor,
+    triangleSize = 5,
+    labelStyle,
+    fontSize = '16px',
+    axisFontSize = '10px',
+    setLabelStyle,
+    combinationNameStyle = {},
+    setNameStyle = {},
+    axisStyle,
+    widthRatios = [0.25, 0.1, 0.65],
+    heightRatios = [0.6, 0.4],
+    queries = [],
+    queryLegend = queries.length > 0,
+    exportButtons = true,
+    linearScaleFactory = linearScale,
+    bandScaleFactory = bandScale,
+  }: PropsWithChildren<UpSetProps<T>>,
+  ref: React.Ref<SVGSVGElement>
+) {
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
     width,
@@ -298,7 +301,7 @@ export default React.forwardRef(function UpSet<T>({
   `;
 
   return (
-    <svg className={className} style={style} width={width} height={height}>
+    <svg className={className} style={style} width={width} height={height} ref={ref}>
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
       {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}

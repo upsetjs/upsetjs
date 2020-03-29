@@ -1,24 +1,15 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/core/styles';
-import { useStore } from '../store';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(1),
-  },
-}));
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { useStore } from '../store';
+import SidePanelEntry from './SidePanelEntry';
 
 export default observer(() => {
   const store = useStore();
-  const classes = useStyles();
 
   const ds = store.dataset;
   return (
-    <Paper className={classes.root}>
-      <Typography variant="h6">Dataset Information</Typography>
+    <SidePanelEntry id="datasetinfo" title="Dataset Information">
       <Typography variant="subtitle2">Name:</Typography>
       <Typography>{ds?.name}</Typography>
       <Typography variant="subtitle2">#Sets:</Typography>
@@ -27,6 +18,6 @@ export default observer(() => {
       <Typography>{ds?.author}</Typography>
       <Typography variant="subtitle2">Description:</Typography>
       <Typography>{ds?.description}</Typography>
-    </Paper>
+    </SidePanelEntry>
   );
 });

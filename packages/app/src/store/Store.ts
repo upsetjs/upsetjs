@@ -1,11 +1,13 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import listDataSets, { IDataSet } from '../data';
-import { ISetLike, ISets, GenerateSetCombinationsOptions } from '@upsetjs/model';
+import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations } from '@upsetjs/model';
 import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 
 export default class Store {
   @observable
-  readonly ui = {};
+  readonly ui = {
+    sidePanelExpanded: new Set<string>(['options']),
+  };
 
   @observable.shallow
   datasets: IDataSet[] = [];
@@ -65,16 +67,31 @@ export default class Store {
   }
 
   @observable
-  readonly visibleCombinations: GenerateSetCombinationsOptions = {
+  readonly combinationsOptions: GenerateSetCombinationsOptions = {
     type: 'intersection',
     min: 0,
     max: 3,
     empty: false,
+    limit: 100,
+    order: 'cardinality',
   };
+
+  @computed
+  get visibleCombinations() {
+    return generateCombinations(this.visibleSets, this.combinationsOptions);
+  }
 
   @action
   changeCombinations(delta: Partial<GenerateSetCombinationsOptions>) {
-    Object.assign(this.visibleCombinations, delta);
-    console.log({ ...this.visibleCombinations });
+    Object.assign(this.combinationsOptions, delta);
+  }
+
+  @action
+  toggleSidePanelExpansion(id: string) {
+    if (this.ui.sidePanelExpanded.has(id)) {
+      this.ui.sidePanelExpanded.delete(id);
+    } else {
+      this.ui.sidePanelExpanded.add(id);
+    }
   }
 }

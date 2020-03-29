@@ -43,7 +43,7 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
-
+  console.log('render', store.visibleCombinations);
   return (
     <div className={classes.root}>
       {store.sets.length > 0 && store.dataset && (
@@ -52,7 +52,7 @@ export default observer(() => {
           className={classes.wrapper}
           {...store.props}
           sets={store.visibleSets}
-          combinations={Object.assign({}, store.visibleCombinations)}
+          combinations={store.visibleCombinations}
           selection={store.hover || store.selection}
           onHover={store.setHover}
           onClick={store.setSelection}

@@ -84,6 +84,14 @@ export interface UpSetStyleProps {
    * @default true
    */
   exportButtons?: boolean;
+  /**
+   * @default 16px
+   */
+  fontSize?: string;
+  /**
+   * @default 10px
+   */
+  axisFontSize?: string;
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
