@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 import datasets, { IDataSet } from '../data';
-import { ISets } from '@upsetjs/model';
+import { ISets, ISetLike } from '@upsetjs/model';
 
 export default class Store {
   @observable
@@ -15,6 +15,11 @@ export default class Store {
   @observable.shallow
   sets: ISets<any> = [];
 
+  @observable.ref
+  hover: ISetLike<any> | null = null;
+  @observable.ref
+  selection: ISetLike<any> | null = null;
+
   @action
   selectDataSet(name: string) {
     this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
@@ -26,5 +31,14 @@ export default class Store {
         this.sets = sets;
       })
     );
+  }
+
+  @action.bound
+  setHover(set: ISetLike<any> | null) {
+    this.hover = set;
+  }
+  @action.bound
+  setSelection(set: ISetLike<any> | null) {
+    this.selection = set;
   }
 }

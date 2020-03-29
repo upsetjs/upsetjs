@@ -41,11 +41,15 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
-  const sets = store.sets;
 
   return (
     <div className={classes.root}>
-      <UpSetW sets={sets} />
+      <UpSetW
+        sets={store.sets}
+        selection={store.hover || store.selection}
+        onHover={store.setHover}
+        onClick={store.setSelection}
+      />
     </div>
   );
 });

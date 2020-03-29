@@ -113,7 +113,11 @@ function bandScale(domain: string[], range: [number, number], padding: number): 
   return scaleBand().domain(domain).range(range).padding(padding);
 }
 
-export type UpSetProps<T> = UpSetDataProps<T> & UpSetSizeProps & UpSetStyleProps & UpSetReactStyleProps;
+export type UpSetProps<T> = UpSetDataProps<T> &
+  UpSetSizeProps &
+  UpSetStyleProps &
+  UpSetReactStyleProps &
+  UpSetSelectionProps<T>;
 
 function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
@@ -154,7 +158,7 @@ export default function UpSet<T>({
   exportButtons = true,
   linearScaleFactory = linearScale,
   bandScaleFactory = bandScale,
-}: PropsWithChildren<UpSetProps<T> & UpSetSelectionProps<T>>) {
+}: PropsWithChildren<UpSetProps<T>>) {
   const ref = React.useRef(null as SVGSVGElement | null);
 
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
