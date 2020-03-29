@@ -2,11 +2,23 @@ import { observable, action, runInAction, computed } from 'mobx';
 import listDataSets, { IDataSet } from '../data';
 import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations } from '@upsetjs/model';
 import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
+import { stableSort } from './utils';
+
+export interface ISetTableOptions {
+  order: 'asc' | 'desc';
+  orderBy: 'name' | 'cardinality';
+  page: number;
+  rowsPerPage: number;
+}
 
 export default class Store {
   @observable
   readonly ui = {
-    sidePanelExpanded: new Set<string>(['options']),
+    sidePanelExpanded: new Set<string>(['options', 'sets']),
+    setTable: {
+      order: 'desc' as 'asc' | 'desc',
+      orderBy: 'cardinality' as 'name' | 'cardinality',
+    } as ISetTableOptions,
   };
 
   @observable.shallow
@@ -41,11 +53,13 @@ export default class Store {
 
     this.sets = [];
     this.props = {};
+    this.selectedSets = new Set();
     if (this.dataset) {
       this.dataset.load().then((d) =>
         runInAction(() => {
           this.sets = d.sets;
           this.props = d.props;
+          this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
         })
       );
     }
@@ -63,7 +77,7 @@ export default class Store {
 
   @computed
   get visibleSets() {
-    return this.sets;
+    return this.sortedSets.filter((s) => this.selectedSets.has(s.name));
   }
 
   @observable
@@ -75,6 +89,19 @@ export default class Store {
     limit: 100,
     order: 'cardinality',
   };
+
+  @observable
+  selectedSets = new Set<string>();
+
+  @computed
+  get sortedSets() {
+    return stableSort(this.sets, this.ui.setTable.orderBy, this.ui.setTable.order);
+  }
+
+  @action
+  setSelectedSets(names: Set<string>) {
+    this.selectedSets = names;
+  }
 
   @computed
   get visibleCombinations() {
@@ -93,5 +120,10 @@ export default class Store {
     } else {
       this.ui.sidePanelExpanded.add(id);
     }
+  }
+
+  @action
+  changeTableOptions(delta: Partial<ISetTableOptions>) {
+    Object.assign(this.ui.setTable, delta);
   }
 }
