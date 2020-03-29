@@ -15,6 +15,9 @@ const useStyles = makeStyles(() => ({
       flexGrow: 1,
     },
   },
+  wrapper: {
+    position: 'absolute',
+  },
 }));
 
 const UpSet = lazy(() => import('@upsetjs/react'));
@@ -26,9 +29,11 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
       handleHeight
       render={({ width, height }) => {
         return (
-          <Suspense fallback={<Loading />}>
-            {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} />}
-          </Suspense>
+          <div>
+            <Suspense fallback={<Loading />}>
+              {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} />}
+            </Suspense>
+          </div>
         );
       }}
     />
@@ -43,8 +48,10 @@ export default observer(() => {
     <div className={classes.root}>
       {store.sets.length > 0 && store.dataset && (
         <UpSetW
+          className={classes.wrapper}
           {...store.props}
-          sets={store.sets}
+          sets={store.visibleSets}
+          combinations={store.visibleCombinations}
           selection={store.hover || store.selection}
           onHover={store.setHover}
           onClick={store.setSelection}

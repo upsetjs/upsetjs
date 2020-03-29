@@ -5,33 +5,34 @@ import { makeStyles } from '@material-ui/core/styles';
 import SidePanel from './SidePanel';
 import UpSetWrapper from './UpSetWrapper';
 import Header from './Header';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles({
   root: {
     width: '100vw',
     height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
   },
   main: {
     flexGrow: 1,
     display: 'flex',
-    flexDirection: 'column',
   },
 });
 
 export default function App() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Card className={classes.root}>
       <CssBaseline />
       <StoreProvider>
-        <SidePanel />
+        <Header />
         <main className={classes.main}>
-          <Header />
+          <SidePanel />
           <UpSetWrapper />
         </main>
       </StoreProvider>
-    </div>
+    </Card>
   );
 }

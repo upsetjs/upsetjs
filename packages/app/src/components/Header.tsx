@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   select: {
     marginLeft: '1rem',
     minWidth: '20em',
-    color: 'white',
+    color: theme.palette.primary.contrastText,
   },
 }));
 

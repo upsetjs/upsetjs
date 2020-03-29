@@ -1,6 +1,6 @@
-import { observable, action, runInAction } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import listDataSets, { IDataSet } from '../data';
-import { ISetLike, ISets } from '@upsetjs/model';
+import { ISetLike, ISets, GenerateSetCombinationsOptions } from '@upsetjs/model';
 import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 
 export default class Store {
@@ -58,4 +58,17 @@ export default class Store {
   setSelection(set: ISetLike<any> | null) {
     this.selection = set;
   }
+
+  @computed
+  get visibleSets() {
+    return this.sets;
+  }
+
+  @observable
+  readonly visibleCombinations: GenerateSetCombinationsOptions = {
+    type: 'intersection',
+    min: 0,
+    max: 3,
+    empty: false,
+  };
 }
