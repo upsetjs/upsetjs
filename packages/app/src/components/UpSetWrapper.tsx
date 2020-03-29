@@ -43,7 +43,6 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
-  console.log('render', store.visibleCombinations);
   return (
     <div className={classes.root}>
       {store.sets.length > 0 && store.dataset && (
