@@ -20,7 +20,7 @@
     "lint": "eslint src --ext .ts,.tsx",
     "prebuild": "rimraf dist",
     "build": "webpack-cli -p",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --devtool cheap-module-eval-source-map"
   },
   "browserslist": [
     "cover 80%"

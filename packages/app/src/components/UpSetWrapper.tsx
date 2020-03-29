@@ -23,8 +23,9 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
 
 export default observer(() => {
   const store = useStore();
-  return store.setsPromise.case({
-    fulfilled: (sets) => <UpSetW sets={sets} />,
-    pending: () => <CircularProgress />,
-  });
+  const sets = store.sets;
+  if (sets.length === 0) {
+    return <CircularProgress />;
+  }
+  return <UpSetW sets={sets} />;
 });

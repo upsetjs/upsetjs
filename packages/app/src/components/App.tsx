@@ -7,6 +7,8 @@ import UpSetWrapper from './UpSetWrapper';
 
 const useStyles = makeStyles({
   root: {
+    width: '100vw',
+    height: '100vh',
     display: 'flex',
     flexDirection: 'row',
     flexGrow: 1,
