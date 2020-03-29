@@ -175,7 +175,9 @@ export default React.forwardRef(function UpSet<T>(
     onClick,
     onHover,
     theme,
-    combinationName = 'Intersection Size',
+    combinationName = !areCombinations(combinations) && combinations.type === 'union'
+      ? 'Union Size'
+      : 'Intersection Size',
     combinationNameAxisOffset = 30,
     setName = 'Set Size',
     selectionColor = getTheme(theme).selectionColor,

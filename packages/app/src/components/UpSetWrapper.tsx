@@ -57,6 +57,7 @@ export default observer(() => {
           onHover={store.setHover}
           onClick={store.setSelection}
           selectionColor={store.selectionColor}
+          exportButtons={false}
         />
       )}
       {!store.dataset && <Loading>Choose Dataset</Loading>}
