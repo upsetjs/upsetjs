@@ -3,11 +3,10 @@ import {
   ISetLike,
   ISets,
   ISetCombinations,
-  NumericScaleLike,
-  BandScaleLike,
+  BandScaleFactory,
+  NumericScaleFactory,
   UpSetQuery,
 } from '@upsetjs/model';
-import { scaleBand, scaleLinear } from 'd3-scale';
 
 export interface UpSetSizeProps {
   /**
@@ -73,7 +72,10 @@ export interface UpSetReactStyleProps {
 
 export interface UpSetThemeProps {
   selectionColor?: string;
-  alternatingBackgroundColor?: string;
+  /**
+   * set to false to disable alternating pattern
+   */
+  alternatingBackgroundColor?: string | false;
   color?: string;
   textColor?: string;
   hoverHintColor?: string;
@@ -116,6 +118,11 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   exportButtons?: boolean;
   /**
+   * set to false to use the default font family
+   * @default sans-serif
+   */
+  fontFamily?: string | false;
+  /**
    * @default 16px
    */
   fontSize?: string;
@@ -124,19 +131,11 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   axisFontSize?: string;
 
-  linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
-  bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
+  numericScale?: NumericScaleFactory | 'linear' | 'log';
+  bandScale?: BandScaleFactory | 'band';
 
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
-}
-
-function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
-  return scaleLinear().domain(domain).range(range);
-}
-
-function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
-  return scaleBand().domain(domain).range(range).padding(padding);
 }
 
 export type UpSetProps<T> = UpSetDataProps<T> &
@@ -175,13 +174,14 @@ export function fillDefaults<T>(
       triangleSize: 5,
       fontSize: '16px',
       axisFontSize: '10px',
+      fontFamily: 'sans-serif',
       widthRatios: [0.2, 0.1, 0.7],
       heightRatios: [0.6, 0.4],
       queries: [],
       queryLegend: props.queries != null && props.queries.length > 0,
       exportButtons: true,
-      linearScaleFactory: linearScale,
-      bandScaleFactory: bandScale,
+      numericScale: 'linear',
+      bandScale: 'band',
     },
     theme,
     props

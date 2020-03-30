@@ -12,4 +12,4 @@ export {
 } from './model';
 
 export * from './queries';
-export { BandScaleLike, NumericScaleLike } from './scales';
+export { BandScaleLike, NumericScaleLike, BandScaleFactory, NumericScaleFactory } from './scales';

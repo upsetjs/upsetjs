@@ -13,3 +13,10 @@ export declare type NumericScaleLike = {
   tickFormat(): (v: number) => string;
   range(): number[];
 };
+
+export declare type NumericScaleFactory = {
+  (domain: [number, number], range: [number, number]): NumericScaleLike;
+};
+export declare type BandScaleFactory = {
+  (domain: string[], range: [number, number], padding: number): BandScaleLike;
+};

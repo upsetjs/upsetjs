@@ -45,6 +45,7 @@ export default React.forwardRef(function UpSet<T>(
     triangleSize,
     labelStyle,
     fontSize,
+    fontFamily,
     axisFontSize,
     setLabelStyle,
     combinationNameStyle,
@@ -55,8 +56,8 @@ export default React.forwardRef(function UpSet<T>(
     queries = [],
     queryLegend,
     exportButtons,
-    linearScaleFactory,
-    bandScaleFactory,
+    numericScale,
+    bandScale,
   } = fillDefaults(props);
 
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
@@ -68,24 +69,24 @@ export default React.forwardRef(function UpSet<T>(
     widthRatios,
     heightRatios,
   ]);
-  const scales = React.useMemo(() => generateScales(sets, cs, styles, linearScaleFactory, bandScaleFactory), [
+  const scales = React.useMemo(() => generateScales(sets, cs, styles, numericScale, bandScale), [
     sets,
     cs,
     styles,
-    linearScaleFactory,
-    bandScaleFactory,
+    numericScale,
+    bandScale,
   ]);
 
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
 
   const rules = `
   .labelStyle {
-    font-size: ${axisFontSize};
-    font-family: sans-serif;
+    ${axisFontSize ? `font-size: ${axisFontSize};` : ''}
+    ${fontFamily ? `font-family: ${fontFamily};` : ''}
     fill: ${textColor};
   }
   .nameStyle {
-    font-size: ${fontSize};
+    ${fontSize ? `font-size: ${fontSize};` : ''}
   }
   .middleText {
     text-anchor: middle;
@@ -108,7 +109,7 @@ export default React.forwardRef(function UpSet<T>(
   .fillPrimary { fill: ${color}; }
   .fillSelection { fill: ${selectionColor}; }
   .fillNotMember { fill: ${notMemberColor}; }
-  .fillAlternating { fill: ${alternatingBackgroundColor}; }
+  .fillAlternating { fill: ${alternatingBackgroundColor || 'transparent'}; }
   .fillNone { fill: none; }
   .fillTransparent { fill: transparent; }
   ${queries.map((q, i) => `.fillQ${i} { fill: ${q.color}; }`).join('\n')}
@@ -139,7 +140,6 @@ export default React.forwardRef(function UpSet<T>(
 
   .exportButtons {
     text-anchor: middle;
-    font-size: 10px;
   }
   .exportButton {
     cursor: pointer;
@@ -151,9 +151,6 @@ export default React.forwardRef(function UpSet<T>(
   .exportButton > rect {
     fill: none;
     stroke: ${textColor};
-  }
-  .exportButton > text {
-    fill: ${textColor};
   }
   `;
 
