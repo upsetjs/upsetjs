@@ -15,7 +15,7 @@ function linearScale(domain: [number, number], range: [number, number]): Numeric
 
 function logScale(domain: [number, number], range: [number, number]): NumericScaleLike {
   return scaleLog()
-    .domain([Math.max(domain[0], 1e-7), domain[1]])
+    .domain([Math.max(domain[0], 1), domain[1]])
     .range(range);
 }
 
