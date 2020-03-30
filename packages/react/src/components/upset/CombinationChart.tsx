@@ -77,7 +77,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         dy={-barLabelOffset}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
-        className={clsx('barTextStyle', 'middleText', barLabelClassName)}
+        className={clsx('textStyle', 'barTextStyle', 'middleText', barLabelClassName)}
       >
         {d.cardinality}
       </text>

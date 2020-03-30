@@ -49,7 +49,7 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
       <text
         x={k * spacing}
         dy={'0.32em'}
-        className={clsx('axisTextStyle', orient === 'right' ? 'startText' : 'endText', className)}
+        className={clsx('textStyle', 'axisTextStyle', orient === 'right' ? 'startText' : 'endText', className)}
         style={style}
       >
         {name}
@@ -74,7 +74,7 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
       <text
         y={k * spacing}
         dy={orient === 'top' ? '0em' : '0.71em'}
-        className={clsx('axisTextStyle', 'middleText', className)}
+        className={clsx('textStyle', 'axisTextStyle', 'middleText', className)}
         style={style}
       >
         {name}

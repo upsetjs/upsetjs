@@ -12,7 +12,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
   } & React.SVGAttributes<SVGGElement>
 >) {
   return (
-    <text {...extras} className={clsx('legendTextStyle', className)}>
+    <text {...extras} className={clsx('textStyle', 'legendTextStyle', className)}>
       {queries.map((q, i) => {
         let count: number | null = null;
         if (isSetQuery(q)) {

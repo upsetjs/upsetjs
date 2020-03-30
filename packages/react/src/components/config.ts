@@ -126,6 +126,29 @@ export interface UpSetStyleClassNames {
   dot?: string;
 }
 
+export interface UpSetFontSizes {
+  /**
+   * @default 16px
+   */
+  chartLabel?: string;
+  /**
+   * @default 10px
+   */
+  axisTick?: string;
+  /**
+   * @default 16px
+   */
+  setLabel?: string;
+  /**
+   * @default 10px
+   */
+  barLabel?: string;
+  /**
+   * @default 10px
+   */
+  legend?: string;
+}
+
 export interface UpSetStyleProps extends UpSetThemeProps {
   className?: string;
   classNames?: UpSetStyleClassNames;
@@ -151,28 +174,7 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   fontFamily?: string | false;
 
-  fontSizes?: {
-    /**
-     * @default 16px
-     */
-    chartLabel?: string;
-    /**
-     * @default 10px
-     */
-    axisTick?: string;
-    /**
-     * @default 16px
-     */
-    setLabel?: string;
-    /**
-     * @default 10px
-     */
-    barLabel?: string;
-    /**
-     * @default 10px
-     */
-    legend?: string;
-  };
+  fontSizes?: UpSetFontSizes;
 
   numericScale?: NumericScaleFactory | 'linear' | 'log';
   bandScale?: BandScaleFactory | 'band';

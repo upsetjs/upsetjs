@@ -1,7 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
 import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetQuery } from '@upsetjs/model';
-import { UpSetProps, fillDefaults, UpSetThemeProps } from '@upsetjs/react';
+import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
 
 export interface ISetTableOptions {
@@ -182,6 +182,11 @@ export default class Store {
     if (delta.theme) {
       Object.assign(this.props, extractTheme(delta.theme));
     }
+  }
+
+  @action
+  changeFontSize(delta: UpSetFontSizes) {
+    Object.assign(this.props.fontSizes, delta);
   }
 
   @action

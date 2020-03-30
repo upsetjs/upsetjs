@@ -79,14 +79,14 @@ const SetChart = React.memo(function SetChart<T>({
         dx={-barLabelOffset}
         y={setBarHeight / 2}
         style={barLabelStyle}
-        className={clsx('barTextStyle', 'endText', 'centralText', barLabelClassName)}
+        className={clsx('textStyle', 'barTextStyle', 'endText', 'centralText', barLabelClassName)}
       >
         {d.cardinality}
       </text>
       <text
         x={setBarWidth + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
-        className={clsx('setTextStyle', 'middleText', 'centralText', setClassName)}
+        className={clsx('textStyle', 'setTextStyle', 'middleText', 'centralText', setClassName)}
         style={setStyle}
       >
         {d.name}

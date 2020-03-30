@@ -42,7 +42,7 @@ export default React.memo(function UpSetAxis({
           className="axisLine"
         />
         <text
-          className={clsx('chartTextStyle', 'middleText', classNames.chartLabel)}
+          className={clsx('textStyle', 'chartTextStyle', 'middleText', classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
         >
@@ -59,7 +59,7 @@ export default React.memo(function UpSetAxis({
           tickStyle={cStyles.axisTick}
         />
         <text
-          className={clsx('chartTextStyle', 'middleText', 'hangingText', classNames.chartLabel)}
+          className={clsx('textStyle', 'chartTextStyle', 'middleText', 'hangingText', classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + setNameAxisOffset})`}
         >

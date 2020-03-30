@@ -60,6 +60,14 @@ export default observer(() => {
     <SidePanelEntry id="customize" title="Customize">
       <TextField label="Set Name" name="setName" value={p.setName} required onChange={handleTextChange} />
       <TextField
+        label="Set Axis Offset"
+        name="setNameAxisOffset"
+        value={p.setNameAxisOffset}
+        type="number"
+        required
+        onChange={handleNumericChange}
+      />
+      <TextField
         label="Combination Name"
         name="combinationName"
         value={p.combinationName}
@@ -67,7 +75,7 @@ export default observer(() => {
         onChange={handleTextChange}
       />
       <TextField
-        label="Axis Offset"
+        label="Combination Axis Offset"
         name="combinationNameAxisOffset"
         value={p.combinationNameAxisOffset}
         type="number"
@@ -76,11 +84,15 @@ export default observer(() => {
       />
       <TextField label="Font Family" name="fontFamily" value={p.fontFamily} required onChange={handleTextChange} />
 
-      <EditFontSize label="Font Size" value={p.fontSize} onChange={(v) => store.changeProps({ fontSize: v })} />
       <EditFontSize
-        label="Support Font Size"
-        value={p.axisFontSize}
-        onChange={(v) => store.changeProps({ axisFontSize: v })}
+        label="Chart Font Size"
+        value={p.fontSizes.chartLabel!}
+        onChange={(v) => store.changeFontSize({ chartLabel: v })}
+      />
+      <EditFontSize
+        label="Set Label Font Size"
+        value={p.fontSizes.setLabel!}
+        onChange={(v) => store.changeFontSize({ setLabel: v })}
       />
 
       <Divider />
