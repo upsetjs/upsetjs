@@ -6,9 +6,9 @@ import {
   ISetLike,
   ISetCombinations,
   UpSetQuery,
-  NumericScaleLike,
-  BandScaleLike,
   GenerateSetCombinationsOptions,
+  NumericScaleFactory,
+  BandScaleFactory,
 } from '@upsetjs/model';
 export * from '@upsetjs/model';
 
@@ -103,8 +103,8 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   axisFontSize?: string;
 
-  numericScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
-  bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
+  numericScale?: 'linear' | 'log' | NumericScaleFactory;
+  bandScale?: 'band' | BandScaleFactory;
 
   setName?: string;
   combinationName?: string;
@@ -128,15 +128,13 @@ export declare type UpSetProps<T> = UpSetDataProps<T> &
   UpSetPlainStyleProps &
   UpSetSelectionProps<T>;
 
-export function fillDefaults<T>(
-  props: UpSetProps<T>
-): Required<UpSetDataProps<T>> &
-  Required<UpSetSizeProps> &
-  Required<UpSetStyleProps> &
-  UpSetPlainStyleProps &
-  UpSetSelectionProps<T> {
+export function fillDefaults<T>(props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
-  return fillDefaultsImpl(p);
+  return fillDefaultsImpl(p) as Required<UpSetDataProps<T>> &
+    Required<UpSetSizeProps> &
+    Required<UpSetStyleProps> &
+    UpSetPlainStyleProps &
+    UpSetSelectionProps<T>;
 }
 
 export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
