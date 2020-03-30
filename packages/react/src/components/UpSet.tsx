@@ -303,7 +303,7 @@ export default React.forwardRef(function UpSet<T>(
   `;
 
   return (
-    <svg className={className} style={style} width={width} height={height} ref={ref}>
+    <svg className={className} style={style} width={width} height={height} ref={ref} data-theme={theme ?? 'light'}>
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
       {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}

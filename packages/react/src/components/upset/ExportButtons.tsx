@@ -1,10 +1,10 @@
 import React from 'react';
-import { exportSVG } from '../exporter';
+import { exportSVG } from '@upsetjs/ui-utils';
 
 function exportChart(evt: React.MouseEvent<SVGElement>) {
   const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
   const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png';
-  exportSVG(svg, type);
+  exportSVG(svg, { type, toRemove: '.exportButtons', theme: svg.dataset.theme as 'light' | 'dark' });
 }
 
 export default function ExportButtons({ transform }: { transform: string }) {

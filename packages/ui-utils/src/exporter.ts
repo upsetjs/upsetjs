@@ -1,10 +1,17 @@
-export async function exportSVG(node: SVGSVGElement, type: 'png' | 'svg' = 'png', title = 'UpSet') {
+export async function exportSVG(
+  node: SVGSVGElement,
+  {
+    type = 'png',
+    title = 'UpSet',
+    theme = 'light',
+    toRemove,
+  }: { type?: 'png' | 'svg'; title?: string; theme?: 'light' | 'dark'; toRemove?: string }
+) {
   const clone = node.cloneNode(true) as SVGSVGElement;
-  clone.style.backgroundColor = 'white';
+  clone.style.backgroundColor = theme === 'dark' ? '#303030' : 'white';
 
-  const buttons = clone.querySelector('.exportButtons');
-  if (buttons) {
-    buttons.remove();
+  if (toRemove) {
+    Array.from(clone.querySelectorAll(toRemove)).forEach((d) => d.remove());
   }
 
   const b = new Blob([new XMLSerializer().serializeToString(clone)], {

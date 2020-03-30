@@ -67,6 +67,7 @@
     "@types/react-router": "^5.1.4",
     "@upsetjs/model": "^0.3.5",
     "@upsetjs/react": "^0.3.3",
+    "@upsetjs/ui-utils": "^0.3.5",
     "core-js": "^3.6.4",
     "dexie": "^2.0.4",
     "mobx": "^5.15.4",

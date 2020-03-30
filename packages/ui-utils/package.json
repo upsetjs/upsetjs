@@ -1,7 +1,7 @@
 {
-  "name": "@upsetjs/react",
+  "name": "@upsetjs/ui-utils",
   "description": "UpSetR React component implementation",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "module": "dist/react.esm.js",
+  "module": "dist/ui-utils.esm.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -25,9 +25,7 @@
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
     "lint": "tsdx lint src --ext .ts,.tsx",
-    "prepare": "tsdx build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --quiet"
+    "prepare": "tsdx build"
   },
   "browserslist": [
     "defaults"
@@ -36,20 +34,11 @@
     "react": ">=16"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
     "@rollup/plugin-commonjs": "^11.0.2",
-    "@storybook/addon-docs": "^6.0.0-alpha.20",
-    "@storybook/addons": "^6.0.0-alpha.20",
-    "@storybook/client-api": "^6.0.0-alpha.20",
-    "@storybook/client-logger": "^5.3.17",
-    "@storybook/react": "^6.0.0-alpha.20",
     "@types/jest": "^25.1.4",
-    "@types/react-dom": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
-    "@yarnpkg/pnpify": "^2.0.0-rc.20",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-react-app": "^5.2.1",
@@ -59,23 +48,15 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "pnp-webpack-plugin": "^1.6.4",
     "prettier": "^2.0.2",
     "react": "^16.13.0",
-    "react-docgen-typescript-loader": "^3.7.1",
-    "react-dom": "^16.13.1",
-    "react-is": "^16.13.1",
     "rollup-plugin-pnp-resolve": "^2.0.0",
-    "ts-loader": "^6.2.2",
     "tsdx": "~0.12.0",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@types/d3-scale": "^2.2.0",
     "@types/react": "^16.9.25",
-    "@upsetjs/model": "^0.3.5",
-    "@upsetjs/ui-utils": "^0.3.5",
-    "d3-scale": "^3.2.1"
+    "@upsetjs/model": "^0.3.5"
   }
 }
