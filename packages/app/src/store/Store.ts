@@ -1,6 +1,13 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
-import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetQuery } from '@upsetjs/model';
+import {
+  ISetLike,
+  ISets,
+  GenerateSetCombinationsOptions,
+  generateCombinations,
+  UpSetQuery,
+  UpSetSetQuery,
+} from '@upsetjs/model';
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
 
@@ -69,7 +76,7 @@ function extractDefaults(keys: any[]) {
 export default class Store {
   @observable
   readonly ui = {
-    sidePanelExpanded: new Set<string>(['options', 'sets']),
+    sidePanelExpanded: new Set<string>(['queries', 'options', 'sets']),
     setTable: {
       order: 'desc' as 'asc' | 'desc',
       orderBy: 'cardinality' as 'name' | 'cardinality',
@@ -92,6 +99,9 @@ export default class Store {
   hover: ISetLike<any> | null = null;
   @observable.ref
   selection: ISetLike<any> | null = null;
+
+  @observable.shallow
+  readonly queries: UpSetSetQuery<any>[] = [];
 
   constructor() {
     this.appendDatasets(listStatic());
@@ -187,7 +197,7 @@ export default class Store {
 
   @action
   changeFontSize(delta: UpSetFontSizes) {
-    Object.assign(this.props.fontSizes, delta);
+    this.props.fontSizes = Object.assign({}, this.props.fontSizes, delta);
   }
 
   @action
@@ -206,15 +216,15 @@ export default class Store {
 
   @computed
   get visibleQueries(): UpSetQuery<any>[] {
-    if (!this.hover || !this.selection) {
-      return [];
+    if (!this.selection) {
+      return this.queries;
     }
     return [
       {
-        name: 'Selected Set',
+        name: this.selection.name,
         color: 'darkorange',
         set: this.selection,
       },
-    ];
+    ].concat(this.queries);
   }
 }

@@ -16,15 +16,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default observer(({ id, title, children }: React.PropsWithChildren<{ id: string; title: string }>) => {
-  const store = useStore();
-  const classes = useStyles();
-  return (
-    <ExpansionPanel expanded={store.ui.sidePanelExpanded.has(id)} onChange={() => store.toggleSidePanelExpansion(id)}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls={id} id={id}>
-        <Typography variant="h6">{title}</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.root}>{children}</ExpansionPanelDetails>
-    </ExpansionPanel>
-  );
-});
+export default observer(
+  ({ id, title, className, children }: React.PropsWithChildren<{ id: string; title: string; className?: string }>) => {
+    const store = useStore();
+    const classes = useStyles();
+    return (
+      <ExpansionPanel
+        expanded={store.ui.sidePanelExpanded.has(id)}
+        onChange={() => store.toggleSidePanelExpansion(id)}
+        className={className}
+      >
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls={id} id={id}>
+          <Typography variant="h6">{title}</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.root}>{children}</ExpansionPanelDetails>
+      </ExpansionPanel>
+    );
+  }
+);

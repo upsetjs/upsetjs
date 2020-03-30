@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
 import CustomizeTheme from './CustomizeTheme';
+import Queries from './Queries';
 import CustomizeProps from './CustomizeProps';
 import Paper from '@material-ui/core/Paper';
 
@@ -27,6 +28,7 @@ export default observer(() => {
   return (
     <Paper className={classes.wrapper}>
       <div className={classes.root}>
+        <Queries />
         <CustomizeTheme />
         <CustomizeProps />
       </div>
