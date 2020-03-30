@@ -19,6 +19,7 @@ const SetChart = React.memo(function SetChart<T>({
   barClassName,
   barLabelClassName,
   barLabelStyle,
+  barLabelOffset,
   barStyle,
   setClassName,
   setStyle,
@@ -30,6 +31,7 @@ const SetChart = React.memo(function SetChart<T>({
     scales: UpSetScales;
     className?: string;
     styles: UpSetStyles;
+    barLabelOffset: number;
     setBarWidth: number;
     setBarHeight: number;
     barClassName?: string;
@@ -74,7 +76,7 @@ const SetChart = React.memo(function SetChart<T>({
       />
       <text
         x={x}
-        dx={-1}
+        dx={-barLabelOffset}
         y={setBarHeight / 2}
         style={barLabelStyle}
         className={clsx('barTextStyle', 'endText', 'centralText', barLabelClassName)}

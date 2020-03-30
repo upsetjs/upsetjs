@@ -20,12 +20,13 @@ const themeKeys: (keyof UpSetThemeProps)[] = [
   'alternatingBackgroundColor',
 ];
 const otherOptionKeys: (keyof UpSetProps<any>)[] = [
-  'axisFontSize',
+  'fontSizes',
   'barPadding',
   'combinationName',
   'setName',
+  'barLabelOffset',
+  'setNameAxisOffset',
   'combinationNameAxisOffset',
-  'fontSize',
   'heightRatios',
   'padding',
   'theme',

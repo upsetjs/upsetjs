@@ -28,6 +28,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   dotClassName,
   dotStyle,
   children,
+  barLabelOffset,
 }: PropsWithChildren<
   {
     d: ISetCombination<T>;
@@ -35,6 +36,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
     styles: UpSetStyles;
     className?: string;
     r: number;
+    barLabelOffset: number;
     sets: ISets<T>;
     rsets: ISets<T>;
     combinationBarWidth: number;
@@ -72,7 +74,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       />
       <text
         y={y}
-        dy={-1}
+        dy={-barLabelOffset}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
         className={clsx('barTextStyle', 'middleText', barLabelClassName)}

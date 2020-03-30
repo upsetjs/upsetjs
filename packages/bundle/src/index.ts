@@ -87,6 +87,8 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   };
 
   triangleSize?: number;
+  barLabelOffset?: number;
+  setNameAxisOffset?: number;
   combinationNameAxisOffset?: number;
   /**
    * show a legend of queries

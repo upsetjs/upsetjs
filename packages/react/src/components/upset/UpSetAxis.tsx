@@ -10,6 +10,7 @@ export default React.memo(function UpSetAxis({
   styles,
   setName,
   combinationName,
+  setNameAxisOffset,
   combinationNameAxisOffset,
   classNames,
   cStyles,
@@ -18,6 +19,7 @@ export default React.memo(function UpSetAxis({
   styles: UpSetStyles;
   setName: string | React.ReactNode;
   combinationName: string | React.ReactNode;
+  setNameAxisOffset: number;
   combinationNameAxisOffset: number;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
@@ -57,9 +59,9 @@ export default React.memo(function UpSetAxis({
           tickStyle={cStyles.axisTick}
         />
         <text
-          className={clsx('chartTextStyle', 'middleText', classNames.chartLabel)}
+          className={clsx('chartTextStyle', 'middleText', 'hangingText', classNames.chartLabel)}
           style={cStyles.chartLabel}
-          transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}
+          transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + setNameAxisOffset})`}
         >
           {setName}
         </text>

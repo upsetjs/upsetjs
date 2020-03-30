@@ -131,6 +131,8 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   classNames?: UpSetStyleClassNames;
   theme?: 'light' | 'dark';
   triangleSize?: number;
+  barLabelOffset?: number;
+  setNameAxisOffset?: number;
   combinationNameAxisOffset?: number;
   /**
    * show a legend of queries
@@ -213,6 +215,8 @@ export function fillDefaults<T>(
         props.combinations != null && !areCombinations(props.combinations) && props.combinations.type === 'union'
           ? 'Union Size'
           : 'Intersection Size',
+      barLabelOffset: 2,
+      setNameAxisOffset: 12,
       combinationNameAxisOffset: 30,
       setName: 'Set Size',
       triangleSize: 5,

@@ -18,6 +18,7 @@ export default React.memo(function UpSetChart<T>({
   classNames,
   cStyles,
   childrens,
+  barLabelOffset,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -29,6 +30,7 @@ export default React.memo(function UpSetChart<T>({
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
   childrens: UpSetReactChildrens<T>;
+  barLabelOffset: number;
 }>) {
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
@@ -66,6 +68,7 @@ export default React.memo(function UpSetChart<T>({
             barStyle={cStyles.bar}
             setClassName={classNames.setLabel}
             setStyle={cStyles.setLabel}
+            barLabelOffset={barLabelOffset}
           >
             {childrens.set && childrens.set(d)}
           </SetChart>
@@ -96,6 +99,7 @@ export default React.memo(function UpSetChart<T>({
             barStyle={cStyles.bar}
             dotClassName={classNames.dot}
             dotStyle={cStyles.dot}
+            barLabelOffset={barLabelOffset}
           >
             {childrens.combinations && childrens.combinations(d)}
           </CombinationChart>

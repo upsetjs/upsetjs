@@ -50,6 +50,8 @@ export default React.forwardRef(function UpSet<T>(
     fontFamily,
     widthRatios,
     heightRatios,
+    barLabelOffset,
+    setNameAxisOffset,
     queries = [],
     queryLegend,
     exportButtons,
@@ -107,6 +109,9 @@ export default React.forwardRef(function UpSet<T>(
   }
   .endText {
     text-anchor: end;
+  }
+  .hangingText {
+    dominant-baseline: hanging;
   }
   .centralText {
     dominant-baseline: central;
@@ -183,6 +188,7 @@ export default React.forwardRef(function UpSet<T>(
         <UpSetAxis
           combinationName={combinationName}
           combinationNameAxisOffset={combinationNameAxisOffset}
+          setNameAxisOffset={setNameAxisOffset}
           scales={scales}
           setName={setName}
           styles={styles}
@@ -200,6 +206,7 @@ export default React.forwardRef(function UpSet<T>(
           cStyles={cStyles}
           classNames={classNames}
           childrens={childrenFactories}
+          barLabelOffset={barLabelOffset}
         />
         <UpSetQueries
           cs={cs}
