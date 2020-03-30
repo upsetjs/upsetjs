@@ -3297,6 +3297,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/d3-scale-chromatic@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "@types/d3-scale-chromatic@npm:1.3.1"
+  checksum: 2/76b28d2e4e3760ed3b1df34d7dc779c9cdc8109b22f41139e929ea9e6f1b8c5c44eaa758f49996314af91f3e12747c349a212a3582d974ee8a28c715f053aac0
+  languageName: node
+  linkType: hard
+
 "@types/d3-scale@npm:^2.2.0":
   version: 2.2.0
   resolution: "@types/d3-scale@npm:2.2.0"
@@ -3788,6 +3795,7 @@ __metadata:
     "@babel/preset-env": ^7.9.0
     "@material-ui/core": ^4.9.7
     "@material-ui/icons": ^4.9.1
+    "@types/d3-scale-chromatic": ^1.3.1
     "@types/dexie": ^1.3.1
     "@types/jest": ^25.1.4
     "@types/papaparse": ^5.0.3
@@ -3803,6 +3811,7 @@ __metadata:
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
     core-js: ^3.6.4
+    d3-scale-chromatic: ^1.5.0
     dexie: ^2.0.4
     eslint: ^6.8.0
     eslint-config-prettier: ^6.10.1
@@ -7301,12 +7310,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-interpolate@npm:^1.2.0":
+"d3-interpolate@npm:1, d3-interpolate@npm:^1.2.0":
   version: 1.4.0
   resolution: "d3-interpolate@npm:1.4.0"
   dependencies:
     d3-color: 1
   checksum: 2/beea08fb3a712ccb992082c058a96a108f31692bbcecbf8029539ff378747b666fd0f33798b313835a2cb019e399a30fd1f5b643822f1cc0be3c86b4fe4730c7
+  languageName: node
+  linkType: hard
+
+"d3-scale-chromatic@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "d3-scale-chromatic@npm:1.5.0"
+  dependencies:
+    d3-color: 1
+    d3-interpolate: 1
+  checksum: 2/12f786b1b1d4c5eaa3f56f38b63832989f40f48d5ed0476325a0443af75d46824cab71b5b975e37cdd2f47a048d7db356f09364a7a5eea641cc81e3825ef996e
   languageName: node
   linkType: hard
 

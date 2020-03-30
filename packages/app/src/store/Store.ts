@@ -10,6 +10,7 @@ import {
 } from '@upsetjs/model';
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
+import { schemeCategory10 } from 'd3-scale-chromatic';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -17,6 +18,8 @@ export interface ISetTableOptions {
   page: number;
   rowsPerPage: number;
 }
+
+const colors = [schemeCategory10[0], ...schemeCategory10.slice(2)]; // no orange
 
 const themeKeys: (keyof UpSetThemeProps)[] = [
   'selectionColor',
@@ -73,6 +76,18 @@ function extractDefaults(keys: any[]) {
   return r;
 }
 
+class StoreQuery {
+  @observable.ref
+  q: UpSetSetQuery<any>;
+  @observable
+  visible: boolean;
+
+  constructor(q: UpSetSetQuery<any>, visible: boolean) {
+    this.q = q;
+    this.visible = visible;
+  }
+}
+
 export default class Store {
   @observable
   readonly ui = {
@@ -100,8 +115,8 @@ export default class Store {
   @observable.ref
   selection: ISetLike<any> | null = null;
 
-  @observable.shallow
-  readonly queries: UpSetSetQuery<any>[] = [];
+  @observable
+  readonly queries: StoreQuery[] = [];
 
   constructor() {
     this.appendDatasets(listStatic());
@@ -216,8 +231,9 @@ export default class Store {
 
   @computed
   get visibleQueries(): UpSetQuery<any>[] {
+    const qs = this.queries.filter((d) => d.visible).map((d) => d.q);
     if (!this.selection) {
-      return this.queries;
+      return qs;
     }
     return [
       {
@@ -225,6 +241,41 @@ export default class Store {
         color: 'darkorange',
         set: this.selection,
       },
-    ].concat(this.queries);
+    ].concat(qs);
+  }
+
+  @action
+  deleteQuery(query: UpSetSetQuery<any>) {
+    const i = this.queries.findIndex((d) => d.q === query);
+    if (i >= 0) {
+      this.queries.splice(i, 1);
+      colors.unshift(query.color);
+    }
+  }
+  @action
+  persistSelection() {
+    if (!this.selection) {
+      return;
+    }
+    this.queries.push(
+      new StoreQuery(
+        {
+          name: this.selection.name,
+          set: this.selection,
+          color: colors.length > 0 ? colors.shift()! : 'grey',
+        },
+        true
+      )
+    );
+    this.selection = null;
+  }
+
+  @action
+  toggleQueryVisibility(query: UpSetSetQuery<any>) {
+    const q = this.queries.find((d) => d.q === query);
+    if (!q) {
+      return;
+    }
+    q.visible = !q.visible;
   }
 }
