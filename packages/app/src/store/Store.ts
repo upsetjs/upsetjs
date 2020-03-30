@@ -20,6 +20,7 @@ export interface ISetTableOptions {
 }
 
 const colors = [schemeCategory10[0], ...schemeCategory10.slice(2)]; // no orange
+export const TEMP_QUERY_COLOR = colors.shift()!;
 
 const themeKeys: (keyof UpSetThemeProps)[] = [
   'selectionColor',
@@ -237,7 +238,7 @@ export default class Store {
     return [
       {
         name: this.selection.name,
-        color: 'darkorange',
+        color: TEMP_QUERY_COLOR,
         set: this.selection,
       },
     ].concat(qs);

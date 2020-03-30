@@ -2,6 +2,7 @@ import React from 'react';
 import Store from './Store';
 import { useLocalStore } from 'mobx-react-lite';
 
+export { TEMP_QUERY_COLOR } from './Store';
 const storeContext = React.createContext<Store | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {

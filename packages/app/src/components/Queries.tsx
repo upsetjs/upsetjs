@@ -11,7 +11,7 @@ import AddBox from '@material-ui/icons/AddBox';
 import { UpSetSetQuery } from '@upsetjs/model';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useStore } from '../store';
+import { useStore, TEMP_QUERY_COLOR } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -28,7 +28,7 @@ const SelectionLine = observer(() => {
       <ListItemIcon onClick={() => store.persistSelection()}>
         <Tooltip title="Persist Selection">
           <IconButton edge="start" aria-label="persist">
-            <AddBox style={{ color: 'darkorange' }} />
+            <AddBox style={{ color: TEMP_QUERY_COLOR }} />
           </IconButton>
         </Tooltip>
       </ListItemIcon>
