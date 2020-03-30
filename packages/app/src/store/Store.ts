@@ -23,6 +23,7 @@ const otherOptionKeys: (keyof UpSetProps<any>)[] = [
   'axisFontSize',
   'barPadding',
   'combinationName',
+  'setName',
   'combinationNameAxisOffset',
   'fontSize',
   'heightRatios',

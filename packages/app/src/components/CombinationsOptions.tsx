@@ -23,6 +23,7 @@ export default observer(() => {
         label="Mode"
         value={c.type}
         select
+        required
         onChange={(e) =>
           store.changeCombinations({ type: String(e.target.value) === 'intersection' ? 'intersection' : 'union' })
         }
@@ -35,6 +36,7 @@ export default observer(() => {
         value={c.min}
         name="min"
         type="number"
+        required
         inputProps={{
           min: 0,
           max: store.sets.length > 0 ? store.sets.length : undefined,
@@ -46,6 +48,7 @@ export default observer(() => {
         name="max"
         value={c.max}
         type="number"
+        required
         inputProps={{
           min: 1,
           max: store.sets.length > 0 ? store.sets.length : undefined,
@@ -57,6 +60,7 @@ export default observer(() => {
         name="limit"
         value={c.limit}
         type="number"
+        required
         inputProps={{
           min: 1,
         }}

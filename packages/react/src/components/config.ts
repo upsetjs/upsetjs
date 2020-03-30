@@ -83,17 +83,17 @@ export interface UpSetThemeProps {
 }
 
 const lightTheme: Required<UpSetThemeProps> = {
-  selectionColor: 'orange',
-  color: 'black',
-  textColor: 'black',
+  selectionColor: '#ffa500',
+  color: '#000000',
+  textColor: '#000000',
   hoverHintColor: '#cccccc',
-  notMemberColor: 'lightgray',
+  notMemberColor: '#d3d3d3',
   alternatingBackgroundColor: '#f5f5f5',
 };
 const darkTheme: Required<UpSetThemeProps> = {
-  selectionColor: 'orange',
+  selectionColor: '#ffa500',
   color: '#cccccc',
-  textColor: 'white',
+  textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
   alternatingBackgroundColor: '#444444',

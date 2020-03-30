@@ -3,6 +3,7 @@ import { StoreProvider } from '../store';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import SidePanel from './SidePanel';
+import RightSidePanel from './RightSidePanel';
 import UpSetWrapper from './UpSetWrapper';
 import Header from './Header';
 
@@ -37,6 +38,7 @@ export default function App() {
           <main className={classes.main}>
             <SidePanel />
             <UpSetWrapper />
+            <RightSidePanel />
           </main>
         </StoreProvider>
       </ThemeProvider>
