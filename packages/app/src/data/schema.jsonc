@@ -4,22 +4,12 @@
   "$id": "https://upsetjs.netlify.com/schema.1.0.0.json",
   "type": "object",
   "title": "UpSet.js App Dump Schema",
-  "required": ["name", "type", "creationDate", "rawData"],
+  "required": ["name"],
   "properties": {
-    "creationDate": {
-      "type": "string",
-      "title": "date dump"
-    },
     "name": {
       "type": "string"
     },
-    "type": {
-      "type": "string"
-    },
     "description": {
-      "type": "string"
-    },
-    "rawData": {
       "type": "string"
     }
   }

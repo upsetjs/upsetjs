@@ -6,9 +6,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ImageIcon from '@material-ui/icons/Image';
+
+import SpeedDial from '@material-ui/lab/SpeedDial';
+import CloudDownload from '@material-ui/icons/CloudDownload';
+import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '1rem',
     minWidth: '20em',
     color: theme.palette.primary.contrastText,
+  },
+  speeddial: {
+    position: 'absolute',
+    right: theme.spacing(2),
+    bottom: -theme.spacing(2),
   },
 }));
 
@@ -53,9 +62,28 @@ export default observer(() => {
             ))}
           </Select>
         </Typography>
-        <Button color="inherit" onClick={store.exportImage}>
-          Export
-        </Button>
+        <SpeedDial
+          ariaLabel="Export"
+          icon={<CloudDownload />}
+          direction="left"
+          className={classes.speeddial}
+          onClose={() => store.setSpeedDial(false)}
+          onOpen={() => store.setSpeedDial(true)}
+          open={store.ui.speedDial}
+        >
+          <SpeedDialAction
+            icon={<ImageIcon />}
+            tooltipTitle={'PNG Image'}
+            tooltipPlacement="bottom"
+            onClick={() => store.exportImage('png')}
+          />
+          <SpeedDialAction
+            icon={<ImageIcon />}
+            tooltipTitle={'SVG Image'}
+            tooltipPlacement="bottom"
+            onClick={() => store.exportImage('svg')}
+          />
+        </SpeedDial>
       </Toolbar>
     </AppBar>
   );

@@ -98,6 +98,7 @@ export default class Store {
       order: 'desc' as 'asc' | 'desc',
       orderBy: 'cardinality' as 'name' | 'cardinality',
     } as ISetTableOptions,
+    speedDial: false,
   };
 
   @observable
@@ -284,13 +285,19 @@ export default class Store {
     q.visible = !q.visible;
   }
 
-  @action.bound
-  exportImage() {
+  @action
+  exportImage(type: 'svg' | 'png') {
     if (this.ref.current) {
       exportSVG(this.ref.current, {
-        type: 'png',
+        type,
+        title: `UpSet - ${this.dataset?.name ?? 'Unknown'}`,
         theme: this.props.theme,
       });
     }
+  }
+
+  @action
+  setSpeedDial(value: boolean) {
+    this.ui.speedDial = value;
   }
 }

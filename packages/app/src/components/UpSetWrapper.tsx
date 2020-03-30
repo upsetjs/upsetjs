@@ -5,6 +5,7 @@ import { useStore } from '../store';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,7 +31,7 @@ const UpSetW = React.forwardRef<SVGSVGElement, Omit<UpSetProps<any>, 'width' | '
       render={({ width, height }) => {
         return (
           <div>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
               {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} ref={ref} />}
             </Suspense>
           </div>
