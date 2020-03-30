@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 
 const UpSet = lazy(() => import('@upsetjs/react'));
 
-const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
+const UpSetW = React.forwardRef<SVGSVGElement, Omit<UpSetProps<any>, 'width' | 'height'>>((props, ref) => {
   return (
     <ReactResizeDetector
       handleWidth
@@ -31,14 +31,14 @@ const UpSetW: React.FC<Omit<UpSetProps<any>, 'width' | 'height'>> = (props) => {
         return (
           <div>
             <Suspense fallback={<Loading />}>
-              {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} />}
+              {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} ref={ref} />}
             </Suspense>
           </div>
         );
       }}
     />
   );
-};
+});
 
 export default observer(() => {
   const store = useStore();
@@ -56,6 +56,7 @@ export default observer(() => {
           onHover={store.setHover}
           onClick={store.setSelection}
           exportButtons={false}
+          ref={store.ref}
         />
       )}
       {!store.dataset && <Loading>Choose Dataset</Loading>}

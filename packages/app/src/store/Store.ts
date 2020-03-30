@@ -1,4 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx';
+import { createRef } from 'react';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
 import {
   ISetLike,
@@ -11,6 +12,7 @@ import {
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
+import { exportSVG } from '@upsetjs/ui-utils';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -97,6 +99,9 @@ export default class Store {
       orderBy: 'cardinality' as 'name' | 'cardinality',
     } as ISetTableOptions,
   };
+
+  @observable
+  readonly ref = createRef<SVGSVGElement>();
 
   @observable.shallow
   readonly datasets: IDataSet[] = [];
@@ -277,5 +282,15 @@ export default class Store {
       return;
     }
     q.visible = !q.visible;
+  }
+
+  @action.bound
+  exportImage() {
+    if (this.ref.current) {
+      exportSVG(this.ref.current, {
+        type: 'png',
+        theme: this.props.theme,
+      });
+    }
   }
 }

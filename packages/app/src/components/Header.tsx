@@ -53,7 +53,9 @@ export default observer(() => {
             ))}
           </Select>
         </Typography>
-        <Button color="inherit">Export</Button>
+        <Button color="inherit" onClick={store.exportImage}>
+          Export
+        </Button>
       </Toolbar>
     </AppBar>
   );
