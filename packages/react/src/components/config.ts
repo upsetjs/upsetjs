@@ -6,6 +6,8 @@ import {
   BandScaleFactory,
   NumericScaleFactory,
   UpSetQuery,
+  ISet,
+  ISetCombination,
 } from '@upsetjs/model';
 
 export interface UpSetSizeProps {
@@ -70,9 +72,15 @@ export interface UpSetReactStyles {
   legend?: React.CSSProperties;
 }
 
-export interface UpSetReactStyleProps {
+export interface UpSetReactChildrens<T> {
+  set?(set: ISet<T>): React.ReactNode;
+  combinations?(combination: ISetCombination<T>): React.ReactNode;
+}
+
+export interface UpSetReactStyleProps<T> {
   styles?: UpSetReactStyles;
   style?: React.CSSProperties;
+  childrenFactories?: UpSetReactChildrens<T>;
 }
 
 export interface UpSetThemeProps {
@@ -174,7 +182,7 @@ export interface UpSetStyleProps extends UpSetThemeProps {
 export type UpSetProps<T> = UpSetDataProps<T> &
   UpSetSizeProps &
   UpSetStyleProps &
-  UpSetReactStyleProps &
+  UpSetReactStyleProps<T> &
   UpSetSelectionProps<T>;
 
 function areCombinations<T>(
@@ -188,9 +196,10 @@ export function fillDefaults<T>(
 ): Required<UpSetDataProps<T>> &
   Required<UpSetSizeProps> &
   Required<UpSetStyleProps> &
-  UpSetReactStyleProps &
+  UpSetReactStyleProps<T> &
   UpSetSelectionProps<T> & {
     styles: UpSetReactStyles;
+    childrenFactories: UpSetReactChildrens<T>;
   } {
   const theme = getTheme(props.theme);
   return Object.assign(
@@ -218,6 +227,7 @@ export function fillDefaults<T>(
       className: '',
       classNames: {},
       styles: {},
+      childrenFactories: {},
     },
     theme,
     props,

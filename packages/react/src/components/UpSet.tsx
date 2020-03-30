@@ -46,6 +46,7 @@ export default React.forwardRef(function UpSet<T>(
     fontSizes,
     classNames,
     styles: cStyles,
+    childrenFactories,
     fontFamily,
     widthRatios,
     heightRatios,
@@ -198,6 +199,7 @@ export default React.forwardRef(function UpSet<T>(
           onHover={onHover}
           cStyles={cStyles}
           classNames={classNames}
+          childrens={childrenFactories}
         />
         <UpSetQueries
           cs={cs}

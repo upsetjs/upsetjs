@@ -5,7 +5,7 @@ import { ISets, ISetCombinations, ISetLike } from '@upsetjs/model';
 import SetChart from './SetChart';
 import CombinationChart from './CombinationChart';
 import { wrap } from './utils';
-import { UpSetStyleClassNames, UpSetReactStyles } from '../config';
+import { UpSetStyleClassNames, UpSetReactStyles, UpSetReactChildrens } from '../config';
 
 export default React.memo(function UpSetChart<T>({
   scales,
@@ -17,6 +17,7 @@ export default React.memo(function UpSetChart<T>({
   onClick,
   classNames,
   cStyles,
+  childrens,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -27,6 +28,7 @@ export default React.memo(function UpSetChart<T>({
   onClick?(selection: ISetLike<T> | null): void;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
+  childrens: UpSetReactChildrens<T>;
 }>) {
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
@@ -64,7 +66,9 @@ export default React.memo(function UpSetChart<T>({
             barStyle={cStyles.bar}
             setClassName={classNames.setLabel}
             setStyle={cStyles.setLabel}
-          />
+          >
+            {childrens.set && childrens.set(d)}
+          </SetChart>
         ))}
       </g>
 
@@ -92,7 +96,9 @@ export default React.memo(function UpSetChart<T>({
             barStyle={cStyles.bar}
             dotClassName={classNames.dot}
             dotStyle={cStyles.dot}
-          />
+          >
+            {childrens.combinations && childrens.combinations(d)}
+          </CombinationChart>
         ))}
       </g>
     </g>

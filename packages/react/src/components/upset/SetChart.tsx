@@ -22,6 +22,7 @@ const SetChart = React.memo(function SetChart<T>({
   barStyle,
   setClassName,
   setStyle,
+  children,
 }: PropsWithChildren<
   {
     d: ISet<T>;
@@ -88,6 +89,7 @@ const SetChart = React.memo(function SetChart<T>({
       >
         {d.name}
       </text>
+      {children}
     </g>
   );
 });

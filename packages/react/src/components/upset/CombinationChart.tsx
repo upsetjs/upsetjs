@@ -27,6 +27,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   barLabelStyle,
   dotClassName,
   dotStyle,
+  children,
 }: PropsWithChildren<
   {
     d: ISetCombination<T>;
@@ -98,6 +99,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           className="strokePrimary upsetLine"
         />
       )}
+      {children}
     </g>
   );
 });
