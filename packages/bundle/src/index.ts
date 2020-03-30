@@ -91,7 +91,6 @@ export interface UpSetStyleProps extends UpSetThemeProps {
     dot?: string;
   };
 
-  triangleSize?: number;
   barLabelOffset?: number;
   setNameAxisOffset?: number;
   combinationNameAxisOffset?: number;

@@ -42,7 +42,6 @@ export default React.forwardRef(function UpSet<T>(
     hoverHintColor,
     notMemberColor,
     alternatingBackgroundColor,
-    triangleSize,
     fontSizes,
     classNames,
     styles: cStyles,
@@ -164,6 +163,10 @@ export default React.forwardRef(function UpSet<T>(
     stroke: ${textColor};
   }
   `;
+  const triangleSize = Math.max(
+    2,
+    (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * barPadding
+  );
 
   return (
     <svg className={className} style={style} width={width} height={height} ref={ref} data-theme={theme ?? 'light'}>
@@ -209,6 +212,17 @@ export default React.forwardRef(function UpSet<T>(
           childrens={childrenFactories}
           barLabelOffset={barLabelOffset}
         />
+        <UpSetSelection
+          cs={cs}
+          scales={scales}
+          sets={sets}
+          styles={styles}
+          onHover={onHover}
+          selection={selection}
+          triangleSize={triangleSize}
+          cStyles={cStyles}
+          classNames={classNames}
+        />
         <UpSetQueries
           cs={cs}
           scales={scales}
@@ -217,17 +231,6 @@ export default React.forwardRef(function UpSet<T>(
           onHover={onHover}
           queries={queries}
           secondary={onHover != null || selection != null}
-          triangleSize={triangleSize}
-          cStyles={cStyles}
-          classNames={classNames}
-        />
-        <UpSetSelection
-          cs={cs}
-          scales={scales}
-          sets={sets}
-          styles={styles}
-          onHover={onHover}
-          selection={selection}
           triangleSize={triangleSize}
           cStyles={cStyles}
           classNames={classNames}

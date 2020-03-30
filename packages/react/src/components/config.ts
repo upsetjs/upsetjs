@@ -159,7 +159,6 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   className?: string;
   classNames?: UpSetStyleClassNames;
   theme?: 'light' | 'dark';
-  triangleSize?: number;
   barLabelOffset?: number;
   setNameAxisOffset?: number;
   combinationNameAxisOffset?: number;
@@ -228,7 +227,6 @@ export function fillDefaults<T>(
       setNameAxisOffset: 20,
       combinationNameAxisOffset: 30,
       setName: 'Set Size',
-      triangleSize: 5,
       fontFamily: 'sans-serif',
       widthRatios: [0.2, 0.1, 0.7],
       heightRatios: [0.6, 0.4],

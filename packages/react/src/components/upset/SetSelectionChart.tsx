@@ -39,14 +39,14 @@ function SetSelectionChart<T>({
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         if (secondary) {
           return (
-            <polygon
+            <path
               key={d.name}
               transform={`translate(${x}, ${y + height})`}
-              points={`0,0 -${triangleSize},${triangleSize} ${triangleSize},${triangleSize}`}
+              d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${triangleSize},${triangleSize} L${triangleSize},${triangleSize} Z`}
               className={clazz}
             >
               {title}
-            </polygon>
+            </path>
           );
         }
         return (

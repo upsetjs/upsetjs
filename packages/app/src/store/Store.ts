@@ -41,7 +41,6 @@ const otherOptionKeys: (keyof UpSetProps<any>)[] = [
   'heightRatios',
   'padding',
   'theme',
-  'triangleSize',
   'widthRatios',
   'fontFamily',
   'numericScale',

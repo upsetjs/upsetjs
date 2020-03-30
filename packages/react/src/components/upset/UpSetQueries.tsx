@@ -39,7 +39,7 @@ export default React.memo(function UpSetQueries<T>({
   );
 
   return (
-    <g className={onHover ? 'pnone' : undefined}>
+    <g className={onHover && !secondary ? 'pnone' : undefined}>
       <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
         {qs.map((q, i) => (
           <CombinationSelectionChart

@@ -40,14 +40,14 @@ function CombinationSelectionChart<T>({
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         if (secondary) {
           return (
-            <polygon
+            <path
               key={d.name}
               transform={`translate(${x}, ${y})`}
-              points={`0,0 -${triangleSize},-${triangleSize} -${triangleSize},${triangleSize}`}
+              d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${triangleSize},-${triangleSize} L-${triangleSize},${triangleSize} Z`}
               className={clazz}
             >
               {title}
-            </polygon>
+            </path>
           );
         }
         return (
