@@ -1,5 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx';
-import listDataSets, { IDataSet } from '../data';
+import { IDataSet, listStatic, listRemote, listLocal } from '../data';
 import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetQuery } from '@upsetjs/model';
 import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
 import { stableSort } from './utils';
@@ -22,7 +22,7 @@ export default class Store {
   };
 
   @observable.shallow
-  datasets: IDataSet[] = [];
+  readonly datasets: IDataSet[] = [];
 
   @observable.ref
   dataset: IDataSet | null = null;
@@ -39,14 +39,22 @@ export default class Store {
   selection: ISetLike<any> | null = null;
 
   constructor() {
-    listDataSets().then((r) =>
-      runInAction(() => {
-        this.datasets = r;
-        if (r.length > 0) {
-          this.selectDataSet(r[0].name);
-        }
-      })
-    );
+    this.appendDatasets(listStatic());
+    listLocal().then((ds) => this.appendDatasets(ds));
+    listRemote().then((ds) => {
+      ds.forEach((d) => d.then((ds) => this.appendDatasets([ds])));
+    });
+  }
+
+  @action
+  private appendDatasets(ds: IDataSet[]) {
+    if (ds.length <= 0) {
+      return;
+    }
+    this.datasets.push(...ds);
+    if (this.datasets.length > 0 && !this.dataset) {
+      this.selectDataSet(this.datasets[0].name);
+    }
   }
 
   @action

@@ -1,14 +1,11 @@
-import simpsons from './simpsons';
-import upset from './upset2';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
-import { listDatasets } from './db';
-import { IDataSet } from './interfaces';
+import simpsons from './simpsons';
+export { listUpSet2Datasets as listRemote } from './upset2';
+export { listDatasets as listLocal } from './db';
 
 export * from './interfaces';
 
-export default function list() {
-  return Promise.all([simpsons, upset(), listDatasets()]).then((dss) => {
-    return ([] as IDataSet[]).concat(...dss);
-  });
+export function listStatic() {
+  return [simpsons];
 }

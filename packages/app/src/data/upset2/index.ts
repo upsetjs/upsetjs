@@ -42,24 +42,47 @@ export interface IUpSetDataSet {
   sets: ISetSpec[];
 }
 
-async function listUpSetDatasets(file = `${baseUrlV1}/datasets.json`, baseUrl = baseUrlV1) {
-  const dss: string[] = await fetchCors(file).then((r) => r.json());
-  const datasets: IUpSetDataSet[] = await Promise.all(
-    dss.map((d) => fetchCors(`${baseUrl}/${d}`).then((r) => r.json()))
-  );
-  datasets.forEach((ds) => {
-    ds.file = ds.file.startsWith('https') ? ds.file : `${baseUrl}/${ds.file}`;
-  });
-  return datasets;
+function asDataSet(ds: IUpSetDataSet): IDataSet {
+  return {
+    id: ds.name,
+    name: ds.name,
+    description: ds.description ?? '',
+    author: ds.author ?? '',
+    load: async () => {
+      const elems = await elementsFromDataset(ds);
+      const sets = extractSets(elems);
+      return {
+        sets,
+        props: {},
+      };
+    },
+  };
 }
 
-export async function listUpSet2Datasets() {
-  const base = await listUpSetDatasets(`${baseUrlV2}/data/datasets.json`, baseUrlV2);
+export async function listUpSetDatasets(file = `${baseUrlV1}/datasets.json`, baseUrl = baseUrlV1) {
+  const dss: string[] = await fetchCors(file).then((r) => r.json());
+  return dss.map((d) =>
+    fetchCors(`${baseUrl}/${d}`)
+      .then((r) => r.json())
+      .then((ds) => {
+        ds.file = ds.file.startsWith('https') ? ds.file : `${baseUrl}/${ds.file}`;
+        return asDataSet(ds);
+      })
+  );
+}
+
+export async function listUpSetServiceDatasets() {
   const server = ((await fetch(baseServerUrl).then((r) => r.json())).datasets as IUpSetDataSet[]).filter(
     (d) => d.sets.length > 0
   );
-  server.forEach((d) => (d.file = `${d.file}?alt=media`));
-  return base.concat(server);
+  return server.map((d) => {
+    d.file = `${d.file}?alt=media`;
+    return asDataSet(d);
+  });
+}
+
+export function listUpSet2Datasets() {
+  return listUpSetDatasets(`${baseUrlV2}/data/datasets.json`, baseUrlV2);
 }
 
 async function elementsFromDataset(ds: IUpSetDataSet) {
@@ -86,28 +109,5 @@ async function elementsFromDataset(ds: IUpSetDataSet) {
       name: row[idColumnIndex],
       sets,
     };
-  });
-}
-
-function asDataSet(ds: IUpSetDataSet): IDataSet {
-  return {
-    id: ds.name,
-    name: ds.name,
-    description: ds.description ?? '',
-    author: ds.author ?? '',
-    load: async () => {
-      const elems = await elementsFromDataset(ds);
-      const sets = extractSets(elems);
-      return {
-        sets,
-        props: {},
-      };
-    },
-  };
-}
-
-export default function listDataSets() {
-  return listUpSetDatasets().then((dss) => {
-    return dss.map((ds) => asDataSet(ds));
   });
 }
