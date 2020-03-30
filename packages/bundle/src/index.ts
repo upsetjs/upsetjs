@@ -75,6 +75,16 @@ export interface UpSetThemeProps {
 
 export interface UpSetStyleProps extends UpSetThemeProps {
   theme?: 'light' | 'dark';
+  className?: string;
+  classNames?: {
+    legend?: string;
+    chartLabel?: string;
+    axisTick?: string;
+    setLabel?: string;
+    barLabel?: string;
+    bar?: string;
+    dot?: string;
+  };
 
   triangleSize?: number;
   combinationNameAxisOffset?: number;
@@ -94,14 +104,28 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    * @default sans-serif
    */
   fontFamily?: string | false;
-  /**
-   * @default 16px
-   */
-  fontSize?: string;
-  /**
-   * @default 10px
-   */
-  axisFontSize?: string;
+  fontSizes?: {
+    /**
+     * @default 16px
+     */
+    chartLabel?: string;
+    /**
+     * @default 10px
+     */
+    axisTick?: string;
+    /**
+     * @default 16px
+     */
+    setLabel?: string;
+    /**
+     * @default 10px
+     */
+    barLabel?: string;
+    /**
+     * @default 10px
+     */
+    legend?: string;
+  };
 
   numericScale?: 'linear' | 'log' | NumericScaleFactory;
   bandScale?: 'band' | BandScaleFactory;
@@ -115,11 +139,16 @@ export declare type UpSetCSSStyles = CSSStyleDeclaration & {
 };
 
 export interface UpSetPlainStyleProps {
-  labelStyle?: UpSetCSSStyles;
-  setLabelStyle?: UpSetCSSStyles;
-  setNameStyle?: UpSetCSSStyles;
-  axisStyle?: UpSetCSSStyles;
-  combinationNameStyle?: UpSetCSSStyles;
+  style?: UpSetCSSStyles;
+  styles?: {
+    chartLabel?: UpSetCSSStyles;
+    axisTick?: UpSetCSSStyles;
+    setLabel?: UpSetCSSStyles;
+    barLabel?: UpSetCSSStyles;
+    bar?: UpSetCSSStyles;
+    dot?: UpSetCSSStyles;
+    legend?: UpSetCSSStyles;
+  };
 }
 
 export declare type UpSetProps<T> = UpSetDataProps<T> &
