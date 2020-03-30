@@ -3,17 +3,22 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetStyles } from './defineStyle';
 import { UpSetScales } from './generateScales';
 import UpSetDot from './UpSetDot';
+import { clsx } from './utils';
 
 function UpSetSelectionChart<T>({
   sets,
   scales,
   styles,
   selection,
+  dotClassName,
+  dotStyle,
 }: PropsWithChildren<{
   sets: ISets<T>;
   scales: UpSetScales;
   styles: UpSetStyles;
   selection: ISetLike<T> | null;
+  dotClassName?: string;
+  dotStyle?: React.CSSProperties;
 }>) {
   const cy = scales.sets.y.bandwidth() / 2;
   const cx = scales.combinations.x.bandwidth() / 2;
@@ -39,8 +44,9 @@ function UpSetSelectionChart<T>({
               cx={cx}
               cy={scales.sets.y(s.name)! + cy}
               name={s.name}
-              clazz="fillSelection"
+              clazz={clsx('fillSelection', dotClassName)}
               interactive={false}
+              style={dotStyle}
             />
           );
         })}

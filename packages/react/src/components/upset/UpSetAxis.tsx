@@ -2,6 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
 import D3Axis from './D3Axis';
+import { UpSetStyleClassNames, UpSetReactStyles } from '../config';
+import { clsx } from './utils';
 
 export default React.memo(function UpSetAxis({
   scales,
@@ -9,23 +11,27 @@ export default React.memo(function UpSetAxis({
   setName,
   combinationName,
   combinationNameAxisOffset,
-  axisStyle,
-  combinationNameStyle,
-  setNameStyle,
+  classNames,
+  cStyles,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
   setName: string | React.ReactNode;
   combinationName: string | React.ReactNode;
   combinationNameAxisOffset: number;
-  setNameStyle?: React.CSSProperties;
-  axisStyle?: React.CSSProperties;
-  combinationNameStyle?: React.CSSProperties;
+  classNames: UpSetStyleClassNames;
+  cStyles: UpSetReactStyles;
 }>) {
   return (
     <g>
       <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
-        <D3Axis d3Scale={scales.combinations.y} orient="left" style={axisStyle} integersOnly />
+        <D3Axis
+          d3Scale={scales.combinations.y}
+          orient="left"
+          integersOnly
+          tickClassName={classNames.axisTick}
+          tickStyle={cStyles.axisTick}
+        />
         <line
           x1={0}
           x2={styles.combinations.w}
@@ -34,8 +40,8 @@ export default React.memo(function UpSetAxis({
           className="axisLine"
         />
         <text
-          className="labelStyle nameStyle middleText"
-          style={combinationNameStyle}
+          className={clsx('chartTextStyle', 'middleText', classNames.chartLabel)}
+          style={cStyles.chartLabel}
           transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
         >
           {combinationName}
@@ -46,12 +52,13 @@ export default React.memo(function UpSetAxis({
           d3Scale={scales.sets.x}
           orient="bottom"
           transform={`translate(0, ${styles.sets.h})`}
-          style={axisStyle}
           integersOnly
+          tickClassName={classNames.axisTick}
+          tickStyle={cStyles.axisTick}
         />
         <text
-          className="labelStyle nameStyle middleText"
-          style={setNameStyle}
+          className={clsx('chartTextStyle', 'middleText', classNames.chartLabel)}
+          style={cStyles.chartLabel}
           transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + 30})`}
         >
           {setName}

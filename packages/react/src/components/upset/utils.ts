@@ -14,3 +14,7 @@ export function wrap<T>(f?: (set: ISetLike<T>) => void) {
     };
   };
 }
+
+export function clsx(...clazzes: (boolean | string | undefined)[]) {
+  return clazzes.filter(Boolean).join(' ');
+}

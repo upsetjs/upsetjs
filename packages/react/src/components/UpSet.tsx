@@ -43,14 +43,10 @@ export default React.forwardRef(function UpSet<T>(
     notMemberColor,
     alternatingBackgroundColor,
     triangleSize,
-    labelStyle,
-    fontSize,
+    fontSizes,
+    classNames,
+    styles: cStyles,
     fontFamily,
-    axisFontSize,
-    setLabelStyle,
-    combinationNameStyle,
-    setNameStyle,
-    axisStyle,
     widthRatios,
     heightRatios,
     queries = [],
@@ -80,13 +76,27 @@ export default React.forwardRef(function UpSet<T>(
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
 
   const rules = `
-  .labelStyle {
-    ${axisFontSize ? `font-size: ${axisFontSize};` : ''}
+  .textStyle {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
     fill: ${textColor};
   }
-  .nameStyle {
-    ${fontSize ? `font-size: ${fontSize};` : ''}
+  .axisTextStyle {
+    ${fontSizes.axisTick ? `font-size: ${fontSizes.axisTick};` : ''}
+  }
+  .barTextStyle {
+    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+  }
+  .setTextStyle {
+    ${fontSizes.setLabel ? `font-size: ${fontSizes.setLabel};` : ''}
+  }
+  .chartTextStyle {
+    ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
+  }
+  .legendTextStyle {
+    ${fontSizes.legend ? `font-size: ${fontSizes.legend};` : ''}
+    text-anchor: middle;
+    dominant-baseline: hanging;
+    pointer-events: none;
   }
   .middleText {
     text-anchor: middle;
@@ -127,12 +137,6 @@ export default React.forwardRef(function UpSet<T>(
     cursor: pointer;
   }
 
-  .legend {
-    text-anchor: middle;
-    dominant-baseline: hanging;
-    pointer-events: none;
-  }
-
   .interactive:hover > rect {
     // filter: drop-shadow(0 0 2px #cccccc);
     stroke: ${hoverHintColor};
@@ -157,7 +161,14 @@ export default React.forwardRef(function UpSet<T>(
   return (
     <svg className={className} style={style} width={width} height={height} ref={ref} data-theme={theme ?? 'light'}>
       <style>{rules}</style>
-      {queryLegend && <QueryLegend queries={queries} transform={`translate(${styles.legend.x},2)`} />}
+      {queryLegend && (
+        <QueryLegend
+          queries={queries}
+          transform={`translate(${styles.legend.x},2)`}
+          className={classNames.legend}
+          style={cStyles.legend}
+        />
+      )}
       {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
@@ -174,9 +185,8 @@ export default React.forwardRef(function UpSet<T>(
           scales={scales}
           setName={setName}
           styles={styles}
-          axisStyle={axisStyle}
-          combinationNameStyle={combinationNameStyle}
-          setNameStyle={setNameStyle}
+          cStyles={cStyles}
+          classNames={classNames}
         />
         <UpSetChart
           cs={cs}
@@ -184,10 +194,10 @@ export default React.forwardRef(function UpSet<T>(
           scales={scales}
           sets={sets}
           styles={styles}
-          labelStyle={labelStyle}
           onClick={onClick}
           onHover={onHover}
-          setLabelStyle={setLabelStyle}
+          cStyles={cStyles}
+          classNames={classNames}
         />
         <UpSetQueries
           cs={cs}
@@ -198,6 +208,8 @@ export default React.forwardRef(function UpSet<T>(
           queries={queries}
           secondary={selection != null}
           triangleSize={triangleSize}
+          cStyles={cStyles}
+          classNames={classNames}
         />
         <UpSetSelection
           cs={cs}
@@ -207,6 +219,8 @@ export default React.forwardRef(function UpSet<T>(
           onHover={onHover}
           selection={selection}
           triangleSize={triangleSize}
+          cStyles={cStyles}
+          classNames={classNames}
         />
       </g>
       {props.children}

@@ -60,13 +60,18 @@ export interface UpSetSelectionProps<T> {
   queries?: ReadonlyArray<UpSetQuery<T>>;
 }
 
+export interface UpSetReactStyles {
+  chartLabel?: React.CSSProperties;
+  axisTick?: React.CSSProperties;
+  setLabel?: React.CSSProperties;
+  barLabel?: React.CSSProperties;
+  bar?: React.CSSProperties;
+  dot?: React.CSSProperties;
+  legend?: React.CSSProperties;
+}
+
 export interface UpSetReactStyleProps {
-  labelStyle?: React.CSSProperties;
-  setLabelStyle?: React.CSSProperties;
-  setNameStyle?: React.CSSProperties;
-  axisStyle?: React.CSSProperties;
-  combinationNameStyle?: React.CSSProperties;
-  className?: string;
+  styles?: UpSetReactStyles;
   style?: React.CSSProperties;
 }
 
@@ -103,7 +108,19 @@ function getTheme(theme?: 'light' | 'dark') {
   return theme === 'dark' ? darkTheme : lightTheme;
 }
 
+export interface UpSetStyleClassNames {
+  legend?: string;
+  chartLabel?: string;
+  axisTick?: string;
+  setLabel?: string;
+  barLabel?: string;
+  bar?: string;
+  dot?: string;
+}
+
 export interface UpSetStyleProps extends UpSetThemeProps {
+  className?: string;
+  classNames?: UpSetStyleClassNames;
   theme?: 'light' | 'dark';
   triangleSize?: number;
   combinationNameAxisOffset?: number;
@@ -117,19 +134,35 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    * @default true
    */
   exportButtons?: boolean;
+
   /**
    * set to false to use the default font family
    * @default sans-serif
    */
   fontFamily?: string | false;
-  /**
-   * @default 16px
-   */
-  fontSize?: string;
-  /**
-   * @default 10px
-   */
-  axisFontSize?: string;
+
+  fontSizes?: {
+    /**
+     * @default 16px
+     */
+    chartLabel?: string;
+    /**
+     * @default 10px
+     */
+    axisTick?: string;
+    /**
+     * @default 16px
+     */
+    setLabel?: string;
+    /**
+     * @default 10px
+     */
+    barLabel?: string;
+    /**
+     * @default 10px
+     */
+    legend?: string;
+  };
 
   numericScale?: NumericScaleFactory | 'linear' | 'log';
   bandScale?: BandScaleFactory | 'band';
@@ -156,7 +189,9 @@ export function fillDefaults<T>(
   Required<UpSetSizeProps> &
   Required<UpSetStyleProps> &
   UpSetReactStyleProps &
-  UpSetSelectionProps<T> {
+  UpSetSelectionProps<T> & {
+    styles: UpSetReactStyles;
+  } {
   const theme = getTheme(props.theme);
   return Object.assign(
     {
@@ -172,8 +207,6 @@ export function fillDefaults<T>(
       combinationNameAxisOffset: 30,
       setName: 'Set Size',
       triangleSize: 5,
-      fontSize: '16px',
-      axisFontSize: '10px',
       fontFamily: 'sans-serif',
       widthRatios: [0.2, 0.1, 0.7],
       heightRatios: [0.6, 0.4],
@@ -182,8 +215,23 @@ export function fillDefaults<T>(
       exportButtons: true,
       numericScale: 'linear',
       bandScale: 'band',
+      className: '',
+      classNames: {},
+      styles: {},
     },
     theme,
-    props
+    props,
+    {
+      fontSizes: Object.assign(
+        {
+          setLabel: '16px',
+          axisTick: '10px',
+          chartLabel: '16px',
+          barLabel: '10px',
+          legend: '10px',
+        },
+        props.fontSizes ?? {}
+      ),
+    }
   );
 }

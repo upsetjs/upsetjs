@@ -6,6 +6,7 @@ import SetSelectionChart from './SetSelectionChart';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import LabelsSelection from './LabelsSelection';
 import UpSetSelectionChart from './UpSetSelectionChart';
+import { UpSetReactStyles, UpSetStyleClassNames } from '../config';
 
 function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
@@ -26,6 +27,8 @@ export default function UpSetSelection<T>({
   selection,
   onHover,
   triangleSize,
+  cStyles,
+  classNames,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -34,6 +37,8 @@ export default function UpSetSelection<T>({
   triangleSize: number;
   onHover?(selection: ISetLike<T> | null): void;
   selection: ISetLike<T> | null | ReadonlyArray<T>;
+  classNames: UpSetStyleClassNames;
+  cStyles: UpSetReactStyles;
 }>) {
   const selectionOverlap = selection
     ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
@@ -51,6 +56,8 @@ export default function UpSetSelection<T>({
             suffix="Selection"
             triangleSize={triangleSize}
             tooltip={onHover ? undefined : selectionName}
+            barClassName={classNames.bar}
+            barStyle={cStyles.bar}
           />
         )}
       </g>
@@ -63,13 +70,22 @@ export default function UpSetSelection<T>({
             suffix="Selection"
             triangleSize={triangleSize}
             tooltip={onHover ? undefined : selectionName}
+            barClassName={classNames.bar}
+            barStyle={cStyles.bar}
           />
         )}
       </g>
       <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
         {isSetLike(selection) && <LabelsSelection scales={scales} styles={styles} selection={selection} />}
         {isSetLike(selection) && (
-          <UpSetSelectionChart scales={scales} sets={sets} styles={styles} selection={selection} />
+          <UpSetSelectionChart
+            scales={scales}
+            sets={sets}
+            styles={styles}
+            selection={selection}
+            dotClassName={classNames.dot}
+            dotStyle={cStyles.dot}
+          />
         )}
       </g>
     </g>

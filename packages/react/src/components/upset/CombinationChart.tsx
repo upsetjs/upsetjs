@@ -4,6 +4,7 @@ import { UpSetScales } from './generateScales';
 import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { UpSetStyles } from './defineStyle';
+import { clsx } from './utils';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
   d,
@@ -11,7 +12,6 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  labelStyle,
   className,
   r,
   styles,
@@ -21,6 +21,12 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   combinationBarHeight,
   cx,
   cy,
+  barClassName,
+  barStyle,
+  barLabelClassName,
+  barLabelStyle,
+  dotClassName,
+  dotStyle,
 }: PropsWithChildren<
   {
     d: ISetCombination<T>;
@@ -30,11 +36,16 @@ const CombinationChart = React.memo(function CombinationChart<T>({
     r: number;
     sets: ISets<T>;
     rsets: ISets<T>;
-    labelStyle?: React.CSSProperties;
     combinationBarWidth: number;
     combinationBarHeight: number;
     cx: number;
     cy: number;
+    barClassName?: string;
+    barStyle?: React.CSSProperties;
+    barLabelClassName?: string;
+    barLabelStyle?: React.CSSProperties;
+    dotClassName?: string;
+    dotStyle?: React.CSSProperties;
   } & UpSetSelection
 >) {
   const y = scales.combinations.y(d.cardinality);
@@ -51,8 +62,20 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         {d.name}: {d.cardinality}
       </title>
       <rect width={combinationBarWidth} height={styles.sets.h + combinationBarHeight} className="fillTransparent" />
-      <rect y={y} height={combinationBarHeight - y} width={combinationBarWidth} className="fillPrimary" />
-      <text y={y} dy={-1} x={combinationBarWidth / 2} style={labelStyle} className="labelStyle middleText">
+      <rect
+        y={y}
+        height={combinationBarHeight - y}
+        width={combinationBarWidth}
+        className={clsx('fillPrimary', barClassName)}
+        style={barStyle}
+      />
+      <text
+        y={y}
+        dy={-1}
+        x={combinationBarWidth / 2}
+        style={barLabelStyle}
+        className={clsx('barTextStyle', 'middleText', barLabelClassName)}
+      >
         {d.cardinality}
       </text>
       {sets.map((s) => (
@@ -62,7 +85,8 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           cx={cx}
           cy={scales.sets.y(s.name)! + cy}
           name={d.sets.has(s) ? s.name : d.name}
-          clazz={d.sets.has(s) ? 'fillPrimary' : 'fillNotMember'}
+          style={dotStyle}
+          clazz={clsx(d.sets.has(s) ? 'fillPrimary' : 'fillNotMember', dotClassName)}
         />
       ))}
       {d.sets.size > 1 && (

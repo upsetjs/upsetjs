@@ -5,6 +5,7 @@ import { ISets, ISetCombinations, ISetLike } from '@upsetjs/model';
 import SetChart from './SetChart';
 import CombinationChart from './CombinationChart';
 import { wrap } from './utils';
+import { UpSetStyleClassNames, UpSetReactStyles } from '../config';
 
 export default React.memo(function UpSetChart<T>({
   scales,
@@ -14,8 +15,8 @@ export default React.memo(function UpSetChart<T>({
   r,
   onHover,
   onClick,
-  labelStyle,
-  setLabelStyle,
+  classNames,
+  cStyles,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -24,8 +25,8 @@ export default React.memo(function UpSetChart<T>({
   r: number;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T> | null): void;
-  labelStyle?: React.CSSProperties;
-  setLabelStyle?: React.CSSProperties;
+  classNames: UpSetStyleClassNames;
+  cStyles: UpSetReactStyles;
 }>) {
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
@@ -54,11 +55,15 @@ export default React.memo(function UpSetChart<T>({
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             className={onClick || onHover ? 'interactive' : undefined}
-            labelStyle={labelStyle}
             styles={styles}
-            setLabelStyle={setLabelStyle}
             setBarWidth={setBarWidth}
             setBarHeight={setBarHeight}
+            barClassName={classNames.bar}
+            barLabelClassName={classNames.barLabel}
+            barLabelStyle={cStyles.barLabel}
+            barStyle={cStyles.bar}
+            setClassName={classNames.setLabel}
+            setStyle={cStyles.setLabel}
           />
         ))}
       </g>
@@ -74,7 +79,6 @@ export default React.memo(function UpSetChart<T>({
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             className={onClick || onHover ? 'interactive' : undefined}
-            labelStyle={labelStyle}
             sets={sets}
             r={r}
             rsets={rsets}
@@ -82,6 +86,12 @@ export default React.memo(function UpSetChart<T>({
             cy={cy}
             combinationBarWidth={combinationBarWidth}
             combinationBarHeight={combinationBarHeight}
+            barClassName={classNames.bar}
+            barLabelClassName={classNames.barLabel}
+            barLabelStyle={cStyles.barLabel}
+            barStyle={cStyles.bar}
+            dotClassName={classNames.dot}
+            dotStyle={cStyles.dot}
           />
         ))}
       </g>

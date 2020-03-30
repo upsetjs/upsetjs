@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetSelection } from './interfaces';
 import { UpSetStyles } from './defineStyle';
+import { clsx } from './utils';
 
 const SetChart = React.memo(function SetChart<T>({
   d,
@@ -11,23 +12,31 @@ const SetChart = React.memo(function SetChart<T>({
   onMouseEnter,
   onMouseLeave,
   onClick,
-  labelStyle,
   className,
   styles,
-  setLabelStyle,
   setBarWidth,
   setBarHeight,
+  barClassName,
+  barLabelClassName,
+  barLabelStyle,
+  barStyle,
+  setClassName,
+  setStyle,
 }: PropsWithChildren<
   {
     d: ISet<T>;
     i: number;
     scales: UpSetScales;
-    labelStyle?: React.CSSProperties;
     className?: string;
     styles: UpSetStyles;
-    setLabelStyle?: React.CSSProperties;
     setBarWidth: number;
     setBarHeight: number;
+    barClassName?: string;
+    barStyle?: React.CSSProperties;
+    barLabelClassName?: string;
+    barLabelStyle?: React.CSSProperties;
+    setClassName?: string;
+    setStyle?: React.CSSProperties;
   } & UpSetSelection
 >) {
   const x = scales.sets.x(d.cardinality);
@@ -55,15 +64,27 @@ const SetChart = React.memo(function SetChart<T>({
           className="fillAlternating"
         />
       )}
-      <rect x={x} width={setBarWidth - x} height={setBarHeight} className="fillPrimary" />
-      <text x={x} dx={-1} y={setBarHeight / 2} style={labelStyle} className="labelStyle endText centralText">
+      <rect
+        x={x}
+        width={setBarWidth - x}
+        height={setBarHeight}
+        className={clsx('fillPrimary', barClassName)}
+        style={barStyle}
+      />
+      <text
+        x={x}
+        dx={-1}
+        y={setBarHeight / 2}
+        style={barLabelStyle}
+        className={clsx('barTextStyle', 'endText', 'centralText', barLabelClassName)}
+      >
         {d.cardinality}
       </text>
       <text
         x={setBarWidth + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
-        className="labelStyle nameStyle middleText centralText"
-        style={setLabelStyle}
+        className={clsx('setTextStyle', 'middleText', 'centralText', setClassName)}
+        style={setStyle}
       >
         {d.name}
       </text>

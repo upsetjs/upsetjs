@@ -1,6 +1,7 @@
 import { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
+import { clsx } from './utils';
 
 function CombinationSelectionChart<T>({
   combinations,
@@ -10,6 +11,8 @@ function CombinationSelectionChart<T>({
   secondary,
   tooltip,
   suffix,
+  barClassName,
+  barStyle,
 }: PropsWithChildren<{
   combinations: ISetCombinations<T>;
   scales: UpSetScales;
@@ -18,10 +21,12 @@ function CombinationSelectionChart<T>({
   triangleSize: number;
   secondary?: boolean;
   tooltip?: string;
+  barClassName?: string;
+  barStyle?: React.CSSProperties;
 }>) {
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
-  const clazz = `fill${suffix}${!tooltip ? ' pnone' : ''}`;
+  const clazz = clsx(`fill${suffix}`, !tooltip && 'pnone', barClassName);
   return (
     <g>
       {combinations.map((d) => {
@@ -46,7 +51,7 @@ function CombinationSelectionChart<T>({
           );
         }
         return (
-          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={clazz}>
+          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={clazz} style={barStyle}>
             {title}
           </rect>
         );

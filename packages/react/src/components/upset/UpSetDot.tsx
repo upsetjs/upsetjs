@@ -6,10 +6,19 @@ const UpSetDot = React.memo(function UpSetDot({
   cy,
   name,
   clazz,
+  style,
   interactive = true,
-}: PropsWithChildren<{ r: number; cx: number; cy: number; clazz: string; name: string; interactive?: boolean }>) {
+}: PropsWithChildren<{
+  r: number;
+  cx: number;
+  cy: number;
+  clazz: string;
+  name: string;
+  interactive?: boolean;
+  style?: React.CSSProperties;
+}>) {
   return (
-    <circle r={r} cx={cx} cy={cy} className={`${clazz}${!interactive ? ' pnone' : ''}`}>
+    <circle r={r} cx={cx} cy={cy} className={`${clazz}${!interactive ? ' pnone' : ''}`} style={style}>
       <title>{name}</title>
     </circle>
   );

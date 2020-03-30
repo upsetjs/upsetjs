@@ -1,8 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetQuery, isSetQuery, isElemQuery } from '@upsetjs/model';
+import { clsx } from './utils';
 
 const QueryLegend = React.memo(function QueryLegend<T>({
   queries,
+  className,
   ...extras
 }: PropsWithChildren<
   {
@@ -10,7 +12,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
   } & React.SVGAttributes<SVGGElement>
 >) {
   return (
-    <text {...extras} className="labelStyle legend">
+    <text {...extras} className={clsx('legendTextStyle', className)}>
       {queries.map((q, i) => {
         let count: number | null = null;
         if (isSetQuery(q)) {
