@@ -28,7 +28,7 @@ function EditFontSize({
       type="number"
       inputProps={{
         min: 0,
-        step: 0.1,
+        step: 1,
       }}
       InputProps={{
         endAdornment: (
