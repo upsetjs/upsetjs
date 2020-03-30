@@ -32,6 +32,11 @@ export interface UpSetSizeProps {
    */
   barPadding?: number;
   /**
+   * padding factor the for dots
+   * @default 0.7
+   */
+  dotPadding?: number;
+  /**
    * width ratios for different plots
    * [set chart, set labels, intersection chart]
    * @default [0.25, 0.1, 0.65]

@@ -120,6 +120,19 @@ export default observer(() => {
         onChange={handleNumericChange}
       />
       <TextField
+        label="Dot Padding"
+        name="dotPadding"
+        value={p.dotPadding}
+        type="number"
+        required
+        inputProps={{
+          min: 0,
+          max: 1,
+          step: 0.1,
+        }}
+        onChange={handleNumericChange}
+      />
+      <TextField
         label="Chart Padding"
         name="padding"
         value={p.padding}

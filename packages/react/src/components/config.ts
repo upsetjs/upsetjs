@@ -29,6 +29,12 @@ export interface UpSetSizeProps {
    * @default 0.1
    */
   barPadding?: number;
+
+  /**
+   * padding factor the for dots
+   * @default 0.7
+   */
+  dotPadding?: number;
   /**
    * width ratios for different plots
    * [set chart, set labels, intersection chart]
@@ -211,6 +217,7 @@ export function fillDefaults<T>(
       theme: 'light',
       padding: 20,
       barPadding: 0.3,
+      dotPadding: 0.7,
       combinations: { type: 'intersection' },
       selection: null,
       combinationName:

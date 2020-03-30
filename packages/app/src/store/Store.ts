@@ -22,6 +22,7 @@ const themeKeys: (keyof UpSetThemeProps)[] = [
 const otherOptionKeys: (keyof UpSetProps<any>)[] = [
   'fontSizes',
   'barPadding',
+  'dotPadding',
   'combinationName',
   'setName',
   'barLabelOffset',

@@ -53,6 +53,7 @@ export default React.forwardRef(function UpSet<T>(
     barLabelOffset,
     setNameAxisOffset,
     queries = [],
+    dotPadding,
     queryLegend,
     exportButtons,
     numericScale,
@@ -76,7 +77,7 @@ export default React.forwardRef(function UpSet<T>(
     bandScale,
   ]);
 
-  const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * (1 - styles.padding);
+  const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * dotPadding;
 
   const rules = `
   .textStyle {
