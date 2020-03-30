@@ -1,5 +1,5 @@
 import { render, h } from 'preact';
-import UpSetElement, { UpSetProps as UpSetElementProps } from '@upsetjs/react';
+import UpSetElement, { UpSetProps as UpSetElementProps, fillDefaults as fillDefaultsImpl } from '@upsetjs/react';
 
 import {
   ISets,
@@ -64,15 +64,20 @@ export interface UpSetSelectionProps<T> {
   queries?: ReadonlyArray<UpSetQuery<T>>;
 }
 
-export interface UpSetStyleProps {
-  theme?: 'light' | 'dark';
+export interface UpSetThemeProps {
   selectionColor?: string;
   alternatingBackgroundColor?: string;
   color?: string;
   textColor?: string;
   hoverHintColor?: string;
   notMemberColor?: string;
+}
+
+export interface UpSetStyleProps extends UpSetThemeProps {
+  theme?: 'light' | 'dark';
+
   triangleSize?: number;
+  combinationNameAxisOffset?: number;
   /**
    * show a legend of queries
    * enabled by default when queries are set
@@ -95,6 +100,9 @@ export interface UpSetStyleProps {
 
   linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
+
+  setName?: string;
+  combinationName?: string;
 }
 
 export declare type UpSetCSSStyles = CSSStyleDeclaration & {
@@ -102,9 +110,6 @@ export declare type UpSetCSSStyles = CSSStyleDeclaration & {
 };
 
 export interface UpSetPlainStyleProps {
-  setName?: string;
-  combinationName?: string;
-  combinationNameAxisOffset?: number;
   labelStyle?: UpSetCSSStyles;
   setLabelStyle?: UpSetCSSStyles;
   setNameStyle?: UpSetCSSStyles;
@@ -117,6 +122,17 @@ export declare type UpSetProps<T> = UpSetDataProps<T> &
   UpSetStyleProps &
   UpSetPlainStyleProps &
   UpSetSelectionProps<T>;
+
+export function fillDefaults<T>(
+  props: UpSetProps<T>
+): Required<UpSetDataProps<T>> &
+  Required<UpSetSizeProps> &
+  Required<UpSetStyleProps> &
+  UpSetPlainStyleProps &
+  UpSetSelectionProps<T> {
+  const p: UpSetElementProps<T> = props;
+  return fillDefaultsImpl(p);
+}
 
 export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;

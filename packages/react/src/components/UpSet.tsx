@@ -1,158 +1,14 @@
-import {
-  GenerateSetCombinationsOptions,
-  generateCombinations,
-  ISetLike,
-  ISets,
-  ISetCombinations,
-  NumericScaleLike,
-  BandScaleLike,
-  UpSetQuery,
-} from '@upsetjs/model';
+import { generateCombinations, GenerateSetCombinationsOptions, ISetCombinations } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
+import { fillDefaults, UpSetProps } from './config';
 import defineStyle from './upset/defineStyle';
+import ExportButtons from './upset/ExportButtons';
 import generateScales from './upset/generateScales';
+import QueryLegend from './upset/QueryLegend';
 import UpSetAxis from './upset/UpSetAxis';
+import UpSetChart from './upset/UpSetChart';
 import UpSetQueries from './upset/UpSetQueries';
 import UpSetSelection from './upset/UpSetSelection';
-import UpSetChart from './upset/UpSetChart';
-import QueryLegend from './upset/QueryLegend';
-import { scaleBand, scaleLinear } from 'd3-scale';
-import ExportButtons from './upset/ExportButtons';
-
-export interface UpSetSizeProps {
-  /**
-   * width of the chart
-   */
-  width: number;
-  /**
-   * height of the chart
-   */
-  height: number;
-  /**
-   * padding within the svg
-   * @default 5
-   */
-  padding?: number;
-  /**
-   * padding argument for scaleBand
-   * @default 0.1
-   */
-  barPadding?: number;
-  /**
-   * width ratios for different plots
-   * [set chart, set labels, intersection chart]
-   * @default [0.25, 0.1, 0.65]
-   */
-  widthRatios?: [number, number, number];
-  /**
-   * height ratios for different plots
-   * [intersection chart, set chart]
-   * @default [0.6, 0.4]
-   */
-  heightRatios?: [number, number];
-}
-
-export interface UpSetDataProps<T> {
-  /**
-   * the sets to visualize
-   */
-  sets: ISets<T>;
-  /**
-   * the combinations to visualize by default all combinations
-   */
-  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
-}
-
-export interface UpSetSelectionProps<T> {
-  selection?: ISetLike<T> | null | ReadonlyArray<T>;
-  onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T> | null): void;
-
-  queries?: ReadonlyArray<UpSetQuery<T>>;
-}
-
-export interface UpSetReactStyleProps {
-  setName?: string | React.ReactNode;
-  combinationName?: string | React.ReactNode;
-  combinationNameAxisOffset?: number;
-  labelStyle?: React.CSSProperties;
-  setLabelStyle?: React.CSSProperties;
-  setNameStyle?: React.CSSProperties;
-  axisStyle?: React.CSSProperties;
-  combinationNameStyle?: React.CSSProperties;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface UpSetThemeProps {
-  selectionColor?: string;
-  alternatingBackgroundColor?: string;
-  color?: string;
-  textColor?: string;
-  hoverHintColor?: string;
-  notMemberColor?: string;
-}
-
-const lightTheme: Required<UpSetThemeProps> = {
-  selectionColor: 'orange',
-  color: 'black',
-  textColor: 'black',
-  hoverHintColor: '#cccccc',
-  notMemberColor: 'lightgray',
-  alternatingBackgroundColor: '#f5f5f5',
-};
-const darkTheme: Required<UpSetThemeProps> = {
-  selectionColor: 'orange',
-  color: '#cccccc',
-  textColor: 'white',
-  hoverHintColor: '#d9d9d9',
-  notMemberColor: '#666666',
-  alternatingBackgroundColor: '#444444',
-};
-
-function getTheme(theme?: 'light' | 'dark') {
-  return theme === 'dark' ? darkTheme : lightTheme;
-}
-
-export interface UpSetStyleProps extends UpSetThemeProps {
-  theme?: 'light' | 'dark';
-  triangleSize?: number;
-  /**
-   * show a legend of queries
-   * enabled by default when queries are set
-   */
-  queryLegend?: boolean;
-  /**
-   * show export buttons
-   * @default true
-   */
-  exportButtons?: boolean;
-  /**
-   * @default 16px
-   */
-  fontSize?: string;
-  /**
-   * @default 10px
-   */
-  axisFontSize?: string;
-
-  linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
-  bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
-}
-
-function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
-  return scaleLinear().domain(domain).range(range);
-}
-
-function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
-  return scaleBand().domain(domain).range(range).padding(padding);
-}
-
-export type UpSetProps<T> = UpSetDataProps<T> &
-  UpSetSizeProps &
-  UpSetStyleProps &
-  UpSetReactStyleProps &
-  UpSetSelectionProps<T>;
 
 function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
@@ -161,49 +17,48 @@ function areCombinations<T>(
 }
 
 export default React.forwardRef(function UpSet<T>(
-  {
+  props: PropsWithChildren<UpSetProps<T>>,
+  ref: React.Ref<SVGSVGElement>
+) {
+  const {
     className,
     style,
-    children,
     width,
     height,
-    padding: margin = 20,
-    barPadding = 0.3,
+    padding: margin,
+    barPadding,
     sets,
-    combinations = { type: 'intersection' },
+    combinations,
     selection = null,
     onClick,
     onHover,
     theme,
-    combinationName = !areCombinations(combinations) && combinations.type === 'union'
-      ? 'Union Size'
-      : 'Intersection Size',
-    combinationNameAxisOffset = 30,
-    setName = 'Set Size',
-    selectionColor = getTheme(theme).selectionColor,
-    color = getTheme(theme).color,
-    textColor = getTheme(theme).textColor,
-    hoverHintColor = getTheme(theme).hoverHintColor,
-    notMemberColor = getTheme(theme).notMemberColor,
-    alternatingBackgroundColor = getTheme(theme).alternatingBackgroundColor,
-    triangleSize = 5,
+    combinationName,
+    combinationNameAxisOffset,
+    setName,
+    selectionColor,
+    color,
+    textColor,
+    hoverHintColor,
+    notMemberColor,
+    alternatingBackgroundColor,
+    triangleSize,
     labelStyle,
-    fontSize = '16px',
-    axisFontSize = '10px',
+    fontSize,
+    axisFontSize,
     setLabelStyle,
-    combinationNameStyle = {},
-    setNameStyle = {},
+    combinationNameStyle,
+    setNameStyle,
     axisStyle,
-    widthRatios = [0.25, 0.1, 0.65],
-    heightRatios = [0.6, 0.4],
+    widthRatios,
+    heightRatios,
     queries = [],
-    queryLegend = queries.length > 0,
-    exportButtons = true,
-    linearScaleFactory = linearScale,
-    bandScaleFactory = bandScale,
-  }: PropsWithChildren<UpSetProps<T>>,
-  ref: React.Ref<SVGSVGElement>
-) {
+    queryLegend,
+    exportButtons,
+    linearScaleFactory,
+    bandScaleFactory,
+  } = fillDefaults(props);
+
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
   const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
     width,
@@ -357,7 +212,7 @@ export default React.forwardRef(function UpSet<T>(
           triangleSize={triangleSize}
         />
       </g>
-      {children}
+      {props.children}
     </svg>
   );
 });
