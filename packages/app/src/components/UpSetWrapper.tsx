@@ -47,7 +47,6 @@ export default observer(() => {
     <div className={classes.root}>
       {store.sets.length > 0 && store.dataset && (
         <UpSetW
-          theme="dark"
           className={classes.wrapper}
           {...store.props}
           sets={store.visibleSets}
@@ -56,7 +55,6 @@ export default observer(() => {
           selection={store.hover || store.selection}
           onHover={store.setHover}
           onClick={store.setSelection}
-          selectionColor={store.selectionColor}
           exportButtons={false}
         />
       )}

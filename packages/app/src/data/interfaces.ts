@@ -1,8 +1,11 @@
-import { ISets, UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
+import { ISets, UpSetSizeProps, UpSetStyleProps } from '@upsetjs/react';
+
+export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'> &
+  Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'>;
 
 export interface ILoadedDataSet {
   sets: ISets<any>;
-  props: UpSetReactStyleProps & UpSetStyleProps;
+  props: ICustomizeOptions;
 }
 
 export interface IDataSet {

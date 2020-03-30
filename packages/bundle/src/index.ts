@@ -66,7 +66,7 @@ export interface UpSetSelectionProps<T> {
 
 export interface UpSetThemeProps {
   selectionColor?: string;
-  alternatingBackgroundColor?: string;
+  alternatingBackgroundColor?: string | false;
   color?: string;
   textColor?: string;
   hoverHintColor?: string;
@@ -90,6 +90,11 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   exportButtons?: boolean;
   /**
+   * set to false to use the default font family
+   * @default sans-serif
+   */
+  fontFamily?: string | false;
+  /**
    * @default 16px
    */
   fontSize?: string;
@@ -98,7 +103,7 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   axisFontSize?: string;
 
-  linearScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
+  numericScaleFactory?: (domain: [number, number], range: [number, number]) => NumericScaleLike;
   bandScaleFactory?: (domain: string[], range: [number, number], padding: number) => BandScaleLike;
 
   setName?: string;

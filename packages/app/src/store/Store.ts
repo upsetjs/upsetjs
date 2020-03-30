@@ -1,7 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx';
-import { IDataSet, listStatic, listRemote, listLocal } from '../data';
+import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
 import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetQuery } from '@upsetjs/model';
-import { UpSetReactStyleProps, UpSetStyleProps } from '@upsetjs/react';
+import { UpSetProps, fillDefaults, UpSetThemeProps } from '@upsetjs/react';
 import { stableSort } from './utils';
 
 export interface ISetTableOptions {
@@ -9,6 +9,58 @@ export interface ISetTableOptions {
   orderBy: 'name' | 'cardinality';
   page: number;
   rowsPerPage: number;
+}
+
+const themeKeys: (keyof UpSetThemeProps)[] = [
+  'selectionColor',
+  'color',
+  'textColor',
+  'hoverHintColor',
+  'notMemberColor',
+  'alternatingBackgroundColor',
+];
+const otherOptionKeys: (keyof UpSetProps<any>)[] = [
+  'axisFontSize',
+  'barPadding',
+  'combinationName',
+  'combinationNameAxisOffset',
+  'fontSize',
+  'heightRatios',
+  'padding',
+  'theme',
+  'triangleSize',
+  'widthRatios',
+  'fontFamily',
+  'numericScale',
+  'bandScale',
+];
+
+function extractTheme(theme: 'light' | 'dark') {
+  const defaults: any = fillDefaults({
+    theme,
+    width: 100,
+    height: 100,
+    sets: [],
+  });
+  const r: UpSetThemeProps = {};
+  for (const key of themeKeys) {
+    r[key] = defaults[key];
+  }
+  return r as Required<UpSetThemeProps>;
+}
+
+function extractDefaults(keys: any[]) {
+  const defaults: any = fillDefaults({
+    theme: 'dark',
+    width: 100,
+    height: 100,
+    sets: [],
+  });
+  const r: any = {};
+  for (const key of keys) {
+    r[key] = defaults[key];
+  }
+  return r;
 }
 
 export default class Store {
@@ -30,8 +82,8 @@ export default class Store {
   @observable.shallow
   sets: ISets<any> = [];
 
-  @observable.ref
-  props: UpSetReactStyleProps & UpSetStyleProps = {};
+  @observable
+  readonly props: Required<ICustomizeOptions> = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
 
   @observable.ref
   hover: ISetLike<any> | null = null;
@@ -62,13 +114,12 @@ export default class Store {
     this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
 
     this.sets = [];
-    this.props = {};
     this.selectedSets = new Set();
     if (this.dataset) {
       this.dataset.load().then((d) =>
         runInAction(() => {
           this.sets = d.sets;
-          this.props = d.props;
+          Object.assign(this.props, d.props);
           this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
         })
       );
@@ -124,6 +175,14 @@ export default class Store {
   }
 
   @action
+  changeProps(delta: ICustomizeOptions) {
+    Object.assign(this.props, delta);
+    if (delta.theme) {
+      Object.assign(this.props, extractTheme(delta.theme));
+    }
+  }
+
+  @action
   toggleSidePanelExpansion(id: string) {
     if (this.ui.sidePanelExpanded.has(id)) {
       this.ui.sidePanelExpanded.delete(id);
@@ -149,10 +208,5 @@ export default class Store {
         set: this.selection,
       },
     ];
-  }
-
-  @computed
-  get selectionColor() {
-    return !this.hover && this.selection ? 'darkorange' : undefined;
   }
 }
