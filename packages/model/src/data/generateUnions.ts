@@ -12,11 +12,16 @@ export declare type GenerateSetUnionsOptions = {
    * @default Infinity
    */
   max?: number;
+  /**
+   * include empty intersections
+   * @default false
+   */
+  empty?: boolean;
 };
 
 export default function generateUnions<T>(
   sets: ISets<T>,
-  { min = 2, max = Infinity }: GenerateSetUnionsOptions = {}
+  { min = 2, max = Infinity, empty = false }: GenerateSetUnionsOptions = {}
 ): ReadonlyArray<ISetUnion<T>> {
   function computeUnion(union: ISets<T>) {
     if (union.length === 0) {
@@ -53,6 +58,9 @@ export default function generateUnions<T>(
 
   powerSet(sets, { min, max }).forEach((union) => {
     const elems = computeUnion(union);
+    if (!empty && elems.length === 0) {
+      return;
+    }
     unions.push({
       type: 'union',
       elems: elems,

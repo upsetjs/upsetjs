@@ -216,7 +216,7 @@ export default React.forwardRef(function UpSet<T>(
           styles={styles}
           onHover={onHover}
           queries={queries}
-          secondary={selection != null}
+          secondary={onHover != null || selection != null}
           triangleSize={triangleSize}
           cStyles={cStyles}
           classNames={classNames}
