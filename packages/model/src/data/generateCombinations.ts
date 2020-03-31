@@ -2,14 +2,14 @@ import generateIntersections, { GenerateSetIntersectionsOptions } from './genera
 import { ISets, ISetCombinations } from '../model';
 import generateUnions, { GenerateSetUnionsOptions } from './generateUnions';
 
-export declare type GenerateSetCombinationsOptions = {
+export declare type GenerateSetCombinationsOptions<T = any> = {
   type: 'intersection' | 'union';
-} & GenerateSetIntersectionsOptions &
-  GenerateSetUnionsOptions;
+} & GenerateSetIntersectionsOptions<T> &
+  GenerateSetUnionsOptions<T>;
 
 export default function generateCombinations<T>(
   sets: ISets<T>,
-  options: GenerateSetCombinationsOptions
+  options: GenerateSetCombinationsOptions<T>
 ): ISetCombinations<T> {
   if (options.type === 'union') {
     return generateUnions(sets, options);

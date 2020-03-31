@@ -1,7 +1,8 @@
 import { ISets, ISetUnion } from '../model';
 import powerSet from './powerSet';
+import { PostprocessCombinationsOptions, postprocessCombinations } from './asCombinations';
 
-export declare type GenerateSetUnionsOptions = {
+export declare type GenerateSetUnionsOptions<T = any> = PostprocessCombinationsOptions & {
   /**
    * minimum number of union sets
    * @default 2
@@ -17,15 +18,24 @@ export declare type GenerateSetUnionsOptions = {
    * @default false
    */
   empty?: boolean;
+
+  /**
+   * list of all elements used to compute the elements which aren't part of any given set
+   */
+  elems?: ReadonlyArray<T>;
 };
 
 export default function generateUnions<T>(
   sets: ISets<T>,
-  { min = 2, max = Infinity, empty = false }: GenerateSetUnionsOptions = {}
+  { min = 2, max = Infinity, empty = false, elems: allElements = [], ...postprocess }: GenerateSetUnionsOptions<T> = {}
 ): ReadonlyArray<ISetUnion<T>> {
   function computeUnion(union: ISets<T>) {
     if (union.length === 0) {
-      return [];
+      const lookup = new Set<T>();
+      for (const set of sets) {
+        set.elems.forEach((e) => lookup.add(e));
+      }
+      return allElements.filter((e) => !lookup.has(e));
     }
     if (union.length === 1) {
       return union[0].elems;
@@ -63,7 +73,7 @@ export default function generateUnions<T>(
     }
     unions.push({
       type: 'union',
-      elems: elems,
+      elems,
       sets: new Set(union),
       name: union.length === 1 ? union[0].name : `(${union.map((d) => d.name).join(' ∪ ')})`,
       cardinality: elems.length,
@@ -71,5 +81,5 @@ export default function generateUnions<T>(
     });
   });
 
-  return unions;
+  return postprocessCombinations(sets, unions, postprocess);
 }

@@ -2,7 +2,7 @@ import { ISets, ISetIntersection } from '../model';
 import powerSet from './powerSet';
 import { PostprocessCombinationsOptions, postprocessCombinations } from './asCombinations';
 
-export declare type GenerateSetIntersectionsOptions = PostprocessCombinationsOptions & {
+export declare type GenerateSetIntersectionsOptions<T = any> = PostprocessCombinationsOptions & {
   /**
    * minimum number of intersecting sets
    * @default 0
@@ -18,17 +18,29 @@ export declare type GenerateSetIntersectionsOptions = PostprocessCombinationsOpt
    * @default false
    */
   empty?: boolean;
+
+  /**
+   * list of all elements used to compute the elements which aren't part of any given set
+   */
+  elems?: ReadonlyArray<T>;
 };
 
 export default function generateIntersections<T>(
   sets: ISets<T>,
-  { min = 0, max = Infinity, empty = false, ...postprocess }: GenerateSetIntersectionsOptions = {}
+  {
+    min = 0,
+    max = Infinity,
+    empty = false,
+    elems: allElements = [],
+    ...postprocess
+  }: GenerateSetIntersectionsOptions<T> = {}
 ): ReadonlyArray<ISetIntersection<T>> {
   const setElems = new Map(sets.map((s) => [s, new Set(s.elems)]));
 
   function computeIntersection(intersection: ISets<T>) {
     if (intersection.length === 0) {
-      return [];
+      const lookup = Array.from(setElems.values());
+      return allElements.filter((e) => lookup.every((s) => !s.has(e)));
     }
     if (intersection.length === 1) {
       return intersection[0].elems;
@@ -49,7 +61,7 @@ export default function generateIntersections<T>(
     }
     intersections.push({
       type: 'intersection',
-      elems: elems,
+      elems,
       sets: new Set(intersection),
       name: intersection.length === 1 ? intersection[0].name : `(${intersection.map((d) => d.name).join(' ∩ ')})`,
       cardinality: elems.length,
