@@ -52,6 +52,7 @@ function asDataSet(ds: IUpSetDataSet): IDataSet {
       const elems = await elementsFromDataset(ds);
       const sets = extractSets(elems);
       return {
+        elems,
         sets,
         props: {},
       };
@@ -108,6 +109,7 @@ async function elementsFromDataset(ds: IUpSetDataSet) {
     return {
       name: row[idColumnIndex],
       sets,
+      // TODO also parse attributes
     };
   });
 }

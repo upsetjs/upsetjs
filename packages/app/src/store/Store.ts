@@ -12,7 +12,9 @@ import {
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { exportSVG } from '@upsetjs/ui-utils';
+import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
+import exportJSON from '../data/exportJSON';
+import exportCSV from '../data/exportCSV';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -103,6 +105,9 @@ export default class Store {
   @observable.shallow
   sets: ISets<any> = [];
 
+  @observable.shallow
+  elems: ReadonlyArray<any> = [];
+
   @observable
   readonly props: Required<ICustomizeOptions> = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
 
@@ -138,11 +143,13 @@ export default class Store {
     this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
 
     this.sets = [];
+    this.elems = [];
     this.selectedSets = new Set();
     if (this.dataset) {
       this.dataset.load().then((d) =>
         runInAction(() => {
           this.sets = d.sets;
+          this.elems = d.elems;
           Object.assign(this.props, d.props);
           this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
         })
@@ -261,12 +268,17 @@ export default class Store {
     q.visible = !q.visible;
   }
 
+  @computed
+  get title() {
+    return `UpSet - ${this.dataset?.name ?? 'Unknown'}`;
+  }
+
   @action
   exportImage(type: 'svg' | 'png') {
     if (this.ui.ref.current) {
       exportSVG(this.ui.ref.current, {
         type,
-        title: `UpSet - ${this.dataset?.name ?? 'Unknown'}`,
+        title: this.title,
         theme: this.props.theme,
       });
     }
@@ -274,11 +286,33 @@ export default class Store {
 
   @action.bound
   exportCSV() {
-    // TODO
+    const text = exportCSV({
+      ds: this.dataset!,
+      sets: this.visibleSets,
+      combinations: this.visibleCombinations,
+      elems: this.elems,
+    });
+    const b = new Blob([text], {
+      type: 'text/csv',
+    });
+    const url = URL.createObjectURL(b);
+    downloadUrl(url, `${this.title}.csv`, document);
+    URL.revokeObjectURL(url);
   }
 
   @action.bound
   exportJSON() {
-    // TODO
+    const text = exportJSON({
+      ds: this.dataset!,
+      sets: this.visibleSets,
+      combinations: this.visibleCombinations,
+      elems: this.elems,
+    });
+    const b = new Blob([text], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(b);
+    downloadUrl(url, `${this.title}.json`, document);
+    URL.revokeObjectURL(url);
   }
 }

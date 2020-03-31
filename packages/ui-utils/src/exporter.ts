@@ -46,7 +46,7 @@ function toPNG(url: string, node: SVGGElement) {
   });
 }
 
-function downloadUrl(url: string, title: string, doc: Document) {
+export function downloadUrl(url: string, title: string, doc: Document) {
   const a = doc.createElement('a');
   a.href = url;
   a.style.position = 'absolute';

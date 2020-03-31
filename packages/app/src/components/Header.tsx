@@ -70,6 +70,7 @@ export default observer(() => {
           ariaLabel="Export"
           icon={<Download />}
           direction="left"
+          hidden={store.dataset == null}
           className={classes.speeddial}
           onClose={() => store.ui.setSpeedDial(false)}
           onOpen={() => store.ui.setSpeedDial(true)}

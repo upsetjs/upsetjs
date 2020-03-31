@@ -10,6 +10,7 @@ const simpsons: IDataSet = {
     import('./data.json').then((data) => {
       return {
         sets: extractSets(data.default),
+        elems: data.default,
         props: {},
       };
     }),
