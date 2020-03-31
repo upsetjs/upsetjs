@@ -45,14 +45,8 @@ function findSet(type, name) {
   return combinations.find((d) => d.name === name);
 }
 
-const props = Object.assign({
-  width: root.clientWidth,
-  height: root.clientHeight,
-}, {
-  sets: sets,
-  combinations: combinations,
-  selection: ${store.hover ? `CCfindSet('${store.hover.type}', '${store.hover.name}')CC` : null},
-  queries: ${JSON.stringify(
+let selection = ${store.hover ? `CCfindSet('${store.hover.type}', '${store.hover.name}')CC` : null};
+const queries = ${JSON.stringify(
     store.visibleQueries.map((q) => ({
       name: q.name,
       color: q.color,
@@ -60,11 +54,33 @@ const props = Object.assign({
     })),
     null,
     2
-  )}
+  )};
+
+const props = Object.assign({
+  width: root.clientWidth,
+  height: root.clientHeight,
+}, {
+  sets: sets,
+  combinations: combinations,
+  selection: selection,
+  queries: queries,
 }, ${JSON.stringify(stripDefaults(store.props), null, 2)});
 
+function render() {
+  ${prefix}renderUpSet(root, props);
+}
 
-${prefix}renderUpSet(root, props);
+// uncomment to for interactivity
+//props.onHover = (s) => {
+//  props.selection = s;
+//  render();
+//}
+//props.onClick = (s) => {
+//  console.log(s);
+//}
+
+render();
+
 `
     .replace(/"CC/gm, '')
     .replace(/CC"/gm, '');
