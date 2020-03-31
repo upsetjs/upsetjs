@@ -15,6 +15,7 @@ import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
 import exportJSON from '../data/exportJSON';
 import exportCSV from '../data/exportCSV';
+import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -286,12 +287,7 @@ export default class Store {
 
   @action.bound
   exportCSV() {
-    const text = exportCSV({
-      ds: this.dataset!,
-      sets: this.visibleSets,
-      combinations: this.visibleCombinations,
-      elems: this.elems,
-    });
+    const text = exportCSV(this);
     const b = new Blob([text], {
       type: 'text/csv',
     });
@@ -302,17 +298,25 @@ export default class Store {
 
   @action.bound
   exportJSON() {
-    const text = exportJSON({
-      ds: this.dataset!,
-      sets: this.visibleSets,
-      combinations: this.visibleCombinations,
-      elems: this.elems,
-    });
+    const text = exportJSON(this);
     const b = new Blob([text], {
       type: 'application/json',
     });
     const url = URL.createObjectURL(b);
     downloadUrl(url, `${this.title}.json`, document);
     URL.revokeObjectURL(url);
+  }
+
+  @action.bound
+  exportCodepen() {
+    exportCodepen(this);
+  }
+  @action.bound
+  exportCodesandbox() {
+    exportCodeSandbox(this);
+  }
+  @action.bound
+  exportJSFiddle() {
+    exportJSFiddle(this);
   }
 }

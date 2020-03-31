@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
-import { IDumpInfo } from './interfaces';
+
+import Store from '../store/Store';
 
 export interface IDumpSchema {
   $schema: string;
@@ -39,7 +40,12 @@ function uidGenerator() {
   };
 }
 
-export default function exportJSON({ ds, sets, elems, combinations }: IDumpInfo) {
+export default function exportJSON(store: Store) {
+  const sets = store.visibleSets;
+  const combinations = store.visibleCombinations;
+  const ds = store.dataset!;
+  const elems = store.elems;
+
   const uid = uidGenerator();
   const r: IDumpSchema = {
     $schema: 'https://upsetjs.netlify.com/schema.1.0.0.json',

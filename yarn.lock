@@ -1825,23 +1825,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/icons@npm:^4.9.1":
-  version: 4.9.1
-  resolution: "@material-ui/icons@npm:4.9.1"
-  dependencies:
-    "@babel/runtime": ^7.4.4
-  peerDependencies:
-    "@material-ui/core": ^4.0.0
-    "@types/react": ^16.8.6
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 2/110bb77f0758d16ad85b6a91f23fe05bac6790b30b6b1889b0578d7d42050c63c76e2764ec4991bdf342073de43e14ebfc171f1c63296a6dd8d523cc6c07d2bb
-  languageName: node
-  linkType: hard
-
 "@material-ui/lab@npm:^4.0.0-alpha.47":
   version: 4.0.0-alpha.47
   resolution: "@material-ui/lab@npm:4.0.0-alpha.47"
@@ -3451,6 +3434,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lz-string@npm:^1.3.33":
+  version: 1.3.33
+  resolution: "@types/lz-string@npm:1.3.33"
+  checksum: 2/263c8080b0ab0c68d971f7a2810705b0aa0d5c22e02ba06a197c4e3a75e205bdce65f5cd8ea9e85730a71275bd4fbbc616fdfdecb3ad3ac44aa0ce164b3d809f
+  languageName: node
+  linkType: hard
+
 "@types/markdown-to-jsx@npm:^6.9.1":
   version: 6.11.0
   resolution: "@types/markdown-to-jsx@npm:6.11.0"
@@ -3815,11 +3805,11 @@ __metadata:
     "@babel/core": ^7.9.0
     "@babel/preset-env": ^7.9.0
     "@material-ui/core": ^4.9.7
-    "@material-ui/icons": ^4.9.1
     "@material-ui/lab": ^4.0.0-alpha.47
     "@types/d3-scale-chromatic": ^1.3.1
     "@types/dexie": ^1.3.1
     "@types/jest": ^25.1.4
+    "@types/lz-string": ^1.3.33
     "@types/papaparse": ^5.0.3
     "@types/react": ^16.9.25
     "@types/react-dom": ^16.9.5
@@ -3846,6 +3836,7 @@ __metadata:
     eslint-plugin-react-hooks: ^2.5.1
     file-loader: ^6.0.0
     html-webpack-plugin: ^4.0.1
+    lz-string: ^1.4.4
     mdi-material-ui: ^6.13.0
     mobx: ^5.15.4
     mobx-react-lite: next
@@ -12612,6 +12603,15 @@ fsevents@^1.2.7:
   dependencies:
     yallist: ^3.0.2
   checksum: 2/ffd9a280fa3400e731265db502270c2a65432f3fbfac23d480c72f675ec16dbbeddd57d4baf7aca70ab7af49949fad1bcaaf5a5e6e1cfed7316de71bb5dddf1c
+  languageName: node
+  linkType: hard
+
+"lz-string@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "lz-string@npm:1.4.4"
+  bin:
+    lz-string: bin/bin.js
+  checksum: 2/60a13f8a724d109cffc7dda4cb98569adfa0516750f8a75b7236f6bc94b47edffb59e8a1e501364404e3867cf399e6612c3981f9c81c2de75751203431bf2e69
   languageName: node
   linkType: hard
 

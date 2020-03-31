@@ -1,7 +1,9 @@
 import { unparse } from 'papaparse';
-import { IDumpInfo } from './interfaces';
+import Store from '../store/Store';
 
-export default function exportCSV({ sets, combinations }: IDumpInfo) {
+export default function exportCSV(store: Store) {
+  const sets = store.visibleSets;
+  const combinations = store.visibleCombinations;
   return unparse([
     ['Name', 'Cardinality', 'Degree', ...sets.map((d) => d.name)],
     ...combinations.map((c) => {
