@@ -1,14 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import UIStore from './UIStore';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
-import {
-  ISetLike,
-  ISets,
-  GenerateSetCombinationsOptions,
-  generateCombinations,
-  UpSetQuery,
-  UpSetSetQuery,
-} from '@upsetjs/model';
+import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetSetQuery } from '@upsetjs/model';
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
@@ -77,6 +70,38 @@ function extractDefaults(keys: any[]) {
   const r: any = {};
   for (const key of keys) {
     r[key] = defaults[key];
+  }
+  return r;
+}
+
+export function stripDefaults(props: Required<ICustomizeOptions>) {
+  const defaults = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
+  const stripDefaultsImpl = (a: any, defaults: any) => {
+    const r: any = {};
+    for (const key of Object.keys(a)) {
+      const defaultValue = defaults[key];
+      const value = a[key];
+      if (defaultValue === value) {
+        continue;
+      }
+      r[key] = value;
+    }
+    return r;
+  };
+  const r: ICustomizeOptions = stripDefaultsImpl(props, defaults);
+  if (r.fontSizes) {
+    const sub = stripDefaultsImpl(r.fontSizes, defaults.fontSizes!);
+    if (Object.keys(sub).length === 0) {
+      delete r.fontSizes;
+    } else {
+      r.fontSizes = sub;
+    }
+  }
+  if (Array.isArray(r.heightRatios) && r.heightRatios.every((v, i) => v === defaults.heightRatios[i])) {
+    delete r.heightRatios;
+  }
+  if (Array.isArray(r.widthRatios) && r.widthRatios.every((v, i) => v === defaults.widthRatios[i])) {
+    delete r.widthRatios;
   }
   return r;
 }
@@ -220,7 +245,7 @@ export default class Store {
   }
 
   @computed
-  get visibleQueries(): UpSetQuery<any>[] {
+  get visibleQueries(): UpSetSetQuery<any>[] {
     const qs = this.queries.filter((d) => d.visible).map((d) => d.q);
     if (!this.selection) {
       return qs;

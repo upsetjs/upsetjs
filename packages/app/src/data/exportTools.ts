@@ -1,6 +1,7 @@
-import Store from '../store/Store';
+import Store, { stripDefaults } from '../store/Store';
 
 import LZString from 'lz-string';
+import { toJS } from 'mobx';
 
 const HTML_CODE = `<div id="app"></div>`;
 const CSS_CODE = `#app {
@@ -9,17 +10,64 @@ const CSS_CODE = `#app {
 }`;
 
 function jsCode(store: Store, prefix = 'UpSetJS.') {
+  const elems: any[] = [];
+  const lookup = new Map<number, any>();
+  const toIndex = (elem: any) => {
+    if (lookup.has(elem)) {
+      return lookup.get(elem);
+    }
+    const i = elems.length;
+    elems.push(elem);
+    lookup.set(elem, i);
+    return i;
+  };
+  const sets = store.visibleSets.map((s) => ({
+    ...s,
+    elems: `CCfindElems(${JSON.stringify(s.elems.map(toIndex))})CC`,
+  }));
   return `
 const root = document.getElementById("app");
+
+const elems = ${JSON.stringify(toJS(elems), null, 2)};
+
+function findElems(indices) {
+  return indices.map((i) => elems[i]);
+}
+
+const sets = ${JSON.stringify(toJS(sets), null, 2)};
+
+const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(store.combinationsOptions, null, 2)});
+
+function findSet(type, name) {
+  if (type === "set") {
+    return sets.find((d) => d.name === name);
+  }
+  return combinations.find((d) => d.name === name);
+}
+
 const props = Object.assign({
   width: root.clientWidth,
   height: root.clientHeight,
 }, {
-  sets: [],
-  title: "${store.title}"
-});
+  sets: sets,
+  combinations: combinations,
+  selection: ${store.hover ? `CCfindSet('${store.hover.type}', '${store.hover.name}')CC` : null},
+  queries: ${JSON.stringify(
+    store.visibleQueries.map((q) => ({
+      name: q.name,
+      color: q.color,
+      set: `CCfindSet('${q.set.type}', '${q.set.name}')CC`,
+    })),
+    null,
+    2
+  )}
+}, ${JSON.stringify(stripDefaults(store.props), null, 2)});
+
+
 ${prefix}renderUpSet(root, props);
-`;
+`
+    .replace(/"CC/gm, '')
+    .replace(/CC"/gm, '');
 }
 
 export function exportJSFiddle(store: Store) {
@@ -78,7 +126,7 @@ ${HTML_CODE}
       },
       'index.js': {
         content: `
-import {renderUpSet} from "@upsetjs/bundle";
+import {renderUpSet, generateCombinations} from "@upsetjs/bundle";
 import "./main.css";
 
 ${jsCode(store, '')}
