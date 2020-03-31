@@ -224,7 +224,7 @@ export function fillDefaults<T>(
           ? 'Union Size'
           : 'Intersection Size',
       barLabelOffset: 2,
-      setNameAxisOffset: 20,
+      setNameAxisOffset: 24,
       combinationNameAxisOffset: 30,
       setName: 'Set Size',
       fontFamily: 'sans-serif',

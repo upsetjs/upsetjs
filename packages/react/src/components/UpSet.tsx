@@ -174,7 +174,7 @@ export default React.forwardRef(function UpSet<T>(
       {queryLegend && (
         <QueryLegend
           queries={queries}
-          transform={`translate(${styles.legend.x},2)`}
+          transform={`translate(${styles.legend.x},4)`}
           className={classNames.legend}
           style={cStyles.legend}
         />
