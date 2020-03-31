@@ -30,9 +30,10 @@ export default observer(() => {
       });
     };
   };
+  const rows = store.sortedSelectedElems;
 
   return (
-    <SidePanelEntry id="elems" title="Selected Elements">
+    <SidePanelEntry id="elems" title={`Selected Elements${rows.length > 0 ? `: ${rows.length}` : ''}`}>
       <TableContainer>
         <Table size="small" className={classes.root}>
           <TableHead>
@@ -50,7 +51,7 @@ export default observer(() => {
           </TableHead>
           {store.ui.sidePanelExpanded.has('elems') && (
             <TableBody>
-              {store.sortedSelectedElems.map((row) => {
+              {rows.map((row) => {
                 return (
                   <TableRow hover tabIndex={-1} key={row.name}>
                     <TableCell component="th" scope="row" padding="none">
