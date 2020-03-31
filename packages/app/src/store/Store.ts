@@ -1,5 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx';
-import { createRef } from 'react';
+import UIStore from './UIStore';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
 import {
   ISetLike,
@@ -92,17 +92,7 @@ class StoreQuery {
 
 export default class Store {
   @observable
-  readonly ui = {
-    sidePanelExpanded: new Set<string>(['queries', 'options', 'sets']),
-    setTable: {
-      order: 'desc' as 'asc' | 'desc',
-      orderBy: 'cardinality' as 'name' | 'cardinality',
-    } as ISetTableOptions,
-    speedDial: false,
-  };
-
-  @observable
-  readonly ref = createRef<SVGSVGElement>();
+  readonly ui = new UIStore();
 
   @observable.shallow
   readonly datasets: IDataSet[] = [];
@@ -221,20 +211,6 @@ export default class Store {
     this.props.fontSizes = Object.assign({}, this.props.fontSizes, delta);
   }
 
-  @action
-  toggleSidePanelExpansion(id: string) {
-    if (this.ui.sidePanelExpanded.has(id)) {
-      this.ui.sidePanelExpanded.delete(id);
-    } else {
-      this.ui.sidePanelExpanded.add(id);
-    }
-  }
-
-  @action
-  changeTableOptions(delta: Partial<ISetTableOptions>) {
-    Object.assign(this.ui.setTable, delta);
-  }
-
   @computed
   get visibleQueries(): UpSetQuery<any>[] {
     const qs = this.queries.filter((d) => d.visible).map((d) => d.q);
@@ -287,8 +263,8 @@ export default class Store {
 
   @action
   exportImage(type: 'svg' | 'png') {
-    if (this.ref.current) {
-      exportSVG(this.ref.current, {
+    if (this.ui.ref.current) {
+      exportSVG(this.ui.ref.current, {
         type,
         title: `UpSet - ${this.dataset?.name ?? 'Unknown'}`,
         theme: this.props.theme,
@@ -296,8 +272,13 @@ export default class Store {
     }
   }
 
-  @action
-  setSpeedDial(value: boolean) {
-    this.ui.speedDial = value;
+  @action.bound
+  exportCSV() {
+    // TODO
+  }
+
+  @action.bound
+  exportJSON() {
+    // TODO
   }
 }

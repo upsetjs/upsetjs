@@ -57,7 +57,7 @@ export default observer(() => {
           onHover={store.setHover}
           onClick={store.setSelection}
           exportButtons={false}
-          ref={store.ref}
+          ref={store.ui.ref}
         />
       )}
       {!store.dataset && <Loading>Choose Dataset</Loading>}

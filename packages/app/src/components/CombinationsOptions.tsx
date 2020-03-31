@@ -67,7 +67,7 @@ export default observer(() => {
         onChange={handleNumberChange}
       />
       <FormControlLabel
-        control={<Switch checked={c.empty} onChange={handleSwitchChange} name="empty" />}
+        control={<Switch checked={c.empty} onChange={handleSwitchChange} name="empty" size="small" />}
         label="Include Empty Combinations"
       />
     </SidePanelEntry>

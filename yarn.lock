@@ -3846,6 +3846,7 @@ __metadata:
     eslint-plugin-react-hooks: ^2.5.1
     file-loader: ^6.0.0
     html-webpack-plugin: ^4.0.1
+    mdi-material-ui: ^6.13.0
     mobx: ^5.15.4
     mobx-react-lite: next
     mobx-utils: ^5.5.5
@@ -12766,6 +12767,16 @@ fsevents@^1.2.7:
   version: 1.1.0
   resolution: "mdast-util-to-string@npm:1.1.0"
   checksum: 2/0d5ebe2cb573ac817436a0cb0310f7a46c69a742de2de728451fd6293e4825a7894c2112b2651c4c6dcaccb6f545eade1ea58c0e08dcf4a1ddadb636f2fcd52c
+  languageName: node
+  linkType: hard
+
+"mdi-material-ui@npm:^6.13.0":
+  version: 6.13.0
+  resolution: "mdi-material-ui@npm:6.13.0"
+  peerDependencies:
+    "@material-ui/core": ^4.0.0
+    react: ^16.8.0
+  checksum: 2/14d4661272ac83bea8fe03ddd85e145aa2000c9a2d37c95e35b40edf9c1ee37ef25e24dd60db36cc89f44af138801b5f8ffafb00846f6d9d43b86be5724760a5
   languageName: node
   linkType: hard
 

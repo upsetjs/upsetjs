@@ -7,12 +7,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ImageIcon from '@material-ui/icons/Image';
+import MenuIcon from 'mdi-material-ui/Menu';
+import FileImage from 'mdi-material-ui/FileImage';
+import FileChart from 'mdi-material-ui/FileChart';
+import FileCode from 'mdi-material-ui/FileCode';
+import FileExcel from 'mdi-material-ui/FileExcel';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
-import CloudDownload from '@material-ui/icons/CloudDownload';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+
+import Download from 'mdi-material-ui/Download';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -64,24 +68,36 @@ export default observer(() => {
         </Typography>
         <SpeedDial
           ariaLabel="Export"
-          icon={<CloudDownload />}
+          icon={<Download />}
           direction="left"
           className={classes.speeddial}
-          onClose={() => store.setSpeedDial(false)}
-          onOpen={() => store.setSpeedDial(true)}
+          onClose={() => store.ui.setSpeedDial(false)}
+          onOpen={() => store.ui.setSpeedDial(true)}
           open={store.ui.speedDial}
         >
           <SpeedDialAction
-            icon={<ImageIcon />}
+            icon={<FileImage />}
             tooltipTitle={'PNG Image'}
             tooltipPlacement="bottom"
             onClick={() => store.exportImage('png')}
           />
           <SpeedDialAction
-            icon={<ImageIcon />}
+            icon={<FileChart />}
             tooltipTitle={'SVG Image'}
             tooltipPlacement="bottom"
             onClick={() => store.exportImage('svg')}
+          />
+          <SpeedDialAction
+            icon={<FileExcel />}
+            tooltipTitle={'CSV File'}
+            tooltipPlacement="bottom"
+            onClick={store.exportCSV}
+          />
+          <SpeedDialAction
+            icon={<FileCode />}
+            tooltipTitle={'JSON File'}
+            tooltipPlacement="bottom"
+            onClick={store.exportJSON}
           />
         </SpeedDial>
       </Toolbar>

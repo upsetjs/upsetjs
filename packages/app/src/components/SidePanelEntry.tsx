@@ -3,7 +3,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronDown from 'mdi-material-ui/ChevronDown';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useStore } from '../store';
@@ -23,10 +23,10 @@ export default observer(
     return (
       <ExpansionPanel
         expanded={store.ui.sidePanelExpanded.has(id)}
-        onChange={() => store.toggleSidePanelExpansion(id)}
+        onChange={() => store.ui.toggleSidePanelExpansion(id)}
         className={className}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls={id} id={id}>
+        <ExpansionPanelSummary expandIcon={<ChevronDown />} aria-controls={id} id={id}>
           <Typography variant="h6">{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.root}>{children}</ExpansionPanelDetails>

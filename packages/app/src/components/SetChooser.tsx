@@ -45,7 +45,7 @@ export default observer(() => {
   const handleRequestSort = (property: 'name' | 'cardinality') => {
     return () => {
       const isAsc = o.orderBy === property && o.order === 'asc';
-      store.changeTableOptions({
+      store.ui.changeTableOptions({
         order: isAsc ? 'desc' : 'asc',
         orderBy: property,
       });
