@@ -2,6 +2,7 @@
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
 
 import Store from '../store/Store';
+import { ISet } from '@upsetjs/model';
 
 export interface IDumpSchema {
   $schema: string;
@@ -9,35 +10,25 @@ export interface IDumpSchema {
   description: string;
   author: string;
 
-  elements: { uid: number; obj: number | string | any }[];
-  sets: {
-    uid: number;
+  elements: ReadonlyArray<number | string | any>;
+  sets: ReadonlyArray<{
     name: string;
     cardinality: number;
     elems: number[];
-  }[];
-  combinations: {
-    uid: number;
+  }>;
+  combinations: ReadonlyArray<{
     name: string;
     type: 'intersection' | 'union' | 'composite';
     degree: number;
     sets: number[];
     cardinality: number;
     elems: number[];
-  }[];
+  }>;
 }
 
-function uidGenerator() {
-  let uid = 1;
-  const lookup = new Map<any, number>();
-  return (obj: any) => {
-    if (lookup.has(obj)) {
-      return lookup.get(obj)!;
-    }
-    const id = uid++;
-    lookup.set(obj, id);
-    return id;
-  };
+function byIndex<T>(arr: ReadonlyArray<T>) {
+  const r = new Map(arr.map((v, i) => [v, i]));
+  return (v: T) => r.get(v)!;
 }
 
 export default function exportJSON(store: Store) {
@@ -45,31 +36,24 @@ export default function exportJSON(store: Store) {
   const combinations = store.visibleCombinations;
   const ds = store.dataset!;
   const elems = store.elems;
+  const elem2Index = byIndex(elems);
+  const set2Index = byIndex(sets);
 
-  const uid = uidGenerator();
   const r: IDumpSchema = {
     $schema: 'https://upsetjs.netlify.com/schema.1.0.0.json',
     name: ds.name,
     description: ds.description,
     author: ds.author,
-    elements: elems.map((elem: any) => ({
-      uid: uid(elem),
-      obj: elem,
-    })),
+    elements: elems,
     sets: sets.map((set) => ({
-      uid: uid(set),
       name: set.name,
       cardinality: set.cardinality,
-      elems: set.elems.map((e) => uid(e)),
+      elems: set.elems.map(elem2Index),
     })),
     combinations: combinations.map((c) => ({
-      uid: uid(c),
-      name: c.name,
-      cardinality: c.cardinality,
-      degree: c.degree,
-      type: c.type,
-      elems: c.elems.map((e) => uid(e)),
-      sets: Array.from(c.sets).map((s) => uid(s)),
+      ...c,
+      elems: c.elems.map(elem2Index),
+      sets: Array.from(c.sets).map((v) => set2Index(v as ISet<any>)),
     })),
   };
   return JSON.stringify(r, null, 2);

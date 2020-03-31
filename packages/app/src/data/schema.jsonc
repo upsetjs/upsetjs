@@ -15,23 +15,14 @@
     "elements": {
       "type": "array",
       "items": {
-        "type": "object",
-        "required": ["uid", "attrs"],
-        "properties": {
-          "uid": {
-            "type": "integer"
-          },
-          "obj": {
-            "oneOf": [
-              { "type": "integer" },
-              { "type": "string" },
-              {
-                "type": "object",
-                "additionalProperties": true
-              }
-            ]
+        "oneOf": [
+          { "type": "integer" },
+          { "type": "string" },
+          {
+            "type": "object",
+            "additionalProperties": true
           }
-        }
+        ]
       }
     },
     "sets": {
@@ -39,9 +30,6 @@
       "items": {
         "type": "object",
         "properties": {
-          "uid": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           },
@@ -62,9 +50,6 @@
       "items": {
         "type": "object",
         "properties": {
-          "uid": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           },
