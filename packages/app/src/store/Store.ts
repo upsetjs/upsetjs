@@ -199,7 +199,7 @@ export default class Store {
   }
 
   @observable
-  readonly combinationsOptions: GenerateSetCombinationsOptions = {
+  readonly combinationsOptions: GenerateSetCombinationsOptions<any> = {
     type: 'intersection',
     min: 0,
     max: 3,
@@ -223,11 +223,19 @@ export default class Store {
 
   @computed
   get visibleCombinations() {
-    return generateCombinations(this.visibleSets, this.combinationsOptions);
+    return generateCombinations(
+      this.visibleSets,
+      Object.assign(
+        {
+          elems: this.elems,
+        },
+        this.combinationsOptions
+      )
+    );
   }
 
   @action
-  changeCombinations(delta: Partial<GenerateSetCombinationsOptions>) {
+  changeCombinations(delta: Partial<GenerateSetCombinationsOptions<any>>) {
     Object.assign(this.combinationsOptions, delta);
   }
 

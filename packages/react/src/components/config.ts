@@ -57,7 +57,7 @@ export interface UpSetDataProps<T> {
   /**
    * the combinations to visualize by default all combinations
    */
-  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions;
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
 }
 
 export interface UpSetSelectionProps<T> {

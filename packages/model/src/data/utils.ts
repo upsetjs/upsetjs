@@ -1,5 +1,3 @@
-import { ISets } from '../model';
-
 export function byName<T extends { name: string }>(a: T, b: T) {
   return a.name.localeCompare(b.name);
 }
@@ -28,5 +26,3 @@ export function byGroup<E, S extends { sets: ReadonlySet<E> }>(sets: ReadonlyArr
     return aIndex - bIndex;
   };
 }
-
-export function widthout<T>(elems: ReadonlyArray<T>, sets: ISets<T>) {}

@@ -10,33 +10,28 @@ const CSS_CODE = `#app {
 }`;
 
 function jsCode(store: Store, prefix = 'UpSetJS.') {
-  const elems: any[] = [];
-  const lookup = new Map<number, any>();
-  const toIndex = (elem: any) => {
-    if (lookup.has(elem)) {
-      return lookup.get(elem);
-    }
-    const i = elems.length;
-    elems.push(elem);
-    lookup.set(elem, i);
-    return i;
-  };
+  const lookup = new Map<any, number>(store.elems.map((d, i) => [d, i]));
   const sets = store.visibleSets.map((s) => ({
     ...s,
-    elems: `CCfindElems(${JSON.stringify(s.elems.map(toIndex))})CC`,
+    elems: `CC${JSON.stringify(s.elems.map((d) => lookup.get(d)!))}.map(byIndex)CC`,
   }));
   return `
 const root = document.getElementById("app");
 
-const elems = ${JSON.stringify(toJS(elems), null, 2)};
+const elems = ${JSON.stringify(toJS(store.elems), null, 2)};
 
-function findElems(indices) {
-  return indices.map((i) => elems[i]);
-}
+const byIndex = (i) => elems[i];
 
 const sets = ${JSON.stringify(toJS(sets), null, 2)};
 
-const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(store.combinationsOptions, null, 2)});
+const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(
+    {
+      ...store.combinationsOptions,
+      elems: 'CCelemsCC',
+    },
+    null,
+    2
+  )});
 
 function findSet(type, name) {
   if (type === "set") {
