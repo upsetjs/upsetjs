@@ -4,7 +4,7 @@
   "$id": "https://upsetjs.netlify.com/schema.1.0.0.json",
   "type": "object",
   "title": "UpSet.js App Dump Schema",
-  "required": ["name", "elements", "sets"],
+  "required": ["name", "elements", "sets", ""],
   "properties": {
     "name": {
       "type": "string"
@@ -46,37 +46,14 @@
       }
     },
     "combinations": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": ["combination", "intersection", "union"]
-          },
-          "cardinality": {
-            "type": "integer"
-          },
-          "degree": {
-            "type": "integer"
-          },
-          "sets": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
-          },
-          "elems": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
-          }
-        }
-      }
+      "$comment": "TODO",
+      "type": "object",
+      "additionalProperties": true
+    },
+    "props": {
+      "$comment": "TODO",
+      "type": "object",
+      "additionalProperties": true
     }
   }
 }

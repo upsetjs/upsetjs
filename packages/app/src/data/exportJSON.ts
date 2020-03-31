@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
 
-import Store from '../store/Store';
-import { ISet } from '@upsetjs/model';
+import Store, { stripDefaults } from '../store/Store';
+import { GenerateSetCombinationsOptions } from '@upsetjs/model';
+import { toJS } from 'mobx';
+import { ICustomizeOptions } from './interfaces';
 
 export interface IDumpSchema {
   $schema: string;
@@ -16,14 +18,8 @@ export interface IDumpSchema {
     cardinality: number;
     elems: number[];
   }>;
-  combinations: ReadonlyArray<{
-    name: string;
-    type: 'intersection' | 'union' | 'composite';
-    degree: number;
-    sets: number[];
-    cardinality: number;
-    elems: number[];
-  }>;
+  combinations: GenerateSetCombinationsOptions<any>;
+  props: ICustomizeOptions;
 }
 
 function byIndex<T>(arr: ReadonlyArray<T>) {
@@ -33,11 +29,9 @@ function byIndex<T>(arr: ReadonlyArray<T>) {
 
 export default function exportJSON(store: Store) {
   const sets = store.visibleSets;
-  const combinations = store.visibleCombinations;
   const ds = store.dataset!;
   const elems = store.elems;
   const elem2Index = byIndex(elems);
-  const set2Index = byIndex(sets);
 
   const r: IDumpSchema = {
     $schema: 'https://upsetjs.netlify.com/schema.1.0.0.json',
@@ -50,11 +44,8 @@ export default function exportJSON(store: Store) {
       cardinality: set.cardinality,
       elems: set.elems.map(elem2Index),
     })),
-    combinations: combinations.map((c) => ({
-      ...c,
-      elems: c.elems.map(elem2Index),
-      sets: Array.from(c.sets).map((v) => set2Index(v as ISet<any>)),
-    })),
+    combinations: toJS(store.combinationsOptions),
+    props: stripDefaults(store.props),
   };
   return JSON.stringify(r, null, 2);
 }
