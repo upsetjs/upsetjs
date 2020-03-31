@@ -70,7 +70,7 @@ function render() {
   ${prefix}renderUpSet(root, props);
 }
 
-// uncomment to for interactivity
+// uncomment for interactivity
 //props.onHover = (s) => {
 //  props.selection = s;
 //  render();
