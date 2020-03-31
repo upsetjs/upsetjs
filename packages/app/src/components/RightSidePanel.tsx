@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CustomizeTheme from './CustomizeTheme';
 import Queries from './Queries';
 import CustomizeProps from './CustomizeProps';
+import ElementInfo from './ElementInfo';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,7 @@ export default observer(() => {
     <Paper className={classes.wrapper}>
       <div className={classes.root}>
         <Queries />
+        <ElementInfo />
         <CustomizeTheme />
         <CustomizeProps />
       </div>

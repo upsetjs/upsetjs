@@ -198,6 +198,14 @@ export default class Store {
     return this.sortedSets.filter((s) => this.selectedSets.has(s.name));
   }
 
+  @computed
+  get sortedSelectedElems() {
+    if (!this.selection) {
+      return [];
+    }
+    return stableSort(this.selection.elems, this.ui.elemTable.orderBy, this.ui.elemTable.order);
+  }
+
   @observable
   readonly combinationsOptions: GenerateSetCombinationsOptions<any> = {
     type: 'intersection',
