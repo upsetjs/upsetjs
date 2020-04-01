@@ -4,7 +4,7 @@
   "$id": "https://upsetjs.netlify.com/schema.1.0.0.json",
   "type": "object",
   "title": "UpSet.js App Dump Schema",
-  "required": ["name", "elements", "sets", ""],
+  "required": ["name", "elements", "sets"],
   "properties": {
     "name": {
       "type": "string"

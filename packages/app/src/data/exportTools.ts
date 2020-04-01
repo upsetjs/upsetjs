@@ -1,6 +1,6 @@
 import Store, { stripDefaults } from '../store/Store';
 
-import LZString from 'lz-string';
+import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 
 const HTML_CODE = `<div id="app"></div>`;
@@ -156,7 +156,7 @@ ${jsCode(store, '')}
   };
 
   // based on codesandbox-import-utils
-  const json = LZString.compressToBase64(JSON.stringify(parameters))
+  const json = compressToBase64(JSON.stringify(parameters))
     .replace(/\+/g, '-') // Convert '+' to '-'
     .replace(/\//g, '_') // Convert '/' to '_'
     .replace(/=+$/, ''); // Remove ending '='

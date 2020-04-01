@@ -26,6 +26,7 @@ module.exports = function (env, argv) {
   return {
     entry: {
       app: './src/index.tsx',
+      embed: './src/embed.tsx',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -61,6 +62,13 @@ module.exports = function (env, argv) {
       new HtmlWebpackPlugin({
         title: 'UpSet.js App',
         template: path.resolve('./src/index.html'),
+        excludeChunks: ['embed'],
+      }),
+      new HtmlWebpackPlugin({
+        title: 'UpSet.js Embedded App',
+        filename: 'embed.html',
+        template: path.resolve('./src/index.html'),
+        chunks: ['embed'],
       }),
       p &&
         new WorkboxPlugin.GenerateSW({
@@ -68,6 +76,7 @@ module.exports = function (env, argv) {
           // and not allow any straggling "old" SWs to hang around
           clientsClaim: true,
           skipWaiting: true,
+          excludeChunks: ['embed'],
         }),
     ].filter(Boolean),
     resolve: {
