@@ -1,5 +1,5 @@
-import 'core-js/stable';
-import 'regenerator-runtime';
+// import 'core-js/stable';
+// import 'regenerator-runtime';
 import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike, generateCombinations } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { IEmbeddedDumpSchema, loadDump, loadFile } from './dump';
