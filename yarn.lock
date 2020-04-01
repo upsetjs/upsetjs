@@ -3817,7 +3817,7 @@ __metadata:
     "@types/react-router": ^5.1.4
     "@typescript-eslint/eslint-plugin": ^2.25.0
     "@typescript-eslint/parser": ^2.25.0
-    "@upsetjs/bundle": "workspace:packages/bundle"
+    "@upsetjs/bundle": ^0.3.3
     "@upsetjs/model": ^0.3.5
     "@upsetjs/react": ^0.3.3
     "@upsetjs/ui-utils": ^0.3.5
@@ -3862,7 +3862,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/bundle@workspace:packages/bundle":
+"@upsetjs/bundle@^0.3.3, @upsetjs/bundle@workspace:packages/bundle":
   version: 0.0.0-use.local
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
