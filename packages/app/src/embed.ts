@@ -76,6 +76,11 @@ function run() {
     postProcess(args!)
   );
 
+  if (props.theme === 'dark') {
+    root.style.backgroundColor = '#303030';
+  }
+  document.title = args.name;
+
   function render() {
     renderUpSet(root, props);
   }
@@ -85,6 +90,8 @@ function run() {
     props.height = root.clientHeight;
     render();
   });
+
+  render();
 }
 
 window.onload = run;

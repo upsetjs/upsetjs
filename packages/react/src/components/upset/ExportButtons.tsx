@@ -13,14 +13,14 @@ export default function ExportButtons({ transform }: { transform: string }) {
       <g className="exportButton" onClick={exportChart} data-type="png" transform="translate(-50, 0)">
         <title>Download PNG Image</title>
         <rect y={-9} width={24} height={11} rx={2} ry={2} />
-        <text className="labelStyle" x={12}>
+        <text className="textStyle exportTextStyle" x={12}>
           PNG
         </text>
       </g>
       <g className="exportButton" onClick={exportChart} data-type="svg" transform="translate(-24, 0)">
         <title>Download SVG Image</title>
         <rect y={-9} width={24} height={11} rx={2} ry={2} />
-        <text className="labelStyle" x={12}>
+        <text className="textStyle exportTextStyle" x={12}>
           SVG
         </text>
       </g>

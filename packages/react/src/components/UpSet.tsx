@@ -95,6 +95,9 @@ export default React.forwardRef(function UpSet<T>(
   .chartTextStyle {
     ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
   }
+  .exportTextStyle {
+    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+  }
   .legendTextStyle {
     ${fontSizes.legend ? `font-size: ${fontSizes.legend};` : ''}
     text-anchor: middle;

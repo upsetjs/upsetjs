@@ -9,6 +9,7 @@ import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
 import exportJSON from '../data/exportJSON';
 import exportCSV from '../data/exportCSV';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
+import shareEmbedded from '../data/shareEmbedded';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -359,5 +360,9 @@ export default class Store {
   @action.bound
   exportJSFiddle() {
     exportJSFiddle(this);
+  }
+  @action.bound
+  sharedEmbedded() {
+    shareEmbedded(this);
   }
 }

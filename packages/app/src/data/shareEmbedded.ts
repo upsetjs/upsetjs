@@ -2,6 +2,7 @@ import { toJS } from 'mobx';
 import { IEmbeddedDumpSchema } from '../embed/interfaces';
 import Store, { stripDefaults } from '../store/Store';
 import exportHelper from './exportHelper';
+import { compressToEncodedURIComponent } from 'lz-string';
 
 export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
   const helper = exportHelper(store);
@@ -27,7 +28,20 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
   };
 }
 
-export default function exportEmbedded(store: Store) {
+export default function shareEmbedded(store: Store) {
   const r = toEmbeddedDump(store);
-  return JSON.stringify(r);
+  const arg = compressToEncodedURIComponent(JSON.stringify(r));
+  const url = new URL(window.location.toString());
+  url.hash = '';
+  url.pathname = 'embed.html';
+  url.searchParams.set('props', arg);
+  url.toString();
+
+  const a = document.createElement('a');
+  a.href = url.toString();
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }

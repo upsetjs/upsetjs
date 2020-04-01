@@ -20,6 +20,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 import Download from 'mdi-material-ui/Download';
+import ShareCircle from 'mdi-material-ui/ShareCircle';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -120,6 +121,12 @@ export default observer(() => {
             tooltipTitle={'Export to CodeSandbox.io'}
             tooltipPlacement="bottom"
             onClick={store.exportCodesandbox}
+          />
+          <SpeedDialAction
+            icon={<ShareCircle />}
+            tooltipTitle={'Open Embedded Version'}
+            tooltipPlacement="bottom"
+            onClick={store.sharedEmbedded}
           />
         </SpeedDial>
       </Toolbar>

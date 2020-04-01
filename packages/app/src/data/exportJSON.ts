@@ -2,7 +2,7 @@
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
 import { IEmbeddedDumpSchema } from '../embed/interfaces';
 import Store from '../store/Store';
-import { toEmbeddedDump } from './exportEmbedded';
+import { toEmbeddedDump } from './shareEmbedded';
 import { ICustomizeOptions } from './interfaces';
 
 export interface IDumpSchema extends IEmbeddedDumpSchema {
