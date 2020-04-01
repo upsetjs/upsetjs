@@ -161,7 +161,7 @@ export default class Store {
     }
     this.datasets.push(...ds);
     if (this.datasets.length > 0 && !this.dataset) {
-      this.selectDataSet(this.datasets[0].name);
+      this.loadDataSet(this.datasets[0]);
     }
   }
 
@@ -171,11 +171,15 @@ export default class Store {
     this.loadDataSet(ds);
   }
 
-  @action
+  @action.bound
   private pushDataSet(dataset: IDataSet) {
     this.datasets.push(dataset);
     this.dataset = dataset;
     this.loadDataSet(dataset);
+    this.ui.showToast({
+      severity: 'success',
+      message: 'Data set loaded',
+    });
   }
 
   private loadDataSet(dataset: IDataSet | null) {

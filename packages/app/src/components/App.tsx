@@ -6,6 +6,7 @@ import SidePanel from './SidePanel';
 import RightSidePanel from './RightSidePanel';
 import UpSetWrapper from './UpSetWrapper';
 import Header from './Header';
+import Toast from './Toast';
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +41,7 @@ export default function App() {
             <UpSetWrapper />
             <RightSidePanel />
           </main>
+          <Toast />
         </StoreProvider>
       </ThemeProvider>
     </div>

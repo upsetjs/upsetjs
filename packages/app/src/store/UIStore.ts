@@ -10,6 +10,11 @@ export interface IElemTableOptions {
   orderBy: 'name';
 }
 
+export interface IToast {
+  severity: 'error' | 'info' | 'warning' | 'success';
+  message: string;
+}
+
 export default class UIStore {
   @observable
   readonly sidePanelExpanded = new Set<string>(['queries', 'options', 'sets', 'elems']);
@@ -30,6 +35,9 @@ export default class UIStore {
 
   @observable
   readonly ref = createRef<SVGSVGElement>();
+
+  @observable
+  toast: IToast | null = null;
 
   @action
   setSpeedDial(value: boolean) {
@@ -53,5 +61,15 @@ export default class UIStore {
   @action
   changeElemTableOptions(delta: Partial<IElemTableOptions>) {
     Object.assign(this.elemTable, delta);
+  }
+
+  @action.bound
+  closeToast() {
+    this.toast = null;
+  }
+
+  @action
+  showToast(toast: IToast) {
+    this.toast = toast;
   }
 }
