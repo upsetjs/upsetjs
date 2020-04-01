@@ -1,4 +1,4 @@
-import { render, h } from 'preact';
+import { render, h, hydrate } from 'preact';
 import UpSetElement, { UpSetProps as UpSetElementProps, fillDefaults as fillDefaultsImpl } from '@upsetjs/react';
 
 import {
@@ -175,6 +175,11 @@ export function fillDefaults<T>(props: UpSetProps<T>) {
 export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   render(h(UpSetElement as any, p), node);
+}
+
+export function hydrateUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
+  const p: UpSetElementProps<T> = props;
+  hydrate(h(UpSetElement as any, p), node);
 }
 
 // export class UpSet<T> extends Eventemitter implements Omit<UpSetProps<T>, 'onHover'> {
