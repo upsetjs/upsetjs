@@ -11,7 +11,6 @@ const simpsons: IDataSet = {
       return {
         sets: extractSets(data.default),
         elems: data.default,
-        props: {},
       };
     }),
 };

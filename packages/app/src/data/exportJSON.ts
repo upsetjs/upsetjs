@@ -34,6 +34,7 @@ export function importJSON(file: File): Promise<IDataSet> {
         elems: dump.elements,
         sets: r.sets,
         props: dump.props,
+        combinations: dump.combinations,
       });
     },
   }));

@@ -6,8 +6,8 @@ import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upse
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
-import { exportJSON } from '../data/exportJSON';
-import { exportCSV } from '../data/exportCSV';
+import { exportJSON, importJSON } from '../data/exportJSON';
+import { exportCSV, importCSV } from '../data/exportCSV';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
 import shareEmbedded from '../data/shareEmbedded';
 
@@ -167,21 +167,34 @@ export default class Store {
 
   @action
   selectDataSet(name: string) {
-    this.dataset = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
+    const ds = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
+    this.loadDataSet(ds);
+  }
 
+  @action
+  private pushDataSet(dataset: IDataSet) {
+    this.datasets.push(dataset);
+    this.dataset = dataset;
+    this.loadDataSet(dataset);
+  }
+
+  private loadDataSet(dataset: IDataSet | null) {
+    this.dataset = dataset;
     this.sets = [];
     this.elems = [];
     this.selectedSets = new Set();
-    if (this.dataset) {
-      this.dataset.load().then((d) =>
-        runInAction(() => {
-          this.sets = d.sets;
-          this.elems = d.elems;
-          Object.assign(this.props, d.props);
-          this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
-        })
-      );
+    if (!this.dataset) {
+      return;
     }
+    this.dataset.load().then((d) =>
+      runInAction(() => {
+        this.sets = d.sets;
+        this.elems = d.elems;
+        Object.assign(this.props, d.props ?? {});
+        Object.assign(this.combinationsOptions, d.combinations ?? {});
+        this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
+      })
+    );
   }
 
   @action.bound
@@ -364,5 +377,13 @@ export default class Store {
   @action.bound
   sharedEmbedded() {
     shareEmbedded(this);
+  }
+  @action.bound
+  importFile(file: File) {
+    if (file.name.endsWith('.json')) {
+      importJSON(file).then((ds) => this.pushDataSet(ds));
+    } else if (file.name.endsWith('.csv')) {
+      importCSV(file).then((ds) => this.pushDataSet(ds));
+    }
   }
 }

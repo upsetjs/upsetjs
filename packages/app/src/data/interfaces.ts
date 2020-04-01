@@ -1,4 +1,10 @@
-import { ISets, UpSetSizeProps, UpSetStyleProps, ISetCombinations } from '@upsetjs/react';
+import {
+  ISets,
+  UpSetSizeProps,
+  UpSetStyleProps,
+  ISetCombinations,
+  GenerateSetCombinationsOptions,
+} from '@upsetjs/react';
 
 export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'> &
   Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'>;
@@ -6,7 +12,8 @@ export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'>
 export interface ILoadedDataSet {
   sets: ISets<any>;
   elems: ReadonlyArray<any>;
-  props: ICustomizeOptions;
+  combinations?: Partial<GenerateSetCombinationsOptions>;
+  props?: ICustomizeOptions;
 }
 
 export interface IDataSet {

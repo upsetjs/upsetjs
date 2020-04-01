@@ -75,7 +75,6 @@ export function importCSV(file: File): Promise<IDataSet> {
 
             resolve({
               elems,
-              props: {},
               sets,
             });
           },

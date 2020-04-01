@@ -54,7 +54,6 @@ function asDataSet(ds: IUpSetDataSet): IDataSet {
       return {
         elems,
         sets,
-        props: {},
       };
     },
   };
