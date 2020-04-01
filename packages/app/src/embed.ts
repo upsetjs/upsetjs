@@ -67,7 +67,7 @@ function showDump(args: IEmbeddedDumpSchema) {
   if (props.theme === 'dark') {
     root.style.backgroundColor = '#303030';
   }
-  document.title = args.name;
+  document.title = `UpSet - ${args.name}`;
 
   function render() {
     renderUpSet(root, props);
