@@ -1,6 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, hydrateUpSet } from '@upsetjs/bundle';
+import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { IEmbeddedDumpSchema } from './embed/interfaces';
 import loadDump from './embed/loadDump';
@@ -16,17 +16,23 @@ Object.assign(root.style, {
   justifyContent: 'center',
 } as CSSStyleDeclaration);
 
-function customizeFromParams() {
+function customizeFromParams(interactive: boolean) {
   const p = new URLSearchParams(window.location.search);
   const r: Partial<UpSetProps<any>> = {};
 
   if (p.has('theme')) {
     r.theme = p.get('theme') === 'dark' ? 'dark' : 'light';
   }
-  return r;
+  if (p.has('static')) {
+    interactive = false;
+  } else if (p.has('interactive')) {
+    interactive = p.get('interactive') === '' || Boolean(p.get('interactive'));
+  }
+  return [r, interactive];
 }
 
 function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
+  const [custom, cinteractive] = customizeFromParams(dump.interactive);
   const props: UpSetProps<any> = Object.assign(
     {
       sets: [],
@@ -34,7 +40,15 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
       height: root.clientHeight,
     },
     loadDump(dump!),
-    customizeFromParams()
+    custom,
+    cinteractive
+      ? {
+          onHover: (s: ISetLike<any>) => {
+            props.selection = s;
+            render();
+          },
+        }
+      : {}
   );
 
   if (props.theme === 'dark') {

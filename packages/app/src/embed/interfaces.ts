@@ -22,4 +22,5 @@ export interface IEmbeddedDumpSchema {
   selection?: ISetRef;
   queries: { name: string; color: string; set: ISetRef }[];
   props: any;
+  interactive: boolean;
 }

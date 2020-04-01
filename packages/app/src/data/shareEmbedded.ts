@@ -25,6 +25,7 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
       color: q.color,
       set: helper.toSetRef(q.set),
     })),
+    interactive: true,
   };
 }
 

@@ -67,10 +67,10 @@ function render() {
 }
 
 // uncomment for interactivity
-//props.onHover = (s) => {
-//  props.selection = s;
-//  render();
-//}
+props.onHover = (s) => {
+  props.selection = s;
+  render();
+}
 //props.onClick = (s) => {
 //  console.log(s);
 //}
