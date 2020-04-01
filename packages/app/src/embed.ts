@@ -54,19 +54,7 @@ function postProcess(args: IEmbeddedDumpSchema): UpSetProps<any> {
   );
 }
 
-function run() {
-  const params = new URLSearchParams(window.location.search);
-  if (!params.has('props')) {
-    return showError('<strong>missing query parameter:</strong><code>props</code><p>');
-  }
-
-  let args: IEmbeddedDumpSchema | null = null;
-  try {
-    const value = decompressFromEncodedURIComponent(params.get('props')!);
-    args = JSON.parse(value);
-  } catch (e) {
-    return showError(`<strong>parsing error when parsing query parameter props</strong><pre>${e}</pre>`);
-  }
+function showDump(args: IEmbeddedDumpSchema) {
   const props: UpSetProps<any> = Object.assign(
     {
       sets: [],
@@ -92,6 +80,22 @@ function run() {
   });
 
   render();
+}
+
+function run() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('props')) {
+    return showError('<strong>missing query parameter:</strong><code>props</code><p>');
+  }
+
+  let args: IEmbeddedDumpSchema | null = null;
+  try {
+    const value = decompressFromEncodedURIComponent(params.get('props')!);
+    args = JSON.parse(value);
+  } catch (e) {
+    return showError(`<strong>parsing error when parsing query parameter props</strong><pre>${e}</pre>`);
+  }
+  showDump(args);
 }
 
 window.onload = run;
