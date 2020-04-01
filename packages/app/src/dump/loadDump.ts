@@ -1,7 +1,7 @@
-import { UpSetProps, generateCombinations, ISet } from '@upsetjs/bundle';
+import { generateCombinations, ISet } from '@upsetjs/model';
 import { IEmbeddedDumpSchema, ISetRef } from './interfaces';
 
-export default function loadDump(dump: IEmbeddedDumpSchema): UpSetProps<any> {
+export default function loadDump<T>(dump: IEmbeddedDumpSchema, gen: typeof generateCombinations): T {
   const elems = dump.elements;
   const byIndex = (v: number) => elems[v];
 
@@ -9,7 +9,7 @@ export default function loadDump(dump: IEmbeddedDumpSchema): UpSetProps<any> {
     (set.elems as any[]) = set.elems.map(byIndex);
     return set as ISet<any>;
   });
-  const combinations = generateCombinations(
+  const combinations = gen(
     sets,
     Object.assign(
       {

@@ -1,5 +1,5 @@
 import { ISetLike } from '@upsetjs/model';
-import { ISetRef } from '../embed/interfaces';
+import { ISetRef } from '../dump';
 import Store from '../store/Store';
 
 function toIndex<T>(arr: ReadonlyArray<T>) {

@@ -1,10 +1,8 @@
 import 'core-js/stable';
 import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike } from '@upsetjs/bundle';
+import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike, generateCombinations } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
-import { IEmbeddedDumpSchema } from './embed/interfaces';
-import loadDump from './embed/loadDump';
-import { enableUpload } from './embed/loadFile';
+import { IEmbeddedDumpSchema, loadDump, loadFile } from './dump';
 
 const root = document.getElementById('app')! as HTMLElement;
 Object.assign(root.style, {
@@ -49,7 +47,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    loadDump(dump!),
+    loadDump<UpSetProps<any>>(dump!, generateCombinations),
     custom,
     cinteractive
       ? {
@@ -113,6 +111,31 @@ function fromHTMLFile(): IEmbeddedDumpSchema {
   if (p.get('theme') === 'dark') {
     makeDark();
   }
+}
+
+function enableUpload(root: HTMLElement, onDump: (dump: IEmbeddedDumpSchema) => void) {
+  root.innerHTML = `
+  <input type="file" accept="application/json,.json">
+  `;
+
+  root.querySelector('input')!.addEventListener('change', (evt) => {
+    loadFile((evt.currentTarget as HTMLInputElement).files![0]).then((dump) => {
+      onDump(dump);
+    });
+  });
+  root.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  root.addEventListener('drop', (e) => {
+    if (e.dataTransfer!.files!.length !== 1) {
+      return;
+    }
+    e.preventDefault();
+    loadFile(e.dataTransfer!.files![0]).then((dump) => {
+      onDump(dump);
+    });
+  });
 }
 
 window.onload = () => {

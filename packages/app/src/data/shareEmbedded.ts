@@ -1,5 +1,5 @@
 import { toJS } from 'mobx';
-import { IEmbeddedDumpSchema } from '../embed/interfaces';
+import { IEmbeddedDumpSchema } from '../dump';
 import Store, { stripDefaults } from '../store/Store';
 import exportHelper from './exportHelper';
 import { compressToEncodedURIComponent } from 'lz-string';

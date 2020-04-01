@@ -6,8 +6,8 @@ import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upse
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
-import exportJSON from '../data/exportJSON';
-import exportCSV from '../data/exportCSV';
+import { exportJSON } from '../data/exportJSON';
+import { exportCSV } from '../data/exportCSV';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
 import shareEmbedded from '../data/shareEmbedded';
 
