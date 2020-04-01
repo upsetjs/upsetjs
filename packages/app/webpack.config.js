@@ -4,6 +4,45 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
+// see https://github.com/DustinJackson/html-webpack-inline-source-plugin/issues/75
+class InlineSourceHtmlPlugin {
+  constructor(htmlWebpackPlugin, tests) {
+    this.htmlWebpackPlugin = htmlWebpackPlugin;
+    this.tests = tests;
+  }
+
+  getInlinedTag(publicPath, assets, tag) {
+    if (tag.tagName !== 'script' || !(tag.attributes && tag.attributes.src)) {
+      return tag;
+    }
+    const scriptName = publicPath ? tag.attributes.src.replace(publicPath, '') : tag.attributes.src;
+    if (!this.tests.some((test) => scriptName.match(test))) {
+      return tag;
+    }
+    const asset = assets[scriptName];
+    if (asset == null) {
+      return tag;
+    }
+    return { tagName: 'script', innerHTML: asset.source(), closeTag: true };
+  }
+
+  apply(compiler) {
+    let publicPath = compiler.options.output.publicPath || '';
+    if (publicPath && !publicPath.endsWith('/')) {
+      publicPath += '/';
+    }
+
+    compiler.hooks.compilation.tap('InlineSourceHtmlPlugin', (compilation) => {
+      const tagFunction = (tag) => this.getInlinedTag(publicPath, compilation.assets, tag);
+      const hooks = this.htmlWebpackPlugin.getHooks(compilation);
+      hooks.alterAssetTagGroups.tap('InlineChunkHtmlPlugin', (assets) => {
+        assets.headTags = assets.headTags.map(tagFunction);
+        assets.bodyTags = assets.bodyTags.map(tagFunction);
+      });
+    });
+  }
+}
+
 const babel = {
   loader: require.resolve('babel-loader'),
   options: {
@@ -69,7 +108,9 @@ module.exports = function (env, argv) {
         filename: 'embed.html',
         template: path.resolve('./src/index.html'),
         chunks: ['embed'],
+        inlineSource: '.(js|css)$', // embed all javascript and css inline
       }),
+      p && new InlineSourceHtmlPlugin(HtmlWebpackPlugin, [/embed/]),
       p &&
         new WorkboxPlugin.GenerateSW({
           // these options encourage the ServiceWorkers to get in there fast
