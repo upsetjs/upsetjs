@@ -95,7 +95,7 @@ function run() {
   } catch (e) {
     return showError(`<strong>parsing error when parsing query parameter props</strong><pre>${e}</pre>`);
   }
-  showDump(args);
+  showDump(args!);
 }
 
 window.onload = run;
