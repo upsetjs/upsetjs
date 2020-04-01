@@ -16,6 +16,16 @@ Object.assign(root.style, {
   justifyContent: 'center',
 } as CSSStyleDeclaration);
 
+function customizeFromParams() {
+  const p = new URLSearchParams(window.location.search);
+  const r: Partial<UpSetProps<any>> = {};
+
+  if (p.has('theme')) {
+    r.theme = p.get('theme') === 'dark' ? 'dark' : 'light';
+  }
+  return r;
+}
+
 function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
   const props: UpSetProps<any> = Object.assign(
     {
@@ -23,7 +33,8 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    loadDump(dump!)
+    loadDump(dump!),
+    customizeFromParams()
   );
 
   if (props.theme === 'dark') {
