@@ -16,6 +16,10 @@ Object.assign(root.style, {
   justifyContent: 'center',
 } as CSSStyleDeclaration);
 
+function makeDark() {
+  root.style.backgroundColor = '#303030';
+}
+
 function customizeFromParams(interactive: boolean) {
   const p = new URLSearchParams(window.location.search);
   const r: Partial<UpSetProps<any>> = {};
@@ -27,6 +31,12 @@ function customizeFromParams(interactive: boolean) {
     interactive = false;
   } else if (p.has('interactive')) {
     interactive = p.get('interactive') === '' || Boolean(p.get('interactive'));
+  }
+  if (p.has('width')) {
+    r.width = Number.parseInt(p.get('width')!, 10);
+  }
+  if (p.has('height')) {
+    r.height = Number.parseInt(p.get('height')!, 10);
   }
   return [r, interactive];
 }
@@ -52,7 +62,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
   );
 
   if (props.theme === 'dark') {
-    root.style.backgroundColor = '#303030';
+    makeDark();
   }
   document.title = `UpSet - ${dump.name}`;
 
@@ -96,6 +106,13 @@ function saveHTMLDump(dump: IEmbeddedDumpSchema) {
 
 function fromHTMLFile(): IEmbeddedDumpSchema {
   return (window as any).UPSET_DUMP || null;
+}
+
+{
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('theme') === 'dark') {
+    makeDark();
+  }
 }
 
 window.onload = () => {
