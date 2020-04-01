@@ -2,6 +2,7 @@ import Store, { stripDefaults } from '../store/Store';
 
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
+import exportHelper from './exportHelper';
 
 const HTML_CODE = `<div id="app"></div>`;
 const CSS_CODE = `#app {
@@ -10,15 +11,15 @@ const CSS_CODE = `#app {
 }`;
 
 function jsCode(store: Store, prefix = 'UpSetJS.') {
-  const lookup = new Map<any, number>(store.elems.map((d, i) => [d, i]));
+  const helper = exportHelper(store);
   const sets = store.visibleSets.map((s) => ({
     ...s,
-    elems: `CC${JSON.stringify(s.elems.map((d) => lookup.get(d)!))}.map(byIndex)CC`,
+    elems: `CC${JSON.stringify(s.elems.map(helper.toElemIndex))}.map(byIndex)CC`,
   }));
   return `
 const root = document.getElementById("app");
 
-const elems = ${JSON.stringify(toJS(store.elems), null, 2)};
+const elems = ${JSON.stringify(toJS(helper.elems), null, 2)};
 
 const byIndex = (i) => elems[i];
 
@@ -33,19 +34,19 @@ const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(
     2
   )});
 
-function findSet(type, name) {
-  if (type === "set") {
-    return sets.find((d) => d.name === name);
+function fromSetRef(ref) {
+  if (ref.type === "set") {
+    return sets[ref.index];
   }
-  return combinations.find((d) => d.name === name);
+  return combinations[ref.index];
 }
 
-let selection = ${store.hover ? `CCfindSet('${store.hover.type}', '${store.hover.name}')CC` : null};
+let selection = ${store.hover ? `CCfromSetRef(${JSON.stringify(helper.toSetRef(store.hover))})CC` : null};
 const queries = ${JSON.stringify(
     store.visibleQueries.map((q) => ({
       name: q.name,
       color: q.color,
-      set: `CCfindSet('${q.set.type}', '${q.set.name}')CC`,
+      set: `CCfromSetRef(${JSON.stringify(helper.toSetRef(q.set))})CC`,
     })),
     null,
     2

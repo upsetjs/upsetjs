@@ -26,7 +26,7 @@ module.exports = function (env, argv) {
   return {
     entry: {
       app: './src/index.tsx',
-      embed: './src/embed.tsx',
+      embed: './src/embed.ts',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
