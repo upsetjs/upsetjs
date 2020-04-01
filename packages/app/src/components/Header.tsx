@@ -20,6 +20,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 import Download from 'mdi-material-ui/Download';
+import Upload from 'mdi-material-ui/Upload';
 import ShareCircle from 'mdi-material-ui/ShareCircle';
 
 import Select from '@material-ui/core/Select';
@@ -29,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
-  },
+  title: {},
   select: {
     marginLeft: '1rem',
     minWidth: '20em',
@@ -42,34 +41,86 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(2),
     bottom: -theme.spacing(2),
   },
+  grow: {
+    flexGrow: 1,
+  },
+  line: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  file: {
+    position: 'absolute',
+    left: -10000,
+    top: -10000,
+    visibility: 'hidden',
+  },
 }));
 
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
+  const ref = React.useRef<HTMLInputElement>(null);
+
+  const dragOver = (evt: React.DragEvent) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+  };
+  const drop = (evt: React.DragEvent) => {
+    if (evt.dataTransfer.files.length !== 1) {
+      return;
+    }
+    evt.preventDefault();
+    store.importFile(evt.dataTransfer.files[0]);
+  };
+
+  const clickFile = () => {
+    if (ref.current) {
+      ref.current.click();
+    }
+  };
+
+  const onFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const file = evt.target.files![0];
+    store.importFile(file);
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          {'UpSet.js: '}
-          <Select
-            className={classes.select}
-            onChange={(v) => {
-              store.selectDataSet(v.target.value as string);
-            }}
-            value={store.dataset?.name || ''}
-          >
-            <MenuItem value={''}>Choose Dataset...</MenuItem>
-            {store.datasets.map((d) => (
-              <MenuItem key={d.name} value={d.name}>
-                {d.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </Typography>
+        <div className={classes.line} onDragOver={dragOver} onDrop={drop}>
+          <Typography variant="h6" className={classes.title}>
+            {'UpSet.js: '}
+            <Select
+              className={classes.select}
+              onChange={(v) => {
+                store.selectDataSet(v.target.value as string);
+              }}
+              value={store.dataset?.id || ''}
+            >
+              <MenuItem value={''}>Choose Dataset...</MenuItem>
+              {store.datasets.map((d) => (
+                <MenuItem key={d.id} value={d.id}>
+                  {d.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Typography>
+          <IconButton title="Upload" onClick={clickFile}>
+            <Upload />
+          </IconButton>
+        </div>
+        <div className={classes.grow}>
+          <input
+            ref={ref}
+            type="file"
+            className={classes.file}
+            onChange={onFile}
+            accept=".json,.csv,application/json,text/csv"
+          />
+        </div>
         <SpeedDial
           ariaLabel="Export"
           icon={<Download />}

@@ -166,8 +166,8 @@ export default class Store {
   }
 
   @action
-  selectDataSet(name: string) {
-    const ds = this.datasets.find((d, i) => i.toString() === String(name) || d.name === name) ?? null;
+  selectDataSet(id: string) {
+    const ds = this.datasets.find((d) => d.id === id) ?? null;
     this.loadDataSet(ds);
   }
 
