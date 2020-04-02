@@ -8,8 +8,7 @@ import {
   BandScaleFactory,
   validators,
 } from '@upsetjs/model';
-import { UpSetCSSStyles } from '.';
-import { UpSetStyleClassNames, UpSetStyleFontSizes } from './interfaces';
+import { UpSetStyleClassNames, UpSetStyleFontSizes, UpSetCSSStyles } from './interfaces';
 
 export function widthRatios(value?: [number, number, number]) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));

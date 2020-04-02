@@ -1,15 +1,17 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src", "types", "test"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
-    "rootDir": "./",
+    "rootDir": "./src",
     "baseUrl": "./",
+    "outDir": "./dist",
     "declarationDir": "./dist",
+    "declarationMap": true,
     "paths": {
-      "@": ["./"],
+      "@": ["./src"],
       "react": ["node_modules/preact/compat"],
       "react-dom": ["node_modules/preact/compat"],
-      "*": ["src/*", "node_modules/*"]
+      "*": ["*", "node_modules/*"]
     }
   }
 }

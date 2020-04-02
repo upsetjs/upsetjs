@@ -1,8 +1,23 @@
 import { render, h, hydrate } from 'preact';
 import UpSetElement, { UpSetProps as UpSetElementProps, fillDefaults as fillDefaultsImpl } from '@upsetjs/react';
-import * as validator from './validators';
-
-export * from './interfaces';
+import {
+  bandScale,
+  classNames,
+  combinations,
+  fontSizes,
+  heightRatios,
+  numericScale,
+  onClick,
+  onHover,
+  queries,
+  selection,
+  sets,
+  stringOrFalse,
+  style,
+  styles,
+  theme,
+  widthRatios,
+} from './validators';
 import {
   UpSetDataProps,
   UpSetPlainStyleProps,
@@ -11,7 +26,26 @@ import {
   UpSetStyleProps,
 } from './interfaces';
 
-export const validators = validator;
+export * from './interfaces';
+
+export const validators = {
+  bandScale,
+  classNames,
+  combinations,
+  fontSizes,
+  heightRatios,
+  numericScale,
+  onClick,
+  onHover,
+  queries,
+  selection,
+  sets,
+  stringOrFalse,
+  style,
+  styles,
+  theme,
+  widthRatios,
+};
 
 export declare type UpSetProps<T = any> = UpSetDataProps<T> &
   UpSetSizeProps &

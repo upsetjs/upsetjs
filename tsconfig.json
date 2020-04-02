@@ -6,7 +6,6 @@
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
-    "composite": true,
     "strict": true,
     "importsNotUsedAsValues": "remove",
     "experimentalDecorators": true,

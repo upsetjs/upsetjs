@@ -17,7 +17,8 @@
   "unpkg": "dist/upsetjs.umd.production.min.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "start": "tsdx watch --name UpSetJS --format esm,umd",

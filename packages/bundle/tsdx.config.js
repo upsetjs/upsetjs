@@ -3,7 +3,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const resolve = require('rollup-plugin-pnp-resolve');
 
 module.exports = {
-  rollup(config, options) {
+  rollup(config) {
     delete config.external; // bundle full
     delete config.output.globals;
     config.plugins.splice(
