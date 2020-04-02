@@ -32,9 +32,9 @@ export default function generateUnions<T>(
   function computeUnion(union: ISets<T>) {
     if (union.length === 0) {
       const lookup = new Set<T>();
-      for (const set of sets) {
+      sets.forEach((set) => {
         set.elems.forEach((e) => lookup.add(e));
-      }
+      });
       return allElements.filter((e) => !lookup.has(e));
     }
     if (union.length === 1) {

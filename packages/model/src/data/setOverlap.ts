@@ -45,9 +45,8 @@ export default function setOverlap<T>(a: Set<T> | ReadonlyArray<T>, b: Set<T> | 
   }
   const r = setOverlapFactory(b)(a);
   // swap back
-  return {
-    ...r,
+  return Object.assign({}, r, {
     setA: r.setB,
     setB: r.setA,
-  };
+  });
 }

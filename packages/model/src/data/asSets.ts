@@ -2,12 +2,13 @@ import { ISet } from '../model';
 import { byCardinality, byName, byComposite } from './utils';
 
 export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(set: S): S & ISet<T> {
-  const r: S & ISet<T> = {
-    type: 'set',
-    cardinality: set.elems.length,
-    ...set,
-  };
-  return r;
+  return Object.assign(
+    {
+      type: 'set' as 'set',
+      cardinality: set.elems.length,
+    },
+    set
+  );
 }
 
 export declare type PostprocessSetOptions = {

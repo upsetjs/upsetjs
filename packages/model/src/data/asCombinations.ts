@@ -51,14 +51,15 @@ export function asCombination<T, S extends { name: string; elems: ReadonlyArray<
   toSets: (s: S) => ReadonlyArray<ISet<T>>
 ): S & ISetCombination<T> {
   const sets = toSets(set);
-  const r: S & ISetCombination<T> = {
-    type,
-    cardinality: set.elems.length,
-    sets: new Set(sets),
-    degree: sets.length,
-    ...set,
-  };
-  return r;
+  return Object.assign(
+    {
+      type,
+      cardinality: set.elems.length,
+      sets: new Set(sets),
+      degree: sets.length,
+    },
+    set
+  );
 }
 
 /**
