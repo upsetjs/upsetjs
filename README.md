@@ -209,7 +209,7 @@ upsetjs() %>% fromList(l) %>% interactiveChart()
 npm i -g yarn
 yarn set version berry
 yarn plugin import version
-yarn plugin import @yarnpkg/plugin-workspace-tools
+yarn plugin import plugin-workspace-tools
 yarn install
 yarn pnpify --sdk
 ```
