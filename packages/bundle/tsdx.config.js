@@ -6,6 +6,10 @@ module.exports = {
   rollup(config) {
     delete config.external; // bundle full
     delete config.output.globals;
+    const c = config.plugins.findIndex((d) => d.name === 'commonjs');
+    if (c !== -1) {
+      config.plugins.splice(c, 1);
+    }
     config.plugins.splice(
       0,
       0,
@@ -15,6 +19,7 @@ module.exports = {
       resolve(),
       commonjs()
     );
+    config.plugins = config.plugins.filter((d) => d !== false);
     return config;
   },
 };

@@ -27,6 +27,7 @@ import {
 } from './interfaces';
 
 export * from './interfaces';
+export * from '@upsetjs/model';
 
 export const validators = {
   bandScale,

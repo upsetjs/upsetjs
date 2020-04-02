@@ -13,11 +13,11 @@ export default observer(() => {
   const store = useStore();
   return (
     <Snackbar open={store.ui.toast != null} autoHideDuration={6000} onClose={store.ui.closeToast}>
-      {store.ui.toast && (
+      {store.ui.toast ? (
         <Alert onClose={store.ui.closeToast} severity={store.ui.toast.severity}>
           {store.ui.toast.message}
         </Alert>
-      )}
+      ) : undefined}
     </Snackbar>
   );
 });
