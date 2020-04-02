@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "start": "tsdx watch --name UpSetJS --format esm,umd",
-    "build": "tsdx build --name UpSetJS --format esm,umd",
+    "build": "tsdx build --name UpSetJS --format esm",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
