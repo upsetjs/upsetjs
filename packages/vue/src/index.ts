@@ -1,5 +1,47 @@
 import Vue from 'vue';
-import { renderUpSet, UpSetProps, validators } from '@upsetjs/bundle';
+import {
+  renderUpSet,
+  UpSetProps as UpSetBundleProps,
+  UpSetCSSStyles,
+  validators,
+  UpSetSelectionProps,
+} from '@upsetjs/bundle';
+export {
+  asCombination,
+  asCombinations,
+  asSet,
+  asSets,
+  extractSets,
+  fromSetName,
+  isCalcQuery,
+  isElemQuery,
+  isSetQuery,
+  generateCombinations,
+  generateIntersections,
+  generateUnions,
+  UpSetQuery,
+  UpSetSetQuery,
+  UpSetElemQuery,
+  UpSetCalcQuery,
+  ISet,
+  ISets,
+  ISetCombination,
+  ISetCombinations,
+  ISetLike,
+  ISetComposite,
+  IBaseSet,
+  ISetIntersection,
+  ISetLikes,
+  GenerateSetCombinationsOptions,
+  GenerateSetIntersectionsOptions,
+  GenerateSetUnionsOptions,
+  PostprocessCombinationsOptions,
+  PostprocessSetOptions,
+  BandScaleFactory,
+  BandScaleLike,
+  NumericScaleFactory,
+  NumericScaleLike,
+} from '@upsetjs/bundle';
 
 const upsetSizeProps = {
   /**
@@ -66,6 +108,7 @@ const upsetDataProps = {
   combinations: {
     type: [Array, Object],
     validator: validators.combinations,
+    default: () => ({}),
   },
 };
 
@@ -144,12 +187,8 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
   combinationName: String,
 });
 
-export declare type UpSetCSSStyles = CSSStyleDeclaration & {
-  backfaceVisibility: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'hidden' | 'visible';
-};
-
 const upsetPlainStyleProps = {
-  style: {
+  extraStyle: {
     type: Object,
     validator: validators.style,
   },
@@ -159,11 +198,28 @@ const upsetPlainStyleProps = {
   },
 };
 
+export interface UpSetProps extends Omit<UpSetBundleProps, 'style'> {
+  extraStyle?: UpSetCSSStyles;
+}
+
+function stripUndefined(props: UpSetBundleProps) {
+  const p: any = props;
+  Object.keys(props).forEach((key) => {
+    if (typeof p[key] === 'undefined') {
+      delete p[key];
+    }
+  });
+  return props;
+}
+
 export default Vue.extend<{}, { renderImpl(): void }, {}, UpSetProps>({
   name: 'UpSet',
   props: Object.assign({}, upsetDataProps, upsetSizeProps, upsetStyleProps, upsetPlainStyleProps, upsetSelectionProps),
   render(createElement) {
-    return createElement('div', { ref: 'react' });
+    return createElement('div', {
+      ref: 'react',
+      style: 'display: flex; align-items: center; justify-content: center',
+    });
   },
   inheritAttrs: false,
   watch: {
@@ -189,10 +245,27 @@ export default Vue.extend<{}, { renderImpl(): void }, {}, UpSetProps>({
   },
   methods: {
     renderImpl() {
-      // $listeners
+      const listeners: UpSetSelectionProps<any> = {};
+      if (this.$listeners.hover) {
+        listeners.onHover = (s) => this.$emit('hover', s);
+      }
+      if (this.$listeners.click) {
+        listeners.onClick = (s) => this.$emit('click', s);
+      }
+
       renderUpSet(
         this.$refs.react as HTMLElement,
-        (Object.assign({}, this.$attrs, this.$listeners) as unknown) as UpSetProps<any>
+        stripUndefined(
+          (Object.assign(
+            {},
+            this.$props,
+            {
+              style: this.$props.extraStyle,
+            },
+            this.$attrs,
+            listeners
+          ) as unknown) as UpSetProps
+        )
       );
     },
   },

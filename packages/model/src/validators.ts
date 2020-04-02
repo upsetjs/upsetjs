@@ -22,7 +22,7 @@ export function isSetCombination(v: any): v is ISetCombination<any> {
 }
 
 export function isSetLike(v: any): v is ISetLike<any> {
-  return isSet(v) || isSetLike(v);
+  return isSet(v) || isSetCombination(v);
 }
 
 export function isGenerateSetCombinationOptions(v: any): v is GenerateSetCombinationsOptions<any> {

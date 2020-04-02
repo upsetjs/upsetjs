@@ -12,9 +12,9 @@
     "type": "git",
     "url": "https://github.com/sgratzl/upsetjs.git"
   },
-  "module": "dist/bundle.esm.js",
-  "main": "dist/upsetjs.umd.development.js",
-  "unpkg": "dist/upsetjs.umd.production.min.js",
+  "module": "dist/vue.esm.js",
+  "main": "dist/index.js",
+  "unpkg": "dist/vue.cjs.production.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

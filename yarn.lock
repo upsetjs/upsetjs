@@ -3576,6 +3576,7 @@ __metadata:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
+    "@upsetjs/vue": ^0.3.3
     "@vue/cli-plugin-eslint": ~4.2.3
     "@vue/cli-plugin-typescript": ~4.2.3
     "@vue/cli-service": ~4.2.3
@@ -3591,7 +3592,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/vue@workspace:packages/vue":
+"@upsetjs/vue@^0.3.3, @upsetjs/vue@workspace:packages/vue":
   version: 0.0.0-use.local
   resolution: "@upsetjs/vue@workspace:packages/vue"
   dependencies:
@@ -3602,6 +3603,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
     "@upsetjs/bundle": ^0.3.3
+    "@upsetjs/model": ^0.3.5
     babel-eslint: ^10.1.0
     eslint: ^6.8.0
     eslint-config-prettier: ^6.10.1
