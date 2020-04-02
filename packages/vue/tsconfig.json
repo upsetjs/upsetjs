@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src", "types", "test"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "baseUrl": "./",
+    "declarationDir": "./dist",
+    "paths": {
+      "@": ["./"],
+      "react": ["node_modules/preact/compat"],
+      "react-dom": ["node_modules/preact/compat"],
+      "*": ["src/*", "node_modules/*"]
+    }
+  }
+}

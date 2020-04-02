@@ -157,13 +157,13 @@ export interface UpSetPlainStyleProps {
   };
 }
 
-export declare type UpSetProps<T> = UpSetDataProps<T> &
+export declare type UpSetProps<T = any> = UpSetDataProps<T> &
   UpSetSizeProps &
   UpSetStyleProps &
   UpSetPlainStyleProps &
   UpSetSelectionProps<T>;
 
-export function fillDefaults<T>(props: UpSetProps<T>) {
+export function fillDefaults<T = any>(props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   return fillDefaultsImpl(p) as Required<UpSetDataProps<T>> &
     Required<UpSetSizeProps> &
@@ -172,12 +172,12 @@ export function fillDefaults<T>(props: UpSetProps<T>) {
     UpSetSelectionProps<T>;
 }
 
-export function renderUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
+export function renderUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   render(h(UpSetElement as any, p), node);
 }
 
-export function hydrateUpSet<T>(node: HTMLElement, props: UpSetProps<T>) {
+export function hydrateUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   hydrate(h(UpSetElement as any, p), node);
 }
