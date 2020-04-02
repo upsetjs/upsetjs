@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test": "echo no tests",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -13,9 +14,9 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-typescript": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.2.3",
+    "@vue/cli-plugin-typescript": "~4.2.3",
+    "@vue/cli-service": "~4.2.3",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "eslint": "^6.7.2",

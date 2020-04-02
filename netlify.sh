@@ -7,8 +7,9 @@ rm -rf .yarn
 git checkout yarn.lock
 
 yarn set version berry
-yarn plugin import @yarnpkg/plugin-workspace-tools
+yarn plugin import workspace-tools
 yarn config set checksumBehavior ignore
+cat .yarnrc_patch.yml >> .yarnrc.yml
 
 echo "yarn install"
 yarn install --immutable --cache-folder $NETLIFY_BUILD_BASE/.yarn_cache > /dev/null

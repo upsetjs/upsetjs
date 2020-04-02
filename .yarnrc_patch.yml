@@ -1,0 +1,10 @@
+packageExtensions:
+  '@vue/cli-service@*':
+    peerDependencies:
+      '@vue/cli-plugin-eslint': '*'
+      '@vue/cli-plugin-typescript': '*'
+  'fork-ts-checker-webpack-plugin@*':
+    optionalDependencies:
+      'vue-template-compiler': '*'
+    peerDependencies:
+      'typescript': '*'
