@@ -8,10 +8,15 @@
 import Vue from 'vue';
 import UpSet, { extractSets, ISets, ISet } from '@upsetjs/vue';
 
+interface Elem {
+  name: string;
+  sets: string[];
+}
+
 export default Vue.extend<
-  { elems: any[]; width: number; height: number; selection: ISet<any> | null },
-  { hover(s: ISet<any> | null): void },
-  { sets: ISets<any> },
+  { elems: Elem[]; width: number; height: number; selection: ISet<Elem> | null },
+  { hover(s: ISet<Elem> | null): void },
+  { sets: ISets<Elem> },
   {}
 >({
   name: 'App',
@@ -62,7 +67,7 @@ export default Vue.extend<
     this.height = bb.height;
   },
   methods: {
-    hover(s: ISet<any> | null) {
+    hover(s: ISet<Elem> | null) {
       this.selection = s;
     },
   },
