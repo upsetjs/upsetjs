@@ -1,3 +1,5 @@
+import * as validator from './validators';
+
 export * from './data';
 export {
   ISetCombination,
@@ -13,3 +15,5 @@ export {
 
 export * from './queries';
 export { BandScaleLike, NumericScaleLike, BandScaleFactory, NumericScaleFactory } from './scales';
+
+export const validators = validator;
