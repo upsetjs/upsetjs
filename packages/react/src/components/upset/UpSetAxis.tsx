@@ -2,10 +2,11 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
 import D3Axis from './D3Axis';
-import { UpSetStyleClassNames, UpSetReactStyles } from '../config';
-import { clsx } from './utils';
+import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons } from '../config';
+import { clsx, addonPositionGenerator } from './utils';
+import { ISet, ISetCombination } from '../../../../model/dist';
 
-export default React.memo(function UpSetAxis({
+export default React.memo(function UpSetAxis<T>({
   scales,
   styles,
   setName,
@@ -14,6 +15,8 @@ export default React.memo(function UpSetAxis({
   combinationNameAxisOffset,
   classNames,
   cStyles,
+  setAddons,
+  combinationAddons,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -23,7 +26,11 @@ export default React.memo(function UpSetAxis({
   combinationNameAxisOffset: number;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
+  setAddons: UpSetAddons<ISet<T>, T>;
+  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
+  const setPosGen = addonPositionGenerator(styles.sets.w + styles.labels.w + styles.combinations.w);
+  const combinationPosGen = addonPositionGenerator(styles.combinations.h + styles.sets.h);
   return (
     <g>
       <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
@@ -42,12 +49,24 @@ export default React.memo(function UpSetAxis({
           className="axisLine"
         />
         <text
-          className={clsx('textStyle', 'chartTextStyle', 'middleText', classNames.chartLabel)}
+          className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
         >
           {combinationName}
         </text>
+        {combinationAddons.map((addon) => (
+          <text
+            key={addon.name}
+            className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
+            style={cStyles.chartLabel}
+            transform={`translate(${-combinationNameAxisOffset}, ${
+              combinationPosGen(addon) + addon.size / 2
+            })rotate(-90)`}
+          >
+            {addon.name}
+          </text>
+        ))}
       </g>
       <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
         <D3Axis
@@ -65,6 +84,16 @@ export default React.memo(function UpSetAxis({
         >
           {setName}
         </text>
+        {setAddons.map((addon) => (
+          <text
+            key={addon.name}
+            className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
+            style={cStyles.chartLabel}
+            transform={`translate(${setPosGen(addon) + addon.size / 2}, ${styles.sets.h + setNameAxisOffset})`}
+          >
+            {addon.name}
+          </text>
+        ))}
       </g>
     </g>
   );

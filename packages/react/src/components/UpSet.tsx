@@ -107,6 +107,7 @@ export default React.forwardRef(function UpSet<T>(
   }
   .chartTextStyle {
     ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
+    text-anchor: middle;
   }
   .exportTextStyle {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
@@ -226,6 +227,8 @@ export default React.forwardRef(function UpSet<T>(
           styles={styles}
           cStyles={cStyles}
           classNames={classNames}
+          setAddons={setAddons}
+          combinationAddons={combinationAddons}
         />
         <UpSetChart
           cs={cs}

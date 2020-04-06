@@ -4,6 +4,7 @@ import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/m
 import { round2 } from './utils';
 
 export interface IBoxplotStyleProps extends BoxplotStatsOptions {
+  theme?: 'light' | 'dark';
   orient?: 'horizontal' | 'vertical';
   boxStyle?: React.CSSProperties;
   lineStyle?: React.CSSProperties;
@@ -14,6 +15,7 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
 }
 
 const Boxplot = React.memo(function Boxplot({
+  theme = 'light',
   values,
   orient = 'horizontal',
   width: w,
@@ -61,10 +63,11 @@ const Boxplot = React.memo(function Boxplot({
       b.q3
     )}, Max: ${nf(b.max)}`}</title>
   );
+  const inner = theme === 'light' ? '#d3d3d3' : '#666666';
   const styles = {
-    box: Object.assign({ fill: 'lightgray' }, boxStyle),
-    line: Object.assign({ fill: 'none', stroke: 'black' }, lineStyle),
-    outlier: Object.assign({ fill: 'lightgray' }, outlierStyle),
+    box: Object.assign({ fill: inner }, boxStyle),
+    line: Object.assign({ fill: 'none', stroke: theme === 'light' ? 'black' : '#cccccc' }, lineStyle),
+    outlier: Object.assign({ fill: inner }, outlierStyle),
   };
 
   if (hor) {
@@ -118,7 +121,12 @@ export default Boxplot;
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
   elems: ReadonlyArray<T> | { min: number; max: number },
-  { size = 100, position, ...extras }: { size?: number; position?: 'before' | 'after' } & IBoxplotStyleProps = {}
+  {
+    size = 100,
+    position,
+    name = prop.toString(),
+    ...extras
+  }: Partial<Pick<UpSetAddon<ISetLike<T>, T>, 'size' | 'position' | 'name'>> & IBoxplotStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T> {
   const acc = typeof prop === 'function' ? prop : (v: T) => (v[prop as keyof T] as unknown) as number;
   let min = Number.POSITIVE_INFINITY;
@@ -142,6 +150,7 @@ export function boxplotAddon<T>(
     max = d.max;
   }
   return {
+    name,
     position,
     size,
     render: ({ width, height, set }) => {

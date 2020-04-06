@@ -115,8 +115,8 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           className="strokePrimary upsetLine"
         />
       )}
-      {combinationAddons.map((addon, i) => (
-        <g key={i} transform={`translate(0,${genPosition(addon)})`}>
+      {combinationAddons.map((addon) => (
+        <g key={addon.name} transform={`translate(0,${genPosition(addon)})`}>
           {addon.render({ set: d, width: combinationBarWidth, height: addon.size })}
         </g>
       ))}

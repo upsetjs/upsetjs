@@ -60,14 +60,14 @@ function CombinationSelectionChart<T>({
 
         const genPosition = addonPositionGenerator(totalHeight);
         const addons = combinationAddons
-          .map((addon, i) => {
+          .map((addon) => {
             const v = genPosition(addon);
             const content = addon.render({ set: d, width, height: addon.size });
             if (!content) {
               return null;
             }
             return (
-              <g key={i} transform={`translate(${x},${v})`}>
+              <g key={addon.name} transform={`translate(${x},${v})`}>
                 {content}
               </g>
             );

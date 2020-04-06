@@ -1,8 +1,17 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import UIStore from './UIStore';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions, IElem, IElems } from '../data';
-import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetSetQuery } from '@upsetjs/model';
-import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
+import {
+  ISetLike,
+  ISets,
+  GenerateSetCombinationsOptions,
+  generateCombinations,
+  UpSetSetQuery,
+  ISet,
+  ISetCombination,
+} from '@upsetjs/model';
+import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes, UpSetAddon } from '@upsetjs/react';
+import { boxplotAddon } from '@upsetjs/addons';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
@@ -146,6 +155,9 @@ export default class Store {
   @observable
   readonly queries: StoreQuery[] = [];
 
+  @observable
+  selectedAttrs = new Set<string>();
+
   constructor() {
     this.appendDatasets(listStatic());
     listLocal().then((ds) => this.appendDatasets(ds));
@@ -221,6 +233,26 @@ export default class Store {
   }
 
   @computed
+  get visibleSetAddons(): ReadonlyArray<UpSetAddon<ISet<IElem>, IElem>> {
+    if (!this.dataset) {
+      return [];
+    }
+    return this.dataset.attrs
+      .filter((d) => this.selectedAttrs.has(d))
+      .map((attr) => boxplotAddon((v) => v.attrs[attr], this.elems, { name: attr, theme: this.props.theme }));
+  }
+
+  @computed
+  get visibleCombinationAddons(): ReadonlyArray<UpSetAddon<ISetCombination<IElem>, IElem>> {
+    if (!this.dataset) {
+      return [];
+    }
+    return this.dataset.attrs
+      .filter((d) => this.selectedAttrs.has(d))
+      .map((attr) => boxplotAddon((v) => v.attrs[attr], this.elems, { orient: 'vertical', name: attr }));
+  }
+
+  @computed
   get sortedSelectedElems() {
     if (!this.selection) {
       return [];
@@ -254,6 +286,11 @@ export default class Store {
   @action
   setSelectedSets(names: Set<string>) {
     this.selectedSets = names;
+  }
+
+  @action
+  setSelectedAttrs(names: Set<string>) {
+    this.selectedAttrs = names;
   }
 
   @computed

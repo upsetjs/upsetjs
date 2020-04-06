@@ -99,6 +99,7 @@ export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAdd
 }
 
 export interface UpSetAddon<S extends ISetLike<T>, T> {
+  name: string;
   /**
    * @default after
    */

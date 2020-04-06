@@ -3371,7 +3371,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/addons@workspace:packages/addons":
+"@upsetjs/addons@^0.3.3, @upsetjs/addons@workspace:packages/addons":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
   dependencies:
@@ -3436,6 +3436,7 @@ __metadata:
     "@types/react-router": ^5.1.5
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
+    "@upsetjs/addons": ^0.3.3
     "@upsetjs/bundle": ^0.3.3
     "@upsetjs/model": ^0.3.5
     "@upsetjs/react": ^0.3.3

@@ -57,6 +57,8 @@ export default observer(() => {
           onHover={store.setHover}
           onClick={store.setSelection}
           exportButtons={false}
+          setAddons={store.visibleSetAddons}
+          combinationAddons={store.visibleCombinationAddons}
           ref={store.ui.ref}
         />
       )}

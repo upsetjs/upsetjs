@@ -227,7 +227,9 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
       break;
     }
     // outlier
-    outlier.push(v);
+    if (outlier.length === 0 || outlier[outlier.length - 1] !== v) {
+      outlier.push(v);
+    }
   }
   // look for the closests value which is smaller than the computed right
   let whiskerHigh = right;
@@ -239,7 +241,9 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
       break;
     }
     // outlier
-    reversedOutliers.push(v);
+    if (reversedOutliers.length === 0 || reversedOutliers[reversedOutliers.length - 1] !== v) {
+      reversedOutliers.push(v);
+    }
   }
 
   return {

@@ -117,10 +117,12 @@ export const Addon = () => {
       onHover={setSelection}
       setAddons={[
         {
+          name: 'red',
           size: 40,
           render: SetAddon,
         },
         {
+          name: 'green',
           position: 'before',
           size: 20,
           render: SetAddon2,
@@ -128,10 +130,12 @@ export const Addon = () => {
       ]}
       combinationAddons={[
         {
+          name: 'red',
           size: 40,
           render: SetAddon,
         },
         {
+          name: 'green',
           position: 'before',
           size: 20,
           render: SetAddon2,

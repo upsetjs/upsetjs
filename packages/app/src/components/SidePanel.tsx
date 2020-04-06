@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DataSetInfo from './DataSetInfo';
 import CombinationsOptions from './CombinationsOptions';
 import SetChooser from './SetChooser';
+import AttrChooser from './AttrChooser';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +31,7 @@ export default observer(() => {
       <div className={classes.root}>
         <CombinationsOptions />
         <SetChooser />
+        <AttrChooser />
         <DataSetInfo />
       </div>
     </Paper>

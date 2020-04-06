@@ -60,14 +60,14 @@ function SetSelectionChart<T>({
 
         const genPosition = addonPositionGenerator(totalWidth);
         const addons = setAddons
-          .map((addon, i) => {
+          .map((addon) => {
             const v = genPosition(addon);
             const content = addon.render({ set: d, width: addon.size, height });
             if (!content) {
               return null;
             }
             return (
-              <g key={i} transform={`translate(${v},${y})`}>
+              <g key={addon.name} transform={`translate(${v},${y})`}>
                 {content}
               </g>
             );
