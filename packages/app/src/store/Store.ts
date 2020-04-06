@@ -1,6 +1,6 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import UIStore from './UIStore';
-import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions } from '../data';
+import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions, IElem, IElems } from '../data';
 import { ISetLike, ISets, GenerateSetCombinationsOptions, generateCombinations, UpSetSetQuery } from '@upsetjs/model';
 import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes } from '@upsetjs/react';
 import { stableSort } from './utils';
@@ -29,7 +29,7 @@ const themeKeys: (keyof UpSetThemeProps)[] = [
   'notMemberColor',
   'alternatingBackgroundColor',
 ];
-const otherOptionKeys: (keyof UpSetProps<any>)[] = [
+const otherOptionKeys: (keyof UpSetProps<IElem>)[] = [
   'fontSizes',
   'barPadding',
   'dotPadding',
@@ -109,11 +109,11 @@ export function stripDefaults(props: Required<ICustomizeOptions>) {
 
 class StoreQuery {
   @observable.ref
-  q: UpSetSetQuery<any>;
+  q: UpSetSetQuery<IElem>;
   @observable
   visible: boolean;
 
-  constructor(q: UpSetSetQuery<any>, visible: boolean) {
+  constructor(q: UpSetSetQuery<IElem>, visible: boolean) {
     this.q = q;
     this.visible = visible;
   }
@@ -130,18 +130,18 @@ export default class Store {
   dataset: IDataSet | null = null;
 
   @observable.shallow
-  sets: ISets<any> = [];
+  sets: ISets<IElem> = [];
 
   @observable.shallow
-  elems: ReadonlyArray<any> = [];
+  elems: IElems = [];
 
   @observable
   readonly props: Required<ICustomizeOptions> = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
 
   @observable.ref
-  hover: ISetLike<any> | null = null;
+  hover: ISetLike<IElem> | null = null;
   @observable.ref
-  selection: ISetLike<any> | null = null;
+  selection: ISetLike<IElem> | null = null;
 
   @observable
   readonly queries: StoreQuery[] = [];
@@ -202,12 +202,12 @@ export default class Store {
   }
 
   @action.bound
-  setHover(set: ISetLike<any> | null) {
+  setHover(set: ISetLike<IElem> | null) {
     this.hover = set;
   }
 
   @action.bound
-  setSelection(set: ISetLike<any> | null) {
+  setSelection(set: ISetLike<IElem> | null) {
     this.selection = set;
   }
 
@@ -225,7 +225,7 @@ export default class Store {
   }
 
   @observable
-  readonly combinationsOptions: GenerateSetCombinationsOptions<any> = {
+  readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> = {
     type: 'intersection',
     min: 0,
     max: 3,
@@ -279,7 +279,7 @@ export default class Store {
   }
 
   @computed
-  get visibleQueries(): UpSetSetQuery<any>[] {
+  get visibleQueries(): UpSetSetQuery<IElem>[] {
     const qs = this.queries.filter((d) => d.visible).map((d) => d.q);
     if (!this.selection) {
       return qs;
@@ -294,7 +294,7 @@ export default class Store {
   }
 
   @action
-  deleteQuery(query: UpSetSetQuery<any>) {
+  deleteQuery(query: UpSetSetQuery<IElem>) {
     const i = this.queries.findIndex((d) => d.q === query);
     if (i >= 0) {
       this.queries.splice(i, 1);
@@ -320,7 +320,7 @@ export default class Store {
   }
 
   @action
-  toggleQueryVisibility(query: UpSetSetQuery<any>) {
+  toggleQueryVisibility(query: UpSetSetQuery<IElem>) {
     const q = this.queries.find((d) => d.q === query);
     if (!q) {
       return;

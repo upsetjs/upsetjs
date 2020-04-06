@@ -27,7 +27,7 @@ export default class UIStore {
   @observable
   readonly elemTable = {
     order: 'asc' as 'asc' | 'desc',
-    orderBy: 'name',
+    orderBy: 'name' as 'name',
   };
 
   @observable

@@ -9,9 +9,21 @@ import {
 export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'> &
   Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'>;
 
+export interface IAttrs {
+  [key: string]: number;
+}
+
+export interface IElem {
+  name: string;
+  sets: string[];
+  attrs: IAttrs;
+}
+
+export declare type IElems = ReadonlyArray<IElem>;
+
 export interface ILoadedDataSet {
-  sets: ISets<any>;
-  elems: ReadonlyArray<any>;
+  sets: ISets<IElem>;
+  elems: IElems;
   combinations?: Partial<GenerateSetCombinationsOptions>;
   props?: ICustomizeOptions;
 }
@@ -25,7 +37,6 @@ export interface IDataSet {
 
   creationDate?: Date;
   load(): Promise<ILoadedDataSet>;
-  // TODO export
 }
 
 export interface IStoredDataSet extends IDataSet {
@@ -35,7 +46,7 @@ export interface IStoredDataSet extends IDataSet {
 
 export interface IDumpInfo {
   ds: IDataSet;
-  sets: ISets<any>;
-  elems: ReadonlyArray<any>;
-  combinations: ISetCombinations<any>;
+  sets: ISets<IElem>;
+  elems: ReadonlyArray<IElem>;
+  combinations: ISetCombinations<IElem>;
 }

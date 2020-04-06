@@ -1,5 +1,5 @@
 import { parse } from 'papaparse';
-import { IDataSet } from '../interfaces';
+import { IDataSet, IAttrs, IElems } from '../interfaces';
 import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {
@@ -85,7 +85,7 @@ export function listUpSet2Datasets() {
   return listUpSetDatasets(`${baseUrlV2}/data/datasets.json`, baseUrlV2);
 }
 
-async function elementsFromDataset(ds: IUpSetDataSet) {
+async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
   const rawText = await fetch(ds.file).then((r) => r.text());
   const csv = parse(rawText, {
     delimiter: ds.separator,
@@ -105,10 +105,11 @@ async function elementsFromDataset(ds: IUpSetDataSet) {
       .map((v, i) => [v, setNames[i]])
       .filter(([v, _]) => v === '1')
       .map(([_, s]) => s);
+    const attrs: IAttrs = {};
     return {
       name: row[idColumnIndex],
       sets,
-      // TODO also parse attributes
+      attrs,
     };
   });
 }

@@ -1,5 +1,5 @@
 import { extractSets } from '@upsetjs/model';
-import { IDataSet } from '../interfaces';
+import { IDataSet, IElems } from '../interfaces';
 
 const simpsons: IDataSet = {
   id: 'simpsons',
@@ -9,8 +9,8 @@ const simpsons: IDataSet = {
   load: () =>
     import('./data.json').then((data) => {
       return {
-        sets: extractSets(data.default),
-        elems: data.default,
+        sets: extractSets(data.default as IElems),
+        elems: data.default as IElems,
       };
     }),
 };
