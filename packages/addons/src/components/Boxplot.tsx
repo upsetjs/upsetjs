@@ -5,6 +5,7 @@ import { round2 } from './utils';
 
 export interface IBoxplotStyleProps extends BoxplotStatsOptions {
   theme?: 'light' | 'dark';
+  mode?: 'normal' | 'box' | 'indicator';
   orient?: 'horizontal' | 'vertical';
   boxStyle?: React.CSSProperties;
   lineStyle?: React.CSSProperties;
@@ -16,6 +17,7 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
 
 const Boxplot = React.memo(function Boxplot({
   theme = 'light',
+  mode = 'normal',
   values,
   orient = 'horizontal',
   width: w,
@@ -42,6 +44,7 @@ const Boxplot = React.memo(function Boxplot({
   if (Number.isNaN(b.median)) {
     return <g></g>;
   }
+  const o = mode === 'indicator' ? 1 : 0; // everything one pixel inner if just the indicator
   const hor = orient === 'horizontal';
   const n = normalize([min, max]);
   const dn = denormalize([0, hor ? w : h]);
@@ -72,18 +75,22 @@ const Boxplot = React.memo(function Boxplot({
 
   if (hor) {
     const c = h / 2;
-    const bp = round2(h * bpp);
-    const hp = h - bp;
-    const w1 = `M${s.wl},0 l0,${h} M${s.wl},${c} L${s.q1},${c}`;
-    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},0 L${s.wh},${h}`;
+    const bp = round2(h * bpp) + o;
+    const hp = h - bp - o;
+    const w1 = `M${s.wl},${o} l0,${h - o * 2} M${s.wl},${c} L${s.q1},${c}`;
+    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${o} L${s.wh},${h - o}`;
     const box = `M${s.q1},${bp} L${s.q3},${bp} L${s.q3},${hp} L${s.q1},${hp} L${s.q1},${bp} M${s.med},${bp} l0,${
       hp - bp
     }`;
+    const p = <path d={`${w1}  ${w2} ${box}`} style={styles.line} />;
+    if (mode === 'indicator') {
+      return p;
+    }
     return (
       <g>
         {title}
-        <rect x={s.q1} y={bp} width={s.q3 - s.q1} height={h - 2 * bp} style={styles.box} />
-        <path d={`${w1}  ${w2} ${box}`} style={styles.line} />
+        {mode === 'normal' && <rect x={s.q1} y={bp} width={s.q3 - s.q1} height={h - 2 * bp} style={styles.box} />}
+        {p};
         {b.outlier.map((o) => (
           <circle key={o} r={outlierRadius} cy={c} cx={scale(o)} style={styles.outlier}>
             <title>${nf(o)}</title>
@@ -94,18 +101,23 @@ const Boxplot = React.memo(function Boxplot({
   }
   {
     const c = w / 2;
-    const bp = round2(w * bpp);
-    const wp = w - bp;
-    const w1 = `M0,${s.wl} l${w},0 M${c},${s.wl} L${c},${s.q1}`;
-    const w2 = `M${c},${s.q3} L${c},${s.wh} M0,${s.wh} L${w},${s.wh}`;
+    const bp = round2(w * bpp) + o;
+    const wp = w - bp - o;
+    const w1 = `M${o},${s.wl} l${w - 2 * o},0 M${c},${s.wl} L${c},${s.q1}`;
+    const w2 = `M${c},${s.q3} L${c},${s.wh} M${o},${s.wh} L${w - o},${s.wh}`;
     const box = `M${bp},${s.q1} L${bp},${s.q3} l${wp - bp},0 L${wp},${s.q1} L${bp},${s.q1} M${bp},${s.med} l${
       wp - bp
     },0`;
+    const p = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
+
+    if (mode === 'indicator') {
+      return p;
+    }
     return (
       <g>
         {title}
-        <rect y={s.q1} x={bp} height={s.q3 - s.q1} width={w - 2 * bp} style={styles.box} />
-        <path d={`${w1} ${w2} ${box}`} style={styles.line} />
+        {mode === 'normal' && <rect y={s.q1} x={bp} height={s.q3 - s.q1} width={w - 2 * bp} style={styles.box} />}
+        {p}
         {b.outlier.map((o) => (
           <circle key={o} r={outlierRadius} cx={c} cy={scale(o)} style={styles.outlier}>
             <title>${nf(o)}</title>
@@ -156,6 +168,44 @@ export function boxplotAddon<T>(
     render: ({ width, height, set }) => {
       const values = set.elems.map(acc);
       return <Boxplot values={values} width={width} height={height} min={min} max={max} {...extras} />;
+    },
+    renderSelection: ({ width, height, overlap, selectionColor }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = overlap.map(acc);
+      return (
+        <Boxplot
+          values={values}
+          width={width}
+          height={height}
+          min={min}
+          max={max}
+          mode="box"
+          lineStyle={{ stroke: selectionColor }}
+          outlierStyle={{ fill: selectionColor }}
+          {...extras}
+        />
+      );
+    },
+    renderQuery: ({ width, height, overlap, query, secondary }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = overlap.map(acc);
+      return (
+        <Boxplot
+          values={values}
+          width={width}
+          height={height}
+          min={min}
+          max={max}
+          mode={secondary ? 'indicator' : 'box'}
+          lineStyle={{ stroke: query.color }}
+          outlierStyle={{ fill: query.color }}
+          {...extras}
+        />
+      );
     },
   };
 }

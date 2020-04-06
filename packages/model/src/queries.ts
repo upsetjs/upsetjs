@@ -1,5 +1,5 @@
 import { ISetLike } from './model';
-import { setOverlapFactory, SetOverlap } from './data/setOverlap';
+import { setOverlapFactory, SetOverlap, setElemOverlapFactory, SetElemOverlap } from './data/setOverlap';
 
 export type UpSetElemQuery<T> = {
   /**
@@ -64,6 +64,19 @@ export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap) {
     return q.overlap;
   }
   const f = setOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems);
+  return (s: ISetLike<T>) => {
+    return f(s.elems)[what];
+  };
+}
+
+export function queryElemOverlap<T>(
+  q: UpSetQuery<T>,
+  what: keyof SetElemOverlap<T>
+): (s: ISetLike<T>) => ReadonlyArray<T> | null {
+  if (isCalcQuery(q)) {
+    return () => null;
+  }
+  const f = setElemOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems);
   return (s: ISetLike<T>) => {
     return f(s.elems)[what];
   };

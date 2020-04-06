@@ -1,7 +1,15 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike, setOverlapFactory, ISetCombination, ISet } from '@upsetjs/model';
+import {
+  ISets,
+  ISetCombinations,
+  ISetLike,
+  setOverlapFactory,
+  ISetCombination,
+  ISet,
+  setElemOverlapFactory,
+} from '@upsetjs/model';
 import SetSelectionChart from './SetSelectionChart';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import LabelsSelection from './LabelsSelection';
@@ -19,6 +27,13 @@ function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
   };
 }
 
+function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
+  const f = setElemOverlapFactory(query);
+  return (s: ISetLike<T>) => {
+    return f(s.elems).intersection;
+  };
+}
+
 export default function UpSetSelection<T>({
   scales,
   styles,
@@ -30,6 +45,7 @@ export default function UpSetSelection<T>({
   cStyles,
   setAddons,
   combinationAddons,
+  selectionColor,
   classNames,
 }: PropsWithChildren<{
   scales: UpSetScales;
@@ -41,6 +57,7 @@ export default function UpSetSelection<T>({
   selection: ISetLike<T> | null | ReadonlyArray<T>;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
+  selectionColor: string;
   setAddons: UpSetAddons<ISet<T>, T>;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
@@ -49,11 +66,19 @@ export default function UpSetSelection<T>({
     : () => 0;
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
+  const someAddon =
+    setAddons.some((s) => s.renderSelection != null) || combinationAddons.some((s) => s.renderSelection != null);
+  const selectionElemOverlap =
+    selection && someAddon
+      ? elemElemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
+      : null;
+
   function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {
-        return addon.renderSelection ? addon.renderSelection({ selection, ...props }) : null;
+        const overlap = selectionElemOverlap ? selectionElemOverlap(props.set) : null;
+        return addon.renderSelection ? addon.renderSelection({ selection, selectionColor, overlap, ...props }) : null;
       },
     };
   }

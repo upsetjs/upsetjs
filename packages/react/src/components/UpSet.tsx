@@ -249,6 +249,7 @@ export default React.forwardRef(function UpSet<T>(
         <UpSetSelection
           cs={cs}
           scales={scales}
+          selectionColor={selectionColor}
           sets={sets}
           styles={styles}
           onHover={onHover}

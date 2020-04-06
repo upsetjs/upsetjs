@@ -1,7 +1,16 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike, UpSetQuery, queryOverlap, ISet, ISetCombination } from '@upsetjs/model';
+import {
+  ISets,
+  ISetCombinations,
+  ISetLike,
+  UpSetQuery,
+  queryOverlap,
+  ISet,
+  ISetCombination,
+  queryElemOverlap,
+} from '@upsetjs/model';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import SetSelectionChart from './SetSelectionChart';
 import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons, UpSetAddon, UpSetAddonProps } from '../config';
@@ -33,20 +42,26 @@ export default React.memo(function UpSetQueries<T>({
   setAddons: UpSetAddons<ISet<T>, T>;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
+  const someAddon =
+    setAddons.some((s) => s.renderQuery != null) || combinationAddons.some((s) => s.renderQuery != null);
   const qs = React.useMemo(
     () =>
       queries.map((q) => ({
         ...q,
         overlap: queryOverlap(q, 'intersection'),
+        elemOverlap: someAddon ? queryElemOverlap(q, 'intersection') : null,
       })),
-    [queries]
+    [queries, someAddon]
   );
 
-  function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, secondary: boolean) {
+  function wrapAddon<
+    S extends ISetLike<T>
+  >(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {
-        return addon.renderQuery ? addon.renderQuery({ query, secondary, ...props }) : null;
+        const overlap = overlapper(props.set);
+        return addon.renderQuery ? addon.renderQuery({ query, overlap, secondary, ...props }) : null;
       },
     };
   }
@@ -66,7 +81,7 @@ export default React.memo(function UpSetQueries<T>({
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
-            combinationAddons={combinationAddons.map((a) => wrapAddon(a, q, secondary || i > 0))}
+            combinationAddons={combinationAddons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
             totalHeight={styles.combinations.h + styles.sets.h}
           />
         ))}
@@ -85,7 +100,7 @@ export default React.memo(function UpSetQueries<T>({
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
             totalWidth={styles.sets.w + styles.labels.w + styles.combinations.w}
-            setAddons={setAddons.map((a) => wrapAddon(a, q, secondary || i > 0))}
+            setAddons={setAddons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
           />
         ))}
       </g>

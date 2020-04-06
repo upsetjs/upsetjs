@@ -59,7 +59,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       key={d.name}
       transform={`translate(${scales.combinations.x(d.name)}, 0)`}
       onMouseEnter={onMouseEnter(d)}
-      onMouseLeave={onMouseLeave(d)}
+      onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
       className={className}
     >

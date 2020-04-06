@@ -51,7 +51,7 @@ const SetChart = React.memo(function SetChart<T>({
     <g
       transform={`translate(0, ${scales.sets.y(d.name)})`}
       onMouseEnter={onMouseEnter(d)}
-      onMouseLeave={onMouseLeave(d)}
+      onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
       className={className}
     >

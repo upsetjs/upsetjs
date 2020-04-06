@@ -91,10 +91,13 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
 
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
   selection: ISetLike<T> | null | ReadonlyArray<T>;
+  selectionColor: string;
+  overlap: ReadonlyArray<T> | null;
 }
 
 export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
   query: UpSetQuery<T>;
+  overlap: ReadonlyArray<T> | null;
   secondary: boolean;
 }
 
@@ -237,6 +240,16 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
+const EMPTY_OBJECT = {};
+const EMPTY_ARRAY: any[] = [];
+const DEFAULT_FONTSIZES: UpSetFontSizes = {
+  setLabel: '16px',
+  axisTick: '10px',
+  chartLabel: '16px',
+  barLabel: '10px',
+  legend: '10px',
+};
+
 export function fillDefaults<T>(
   props: UpSetProps<T>
 ): Required<UpSetDataProps<T>> &
@@ -264,32 +277,26 @@ export function fillDefaults<T>(
       fontFamily: 'sans-serif',
       widthRatios: [0.2, 0.1, 0.7],
       heightRatios: [0.6, 0.4],
-      queries: [],
+      queries: EMPTY_ARRAY,
       queryLegend: props.queries != null && props.queries.length > 0,
       exportButtons: true,
       numericScale: 'linear',
       bandScale: 'band',
       className: '',
-      classNames: {},
-      style: {},
-      styles: {},
-      childrenFactories: {},
-      setAddons: [],
-      combinationAddons: [],
+      fontSizes: DEFAULT_FONTSIZES,
+      classNames: EMPTY_OBJECT,
+      style: EMPTY_OBJECT,
+      styles: EMPTY_OBJECT,
+      childrenFactories: EMPTY_OBJECT,
+      setAddons: EMPTY_ARRAY,
+      combinationAddons: EMPTY_ARRAY,
     },
     theme,
     props,
-    {
-      fontSizes: Object.assign(
-        {
-          setLabel: '16px',
-          axisTick: '10px',
-          chartLabel: '16px',
-          barLabel: '10px',
-          legend: '10px',
-        },
-        props.fontSizes ?? {}
-      ),
-    }
+    props.fontSizes
+      ? {
+          fontSizes: Object.assign({}, DEFAULT_FONTSIZES, props.fontSizes),
+        }
+      : EMPTY_OBJECT
   );
 }

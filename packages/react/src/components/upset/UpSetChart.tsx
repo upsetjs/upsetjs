@@ -39,16 +39,17 @@ export default React.memo(function UpSetChart<T>({
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   // const [selection, setSelection] = useState(null as ISet<T> | null);
-  const onClickImpl = wrap(onClick);
-  const onMouseEnterImpl = wrap(onHover);
-  const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
+  const [onClickImpl, onMouseEnterImpl, onMouseLeaveImpl] = React.useMemo(
+    () => [wrap(onClick), wrap(onHover), onHover ? () => onHover(null) : undefined],
+    [onClick, onHover]
+  );
 
   const setBarHeight = scales.sets.y.bandwidth();
   const combinationBarWidth = scales.combinations.x.bandwidth();
   const cx = combinationBarWidth / 2;
   const cy = scales.sets.y.bandwidth() / 2 + styles.combinations.h;
 
-  const rsets = sets.slice().reverse();
+  const rsets = React.useMemo(() => sets.slice().reverse(), [sets]);
 
   return (
     <g className={onClick ? 'clickAble' : undefined}>
