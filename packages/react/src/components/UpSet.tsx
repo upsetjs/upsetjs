@@ -274,4 +274,4 @@ export default React.forwardRef(function UpSet<T>(
       {props.children}
     </svg>
   );
-});
+}) as <T>(p: UpSetProps<T> & React.RefAttributes<SVGSVGElement>) => React.ReactElement;
