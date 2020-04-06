@@ -28,6 +28,7 @@ export function importJSON(file: File): Promise<IDataSet> {
     author: dump.author,
     description: dump.description,
     creationDate: new Date(),
+    attrs: dump.attrs,
     load: () => {
       const r = loadDump<UpSetProps<any>>(dump, generateCombinations);
       return Promise.resolve({

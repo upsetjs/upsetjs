@@ -13,6 +13,7 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
     description: ds.description,
     author: ds.author,
     elements: helper.elems,
+    attrs: helper.attrs,
     sets: helper.sets.map((set) => ({
       ...set,
       elems: set.elems.map(helper.toElemIndex),

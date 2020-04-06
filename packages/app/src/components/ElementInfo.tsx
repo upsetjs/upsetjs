@@ -21,7 +21,7 @@ export default observer(() => {
   const classes = useStyles();
 
   const o = store.ui.elemTable;
-  const handleRequestSort = (property: 'name') => {
+  const handleRequestSort = (property: string) => {
     return () => {
       const isAsc = o.orderBy === property && o.order === 'asc';
       store.ui.changeElemTableOptions({
@@ -31,6 +31,7 @@ export default observer(() => {
     };
   };
   const rows = store.sortedSelectedElems;
+  const attrs = store.dataset?.attrs ?? [];
 
   return (
     <SidePanelEntry id="elems" title={`Selected Elements${rows.length > 0 ? `: ${rows.length}` : ''}`}>
@@ -46,6 +47,16 @@ export default observer(() => {
                 >
                   Name
                 </TableSortLabel>
+                {attrs.map((attr) => (
+                  <TableSortLabel
+                    key={attr}
+                    active={o.orderBy === `attrs.${attr}`}
+                    direction={o.orderBy === `attrs.${attr}` ? o.order : 'asc'}
+                    onClick={handleRequestSort(`attrs.${attr}`)}
+                  >
+                    {attr}
+                  </TableSortLabel>
+                ))}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -57,6 +68,11 @@ export default observer(() => {
                     <TableCell component="th" scope="row" padding="none">
                       {row.name}
                     </TableCell>
+                    {attrs.map((attr) => (
+                      <TableCell key={attr} align="right">
+                        {row.attrs[attr]}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 );
               })}

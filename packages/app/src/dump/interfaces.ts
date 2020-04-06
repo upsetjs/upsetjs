@@ -11,6 +11,7 @@ export interface IEmbeddedDumpSchema {
   author: string;
 
   elements: ReadonlyArray<number | string | any>;
+  attrs: string[];
 
   sets: ReadonlyArray<{
     type: 'set';

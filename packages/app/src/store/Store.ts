@@ -221,7 +221,12 @@ export default class Store {
     if (!this.selection) {
       return [];
     }
-    return stableSort(this.selection.elems, this.ui.elemTable.orderBy, this.ui.elemTable.order);
+    const o = this.ui.elemTable.orderBy;
+    return stableSort<IElem>(
+      this.selection.elems,
+      o.startsWith('attrs') ? (v) => v.attrs[o.slice(6)] : (o as keyof IElem),
+      this.ui.elemTable.order
+    );
   }
 
   @observable

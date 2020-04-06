@@ -1,6 +1,6 @@
 import { unparse, parse } from 'papaparse';
 import Store from '../store/Store';
-import { IDataSet, ILoadedDataSet } from './interfaces';
+import { IDataSet, IElems, IAttrs } from './interfaces';
 import { extractSets } from '@upsetjs/model';
 
 export function exportCSV(store: Store) {
@@ -45,40 +45,53 @@ function isTrue(v: any) {
 
 function determineSets(rows: any[], fields: string[]) {
   // set fields should be like numbers with just 0 and ones
-  const setNames = fields.filter((f) => rows.every((row) => isBoolean(row[f])));
-  return (row: any) => setNames.filter((f) => isTrue(row[f]));
+  return fields.filter((f) => rows.every((row) => isBoolean(row[f])));
+}
+
+function determineAttrs(rows: any[], fields: string[]) {
+  // attrs ... number fields
+  return fields.filter((f) => rows.every((row) => typeof row[f] === 'number'));
+}
+
+function toAttrs(attrs: string[], e: any) {
+  const r: IAttrs = {};
+  attrs.forEach((attr) => (r[attr] = e[attr]));
+  return r;
 }
 
 export function importCSV(file: File): Promise<IDataSet> {
   const name = file.name.includes('.') ? file.name.slice(0, file.name.lastIndexOf('.')) : file.name;
-  return Promise.resolve({
-    id: file.name,
-    name,
-    creationDate: new Date(),
-    author: 'User',
-    description: `imported from ${file.name}`,
-    load: () =>
-      new Promise<ILoadedDataSet>((resolve) => {
-        parse(file, {
-          dynamicTyping: true,
-          header: true,
-          complete(results) {
-            const elems = results.data;
-            const fields = results.meta.fields;
-            const toSet = determineSets(elems, fields);
-            const sets = extractSets(
-              elems.map((e) => {
-                e.sets = toSet(e);
-                return e;
-              })
-            );
-
-            resolve({
+  return new Promise<IDataSet>((resolve) => {
+    parse(file, {
+      dynamicTyping: true,
+      header: true,
+      complete(results) {
+        const fields = results.meta.fields;
+        const setNames = determineSets(results.data, fields);
+        const attrs = determineAttrs(
+          results.data,
+          fields.filter((d) => !setNames.includes(d))
+        );
+        resolve({
+          id: file.name,
+          name,
+          creationDate: new Date(),
+          author: 'User',
+          description: `imported from ${file.name}`,
+          attrs,
+          load: () => {
+            const elems: IElems = results.data.map((e) => ({
+              name: e.name as string,
+              sets: setNames.filter((f) => isTrue(e[f])),
+              attrs: toAttrs(attrs, e),
+            }));
+            return Promise.resolve({
               elems,
-              sets,
+              sets: extractSets(elems),
             });
           },
         });
-      }),
+      },
+    });
   });
 }

@@ -1,5 +1,5 @@
 import { parse } from 'papaparse';
-import { IDataSet, IAttrs, IElems } from '../interfaces';
+import { IDataSet, IElems, IAttrs } from '../interfaces';
 import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {
@@ -48,6 +48,7 @@ function asDataSet(ds: IUpSetDataSet): IDataSet {
     name: ds.name,
     description: ds.description ?? '',
     author: ds.author ?? '',
+    attrs: ds.meta.filter((d) => d.type === 'float' || d.type === 'integer').map((d) => d.name),
     load: async () => {
       const elems = await elementsFromDataset(ds);
       const sets = extractSets(elems);
@@ -109,7 +110,7 @@ async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
     ds.meta
       .filter((d) => d.type === 'float' || d.type === 'integer')
       .forEach((d) => {
-        attrs[d.name] = Number.parseFloat(row[d.index]);
+        attrs[`_${d.name}`] = Number.parseFloat(row[d.index]);
       });
     return {
       name: row[idColumnIndex],

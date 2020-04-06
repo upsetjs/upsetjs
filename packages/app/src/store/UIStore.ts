@@ -7,7 +7,7 @@ export interface ISetTableOptions {
 }
 export interface IElemTableOptions {
   order: 'asc' | 'desc';
-  orderBy: 'name';
+  orderBy: string;
 }
 
 export interface IToast {
@@ -27,7 +27,7 @@ export default class UIStore {
   @observable
   readonly elemTable = {
     order: 'asc' as 'asc' | 'desc',
-    orderBy: 'name' as 'name',
+    orderBy: 'name',
   };
 
   @observable

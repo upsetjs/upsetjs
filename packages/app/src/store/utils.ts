@@ -1,8 +1,9 @@
-function getComparator<T>(orderBy: keyof T, order: 'asc' | 'desc') {
+function getComparator<T>(orderBy: keyof T | ((v: T) => number | string), order: 'asc' | 'desc') {
+  const acc = typeof orderBy === 'function' ? orderBy : (v: T) => v[orderBy as keyof T];
   const factor = order === 'asc' ? 1 : -1;
   return (a: T, b: T) => {
-    const va = a[orderBy];
-    const vb = b[orderBy];
+    const va = acc(a);
+    const vb = acc(b);
     if (va === vb) {
       return 0;
     }
@@ -13,7 +14,11 @@ function getComparator<T>(orderBy: keyof T, order: 'asc' | 'desc') {
   };
 }
 
-export function stableSort<T>(arr: ReadonlyArray<T>, orderBy: keyof T, order: 'asc' | 'desc') {
+export function stableSort<T>(
+  arr: ReadonlyArray<T>,
+  orderBy: keyof T | ((v: T) => number | string),
+  order: 'asc' | 'desc'
+) {
   const comp = getComparator(orderBy, order);
   const data = arr.map((v, i) => ({ v, i }));
   data.sort((a, b) => {

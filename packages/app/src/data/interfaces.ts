@@ -34,6 +34,7 @@ export interface IDataSet {
   name: string;
   description: string;
   author: string;
+  attrs: string[];
 
   creationDate?: Date;
   load(): Promise<ILoadedDataSet>;

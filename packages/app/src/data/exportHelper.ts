@@ -22,6 +22,7 @@ export default function exportHelper(store: Store) {
   return {
     sets: store.visibleSets,
     elems: store.elems,
+    attrs: store.dataset?.attrs ?? [],
     toElemIndex,
     toSetIndex,
     toCombinationIndx,
