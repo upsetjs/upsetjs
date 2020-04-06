@@ -59,7 +59,7 @@ const SetChart = React.memo(function SetChart<T>({
       <rect
         width={setBarWidth + styles.labels.w + styles.combinations.w}
         height={scales.sets.y.bandwidth()}
-        className="fillTransparent"
+        className="fillTransparent hoverBar"
       />
       {i % 2 === 1 && (
         <rect

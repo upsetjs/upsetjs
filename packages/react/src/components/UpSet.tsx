@@ -99,6 +99,11 @@ export default React.forwardRef(function UpSet<T>(
   .barTextStyle {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
   }
+  .hoverBarTextStyle {
+    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    fill: ${hoverHintColor};
+    display: none;
+  }
   .setTextStyle {
     ${fontSizes.setLabel ? `font-size: ${fontSizes.setLabel};` : ''}
   }
@@ -156,9 +161,16 @@ export default React.forwardRef(function UpSet<T>(
     cursor: pointer;
   }
 
-  .interactive:hover > rect {
+  .hoverOnly {
+    display: none;
+  }
+
+  .interactive:hover > .hoverBar {
     // filter: drop-shadow(0 0 2px #cccccc);
     stroke: ${hoverHintColor};
+  }
+  .interactive:hover > .hoverBarTextStyle {
+    display: unset;
   }
 
   .exportButtons {

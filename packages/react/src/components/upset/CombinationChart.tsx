@@ -64,7 +64,11 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       <title>
         {d.name}: {d.cardinality}
       </title>
-      <rect width={combinationBarWidth} height={styles.sets.h + combinationBarHeight} className="fillTransparent" />
+      <rect
+        width={combinationBarWidth}
+        height={styles.sets.h + combinationBarHeight}
+        className="fillTransparent hoverBar"
+      />
       <rect
         y={y}
         height={combinationBarHeight - y}
@@ -73,13 +77,21 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         style={barStyle}
       />
       <text
-        y={y}
-        dy={-barLabelOffset}
+        y={y - barLabelOffset}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
         className={clsx('textStyle', 'barTextStyle', 'middleText', barLabelClassName)}
       >
         {d.cardinality}
+      </text>
+      <text
+        y={-barLabelOffset}
+        dy={y === 0 ? '-1.2em' : ''}
+        x={combinationBarWidth / 2}
+        style={barLabelStyle}
+        className={clsx('textStyle', 'hoverBarTextStyle', 'middleText', barLabelClassName)}
+      >
+        {d.name}
       </text>
       {sets.map((s) => (
         <UpSetDot
