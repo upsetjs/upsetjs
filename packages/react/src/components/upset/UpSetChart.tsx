@@ -18,6 +18,7 @@ export default React.memo(function UpSetChart<T>({
   classNames,
   cStyles,
   childrens,
+  clipId,
   barLabelOffset,
 }: PropsWithChildren<{
   scales: UpSetScales;
@@ -25,6 +26,7 @@ export default React.memo(function UpSetChart<T>({
   sets: ISets<T>;
   cs: ISetCombinations<T>;
   r: number;
+  clipId: string;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T> | null): void;
   classNames: UpSetStyleClassNames;
@@ -60,6 +62,7 @@ export default React.memo(function UpSetChart<T>({
             onMouseLeave={onMouseLeaveImpl}
             className={onClick || onHover ? 'interactive' : undefined}
             styles={styles}
+            clipId={clipId}
             setBarWidth={setBarWidth}
             setBarHeight={setBarHeight}
             barClassName={classNames.bar}

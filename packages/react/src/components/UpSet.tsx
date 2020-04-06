@@ -16,6 +16,10 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
+function generateId(width: number, height: number) {
+  return `clip-w${Math.round(width)}-h${Math.round(height)}-${Math.random().toString(36).slice(4)}`;
+}
+
 export default React.forwardRef(function UpSet<T>(
   props: PropsWithChildren<UpSetProps<T>>,
   ref: React.Ref<SVGSVGElement>
@@ -65,6 +69,12 @@ export default React.forwardRef(function UpSet<T>(
     height,
     margin,
     barPadding,
+    widthRatios,
+    heightRatios,
+  ]);
+  const clipId = React.useMemo(() => generateId(width * widthRatios[1], height * heightRatios[1]), [
+    width,
+    height,
     widthRatios,
     heightRatios,
   ]);
@@ -174,6 +184,11 @@ export default React.forwardRef(function UpSet<T>(
   return (
     <svg className={className} style={style} width={width} height={height} ref={ref} data-theme={theme ?? 'light'}>
       <style>{rules}</style>
+      <defs>
+        <clipPath id={clipId}>
+          <rect x={styles.sets.w} y={0} width={styles.labels.w} height={styles.sets.h} />
+        </clipPath>
+      </defs>
       {queryLegend && (
         <QueryLegend
           queries={queries}
@@ -212,6 +227,7 @@ export default React.forwardRef(function UpSet<T>(
           onHover={onHover}
           cStyles={cStyles}
           classNames={classNames}
+          clipId={clipId}
           childrens={childrenFactories}
           barLabelOffset={barLabelOffset}
         />

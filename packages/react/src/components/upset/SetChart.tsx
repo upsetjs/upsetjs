@@ -14,6 +14,7 @@ const SetChart = React.memo(function SetChart<T>({
   onClick,
   className,
   styles,
+  clipId,
   setBarWidth,
   setBarHeight,
   barClassName,
@@ -31,6 +32,7 @@ const SetChart = React.memo(function SetChart<T>({
     scales: UpSetScales;
     className?: string;
     styles: UpSetStyles;
+    clipId: string;
     barLabelOffset: number;
     setBarWidth: number;
     setBarHeight: number;
@@ -88,6 +90,7 @@ const SetChart = React.memo(function SetChart<T>({
         y={scales.sets.y.bandwidth() / 2}
         className={clsx('textStyle', 'setTextStyle', 'middleText', 'centralText', setClassName)}
         style={setStyle}
+        clipPath={`url(#${clipId})`}
       >
         {d.name}
       </text>
