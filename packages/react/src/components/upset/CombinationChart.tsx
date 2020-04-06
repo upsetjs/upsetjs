@@ -5,6 +5,7 @@ import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { UpSetStyles } from './defineStyle';
 import { clsx } from './utils';
+import { UpSetAddons } from '../config';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
   d,
@@ -18,7 +19,6 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   sets,
   rsets,
   combinationBarWidth,
-  combinationBarHeight,
   cx,
   cy,
   barClassName,
@@ -29,6 +29,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   dotStyle,
   children,
   barLabelOffset,
+  combinationAddons,
 }: PropsWithChildren<
   {
     d: ISetCombination<T>;
@@ -40,7 +41,6 @@ const CombinationChart = React.memo(function CombinationChart<T>({
     sets: ISets<T>;
     rsets: ISets<T>;
     combinationBarWidth: number;
-    combinationBarHeight: number;
     cx: number;
     cy: number;
     barClassName?: string;
@@ -49,9 +49,12 @@ const CombinationChart = React.memo(function CombinationChart<T>({
     barLabelStyle?: React.CSSProperties;
     dotClassName?: string;
     dotStyle?: React.CSSProperties;
+    combinationAddons: UpSetAddons<ISetCombination<T>, T>;
   } & UpSetSelection
 >) {
   const y = scales.combinations.y(d.cardinality);
+  let beforeAcc = 0;
+  let afterAcc = 0;
   return (
     <g
       key={d.name}
@@ -65,13 +68,14 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         {d.name}: {d.cardinality}
       </title>
       <rect
+        y={-styles.combinations.before}
         width={combinationBarWidth}
-        height={styles.sets.h + combinationBarHeight}
+        height={styles.sets.h + styles.combinations.h + styles.combinations.before + styles.combinations.after}
         className="fillTransparent hoverBar"
       />
       <rect
         y={y}
-        height={combinationBarHeight - y}
+        height={styles.combinations.h - y}
         width={combinationBarWidth}
         className={clsx('fillPrimary', barClassName)}
         style={barStyle}
@@ -85,8 +89,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         {d.cardinality}
       </text>
       <text
-        y={-barLabelOffset}
-        dy={y === 0 ? '-1.2em' : ''}
+        y={-barLabelOffset - styles.combinations.before}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
         className={clsx('textStyle', 'hoverBarTextStyle', 'middleText', barLabelClassName)}
@@ -113,6 +116,21 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           className="strokePrimary upsetLine"
         />
       )}
+      {combinationAddons.map((addon, i) => {
+        let y = 0;
+        if (addon.position === 'before') {
+          beforeAcc += addon.size;
+          y = -beforeAcc;
+        } else {
+          y = styles.combinations.h + styles.sets.h + afterAcc;
+          afterAcc += addon.size;
+        }
+        return (
+          <g key={i} transform={`translate(0,${y})`}>
+            {addon.render({ set: d, width: combinationBarWidth, height: addon.size })}
+          </g>
+        );
+      })}
       {children}
     </g>
   );

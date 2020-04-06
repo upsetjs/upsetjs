@@ -53,7 +53,8 @@ export default function generateScales(
   combinations: ISetCombinations<any>,
   styles: UpSetStyles,
   numericScale: NumericScaleFactory | 'linear' | 'log',
-  bandScale: BandScaleFactory | 'band'
+  bandScale: BandScaleFactory | 'band',
+  barLabelFontSize: number
 ): UpSetScales {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
@@ -75,7 +76,7 @@ export default function generateScales(
       ),
       y: numericScaleFactory(
         [0, combinations.reduce((acc, d) => Math.max(acc, d.cardinality), 0)],
-        [styles.combinations.h, 0]
+        [styles.combinations.h, barLabelFontSize]
       ),
     },
   };

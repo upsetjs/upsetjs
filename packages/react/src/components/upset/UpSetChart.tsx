@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike } from '@upsetjs/model';
+import { ISets, ISetCombinations, ISetLike, ISet, ISetCombination } from '@upsetjs/model';
 import SetChart from './SetChart';
 import CombinationChart from './CombinationChart';
 import { wrap } from './utils';
-import { UpSetStyleClassNames, UpSetReactStyles, UpSetReactChildrens } from '../config';
+import { UpSetStyleClassNames, UpSetReactStyles, UpSetReactChildrens, UpSetAddons } from '../config';
 
 export default React.memo(function UpSetChart<T>({
   scales,
@@ -20,6 +20,8 @@ export default React.memo(function UpSetChart<T>({
   childrens,
   clipId,
   barLabelOffset,
+  setAddons,
+  combinationAddons,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -33,24 +35,24 @@ export default React.memo(function UpSetChart<T>({
   cStyles: UpSetReactStyles;
   childrens: UpSetReactChildrens<T>;
   barLabelOffset: number;
+  setAddons: UpSetAddons<ISet<T>, T>;
+  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   // const [selection, setSelection] = useState(null as ISet<T> | null);
   const onClickImpl = wrap(onClick);
   const onMouseEnterImpl = wrap(onHover);
   const onMouseLeaveImpl = wrap(onHover ? () => onHover(null) : undefined);
 
-  const setBarWidth = scales.sets.x.range()[0];
   const setBarHeight = scales.sets.y.bandwidth();
   const combinationBarWidth = scales.combinations.x.bandwidth();
   const cx = combinationBarWidth / 2;
-  const combinationBarHeight = scales.combinations.y.range()[0];
-  const cy = scales.sets.y.bandwidth() / 2 + combinationBarHeight;
+  const cy = scales.sets.y.bandwidth() / 2 + styles.combinations.h;
 
   const rsets = sets.slice().reverse();
 
   return (
     <g className={onClick ? 'clickAble' : undefined}>
-      <g transform={`translate(0,${styles.combinations.h})`}>
+      <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
         {sets.map((d, i) => (
           <SetChart
             key={d.name}
@@ -63,7 +65,6 @@ export default React.memo(function UpSetChart<T>({
             className={onClick || onHover ? 'interactive' : undefined}
             styles={styles}
             clipId={clipId}
-            setBarWidth={setBarWidth}
             setBarHeight={setBarHeight}
             barClassName={classNames.bar}
             barLabelClassName={classNames.barLabel}
@@ -72,13 +73,14 @@ export default React.memo(function UpSetChart<T>({
             setClassName={classNames.setLabel}
             setStyle={cStyles.setLabel}
             barLabelOffset={barLabelOffset}
+            setAddons={setAddons}
           >
             {childrens.set && childrens.set(d)}
           </SetChart>
         ))}
       </g>
 
-      <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
+      <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
         {cs.map((d) => (
           <CombinationChart
             key={d.name}
@@ -95,7 +97,6 @@ export default React.memo(function UpSetChart<T>({
             cx={cx}
             cy={cy}
             combinationBarWidth={combinationBarWidth}
-            combinationBarHeight={combinationBarHeight}
             barClassName={classNames.bar}
             barLabelClassName={classNames.barLabel}
             barLabelStyle={cStyles.barLabel}
@@ -103,6 +104,7 @@ export default React.memo(function UpSetChart<T>({
             dotClassName={classNames.dot}
             dotStyle={cStyles.dot}
             barLabelOffset={barLabelOffset}
+            combinationAddons={combinationAddons}
           >
             {childrens.combinations && childrens.combinations(d)}
           </CombinationChart>

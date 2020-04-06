@@ -23,7 +23,7 @@ function UpSetSelectionChart<T>({
   const cy = scales.sets.y.bandwidth() / 2;
   const cx = scales.combinations.x.bandwidth() / 2;
   const r = Math.min(cx, cy) * (1 - styles.padding);
-  const height = scales.sets.y.range()[1];
+  const height = styles.sets.h + styles.sets.after;
   const rsets = sets.slice().reverse();
   const width = scales.combinations.x.bandwidth();
 

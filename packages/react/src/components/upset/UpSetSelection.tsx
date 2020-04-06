@@ -47,7 +47,7 @@ export default function UpSetSelection<T>({
 
   return (
     <g className={onHover ? 'pnone' : undefined}>
-      <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
+      <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
         {selection && (
           <CombinationSelectionChart
             scales={scales}
@@ -61,7 +61,7 @@ export default function UpSetSelection<T>({
           />
         )}
       </g>
-      <g transform={`translate(0,${styles.combinations.h})`}>
+      <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
         {selection && (
           <SetSelectionChart
             scales={scales}
@@ -75,7 +75,7 @@ export default function UpSetSelection<T>({
           />
         )}
       </g>
-      <g transform={`translate(${styles.sets.w},${styles.combinations.h})`}>
+      <g transform={`translate(${styles.labels.x},${styles.labels.y})`}>
         {isSetLike(selection) && <LabelsSelection scales={scales} styles={styles} selection={selection} />}
         {isSetLike(selection) && (
           <UpSetSelectionChart

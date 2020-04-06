@@ -19,7 +19,7 @@ export default function LabelsSelection<T>({
   return (
     <rect
       y={scales.sets.y(d.name)}
-      width={styles.labels.w + styles.combinations.w}
+      width={styles.labels.w + styles.combinations.w + styles.sets.after}
       height={scales.sets.y.bandwidth()}
       className="strokeSelection fillTransparent pnone"
     />

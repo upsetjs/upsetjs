@@ -61,30 +61,28 @@ export default React.forwardRef(function UpSet<T>(
     exportButtons,
     numericScale,
     bandScale,
+    setAddons,
+    combinationAddons,
   } = fillDefaults(props);
 
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
-  const styles = React.useMemo(() => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios }), [
-    width,
-    height,
-    margin,
-    barPadding,
-    widthRatios,
-    heightRatios,
-  ]);
-  const clipId = React.useMemo(() => generateId(width * widthRatios[1], height * heightRatios[1]), [
-    width,
-    height,
-    widthRatios,
-    heightRatios,
-  ]);
-  const scales = React.useMemo(() => generateScales(sets, cs, styles, numericScale, bandScale), [
-    sets,
-    cs,
-    styles,
-    numericScale,
-    bandScale,
-  ]);
+  const styles = React.useMemo(
+    () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons }),
+    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
+  );
+  const clipId = React.useMemo(() => generateId(styles.labels.w, styles.sets.h), [styles.labels.w, styles.sets.h]);
+  const scales = React.useMemo(
+    () =>
+      generateScales(
+        sets,
+        cs,
+        styles,
+        numericScale,
+        bandScale,
+        barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10')
+      ),
+    [sets, cs, styles, numericScale, bandScale, barLabelOffset, fontSizes.barLabel]
+  );
 
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * dotPadding;
 
@@ -213,8 +211,8 @@ export default React.forwardRef(function UpSet<T>(
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
-            width={styles.sets.w + styles.labels.w}
-            height={styles.combinations.h}
+            width={styles.combinations.x}
+            height={styles.sets.y}
             onClick={() => onClick(null)}
             className="fillTransparent"
           />
@@ -242,6 +240,8 @@ export default React.forwardRef(function UpSet<T>(
           clipId={clipId}
           childrens={childrenFactories}
           barLabelOffset={barLabelOffset}
+          setAddons={setAddons}
+          combinationAddons={combinationAddons}
         />
         <UpSetSelection
           cs={cs}

@@ -2,6 +2,7 @@ import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import UpSet from './UpSet';
 import { extractSets, ISetLike, generateUnions, asSets } from '@upsetjs/model';
+import { UpSetAddonProps } from './config';
 
 export default {
   component: UpSet,
@@ -96,5 +97,46 @@ export const SmallSets = () => {
         ])}
       />
     </div>
+  );
+};
+
+const SetAddon: React.FC<UpSetAddonProps<ISetLike<any>, any>> = ({ width, height }) => {
+  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="red"></rect>;
+};
+
+const SetAddon2: React.FC<UpSetAddonProps<ISetLike<any>, any>> = ({ width, height }) => {
+  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="green"></rect>;
+};
+
+export const Addon = () => {
+  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+  return (
+    <UpSet
+      {...common}
+      selection={selection}
+      onHover={setSelection}
+      setAddons={[
+        {
+          size: 40,
+          render: SetAddon,
+        },
+        {
+          position: 'before',
+          size: 20,
+          render: SetAddon2,
+        },
+      ]}
+      combinationAddons={[
+        {
+          size: 40,
+          render: SetAddon,
+        },
+        {
+          position: 'before',
+          size: 20,
+          render: SetAddon2,
+        },
+      ]}
+    />
   );
 };

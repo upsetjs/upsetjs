@@ -1,3 +1,5 @@
+import { UpSetAddon } from '../config';
+
 export default function defineStyle(size: {
   width: number;
   height: number;
@@ -5,18 +7,47 @@ export default function defineStyle(size: {
   barPadding: number;
   widthRatios: [number, number, number];
   heightRatios: [number, number];
+  setAddons: ReadonlyArray<UpSetAddon<any, any>>;
+  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>;
 }) {
-  const h = size.height - 2 * size.margin - 20;
-  const w = size.width - 2 * size.margin;
+  const setAddonsBefore = size.setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
+  const setAddonsAfter = size.setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
+  const combnationAddonsBefore = size.combinationAddons.reduce(
+    (acc, a) => acc + (a.position === 'before' ? a.size : 0),
+    0
+  );
+  const combinationAddonsAfter = size.combinationAddons.reduce(
+    (acc, a) => acc + (a.position !== 'before' ? a.size : 0),
+    0
+  );
+  const h = size.height - 2 * size.margin - 20 - combinationAddonsAfter - combnationAddonsBefore;
+  const w = size.width - 2 * size.margin - setAddonsBefore - setAddonsAfter;
+
+  const setWidth = w * size.widthRatios[0];
+  const labelsWidth = w * size.widthRatios[1];
+  const combinationHeight = h * size.heightRatios[0];
   return {
     combinations: {
-      w: w * size.widthRatios[2],
-      h: h * size.heightRatios[0],
+      before: combnationAddonsBefore,
+      after: combinationAddonsAfter,
+      x: setAddonsBefore + setWidth + labelsWidth,
+      y: combnationAddonsBefore,
+      w: w - setWidth - labelsWidth,
+      h: combinationHeight,
     },
-    labels: { w: w * size.widthRatios[1] },
+    labels: {
+      x: setAddonsBefore + setWidth,
+      y: combnationAddonsBefore + combinationHeight,
+      w: labelsWidth,
+      h: h - combinationHeight,
+    },
     sets: {
-      w: w * size.widthRatios[0],
-      h: h * size.heightRatios[1],
+      before: setAddonsBefore,
+      after: setAddonsAfter,
+      x: setAddonsBefore,
+      y: combnationAddonsBefore + combinationHeight,
+      w: setWidth,
+      h: h - combinationHeight,
     },
     padding: size.barPadding,
     legend: {

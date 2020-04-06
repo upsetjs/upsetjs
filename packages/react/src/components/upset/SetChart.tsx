@@ -4,6 +4,7 @@ import { UpSetScales } from './generateScales';
 import { UpSetSelection } from './interfaces';
 import { UpSetStyles } from './defineStyle';
 import { clsx } from './utils';
+import { UpSetAddons } from '../config';
 
 const SetChart = React.memo(function SetChart<T>({
   d,
@@ -15,7 +16,6 @@ const SetChart = React.memo(function SetChart<T>({
   className,
   styles,
   clipId,
-  setBarWidth,
   setBarHeight,
   barClassName,
   barLabelClassName,
@@ -25,6 +25,7 @@ const SetChart = React.memo(function SetChart<T>({
   setClassName,
   setStyle,
   children,
+  setAddons,
 }: PropsWithChildren<
   {
     d: ISet<T>;
@@ -34,7 +35,6 @@ const SetChart = React.memo(function SetChart<T>({
     styles: UpSetStyles;
     clipId: string;
     barLabelOffset: number;
-    setBarWidth: number;
     setBarHeight: number;
     barClassName?: string;
     barStyle?: React.CSSProperties;
@@ -42,9 +42,12 @@ const SetChart = React.memo(function SetChart<T>({
     barLabelStyle?: React.CSSProperties;
     setClassName?: string;
     setStyle?: React.CSSProperties;
+    setAddons: UpSetAddons<ISet<T>, T>;
   } & UpSetSelection
 >) {
   const x = scales.sets.x(d.cardinality);
+  let beforeAcc = 0;
+  let afterAcc = 0;
   return (
     <g
       transform={`translate(0, ${scales.sets.y(d.name)})`}
@@ -57,21 +60,22 @@ const SetChart = React.memo(function SetChart<T>({
         {d.name}: {d.cardinality}
       </title>
       <rect
-        width={setBarWidth + styles.labels.w + styles.combinations.w}
+        x={-styles.sets.before}
+        width={styles.sets.w + styles.labels.w + styles.combinations.w + styles.sets.after}
         height={scales.sets.y.bandwidth()}
         className="fillTransparent hoverBar"
       />
       {i % 2 === 1 && (
         <rect
-          x={setBarWidth}
-          width={styles.labels.w + styles.combinations.w}
+          x={styles.sets.w}
+          width={styles.labels.w + styles.combinations.w + styles.sets.after}
           height={scales.sets.y.bandwidth()}
           className="fillAlternating"
         />
       )}
       <rect
         x={x}
-        width={setBarWidth - x}
+        width={styles.sets.w - x}
         height={setBarHeight}
         className={clsx('fillPrimary', barClassName)}
         style={barStyle}
@@ -86,7 +90,7 @@ const SetChart = React.memo(function SetChart<T>({
         {d.cardinality}
       </text>
       <text
-        x={setBarWidth + styles.labels.w / 2}
+        x={styles.sets.w + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
         className={clsx('textStyle', 'setTextStyle', 'middleText', 'centralText', setClassName)}
         style={setStyle}
@@ -94,6 +98,21 @@ const SetChart = React.memo(function SetChart<T>({
       >
         {d.name}
       </text>
+      {setAddons.map((addon, i) => {
+        let x = 0;
+        if (addon.position === 'before') {
+          beforeAcc += addon.size;
+          x = -beforeAcc;
+        } else {
+          x = styles.sets.w + styles.labels.w + styles.combinations.w + afterAcc;
+          afterAcc += addon.size;
+        }
+        return (
+          <g key={i} transform={`translate(${x},0)`}>
+            {addon.render({ set: d, width: addon.size, height: setBarHeight })}
+          </g>
+        );
+      })}
       {children}
     </g>
   );

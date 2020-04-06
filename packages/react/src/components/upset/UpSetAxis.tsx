@@ -26,7 +26,7 @@ export default React.memo(function UpSetAxis({
 }>) {
   return (
     <g>
-      <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
+      <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
         <D3Axis
           d3Scale={scales.combinations.y}
           orient="left"
@@ -49,7 +49,7 @@ export default React.memo(function UpSetAxis({
           {combinationName}
         </text>
       </g>
-      <g transform={`translate(0,${styles.combinations.h})`}>
+      <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
         <D3Axis
           d3Scale={scales.sets.x}
           orient="bottom"

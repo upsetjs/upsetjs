@@ -83,10 +83,32 @@ export interface UpSetReactChildrens<T> {
   combinations?(combination: ISetCombination<T>): React.ReactNode;
 }
 
+export interface UpSetAddonProps<S extends ISetLike<T>, T> {
+  set: S;
+  width: number;
+  height: number;
+}
+
+export interface UpSetAddon<S extends ISetLike<T>, T> {
+  /**
+   * @default after
+   */
+  position?: 'before' | 'after';
+  /**
+   * size of this addon in pixel
+   */
+  size: number;
+  render(props: UpSetAddonProps<S, T>): React.ReactNode;
+}
+
+export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
+
 export interface UpSetReactStyleProps<T> {
-  styles?: UpSetReactStyles;
   style?: React.CSSProperties;
+  styles?: UpSetReactStyles;
   childrenFactories?: UpSetReactChildrens<T>;
+  setAddons?: UpSetAddons<ISet<T>, T>;
+  combinationAddons?: UpSetAddons<ISetCombination<T>, T>;
 }
 
 export interface UpSetThemeProps {
@@ -205,11 +227,8 @@ export function fillDefaults<T>(
 ): Required<UpSetDataProps<T>> &
   Required<UpSetSizeProps> &
   Required<UpSetStyleProps> &
-  UpSetReactStyleProps<T> &
-  UpSetSelectionProps<T> & {
-    styles: UpSetReactStyles;
-    childrenFactories: UpSetReactChildrens<T>;
-  } {
+  Required<UpSetReactStyleProps<T>> &
+  UpSetSelectionProps<T> {
   const theme = getTheme(props.theme);
   return Object.assign(
     {
@@ -237,8 +256,11 @@ export function fillDefaults<T>(
       bandScale: 'band',
       className: '',
       classNames: {},
+      style: {},
       styles: {},
       childrenFactories: {},
+      setAddons: [],
+      combinationAddons: [],
     },
     theme,
     props,
