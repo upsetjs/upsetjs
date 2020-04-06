@@ -107,7 +107,7 @@ const lightTheme: Required<UpSetThemeProps> = {
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',
-  alternatingBackgroundColor: '#f5f5f5',
+  alternatingBackgroundColor: '#0000000d',
 };
 const darkTheme: Required<UpSetThemeProps> = {
   selectionColor: '#ffa500',
@@ -115,7 +115,7 @@ const darkTheme: Required<UpSetThemeProps> = {
   textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
-  alternatingBackgroundColor: '#444444',
+  alternatingBackgroundColor: '#ffffff33',
 };
 
 function getTheme(theme?: 'light' | 'dark') {

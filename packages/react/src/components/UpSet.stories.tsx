@@ -54,6 +54,10 @@ export const Default = () => {
   return <UpSet {...common} />;
 };
 
+export const DarkTheme = () => {
+  return <UpSet {...common} theme="dark" style={{ backgroundColor: '#303030' }} />;
+};
+
 export const Unions = () => {
   return <UpSet {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
 };
