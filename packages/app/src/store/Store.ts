@@ -187,6 +187,10 @@ export default class Store {
     this.sets = [];
     this.elems = [];
     this.selectedSets = new Set();
+    this.hover = null;
+    this.selection = null;
+    this.queries.splice(0, this.queries.length);
+
     if (!this.dataset) {
       return;
     }

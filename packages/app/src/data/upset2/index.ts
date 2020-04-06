@@ -110,7 +110,7 @@ async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
     ds.meta
       .filter((d) => d.type === 'float' || d.type === 'integer')
       .forEach((d) => {
-        attrs[`_${d.name}`] = Number.parseFloat(row[d.index]);
+        attrs[d.name] = Number.parseFloat(row[d.index]);
       });
     return {
       name: row[idColumnIndex],

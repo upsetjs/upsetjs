@@ -47,17 +47,18 @@ export default observer(() => {
                 >
                   Name
                 </TableSortLabel>
-                {attrs.map((attr) => (
+              </TableCell>
+              {attrs.map((attr) => (
+                <TableCell key={attr} sortDirection={o.orderBy === `attrs.${attr}` ? o.order : false}>
                   <TableSortLabel
-                    key={attr}
                     active={o.orderBy === `attrs.${attr}`}
                     direction={o.orderBy === `attrs.${attr}` ? o.order : 'asc'}
                     onClick={handleRequestSort(`attrs.${attr}`)}
                   >
                     {attr}
                   </TableSortLabel>
-                ))}
-              </TableCell>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           {store.ui.sidePanelExpanded.has('elems') && (
