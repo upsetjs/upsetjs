@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike, setOverlapFactory } from '@upsetjs/model';
+import { ISets, ISetCombinations, ISetLike, setOverlapFactory, ISetCombination, ISet } from '@upsetjs/model';
 import SetSelectionChart from './SetSelectionChart';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import LabelsSelection from './LabelsSelection';
 import UpSetSelectionChart from './UpSetSelectionChart';
-import { UpSetReactStyles, UpSetStyleClassNames } from '../config';
+import { UpSetReactStyles, UpSetStyleClassNames, UpSetAddons } from '../config';
 
 function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
@@ -28,6 +28,8 @@ export default function UpSetSelection<T>({
   onHover,
   triangleSize,
   cStyles,
+  setAddons,
+  combinationAddons,
   classNames,
 }: PropsWithChildren<{
   scales: UpSetScales;
@@ -39,6 +41,8 @@ export default function UpSetSelection<T>({
   selection: ISetLike<T> | null | ReadonlyArray<T>;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
+  setAddons: UpSetAddons<ISet<T>, T>;
+  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   const selectionOverlap = selection
     ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
@@ -58,6 +62,7 @@ export default function UpSetSelection<T>({
             tooltip={onHover ? undefined : selectionName}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
+            combinationAddons={combinationAddons}
           />
         )}
       </g>
@@ -72,6 +77,7 @@ export default function UpSetSelection<T>({
             tooltip={onHover ? undefined : selectionName}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
+            setAddons={setAddons}
           />
         )}
       </g>

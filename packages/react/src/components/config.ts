@@ -89,6 +89,10 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   height: number;
 }
 
+export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
+  // TODO
+}
+
 export interface UpSetAddon<S extends ISetLike<T>, T> {
   /**
    * @default after
@@ -98,7 +102,9 @@ export interface UpSetAddon<S extends ISetLike<T>, T> {
    * size of this addon in pixel
    */
   size: number;
+
   render(props: UpSetAddonProps<S, T>): React.ReactNode;
+  renderSelection?(props: UpSetSelectionAddonProps<S, T>): React.ReactNode;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;

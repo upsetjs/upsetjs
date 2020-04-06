@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike, UpSetQuery, queryOverlap } from '@upsetjs/model';
+import { ISets, ISetCombinations, ISetLike, UpSetQuery, queryOverlap, ISet, ISetCombination } from '@upsetjs/model';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import SetSelectionChart from './SetSelectionChart';
-import { UpSetStyleClassNames, UpSetReactStyles } from '../config';
+import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons } from '../config';
 
 export default React.memo(function UpSetQueries<T>({
   scales,
@@ -17,6 +17,8 @@ export default React.memo(function UpSetQueries<T>({
   triangleSize,
   cStyles,
   classNames,
+  combinationAddons,
+  setAddons,
 }: PropsWithChildren<{
   scales: UpSetScales;
   styles: UpSetStyles;
@@ -28,6 +30,8 @@ export default React.memo(function UpSetQueries<T>({
   triangleSize: number;
   classNames: UpSetStyleClassNames;
   cStyles: UpSetReactStyles;
+  setAddons: UpSetAddons<ISet<T>, T>;
+  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   const qs = React.useMemo(
     () =>
@@ -53,6 +57,7 @@ export default React.memo(function UpSetQueries<T>({
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
+            combinationAddons={combinationAddons}
           />
         ))}
       </g>
@@ -69,6 +74,7 @@ export default React.memo(function UpSetQueries<T>({
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
+            setAddons={setAddons}
           />
         ))}
       </g>

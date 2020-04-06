@@ -253,6 +253,8 @@ export default React.forwardRef(function UpSet<T>(
           triangleSize={triangleSize}
           cStyles={cStyles}
           classNames={classNames}
+          setAddons={setAddons}
+          combinationAddons={combinationAddons}
         />
         <UpSetQueries
           cs={cs}
@@ -265,6 +267,8 @@ export default React.forwardRef(function UpSet<T>(
           triangleSize={triangleSize}
           cStyles={cStyles}
           classNames={classNames}
+          setAddons={setAddons}
+          combinationAddons={combinationAddons}
         />
       </g>
       {props.children}
