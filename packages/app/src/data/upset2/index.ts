@@ -22,9 +22,9 @@ interface ISetSpec {
 }
 
 interface IMetaSpec {
-  type: 'id' | 'string';
+  type: 'id' | 'string' | 'float' | 'integer';
   index: number;
-  mame: string;
+  name: string;
 }
 
 export interface IUpSetDataSet {
@@ -106,6 +106,11 @@ async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
       .filter(([v, _]) => v === '1')
       .map(([_, s]) => s);
     const attrs: IAttrs = {};
+    ds.meta
+      .filter((d) => d.type === 'float' || d.type === 'integer')
+      .forEach((d) => {
+        attrs[d.name] = Number.parseFloat(row[d.index]);
+      });
     return {
       name: row[idColumnIndex],
       sets,
