@@ -1,7 +1,7 @@
 import { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
-import { clsx } from './utils';
+import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
 
 function CombinationSelectionChart<T>({
@@ -14,6 +14,7 @@ function CombinationSelectionChart<T>({
   suffix,
   barClassName,
   barStyle,
+  totalHeight,
   combinationAddons,
 }: PropsWithChildren<{
   combinations: ISetCombinations<T>;
@@ -25,12 +26,12 @@ function CombinationSelectionChart<T>({
   tooltip?: string;
   barClassName?: string;
   barStyle?: React.CSSProperties;
+  totalHeight: number;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
   const clazz = clsx(`fill${suffix}`, !tooltip && 'pnone', barClassName);
-  const hasSelectionAddons = combinationAddons.some((a) => a.renderSelection != null);
   return (
     <g>
       {combinations.map((d) => {
@@ -57,11 +58,31 @@ function CombinationSelectionChart<T>({
           </rect>
         );
 
-        if (!hasSelectionAddons) {
+        const genPosition = addonPositionGenerator(totalHeight);
+        const addons = combinationAddons
+          .map((addon, i) => {
+            const v = genPosition(addon);
+            const content = addon.render({ set: d, width, height: addon.size });
+            if (!content) {
+              return null;
+            }
+            return (
+              <g key={i} transform={`translate(${x},${v})`}>
+                {content}
+              </g>
+            );
+          })
+          .filter(Boolean);
+
+        if (addons.length === 0) {
           return content;
         }
-        // TODO
-        return <g>{content}</g>;
+        return (
+          <g key={d.name}>
+            {content}
+            {addons}
+          </g>
+        );
       })}
     </g>
   );

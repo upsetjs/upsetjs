@@ -1,7 +1,7 @@
 import { ISet, ISets } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
-import { clsx } from './utils';
+import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
 
 function SetSelectionChart<T>({
@@ -14,9 +14,11 @@ function SetSelectionChart<T>({
   tooltip,
   barClassName,
   barStyle,
+  totalWidth,
   setAddons,
 }: PropsWithChildren<{
   sets: ISets<T>;
+  totalWidth: number;
   scales: UpSetScales;
   suffix: string;
   elemOverlap: (s: ISet<any>) => number;
@@ -30,7 +32,6 @@ function SetSelectionChart<T>({
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
   const clazz = clsx(`fill${suffix}`, !tooltip && ' pnone', barClassName);
-  const hasSelectionAddons = setAddons.some((a) => a.renderSelection != null);
   return (
     <g>
       {sets.map((d) => {
@@ -57,11 +58,31 @@ function SetSelectionChart<T>({
           </rect>
         );
 
-        if (!hasSelectionAddons) {
+        const genPosition = addonPositionGenerator(totalWidth);
+        const addons = setAddons
+          .map((addon, i) => {
+            const v = genPosition(addon);
+            const content = addon.render({ set: d, width: addon.size, height });
+            if (!content) {
+              return null;
+            }
+            return (
+              <g key={i} transform={`translate(${v},${y})`}>
+                {content}
+              </g>
+            );
+          })
+          .filter(Boolean);
+
+        if (addons.length === 0) {
           return content;
         }
-        // TODO
-        return <g>{content}</g>;
+        return (
+          <g key={d.name}>
+            {content}
+            {addons}
+          </g>
+        );
       })}
     </g>
   );

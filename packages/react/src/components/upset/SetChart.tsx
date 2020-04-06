@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetScales } from './generateScales';
 import { UpSetSelection } from './interfaces';
 import { UpSetStyles } from './defineStyle';
-import { clsx } from './utils';
+import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
 
 const SetChart = React.memo(function SetChart<T>({
@@ -46,8 +46,7 @@ const SetChart = React.memo(function SetChart<T>({
   } & UpSetSelection
 >) {
   const x = scales.sets.x(d.cardinality);
-  let beforeAcc = 0;
-  let afterAcc = 0;
+  const genPosition = addonPositionGenerator(styles.sets.w + styles.labels.w + styles.combinations.w);
   return (
     <g
       transform={`translate(0, ${scales.sets.y(d.name)})`}
@@ -98,21 +97,11 @@ const SetChart = React.memo(function SetChart<T>({
       >
         {d.name}
       </text>
-      {setAddons.map((addon, i) => {
-        let x = 0;
-        if (addon.position === 'before') {
-          beforeAcc += addon.size;
-          x = -beforeAcc;
-        } else {
-          x = styles.sets.w + styles.labels.w + styles.combinations.w + afterAcc;
-          afterAcc += addon.size;
-        }
-        return (
-          <g key={i} transform={`translate(${x},0)`}>
-            {addon.render({ set: d, width: addon.size, height: setBarHeight })}
-          </g>
-        );
-      })}
+      {setAddons.map((addon, i) => (
+        <g key={i} transform={`translate(${genPosition(addon)},0)`}>
+          {addon.render({ set: d, width: addon.size, height: setBarHeight })}
+        </g>
+      ))}
       {children}
     </g>
   );

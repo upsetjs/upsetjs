@@ -4,7 +4,7 @@ import { UpSetScales } from './generateScales';
 import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { UpSetStyles } from './defineStyle';
-import { clsx } from './utils';
+import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
@@ -53,8 +53,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   } & UpSetSelection
 >) {
   const y = scales.combinations.y(d.cardinality);
-  let beforeAcc = 0;
-  let afterAcc = 0;
+  const genPosition = addonPositionGenerator(styles.combinations.h + styles.sets.h);
   return (
     <g
       key={d.name}
@@ -116,21 +115,11 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           className="strokePrimary upsetLine"
         />
       )}
-      {combinationAddons.map((addon, i) => {
-        let y = 0;
-        if (addon.position === 'before') {
-          beforeAcc += addon.size;
-          y = -beforeAcc;
-        } else {
-          y = styles.combinations.h + styles.sets.h + afterAcc;
-          afterAcc += addon.size;
-        }
-        return (
-          <g key={i} transform={`translate(0,${y})`}>
-            {addon.render({ set: d, width: combinationBarWidth, height: addon.size })}
-          </g>
-        );
-      })}
+      {combinationAddons.map((addon, i) => (
+        <g key={i} transform={`translate(0,${genPosition(addon)})`}>
+          {addon.render({ set: d, width: combinationBarWidth, height: addon.size })}
+        </g>
+      ))}
       {children}
     </g>
   );

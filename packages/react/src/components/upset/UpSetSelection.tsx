@@ -6,7 +6,7 @@ import SetSelectionChart from './SetSelectionChart';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import LabelsSelection from './LabelsSelection';
 import UpSetSelectionChart from './UpSetSelectionChart';
-import { UpSetReactStyles, UpSetStyleClassNames, UpSetAddons } from '../config';
+import { UpSetReactStyles, UpSetStyleClassNames, UpSetAddon, UpSetAddons, UpSetAddonProps } from '../config';
 
 function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
@@ -49,6 +49,15 @@ export default function UpSetSelection<T>({
     : () => 0;
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
+  function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>) {
+    return {
+      ...addon,
+      render: (props: UpSetAddonProps<S, T>) => {
+        return addon.renderSelection ? addon.renderSelection({ selection, ...props }) : null;
+      },
+    };
+  }
+
   return (
     <g className={onHover ? 'pnone' : undefined}>
       <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
@@ -62,7 +71,8 @@ export default function UpSetSelection<T>({
             tooltip={onHover ? undefined : selectionName}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
-            combinationAddons={combinationAddons}
+            combinationAddons={combinationAddons.map(wrapAddon)}
+            totalHeight={styles.combinations.h + styles.sets.h}
           />
         )}
       </g>
@@ -77,7 +87,8 @@ export default function UpSetSelection<T>({
             tooltip={onHover ? undefined : selectionName}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
-            setAddons={setAddons}
+            totalWidth={styles.sets.w + styles.labels.w + styles.combinations.w}
+            setAddons={setAddons.map(wrapAddon)}
           />
         )}
       </g>

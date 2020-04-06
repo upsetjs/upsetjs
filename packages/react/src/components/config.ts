@@ -90,7 +90,12 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
 }
 
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
-  // TODO
+  selection: ISetLike<T> | null | ReadonlyArray<T>;
+}
+
+export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
+  query: UpSetQuery<T>;
+  secondary: boolean;
 }
 
 export interface UpSetAddon<S extends ISetLike<T>, T> {
@@ -104,7 +109,10 @@ export interface UpSetAddon<S extends ISetLike<T>, T> {
   size: number;
 
   render(props: UpSetAddonProps<S, T>): React.ReactNode;
+
   renderSelection?(props: UpSetSelectionAddonProps<S, T>): React.ReactNode;
+
+  renderQuery?(props: UpSetQueryAddonProps<S, T>): React.ReactNode;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;

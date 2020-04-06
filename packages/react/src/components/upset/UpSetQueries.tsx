@@ -4,7 +4,7 @@ import { UpSetStyles } from './defineStyle';
 import { ISets, ISetCombinations, ISetLike, UpSetQuery, queryOverlap, ISet, ISetCombination } from '@upsetjs/model';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import SetSelectionChart from './SetSelectionChart';
-import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons } from '../config';
+import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons, UpSetAddon, UpSetAddonProps } from '../config';
 
 export default React.memo(function UpSetQueries<T>({
   scales,
@@ -42,6 +42,15 @@ export default React.memo(function UpSetQueries<T>({
     [queries]
   );
 
+  function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, secondary: boolean) {
+    return {
+      ...addon,
+      render: (props: UpSetAddonProps<S, T>) => {
+        return addon.renderQuery ? addon.renderQuery({ query, secondary, ...props }) : null;
+      },
+    };
+  }
+
   return (
     <g className={onHover && !secondary ? 'pnone' : undefined}>
       <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
@@ -57,7 +66,8 @@ export default React.memo(function UpSetQueries<T>({
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
-            combinationAddons={combinationAddons}
+            combinationAddons={combinationAddons.map((a) => wrapAddon(a, q, secondary || i > 0))}
+            totalHeight={styles.combinations.h + styles.sets.h}
           />
         ))}
       </g>
@@ -74,7 +84,8 @@ export default React.memo(function UpSetQueries<T>({
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             barClassName={classNames.bar}
             barStyle={cStyles.bar}
-            setAddons={setAddons}
+            totalWidth={styles.sets.w + styles.labels.w + styles.combinations.w}
+            setAddons={setAddons.map((a) => wrapAddon(a, q, secondary || i > 0))}
           />
         ))}
       </g>
