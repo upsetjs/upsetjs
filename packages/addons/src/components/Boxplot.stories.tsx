@@ -22,5 +22,5 @@ const elems: IElem[] = [];
 const sets = extractSets(elems);
 
 export const Default = () => {
-  return <UpSet sets={sets} width={1200} height={500} setAddons={[boxplotAddon('value')]} />;
+  return <UpSet sets={sets} width={1200} height={500} setAddons={[boxplotAddon('value', elems)]} />;
 };
