@@ -247,10 +247,8 @@ yarn build
 ### Release
 
 ```sh
-yarn workspace @upsetjs/model version patch
-yarn workspace @upsetjs/react version patch
-yarn workspace @upsetjs/bundle version patch
-yarn workspace @upsetjs/app version patch
+yarn workspaces foreach --verbose version patch --deferred
+yarn version apply --all
 git commit -am 'release vX.X.X'
 git push
 git tag vX.X.X
