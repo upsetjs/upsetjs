@@ -254,7 +254,7 @@ git push
 git tag vX.X.X
 git push --tags
 yarn build
-yarn workspaces foreach npm publish --access public
+yarn workspaces foreach --verbose npm publish --access public
 ```
 
 ## License

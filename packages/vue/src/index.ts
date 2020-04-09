@@ -3,7 +3,7 @@ import {
   renderUpSet,
   UpSetProps as UpSetBundleProps,
   UpSetCSSStyles,
-  validators,
+  propValidators,
   UpSetSelectionProps,
 } from '@upsetjs/bundle';
 export {
@@ -80,7 +80,7 @@ const upsetSizeProps = {
    */
   widthRatios: {
     type: Array,
-    validator: validators.widthRatios,
+    validator: propValidators.widthRatios,
   },
   /**
    * height ratios for different plots
@@ -89,7 +89,7 @@ const upsetSizeProps = {
    */
   heightRatios: {
     type: Array,
-    validator: validators.heightRatios,
+    validator: propValidators.heightRatios,
   },
 };
 
@@ -100,14 +100,14 @@ const upsetDataProps = {
   sets: {
     type: Array,
     required: true,
-    validator: validators.sets,
+    validator: propValidators.sets,
   },
   /**
    * the combinations to visualize by default all combinations
    */
   combinations: {
     type: [Array, Object],
-    validator: validators.combinations,
+    validator: propValidators.combinations,
     default: () => ({}),
   },
 };
@@ -115,14 +115,14 @@ const upsetDataProps = {
 const upsetSelectionProps = {
   selection: {
     type: [Array, Object],
-    validator: validators.selection,
+    validator: propValidators.selection,
   },
   // onHover?(selection: ISetLike<T> | null): void;
   // onClick?(selection: ISetLike<T> | null): void;
 
   queries: {
     type: Array,
-    validator: validators.queries,
+    validator: propValidators.queries,
   },
 };
 
@@ -130,7 +130,7 @@ const upsetThemeProps = {
   selectionColor: String,
   alternatingBackgroundColor: {
     type: [String, Boolean],
-    validator: validators.stringOrFalse,
+    validator: propValidators.stringOrFalse,
   },
   color: String,
   textColor: String,
@@ -141,12 +141,12 @@ const upsetThemeProps = {
 const upsetStyleProps = Object.assign({}, upsetThemeProps, {
   theme: {
     type: String,
-    validator: validators.theme,
+    validator: propValidators.theme,
   },
   className: String,
   classNames: {
     type: Object,
-    validator: validators.classNames,
+    validator: propValidators.classNames,
   },
   barLabelOffset: Number,
   setNameAxisOffset: Number,
@@ -168,20 +168,20 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
    */
   fontFamily: {
     type: [String, Boolean],
-    validator: validators.stringOrFalse,
+    validator: propValidators.stringOrFalse,
   },
   fontSizes: {
     type: Object,
-    validator: validators.fontSizes,
+    validator: propValidators.fontSizes,
   },
 
   numericScale: {
     type: [String, Function],
-    validator: validators.numericScale,
+    validator: propValidators.numericScale,
   },
   bandScale: {
     type: [String, Function],
-    validator: validators.bandScale,
+    validator: propValidators.bandScale,
   },
   setName: String,
   combinationName: String,
@@ -190,11 +190,11 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
 const upsetPlainStyleProps = {
   extraStyle: {
     type: Object,
-    validator: validators.style,
+    validator: propValidators.style,
   },
   styles: {
     type: Object,
-    validator: validators.styles,
+    validator: propValidators.styles,
   },
 };
 

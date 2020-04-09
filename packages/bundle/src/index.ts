@@ -29,7 +29,7 @@ import {
 export * from './interfaces';
 export * from '@upsetjs/model';
 
-export const validators = {
+export const propValidators = {
   bandScale,
   classNames,
   combinations,
