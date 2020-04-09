@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/app",
   "description": "UpSetR React component implementation",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "private": true,
   "license": "AGPL-3.0",
   "author": {
@@ -68,10 +68,10 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-resize-detector": "^4.2.0",
     "@types/react-router": "^5.1.5",
-    "@upsetjs/addons": "^0.3.3",
-    "@upsetjs/bundle": "^0.3.3",
+    "@upsetjs/addons": "^0.3.5",
+    "@upsetjs/bundle": "^0.3.5",
     "@upsetjs/model": "^0.3.5",
-    "@upsetjs/react": "^0.3.3",
+    "@upsetjs/react": "^0.3.5",
     "@upsetjs/ui-utils": "^0.3.5",
     "core-js": "^3.6.4",
     "d3-scale-chromatic": "^1.5.0",
