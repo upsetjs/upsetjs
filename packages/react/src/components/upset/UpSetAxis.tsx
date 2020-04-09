@@ -78,7 +78,7 @@ export default React.memo(function UpSetAxis<T>({
           tickStyle={cStyles.axisTick}
         />
         <text
-          className={clsx('textStyle', 'chartTextStyle', 'middleText', 'hangingText', classNames.chartLabel)}
+          className={clsx('textStyle', 'chartTextStyle', 'hangingText', classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + setNameAxisOffset})`}
         >
@@ -87,7 +87,7 @@ export default React.memo(function UpSetAxis<T>({
         {setAddons.map((addon) => (
           <text
             key={addon.name}
-            className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
+            className={clsx('textStyle', 'chartTextStyle', 'hangingText', classNames.chartLabel)}
             style={cStyles.chartLabel}
             transform={`translate(${setPosGen(addon) + addon.size / 2}, ${styles.sets.h + setNameAxisOffset})`}
           >

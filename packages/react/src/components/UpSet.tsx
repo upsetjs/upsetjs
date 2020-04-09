@@ -1,5 +1,5 @@
 import { generateCombinations, GenerateSetCombinationsOptions, ISetCombinations } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { fillDefaults, UpSetProps } from './config';
 import defineStyle from './upset/defineStyle';
 import ExportButtons from './upset/ExportButtons';
@@ -9,6 +9,7 @@ import UpSetAxis from './upset/UpSetAxis';
 import UpSetChart from './upset/UpSetChart';
 import UpSetQueries from './upset/UpSetQueries';
 import UpSetSelection from './upset/UpSetSelection';
+import { clsx } from './upset/utils';
 
 function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
@@ -16,8 +17,8 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
-function generateId(width: number, height: number) {
-  return `clip-w${Math.round(width)}-h${Math.round(height)}-${Math.random().toString(36).slice(4)}`;
+function generateId(_args: any) {
+  return `upset-${Math.random().toString(36).slice(4)}`;
 }
 
 export default React.forwardRef(function UpSet<T>(
@@ -70,7 +71,7 @@ export default React.forwardRef(function UpSet<T>(
     () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons }),
     [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
   );
-  const clipId = React.useMemo(() => generateId(styles.labels.w, styles.sets.h), [styles.labels.w, styles.sets.h]);
+  const clipId = React.useMemo(() => generateId([styles.labels.w, styles.sets.h]), [styles.labels.w, styles.sets.h]);
   const scales = React.useMemo(
     () =>
       generateScales(
@@ -86,114 +87,152 @@ export default React.forwardRef(function UpSet<T>(
 
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * dotPadding;
 
+  // generate a "random" but attribute stable id to avoid styling conflicts
+  const ruleId = useMemo(
+    () =>
+      generateId([
+        fontFamily,
+        fontSizes,
+        textColor,
+        hoverHintColor,
+        color,
+        r,
+        selectionColor,
+        notMemberColor,
+        alternatingBackgroundColor,
+        queries,
+      ]),
+    [
+      fontFamily,
+      fontSizes,
+      textColor,
+      hoverHintColor,
+      color,
+      r,
+      selectionColor,
+      notMemberColor,
+      alternatingBackgroundColor,
+      queries,
+    ]
+  );
   const rules = `
-  .textStyle {
+  .${ruleId} .textStyle {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
     fill: ${textColor};
   }
-  .axisTextStyle {
+  .${ruleId} .axisTextStyle {
     ${fontSizes.axisTick ? `font-size: ${fontSizes.axisTick};` : ''}
   }
-  .barTextStyle {
+  .${ruleId} .barTextStyle {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
   }
-  .hoverBarTextStyle {
+  .${ruleId} .hoverBarTextStyle {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
     fill: ${hoverHintColor};
     display: none;
   }
-  .setTextStyle {
+  .${ruleId} .setTextStyle {
     ${fontSizes.setLabel ? `font-size: ${fontSizes.setLabel};` : ''}
+    text-anchor: middle;
+    dominant-baseline: central;
   }
-  .chartTextStyle {
+  .${ruleId} .chartTextStyle {
     ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
     text-anchor: middle;
   }
-  .exportTextStyle {
+  .${ruleId} .exportTextStyle {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
   }
-  .legendTextStyle {
+  .${ruleId} .legendTextStyle {
     ${fontSizes.legend ? `font-size: ${fontSizes.legend};` : ''}
     text-anchor: middle;
     dominant-baseline: hanging;
     pointer-events: none;
   }
-  .middleText {
+  .${ruleId} .middleText {
     text-anchor: middle;
   }
-  .startText {
+  .${ruleId} .startText {
     text-anchor: start;
   }
-  .endText {
+  .${ruleId} .endText {
     text-anchor: end;
   }
-  .hangingText {
+  .${ruleId} .hangingText {
     dominant-baseline: hanging;
   }
-  .centralText {
+  .${ruleId} .centralText {
     dominant-baseline: central;
   }
-  .upsetLine {
+  .${ruleId} .upsetLine {
     stroke-width: ${r * 0.6};
   }
-  .pnone {
+  .${ruleId} .pnone {
     pointer-events: none;
   }
-  .fillPrimary { fill: ${color}; }
-  .fillSelection { fill: ${selectionColor}; }
-  .fillNotMember { fill: ${notMemberColor}; }
-  .fillAlternating { fill: ${alternatingBackgroundColor || 'transparent'}; }
-  .fillNone { fill: none; }
-  .fillTransparent { fill: transparent; }
-  ${queries.map((q, i) => `.fillQ${i} { fill: ${q.color}; }`).join('\n')}
+  .${ruleId} .fillPrimary { fill: ${color}; }
+  .${ruleId} .fillSelection { fill: ${selectionColor}; }
+  .${ruleId} .fillNotMember { fill: ${notMemberColor}; }
+  .${ruleId} .fillAlternating { fill: ${alternatingBackgroundColor || 'transparent'}; }
+  .${ruleId} .fillNone { fill: none; }
+  .${ruleId} .fillTransparent { fill: transparent; }
+  ${queries.map((q, i) => `.${ruleId} .fillQ${i} { fill: ${q.color}; }`).join('\n')}
 
-  .strokePrimary { stroke: ${color}; }
-  .strokeSelection { stroke: ${selectionColor}; }
+  .${ruleId} .strokePrimary { stroke: ${color}; }
+  .${ruleId} .strokeSelection { stroke: ${selectionColor}; }
 
-  .strokeScaledSelection { stroke-width: ${r * 0.6 * 1.1}; }
+  .${ruleId} .strokeScaledSelection { stroke-width: ${r * 0.6 * 1.1}; }
 
-  .axisLine {
+  .${ruleId} .axisLine {
     fill: none;
     stroke: ${textColor};
   }
-  .clickAble {
+  .${ruleId} .clickAble {
     cursor: pointer;
   }
 
-  .hoverOnly {
+  .${ruleId} .hoverOnly {
     display: none;
   }
 
-  .interactive:hover > .hoverBar {
+  .${ruleId} .interactive:hover > .hoverBar {
     // filter: drop-shadow(0 0 2px #cccccc);
     stroke: ${hoverHintColor};
   }
-  .interactive:hover > .hoverBarTextStyle {
+  .${ruleId} .interactive:hover > .hoverBarTextStyle {
     display: unset;
   }
 
-  .exportButtons {
+  .${ruleId} .exportButtons {
     text-anchor: middle;
   }
-  .exportButton {
+  .${ruleId} .exportButton {
     cursor: pointer;
     opacity: 0.5;
   }
-  .exportButton:hover {
+  .${ruleId} .exportButton:hover {
     opacity: 1;
   }
-  .exportButton > rect {
+  .${ruleId} .exportButton > rect {
     fill: none;
     stroke: ${textColor};
   }
   `;
+
   const triangleSize = Math.max(
     2,
     (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * barPadding
   );
 
   return (
-    <svg className={className} style={style} width={width} height={height} ref={ref} data-theme={theme ?? 'light'}>
+    <svg
+      className={clsx(className, ruleId)}
+      style={style}
+      width={width}
+      height={height}
+      ref={ref}
+      data-theme={theme ?? 'light'}
+    >
       <style>{rules}</style>
       <defs>
         <clipPath id={clipId}>

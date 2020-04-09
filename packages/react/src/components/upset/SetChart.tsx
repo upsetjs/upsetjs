@@ -91,7 +91,7 @@ const SetChart = React.memo(function SetChart<T>({
       <text
         x={styles.sets.w + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
-        className={clsx('textStyle', 'setTextStyle', 'middleText', 'centralText', setClassName)}
+        className={clsx('textStyle', 'setTextStyle', setClassName)}
         style={setStyle}
         clipPath={`url(#${clipId})`}
       >
