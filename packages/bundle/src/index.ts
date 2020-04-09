@@ -72,27 +72,3 @@ export function hydrateUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   hydrate(h(UpSetElement as any, p), node);
 }
-
-// export class UpSet<T> extends Eventemitter implements Omit<UpSetProps<T>, 'onHover'> {
-//   constructor(sets: ISets<T>, width: number, height: number) {
-//     super();
-//     this.parent = parent;
-//   }
-
-//   update() {
-//     this.render();
-//   }
-
-//   private render() {
-//     render(
-//       h(UpSetElement as any, {
-//         ...this.props,
-//         onClick: (s: ISetLike<T>) => this.emit('click', s),
-//         onHover: (s: ISetLike<T> | null) => this.emit('hover', s),
-//       }),
-//       this.parent
-//     );
-//   }
-// }
-
-// export default UpSet;

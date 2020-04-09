@@ -55,7 +55,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@upsetjs/model": "^0.4.0",
-    "eventemitter3": "^4.0.0"
+    "@upsetjs/model": "^0.4.0"
   }
 }
