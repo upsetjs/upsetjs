@@ -10,11 +10,18 @@ import {
   ISet,
   ISetCombination,
 } from '@upsetjs/model';
-import { UpSetProps, fillDefaults, UpSetThemeProps, UpSetFontSizes, UpSetAddon } from '@upsetjs/react';
+import {
+  UpSetProps,
+  fillDefaults,
+  UpSetThemeProps,
+  UpSetFontSizes,
+  UpSetAddon,
+  exportSVG,
+  downloadUrl,
+} from '@upsetjs/react';
 import { boxplotAddon } from '@upsetjs/addons';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { exportSVG, downloadUrl } from '@upsetjs/ui-utils';
 import { exportJSON, importJSON } from '../data/exportJSON';
 import { exportCSV, importCSV } from '../data/exportCSV';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';

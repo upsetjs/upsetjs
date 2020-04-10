@@ -1,5 +1,5 @@
 import React from 'react';
-import { exportSVG } from '@upsetjs/ui-utils';
+import { exportSVG } from '../../exporter';
 
 function exportChart(evt: React.MouseEvent<SVGElement>) {
   const svg = evt.currentTarget.closest('svg') as SVGSVGElement;

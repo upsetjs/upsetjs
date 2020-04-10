@@ -1,5 +1,10 @@
 import { render, h, hydrate } from 'preact';
-import UpSetElement, { UpSetProps as UpSetElementProps, fillDefaults as fillDefaultsImpl } from '@upsetjs/react';
+import UpSetElement, {
+  UpSetProps as UpSetElementProps,
+  fillDefaults as fillDefaultsImpl,
+  exportSVG as exportSVGIpml,
+  downloadURL as downloadURLImpl,
+} from '@upsetjs/react';
 import {
   bandScale,
   classNames,
@@ -71,4 +76,15 @@ export function renderUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
 export function hydrateUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   hydrate(h(UpSetElement as any, p), node);
+}
+
+export function exportSVG(
+  node: SVGSVGElement,
+  options: { type?: 'png' | 'svg'; title?: string; theme?: 'light' | 'dark'; toRemove?: string }
+): Promise<string> {
+  return exportSVGIpml(node, options);
+}
+
+export function downloadUrl(url: string, title: string, doc: Document) {
+  downloadURLImpl(url, title, doc);
 }
