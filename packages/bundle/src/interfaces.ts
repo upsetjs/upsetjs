@@ -6,7 +6,11 @@ import {
   ISets,
   NumericScaleFactory,
   UpSetQuery,
+  ISet,
+  ISetCombination,
 } from '@upsetjs/model';
+import { UpSetCSSStyles, UpSetReactElement } from './react';
+export * from './react';
 
 export interface UpSetSizeProps {
   /**
@@ -145,10 +149,6 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   emptySelection?: boolean;
 }
 
-export declare type UpSetCSSStyles = CSSStyleDeclaration & {
-  backfaceVisibility: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'hidden' | 'visible';
-};
-
 export interface UpSetPlainStyleStyles {
   chartLabel?: UpSetCSSStyles;
   axisTick?: UpSetCSSStyles;
@@ -159,7 +159,48 @@ export interface UpSetPlainStyleStyles {
   legend?: UpSetCSSStyles;
 }
 
-export interface UpSetPlainStyleProps {
+export interface UpSetAddonProps<S extends ISetLike<T>, T> {
+  set: S;
+  width: number;
+  height: number;
+}
+
+export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
+  selection: ISetLike<T> | null | ReadonlyArray<T>;
+  selectionColor: string;
+  overlap: ReadonlyArray<T> | null;
+}
+
+export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
+  query: UpSetQuery<T>;
+  overlap: ReadonlyArray<T> | null;
+  secondary: boolean;
+}
+
+export interface UpSetAddon<S extends ISetLike<T>, T> {
+  name: string;
+  /**
+   * @default after
+   */
+  position?: 'before' | 'after';
+  /**
+   * size of this addon in pixel
+   */
+  size: number;
+
+  render(props: UpSetAddonProps<S, T>): UpSetReactElement;
+
+  renderSelection?(props: UpSetSelectionAddonProps<S, T>): UpSetReactElement;
+
+  renderQuery?(props: UpSetQueryAddonProps<S, T>): UpSetReactElement;
+}
+
+export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
+
+export interface UpSetPlainStyleProps<T> {
   style?: UpSetCSSStyles;
   styles?: UpSetPlainStyleStyles;
+
+  setAddons?: UpSetAddons<ISet<T>, T>;
+  combinationAddons?: UpSetAddons<ISetCombination<T>, T>;
 }

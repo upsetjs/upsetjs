@@ -3,7 +3,7 @@ import UpSetElement, {
   UpSetProps as UpSetElementProps,
   fillDefaults as fillDefaultsImpl,
   exportSVG as exportSVGIpml,
-  downloadURL as downloadURLImpl,
+  downloadUrl as downloadUrlImpl,
 } from '@upsetjs/react';
 import {
   bandScale,
@@ -32,6 +32,7 @@ import {
 } from './interfaces';
 
 export * from './interfaces';
+export * from './addons';
 export * from '@upsetjs/model';
 
 export const propValidators = {
@@ -56,7 +57,7 @@ export const propValidators = {
 export declare type UpSetProps<T = any> = UpSetDataProps<T> &
   UpSetSizeProps &
   UpSetStyleProps &
-  UpSetPlainStyleProps &
+  UpSetPlainStyleProps<T> &
   UpSetSelectionProps<T>;
 
 export function fillDefaults<T = any>(props: UpSetProps<T>) {
@@ -64,7 +65,7 @@ export function fillDefaults<T = any>(props: UpSetProps<T>) {
   return fillDefaultsImpl(p) as Required<UpSetDataProps<T>> &
     Required<UpSetSizeProps> &
     Required<UpSetStyleProps> &
-    UpSetPlainStyleProps &
+    UpSetPlainStyleProps<T> &
     UpSetSelectionProps<T>;
 }
 
@@ -81,10 +82,10 @@ export function hydrateUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
 export function exportSVG(
   node: SVGSVGElement,
   options: { type?: 'png' | 'svg'; title?: string; theme?: 'light' | 'dark'; toRemove?: string }
-): Promise<string> {
+): Promise<void> {
   return exportSVGIpml(node, options);
 }
 
 export function downloadUrl(url: string, title: string, doc: Document) {
-  downloadURLImpl(url, title, doc);
+  downloadUrlImpl(url, title, doc);
 }
