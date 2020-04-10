@@ -1,6 +1,6 @@
 import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetAddon, UpSetAddonProps, EMPTY_ARRAY } from '../config';
+import { UpSetAddon, UpSetAddonProps } from '../config';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
@@ -8,6 +8,8 @@ import { UpSetStyleInfo } from './deriveStyleDependent';
 import LabelsSelection from './LabelsSelection';
 import SetSelectionChart from './SetSelectionChart';
 import UpSetSelectionChart from './UpSetSelectionChart';
+
+const EMPTY_ARRAY: any[] = [];
 
 function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
@@ -51,8 +53,7 @@ export default function UpSetSelection<T>({
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
   const someAddon =
-    size.sets.addons.some((s) => s.renderSelection != null) ||
-    size.combinations.addons.some((s) => s.renderSelection != null);
+    size.sets.addons.some((s) => s.renderSelection != null) || size.cs.addons.some((s) => s.renderSelection != null);
   const selectionElemOverlap =
     selection && someAddon
       ? elemElemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
@@ -77,14 +78,12 @@ export default function UpSetSelection<T>({
           data={data}
           size={size}
           style={style}
-          transform={`translate(${size.combinations.x},${size.combinations.y})`}
+          transform={`translate(${size.cs.x},${size.cs.y})`}
           empty={empty && !selection}
           elemOverlap={selectionOverlap}
           suffix={`Selection-${style.id}`}
           tooltip={onHover ? undefined : selectionName}
-          combinationAddons={
-            size.combinations.addons.length === 0 ? EMPTY_ARRAY : size.combinations.addons.map(wrapAddon)
-          }
+          combinationAddons={size.cs.addons.length === 0 ? EMPTY_ARRAY : size.cs.addons.map(wrapAddon)}
         />
       )}
       {(selection || empty) && (

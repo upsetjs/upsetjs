@@ -23,7 +23,7 @@ export default function deriveSizeDependent(
   const combinationHeight = h * heightRatios[0];
   return {
     id: generateId(),
-    combinations: {
+    cs: {
       before: combnationAddonsBefore,
       after: combinationAddonsAfter,
       x: setAddonsBefore + setWidth + labelsWidth,

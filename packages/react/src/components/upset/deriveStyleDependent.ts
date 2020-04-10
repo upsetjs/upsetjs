@@ -15,12 +15,16 @@ export default function deriveStyleDependent(
 ) {
   return {
     styles,
-    classNames,
-    combinationName,
+    classNames: classNames,
+    cs: {
+      name: combinationName,
+      offset: combinationNameAxisOffset,
+    },
+    sets: {
+      name: setName,
+      offset: setNameAxisOffset,
+    },
     emptySelection,
-    combinationNameAxisOffset,
-    setName,
-    setNameAxisOffset,
     id: styleId,
     barLabelOffset,
     selectionColor,

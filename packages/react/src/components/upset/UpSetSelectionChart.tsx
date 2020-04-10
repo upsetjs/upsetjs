@@ -18,17 +18,17 @@ function UpSetSelectionChart<T>({
   selection: ISetLike<T> | null;
 }>) {
   const cy = data.sets.bandWidth / 2;
-  const cx = data.combinations.cx;
+  const cx = data.cs.cx;
   const r = data.r;
   const height = size.sets.h + size.sets.after;
-  const width = data.combinations.bandWidth;
+  const width = data.cs.bandWidth;
 
   if (!selection || selection.type === 'set') {
     return null;
   }
   const d = selection;
   return (
-    <g transform={`translate(${size.labels.w + data.combinations.x(d.name)!}, 0)`}>
+    <g transform={`translate(${size.labels.w + data.cs.x(d.name)!}, 0)`}>
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />
       {data.sets.v
         .filter((s) => d.sets.has(s))

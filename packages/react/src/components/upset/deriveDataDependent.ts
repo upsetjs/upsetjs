@@ -52,7 +52,7 @@ export declare type UpSetDataInfo<T> = {
     bandWidth: number;
     cy: number;
   };
-  combinations: {
+  cs: {
     v: ISetCombinations<T>;
     x: BandScaleLike;
     y: NumericScaleLike;
@@ -88,7 +88,7 @@ export default function deriveDataDependent<T>(
   );
   const combinationX = bandScaleFactory(
     cs.map((d) => d.name),
-    [0, sizes.combinations.w],
+    [0, sizes.cs.w],
     sizes.padding
   );
   const r = (Math.min(setY.bandwidth(), combinationX.bandwidth()) / 2) * dotPadding;
@@ -105,14 +105,14 @@ export default function deriveDataDependent<T>(
       x: numericScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [sizes.sets.w, 0]),
       y: setY,
       bandWidth: setY.bandwidth(),
-      cy: setY.bandwidth() / 2 + sizes.combinations.h,
+      cy: setY.bandwidth() / 2 + sizes.cs.h,
     },
-    combinations: {
+    cs: {
       v: cs,
       x: combinationX,
       y: numericScaleFactory(
         [0, cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0)],
-        [sizes.combinations.h, barLabelFontSize]
+        [sizes.cs.h, barLabelFontSize]
       ),
       cx: combinationX.bandwidth() / 2,
       bandWidth: combinationX.bandwidth(),

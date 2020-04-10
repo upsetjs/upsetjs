@@ -1,11 +1,13 @@
 import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { UpSetAddon, UpSetAddonProps, EMPTY_ARRAY } from '../config';
+import { UpSetAddon, UpSetAddonProps } from '../config';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { UpSetStyleInfo } from './deriveStyleDependent';
 import SetSelectionChart from './SetSelectionChart';
+
+const EMPTY_ARRAY: any[] = [];
 
 export default React.memo(function UpSetQueries<T>({
   size,
@@ -23,7 +25,7 @@ export default React.memo(function UpSetQueries<T>({
   queries: ReadonlyArray<UpSetQuery<T>>;
 }>) {
   const someAddon =
-    size.sets.addons.some((s) => s.renderQuery != null) || size.combinations.addons.some((s) => s.renderQuery != null);
+    size.sets.addons.some((s) => s.renderQuery != null) || size.cs.addons.some((s) => s.renderQuery != null);
   const qs = useMemo(
     () =>
       queries.map((q) => ({
@@ -67,7 +69,7 @@ export default React.memo(function UpSetQueries<T>({
           />
         ))}
       </g>
-      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
+      <g transform={`translate(${size.cs.x},${size.cs.y})`}>
         {qs.map((q, i) => (
           <CombinationSelectionChart
             key={q.name}
@@ -79,9 +81,9 @@ export default React.memo(function UpSetQueries<T>({
             secondary={secondary || i > 0}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
             combinationAddons={
-              size.combinations.addons.length === 0
+              size.cs.addons.length === 0
                 ? EMPTY_ARRAY
-                : size.combinations.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
+                : size.cs.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
             }
           />
         ))}

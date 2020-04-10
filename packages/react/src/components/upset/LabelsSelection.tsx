@@ -22,7 +22,7 @@ export default function LabelsSelection<T>({
   return (
     <rect
       y={data.sets.y(d.name)}
-      width={size.labels.w + size.combinations.w + size.sets.after}
+      width={size.labels.w + size.cs.w + size.sets.after}
       height={data.sets.bandWidth}
       className={`selectionHint-${style.id}`}
     />

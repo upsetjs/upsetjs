@@ -29,14 +29,14 @@ function CombinationSelectionChart<T>({
   tooltip?: string;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
-  const width = data.combinations.bandWidth;
-  const totalHeight = size.combinations.h + size.sets.h;
-  const height = size.combinations.h;
+  const width = data.cs.bandWidth;
+  const totalHeight = size.cs.h + size.sets.h;
+  const height = size.cs.h;
   const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
     <g transform={transform}>
-      {data.combinations.v.map((d) => {
-        const x = data.combinations.x(d.name)!;
+      {data.cs.v.map((d) => {
+        const x = data.cs.x(d.name)!;
         if (empty && !secondary) {
           return (
             <rect key={d.name} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
@@ -48,7 +48,7 @@ function CombinationSelectionChart<T>({
         if (o === 0) {
           return null;
         }
-        const y = data.combinations.y(o);
+        const y = data.cs.y(o);
 
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         const content = secondary ? (

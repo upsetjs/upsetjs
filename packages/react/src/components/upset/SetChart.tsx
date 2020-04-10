@@ -28,7 +28,7 @@ const SetChart = React.memo(function SetChart<T>({
   } & UpSetSelection
 >) {
   const x = data.sets.x(d.cardinality);
-  const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.combinations.w);
+  const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w);
   return (
     <g
       transform={`translate(0, ${data.sets.y(d.name)})`}
@@ -42,14 +42,14 @@ const SetChart = React.memo(function SetChart<T>({
       </title>
       <rect
         x={-size.sets.before}
-        width={size.sets.w + size.labels.w + size.combinations.w + size.sets.after}
+        width={size.sets.w + size.labels.w + size.cs.w + size.sets.after}
         height={data.sets.bandWidth}
         className={`hoverBar-${style.id}`}
       />
       {i % 2 === 1 && (
         <rect
           x={size.sets.w}
-          width={size.labels.w + size.combinations.w + size.sets.after}
+          width={size.labels.w + size.cs.w + size.sets.after}
           height={data.sets.bandWidth}
           className={`fillAlternating-${style.id}`}
         />

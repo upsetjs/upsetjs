@@ -49,8 +49,8 @@ export default React.memo(function UpSetChart<T>({
         ))}
       </g>
 
-      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
-        {data.combinations.v.map((d) => (
+      <g transform={`translate(${size.cs.x},${size.cs.y})`}>
+        {data.cs.v.map((d) => (
           <CombinationChart
             key={d.name}
             d={d}

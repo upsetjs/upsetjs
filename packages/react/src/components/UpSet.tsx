@@ -284,7 +284,7 @@ export default React.forwardRef(function UpSet<T>(
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
-            width={sizeInfo.combinations.x}
+            width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
             onClick={() => onClick(null)}
             className={`fillTransparent-${styleId}`}

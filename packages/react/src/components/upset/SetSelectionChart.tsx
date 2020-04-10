@@ -30,7 +30,7 @@ function SetSelectionChart<T>({
   setAddons: UpSetAddons<ISet<T>, T>;
 }>) {
   const width = size.sets.w;
-  const totalWidth = size.sets.w + size.labels.w + size.combinations.w;
+  const totalWidth = size.sets.w + size.labels.w + size.cs.w;
   const height = data.sets.bandWidth;
   const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${style.id}`, style.classNames.bar);
   return (

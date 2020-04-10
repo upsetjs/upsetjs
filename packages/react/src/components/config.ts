@@ -247,7 +247,7 @@ function areCombinations<T>(
 }
 
 const EMPTY_OBJECT = {};
-export const EMPTY_ARRAY: any[] = [];
+const EMPTY_ARRAY: any[] = [];
 const DEFAULT_FONTSIZES: UpSetFontSizes = {
   setLabel: '16px',
   axisTick: '10px',
