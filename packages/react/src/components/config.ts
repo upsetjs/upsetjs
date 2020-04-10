@@ -249,6 +249,9 @@ const DEFAULT_FONTSIZES: UpSetFontSizes = {
   barLabel: '10px',
   legend: '10px',
 };
+const DEFAULT_WIDTH_RATIO = [0.2, 0.1, 0.7];
+const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];
+const DEFAULT_COMBINATIONS = { type: 'intersection' };
 
 export function fillDefaults<T>(
   props: UpSetProps<T>
@@ -264,7 +267,7 @@ export function fillDefaults<T>(
       padding: 20,
       barPadding: 0.3,
       dotPadding: 0.7,
-      combinations: { type: 'intersection' },
+      combinations: DEFAULT_COMBINATIONS,
       selection: null,
       combinationName:
         props.combinations != null && !areCombinations(props.combinations) && props.combinations.type === 'union'
@@ -275,8 +278,8 @@ export function fillDefaults<T>(
       combinationNameAxisOffset: 30,
       setName: 'Set Size',
       fontFamily: 'sans-serif',
-      widthRatios: [0.2, 0.1, 0.7],
-      heightRatios: [0.6, 0.4],
+      widthRatios: DEFAULT_WIDTH_RATIO,
+      heightRatios: DEFAULT_HEIGHT_RATIO,
       queries: EMPTY_ARRAY,
       queryLegend: props.queries != null && props.queries.length > 0,
       exportButtons: true,

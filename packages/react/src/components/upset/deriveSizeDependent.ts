@@ -1,32 +1,26 @@
 import { UpSetAddon } from '../config';
 import { generateId } from './utils';
 
-export default function deriveSizeDependent(size: {
-  width: number;
-  height: number;
-  margin: number;
-  barPadding: number;
-  widthRatios: [number, number, number];
-  heightRatios: [number, number];
-  setAddons: ReadonlyArray<UpSetAddon<any, any>>;
-  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>;
-}) {
-  const setAddonsBefore = size.setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
-  const setAddonsAfter = size.setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
-  const combnationAddonsBefore = size.combinationAddons.reduce(
-    (acc, a) => acc + (a.position === 'before' ? a.size : 0),
-    0
-  );
-  const combinationAddonsAfter = size.combinationAddons.reduce(
-    (acc, a) => acc + (a.position !== 'before' ? a.size : 0),
-    0
-  );
-  const h = size.height - 2 * size.margin - 20 - combinationAddonsAfter - combnationAddonsBefore;
-  const w = size.width - 2 * size.margin - setAddonsBefore - setAddonsAfter;
+export default function deriveSizeDependent(
+  width: number,
+  height: number,
+  margin: number,
+  barPadding: number,
+  widthRatios: [number, number, number],
+  heightRatios: [number, number],
+  setAddons: ReadonlyArray<UpSetAddon<any, any>>,
+  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>
+) {
+  const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
+  const setAddonsAfter = setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
+  const combnationAddonsBefore = combinationAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
+  const combinationAddonsAfter = combinationAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
+  const h = height - 2 * margin - 20 - combinationAddonsAfter - combnationAddonsBefore;
+  const w = width - 2 * margin - setAddonsBefore - setAddonsAfter;
 
-  const setWidth = w * size.widthRatios[0];
-  const labelsWidth = w * size.widthRatios[1];
-  const combinationHeight = h * size.heightRatios[0];
+  const setWidth = w * widthRatios[0];
+  const labelsWidth = w * widthRatios[1];
+  const combinationHeight = h * heightRatios[0];
   return {
     id: generateId(),
     combinations: {
@@ -36,7 +30,7 @@ export default function deriveSizeDependent(size: {
       y: combnationAddonsBefore,
       w: w - setWidth - labelsWidth,
       h: combinationHeight,
-      addons: size.combinationAddons,
+      addons: combinationAddons,
     },
     labels: {
       x: setAddonsBefore + setWidth,
@@ -51,15 +45,15 @@ export default function deriveSizeDependent(size: {
       y: combnationAddonsBefore + combinationHeight,
       w: setWidth,
       h: h - combinationHeight,
-      addons: size.setAddons,
+      addons: setAddons,
     },
-    padding: size.barPadding,
+    padding: barPadding,
     legend: {
-      x: size.width / 2,
+      x: width / 2,
     },
-    margin: size.margin,
-    w: size.width,
-    h: size.height,
+    margin: margin,
+    w: width,
+    h: height,
   };
 }
 

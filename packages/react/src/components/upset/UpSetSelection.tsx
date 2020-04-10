@@ -74,7 +74,7 @@ export default function UpSetSelection<T>({
             size={size}
             style={style}
             elemOverlap={selectionOverlap}
-            suffix="Selection"
+            suffix={`Selection-${style.id}`}
             tooltip={onHover ? undefined : selectionName}
             combinationAddons={size.combinations.addons.map(wrapAddon)}
           />
@@ -87,7 +87,7 @@ export default function UpSetSelection<T>({
             size={size}
             style={style}
             elemOverlap={selectionOverlap}
-            suffix="Selection"
+            suffix={`Selection-${style.id}`}
             tooltip={onHover ? undefined : selectionName}
             setAddons={size.sets.addons.map(wrapAddon)}
           />

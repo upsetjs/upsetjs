@@ -28,7 +28,7 @@ function CombinationSelectionChart<T>({
   const width = data.combinations.bandWidth;
   const totalHeight = size.combinations.h + size.sets.h;
   const height = size.combinations.h;
-  const className = clsx(`fill${suffix}-${data.id}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
+  const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
     <g>
       {data.combinations.v.map((d) => {

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useMemo } from 'react';
-import { fillDefaults, UpSetProps, UpSetReactStyles, UpSetStyleProps } from './config';
+import { fillDefaults, UpSetProps } from './config';
 import deriveDataDependent from './upset/deriveDataDependent';
 import defineSizeDependent from './upset/deriveSizeDependent';
 import deriveStyleDependent from './upset/deriveStyleDependent';
@@ -9,15 +9,7 @@ import UpSetAxis from './upset/UpSetAxis';
 import UpSetChart from './upset/UpSetChart';
 import UpSetQueries from './upset/UpSetQueries';
 import UpSetSelection from './upset/UpSetSelection';
-import { clsx } from './upset/utils';
-
-function generateId(_args: any) {
-  return `upset-${Math.random().toString(36).slice(4)}`;
-}
-
-declare type UpSetStyleRelated<T> = Omit<UpSetStyleProps, 'className' | 'theme'> & {
-  styles?: UpSetReactStyles;
-};
+import { clsx, generateId } from './upset/utils';
 
 export default React.forwardRef(function UpSet<T>(
   props: PropsWithChildren<UpSetProps<T>>,
@@ -116,16 +108,7 @@ export default React.forwardRef(function UpSet<T>(
 
   const sizeInfo = useMemo(
     () =>
-      defineSizeDependent({
-        width,
-        height,
-        margin,
-        barPadding,
-        widthRatios,
-        heightRatios,
-        setAddons,
-        combinationAddons,
-      }),
+      defineSizeDependent(width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons),
     [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
   );
 

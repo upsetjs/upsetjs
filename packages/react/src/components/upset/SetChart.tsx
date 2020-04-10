@@ -1,11 +1,10 @@
 import { ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSelection } from './interfaces';
 import { UpSetSizeInfo } from './deriveSizeDependent';
-import { clsx, addonPositionGenerator } from './utils';
-import { UpSetAddons } from '../config';
 import { UpSetStyleInfo } from './deriveStyleDependent';
+import { UpSetSelection } from './interfaces';
+import { addonPositionGenerator, clsx } from './utils';
 
 const SetChart = React.memo(function SetChart<T>({
   d,
