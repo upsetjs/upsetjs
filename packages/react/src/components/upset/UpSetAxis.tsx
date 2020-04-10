@@ -1,67 +1,45 @@
 import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
-import { UpSetStyles } from './defineStyle';
 import D3Axis from './D3Axis';
-import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons } from '../config';
-import { clsx, addonPositionGenerator } from './utils';
-import { ISet, ISetCombination } from '@upsetjs/model';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
+import { addonPositionGenerator, clsx } from './utils';
 
 export default React.memo(function UpSetAxis<T>({
-  scales,
-  styles,
-  setName,
-  combinationName,
-  setNameAxisOffset,
-  combinationNameAxisOffset,
-  classNames,
-  cStyles,
-  setAddons,
-  combinationAddons,
+  size,
+  style,
+  data,
 }: PropsWithChildren<{
-  scales: UpSetScales;
-  styles: UpSetStyles;
-  setName: string | React.ReactNode;
-  combinationName: string | React.ReactNode;
-  setNameAxisOffset: number;
-  combinationNameAxisOffset: number;
-  classNames: UpSetStyleClassNames;
-  cStyles: UpSetReactStyles;
-  setAddons: UpSetAddons<ISet<T>, T>;
-  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
 }>) {
-  const setPosGen = addonPositionGenerator(styles.sets.w + styles.labels.w + styles.combinations.w);
-  const combinationPosGen = addonPositionGenerator(styles.combinations.h + styles.sets.h);
+  const setPosGen = addonPositionGenerator(size.sets.w + size.labels.w + size.combinations.w);
+  const combinationPosGen = addonPositionGenerator(size.combinations.h + size.sets.h);
   return (
     <g>
-      <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
-        <D3Axis
-          d3Scale={scales.combinations.y}
-          orient="left"
-          integersOnly
-          tickClassName={classNames.axisTick}
-          tickStyle={cStyles.axisTick}
-          styleId={styles.styleId}
-        />
+      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
+        <D3Axis d3Scale={data.combinations.y} orient="left" style={style} />
         <line
           x1={0}
-          x2={styles.combinations.w}
-          y1={styles.combinations.h + 1}
-          y2={styles.combinations.h + 1}
+          x2={size.combinations.w}
+          y1={size.combinations.h + 1}
+          y2={size.combinations.h + 1}
           className="axisLine"
         />
         <text
-          className={clsx(`cChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
-          style={cStyles.chartLabel}
-          transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
+          className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+          style={style.styles.chartLabel}
+          transform={`translate(${-style.combinationNameAxisOffset}, ${size.combinations.h / 2})rotate(-90)`}
         >
-          {combinationName}
+          {style.combinationName}
         </text>
-        {combinationAddons.map((addon) => (
+        {size.combinations.addons.map((addon) => (
           <text
             key={addon.name}
-            className={clsx(`cChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
-            style={cStyles.chartLabel}
-            transform={`translate(${-combinationNameAxisOffset}, ${
+            className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+            style={style.styles.chartLabel}
+            transform={`translate(${-style.combinationNameAxisOffset}, ${
               combinationPosGen(addon) + addon.size / 2
             })rotate(-90)`}
           >
@@ -69,29 +47,21 @@ export default React.memo(function UpSetAxis<T>({
           </text>
         ))}
       </g>
-      <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
-        <D3Axis
-          d3Scale={scales.sets.x}
-          orient="bottom"
-          transform={`translate(0, ${styles.sets.h})`}
-          integersOnly
-          tickClassName={classNames.axisTick}
-          tickStyle={cStyles.axisTick}
-          styleId={styles.styleId}
-        />
+      <g transform={`translate(${size.sets.x},${size.sets.y})`}>
+        <D3Axis d3Scale={data.sets.x} orient="bottom" transform={`translate(0, ${size.sets.h})`} style={style} />
         <text
-          className={clsx(`sChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
-          style={cStyles.chartLabel}
-          transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + setNameAxisOffset})`}
+          className={clsx(`sChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+          style={style.styles.chartLabel}
+          transform={`translate(${size.sets.w / 2}, ${size.sets.h + style.setNameAxisOffset})`}
         >
-          {setName}
+          {style.setName}
         </text>
-        {setAddons.map((addon) => (
+        {size.sets.addons.map((addon) => (
           <text
             key={addon.name}
-            className={clsx(`sChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
-            style={cStyles.chartLabel}
-            transform={`translate(${setPosGen(addon) + addon.size / 2}, ${styles.sets.h + setNameAxisOffset})`}
+            className={clsx(`sChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+            style={style.styles.chartLabel}
+            transform={`translate(${setPosGen(addon) + addon.size / 2}, ${size.sets.h + style.setNameAxisOffset})`}
           >
             {addon.name}
           </text>

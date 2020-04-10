@@ -1,60 +1,66 @@
-import { ISetCombination, ISetCombinations, ISet } from '@upsetjs/model';
+import { ISet, ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
-import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
+import { addonPositionGenerator, clsx } from './utils';
 
 function CombinationSelectionChart<T>({
-  combinations,
-  scales,
+  data,
+  size,
+  style,
   elemOverlap,
-  triangleSize,
   secondary,
   tooltip,
   suffix,
-  barClassName,
-  barStyle,
-  totalHeight,
   combinationAddons,
 }: PropsWithChildren<{
-  combinations: ISetCombinations<T>;
-  scales: UpSetScales;
+  data: UpSetDataInfo<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
   suffix: string;
   elemOverlap: (s: ISet<any> | ISetCombination<T>) => number;
-  triangleSize: number;
   secondary?: boolean;
   tooltip?: string;
-  barClassName?: string;
-  barStyle?: React.CSSProperties;
-  totalHeight: number;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
-  const styleId = styles.styleId;
-  const width = scales.combinations.x.bandwidth();
-  const height = scales.combinations.y.range()[0];
-  const className = clsx(`fill${suffix}-${styleId}`, !tooltip && `pnone-${styleId}`, barClassName);
+  const width = data.combinations.bandWidth;
+  const totalHeight = size.combinations.h + size.sets.h;
+  const height = size.combinations.h;
+  const className = clsx(`fill${suffix}-${data.id}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
     <g>
-      {combinations.map((d) => {
+      {data.combinations.v.map((d) => {
         const o = elemOverlap(d);
         if (o === 0) {
           return null;
         }
-        const y = scales.combinations.y(o);
-        const x = scales.combinations.x(d.name)!;
+        const y = data.combinations.y(o);
+        const x = data.combinations.x(d.name)!;
 
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         const content = secondary ? (
           <path
             key={d.name}
             transform={`translate(${x}, ${y})`}
-            d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${triangleSize},-${triangleSize} L-${triangleSize},${triangleSize} Z`}
+            d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
+              data.triangleSize
+            },${data.triangleSize} Z`}
             className={className}
           >
             {title}
           </path>
         ) : (
-          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={className} style={barStyle}>
+          <rect
+            key={d.name}
+            x={x}
+            y={y}
+            height={height - y}
+            width={width}
+            className={className}
+            style={style.styles.bar}
+          >
             {title}
           </rect>
         );

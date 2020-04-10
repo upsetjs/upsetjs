@@ -1,50 +1,30 @@
-import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
-import { UpSetStyles } from './defineStyle';
-import {
-  ISets,
-  ISetCombinations,
-  ISetLike,
-  UpSetQuery,
-  queryOverlap,
-  ISet,
-  ISetCombination,
-  queryElemOverlap,
-} from '@upsetjs/model';
+import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
+import React, { PropsWithChildren, useMemo } from 'react';
+import { UpSetAddon, UpSetAddonProps } from '../config';
 import CombinationSelectionChart from './CombinationSelectionChart';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 import SetSelectionChart from './SetSelectionChart';
-import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons, UpSetAddon, UpSetAddonProps } from '../config';
 
 export default React.memo(function UpSetQueries<T>({
-  scales,
-  styles,
-  sets,
-  cs,
+  size,
+  data,
+  style,
   onHover,
   secondary,
   queries,
-  triangleSize,
-  cStyles,
-  classNames,
-  combinationAddons,
-  setAddons,
 }: PropsWithChildren<{
-  scales: UpSetScales;
-  styles: UpSetStyles;
-  sets: ISets<T>;
-  cs: ISetCombinations<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
   onHover?(selection: ISetLike<T> | null): void;
   secondary: boolean;
   queries: ReadonlyArray<UpSetQuery<T>>;
-  triangleSize: number;
-  classNames: UpSetStyleClassNames;
-  cStyles: UpSetReactStyles;
-  setAddons: UpSetAddons<ISet<T>, T>;
-  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
   const someAddon =
-    setAddons.some((s) => s.renderQuery != null) || combinationAddons.some((s) => s.renderQuery != null);
-  const qs = React.useMemo(
+    size.sets.addons.some((s) => s.renderQuery != null) || size.combinations.addons.some((s) => s.renderQuery != null);
+  const qs = useMemo(
     () =>
       queries.map((q) => ({
         ...q,
@@ -67,40 +47,34 @@ export default React.memo(function UpSetQueries<T>({
   }
 
   return (
-    <g className={onHover && !secondary ? `pnone-${styles.styleId}` : undefined}>
-      <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
+    <g className={onHover && !secondary ? `pnone-${style.id}` : undefined}>
+      <g transform={`translate(${size.sets.w + size.labels.w},0)`}>
         {qs.map((q, i) => (
           <CombinationSelectionChart
             key={q.name}
-            scales={scales}
-            combinations={cs}
+            data={data}
+            size={size}
+            style={style}
             elemOverlap={q.overlap}
-            suffix={`Q${i}-${styles.sizeId}`}
+            suffix={`Q${i}-${data.id}`}
             secondary={secondary || i > 0}
-            triangleSize={triangleSize}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
-            barClassName={classNames.bar}
-            barStyle={cStyles.bar}
-            combinationAddons={combinationAddons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
-            totalHeight={styles.combinations.h + styles.sets.h}
+            combinationAddons={size.combinations.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
           />
         ))}
       </g>
-      <g transform={`translate(0,${styles.combinations.h})`}>
+      <g transform={`translate(0,${size.combinations.h})`}>
         {qs.map((q, i) => (
           <SetSelectionChart
             key={q.name}
-            scales={scales}
-            sets={sets}
+            data={data}
+            size={size}
+            style={style}
             elemOverlap={q.overlap}
-            suffix={`Q${i}-${styles.sizeId}`}
+            suffix={`Q${i}-${data.id}`}
             secondary={secondary || i > 0}
-            triangleSize={triangleSize}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
-            barClassName={classNames.bar}
-            barStyle={cStyles.bar}
-            totalWidth={styles.sets.w + styles.labels.w + styles.combinations.w}
-            setAddons={setAddons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
+            setAddons={size.sets.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
           />
         ))}
       </g>

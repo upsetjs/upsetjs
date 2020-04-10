@@ -1,5 +1,6 @@
-import React, { PropsWithChildren } from 'react';
 import { BandScaleLike, NumericScaleLike } from '@upsetjs/model';
+import React, { PropsWithChildren } from 'react';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 import { clsx } from './utils';
 
 function isBandScale(scale: BandScaleLike | NumericScaleLike): scale is BandScaleLike {
@@ -12,11 +13,9 @@ export type D3AxisProps = {
   tickSizeInner?: number;
   tickSizeOuter?: number;
   tickPadding?: number;
-  integersOnly?: boolean;
-  tickClassName?: string;
-  tickStyle?: React.CSSProperties;
-  styleId: string;
-} & React.SVGProps<SVGGElement>;
+  style: UpSetStyleInfo;
+  transform?: string;
+};
 
 function center(scale: BandScaleLike) {
   let offset = Math.max(0, scale.bandwidth() - 1) / 2; // Adjust for 0.5px offset.
@@ -31,9 +30,7 @@ declare type TickProps = {
   tickSizeInner: number;
   orient: 'top' | 'bottom' | 'left' | 'right';
   name: string;
-  styleId: string;
-  className?: string;
-  style?: React.CSSProperties;
+  style: UpSetStyleInfo;
 };
 
 const D3HorizontalTick = React.memo(function D3HorizontalTick({
@@ -42,9 +39,7 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
   tickSizeInner,
   orient,
   name,
-  className,
   style,
-  styleId,
 }: PropsWithChildren<TickProps>) {
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
@@ -53,15 +48,15 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
         x={k * spacing}
         dy={'0.32em'}
         className={clsx(
-          `axisTextStyle-${styleId}`,
-          orient === 'right' ? `startText-${styleId}` : `endText-${styleId}`,
-          className
+          `axisTextStyle-${style.id}`,
+          orient === 'right' ? `startText-${style.id}` : `endText-${style.id}`,
+          style.classNames.axisTick
         )}
-        style={style}
+        style={style.styles.axisTick}
       >
         {name}
       </text>
-      <line x2={k * tickSizeInner} className={`axisLine-${styleId}`} />
+      <line x2={k * tickSizeInner} className={`axisLine-${style.id}`} />
     </g>
   );
 });
@@ -72,9 +67,7 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   spacing,
   orient,
   tickSizeInner,
-  className,
   style,
-  styleId,
 }: PropsWithChildren<TickProps>) {
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
@@ -82,12 +75,12 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
       <text
         y={k * spacing}
         dy={orient === 'top' ? '0em' : '0.71em'}
-        className={clsx(`axisTextStyle-${styleId}`, className)}
-        style={style}
+        className={clsx(`axisTextStyle-${style.id}`, style.classNames.axisTick)}
+        style={style.styles.axisTick}
       >
         {name}
       </text>
-      <line y2={k * tickSizeInner} className={`axisLine-${styleId}`} />
+      <line y2={k * tickSizeInner} className={`axisLine-${style.id}`} />
     </g>
   );
 });
@@ -119,11 +112,8 @@ export default function D3Axis({
   tickSizeInner = 6,
   tickSizeOuter = 6,
   tickPadding = 3,
-  integersOnly,
-  tickClassName,
-  tickStyle,
-  styleId,
-  ...extras
+  style,
+  transform,
 }: PropsWithChildren<D3AxisProps>) {
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
   const range = scale.range();
@@ -144,36 +134,31 @@ export default function D3Axis({
         spacing={spacing}
         tickSizeInner={tickSizeInner}
         orient={orient}
-        className={tickClassName}
-        style={tickStyle}
-        styleId={styleId}
+        style={style}
       />
     ));
   };
   const genNumericTicks = (scale: NumericScaleLike) => {
-    const values = fixTicks(scale.ticks(), integersOnly);
-    const format = integersOnly ? String : scale.tickFormat();
+    const values = fixTicks(scale.ticks(), true);
     return values.map((d) => (
       <D3Tick
         key={d}
         pos={scale(d)}
-        name={format(d)}
+        name={String(d)}
         spacing={spacing}
         tickSizeInner={tickSizeInner}
         orient={orient}
-        className={tickClassName}
-        style={tickStyle}
-        styleId={styleId}
+        style={style}
       />
     ));
   };
   const ticks = isBandScale(scale) ? genBandTicks(scale) : genNumericTicks(scale);
 
   return (
-    <g {...extras}>
+    <g transform={transform}>
       {ticks}
       <path
-        className={`axisLine-${styleId}`}
+        className={`axisLine-${style.id}`}
         d={
           orient === 'left' || orient === 'right'
             ? tickSizeOuter

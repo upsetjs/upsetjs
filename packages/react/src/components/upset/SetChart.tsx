@@ -1,55 +1,38 @@
 import { ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
+import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSelection } from './interfaces';
-import { UpSetStyles } from './defineStyle';
+import { UpSetSizeInfo } from './deriveSizeDependent';
 import { clsx, addonPositionGenerator } from './utils';
 import { UpSetAddons } from '../config';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 
 const SetChart = React.memo(function SetChart<T>({
   d,
   i,
-  scales,
   onMouseEnter,
   onMouseLeave,
   onClick,
   className,
-  styles,
-  clipId,
-  setBarHeight,
-  barClassName,
-  barLabelClassName,
-  barLabelStyle,
-  barLabelOffset,
-  barStyle,
-  setClassName,
-  setStyle,
+  size,
+  data,
+  style,
   children,
-  setAddons,
 }: PropsWithChildren<
   {
     d: ISet<T>;
     i: number;
-    scales: UpSetScales;
     className?: string;
-    styles: UpSetStyles;
-    clipId: string;
-    barLabelOffset: number;
-    setBarHeight: number;
-    barClassName?: string;
-    barStyle?: React.CSSProperties;
-    barLabelClassName?: string;
-    barLabelStyle?: React.CSSProperties;
-    setClassName?: string;
-    setStyle?: React.CSSProperties;
-    setAddons: UpSetAddons<ISet<T>, T>;
+    size: UpSetSizeInfo;
+    style: UpSetStyleInfo;
+    data: UpSetDataInfo<T>;
   } & UpSetSelection
 >) {
-  const x = scales.sets.x(d.cardinality);
-  const genPosition = addonPositionGenerator(styles.sets.w + styles.labels.w + styles.combinations.w);
+  const x = data.sets.x(d.cardinality);
+  const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.combinations.w);
   return (
     <g
-      transform={`translate(0, ${scales.sets.y(d.name)})`}
+      transform={`translate(0, ${data.sets.y(d.name)})`}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
@@ -59,47 +42,47 @@ const SetChart = React.memo(function SetChart<T>({
         {d.name}: {d.cardinality}
       </title>
       <rect
-        x={-styles.sets.before}
-        width={styles.sets.w + styles.labels.w + styles.combinations.w + styles.sets.after}
-        height={scales.sets.y.bandwidth()}
-        className={`hoverBar-${styles.styleId}`}
+        x={-size.sets.before}
+        width={size.sets.w + size.labels.w + size.combinations.w + size.sets.after}
+        height={data.sets.bandWidth}
+        className={`hoverBar-${style.id}`}
       />
       {i % 2 === 1 && (
         <rect
-          x={styles.sets.w}
-          width={styles.labels.w + styles.combinations.w + styles.sets.after}
-          height={scales.sets.y.bandwidth()}
-          className={`fillAlternating-${styles.styleId}`}
+          x={size.sets.w}
+          width={size.labels.w + size.combinations.w + size.sets.after}
+          height={data.sets.bandWidth}
+          className={`fillAlternating-${style.id}`}
         />
       )}
       <rect
         x={x}
-        width={styles.sets.w - x}
-        height={setBarHeight}
-        className={clsx(`fillPrimary-${styles.styleId}`, barClassName)}
-        style={barStyle}
+        width={size.sets.w - x}
+        height={data.sets.bandWidth}
+        className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
+        style={style.styles.bar}
       />
       <text
         x={x}
-        dx={-barLabelOffset}
-        y={setBarHeight / 2}
-        style={barLabelStyle}
-        className={clsx(`sBarTextStyle-${styles.styleId}`, barLabelClassName)}
+        dx={-style.barLabelOffset}
+        y={data.sets.bandWidth / 2}
+        style={style.styles.barLabel}
+        className={clsx(`sBarTextStyle-${style.id}`, style.classNames.barLabel)}
       >
         {d.cardinality}
       </text>
       <text
-        x={styles.sets.w + styles.labels.w / 2}
-        y={scales.sets.y.bandwidth() / 2}
-        className={clsx(`setTextStyle-${styles.styleId}`, setClassName)}
-        style={setStyle}
-        clipPath={`url(#${clipId})`}
+        x={size.sets.w + size.labels.w / 2}
+        y={data.sets.bandWidth / 2}
+        className={clsx(`setTextStyle-${style.id}`, style.classNames.setLabel)}
+        style={style.styles.setLabel}
+        clipPath={`url(#clip-${size.id})`}
       >
         {d.name}
       </text>
-      {setAddons.map((addon) => (
+      {size.sets.addons.map((addon) => (
         <g key={addon.name} transform={`translate(${genPosition(addon)},0)`}>
-          {addon.render({ set: d, width: addon.size, height: setBarHeight })}
+          {addon.render({ set: d, width: addon.size, height: data.sets.bandWidth })}
         </g>
       ))}
       {children}

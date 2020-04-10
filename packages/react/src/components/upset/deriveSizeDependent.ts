@@ -1,8 +1,7 @@
 import { UpSetAddon } from '../config';
+import { generateId } from './utils';
 
-export default function defineStyle(size: {
-  styleId: string;
-  sizeId: string;
+export default function deriveSizeDependent(size: {
   width: number;
   height: number;
   margin: number;
@@ -29,8 +28,7 @@ export default function defineStyle(size: {
   const labelsWidth = w * size.widthRatios[1];
   const combinationHeight = h * size.heightRatios[0];
   return {
-    styleId: size.styleId,
-    sizeId: size.sizeId,
+    id: generateId(),
     combinations: {
       before: combnationAddonsBefore,
       after: combinationAddonsAfter,
@@ -38,6 +36,7 @@ export default function defineStyle(size: {
       y: combnationAddonsBefore,
       w: w - setWidth - labelsWidth,
       h: combinationHeight,
+      addons: size.combinationAddons,
     },
     labels: {
       x: setAddonsBefore + setWidth,
@@ -52,6 +51,7 @@ export default function defineStyle(size: {
       y: combnationAddonsBefore + combinationHeight,
       w: setWidth,
       h: h - combinationHeight,
+      addons: size.setAddons,
     },
     padding: size.barPadding,
     legend: {
@@ -63,4 +63,4 @@ export default function defineStyle(size: {
   };
 }
 
-export declare type UpSetStyles = ReturnType<typeof defineStyle>;
+export declare type UpSetSizeInfo = ReturnType<typeof deriveSizeDependent>;

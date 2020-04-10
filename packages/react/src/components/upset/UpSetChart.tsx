@@ -1,111 +1,66 @@
+import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
-import { UpSetStyles } from './defineStyle';
-import { ISets, ISetCombinations, ISetLike, ISet, ISetCombination } from '@upsetjs/model';
-import SetChart from './SetChart';
+import { UpSetReactChildrens } from '../config';
 import CombinationChart from './CombinationChart';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
+import SetChart from './SetChart';
 import { wrap } from './utils';
-import { UpSetStyleClassNames, UpSetReactStyles, UpSetReactChildrens, UpSetAddons } from '../config';
 
 export default React.memo(function UpSetChart<T>({
-  scales,
-  styles,
-  sets,
-  cs,
-  r,
+  data,
+  size,
+  style,
   onHover,
   onClick,
-  classNames,
-  cStyles,
   childrens,
-  clipId,
-  barLabelOffset,
-  setAddons,
-  combinationAddons,
 }: PropsWithChildren<{
-  scales: UpSetScales;
-  styles: UpSetStyles;
-  sets: ISets<T>;
-  cs: ISetCombinations<T>;
-  r: number;
-  clipId: string;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T> | null): void;
-  classNames: UpSetStyleClassNames;
-  cStyles: UpSetReactStyles;
   childrens: UpSetReactChildrens<T>;
-  barLabelOffset: number;
-  setAddons: UpSetAddons<ISet<T>, T>;
-  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
-  // const [selection, setSelection] = useState(null as ISet<T> | null);
   const [onClickImpl, onMouseEnterImpl, onMouseLeaveImpl] = React.useMemo(
     () => [wrap(onClick), wrap(onHover), onHover ? () => onHover(null) : undefined],
     [onClick, onHover]
   );
 
-  const setBarHeight = scales.sets.y.bandwidth();
-  const combinationBarWidth = scales.combinations.x.bandwidth();
-  const cx = combinationBarWidth / 2;
-  const cy = scales.sets.y.bandwidth() / 2 + styles.combinations.h;
-
-  const rsets = React.useMemo(() => sets.slice().reverse(), [sets]);
-
   return (
-    <g className={onClick ? `clickAble-${styles.styleId}` : undefined}>
-      <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
-        {sets.map((d, i) => (
+    <g className={onClick ? `clickAble-${style.id}` : undefined}>
+      <g transform={`translate(${size.sets.x},${size.sets.y})`}>
+        {data.sets.v.map((d, i) => (
           <SetChart
             key={d.name}
-            scales={scales}
             d={d}
             i={i}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? `interactive-${styles.styleId}` : undefined}
-            styles={styles}
-            clipId={clipId}
-            setBarHeight={setBarHeight}
-            barClassName={classNames.bar}
-            barLabelClassName={classNames.barLabel}
-            barLabelStyle={cStyles.barLabel}
-            barStyle={cStyles.bar}
-            setClassName={classNames.setLabel}
-            setStyle={cStyles.setLabel}
-            barLabelOffset={barLabelOffset}
-            setAddons={setAddons}
+            className={onClick || onHover ? `interactive-${style.id}` : undefined}
+            data={data}
+            style={style}
+            size={size}
           >
             {childrens.set && childrens.set(d)}
           </SetChart>
         ))}
       </g>
 
-      <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
-        {cs.map((d) => (
+      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
+        {data.combinations.v.map((d) => (
           <CombinationChart
             key={d.name}
-            scales={scales}
-            styles={styles}
             d={d}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? `interactive-${styles.styleId}` : undefined}
-            sets={sets}
-            r={r}
-            rsets={rsets}
-            cx={cx}
-            cy={cy}
-            combinationBarWidth={combinationBarWidth}
-            barClassName={classNames.bar}
-            barLabelClassName={classNames.barLabel}
-            barLabelStyle={cStyles.barLabel}
-            barStyle={cStyles.bar}
-            dotClassName={classNames.dot}
-            dotStyle={cStyles.dot}
-            barLabelOffset={barLabelOffset}
-            combinationAddons={combinationAddons}
+            className={onClick || onHover ? `interactive-${style.id}` : undefined}
+            data={data}
+            style={style}
+            size={size}
           >
             {childrens.combinations && childrens.combinations(d)}
           </CombinationChart>

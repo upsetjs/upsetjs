@@ -1,40 +1,36 @@
-import { ISetLike, ISets } from '@upsetjs/model';
+import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetStyles } from './defineStyle';
-import { UpSetScales } from './generateScales';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 import UpSetDot from './UpSetDot';
 import { clsx } from './utils';
 
 function UpSetSelectionChart<T>({
-  sets,
-  scales,
-  styles,
+  data,
+  size,
+  style,
   selection,
-  dotClassName,
-  dotStyle,
 }: PropsWithChildren<{
-  sets: ISets<T>;
-  scales: UpSetScales;
-  styles: UpSetStyles;
+  data: UpSetDataInfo<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
   selection: ISetLike<T> | null;
-  dotClassName?: string;
-  dotStyle?: React.CSSProperties;
 }>) {
-  const cy = scales.sets.y.bandwidth() / 2;
-  const cx = scales.combinations.x.bandwidth() / 2;
-  const r = Math.min(cx, cy) * (1 - styles.padding);
-  const height = styles.sets.h + styles.sets.after;
-  const rsets = sets.slice().reverse();
-  const width = scales.combinations.x.bandwidth();
+  const cy = data.sets.bandWidth / 2;
+  const cx = data.combinations.cx;
+  const r = data.r;
+  const height = size.sets.h + size.sets.after;
+  const width = data.combinations.bandWidth;
 
   if (!selection || selection.type === 'set') {
     return null;
   }
   const d = selection;
   return (
-    <g transform={`translate(${styles.labels.w + scales.combinations.x(d.name)!}, 0)`}>
-      <rect width={width} height={height} className={`selectionHint-${styles.styleId}`} />
-      {sets
+    <g transform={`translate(${size.labels.w + data.combinations.x(d.name)!}, 0)`}>
+      <rect width={width} height={height} className={`selectionHint-${style.id}`} />
+      {data.sets.v
         .filter((s) => d.sets.has(s))
         .map((s) => {
           return (
@@ -42,20 +38,20 @@ function UpSetSelectionChart<T>({
               key={s.name}
               r={r * 1.1}
               cx={cx}
-              cy={scales.sets.y(s.name)! + cy}
+              cy={data.sets.y(s.name)! + cy}
               name={s.name}
-              className={clsx(`fillSelection-${styles.styleId}`, dotClassName, `pnone-${styles.styleId}`)}
-              style={dotStyle}
+              className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
+              style={style.styles.dot}
             />
           );
         })}
       {d.sets.size > 1 && (
         <line
           x1={cx}
-          y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
+          y1={data.sets.y(data.sets.v.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
-          y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className={`upsetSelectionLine-${styles.styleId}`}
+          y2={data.sets.y(data.sets.rv.find((p) => d.sets.has(p))!.name)! + cy}
+          className={`upsetSelectionLine-${data.id}`}
         />
       )}
     </g>

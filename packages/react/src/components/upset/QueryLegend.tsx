@@ -1,21 +1,27 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetQuery, isSetQuery, isElemQuery } from '@upsetjs/model';
 import { clsx } from './utils';
-import { UpSetStyles } from './defineStyle';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
+import { UpSetDataInfo } from './deriveDataDependent';
 
 const QueryLegend = React.memo(function QueryLegend<T>({
   queries,
-  className,
-  styles,
-  ...extras
-}: PropsWithChildren<
-  {
-    queries: ReadonlyArray<UpSetQuery<T>>;
-    styles: UpSetStyles;
-  } & React.SVGAttributes<SVGGElement>
->) {
+  size,
+  style,
+  data,
+}: PropsWithChildren<{
+  queries: ReadonlyArray<UpSetQuery<T>>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
+}>) {
   return (
-    <text {...extras} className={clsx(`legendTextStyle-${styles.styleId}`, className)}>
+    <text
+      transform={`translate(${size.legend.x},4)`}
+      style={style.styles.legend}
+      className={clsx(`legendTextStyle-${style.id}`, style.classNames.legend)}
+    >
       {queries.map((q, i) => {
         let count: number | null = null;
         if (isSetQuery(q)) {
@@ -25,7 +31,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
         }
         return (
           <React.Fragment key={q.name}>
-            <tspan className={`fillQ${i}-${styles.sizeId}`}>{'  ⬤ '}</tspan>
+            <tspan className={`fillQ${i}-${data.id}`}>{'  ⬤ '}</tspan>
             <tspan>
               {q.name}
               {count != null ? `: ${count}` : ''}

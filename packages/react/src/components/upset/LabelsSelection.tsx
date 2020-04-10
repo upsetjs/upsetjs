@@ -1,15 +1,18 @@
 import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetStyles } from './defineStyle';
-import { UpSetScales } from './generateScales';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 
 export default function LabelsSelection<T>({
-  scales,
-  styles,
+  data,
+  size,
+  style,
   selection,
 }: PropsWithChildren<{
-  scales: UpSetScales;
-  styles: UpSetStyles;
+  data: UpSetDataInfo<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
   selection: ISetLike<T> | null;
 }>) {
   if (!selection || selection.type !== 'set') {
@@ -18,10 +21,10 @@ export default function LabelsSelection<T>({
   const d = selection;
   return (
     <rect
-      y={scales.sets.y(d.name)}
-      width={styles.labels.w + styles.combinations.w + styles.sets.after}
-      height={scales.sets.y.bandwidth()}
-      className={`selectionHint-${styles.styleId}`}
+      y={data.sets.y(d.name)}
+      width={size.labels.w + size.combinations.w + size.sets.after}
+      height={data.sets.bandWidth}
+      className={`selectionHint-${style.id}`}
     />
   );
 }

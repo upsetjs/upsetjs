@@ -1,63 +1,37 @@
-import { ISetCombination, ISets } from '@upsetjs/model';
+import { ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetScales } from './generateScales';
+import { UpSetDataInfo } from './deriveDataDependent';
+import { UpSetSizeInfo } from './deriveSizeDependent';
+import { UpSetStyleInfo } from './deriveStyleDependent';
 import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
-import { UpSetStyles } from './defineStyle';
-import { clsx, addonPositionGenerator } from './utils';
-import { UpSetAddons } from '../config';
+import { addonPositionGenerator, clsx } from './utils';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
   d,
-  scales,
   onClick,
   onMouseEnter,
   onMouseLeave,
   className,
-  r,
-  styles,
-  sets,
-  rsets,
-  combinationBarWidth,
-  cx,
-  cy,
-  barClassName,
-  barStyle,
-  barLabelClassName,
-  barLabelStyle,
-  dotClassName,
-  dotStyle,
+  data,
+  size,
+  style,
   children,
-  barLabelOffset,
-  combinationAddons,
 }: PropsWithChildren<
   {
     d: ISetCombination<T>;
-    scales: UpSetScales;
-    styles: UpSetStyles;
+    size: UpSetSizeInfo;
+    style: UpSetStyleInfo;
+    data: UpSetDataInfo<T>;
     className?: string;
-    r: number;
-    barLabelOffset: number;
-    sets: ISets<T>;
-    rsets: ISets<T>;
-    combinationBarWidth: number;
-    cx: number;
-    cy: number;
-    barClassName?: string;
-    barStyle?: React.CSSProperties;
-    barLabelClassName?: string;
-    barLabelStyle?: React.CSSProperties;
-    dotClassName?: string;
-    dotStyle?: React.CSSProperties;
-    combinationAddons: UpSetAddons<ISetCombination<T>, T>;
   } & UpSetSelection
 >) {
-  const y = scales.combinations.y(d.cardinality);
-  const genPosition = addonPositionGenerator(styles.combinations.h + styles.sets.h);
+  const y = data.combinations.y(d.cardinality);
+  const genPosition = addonPositionGenerator(size.combinations.h + size.sets.h);
   return (
     <g
       key={d.name}
-      transform={`translate(${scales.combinations.x(d.name)}, 0)`}
+      transform={`translate(${data.combinations.x(d.name)}, 0)`}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
@@ -67,57 +41,60 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         {d.name}: {d.cardinality}
       </title>
       <rect
-        y={-styles.combinations.before}
-        width={combinationBarWidth}
-        height={styles.sets.h + styles.combinations.h + styles.combinations.before + styles.combinations.after}
-        className={`hoverBar-${styleId}`}
+        y={-size.combinations.before}
+        width={data.combinations.bandWidth}
+        height={size.sets.h + size.combinations.h + size.combinations.before + size.combinations.after}
+        className={`hoverBar-${style.id}`}
       />
       <rect
         y={y}
-        height={styles.combinations.h - y}
-        width={combinationBarWidth}
-        className={clsx(`fillPrimary-${styleId}`, barClassName)}
-        style={barStyle}
+        height={size.combinations.h - y}
+        width={data.combinations.bandWidth}
+        className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
+        style={style.styles.bar}
       />
       <text
-        y={y - barLabelOffset}
-        x={combinationBarWidth / 2}
-        style={barLabelStyle}
-        className={clsx(`cBarTextStyle-${styleId}`, barLabelClassName)}
+        y={y - style.barLabelOffset}
+        x={data.combinations.bandWidth / 2}
+        style={style.styles.barLabel}
+        className={clsx(`cBarTextStyle-${style.id}`, style.classNames.barLabel)}
       >
         {d.cardinality}
       </text>
       <text
-        y={-barLabelOffset - styles.combinations.before}
-        x={combinationBarWidth / 2}
-        style={barLabelStyle}
-        className={clsx(`hoverBarTextStyle-${styleId}`, barLabelClassName)}
+        y={-style.barLabelOffset - size.combinations.before}
+        x={data.combinations.bandWidth / 2}
+        style={style.styles.barLabel}
+        className={clsx(`hoverBarTextStyle-${style.id}`, style.classNames.barLabel)}
       >
         {d.name}
       </text>
-      {sets.map((s) => (
+      {data.sets.v.map((s) => (
         <UpSetDot
           key={s.name}
-          r={r}
-          cx={cx}
-          cy={scales.sets.y(s.name)! + cy}
+          r={data.r}
+          cx={data.combinations.cx}
+          cy={data.sets.y(s.name)! + data.sets.cy}
           name={d.sets.has(s) ? s.name : d.name}
-          style={dotStyle}
-          className={clsx(d.sets.has(s) ? `fillPrimary-${styleId}` : `fillNotMember-${styleId}`, dotClassName)}
+          style={style.styles.dot}
+          className={clsx(
+            d.sets.has(s) ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`,
+            style.classNames.dot
+          )}
         />
       ))}
       {d.sets.size > 1 && (
         <line
-          x1={cx}
-          y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
-          x2={cx}
-          y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className={`upsetLine-${styleId}`}
+          x1={data.combinations.cx}
+          y1={data.sets.y(data.sets.v.find((p) => d.sets.has(p))!.name)! + data.sets.cy}
+          x2={data.combinations.cx}
+          y2={data.sets.y(data.sets.rv.find((p) => d.sets.has(p))!.name)! + data.sets.cy}
+          className={`upsetLine-${data.id}`}
         />
       )}
-      {combinationAddons.map((addon) => (
+      {size.combinations.addons.map((addon) => (
         <g key={addon.name} transform={`translate(0,${genPosition(addon)})`}>
-          {addon.render({ set: d, width: combinationBarWidth, height: addon.size })}
+          {addon.render({ set: d, width: data.combinations.bandWidth, height: addon.size })}
         </g>
       ))}
       {children}

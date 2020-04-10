@@ -1,9 +1,9 @@
-import { generateCombinations, GenerateSetCombinationsOptions, ISetCombinations } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { fillDefaults, UpSetProps } from './config';
-import defineStyle from './upset/defineStyle';
+import { fillDefaults, UpSetProps, UpSetReactStyles, UpSetStyleProps } from './config';
+import deriveDataDependent from './upset/deriveDataDependent';
+import defineSizeDependent from './upset/deriveSizeDependent';
+import deriveStyleDependent from './upset/deriveStyleDependent';
 import ExportButtons from './upset/ExportButtons';
-import generateScales from './upset/generateScales';
 import QueryLegend from './upset/QueryLegend';
 import UpSetAxis from './upset/UpSetAxis';
 import UpSetChart from './upset/UpSetChart';
@@ -11,15 +11,13 @@ import UpSetQueries from './upset/UpSetQueries';
 import UpSetSelection from './upset/UpSetSelection';
 import { clsx } from './upset/utils';
 
-function areCombinations<T>(
-  combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
-): combinations is ISetCombinations<T> {
-  return Array.isArray(combinations);
-}
-
 function generateId(_args: any) {
   return `upset-${Math.random().toString(36).slice(4)}`;
 }
+
+declare type UpSetStyleRelated<T> = Omit<UpSetStyleProps, 'className' | 'theme'> & {
+  styles?: UpSetReactStyles;
+};
 
 export default React.forwardRef(function UpSet<T>(
   props: PropsWithChildren<UpSetProps<T>>,
@@ -38,35 +36,33 @@ export default React.forwardRef(function UpSet<T>(
     onClick,
     onHover,
     theme,
-    combinationName,
-    combinationNameAxisOffset,
-    setName,
-    selectionColor,
-    color,
-    textColor,
-    hoverHintColor,
-    notMemberColor,
-    alternatingBackgroundColor,
-    fontSizes,
-    classNames,
-    styles: cStyles,
+    dotPadding,
     childrenFactories,
-    fontFamily,
     widthRatios,
     heightRatios,
-    barLabelOffset,
-    setNameAxisOffset,
     queries = [],
-    dotPadding,
-    queryLegend,
-    exportButtons,
-    numericScale,
-    bandScale,
     setAddons,
     combinationAddons,
+    alternatingBackgroundColor,
+    bandScale,
+    barLabelOffset,
+    classNames,
+    color,
+    combinationName,
+    combinationNameAxisOffset,
+    exportButtons,
+    fontFamily,
+    fontSizes,
+    hoverHintColor,
+    notMemberColor,
+    numericScale,
+    queryLegend,
+    selectionColor,
+    setName,
+    setNameAxisOffset,
+    styles: cStyles,
+    textColor,
   } = fillDefaults(props);
-
-  const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
 
   // generate a "random" but attribute stable id to avoid styling conflicts
   const styleId = useMemo(
@@ -92,10 +88,35 @@ export default React.forwardRef(function UpSet<T>(
       alternatingBackgroundColor,
     ]
   );
-
-  const styles = React.useMemo(
+  const styleInfo = useMemo(
     () =>
-      defineStyle({
+      deriveStyleDependent(
+        cStyles,
+        classNames,
+        combinationName,
+        combinationNameAxisOffset,
+        setName,
+        setNameAxisOffset,
+        styleId,
+        barLabelOffset,
+        selectionColor
+      ),
+    [
+      cStyles,
+      classNames,
+      barLabelOffset,
+      combinationName,
+      combinationNameAxisOffset,
+      setName,
+      setNameAxisOffset,
+      styleId,
+      selectionColor,
+    ]
+  );
+
+  const sizeInfo = useMemo(
+    () =>
+      defineSizeDependent({
         width,
         height,
         margin,
@@ -104,31 +125,25 @@ export default React.forwardRef(function UpSet<T>(
         heightRatios,
         setAddons,
         combinationAddons,
-        styleId,
       }),
-    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons, styleId]
+    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
   );
-  const scales = React.useMemo(
+
+  const dataInfo = useMemo(
     () =>
-      generateScales(
+      deriveDataDependent(
         sets,
-        cs,
-        styles,
+        combinations,
+        sizeInfo,
         numericScale,
         bandScale,
-        barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10')
+        barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10'),
+        dotPadding,
+        barPadding
       ),
-    [sets, cs, styles, numericScale, bandScale, barLabelOffset, fontSizes.barLabel]
+    [sets, combinations, sizeInfo, numericScale, bandScale, barLabelOffset, fontSizes.barLabel, dotPadding, barPadding]
   );
 
-  const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * dotPadding;
-
-  const sizeId = React.useMemo(() => generateId([styles.labels.w, styles.sets.h, r, queries]), [
-    styles.labels.w,
-    styles.sets.h,
-    r,
-    queries,
-  ]);
   const rules = `
   .root-${styleId} {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
@@ -242,24 +257,24 @@ export default React.forwardRef(function UpSet<T>(
     stroke: ${textColor};
   }
 
-  .upsetLine-${sizeId} {
-    stroke-width: ${r * 0.6};
+  .upsetLine-${dataInfo.id} {
+    stroke-width: ${dataInfo.r * 0.6};
     stroke: ${color};
   }
 
-  .upsetSelectionLine-${sizeId} {
-    stroke-width: ${r * 0.6 * 1.1};
+  .upsetSelectionLine-${dataInfo.id} {
+    stroke-width: ${dataInfo.r * 0.6 * 1.1};
     stroke: ${selectionColor};
     pointer-events: none;
   }
-  ${queries.map((q, i) => `.fillQ${i}-${sizeId} { fill: ${q.color}; }`).join('\n')}
-
+  ${queries
+    .map(
+      (q, i) => `.fillQ${i}-${dataInfo.id} {
+    fill: ${q.color};
+  }`
+    )
+    .join('\n')}
   `;
-
-  const triangleSize = Math.max(
-    2,
-    (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * barPadding
-  );
 
   return (
     <svg
@@ -272,84 +287,40 @@ export default React.forwardRef(function UpSet<T>(
     >
       <style>{rules}</style>
       <defs>
-        <clipPath id={sizeId}>
-          <rect x={styles.sets.w} y={0} width={styles.labels.w} height={styles.sets.h} />
+        <clipPath id={`clip-${sizeInfo.id}`}>
+          <rect x={sizeInfo.sets.w} y={0} width={sizeInfo.labels.w} height={sizeInfo.sets.h} />
         </clipPath>
       </defs>
-      {queryLegend && (
-        <QueryLegend
-          queries={queries}
-          transform={`translate(${styles.legend.x},4)`}
-          className={classNames.legend}
-          style={cStyles.legend}
-          styles={styles}
-        />
+      {queryLegend && <QueryLegend queries={queries} size={sizeInfo} style={styleInfo} data={dataInfo} />}
+      {exportButtons && (
+        <ExportButtons transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`} styleId={styleId} />
       )}
-      {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} styleId={styleId} />}
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
-            width={styles.combinations.x}
-            height={styles.sets.y}
+            width={sizeInfo.combinations.x}
+            height={sizeInfo.sets.y}
             onClick={() => onClick(null)}
-            className={`fillTransparent-${styles.styleId}`}
+            className={`fillTransparent-${styleId}`}
           />
         )}
-        <UpSetAxis
-          combinationName={combinationName}
-          combinationNameAxisOffset={combinationNameAxisOffset}
-          setNameAxisOffset={setNameAxisOffset}
-          scales={scales}
-          setName={setName}
-          styles={styles}
-          cStyles={cStyles}
-          classNames={classNames}
-          setAddons={setAddons}
-          combinationAddons={combinationAddons}
-        />
+        <UpSetAxis size={sizeInfo} style={styleInfo} data={dataInfo} />
         <UpSetChart
-          cs={cs}
-          r={r}
-          scales={scales}
-          sets={sets}
-          styles={styles}
+          size={sizeInfo}
+          style={styleInfo}
+          data={dataInfo}
           onClick={onClick}
           onHover={onHover}
-          cStyles={cStyles}
-          classNames={classNames}
-          clipId={sizeId}
           childrens={childrenFactories}
-          barLabelOffset={barLabelOffset}
-          setAddons={setAddons}
-          combinationAddons={combinationAddons}
         />
-        <UpSetSelection
-          cs={cs}
-          scales={scales}
-          selectionColor={selectionColor}
-          sets={sets}
-          styles={styles}
-          onHover={onHover}
-          selection={selection}
-          triangleSize={triangleSize}
-          cStyles={cStyles}
-          classNames={classNames}
-          setAddons={setAddons}
-          combinationAddons={combinationAddons}
-        />
+        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={onHover} selection={selection} />
         <UpSetQueries
-          cs={cs}
-          scales={scales}
-          sets={sets}
-          styles={styles}
+          size={sizeInfo}
+          style={styleInfo}
+          data={dataInfo}
           onHover={onHover}
           queries={queries}
           secondary={onHover != null || selection != null}
-          triangleSize={triangleSize}
-          cStyles={cStyles}
-          classNames={classNames}
-          setAddons={setAddons}
-          combinationAddons={combinationAddons}
         />
       </g>
       {props.children}
