@@ -67,7 +67,7 @@ export default React.memo(function UpSetQueries<T>({
   }
 
   return (
-    <g className={onHover && !secondary ? 'pnone' : undefined}>
+    <g className={onHover && !secondary ? `pnone-${styles.styleId}` : undefined}>
       <g transform={`translate(${styles.sets.w + styles.labels.w},0)`}>
         {qs.map((q, i) => (
           <CombinationSelectionChart
@@ -75,7 +75,7 @@ export default React.memo(function UpSetQueries<T>({
             scales={scales}
             combinations={cs}
             elemOverlap={q.overlap}
-            suffix={`Q${i}`}
+            suffix={`Q${i}-${styles.sizeId}`}
             secondary={secondary || i > 0}
             triangleSize={triangleSize}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
@@ -93,7 +93,7 @@ export default React.memo(function UpSetQueries<T>({
             scales={scales}
             sets={sets}
             elemOverlap={q.overlap}
-            suffix={`Q${i}`}
+            suffix={`Q${i}-${styles.sizeId}`}
             secondary={secondary || i > 0}
             triangleSize={triangleSize}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}

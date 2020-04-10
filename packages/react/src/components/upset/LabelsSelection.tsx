@@ -21,7 +21,7 @@ export default function LabelsSelection<T>({
       y={scales.sets.y(d.name)}
       width={styles.labels.w + styles.combinations.w + styles.sets.after}
       height={scales.sets.y.bandwidth()}
-      className="strokeSelection fillTransparent pnone"
+      className={`selectionHint-${styles.styleId}`}
     />
   );
 }

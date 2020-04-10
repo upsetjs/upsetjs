@@ -4,7 +4,7 @@ import { UpSetStyles } from './defineStyle';
 import D3Axis from './D3Axis';
 import { UpSetStyleClassNames, UpSetReactStyles, UpSetAddons } from '../config';
 import { clsx, addonPositionGenerator } from './utils';
-import { ISet, ISetCombination } from '../../../../model/dist';
+import { ISet, ISetCombination } from '@upsetjs/model';
 
 export default React.memo(function UpSetAxis<T>({
   scales,
@@ -40,6 +40,7 @@ export default React.memo(function UpSetAxis<T>({
           integersOnly
           tickClassName={classNames.axisTick}
           tickStyle={cStyles.axisTick}
+          styleId={styles.styleId}
         />
         <line
           x1={0}
@@ -49,7 +50,7 @@ export default React.memo(function UpSetAxis<T>({
           className="axisLine"
         />
         <text
-          className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
+          className={clsx(`cChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${-combinationNameAxisOffset}, ${styles.combinations.h / 2})rotate(-90)`}
         >
@@ -58,7 +59,7 @@ export default React.memo(function UpSetAxis<T>({
         {combinationAddons.map((addon) => (
           <text
             key={addon.name}
-            className={clsx('textStyle', 'chartTextStyle', classNames.chartLabel)}
+            className={clsx(`cChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
             style={cStyles.chartLabel}
             transform={`translate(${-combinationNameAxisOffset}, ${
               combinationPosGen(addon) + addon.size / 2
@@ -76,9 +77,10 @@ export default React.memo(function UpSetAxis<T>({
           integersOnly
           tickClassName={classNames.axisTick}
           tickStyle={cStyles.axisTick}
+          styleId={styles.styleId}
         />
         <text
-          className={clsx('textStyle', 'chartTextStyle', 'hangingText', classNames.chartLabel)}
+          className={clsx(`sChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
           style={cStyles.chartLabel}
           transform={`translate(${styles.sets.w / 2}, ${styles.sets.h + setNameAxisOffset})`}
         >
@@ -87,7 +89,7 @@ export default React.memo(function UpSetAxis<T>({
         {setAddons.map((addon) => (
           <text
             key={addon.name}
-            className={clsx('textStyle', 'chartTextStyle', 'hangingText', classNames.chartLabel)}
+            className={clsx(`sChartTextStyle-${styles.styleId}`, classNames.chartLabel)}
             style={cStyles.chartLabel}
             transform={`translate(${setPosGen(addon) + addon.size / 2}, ${styles.sets.h + setNameAxisOffset})`}
           >

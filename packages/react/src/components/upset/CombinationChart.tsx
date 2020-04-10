@@ -70,20 +70,20 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         y={-styles.combinations.before}
         width={combinationBarWidth}
         height={styles.sets.h + styles.combinations.h + styles.combinations.before + styles.combinations.after}
-        className="fillTransparent hoverBar"
+        className={`hoverBar-${styleId}`}
       />
       <rect
         y={y}
         height={styles.combinations.h - y}
         width={combinationBarWidth}
-        className={clsx('fillPrimary', barClassName)}
+        className={clsx(`fillPrimary-${styleId}`, barClassName)}
         style={barStyle}
       />
       <text
         y={y - barLabelOffset}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
-        className={clsx('textStyle', 'barTextStyle', 'middleText', barLabelClassName)}
+        className={clsx(`cBarTextStyle-${styleId}`, barLabelClassName)}
       >
         {d.cardinality}
       </text>
@@ -91,7 +91,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         y={-barLabelOffset - styles.combinations.before}
         x={combinationBarWidth / 2}
         style={barLabelStyle}
-        className={clsx('textStyle', 'hoverBarTextStyle', 'middleText', barLabelClassName)}
+        className={clsx(`hoverBarTextStyle-${styleId}`, barLabelClassName)}
       >
         {d.name}
       </text>
@@ -103,7 +103,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           cy={scales.sets.y(s.name)! + cy}
           name={d.sets.has(s) ? s.name : d.name}
           style={dotStyle}
-          clazz={clsx(d.sets.has(s) ? 'fillPrimary' : 'fillNotMember', dotClassName)}
+          className={clsx(d.sets.has(s) ? `fillPrimary-${styleId}` : `fillNotMember-${styleId}`, dotClassName)}
         />
       ))}
       {d.sets.size > 1 && (
@@ -112,7 +112,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
           y1={scales.sets.y(sets.find((p) => d.sets.has(p))!.name)! + cy}
           x2={cx}
           y2={scales.sets.y(rsets.find((p) => d.sets.has(p))!.name)! + cy}
-          className="strokePrimary upsetLine"
+          className={`upsetLine-${styleId}`}
         />
       )}
       {combinationAddons.map((addon) => (

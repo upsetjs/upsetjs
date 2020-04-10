@@ -62,21 +62,21 @@ const SetChart = React.memo(function SetChart<T>({
         x={-styles.sets.before}
         width={styles.sets.w + styles.labels.w + styles.combinations.w + styles.sets.after}
         height={scales.sets.y.bandwidth()}
-        className="fillTransparent hoverBar"
+        className={`hoverBar-${styles.styleId}`}
       />
       {i % 2 === 1 && (
         <rect
           x={styles.sets.w}
           width={styles.labels.w + styles.combinations.w + styles.sets.after}
           height={scales.sets.y.bandwidth()}
-          className="fillAlternating"
+          className={`fillAlternating-${styles.styleId}`}
         />
       )}
       <rect
         x={x}
         width={styles.sets.w - x}
         height={setBarHeight}
-        className={clsx('fillPrimary', barClassName)}
+        className={clsx(`fillPrimary-${styles.styleId}`, barClassName)}
         style={barStyle}
       />
       <text
@@ -84,14 +84,14 @@ const SetChart = React.memo(function SetChart<T>({
         dx={-barLabelOffset}
         y={setBarHeight / 2}
         style={barLabelStyle}
-        className={clsx('textStyle', 'barTextStyle', 'endText', 'centralText', barLabelClassName)}
+        className={clsx(`sBarTextStyle-${styles.styleId}`, barLabelClassName)}
       >
         {d.cardinality}
       </text>
       <text
         x={styles.sets.w + styles.labels.w / 2}
         y={scales.sets.y.bandwidth() / 2}
-        className={clsx('textStyle', 'setTextStyle', setClassName)}
+        className={clsx(`setTextStyle-${styles.styleId}`, setClassName)}
         style={setStyle}
         clipPath={`url(#${clipId})`}
       >

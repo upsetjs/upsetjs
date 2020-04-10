@@ -31,7 +31,7 @@ function SetSelectionChart<T>({
 }>) {
   const width = scales.sets.x.range()[0];
   const height = scales.sets.y.bandwidth();
-  const clazz = clsx(`fill${suffix}`, !tooltip && ' pnone', barClassName);
+  const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${styles.styleId}`, barClassName);
   return (
     <g>
       {sets.map((d) => {
@@ -48,12 +48,12 @@ function SetSelectionChart<T>({
             key={d.name}
             transform={`translate(${x}, ${y + height})`}
             d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${triangleSize},${triangleSize} L${triangleSize},${triangleSize} Z`}
-            className={clazz}
+            className={className}
           >
             {title}
           </path>
         ) : (
-          <rect key={d.name} x={x} y={y} width={width - x} height={height} className={clazz} style={barStyle}>
+          <rect key={d.name} x={x} y={y} width={width - x} height={height} className={className} style={barStyle}>
             {title}
           </rect>
         );

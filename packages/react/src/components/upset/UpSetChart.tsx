@@ -52,7 +52,7 @@ export default React.memo(function UpSetChart<T>({
   const rsets = React.useMemo(() => sets.slice().reverse(), [sets]);
 
   return (
-    <g className={onClick ? 'clickAble' : undefined}>
+    <g className={onClick ? `clickAble-${styles.styleId}` : undefined}>
       <g transform={`translate(${styles.sets.x},${styles.sets.y})`}>
         {sets.map((d, i) => (
           <SetChart
@@ -63,7 +63,7 @@ export default React.memo(function UpSetChart<T>({
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? 'interactive' : undefined}
+            className={onClick || onHover ? `interactive-${styles.styleId}` : undefined}
             styles={styles}
             clipId={clipId}
             setBarHeight={setBarHeight}
@@ -91,7 +91,7 @@ export default React.memo(function UpSetChart<T>({
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
-            className={onClick || onHover ? 'interactive' : undefined}
+            className={onClick || onHover ? `interactive-${styles.styleId}` : undefined}
             sets={sets}
             r={r}
             rsets={rsets}

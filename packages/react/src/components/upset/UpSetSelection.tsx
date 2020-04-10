@@ -84,7 +84,7 @@ export default function UpSetSelection<T>({
   }
 
   return (
-    <g className={onHover ? 'pnone' : undefined}>
+    <g className={onHover ? `pnone-${styles.styleId}` : undefined}>
       <g transform={`translate(${styles.combinations.x},${styles.combinations.y})`}>
         {selection && (
           <CombinationSelectionChart

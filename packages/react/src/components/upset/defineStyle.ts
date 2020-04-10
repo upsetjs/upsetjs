@@ -1,6 +1,8 @@
 import { UpSetAddon } from '../config';
 
 export default function defineStyle(size: {
+  styleId: string;
+  sizeId: string;
   width: number;
   height: number;
   margin: number;
@@ -27,6 +29,8 @@ export default function defineStyle(size: {
   const labelsWidth = w * size.widthRatios[1];
   const combinationHeight = h * size.heightRatios[0];
   return {
+    styleId: size.styleId,
+    sizeId: size.sizeId,
     combinations: {
       before: combnationAddonsBefore,
       after: combinationAddonsAfter,

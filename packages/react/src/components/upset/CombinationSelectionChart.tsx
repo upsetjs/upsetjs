@@ -29,9 +29,10 @@ function CombinationSelectionChart<T>({
   totalHeight: number;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;
 }>) {
+  const styleId = styles.styleId;
   const width = scales.combinations.x.bandwidth();
   const height = scales.combinations.y.range()[0];
-  const clazz = clsx(`fill${suffix}`, !tooltip && 'pnone', barClassName);
+  const className = clsx(`fill${suffix}-${styleId}`, !tooltip && `pnone-${styleId}`, barClassName);
   return (
     <g>
       {combinations.map((d) => {
@@ -48,12 +49,12 @@ function CombinationSelectionChart<T>({
             key={d.name}
             transform={`translate(${x}, ${y})`}
             d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${triangleSize},-${triangleSize} L-${triangleSize},${triangleSize} Z`}
-            className={clazz}
+            className={className}
           >
             {title}
           </path>
         ) : (
-          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={clazz} style={barStyle}>
+          <rect key={d.name} x={x} y={y} height={height - y} width={width} className={className} style={barStyle}>
             {title}
           </rect>
         );

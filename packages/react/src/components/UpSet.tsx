@@ -67,11 +67,47 @@ export default React.forwardRef(function UpSet<T>(
   } = fillDefaults(props);
 
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
-  const styles = React.useMemo(
-    () => defineStyle({ width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons }),
-    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
+
+  // generate a "random" but attribute stable id to avoid styling conflicts
+  const styleId = useMemo(
+    () =>
+      generateId([
+        fontFamily,
+        fontSizes,
+        textColor,
+        hoverHintColor,
+        color,
+        selectionColor,
+        notMemberColor,
+        alternatingBackgroundColor,
+      ]),
+    [
+      fontFamily,
+      fontSizes,
+      textColor,
+      hoverHintColor,
+      color,
+      selectionColor,
+      notMemberColor,
+      alternatingBackgroundColor,
+    ]
   );
-  const clipId = React.useMemo(() => generateId([styles.labels.w, styles.sets.h]), [styles.labels.w, styles.sets.h]);
+
+  const styles = React.useMemo(
+    () =>
+      defineStyle({
+        width,
+        height,
+        margin,
+        barPadding,
+        widthRatios,
+        heightRatios,
+        setAddons,
+        combinationAddons,
+        styleId,
+      }),
+    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons, styleId]
+  );
   const scales = React.useMemo(
     () =>
       generateScales(
@@ -87,136 +123,137 @@ export default React.forwardRef(function UpSet<T>(
 
   const r = (Math.min(scales.sets.y.bandwidth(), scales.combinations.x.bandwidth()) / 2) * dotPadding;
 
-  // generate a "random" but attribute stable id to avoid styling conflicts
-  const ruleId = useMemo(
-    () =>
-      generateId([
-        fontFamily,
-        fontSizes,
-        textColor,
-        hoverHintColor,
-        color,
-        r,
-        selectionColor,
-        notMemberColor,
-        alternatingBackgroundColor,
-        queries,
-      ]),
-    [
-      fontFamily,
-      fontSizes,
-      textColor,
-      hoverHintColor,
-      color,
-      r,
-      selectionColor,
-      notMemberColor,
-      alternatingBackgroundColor,
-      queries,
-    ]
-  );
+  const sizeId = React.useMemo(() => generateId([styles.labels.w, styles.sets.h, r, queries]), [
+    styles.labels.w,
+    styles.sets.h,
+    r,
+    queries,
+  ]);
   const rules = `
-  .${ruleId} .textStyle {
+  .root-${styleId} {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
+  }
+  .axisTextStyle-${styleId} {
     fill: ${textColor};
-  }
-  .${ruleId} .axisTextStyle {
     ${fontSizes.axisTick ? `font-size: ${fontSizes.axisTick};` : ''}
+    text-anchor: middle;
   }
-  .${ruleId} .barTextStyle {
+  .barTextStyle-${styleId} {
+    fill: ${textColor};
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
   }
-  .${ruleId} .hoverBarTextStyle {
+  .cBarTextStyle-${styleId} {
+    fill: ${textColor};
+    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    text-anchor: middle;
+  }
+  .sBarTextStyle-${styleId} {
+    fill: ${textColor};
+    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    text-anchor: end;
+    dominant-baseline: central;
+  }
+  .hoverBarTextStyle-${styleId} {
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
     fill: ${hoverHintColor};
     display: none;
+    text-anchor: middle;
   }
-  .${ruleId} .setTextStyle {
+  .setTextStyle-${styleId} {
+    fill: ${textColor};
     ${fontSizes.setLabel ? `font-size: ${fontSizes.setLabel};` : ''}
     text-anchor: middle;
     dominant-baseline: central;
   }
-  .${ruleId} .chartTextStyle {
+  .cChartTextStyle-${styleId} {
+    fill: ${textColor};
     ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
     text-anchor: middle;
   }
-  .${ruleId} .exportTextStyle {
+  .sChartTextStyle-${styleId} {
+    fill: ${textColor};
+    ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
+    text-anchor: middle;
+    dominant-baseline: hanging;
+  }
+  .exportTextStyle-${styleId} {
+    fill: ${textColor};
     ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
   }
-  .${ruleId} .legendTextStyle {
+  .legendTextStyle-${styleId} {
+    fill: ${textColor};
     ${fontSizes.legend ? `font-size: ${fontSizes.legend};` : ''}
     text-anchor: middle;
     dominant-baseline: hanging;
     pointer-events: none;
   }
-  .${ruleId} .middleText {
-    text-anchor: middle;
-  }
-  .${ruleId} .startText {
+  .startText-${styleId} {
     text-anchor: start;
   }
-  .${ruleId} .endText {
+  .endText-${styleId} {
     text-anchor: end;
   }
-  .${ruleId} .hangingText {
-    dominant-baseline: hanging;
-  }
-  .${ruleId} .centralText {
-    dominant-baseline: central;
-  }
-  .${ruleId} .upsetLine {
-    stroke-width: ${r * 0.6};
-  }
-  .${ruleId} .pnone {
+  .pnone-${styleId} {
     pointer-events: none;
   }
-  .${ruleId} .fillPrimary { fill: ${color}; }
-  .${ruleId} .fillSelection { fill: ${selectionColor}; }
-  .${ruleId} .fillNotMember { fill: ${notMemberColor}; }
-  .${ruleId} .fillAlternating { fill: ${alternatingBackgroundColor || 'transparent'}; }
-  .${ruleId} .fillNone { fill: none; }
-  .${ruleId} .fillTransparent { fill: transparent; }
-  ${queries.map((q, i) => `.${ruleId} .fillQ${i} { fill: ${q.color}; }`).join('\n')}
+  .fillPrimary-${styleId} { fill: ${color}; }
+  .fillSelection-${styleId} { fill: ${selectionColor}; }
+  .fillNotMember-${styleId} { fill: ${notMemberColor}; }
+  .fillAlternating-${styleId} { fill: ${alternatingBackgroundColor || 'transparent'}; }
+  .fillTransparent-${styleId} { fill: transparent; }
 
-  .${ruleId} .strokePrimary { stroke: ${color}; }
-  .${ruleId} .strokeSelection { stroke: ${selectionColor}; }
+  .selectionHint-${styleId} {
+    fill: transparent;
+    pointer-events: none;
+    stroke: ${selectionColor};
+  }
 
-  .${ruleId} .strokeScaledSelection { stroke-width: ${r * 0.6 * 1.1}; }
-
-  .${ruleId} .axisLine {
+  .axisLine-${styleId} {
     fill: none;
     stroke: ${textColor};
   }
-  .${ruleId} .clickAble {
+  .clickAble-${styleId} {
     cursor: pointer;
   }
 
-  .${ruleId} .hoverOnly {
-    display: none;
+  .hoverBar-${styleId} {
+    fill: transparent;
   }
 
-  .${ruleId} .interactive:hover > .hoverBar {
-    // filter: drop-shadow(0 0 2px #cccccc);
+  .interactive-${styleId}:hover > .hoverBar-${styleId} {
     stroke: ${hoverHintColor};
   }
-  .${ruleId} .interactive:hover > .hoverBarTextStyle {
+  .interactive-${styleId}:hover > .hoverBarTextStyle-${styleId} {
     display: unset;
   }
 
-  .${ruleId} .exportButtons {
+  .exportButtons-${styleId} {
     text-anchor: middle;
   }
-  .${ruleId} .exportButton {
+  .exportButton-${styleId} {
     cursor: pointer;
     opacity: 0.5;
   }
-  .${ruleId} .exportButton:hover {
+  .exportButton-${styleId}:hover {
     opacity: 1;
   }
-  .${ruleId} .exportButton > rect {
+  .exportButton-${styleId} > rect {
     fill: none;
     stroke: ${textColor};
   }
+
+  .upsetLine-${sizeId} {
+    stroke-width: ${r * 0.6};
+    stroke: ${color};
+  }
+
+  .upsetSelectionLine-${sizeId} {
+    stroke-width: ${r * 0.6 * 1.1};
+    stroke: ${selectionColor};
+    pointer-events: none;
+  }
+  ${queries.map((q, i) => `.fillQ${i}-${sizeId} { fill: ${q.color}; }`).join('\n')}
+
   `;
 
   const triangleSize = Math.max(
@@ -226,7 +263,7 @@ export default React.forwardRef(function UpSet<T>(
 
   return (
     <svg
-      className={clsx(className, ruleId)}
+      className={clsx(`root-${styleId}`, className)}
       style={style}
       width={width}
       height={height}
@@ -235,7 +272,7 @@ export default React.forwardRef(function UpSet<T>(
     >
       <style>{rules}</style>
       <defs>
-        <clipPath id={clipId}>
+        <clipPath id={sizeId}>
           <rect x={styles.sets.w} y={0} width={styles.labels.w} height={styles.sets.h} />
         </clipPath>
       </defs>
@@ -245,16 +282,17 @@ export default React.forwardRef(function UpSet<T>(
           transform={`translate(${styles.legend.x},4)`}
           className={classNames.legend}
           style={cStyles.legend}
+          styles={styles}
         />
       )}
-      {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} />}
+      {exportButtons && <ExportButtons transform={`translate(${styles.w - 2},${styles.h - 3})`} styleId={styleId} />}
       <g transform={`translate(${margin},${margin})`}>
         {onClick && (
           <rect
             width={styles.combinations.x}
             height={styles.sets.y}
             onClick={() => onClick(null)}
-            className="fillTransparent"
+            className={`fillTransparent-${styles.styleId}`}
           />
         )}
         <UpSetAxis
@@ -279,7 +317,7 @@ export default React.forwardRef(function UpSet<T>(
           onHover={onHover}
           cStyles={cStyles}
           classNames={classNames}
-          clipId={clipId}
+          clipId={sizeId}
           childrens={childrenFactories}
           barLabelOffset={barLabelOffset}
           setAddons={setAddons}

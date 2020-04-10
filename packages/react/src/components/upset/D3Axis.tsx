@@ -15,6 +15,7 @@ export type D3AxisProps = {
   integersOnly?: boolean;
   tickClassName?: string;
   tickStyle?: React.CSSProperties;
+  styleId: string;
 } & React.SVGProps<SVGGElement>;
 
 function center(scale: BandScaleLike) {
@@ -30,6 +31,7 @@ declare type TickProps = {
   tickSizeInner: number;
   orient: 'top' | 'bottom' | 'left' | 'right';
   name: string;
+  styleId: string;
   className?: string;
   style?: React.CSSProperties;
 };
@@ -42,6 +44,7 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
   name,
   className,
   style,
+  styleId,
 }: PropsWithChildren<TickProps>) {
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
@@ -49,12 +52,16 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
       <text
         x={k * spacing}
         dy={'0.32em'}
-        className={clsx('textStyle', 'axisTextStyle', orient === 'right' ? 'startText' : 'endText', className)}
+        className={clsx(
+          `axisTextStyle-${styleId}`,
+          orient === 'right' ? `startText-${styleId}` : `endText-${styleId}`,
+          className
+        )}
         style={style}
       >
         {name}
       </text>
-      <line x2={k * tickSizeInner} className="axisLine" />
+      <line x2={k * tickSizeInner} className={`axisLine-${styleId}`} />
     </g>
   );
 });
@@ -67,6 +74,7 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   tickSizeInner,
   className,
   style,
+  styleId,
 }: PropsWithChildren<TickProps>) {
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   return (
@@ -74,12 +82,12 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
       <text
         y={k * spacing}
         dy={orient === 'top' ? '0em' : '0.71em'}
-        className={clsx('textStyle', 'axisTextStyle', 'middleText', className)}
+        className={clsx(`axisTextStyle-${styleId}`, className)}
         style={style}
       >
         {name}
       </text>
-      <line y2={k * tickSizeInner} className="axisLine" />
+      <line y2={k * tickSizeInner} className={`axisLine-${styleId}`} />
     </g>
   );
 });
@@ -114,6 +122,7 @@ export default function D3Axis({
   integersOnly,
   tickClassName,
   tickStyle,
+  styleId,
   ...extras
 }: PropsWithChildren<D3AxisProps>) {
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
@@ -137,6 +146,7 @@ export default function D3Axis({
         orient={orient}
         className={tickClassName}
         style={tickStyle}
+        styleId={styleId}
       />
     ));
   };
@@ -153,6 +163,7 @@ export default function D3Axis({
         orient={orient}
         className={tickClassName}
         style={tickStyle}
+        styleId={styleId}
       />
     ));
   };
@@ -162,7 +173,7 @@ export default function D3Axis({
     <g {...extras}>
       {ticks}
       <path
-        className="axisLine"
+        className={`axisLine-${styleId}`}
         d={
           orient === 'left' || orient === 'right'
             ? tickSizeOuter
