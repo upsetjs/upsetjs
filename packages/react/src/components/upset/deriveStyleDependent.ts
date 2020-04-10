@@ -10,12 +10,14 @@ export default function deriveStyleDependent(
   setNameAxisOffset: number,
   styleId: string,
   barLabelOffset: number,
-  selectionColor: string
+  selectionColor: string,
+  emptySelection: boolean
 ) {
   return {
     styles,
     classNames,
     combinationName,
+    emptySelection,
     combinationNameAxisOffset,
     setName,
     setNameAxisOffset,

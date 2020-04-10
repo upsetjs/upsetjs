@@ -1,6 +1,6 @@
 import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { UpSetAddon, UpSetAddonProps } from '../config';
+import { UpSetAddon, UpSetAddonProps, EMPTY_ARRAY } from '../config';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
@@ -48,22 +48,7 @@ export default React.memo(function UpSetQueries<T>({
 
   return (
     <g className={onHover && !secondary ? `pnone-${style.id}` : undefined}>
-      <g transform={`translate(${size.sets.w + size.labels.w},0)`}>
-        {qs.map((q, i) => (
-          <CombinationSelectionChart
-            key={q.name}
-            data={data}
-            size={size}
-            style={style}
-            elemOverlap={q.overlap}
-            suffix={`Q${i}-${data.id}`}
-            secondary={secondary || i > 0}
-            tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
-            combinationAddons={size.combinations.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
-          />
-        ))}
-      </g>
-      <g transform={`translate(0,${size.combinations.h})`}>
+      <g transform={`translate(${size.sets.x},${size.sets.y})`}>
         {qs.map((q, i) => (
           <SetSelectionChart
             key={q.name}
@@ -74,7 +59,30 @@ export default React.memo(function UpSetQueries<T>({
             suffix={`Q${i}-${data.id}`}
             secondary={secondary || i > 0}
             tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
-            setAddons={size.sets.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))}
+            setAddons={
+              size.sets.addons.length === 0
+                ? EMPTY_ARRAY
+                : size.sets.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
+            }
+          />
+        ))}
+      </g>
+      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
+        {qs.map((q, i) => (
+          <CombinationSelectionChart
+            key={q.name}
+            data={data}
+            size={size}
+            style={style}
+            elemOverlap={q.overlap}
+            suffix={`Q${i}-${data.id}`}
+            secondary={secondary || i > 0}
+            tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
+            combinationAddons={
+              size.combinations.addons.length === 0
+                ? EMPTY_ARRAY
+                : size.combinations.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
+            }
           />
         ))}
       </g>

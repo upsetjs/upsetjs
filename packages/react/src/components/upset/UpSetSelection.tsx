@@ -1,6 +1,6 @@
 import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetAddon, UpSetAddonProps } from '../config';
+import { UpSetAddon, UpSetAddonProps, EMPTY_ARRAY } from '../config';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
@@ -27,6 +27,10 @@ function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
   };
 }
 
+export function noOverlap() {
+  return 0;
+}
+
 export default function UpSetSelection<T>({
   size,
   data,
@@ -40,9 +44,10 @@ export default function UpSetSelection<T>({
   onHover?(selection: ISetLike<T> | null): void;
   selection: ISetLike<T> | null | ReadonlyArray<T>;
 }>) {
+  const empty = style.emptySelection;
   const selectionOverlap = selection
     ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
-    : () => 0;
+    : noOverlap;
   const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
 
   const someAddon =
@@ -67,32 +72,34 @@ export default function UpSetSelection<T>({
 
   return (
     <g className={onHover ? `pnone-${style.id}` : undefined}>
-      <g transform={`translate(${size.combinations.x},${size.combinations.y})`}>
-        {selection && (
-          <CombinationSelectionChart
-            data={data}
-            size={size}
-            style={style}
-            elemOverlap={selectionOverlap}
-            suffix={`Selection-${style.id}`}
-            tooltip={onHover ? undefined : selectionName}
-            combinationAddons={size.combinations.addons.map(wrapAddon)}
-          />
-        )}
-      </g>
-      <g transform={`translate(${size.sets.x},${size.sets.y})`}>
-        {selection && (
-          <SetSelectionChart
-            data={data}
-            size={size}
-            style={style}
-            elemOverlap={selectionOverlap}
-            suffix={`Selection-${style.id}`}
-            tooltip={onHover ? undefined : selectionName}
-            setAddons={size.sets.addons.map(wrapAddon)}
-          />
-        )}
-      </g>
+      {(selection || empty) && (
+        <CombinationSelectionChart
+          data={data}
+          size={size}
+          style={style}
+          transform={`translate(${size.combinations.x},${size.combinations.y})`}
+          empty={empty && !selection}
+          elemOverlap={selectionOverlap}
+          suffix={`Selection-${style.id}`}
+          tooltip={onHover ? undefined : selectionName}
+          combinationAddons={
+            size.combinations.addons.length === 0 ? EMPTY_ARRAY : size.combinations.addons.map(wrapAddon)
+          }
+        />
+      )}
+      {(selection || empty) && (
+        <SetSelectionChart
+          data={data}
+          size={size}
+          style={style}
+          transform={`translate(${size.sets.x},${size.sets.y})`}
+          empty={empty && !selection}
+          elemOverlap={selectionOverlap}
+          suffix={`Selection-${style.id}`}
+          tooltip={onHover ? undefined : selectionName}
+          setAddons={size.sets.addons.length === 0 ? EMPTY_ARRAY : size.sets.addons.map(wrapAddon)}
+        />
+      )}
       <g transform={`translate(${size.labels.x},${size.labels.y})`}>
         {isSetLike(selection) && <LabelsSelection data={data} size={size} style={style} selection={selection} />}
         {isSetLike(selection) && <UpSetSelectionChart data={data} size={size} style={style} selection={selection} />}

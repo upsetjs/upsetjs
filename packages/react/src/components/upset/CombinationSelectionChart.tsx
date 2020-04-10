@@ -14,12 +14,16 @@ function CombinationSelectionChart<T>({
   secondary,
   tooltip,
   suffix,
+  transform,
+  empty,
   combinationAddons,
 }: PropsWithChildren<{
+  transform?: string;
   data: UpSetDataInfo<T>;
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   suffix: string;
+  empty?: boolean;
   elemOverlap: (s: ISet<any> | ISetCombination<T>) => number;
   secondary?: boolean;
   tooltip?: string;
@@ -30,14 +34,21 @@ function CombinationSelectionChart<T>({
   const height = size.combinations.h;
   const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
-    <g>
+    <g transform={transform}>
       {data.combinations.v.map((d) => {
+        const x = data.combinations.x(d.name)!;
+        if (empty && !secondary) {
+          return (
+            <rect key={d.name} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
+              {tooltip && <title></title>}
+            </rect>
+          );
+        }
         const o = elemOverlap(d);
         if (o === 0) {
           return null;
         }
         const y = data.combinations.y(o);
-        const x = data.combinations.x(d.name)!;
 
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         const content = secondary ? (

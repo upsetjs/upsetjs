@@ -32,19 +32,17 @@ function UpSetSelectionChart<T>({
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />
       {data.sets.v
         .filter((s) => d.sets.has(s))
-        .map((s) => {
-          return (
-            <UpSetDot
-              key={s.name}
-              r={r * 1.1}
-              cx={cx}
-              cy={data.sets.y(s.name)! + cy}
-              name={s.name}
-              className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
-              style={style.styles.dot}
-            />
-          );
-        })}
+        .map((s) => (
+          <UpSetDot
+            key={s.name}
+            r={r * 1.1}
+            cx={cx}
+            cy={data.sets.y(s.name)! + cy}
+            name={s.name}
+            className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
+            style={style.styles.dot}
+          />
+        ))}
       {d.sets.size > 1 && (
         <line
           x1={cx}

@@ -54,6 +54,7 @@ export default React.forwardRef(function UpSet<T>(
     setNameAxisOffset,
     styles: cStyles,
     textColor,
+    emptySelection,
   } = fillDefaults(props);
 
   // generate a "random" but attribute stable id to avoid styling conflicts
@@ -91,7 +92,8 @@ export default React.forwardRef(function UpSet<T>(
         setNameAxisOffset,
         styleId,
         barLabelOffset,
-        selectionColor
+        selectionColor,
+        emptySelection
       ),
     [
       cStyles,
@@ -103,6 +105,7 @@ export default React.forwardRef(function UpSet<T>(
       setNameAxisOffset,
       styleId,
       selectionColor,
+      emptySelection,
     ]
   );
 

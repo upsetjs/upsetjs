@@ -13,16 +13,20 @@ function SetSelectionChart<T>({
   elemOverlap,
   suffix,
   secondary,
+  empty,
   tooltip,
   setAddons,
+  transform,
 }: PropsWithChildren<{
   data: UpSetDataInfo<T>;
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   suffix: string;
+  empty?: boolean;
   elemOverlap: (s: ISet<any>) => number;
   secondary?: boolean;
   tooltip?: string;
+  transform?: string;
   setAddons: UpSetAddons<ISet<T>, T>;
 }>) {
   const width = size.sets.w;
@@ -30,14 +34,21 @@ function SetSelectionChart<T>({
   const height = data.sets.bandWidth;
   const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${style.id}`, style.classNames.bar);
   return (
-    <g>
+    <g transform={transform}>
       {data.sets.v.map((d) => {
+        const y = data.sets.y(d.name)!;
+        if (empty && !secondary) {
+          return (
+            <rect key={d.name} x={width} y={y} width={0} height={height} className={className} style={style.styles.bar}>
+              {tooltip && <title></title>}
+            </rect>
+          );
+        }
         const o = elemOverlap(d);
         if (o === 0) {
           return null;
         }
         const x = data.sets.x(o);
-        const y = data.sets.y(d.name)!;
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
 
         const content = secondary ? (

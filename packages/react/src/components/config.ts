@@ -226,6 +226,12 @@ export interface UpSetStyleProps extends UpSetThemeProps {
 
   setName?: string | React.ReactNode;
   combinationName?: string | React.ReactNode;
+
+  /**
+   * render empty selection for better performance
+   * @default false
+   */
+  emptySelection?: boolean;
 }
 
 export type UpSetProps<T> = UpSetDataProps<T> &
@@ -241,7 +247,7 @@ function areCombinations<T>(
 }
 
 const EMPTY_OBJECT = {};
-const EMPTY_ARRAY: any[] = [];
+export const EMPTY_ARRAY: any[] = [];
 const DEFAULT_FONTSIZES: UpSetFontSizes = {
   setLabel: '16px',
   axisTick: '10px',
@@ -293,6 +299,7 @@ export function fillDefaults<T>(
       childrenFactories: EMPTY_OBJECT,
       setAddons: EMPTY_ARRAY,
       combinationAddons: EMPTY_ARRAY,
+      emptySelection: true,
     },
     theme,
     props,
