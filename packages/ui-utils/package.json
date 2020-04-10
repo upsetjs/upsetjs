@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/ui-utils",
   "description": "UpSetR React component implementation",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -56,6 +56,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@upsetjs/model": "^0.4.0"
+    "@upsetjs/model": "^0.4.1"
   }
 }
