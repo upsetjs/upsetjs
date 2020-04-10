@@ -229,7 +229,7 @@ export interface UpSetStyleProps extends UpSetThemeProps {
 
   /**
    * render empty selection for better performance
-   * @default false
+   * @default true
    */
   emptySelection?: boolean;
 }

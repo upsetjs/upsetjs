@@ -138,6 +138,11 @@ export interface UpSetStyleProps extends UpSetThemeProps {
 
   setName?: string;
   combinationName?: string;
+  /**
+   * render empty selection for better performance
+   * @default true
+   */
+  emptySelection?: boolean;
 }
 
 export declare type UpSetCSSStyles = CSSStyleDeclaration & {
