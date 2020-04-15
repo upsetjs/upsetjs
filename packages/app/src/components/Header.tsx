@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import MenuIcon from 'mdi-material-ui/Menu';
 import FileImage from 'mdi-material-ui/FileImage';
 import FileChart from 'mdi-material-ui/FileChart';
@@ -118,9 +119,11 @@ export default observer(({ className }: { className?: string }) => {
               ))}
             </Select>
           </Typography>
-          <IconButton title="Upload" onClick={clickFile}>
-            <Upload />
-          </IconButton>
+          <Tooltip title="CSV file or JSON UpSet Dump file">
+            <IconButton title="Upload" onClick={clickFile}>
+              <Upload />
+            </IconButton>
+          </Tooltip>
         </div>
         <div className={classes.grow}>
           <input
