@@ -1,5 +1,6 @@
 const path = require('path');
 const pkg = require('./package.json');
+const DefinePlugin = require('webpack').DefinePlugin;
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -98,6 +99,10 @@ module.exports = function (env, argv) {
       ],
     },
     plugins: [
+      new DefinePlugin({
+        __VERSION__: JSON.stringify(pkg.version),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }),
       new HtmlWebpackPlugin({
         title: 'UpSet.js App',
         template: path.resolve('./src/index.html'),
