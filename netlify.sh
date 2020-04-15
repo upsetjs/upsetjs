@@ -23,5 +23,7 @@ echo "copy things"
 mkdir -p dist/api
 cp -r packages/app/dist/* dist/
 cp -r packages/react/storybook-static/* dist/api/
+mkdir -p dist/api_addons
 cp -r packages/addons/storybook-static/* dist/api_addons/
+mkdir -p dist/vue
 cp -r packages/vue-example/dist/* dist/vue/
