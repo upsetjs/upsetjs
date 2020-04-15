@@ -7,6 +7,7 @@ import SidePanelEntry from './SidePanelEntry';
 import Divider from '@material-ui/core/Divider';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
 function EditFontSize({
   label,
@@ -197,6 +198,8 @@ export default observer(() => {
           });
         }}
       />
+      <Divider />
+      <Button onClick={store.resetProps}>Reset</Button>
     </SidePanelEntry>
   );
 });

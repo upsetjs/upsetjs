@@ -180,6 +180,11 @@ export default class Store {
     });
   }
 
+  @action.bound
+  resetProps() {
+    Object.assign(this.props, extractDefaults((themeKeys as string[]).concat(otherOptionKeys), this.ui.theme));
+  }
+
   @action
   private appendDatasets(ds: IDataSet[]) {
     if (ds.length <= 0) {
@@ -264,7 +269,11 @@ export default class Store {
     return this.dataset.attrs
       .filter((d) => this.selectedAttrs.has(d))
       .map((attr) =>
-        boxplotAddon((v) => v.attrs[attr], this.elems, { orient: 'vertical', name: attr, theme: this.props.theme })
+        boxplotAddon((v) => v.attrs[attr], this.elems, {
+          orient: 'vertical',
+          name: attr,
+          theme: this.props.theme,
+        })
       );
   }
 
