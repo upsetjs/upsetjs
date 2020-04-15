@@ -2,15 +2,24 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url] [![Netlify Status][netlify-image]][netlify-url]
 
-UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component soley depending on the given properties.
+UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component solely depending on the given properties.
 
-![UpSet.js](https://user-images.githubusercontent.com/4129778/75599825-a8a13780-5a76-11ea-8cd4-b775f4791a91.png)
+![interactions](https://user-images.githubusercontent.com/4129778/79372064-b262f980-7f55-11ea-872e-6e6857c0df82.png)
 
-## Usage
+This monorepo contains following packages:
+
+- [@upsetjs/model](./tree/master/packages/model) the data model definition of UpSet.js
+- [@upsetjs/react](./tree/master/packages/react) the main UpSet.js React component
+- [@upsetjs/math](./tree/master/packages/math) utility package for computing stats
+- [@upsetjs/addons](./tree/master/packages/addons) extensions to the React component for rendering boxplots
+- [@upsetjs/bundle](./tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
+- [@upsetjs/app](./tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
+- [@upsetjs/vue](./tree/master/packages/vue) vue wrapper based on the bundled version
+- [@upsetjs/vue-example](./tree/master/packages/vue-example) vue example using the vue wrapper
+
+## Usage and Installation
 
 ### React
-
-see https://github.com/upsetjs/upsetjs/tree/master/packages/react
 
 ```sh
 npm install @upsetjs/react react react-dom
@@ -45,16 +54,18 @@ const UpSetSelection = (props: any) => {
 <UpSetSelection sets={sets} combinations={combinations} />;
 ```
 
-### Bundle
+![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
 
-see https://github.com/upsetjs/upsetjs/tree/master/packages/bundle
+see also https://upsetjs.netlify.app/api/?path=/docs/upset--default
+
+### Bundled version
 
 ```sh
 npm install @upsetjs/bundle
 ```
 
 ```js
-import * as UpSetJS from '@upsetjs/bundle';
+import { extractSets, generateIntersections, renderUpSet } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -63,10 +74,10 @@ const elems = [
   { name: 'D', sets: ['S1', 'S3'] },
 ];
 
-const sets = UpSetJS.extractSets(elems);
-const combinations = UpSetJS.generateIntersections(sets);
+const sets = extractSets(elems);
+const combinations = generateIntersections(sets);
 
-UpSetJS.renderUpSet(document.body, { sets, combinations, width: 500, height: 300 });
+renderUpSet(document.body, { sets, combinations, width: 500, height: 300 });
 ```
 
 with stored selection
@@ -81,26 +92,28 @@ function onHover(set) {
 
 function render() {
   const props = { sets, combinations, width: 500, height: 300, selection, onHover };
-  UpSetJS.renderUpSet(document.body, props);
+  renderUpSet(document.body, props);
 }
 
 render();
 ```
 
-see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/bGdYBzL)
+![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
+
+see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/GRpoMZY)
+
+## More features
 
 **Interactivity**
 
 By specifying `onHover` and `selection` `UpSet` is fully interactive. As an alternative there is also the `onClick` property.
 
-![Interactive UpSet.js](https://user-images.githubusercontent.com/4129778/75599827-a9d26480-5a76-11ea-9024-e44bc729b741.png)
+![interactions](https://user-images.githubusercontent.com/4129778/79372064-b262f980-7f55-11ea-872e-6e6857c0df82.png)
 
 **Queries**
 
 Similar to the original UpSetR, `UpSet` allows to specify queries by a set of elements which are then highlighted in the plot.
 The first query is shown in full detail while others are shown using small indicators.
-
-![Queries UpSet.js](https://user-images.githubusercontent.com/4129778/75599826-a939ce00-5a76-11ea-9f47-6b6f3a076099.png)
 
 ```ts
 const queries = [
@@ -108,14 +121,22 @@ const queries = [
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
 ];
 
-UpSetJS.renderUpSet(document.body, { sets, combinations, width: 500, height: 300, queries });
+renderUpSet(document.body, { sets, combinations, width: 500, height: 300, queries });
 ```
+
+![queries](https://user-images.githubusercontent.com/4129778/79373208-9a3faa00-7f56-11ea-8281-47dabb9b42b9.png)
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
+## UpSet.js App
+
+It contains a sample application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at https://upsetjs.netlify.app.
+
+![upset_app1](https://user-images.githubusercontent.com/4129778/79368561-e3d8c680-7f4f-11ea-9a87-f4421a3846cf.png)
+
 ## Components
 
-see storybook at https://upsetjs.netlify.com/api/?path=/docs/upset--default for demos and properties.
+see storybook at https://upsetjs.netlify.app/api/?path=/docs/upset--default for demos and properties.
 
 ### UpSet
 
@@ -127,20 +148,20 @@ The most relevant and required properties of the `UpSet` component are:
   height: number;
 
   sets: ISet<T>[];
-  combinations?: ISetCombination<T>[];
+  combinations?: ISetCombination<T>[] | GenerateCombinations<T>;
 
   selection?: ISetLike<T> | null;
 
   onHover?(selection: ISetLike<T> | null): void;
   onClick?(selection: ISetLike<T>): void;
 
-  queries?: {name: string, color: string, elems: T[]}[];
+  queries?: UpSetQuery<T>[];
 }
 ```
 
 ## Data
 
-`UpSet` requires sets and optionally intersection of sets as input. There are some utility function to help creating the required data structures:
+`UpSet` requires sets and optionally combiantions of sets as input. There are some utility function to help creating the required data structures:
 
 - `extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISet<T>[]`
   given an array of elements where each is having a property called `.sets` containing a list of set names in which this element is part of. e.g. `{ sets: ['Blue Hair', 'Female']}`. The return value is a list of sets in the required data structures and having a `.elems` with an array of the input elements.
@@ -191,7 +212,7 @@ An advanced example showing all datasets from the live UpSet demo is located at 
 ### R/RMarkdown/RShiny HTMLWidget
 
 A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [upset_r](https://github.com/upsetjs/upsetjs_r). The API follows the building pattern using the chaining operator `%>%`.
-In constrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
+In contrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
 
 ```R
 devtools::install_github("upsetjs/upsetjs_r")
@@ -199,9 +220,34 @@ library(upsetjs)
 ```
 
 ```R
-l <- list(one=c(1, 2, 3, 5, 7, 8, 11, 12, 13), two=c(1, 2, 4, 5, 10), three=c(1, 5, 6, 7, 8, 9, 10, 12, 13))
-upsetjs() %>% fromList(l) %>% interactiveChart()
+listInput <- list(one = c(1, 2, 3, 5, 7, 8, 11, 12, 13), two = c(1, 2, 4, 5, 10), three = c(1, 5, 6, 7, 8, 9, 10, 12, 13))
+upsetjs() %>% fromList(listInput) %>% interactiveChart()
 ```
+
+![List Input Example](https://user-images.githubusercontent.com/4129778/79375541-10dda700-7f59-11ea-933a-a3ffbca1bfd2.png)
+
+see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic.Rmd)
+
+### Juptyer Widget
+
+A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
+
+```bash
+pip install upsetjs_jupyter_widget
+jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0.alpha-0
+```
+
+```python
+from upsetjs_jupyter_widget import UpSetWidget
+```
+
+```python
+w = UpSetWidget[str]()
+w.from_dict(dict(one = ['a', 'b', 'c', 'e', 'g', 'h', 'k', 'l', 'm'], two = ['a', 'b', 'd', 'e', 'j'], three = ['a', 'e', 'f', 'g', 'h', 'i', 'j', 'l', 'm']))
+w
+```
+
+![upset_from_dict](https://user-images.githubusercontent.com/4129778/79368564-e4715d00-7f4f-11ea-92f5-23ee89b5332f.png)
 
 ## Dev Environment
 
@@ -221,7 +267,6 @@ yarn pnpify --sdk
 Run inside another terminal:
 
 ```sh
-yarn unplug @storybook/core
 yarn workspace @upsetjs/react storybook
 ```
 
@@ -261,16 +306,16 @@ yarn workspaces foreach --verbose npm publish --access public
 
 ### Commercial license
 
-If you want to use Upset.js for a commercial application the commercial license is the appropriate license. With this option, your source code is kept proprietary. Contact @sgratzl for details
+If you want to use Upset.js for a commercial application the commercial license is the appropriate license. Contact [@sgratzl](mailto:sam@sgratzl.com) for details.
 
 ### Open-source license
 
-GNU AGPLv3
+This library is released under the `GNU AGPLv3` version to be used for private and academic purposes. In case of a commercial use, please get in touch regarding a commercial license.
 
 [npm-image]: https://badge.fury.io/js/@upsetjs/react.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/react
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
-[netlify-image]: https://api.netlify.com/api/v1/badges/22f99fef-9985-46eb-8715-9eb91e16190f/deploy-status
-[netlify-url]: https://app.netlify.com/sites/upsetjs/deploys
+[netlify-image]: https://api.netlify.app/api/v1/badges/22f99fef-9985-46eb-8715-9eb91e16190f/deploy-status
+[netlify-url]: https://app.netlify.app/sites/upsetjs/deploys
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen

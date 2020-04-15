@@ -17,8 +17,11 @@ yarn install --immutable --cache-folder $NETLIFY_BUILD_BASE/.yarn_cache > /dev/n
 echo "build things"
 yarn build
 yarn workspace @upsetjs/react run build-storybook
+yarn workspace @upsetjs/addons run build-storybook
 
 echo "copy things"
 mkdir -p dist/api
 cp -r packages/app/dist/* dist/
 cp -r packages/react/storybook-static/* dist/api/
+cp -r packages/addons/storybook-static/* dist/api_addons/
+cp -r packages/vue-example/dist/* dist/vue/

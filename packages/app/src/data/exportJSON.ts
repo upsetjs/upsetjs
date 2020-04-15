@@ -14,7 +14,7 @@ export interface IDumpSchema extends IEmbeddedDumpSchema {
 export function exportJSON(store: Store) {
   const r: IDumpSchema = Object.assign(
     {
-      $schema: 'https://upsetjs.netlify.com/schema.1.0.0.json',
+      $schema: 'https://upsetjs.netlify.app/schema.1.0.0.json',
     },
     toEmbeddedDump(store)
   );

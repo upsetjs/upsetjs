@@ -55,10 +55,6 @@ export const Default = () => {
   return <UpSet {...common} />;
 };
 
-export const DarkTheme = () => {
-  return <UpSet {...common} theme="dark" style={{ backgroundColor: '#303030' }} />;
-};
-
 export const Unions = () => {
   return <UpSet {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
 };
@@ -66,6 +62,19 @@ export const Unions = () => {
 export const Interactivity = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return <UpSet {...common} selection={selection} onHover={setSelection} />;
+};
+
+export const DarkTheme = () => {
+  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+  return (
+    <UpSet
+      {...common}
+      selection={selection}
+      onHover={setSelection}
+      theme="dark"
+      style={{ backgroundColor: '#303030' }}
+    />
+  );
 };
 
 export const Click = () => {
