@@ -163,6 +163,7 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   set: S;
   width: number;
   height: number;
+  theme: 'dark' | 'light';
 }
 
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {

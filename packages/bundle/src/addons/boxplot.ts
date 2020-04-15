@@ -5,7 +5,6 @@ import { boxplotAddon as boxplotAddonImpl } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
 
 export interface IBoxplotStyleProps extends BoxplotStatsOptions {
-  theme?: 'light' | 'dark';
   mode?: 'normal' | 'box' | 'indicator';
   orient?: 'horizontal' | 'vertical';
   boxStyle?: UpSetCSSStyles;

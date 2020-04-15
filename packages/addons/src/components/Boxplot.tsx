@@ -165,11 +165,11 @@ export function boxplotAddon<T>(
     name,
     position,
     size,
-    render: ({ width, height, set }) => {
+    render: ({ width, height, set, theme }) => {
       const values = set.elems.map(acc);
-      return <Boxplot values={values} width={width} height={height} min={min} max={max} {...extras} />;
+      return <Boxplot values={values} width={width} height={height} min={min} max={max} theme={theme} {...extras} />;
     },
-    renderSelection: ({ width, height, overlap, selectionColor }) => {
+    renderSelection: ({ width, height, overlap, selectionColor, theme }) => {
       if (overlap == null || overlap.length === 0) {
         return null;
       }
@@ -184,11 +184,12 @@ export function boxplotAddon<T>(
           mode="box"
           lineStyle={{ stroke: selectionColor }}
           outlierStyle={{ fill: selectionColor }}
+          theme={theme}
           {...extras}
         />
       );
     },
-    renderQuery: ({ width, height, overlap, query, secondary }) => {
+    renderQuery: ({ width, height, overlap, query, secondary, theme }) => {
       if (overlap == null || overlap.length === 0) {
         return null;
       }
@@ -203,6 +204,7 @@ export function boxplotAddon<T>(
           mode={secondary ? 'indicator' : 'box'}
           lineStyle={{ stroke: query.color }}
           outlierStyle={{ fill: query.color }}
+          theme={theme}
           {...extras}
         />
       );
