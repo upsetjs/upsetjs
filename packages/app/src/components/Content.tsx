@@ -96,9 +96,9 @@ export default observer(() => {
       >
         <div className={classes.drawerHeader} />
         <main className={classes.main}>
-          <SidePanel />
+          {!store.ui.zen && <SidePanel />}
           <UpSetWrapper />
-          <RightSidePanel />
+          {!store.ui.zen && <RightSidePanel />}
         </main>
       </div>
       <Toast />

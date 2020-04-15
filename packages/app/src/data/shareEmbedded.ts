@@ -19,7 +19,7 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
       elems: set.elems.map(helper.toElemIndex),
     })),
     combinations: toJS(store.combinationsOptions),
-    props: stripDefaults(store.props),
+    props: stripDefaults(store.props, store.ui.theme),
     selection: store.hover ? helper.toSetRef(store.hover) : undefined,
     queries: store.visibleQueries.map((q) => ({
       name: q.name,

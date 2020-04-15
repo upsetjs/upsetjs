@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed } from 'mobx';
+import { observable, action, autorun, runInAction, computed } from 'mobx';
 import UIStore from './UIStore';
 import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions, IElem, IElems } from '../data';
 import {
@@ -77,9 +77,9 @@ function extractTheme(theme: 'light' | 'dark') {
   return r as Required<UpSetThemeProps>;
 }
 
-function extractDefaults(keys: any[]) {
+function extractDefaults(keys: any[], theme: 'dark' | 'light') {
   const defaults: any = fillDefaults({
-    theme: 'dark',
+    theme,
     width: 100,
     height: 100,
     sets: [],
@@ -91,8 +91,8 @@ function extractDefaults(keys: any[]) {
   return r;
 }
 
-export function stripDefaults(props: Required<ICustomizeOptions>) {
-  const defaults = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
+export function stripDefaults(props: Required<ICustomizeOptions>, theme: 'dark' | 'light') {
+  const defaults = extractDefaults((themeKeys as string[]).concat(otherOptionKeys), theme);
   const stripDefaultsImpl = (a: any, defaults: any) => {
     const r: any = {};
     for (const key of Object.keys(a)) {
@@ -152,7 +152,10 @@ export default class Store {
   elems: IElems = [];
 
   @observable
-  readonly props: Required<ICustomizeOptions> = extractDefaults((themeKeys as string[]).concat(otherOptionKeys));
+  readonly props: Required<ICustomizeOptions> = extractDefaults(
+    (themeKeys as string[]).concat(otherOptionKeys),
+    this.ui.theme
+  );
 
   @observable.ref
   hover: ISetLike<IElem> | null = null;
@@ -170,6 +173,10 @@ export default class Store {
     listLocal().then((ds) => this.appendDatasets(ds));
     listRemote().then((ds) => {
       ds.forEach((d) => d.then((ds) => this.appendDatasets([ds])));
+    });
+
+    autorun(() => {
+      Object.assign(this.props, extractDefaults((themeKeys as string[]).concat(otherOptionKeys), this.ui.theme));
     });
   }
 

@@ -23,6 +23,12 @@ export default class UIStore {
   menu = false;
 
   @observable
+  zen = false;
+
+  @observable
+  theme: 'dark' | 'light' = 'light';
+
+  @observable
   readonly setTable: ISetTableOptions = {
     order: 'desc' as 'asc' | 'desc',
     orderBy: 'cardinality' as 'name' | 'cardinality',
@@ -79,5 +85,15 @@ export default class UIStore {
   @action.bound
   toggleMenu() {
     this.menu = !this.menu;
+  }
+
+  @action.bound
+  toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+  }
+
+  @action.bound
+  toggleZen() {
+    this.zen = !this.zen;
   }
 }

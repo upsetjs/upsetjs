@@ -1,24 +1,35 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { StoreProvider } from '../store';
+import { StoreProvider, useStore } from '../store';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Content from './Content';
 
-const theme = createMuiTheme({
+const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
   },
 });
+const lightTheme = createMuiTheme({
+  palette: {
+    type: 'light',
+  },
+});
+
+const AppWrapper = observer(() => {
+  const store = useStore();
+  return (
+    <ThemeProvider theme={store.ui.theme === 'dark' ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <Content />
+    </ThemeProvider>
+  );
+});
 
 export default function App() {
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <StoreProvider>
-          <Content />
-        </StoreProvider>
-      </ThemeProvider>
-    </div>
+    <StoreProvider>
+      <AppWrapper />
+    </StoreProvider>
   );
 }

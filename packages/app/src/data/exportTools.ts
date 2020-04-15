@@ -60,7 +60,7 @@ const props = Object.assign({
   combinations: combinations,
   selection: selection,
   queries: queries,
-}, ${JSON.stringify(stripDefaults(store.props), null, 2)});
+}, ${JSON.stringify(stripDefaults(store.props, store.ui.theme), null, 2)});
 
 function render() {
   ${prefix}renderUpSet(root, props);
