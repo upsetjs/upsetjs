@@ -84,6 +84,7 @@ export default React.forwardRef(function UpSet<T>(
   const styleInfo = useMemo(
     () =>
       deriveStyleDependent(
+        theme,
         cStyles,
         classNames,
         combinationName,
@@ -96,6 +97,7 @@ export default React.forwardRef(function UpSet<T>(
         emptySelection
       ),
     [
+      theme,
       cStyles,
       classNames,
       barLabelOffset,

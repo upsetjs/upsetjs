@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { UpSetReactStyles, UpSetStyleClassNames } from '../config';
 
 export default function deriveStyleDependent(
+  theme: 'dark' | 'light',
   styles: UpSetReactStyles,
   classNames: UpSetStyleClassNames,
   combinationName: string | ReactNode,
@@ -14,6 +15,7 @@ export default function deriveStyleDependent(
   emptySelection: boolean
 ) {
   return {
+    theme,
     styles,
     classNames: classNames,
     cs: {

@@ -81,7 +81,7 @@ const SetChart = React.memo(function SetChart<T>({
       </text>
       {size.sets.addons.map((addon) => (
         <g key={addon.name} transform={`translate(${genPosition(addon)},0)`}>
-          {addon.render({ set: d, width: addon.size, height: data.sets.bandWidth })}
+          {addon.render({ set: d, width: addon.size, height: data.sets.bandWidth, theme: style.theme })}
         </g>
       ))}
       {children}

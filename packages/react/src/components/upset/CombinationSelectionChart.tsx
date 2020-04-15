@@ -80,7 +80,7 @@ function CombinationSelectionChart<T>({
         const addons = combinationAddons
           .map((addon) => {
             const v = genPosition(addon);
-            const content = addon.render({ set: d, width, height: addon.size });
+            const content = addon.render({ set: d, width, height: addon.size, theme: style.theme });
             if (!content) {
               return null;
             }

@@ -94,7 +94,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       )}
       {size.cs.addons.map((addon) => (
         <g key={addon.name} transform={`translate(0,${genPosition(addon)})`}>
-          {addon.render({ set: d, width: data.cs.bandWidth, height: addon.size })}
+          {addon.render({ set: d, width: data.cs.bandWidth, height: addon.size, theme: style.theme })}
         </g>
       ))}
       {children}

@@ -80,7 +80,7 @@ function SetSelectionChart<T>({
         const addons = setAddons
           .map((addon) => {
             const v = genPosition(addon);
-            const content = addon.render({ set: d, width: addon.size, height });
+            const content = addon.render({ set: d, width: addon.size, height, theme: style.theme });
             if (!content) {
               return null;
             }
