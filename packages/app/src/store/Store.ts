@@ -178,6 +178,19 @@ export default class Store {
   @observable
   selectedAttrs = new Set<string>();
 
+  @observable
+  readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> = {
+    type: 'intersection',
+    min: 0,
+    max: 3,
+    empty: false,
+    limit: 100,
+    order: ['cardinality', 'name'],
+  };
+
+  @observable
+  selectedSets = new Set<string>();
+
   constructor() {
     this.appendDatasets(listStatic());
     listLocal().then((ds) => this.appendDatasets(ds));
@@ -340,19 +353,6 @@ export default class Store {
       this.ui.elemTable.order
     );
   }
-
-  @observable
-  readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> = {
-    type: 'intersection',
-    min: 0,
-    max: 3,
-    empty: false,
-    limit: 100,
-    order: 'cardinality',
-  };
-
-  @observable
-  selectedSets = new Set<string>();
 
   @computed
   get sortedSets() {

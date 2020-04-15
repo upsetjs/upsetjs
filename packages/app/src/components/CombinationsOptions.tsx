@@ -12,13 +12,36 @@ export default observer(() => {
 
   const c = store.combinationsOptions;
 
+  const order = Array.isArray(c.order) ? c.order.join(',') : c.order ?? '';
+
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     store.changeCombinations({ [e.target.name]: Number.parseInt(e.target.value, 10) });
   const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     store.changeCombinations({ [e.target.name]: e.target.checked });
 
   return (
-    <SidePanelEntry id="options" title="Filter Combinations">
+    <SidePanelEntry id="options" title="Set Combinations">
+      <TextField
+        label="Ordering"
+        value={order}
+        select
+        required
+        onChange={(e) =>
+          store.changeCombinations({
+            order: e.target.value.split(',') as ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'>,
+          })
+        }
+      >
+        <MenuItem value="name">1. Name</MenuItem>
+        <MenuItem value="cardinality,name">1. Cardinality 2. Name</MenuItem>
+        <MenuItem value="cardinality,degree,name">1. Cardinality 2. Degree 3. Name</MenuItem>
+        <MenuItem value="degree,name">1. Degree 2. Name</MenuItem>
+        <MenuItem value="degree,cardinality,name">1. Degree 2. Cardinality 3. Name</MenuItem>
+        <MenuItem value="group,name">1. Set Group 2. Name</MenuItem>
+        <MenuItem value="group,cardinality,name">1. Set Group 2. Cardinality 3. Name</MenuItem>
+        <MenuItem value="group,degree,name">1. Set Group 2. Degree 3. Name</MenuItem>
+        <MenuItem value="group,degree,cardinality,name">1. Set Group 2. Degree 3. Cardinality 4. Name</MenuItem>
+      </TextField>
       <TextField
         label="Mode"
         value={c.type}
