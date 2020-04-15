@@ -1,6 +1,16 @@
 import { observable, action, autorun, runInAction, computed } from 'mobx';
 import UIStore from './UIStore';
-import { IDataSet, listStatic, listRemote, listLocal, ICustomizeOptions, IElem, IElems } from '../data';
+import {
+  IDataSet,
+  listStatic,
+  listRemote,
+  deleteLocal,
+  listLocal,
+  ICustomizeOptions,
+  saveLocal,
+  IElem,
+  IElems,
+} from '../data';
 import {
   ISetLike,
   ISets,
@@ -140,7 +150,7 @@ export default class Store {
   readonly ui = new UIStore();
 
   @observable.shallow
-  readonly datasets: IDataSet[] = [];
+  datasets: IDataSet[] = [];
 
   @observable.ref
   dataset: IDataSet | null = null;
@@ -191,9 +201,22 @@ export default class Store {
       return;
     }
     this.datasets.push(...ds);
+    this.sortDatasets();
     if (this.datasets.length > 0 && !this.dataset) {
       this.loadDataSet(this.datasets[0]);
     }
+  }
+
+  private sortDatasets() {
+    this.datasets = this.datasets.slice().sort((a, b) => {
+      if (a.id === 'simpsons') {
+        return -1;
+      }
+      if (b.id === 'simpsons') {
+        return 1;
+      }
+      return a.name.localeCompare(b.name);
+    });
   }
 
   @action
@@ -205,15 +228,40 @@ export default class Store {
   @action.bound
   private pushDataSet(dataset: IDataSet) {
     this.datasets.push(dataset);
+    this.sortDatasets();
     this.dataset = dataset;
-    this.loadDataSet(dataset);
+    this.loadDataSet(dataset, () => {
+      saveLocal(this).then((stored) => {
+        this.dataset = stored;
+        this.datasets.splice(this.datasets.indexOf(dataset), 1, stored);
+      });
+    });
     this.ui.showToast({
       severity: 'success',
       message: 'Data set loaded',
     });
   }
 
-  private loadDataSet(dataset: IDataSet | null) {
+  @action
+  deleteDataSet(dataset: IDataSet) {
+    if (!dataset.uid) {
+      return;
+    }
+    deleteLocal(dataset).then(() =>
+      runInAction(() => {
+        this.datasets.splice(this.datasets.indexOf(dataset), 1);
+        if (this.dataset === dataset) {
+          this.loadDataSet(this.datasets[0]!);
+        }
+        this.ui.showToast({
+          severity: 'success',
+          message: 'Data set deleted',
+        });
+      })
+    );
+  }
+
+  private loadDataSet(dataset: IDataSet | null, done?: () => void) {
     this.dataset = dataset;
     this.sets = [];
     this.elems = [];
@@ -232,6 +280,9 @@ export default class Store {
         Object.assign(this.props, d.props ?? {});
         Object.assign(this.combinationsOptions, d.combinations ?? {});
         this.selectedSets = new Set(this.sortedSets.slice(0, 5).map((d) => d.name));
+        if (done) {
+          done();
+        }
       })
     );
   }

@@ -23,6 +23,7 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import Download from 'mdi-material-ui/Download';
 import Upload from 'mdi-material-ui/Upload';
 import ShareCircle from 'mdi-material-ui/ShareCircle';
+import RemoveCircle from 'mdi-material-ui/MinusCircle';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -40,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '1rem',
     minWidth: '20em',
     color: theme.palette.primary.contrastText,
+  },
+  menu: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   speeddial: {
     position: 'absolute',
@@ -86,6 +91,7 @@ export default observer(({ className }: { className?: string }) => {
 
   const onFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const file = evt.target.files![0];
+    evt.target.value = '';
     store.importFile(file);
   };
 
@@ -110,17 +116,23 @@ export default observer(({ className }: { className?: string }) => {
                 store.selectDataSet(v.target.value as string);
               }}
               value={store.dataset?.id || ''}
+              renderValue={() => store.dataset?.name ?? 'Choose Dataset...'}
             >
               <MenuItem value={''}>Choose Dataset...</MenuItem>
               {store.datasets.map((d) => (
-                <MenuItem key={d.id} value={d.id}>
-                  {d.name}
+                <MenuItem key={d.id} value={d.id} className={classes.menu}>
+                  <span>{d.name}</span>
+                  {d.uid != null && (
+                    <IconButton onClick={() => store.deleteDataSet(d)} edge="end" size="small">
+                      <RemoveCircle />
+                    </IconButton>
+                  )}
                 </MenuItem>
               ))}
             </Select>
           </Typography>
           <Tooltip title="CSV file or JSON UpSet Dump file">
-            <IconButton title="Upload" onClick={clickFile}>
+            <IconButton onClick={clickFile}>
               <Upload />
             </IconButton>
           </Tooltip>

@@ -29,6 +29,7 @@ export interface ILoadedDataSet {
 }
 
 export interface IDataSet {
+  uid?: string;
   id: string;
 
   name: string;
@@ -38,11 +39,6 @@ export interface IDataSet {
 
   creationDate?: Date;
   load(): Promise<ILoadedDataSet>;
-}
-
-export interface IStoredDataSet extends IDataSet {
-  uid: number;
-  creationDate: Date;
 }
 
 export interface IDumpInfo {

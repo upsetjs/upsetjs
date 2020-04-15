@@ -12,8 +12,8 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
     name: ds.name,
     description: ds.description,
     author: ds.author,
-    elements: helper.elems,
-    attrs: helper.attrs,
+    elements: toJS(helper.elems),
+    attrs: toJS(helper.attrs),
     sets: helper.sets.map((set) => ({
       ...set,
       elems: set.elems.map(helper.toElemIndex),

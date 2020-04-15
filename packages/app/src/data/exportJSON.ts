@@ -21,9 +21,9 @@ export function exportJSON(store: Store) {
   return JSON.stringify(r, null, 2);
 }
 
-export function importJSON(file: File): Promise<IDataSet> {
-  return loadFile(file).then((dump) => ({
-    id: file.name,
+export function fromDump(dump: IEmbeddedDumpSchema, id: string): IDataSet {
+  return {
+    id,
     name: dump.name,
     author: dump.author,
     description: dump.description,
@@ -38,5 +38,9 @@ export function importJSON(file: File): Promise<IDataSet> {
         combinations: dump.combinations,
       });
     },
-  }));
+  };
+}
+
+export function importJSON(file: File): Promise<IDataSet> {
+  return loadFile(file).then((dump) => fromDump(dump, file.name));
 }

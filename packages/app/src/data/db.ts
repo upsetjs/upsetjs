@@ -1,13 +1,21 @@
 import Dexie from 'dexie';
-import { IDataSet, IStoredDataSet } from './interfaces';
+import { IDataSet } from './interfaces';
+import { IEmbeddedDumpSchema } from '../dump';
+import { toEmbeddedDump } from './shareEmbedded';
+import { fromDump } from './exportJSON';
+import Store from '../store/Store';
 
 const SCHEMA_VERSION = 1;
 
+export interface IStoredDump extends IEmbeddedDumpSchema {
+  uid?: string;
+  creationDate: number;
+}
 //
 // Declare Database
 //
 class UpSetJSDB extends Dexie {
-  datasets: Dexie.Table<IStoredDataSet, number>;
+  datasets: Dexie.Table<IStoredDump, number>;
 
   constructor() {
     super('UpSet.js App DB');
@@ -21,32 +29,35 @@ class UpSetJSDB extends Dexie {
 
 const db = new UpSetJSDB();
 
-export function storeDataset(dataset: IDataSet): Promise<IStoredDataSet> {
-  const copy = Object.assign({}, dataset);
-  return db.datasets.add(copy as any).then((uid) => Object.assign(dataset, { uid }));
+function asDataSet(dump: IStoredDump): IDataSet {
+  const d = fromDump(dump, dump.uid!);
+  d.uid = dump.uid!;
+  d.creationDate = new Date(dump.creationDate);
+  return d;
 }
 
-export function editDataset(dataset: IStoredDataSet): Promise<IStoredDataSet> {
+function byCreationDate(arr: IStoredDump[]) {
+  return arr.sort((a, b) => b.creationDate - a.creationDate);
+}
+
+export function listLocal(): Promise<IDataSet[]> {
   return db.datasets
-    .update(dataset.uid, {
-      name: dataset.name,
-      description: dataset.description,
-      author: dataset.author,
-    })
-    .then(() => dataset);
+    .toArray()
+    .then(byCreationDate)
+    .then((d) => d.map(asDataSet));
 }
 
-function byCreationDate(arr: IStoredDataSet[]) {
-  for (const entry of arr) {
-    entry.creationDate = entry.creationDate instanceof Date ? entry.creationDate : new Date(entry.creationDate);
-  }
-  return arr.sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
+export function deleteLocal(dataset: IDataSet): Promise<any> {
+  return db.transaction('rw', db.datasets, () => Promise.all([db.datasets.where('uid').equals(dataset.uid!).delete()]));
 }
 
-export function listDatasets(): Promise<IStoredDataSet[]> {
-  return db.datasets.toArray().then(byCreationDate);
-}
-
-export function deleteDataset(dataset: IStoredDataSet): Promise<any> {
-  return db.transaction('rw', db.datasets, () => Promise.all([db.datasets.where('uid').equals(dataset.uid).delete()]));
+export function saveLocal(store: Store): Promise<IDataSet> {
+  const dump: IStoredDump = Object.assign(
+    {
+      creationDate: Date.now(),
+    },
+    toEmbeddedDump(store)
+  );
+  dump.name = `${dump.name} - Local`;
+  return db.datasets.add(dump).then((uid) => asDataSet(Object.assign(dump, { uid })));
 }
