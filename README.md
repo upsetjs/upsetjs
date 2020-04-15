@@ -8,14 +8,14 @@ UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentatio
 
 This monorepo contains following packages:
 
-- [@upsetjs/model](./tree/master/packages/model) the data model definition of UpSet.js
-- [@upsetjs/react](./tree/master/packages/react) the main UpSet.js React component
-- [@upsetjs/math](./tree/master/packages/math) utility package for computing stats
-- [@upsetjs/addons](./tree/master/packages/addons) extensions to the React component for rendering boxplots
-- [@upsetjs/bundle](./tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
-- [@upsetjs/app](./tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
-- [@upsetjs/vue](./tree/master/packages/vue) vue wrapper based on the bundled version
-- [@upsetjs/vue-example](./tree/master/packages/vue-example) vue example using the vue wrapper
+- [@upsetjs/model](./packages/model) the data model definition of UpSet.js
+- [@upsetjs/react](./packages/react) the main UpSet.js React component
+- [@upsetjs/math](./packages/math) utility package for computing stats
+- [@upsetjs/addons](./packages/addons) extensions to the React component for rendering boxplots
+- [@upsetjs/bundle](./packages/bundle) zero dependency bundle of the react and addons component using Preact
+- [@upsetjs/app](./packages/app) example application to explore datasets using UpSet.js with import and export features
+- [@upsetjs/vue](./packages/vue) vue wrapper based on the bundled version
+- [@upsetjs/vue-example](./packages/vue-example) vue example using the vue wrapper
 
 ## Usage and Installation
 
