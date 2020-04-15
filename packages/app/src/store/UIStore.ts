@@ -20,6 +20,9 @@ export default class UIStore {
   readonly sidePanelExpanded = new Set<string>(['queries', 'options', 'sets', 'elems']);
 
   @observable
+  menu = false;
+
+  @observable
   readonly setTable: ISetTableOptions = {
     order: 'desc' as 'asc' | 'desc',
     orderBy: 'cardinality' as 'name' | 'cardinality',
@@ -71,5 +74,10 @@ export default class UIStore {
   @action
   showToast(toast: IToast) {
     this.toast = toast;
+  }
+
+  @action.bound
+  toggleMenu() {
+    this.menu = !this.menu;
   }
 }

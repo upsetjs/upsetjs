@@ -72,6 +72,7 @@
     "@upsetjs/bundle": "^0.4.1",
     "@upsetjs/model": "^0.4.1",
     "@upsetjs/react": "^0.4.1",
+    "clsx": "^1.1.0",
     "core-js": "^3.6.4",
     "d3-scale-chromatic": "^1.5.0",
     "dexie": "^2.0.4",

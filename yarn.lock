@@ -3442,6 +3442,7 @@ __metadata:
     "@upsetjs/react": ^0.4.1
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
+    clsx: ^1.1.0
     core-js: ^3.6.4
     d3-scale-chromatic: ^1.5.0
     dexie: ^2.0.4
@@ -6699,7 +6700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.0.2, clsx@npm:^1.0.4":
+"clsx@npm:^1.0.2, clsx@npm:^1.0.4, clsx@npm:^1.1.0":
   version: 1.1.0
   resolution: "clsx@npm:1.1.0"
   checksum: 2/aebac019d24b4f40d28490fa31abdb7791d50242d928f27faa3aef44150f410600eb3c64ab6af01c66c3a022313d1c578a3e57c26bd6040bc15d30699824456c

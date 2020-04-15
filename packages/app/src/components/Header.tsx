@@ -25,10 +25,14 @@ import ShareCircle from 'mdi-material-ui/ShareCircle';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  hide: {
+    display: 'none',
   },
   title: {},
   select: {
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default observer(() => {
+export default observer(({ className }: { className?: string }) => {
   const store = useStore();
   const classes = useStyles();
   const ref = React.useRef<HTMLInputElement>(null);
@@ -85,9 +89,15 @@ export default observer(() => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" className={className}>
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+        <IconButton
+          edge="start"
+          className={clsx(classes.menuButton, store.ui.menu && classes.hide)}
+          color="inherit"
+          aria-label="menu"
+          onClick={store.ui.toggleMenu}
+        >
           <MenuIcon />
         </IconButton>
         <div className={classes.line} onDragOver={dragOver} onDrop={drop}>
