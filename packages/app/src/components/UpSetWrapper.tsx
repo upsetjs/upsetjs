@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import { observer } from 'mobx-react-lite';
-import { UpSetProps } from '@upsetjs/react';
 import { useStore } from '../store';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
@@ -23,45 +22,46 @@ const useStyles = makeStyles(() => ({
 
 const UpSet = lazy(() => import('@upsetjs/react'));
 
-const UpSetW = React.forwardRef<SVGSVGElement, Omit<UpSetProps<any>, 'width' | 'height'>>((props, ref) => {
+const UpSetRenderer = observer(({ width, height }: { width: number; height: number }) => {
+  const store = useStore();
+  const classes = useStyles();
+  console.log(width, height);
   return (
-    <ReactResizeDetector
-      handleWidth
-      handleHeight
-      render={({ width, height }) => {
-        return (
-          <div>
-            <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
-              {width > 0 && height > 0 && <UpSet width={width} height={height} {...props} ref={ref} />}
-            </Suspense>
-          </div>
-        );
-      }}
-    />
+    <div>
+      <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
+        {width > 0 && height > 0 && (
+          <UpSet
+            width={width}
+            height={height}
+            className={classes.wrapper}
+            {...store.props}
+            sets={store.visibleSets}
+            queries={store.visibleQueries}
+            combinations={store.visibleCombinations}
+            selection={store.hover}
+            onHover={store.setHover}
+            onClick={store.setSelection}
+            exportButtons={false}
+            setAddons={store.visibleSetAddons}
+            combinationAddons={store.visibleCombinationAddons}
+            ref={store.ui.ref}
+          />
+        )}
+      </Suspense>
+    </div>
   );
 });
+
+function renderUpSet({ width, height }: { width: number; height: number }) {
+  return <UpSetRenderer width={width} height={height} />;
+}
 
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {store.sets.length > 0 && store.dataset && (
-        <UpSetW
-          className={classes.wrapper}
-          {...store.props}
-          sets={store.visibleSets}
-          queries={store.visibleQueries}
-          combinations={store.visibleCombinations}
-          selection={store.hover}
-          onHover={store.setHover}
-          onClick={store.setSelection}
-          exportButtons={false}
-          setAddons={store.visibleSetAddons}
-          combinationAddons={store.visibleCombinationAddons}
-          ref={store.ui.ref}
-        />
-      )}
+      {store.sets.length > 0 && store.dataset && <ReactResizeDetector handleWidth handleHeight render={renderUpSet} />}
       {!store.dataset && <Loading>Choose Dataset</Loading>}
       {store.sets.length === 0 && store.dataset && <Loading />}
     </div>

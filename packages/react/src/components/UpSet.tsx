@@ -58,11 +58,22 @@ export default React.forwardRef(function UpSet<T>(
   } = fillDefaults(props);
 
   // generate a "random" but attribute stable id to avoid styling conflicts
+  const {
+    axisTick: fontAxisTick,
+    barLabel: fontBarLabel,
+    chartLabel: fontChartLabel,
+    legend: fontLegend,
+    setLabel: fontSetLabel,
+  } = fontSizes;
   const styleId = useMemo(
     () =>
       generateId([
         fontFamily,
-        fontSizes,
+        fontAxisTick,
+        fontBarLabel,
+        fontChartLabel,
+        fontLegend,
+        fontSetLabel,
         textColor,
         hoverHintColor,
         color,
@@ -72,7 +83,11 @@ export default React.forwardRef(function UpSet<T>(
       ]),
     [
       fontFamily,
-      fontSizes,
+      fontAxisTick,
+      fontBarLabel,
+      fontChartLabel,
+      fontLegend,
+      fontSetLabel,
       textColor,
       hoverHintColor,
       color,
@@ -138,54 +153,54 @@ export default React.forwardRef(function UpSet<T>(
   }
   .axisTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.axisTick ? `font-size: ${fontSizes.axisTick};` : ''}
+    ${fontAxisTick ? `font-size: ${fontAxisTick};` : ''}
     text-anchor: middle;
   }
   .barTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
   }
   .cBarTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
     text-anchor: middle;
   }
   .sBarTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
     text-anchor: end;
     dominant-baseline: central;
   }
   .hoverBarTextStyle-${styleId} {
-    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
     fill: ${hoverHintColor};
     display: none;
     text-anchor: middle;
   }
   .setTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.setLabel ? `font-size: ${fontSizes.setLabel};` : ''}
+    ${fontSetLabel ? `font-size: ${fontSetLabel};` : ''}
     text-anchor: middle;
     dominant-baseline: central;
   }
   .cChartTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
+    ${fontChartLabel ? `font-size: ${fontChartLabel};` : ''}
     text-anchor: middle;
   }
   .sChartTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.chartLabel ? `font-size: ${fontSizes.chartLabel};` : ''}
+    ${fontChartLabel ? `font-size: ${fontChartLabel};` : ''}
     text-anchor: middle;
     dominant-baseline: hanging;
   }
   .exportTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.barLabel ? `font-size: ${fontSizes.barLabel};` : ''}
+    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
   }
   .legendTextStyle-${styleId} {
     fill: ${textColor};
-    ${fontSizes.legend ? `font-size: ${fontSizes.legend};` : ''}
+    ${fontLegend ? `font-size: ${fontLegend};` : ''}
     text-anchor: middle;
     dominant-baseline: hanging;
     pointer-events: none;
