@@ -228,6 +228,8 @@ upsetjs() %>% fromList(listInput) %>% interactiveChart()
 
 see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic.Rmd)
 
+and [R Package Documentation](https://upsetjs.github.io/upsetjs_r)
+
 ### Juptyer Widget
 
 A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
