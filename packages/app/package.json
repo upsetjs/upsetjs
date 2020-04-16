@@ -20,6 +20,7 @@
     "lint": "eslint src --ext .ts,.tsx",
     "prebuild": "rimraf dist",
     "build": "webpack-cli -p",
+    "build:stats": "webpack-cli -p --json > dist/stats.json",
     "build:dev": "webpack-cli -d --devtool none",
     "start": "webpack-dev-server --devtool cheap-module-eval-source-map"
   },

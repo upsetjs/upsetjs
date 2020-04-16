@@ -11,23 +11,39 @@ export interface IStoredDump extends IEmbeddedDumpSchema {
   uid?: string;
   creationDate: number;
 }
-//
-// Declare Database
-//
-class UpSetJSDB extends Dexie {
+
+declare type UpSetJSDB = Dexie & {
   datasets: Dexie.Table<IStoredDump, number>;
+};
 
-  constructor() {
-    super('UpSet.js App DB');
-    this.version(SCHEMA_VERSION).stores({
-      datasets: '++uid,id,name,creationDate',
-    });
-    // hack for linting
-    this.datasets = (this as any).datasets || undefined;
+let db: UpSetJSDB | null = null;
+
+function getDB(): Promise<UpSetJSDB> {
+  if (db) {
+    return Promise.resolve(db);
   }
-}
+  return import('dexie')
+    .then((dexie) => {
+      //
+      // Declare Database
+      //
+      class UpSetJSDBImpl extends dexie.default {
+        datasets: Dexie.Table<IStoredDump, number>;
 
-const db = new UpSetJSDB();
+        constructor() {
+          super('UpSet.js App DB');
+          this.version(SCHEMA_VERSION).stores({
+            datasets: '++uid,id,name,creationDate',
+          });
+          // hack for linting
+          this.datasets = (this as any).datasets || undefined;
+        }
+      }
+
+      return new UpSetJSDBImpl();
+    })
+    .then((impl) => (db = impl));
+}
 
 function asDataSet(dump: IStoredDump): IDataSet {
   const d = fromDump(dump, dump.uid!);
@@ -41,14 +57,16 @@ function byCreationDate(arr: IStoredDump[]) {
 }
 
 export function listLocal(): Promise<IDataSet[]> {
-  return db.datasets
-    .toArray()
+  return getDB()
+    .then((db) => db.datasets.toArray())
     .then(byCreationDate)
     .then((d) => d.map(asDataSet));
 }
 
 export function deleteLocal(dataset: IDataSet): Promise<any> {
-  return db.transaction('rw', db.datasets, () => Promise.all([db.datasets.where('uid').equals(dataset.uid!).delete()]));
+  return getDB().then((db) =>
+    db.transaction('rw', db.datasets, () => Promise.all([db.datasets.where('uid').equals(dataset.uid!).delete()]))
+  );
 }
 
 export function saveLocal(store: Store): Promise<IDataSet> {
@@ -59,5 +77,7 @@ export function saveLocal(store: Store): Promise<IDataSet> {
     toEmbeddedDump(store)
   );
   dump.name = `${dump.name} - Local`;
-  return db.datasets.add(dump).then((uid) => asDataSet(Object.assign(dump, { uid })));
+  return getDB()
+    .then((db) => db.datasets.add(dump))
+    .then((uid) => asDataSet(Object.assign(dump, { uid })));
 }
