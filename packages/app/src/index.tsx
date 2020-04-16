@@ -1,8 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime';
 
-import './assets/favicon';
-
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { optimizeScheduler } from 'mobx-react-lite';
