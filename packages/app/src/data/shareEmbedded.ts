@@ -36,14 +36,23 @@ export default function shareEmbedded(store: Store) {
   const url = new URL(window.location.toString());
   url.hash = '';
   url.pathname = 'embed.html';
-  url.searchParams.set('props', arg);
-  url.toString();
 
-  const a = document.createElement('a');
-  a.href = url.toString();
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  if (arg.length < 32000) {
+    url.searchParams.set('props', arg);
+    window.open(url.toString(), '_blank');
+  } else {
+    // send via frame message
+    const w = window.open(url.toString(), '_blank');
+    w?.addEventListener('load', () => {
+      w?.postMessage(r, url.origin);
+    });
+  }
+
+  // const a = document.createElement('a');
+  // a.href = url.toString();
+  // a.target = '_blank';
+  // a.rel = 'noopener noreferrer';
+  // document.body.appendChild(a);
+  // a.click();
+  // a.remove();
 }
