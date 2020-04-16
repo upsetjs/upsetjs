@@ -60,7 +60,7 @@ npm install @upsetjs/vue vue
 </script>
 ```
 
-see also the [vue example application](https://github.com/com/upsetjs/upsetjs/tree/master/packags/vue-example) and deployed at https://upsetjs.netlify.app/vue
+see also the [vue example application](https://github.com/com/upsetjs/upsetjs/tree/master/packags/vue-example) and deployed at https://upset.js.org/vue
 
 ## License
 

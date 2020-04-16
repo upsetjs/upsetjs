@@ -1,6 +1,6 @@
 # UpSet.js
 
-[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url] [![Netlify Status][netlify-image]][netlify-url]
+[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/). The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component solely depending on the given properties.
 
@@ -8,14 +8,20 @@ UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentatio
 
 This monorepo contains following packages:
 
-- [@upsetjs/model](./packages/model) the data model definition of UpSet.js
-- [@upsetjs/react](./packages/react) the main UpSet.js React component
-- [@upsetjs/math](./packages/math) utility package for computing stats
-- [@upsetjs/addons](./packages/addons) extensions to the React component for rendering boxplots
-- [@upsetjs/bundle](./packages/bundle) zero dependency bundle of the react and addons component using Preact
-- [@upsetjs/app](./packages/app) example application to explore datasets using UpSet.js with import and export features
-- [@upsetjs/vue](./packages/vue) vue wrapper based on the bundled version
-- [@upsetjs/vue-example](./packages/vue-example) vue example using the vue wrapper
+- [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/master/packages/model) the data model definition of UpSet.js
+- [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/master//packages/react) the main UpSet.js React component
+- [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/master//packages/math) utility package for computing stats
+- [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/master//packages/addons) extensions to the React component for rendering boxplots
+- [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master//packages/bundle) zero dependency bundle of the react and addons component using Preact
+- [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master//packages/app) example application to explore datasets using UpSet.js with import and export features
+- [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master//packages/vue) vue wrapper based on the bundled version
+- [@upsetjs/vue-example](https://github.com/upsetjs/upsetjs/tree/master//packages/vue-example) vue example using the vue wrapper
+
+In addition, there are the following sibling repositories and projects
+
+- [upsetjs_r](https://github.com/upsetjs/upsetjs_r) R HTMLWidget wrapper around UpSet.js
+- [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
+- [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library) Observable HQ wrapper around UpSet.js
 
 ## Usage and Installation
 
@@ -56,7 +62,7 @@ const UpSetSelection = (props: any) => {
 
 ![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
 
-see also https://upsetjs.netlify.app/api/?path=/docs/upset--default
+see also [Storybook Documentation](https://upset.js.org/api/?path=/docs/upset--default)
 
 ### Bundled version
 
@@ -128,15 +134,21 @@ renderUpSet(document.body, { sets, combinations, width: 500, height: 300, querie
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
+**Addons**
+
+Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
+
+TODO
+
 ## UpSet.js App
 
-It contains a sample application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at https://upsetjs.netlify.app.
+The UpSet.js App is an web application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at [https://upset.js.org/app](https://upset.js.org/app).
 
 ![upset_app1](https://user-images.githubusercontent.com/4129778/79368561-e3d8c680-7f4f-11ea-9a87-f4421a3846cf.png)
 
 ## Components
 
-see storybook at https://upsetjs.netlify.app/api/?path=/docs/upset--default for demos and properties.
+see [Storybook](https://upset.js.org/api/?path=/docs/upset--default) for demos and properties.
 
 ### UpSet
 
@@ -161,7 +173,7 @@ The most relevant and required properties of the `UpSet` component are:
 
 ## Data
 
-`UpSet` requires sets and optionally combiantions of sets as input. There are some utility function to help creating the required data structures:
+`UpSet` requires sets and optionally combinations of sets as input. There are some utility function to help creating the required data structures:
 
 - `extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISet<T>[]`
   given an array of elements where each is having a property called `.sets` containing a list of set names in which this element is part of. e.g. `{ sets: ['Blue Hair', 'Female']}`. The return value is a list of sets in the required data structures and having a `.elems` with an array of the input elements.
@@ -318,6 +330,4 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 [npm-url]: https://npmjs.org/package/@upsetjs/react
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/ci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
-[netlify-image]: https://api.netlify.app/api/v1/badges/22f99fef-9985-46eb-8715-9eb91e16190f/deploy-status
-[netlify-url]: https://app.netlify.app/sites/upsetjs/deploys
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen

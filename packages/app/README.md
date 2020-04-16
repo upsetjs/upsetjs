@@ -4,7 +4,7 @@
 
 This package is part of the UpSet.js ecosystem located at the main [Github Monorepo](https://github.com/upsetjs/upsetjs).
 
-It contains a sample application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at https://upsetjs.netlify.app.
+It contains a sample application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at https://upset.js.org/app.
 
 ![upset_app1](https://user-images.githubusercontent.com/4129778/79368561-e3d8c680-7f4f-11ea-9a87-f4421a3846cf.png)
 
@@ -45,7 +45,6 @@ If you want to use Upset.js for a commercial application the commercial license 
 ### Open-source license
 
 This library is released under the `GNU AGPLv3` version to be used for private and academic purposes. In case of a commercial use, please get in touch regarding a commercial license.
-
 
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
