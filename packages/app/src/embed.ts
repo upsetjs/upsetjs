@@ -1,6 +1,6 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike, generateCombinations } from '@upsetjs/bundle';
+import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike, generateCombinations, boxplotAddon } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { IEmbeddedDumpSchema, loadDump, loadFile } from './dump';
 
@@ -55,6 +55,15 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
             props.selection = s;
             render();
           },
+        }
+      : {},
+    dump.attrs.length > 0
+      ? {
+          combinationAddons: dump.attrs.map((attr) =>
+            boxplotAddon((v) => v.attrs[attr], dump.elements, { orient: 'vertical', name: attr })
+          ),
+
+          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v.attrs[attr], dump.elements, { name: attr })),
         }
       : {}
   );

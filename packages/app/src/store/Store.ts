@@ -329,7 +329,7 @@ export default class Store {
     }
     return this.dataset.attrs
       .filter((d) => this.selectedAttrs.has(d))
-      .map((attr) => boxplotAddon((v) => v.attrs[attr], this.elems, { name: attr, theme: this.props.theme }));
+      .map((attr) => boxplotAddon((v) => v.attrs[attr], this.elems, { name: attr }));
   }
 
   @computed
@@ -343,7 +343,6 @@ export default class Store {
         boxplotAddon((v) => v.attrs[attr], this.elems, {
           orient: 'vertical',
           name: attr,
-          theme: this.props.theme,
         })
       );
   }

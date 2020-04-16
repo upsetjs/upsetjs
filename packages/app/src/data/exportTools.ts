@@ -4,6 +4,8 @@ import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
 
+declare const __VERSION__: string;
+
 const HTML_CODE = `<div id="app"></div>`;
 const CSS_CODE = `#app {
   width: 100vw;
@@ -16,6 +18,23 @@ function jsCode(store: Store, prefix = 'UpSetJS.') {
     ...s,
     elems: `CC${JSON.stringify(s.elems.map(helper.toElemIndex))}.map(byIndex)CC`,
   }));
+
+  const addons =
+    helper.attrs.length > 0
+      ? `
+  setAddons: ${JSON.stringify(
+    helper.attrs
+      .map((attr) => `CC${prefix}boxplotAddon((v) => v.attrs['${attr}'], elems, { name: '${attr}' })CC`)
+      .join(',')
+  )},
+  combinationAddons: ${JSON.stringify(
+    helper.attrs
+      .map(
+        (attr) => `CC${prefix}boxplotAddon((v) => v.attrs['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`
+      )
+      .join(',')
+  )}`
+      : '';
   return `
 const root = document.getElementById("app");
 
@@ -59,7 +78,7 @@ const props = Object.assign({
   sets: sets,
   combinations: combinations,
   selection: selection,
-  queries: queries,
+  queries: queries,${addons}
 }, ${JSON.stringify(stripDefaults(store.props, store.ui.theme), null, 2)});
 
 function render() {
@@ -110,7 +129,7 @@ export function exportJSFiddle(store: Store) {
   setInput('html', HTML_CODE);
   setInput('css', CSS_CODE);
   setInput('js', jsCode(store));
-  setInput('resources', 'https://unpkg.com/@upsetjs/bundle');
+  setInput('resources', `https://unpkg.com/@upsetjs/bundle@^${__VERSION__}`);
 
   document.body.appendChild(form);
   form.submit();
@@ -149,7 +168,7 @@ ${jsCode(store, '')}
           name: store.dataset!.name,
           description: store.dataset!.description,
           dependencies: {
-            '@upsetjs/bundle': 'latest',
+            '@upsetjs/bundle': `^${__VERSION__}`,
           },
         },
       },
@@ -185,7 +204,7 @@ export function exportCodepen(store: Store) {
     js: jsCode(store),
     js_pre_processor: 'babel',
     js_modernizr: false,
-    js_external: `https://unpkg.com/@upsetjs/bundle`,
+    js_external: `https://unpkg.com/@upsetjs/bundle@^${__VERSION__}`,
   };
 
   const json = JSON.stringify(data)
