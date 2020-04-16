@@ -25,7 +25,6 @@ const UpSet = lazy(() => import('@upsetjs/react'));
 const UpSetRenderer = observer(({ width, height }: { width: number; height: number }) => {
   const store = useStore();
   const classes = useStyles();
-  console.log(width, height);
   return (
     <div>
       <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
