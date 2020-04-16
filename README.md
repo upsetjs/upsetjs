@@ -9,13 +9,13 @@ UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentatio
 This monorepo contains following packages:
 
 - [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/master/packages/model) the data model definition of UpSet.js
-- [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/master//packages/react) the main UpSet.js React component
-- [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/master//packages/math) utility package for computing stats
-- [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/master//packages/addons) extensions to the React component for rendering boxplots
-- [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master//packages/bundle) zero dependency bundle of the react and addons component using Preact
-- [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master//packages/app) example application to explore datasets using UpSet.js with import and export features
-- [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master//packages/vue) vue wrapper based on the bundled version
-- [@upsetjs/vue-example](https://github.com/upsetjs/upsetjs/tree/master//packages/vue-example) vue example using the vue wrapper
+- [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/master/packages/react) the main UpSet.js React component
+- [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/master/packages/math) utility package for computing stats
+- [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/master/packages/addons) extensions to the React component for rendering boxplots
+- [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
+- [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
+- [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master/packages/vue) vue wrapper based on the bundled version
+- [@upsetjs/vue-example](https://github.com/upsetjs/upsetjs/tree/master/packages/vue-example) vue example using the vue wrapper
 
 In addition, there are the following sibling repositories and projects
 
