@@ -263,6 +263,8 @@ w
 
 ![upset_from_dict](https://user-images.githubusercontent.com/4129778/79368564-e4715d00-7f4f-11ea-92f5-23ee89b5332f.png)
 
+see also [![Open in NBViewer][nbviewer]](https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb)
+
 ## Dev Environment
 
 ```sh
@@ -331,3 +333,4 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/ci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
+[nbviewer]: https://img.shields.io/badge/NBViewer-open-blue?logo=jupyter
