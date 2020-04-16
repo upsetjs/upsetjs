@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/react",
   "description": "UpSetR React component implementation",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -74,7 +74,7 @@
   "dependencies": {
     "@types/d3-scale": "^2.2.0",
     "@types/react": "^16.9.31",
-    "@upsetjs/model": "^0.4.1",
+    "@upsetjs/model": "^0.4.2",
     "d3-scale": "^3.2.1"
   }
 }

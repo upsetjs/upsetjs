@@ -1,6 +1,6 @@
 {
   "name": "@upsetjs/vue-example",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@upsetjs/vue": "^0.4.1",
+    "@upsetjs/vue": "^0.4.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/vue",
   "description": "UpSetR Vue component implementation",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -57,6 +57,6 @@
     "vue": "^2.6.11"
   },
   "dependencies": {
-    "@upsetjs/bundle": "^0.4.1"
+    "@upsetjs/bundle": "^0.4.2"
   }
 }
