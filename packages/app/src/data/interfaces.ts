@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
+
 import {
   ISets,
   UpSetSizeProps,
@@ -36,6 +39,7 @@ export interface IDataSet {
   description: string;
   author: string;
   attrs: string[];
+  setCount?: number;
 
   creationDate?: Date;
   load(): Promise<ILoadedDataSet>;

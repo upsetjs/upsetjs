@@ -28,6 +28,7 @@ import RemoveCircle from 'mdi-material-ui/MinusCircle';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import clsx from 'clsx';
+import { IDataSet } from '../data';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -65,6 +66,18 @@ const useStyles = makeStyles((theme) => ({
     visibility: 'hidden',
   },
 }));
+
+function toTitle(dataset?: IDataSet | null) {
+  if (!dataset) {
+    return 'Choose Dataset...';
+  }
+  const sets = dataset.setCount ? `${dataset.setCount} sets` : null;
+  const attrs = dataset.attrs.length > 0 ? `${dataset.attrs.length} attributes` : null;
+  if (!sets && !attrs) {
+    return dataset.name;
+  }
+  return `${dataset.name} (${[sets, attrs].filter(Boolean).join(', ')})`;
+}
 
 export default observer(({ className }: { className?: string }) => {
   const store = useStore();
@@ -116,12 +129,12 @@ export default observer(({ className }: { className?: string }) => {
                 store.selectDataSet(v.target.value as string);
               }}
               value={store.dataset?.id || ''}
-              renderValue={() => store.dataset?.name ?? 'Choose Dataset...'}
+              renderValue={() => toTitle(store.dataset)}
             >
               <MenuItem value={''}>Choose Dataset...</MenuItem>
               {store.datasets.map((d) => (
                 <MenuItem key={d.id} value={d.id} className={classes.menu}>
-                  <span>{d.name}</span>
+                  <span>{toTitle(d)}</span>
                   {d.uid != null && (
                     <IconButton onClick={() => store.deleteDataSet(d)} edge="end" size="small">
                       <RemoveCircle />

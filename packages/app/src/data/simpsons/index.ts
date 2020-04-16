@@ -7,6 +7,7 @@ const simpsons: IDataSet = {
   description: 'Simpsons Dataset',
   author: 'Alexander Lex',
   attrs: [],
+  setCount: 5,
   load: () =>
     import('./data.json').then((data) => {
       const elems: IElems = data.default.map((d) => Object.assign({ attrs: {} }, d));

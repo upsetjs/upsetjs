@@ -29,6 +29,7 @@ export function fromDump(dump: IEmbeddedDumpSchema, id: string): IDataSet {
     description: dump.description,
     creationDate: new Date(),
     attrs: dump.attrs,
+    setCount: dump.sets.length,
     load: () => {
       const r = loadDump<UpSetProps<any>>(dump, generateCombinations);
       return Promise.resolve({

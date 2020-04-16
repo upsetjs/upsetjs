@@ -201,6 +201,11 @@ export default class Store {
     autorun(() => {
       Object.assign(this.props, extractDefaults((themeKeys as string[]).concat(otherOptionKeys), this.ui.theme));
     });
+
+    autorun(() => {
+      // sync document title
+      document.title = this.title;
+    });
   }
 
   @action.bound
@@ -279,6 +284,8 @@ export default class Store {
     this.sets = [];
     this.elems = [];
     this.selectedSets = new Set();
+    // select first by default
+    this.selectedAttrs = new Set(dataset ? dataset.attrs.slice(0, 1) : []);
     this.hover = null;
     this.selection = null;
     this.queries.splice(0, this.queries.length);

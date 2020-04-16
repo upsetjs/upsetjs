@@ -49,6 +49,7 @@ function asDataSet(ds: IUpSetDataSet): IDataSet {
     description: ds.description ?? '',
     author: ds.author ?? '',
     attrs: ds.meta.filter((d) => d.type === 'float' || d.type === 'integer').map((d) => d.name),
+    setCount: ds.sets.length > 0 ? ds.sets[0].end - ds.sets[0].start : undefined,
     load: async () => {
       const elems = await elementsFromDataset(ds);
       const sets = extractSets(elems);
