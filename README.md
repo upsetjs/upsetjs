@@ -316,7 +316,7 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 
 [npm-image]: https://badge.fury.io/js/%40upsetjs%2Freact.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/react
-[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
+[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/ci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
 [netlify-image]: https://api.netlify.app/api/v1/badges/22f99fef-9985-46eb-8715-9eb91e16190f/deploy-status
 [netlify-url]: https://app.netlify.app/sites/upsetjs/deploys

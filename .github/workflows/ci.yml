@@ -1,0 +1,62 @@
+name: ci
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - run: npm i -g yarn
+      - run: yarn set version berry
+      - run: yarn plugin import workspace-tools
+      - run: yarn config set checksumBehavior ignore
+      - run: cat .yarnrc_patch.yml >> .yarnrc.yml
+      - name: Cache Node.js modules
+        uses: actions/cache@v1
+        with:
+          path: ./.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install --immutable
+        env:
+          CI: true
+      - run: yarn build
+        env:
+          CI: true
+      - run: yarn lint
+        env:
+          CI: true
+      - run: yarn test --ci --coverage --maxWorkers=2
+        env:
+          CI: true
+      - run: yarn workspace @upsetjs/react run build-storybook
+        env:
+          CI: true
+      - run: yarn workspace @upsetjs/addons run build-storybook
+        env:
+          CI: true
+      - run: |
+          mkdir -p public/app
+          mv packages/app/dist/* public/app/
+          mkdir -p public/api
+          mv packages/react/storybook-static/* public/api/
+          mkdir -p public/api_addons
+          mv packages/addons/storybook-static/* public/api_addons/
+          mkdir -p public/vue
+          mv packages/vue-example/dist/* public/vue/
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: upsetjs/upsetjs.github.io
+          publish_branch: master
+          publish_dir: ./public
+          enable_jekyll: true
+          keep_files: true
