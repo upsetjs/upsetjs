@@ -193,9 +193,13 @@ export default class Store {
 
   constructor() {
     this.appendDatasets(listStatic());
-    listLocal().then((ds) => this.appendDatasets(ds));
-    listRemote().then((ds) => {
-      ds.forEach((d) => d.then((ds) => this.appendDatasets([ds])));
+    Promise.all([
+      listLocal().then((ds) => this.appendDatasets(ds)),
+      listRemote().then((ds) => {
+        ds.forEach((d) => d.then((ds) => this.appendDatasets([ds])));
+      }),
+    ]).then(() => {
+      this.syncHistory();
     });
 
     autorun(() => {
@@ -205,6 +209,36 @@ export default class Store {
     autorun(() => {
       // sync document title
       document.title = this.title;
+    });
+  }
+
+  private syncHistory() {
+    const onURLChange = () => {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('ds')) {
+        const id = decodeURIComponent(url.searchParams.get('ds')!);
+        if (this.dataset?.id !== id) {
+          this.selectDataSet(id);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', onURLChange);
+    onURLChange();
+
+    autorun(() => {
+      const params = new URLSearchParams();
+      if (this.dataset) {
+        params.set('ds', encodeURIComponent(this.dataset.id));
+      }
+      params.sort();
+      const current = new URL(window.location.href);
+      if (current.searchParams.toString() !== params.toString()) {
+        current.search = `?${params.toString()}`;
+        window.removeEventListener('popstate', onURLChange);
+        window.history.pushState(null, '', current.toString());
+        window.addEventListener('popstate', onURLChange);
+      }
     });
   }
 

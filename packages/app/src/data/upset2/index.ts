@@ -42,9 +42,18 @@ export interface IUpSetDataSet {
   sets: ISetSpec[];
 }
 
+function toID(name: string) {
+  return name
+    .replace(/[(); \-{}~%$^&@#]+/g, ' ')
+    .trim()
+    .split(' ')
+    .map((s) => s.slice(0, 2))
+    .join('');
+}
+
 function asDataSet(ds: IUpSetDataSet): IDataSet {
   return {
-    id: ds.name,
+    id: toID(ds.name),
     name: ds.name,
     description: ds.description ?? '',
     author: ds.author ?? '',

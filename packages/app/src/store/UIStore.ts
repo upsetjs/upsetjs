@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, autorun } from 'mobx';
 import { createRef } from 'react';
 
 export interface ISetTableOptions {
@@ -17,16 +17,18 @@ export interface IToast {
 
 export default class UIStore {
   @observable
-  readonly sidePanelExpanded = new Set<string>(['queries', 'options', 'sets', 'elems']);
+  readonly sidePanelExpanded = new Set<string>(
+    (localStorage.getItem('sidePanel') || 'queries,options,sets,elems').split(',')
+  );
 
   @observable
   menu = false;
 
   @observable
-  zen = false;
+  zen = localStorage.getItem('zen') === 'T';
 
   @observable
-  theme: 'dark' | 'light' = 'light';
+  theme: 'dark' | 'light' = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
 
   @observable
   readonly setTable: ISetTableOptions = {
@@ -47,6 +49,18 @@ export default class UIStore {
 
   @observable
   toast: IToast | null = null;
+
+  constructor() {
+    autorun(() => {
+      localStorage.setItem('theme', this.theme);
+    });
+    autorun(() => {
+      localStorage.setItem('zen', this.zen ? 'T' : 'F');
+    });
+    autorun(() => {
+      localStorage.setItem('sidePanel', Array.from(this.sidePanelExpanded).join(','));
+    });
+  }
 
   @action
   setSpeedDial(value: boolean) {
