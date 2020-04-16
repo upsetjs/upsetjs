@@ -2,14 +2,31 @@ import { unparse, parse } from 'papaparse';
 import Store from '../store/Store';
 import { IDataSet, IElems, IAttrs } from './interfaces';
 import { extractSets } from '@upsetjs/model';
+import { boxplot } from '@upsetjs/math';
+
+function computeAttrLabels(attr: string) {
+  return ['Count', 'Median', 'Mean', 'Min', 'Max', 'Q1', 'Q3'].map((name) => `${attr}_${name}`);
+}
+
+function computeAttr(attr: string, elems: IElems) {
+  const bs = boxplot(elems.map((elem) => elem.attrs[attr]));
+  return [bs.count, bs.median, bs.mean, bs.min, bs.max, bs.q1, bs.q3];
+}
 
 export function exportCSV(store: Store) {
   const sets = store.visibleSets;
   const combinations = store.visibleCombinations;
+  const attrs = store.dataset!.attrs.filter((d) => store.selectedAttrs.has(d));
   return unparse([
-    ['Name', 'Cardinality', 'Degree', ...sets.map((d) => d.name)],
+    ['Name', 'Cardinality', 'Degree', sets.map((d) => d.name), attrs.map((attr) => computeAttrLabels(attr))].flat(2),
     ...combinations.map((c) => {
-      return [c.name, c.cardinality, c.degree, ...sets.map((s) => (c.sets.has(s) ? 1 : 0))];
+      return [
+        c.name,
+        c.cardinality,
+        c.degree,
+        sets.map((s) => (c.sets.has(s) ? 1 : 0)),
+        attrs.map((attr) => computeAttr(attr, c.elems)),
+      ].flat(2);
     }),
   ]);
 }

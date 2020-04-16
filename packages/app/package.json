@@ -25,7 +25,9 @@
     "start": "webpack-dev-server --devtool cheap-module-eval-source-map"
   },
   "browserslist": [
-    "cover 80%"
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "Firefox ESR"
   ],
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -71,6 +73,7 @@
     "@types/react-router": "^5.1.5",
     "@upsetjs/addons": "^0.4.1",
     "@upsetjs/bundle": "^0.4.1",
+    "@upsetjs/math": "^0.4.1",
     "@upsetjs/model": "^0.4.1",
     "@upsetjs/react": "^0.4.1",
     "clsx": "^1.1.0",

@@ -3438,6 +3438,7 @@ __metadata:
     "@typescript-eslint/parser": ^2.26.0
     "@upsetjs/addons": ^0.4.1
     "@upsetjs/bundle": ^0.4.1
+    "@upsetjs/math": ^0.4.1
     "@upsetjs/model": ^0.4.1
     "@upsetjs/react": ^0.4.1
     babel-eslint: ^10.1.0
