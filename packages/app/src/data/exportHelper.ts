@@ -8,24 +8,41 @@ function toIndex<T>(arr: ReadonlyArray<T>) {
 }
 
 export default function exportHelper(store: Store) {
-  const toElemIndex = toIndex(store.elems);
+  let elems = store.elems;
+  const all = store.combinationsOptions.min === 0;
+  if (!all) {
+    // we can filter out the members that are not used at all
+    const union = new Set(store.visibleSets.map((s) => s.elems).flat());
+    elems = elems.filter((elem) => union.has(elem));
+  }
+  const toElemIndex = toIndex(elems);
   const toSetIndex = toIndex(store.visibleSets);
-  const toCombinationIndx = toIndex(store.visibleCombinations);
+  const toCombinationIndex = toIndex(store.visibleCombinations);
 
   const toSetRef = (set: ISetLike<any>): ISetRef => {
     return {
       type: set.type,
-      index: set.type === 'set' ? toSetIndex(set) : toCombinationIndx(set),
+      index: set.type === 'set' ? toSetIndex(set) : toCombinationIndex(set),
     };
   };
 
+  const attrs = (store.dataset?.attrs ?? []).filter((a) => store.selectedAttrs.has(a));
+
   return {
+    all,
     sets: store.visibleSets,
-    elems: store.elems,
-    attrs: (store.dataset?.attrs ?? []).filter((a) => store.selectedAttrs.has(a)),
+    elems: elems.map((elem) => {
+      if (attrs.length === 0) {
+        return elem.name;
+      }
+      const r: any = { name: elem.name };
+      attrs.forEach((attr) => (r[attr] = elem.attrs[attr]));
+      return r;
+    }),
+    attrs,
     toElemIndex,
     toSetIndex,
-    toCombinationIndx,
+    toCombinationIndx: toCombinationIndex,
     toSetRef,
   };
 }

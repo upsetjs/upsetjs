@@ -60,10 +60,10 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
     dump.attrs.length > 0
       ? {
           combinationAddons: dump.attrs.map((attr) =>
-            boxplotAddon((v) => v.attrs[attr], dump.elements, { orient: 'vertical', name: attr })
+            boxplotAddon((v) => v[attr], dump.elements, { orient: 'vertical', name: attr })
           ),
 
-          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v.attrs[attr], dump.elements, { name: attr })),
+          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v[attr], dump.elements, { name: attr })),
         }
       : {}
   );
@@ -93,11 +93,11 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
 
 function fromURLParam(): IEmbeddedDumpSchema | null {
   const params = new URLSearchParams(window.location.search);
-  if (!params.has('props')) {
+  if (!params.has('p')) {
     return null;
   }
   try {
-    const value = decompressFromEncodedURIComponent(params.get('props')!);
+    const value = decompressFromEncodedURIComponent(params.get('p')!);
     return JSON.parse(value);
   } catch (e) {
     console.warn('cannot parse props argument: ', e);
@@ -173,6 +173,7 @@ window.onload = () => {
     (evt) => {
       const dump: IEmbeddedDumpSchema = evt.data;
       if (dump && Array.isArray(dump.sets) && Array.isArray(dump.elements)) {
+        saveHTMLDump(dump);
         showDump(dump);
       }
     },

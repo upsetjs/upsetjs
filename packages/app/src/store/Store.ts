@@ -181,8 +181,8 @@ export default class Store {
   @observable
   readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> = {
     type: 'intersection',
-    min: 0,
-    max: 3,
+    min: 1,
+    max: 5,
     empty: false,
     limit: 100,
     order: ['cardinality', 'name'],

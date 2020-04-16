@@ -23,15 +23,11 @@ function jsCode(store: Store, prefix = 'UpSetJS.') {
     helper.attrs.length > 0
       ? `
   setAddons: ${JSON.stringify(
-    helper.attrs
-      .map((attr) => `CC${prefix}boxplotAddon((v) => v.attrs['${attr}'], elems, { name: '${attr}' })CC`)
-      .join(',')
+    helper.attrs.map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { name: '${attr}' })CC`).join(',')
   )},
   combinationAddons: ${JSON.stringify(
     helper.attrs
-      .map(
-        (attr) => `CC${prefix}boxplotAddon((v) => v.attrs['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`
-      )
+      .map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`)
       .join(',')
   )}`
       : '';
@@ -129,7 +125,7 @@ export function exportJSFiddle(store: Store) {
   setInput('html', HTML_CODE);
   setInput('css', CSS_CODE);
   setInput('js', jsCode(store));
-  setInput('resources', `https://unpkg.com/@upsetjs/bundle@^${__VERSION__}`);
+  setInput('resources', `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`);
 
   document.body.appendChild(form);
   form.submit();
@@ -204,7 +200,7 @@ export function exportCodepen(store: Store) {
     js: jsCode(store),
     js_pre_processor: 'babel',
     js_modernizr: false,
-    js_external: `https://unpkg.com/@upsetjs/bundle@^${__VERSION__}`,
+    js_external: `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`,
   };
 
   const json = JSON.stringify(data)

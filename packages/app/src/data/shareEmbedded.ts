@@ -36,12 +36,13 @@ export default function shareEmbedded(store: Store) {
   const url = new URL(window.location.toString());
   url.hash = '';
   url.pathname = 'embed.html';
+  url.searchParams.set('p', arg);
 
-  if (arg.length < 32000) {
-    url.searchParams.set('props', arg);
+  if (url.toString().length < 2048) {
     window.open(url.toString(), '_blank');
   } else {
     // send via frame message
+    url.searchParams.delete('p');
     const w = window.open(url.toString(), '_blank');
     w?.addEventListener('load', () => {
       w?.postMessage(r, url.origin);
