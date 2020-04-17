@@ -7,24 +7,12 @@ import {
   BandScaleFactory,
   GenerateSetCombinationsOptions,
   generateCombinations,
+  linearScale,
+  logScale,
+  bandScale,
 } from '@upsetjs/model';
 import { UpSetSizeInfo } from './deriveSizeDependent';
-import { scaleBand, scaleLinear, scaleLog } from 'd3-scale';
 import { generateId } from './utils';
-
-function linearScale(domain: [number, number], range: [number, number]): NumericScaleLike {
-  return scaleLinear().domain(domain).range(range);
-}
-
-function logScale(domain: [number, number], range: [number, number]): NumericScaleLike {
-  return scaleLog()
-    .domain([Math.max(domain[0], 1), domain[1]])
-    .range(range);
-}
-
-function bandScale(domain: string[], range: [number, number], padding: number): BandScaleLike {
-  return scaleBand().domain(domain).range(range).padding(padding);
-}
 
 function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
   if (factory === 'linear') {
@@ -75,7 +63,8 @@ export default function deriveDataDependent<T>(
   bandScale: BandScaleFactory | 'band',
   barLabelFontSize: number,
   dotPadding: number,
-  barPadding: number
+  barPadding: number,
+  tickFontSize: number
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
@@ -83,12 +72,12 @@ export default function deriveDataDependent<T>(
 
   const setY = bandScaleFactory(
     sets.map((d) => d.name).reverse(), // reverse order
-    [0, sizes.sets.h],
+    sizes.sets.h,
     sizes.padding
   );
   const combinationX = bandScaleFactory(
     cs.map((d) => d.name),
-    [0, sizes.cs.w],
+    sizes.cs.w,
     sizes.padding
   );
   const r = (Math.min(setY.bandwidth(), combinationX.bandwidth()) / 2) * dotPadding;
@@ -102,7 +91,14 @@ export default function deriveDataDependent<T>(
     sets: {
       v: sets,
       rv: sets.slice().reverse(),
-      x: numericScaleFactory([0, sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0)], [sizes.sets.w, 0]),
+      x: numericScaleFactory(
+        sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
+        [sizes.sets.w, 0],
+        {
+          orientation: 'horizontal',
+          fontSizeHint: tickFontSize,
+        }
+      ),
       y: setY,
       bandWidth: setY.bandwidth(),
       cy: setY.bandwidth() / 2 + sizes.cs.h,
@@ -111,8 +107,12 @@ export default function deriveDataDependent<T>(
       v: cs,
       x: combinationX,
       y: numericScaleFactory(
-        [0, cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0)],
-        [sizes.cs.h, barLabelFontSize]
+        cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
+        [sizes.cs.h, barLabelFontSize],
+        {
+          orientation: 'vertical',
+          fontSizeHint: tickFontSize,
+        }
       ),
       cx: combinationX.bandwidth() / 2,
       bandWidth: combinationX.bandwidth(),

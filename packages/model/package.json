@@ -20,6 +20,7 @@
     "src"
   ],
   "scripts": {
+    "compile": "tsc -p tsconfig.json --noEmit",
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",

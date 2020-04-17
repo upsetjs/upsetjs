@@ -140,11 +140,23 @@ export default React.forwardRef(function UpSet<T>(
         sizeInfo,
         numericScale,
         bandScale,
-        barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10'),
+        barLabelOffset + Number.parseInt(fontBarLabel ?? '10'),
         dotPadding,
-        barPadding
+        barPadding,
+        Number.parseInt(fontAxisTick ?? '10')
       ),
-    [sets, combinations, sizeInfo, numericScale, bandScale, barLabelOffset, fontSizes.barLabel, dotPadding, barPadding]
+    [
+      sets,
+      combinations,
+      sizeInfo,
+      numericScale,
+      bandScale,
+      barLabelOffset,
+      fontBarLabel,
+      dotPadding,
+      barPadding,
+      fontAxisTick,
+    ]
   );
 
   const rules = `

@@ -14,7 +14,7 @@ export {
 } from './model';
 
 export * from './queries';
-export { BandScaleLike, NumericScaleLike, BandScaleFactory, NumericScaleFactory } from './scales';
+export * from './scales';
 
 export const validators = {
   isGenerateSetCombinationOptions,
