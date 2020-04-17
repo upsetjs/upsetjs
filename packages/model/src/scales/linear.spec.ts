@@ -1,4 +1,4 @@
-import 'jest';
+// import 'jest';
 import { TickOptions, NumericScaleTick, genTicks } from './numeric';
 import { niceFactors, linearScale, range } from './linear';
 
