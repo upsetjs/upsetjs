@@ -8,11 +8,10 @@ export declare type BandScaleFactory = {
 };
 
 export const bandScale: BandScaleFactory = (domain: string[], size: number, padding: number) => {
-  const r = size;
   // number of blocks
-  const blocks = domain.length * (1 + padding) + padding;
-  const step = r / Math.max(1, blocks);
-  const start = r - step * domain.length * (1 + padding);
+  const blocks = domain.length + padding;
+  const step = size / Math.max(1, blocks);
+  const start = size - step * domain.length;
   const lookup = new Map(domain.map((d, i) => [d, i]));
   const bandwidth = step / (1 + padding);
 

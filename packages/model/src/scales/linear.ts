@@ -1,5 +1,8 @@
-import { NumericScaleFactory, NumericScaleTick, hasOverlap, ensureLast, TickOptions } from './numeric';
+import { NumericScaleFactory, NumericScaleTick, TickOptions, genTicks, checkValues } from './numeric';
 
+function toStr(v: number) {
+  return v.toLocaleString();
+}
 /**
  * @internal
  */
@@ -17,25 +20,13 @@ export function niceFactors(max: number, maxCount: number = 11) {
   return r.filter((d) => d >= lower && d <= max);
 }
 
-function range(max: number, inc: number) {
+/** @internal */
+export function range(max: number, inc = 1) {
   const values: number[] = [];
   for (let v = 0; v <= max; v += inc) {
     values.push(v);
   }
   return values;
-}
-
-/** @internal */
-export function genTicks(max: number, inc: number, stride = 1) {
-  const r: NumericScaleTick[] = [];
-  for (let v = 0, i = 0; v <= max; v += inc, i++) {
-    const tick: NumericScaleTick = { value: v };
-    if (stride === 1 || i % stride === 0) {
-      tick.label = v.toLocaleString();
-    }
-    r.push(tick);
-  }
-  return r;
 }
 
 function distributeTicks(
@@ -52,21 +43,13 @@ function distributeTicks(
   // try out all factors
   for (const factor of factors) {
     const values = range(max, factor);
-    const positions = values.map((v) => scale(v));
-    const heights = values.map((v) => heightPerTick(v));
-
-    // check if any overlaps
-    if (!hasOverlap(positions, heights)) {
-      // we can use all
-      return ensureLast(genTicks(max, factor), max, scale, heightPerTick);
-    }
-    if (!hasOverlap(positions, heights, 2)) {
-      // every other at least
-      return ensureLast(genTicks(max, factor, 2), max, scale, heightPerTick);
+    const r = checkValues(values, scale, heightPerTick, max, toStr);
+    if (r) {
+      return r;
     }
   }
   // first and last only
-  return genTicks(max, max);
+  return genTicks([0, max], toStr);
 }
 
 export const linearScale: NumericScaleFactory = (max: number, range: [number, number], options: TickOptions) => {
@@ -83,9 +66,9 @@ export const linearScale: NumericScaleFactory = (max: number, range: [number, nu
       return distributeTicks(max, count + 1, scale, () => heightPerTick);
     }
     const widthPerChar = options.fontSizeHint / 1.4;
-    return distributeTicks(max, count + 1, scale, (v) => Math.ceil(v.toLocaleString().length * widthPerChar));
+    return distributeTicks(max, count + 1, scale, (v) => Math.ceil(toStr(v).length * widthPerChar));
   };
-  scale.tickFormat = () => (v: number) => v.toLocaleString();
+  scale.tickFormat = () => toStr;
 
   return scale;
 };

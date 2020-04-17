@@ -1,5 +1,6 @@
-// import { NumericScaleFactory, NumericScaleTick, ensureLast, hasOverlap, TickOptions } from './numeric';
+import { NumericScaleFactory, NumericScaleTick, genTicks, TickOptions, checkValues, ensureLast } from './numeric';
 
+/** @internal */
 export function toStr(v: number) {
   const orders = ['', 'k', 'M', 'G'];
   const order = Math.max(0, Math.min(Math.floor(Math.log10(v) / 3), orders.length - 1));
@@ -8,77 +9,69 @@ export function toStr(v: number) {
   return `${vi.toLocaleString()}${orders[order]}`;
 }
 
-// function range(max: number, factor: number) {
-//   const values: number[] = [];
-//   let inc = factor;
-//   for (let v = 0, i = 0; v <= max; v += inc, inc *= 10) {
-//     values.push(v);
-//   }
-//   return values;
-// }
+/** @internal */
+export function range(max: number, factor: number) {
+  const values: number[] = [];
+  const inc = Math.pow(10, factor);
+  for (let v = 1; v <= max; v *= inc) {
+    values.push(v);
+  }
+  return values;
+}
 
-// /** @internal */
-// export function genTicks(max: number, inc: number, stride = 1) {
-//   const r: NumericScaleTick[] = [];
-//   for (let v = 0, i = 0; v <= max; v += inc, i++) {
-//     const tick: NumericScaleTick = { value: v };
-//     if (stride === 1 || i % stride === 0) {
-//       tick.label = v.toLocaleString();
-//     }
-//     r.push(tick);
-//   }
-//   return r;
-// }
+function generateInnerTicks(max: number, factor: number) {
+  const values: NumericScaleTick[] = [];
+  const inc = 10;
+  for (let v = 1, i = 0; v <= max; v *= inc, i++) {
+    values.push({
+      value: v,
+      label: factor === 1 || i % factor === 0 ? toStr(v) : undefined,
+    });
+    for (let vv = v + v; vv < v * inc && vv < max; vv += v * factor) {
+      values.push({ value: vv });
+    }
+  }
+  return values;
+}
 
-// function distributeTicks(
-//   max: number,
-//   maxCount: number,
-//   scale: (v: number) => number,
-//   heightPerTick: (v: number) => number
-// ): NumericScaleTick[] {
-//   if (maxCount <= 0) {
-//     return [];
-//   }
-//   const blocks = Math.floor(Math.log10(max));
-//   const factors = [1, 2, 5];
+function distributeTicks(
+  max: number,
+  maxCount: number,
+  scale: (v: number) => number,
+  heightPerTick: (v: number) => number
+): NumericScaleTick[] {
+  if (maxCount <= 0) {
+    return [];
+  }
 
-//   // try out all factors
-//   for (const factor of factors) {
-//     const values = range(max, factor);
-//     const positions = values.map((v) => scale(v));
-//     const heights = values.map((v) => heightPerTick(v));
+  for (const factor of [1, 2, 5]) {
+    const values = range(max, factor);
+    const r = checkValues(values, scale, heightPerTick, max, toStr);
+    if (r) {
+      // generate new but with hidden ticks
+      return ensureLast(generateInnerTicks(max, factor), max, scale, heightPerTick, toStr);
+    }
+  }
+  return genTicks([0, max], toStr);
+}
 
-//     // check if any overlaps
-//     if (!hasOverlap(positions, heights)) {
-//       // we can use all
-//       return ensureLast(genTicks(max, factor), max, scale, heightPerTick);
-//     }
-//     if (!hasOverlap(positions, heights, 2)) {
-//       // every other at least
-//       return ensureLast(genTicks(max, factor, 2), max, scale, heightPerTick);
-//     }
-//   }
-//   // first and last only
-//   return genTicks(max, max);
-// }
+export const logScale: NumericScaleFactory = (max: number, range: [number, number], options: TickOptions) => {
+  const size = range[1] - range[0];
+  const domain = max < 1 ? 1 : Math.log10(max);
 
-// export const logScale: NumericScaleFactory = (max: number, range: [number, number], options: TickOptions) => {
-//   const size = range[1] - range[0];
-//   const domain = max < 1 ? 1 : Math.log10(max);
+  const scale = (v: number) => {
+    const n = v <= 1 ? 0 : Math.log10(v) / domain;
+    return range[0] + n * size;
+  };
+  scale.ticks = (count = 10) => {
+    if (options.orientation === 'vertical') {
+      const heightPerTick = Math.ceil(options.fontSizeHint * 1.4);
+      return distributeTicks(max, count + 1, scale, () => heightPerTick);
+    }
+    const widthPerChar = options.fontSizeHint / 1.4;
+    return distributeTicks(max, count + 1, scale, (v) => Math.ceil(toStr(v).length * widthPerChar));
+  };
+  scale.tickFormat = () => toStr;
 
-//   const scale = (v: number) => {
-//     const n = v <= 1 ? 0 : Math.log10(v) / domain;
-//     return range[0] + n * size;
-//   };
-//   scale.ticks = (count = 10) => {
-//     if (options.orientation === 'vertical') {
-//       const heightPerTick = Math.ceil(options.fontSizeHint * 1.4);
-//       return distributeTicks(max, count + 1, scale, () => heightPerTick);
-//     }
-//     const widthPerChar = options.fontSizeHint / 1.4;
-//     return distributeTicks(max, count + 1, scale, (v) => Math.ceil(toStr(v).length * widthPerChar));
-//   };
-// scale.tickFormat = () => toStr;
-
-//   return scale;
-// };
+  return scale;
+};

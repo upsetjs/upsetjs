@@ -1,6 +1,6 @@
 import 'jest';
-import { TickOptions, NumericScaleTick } from './numeric';
-import { niceFactors, linearScale, genTicks } from './linear';
+import { TickOptions, NumericScaleTick, genTicks } from './numeric';
+import { niceFactors, linearScale, range } from './linear';
 
 // const hor: TickOptions = {
 //   orientation: 'horizontal',
@@ -30,10 +30,10 @@ describe('linear', () => {
     expect(typeof linearScale).toBe('function');
   });
   test('ticks small', () => {
-    expect(linearScale(10, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(10, 1));
-    expect(linearScale(10, [0, 100], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(10, 1));
+    expect(linearScale(10, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(10)));
+    expect(linearScale(10, [0, 100], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(10)));
   });
   test('ticks alternating', () => {
-    expect(linearScale(18, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(18, 2));
+    expect(linearScale(18, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(18)));
   });
 });
