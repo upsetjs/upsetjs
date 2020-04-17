@@ -97,7 +97,7 @@ export function listUpSet2Datasets() {
 }
 
 async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
-  const rawText = await fetch(ds.file).then((r) => r.text());
+  const rawText = await fetchCors(ds.file).then((r) => r.text());
   const csv = parse(rawText, {
     delimiter: ds.separator,
   });
