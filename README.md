@@ -138,7 +138,36 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
 Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
 
-TODO
+```ts
+import { extractSets, renderUpSet, boxplotAddon } from '@upsetjs/bundle';
+
+const elems = [
+  { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
+  { name: '2', sets: ['one', 'two'], value: Math.random() },
+  { name: '3', sets: ['one'], value: Math.random() },
+  { name: '4', sets: ['two'], value: Math.random() },
+  { name: '5', sets: ['one', 'two', 'three'], value: Math.random() },
+  { name: '6', sets: ['three'], value: Math.random() },
+  { name: '7', sets: ['one', 'three'], value: Math.random() },
+  { name: '8', sets: ['one', 'three'], value: Math.random() },
+  { name: '9', sets: ['three'], value: Math.random() },
+  { name: '10', sets: ['two', 'three'], value: Math.random() },
+  { name: '11', sets: ['one'], value: Math.random() },
+  { name: '12', sets: ['one', 'three'], value: Math.random() },
+  { name: '13', sets: ['one', 'three'], value: Math.random() },
+];
+const sets = extractSets(elems);
+
+renderUpSet(document.body, {
+  sets,
+  width: 500,
+  height: 300,
+  setAddons: [boxplotAddon('value', elems)],
+  combinationAddons: [boxplotAddon('value', elems, { orient: 'vertical' })],
+});
+```
+
+![addons](https://user-images.githubusercontent.com/4129778/79564225-85762a00-80ae-11ea-80ae-1d01a43ec45a.png)
 
 ## UpSet.js App
 
@@ -227,7 +256,7 @@ A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [ups
 In contrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
 
 ```R
-devtools::install_github("upsetjs/upsetjs_r")
+devtools::install_url("https://github.com/upsetjs/upsetjs_r/releases/latest/download/upsetjs.tar.gz")
 library(upsetjs)
 ```
 
