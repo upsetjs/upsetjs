@@ -34,6 +34,6 @@ describe('linear', () => {
     expect(linearScale(10, [0, 100], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(10)));
   });
   test('ticks alternating', () => {
-    expect(linearScale(18, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(18)));
+    expect(linearScale(18, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(range(18, 2)));
   });
 });
