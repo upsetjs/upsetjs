@@ -1,5 +1,6 @@
-// import 'jest';
-import { niceFactors, linearScale, TickOptions, NumericScaleTick, genTicks } from './scales';
+import 'jest';
+import { TickOptions, NumericScaleTick } from './numeric';
+import { niceFactors, linearScale, genTicks } from './linear';
 
 // const hor: TickOptions = {
 //   orientation: 'horizontal',
@@ -36,15 +37,3 @@ describe('linear', () => {
     expect(linearScale(18, [0, 200], ver).ticks()).toEqual<NumericScaleTick[]>(genTicks(18, 2));
   });
 });
-
-// describe('log', () => {
-//   test('base', () => {
-//     expect(typeof logScale).toBe('function');
-//   });
-// });
-
-// describe('band', () => {
-//   test('base', () => {
-//     expect(typeof bandScale).toBe('function');
-//   });
-// });
