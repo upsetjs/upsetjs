@@ -19,7 +19,7 @@ export default React.memo(function UpSetAxis<T>({
   return (
     <g>
       <g transform={`translate(${size.cs.x},${size.cs.y})`}>
-        <D3Axis scale={data.cs.y} orient="left" style={style} />
+        <D3Axis scale={data.cs.y} orient="left" size={size.cs.h} style={style} />
         <line x1={0} x2={size.cs.w} y1={size.cs.h + 1} y2={size.cs.h + 1} className="axisLine" />
         <text
           className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
@@ -40,7 +40,13 @@ export default React.memo(function UpSetAxis<T>({
         ))}
       </g>
       <g transform={`translate(${size.sets.x},${size.sets.y})`}>
-        <D3Axis scale={data.sets.x} orient="bottom" transform={`translate(0, ${size.sets.h})`} style={style} />
+        <D3Axis
+          scale={data.sets.x}
+          orient="bottom"
+          size={size.sets.w}
+          transform={`translate(0, ${size.sets.h})`}
+          style={style}
+        />
         <text
           className={clsx(`sChartTextStyle-${style.id}`, style.classNames.chartLabel)}
           style={style.styles.chartLabel}
