@@ -9,6 +9,7 @@ export declare type NumericScaleLike = {
   (v: number): number;
   // api to be compatible with d3-scale
   ticks(count?: number): ReadonlyArray<NumericScaleTick | number>;
+  tickFormat(): (v: number) => string;
 };
 
 export declare type NumericScaleFactory = {

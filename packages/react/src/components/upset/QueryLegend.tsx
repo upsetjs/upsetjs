@@ -34,7 +34,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
             <tspan className={`fillQ${i}-${data.id}`}>{'  ⬤ '}</tspan>
             <tspan>
               {q.name}
-              {count != null ? `: ${count}` : ''}
+              {count != null ? `: ${data.sets.format(count)}` : ''}
             </tspan>
           </React.Fragment>
         );

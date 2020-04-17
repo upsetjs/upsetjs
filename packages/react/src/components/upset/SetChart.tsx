@@ -38,7 +38,7 @@ const SetChart = React.memo(function SetChart<T>({
       className={className}
     >
       <title>
-        {d.name}: {d.cardinality}
+        {d.name}: {data.sets.format(d.cardinality)}
       </title>
       <rect
         x={-size.sets.before}
@@ -68,7 +68,7 @@ const SetChart = React.memo(function SetChart<T>({
         style={style.styles.barLabel}
         className={clsx(`sBarTextStyle-${style.id}`, style.classNames.barLabel)}
       >
-        {d.cardinality}
+        {data.sets.format(d.cardinality)}
       </text>
       <text
         x={size.sets.w + size.labels.w / 2}

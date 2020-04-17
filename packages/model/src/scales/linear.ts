@@ -85,6 +85,7 @@ export const linearScale: NumericScaleFactory = (max: number, range: [number, nu
     const widthPerChar = options.fontSizeHint / 1.4;
     return distributeTicks(max, count + 1, scale, (v) => Math.ceil(v.toLocaleString().length * widthPerChar));
   };
+  scale.tickFormat = () => (v: number) => v.toLocaleString();
 
   return scale;
 };

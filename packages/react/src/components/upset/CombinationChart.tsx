@@ -38,7 +38,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       className={className}
     >
       <title>
-        {d.name}: {d.cardinality}
+        {d.name}: {data.cs.format(d.cardinality)}
       </title>
       <rect
         y={-size.cs.before}
@@ -59,7 +59,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         style={style.styles.barLabel}
         className={clsx(`cBarTextStyle-${style.id}`, style.classNames.barLabel)}
       >
-        {d.cardinality}
+        {data.cs.format(d.cardinality)}
       </text>
       <text
         y={-style.barLabelOffset - size.cs.before}

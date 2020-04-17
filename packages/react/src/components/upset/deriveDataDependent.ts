@@ -39,6 +39,7 @@ export declare type UpSetDataInfo<T> = {
     y: BandScaleLike;
     bandWidth: number;
     cy: number;
+    format(v: number): string;
   };
   cs: {
     v: ISetCombinations<T>;
@@ -46,6 +47,7 @@ export declare type UpSetDataInfo<T> = {
     y: NumericScaleLike;
     bandWidth: number;
     cx: number;
+    format(v: number): string;
   };
 };
 
@@ -70,6 +72,14 @@ export default function deriveDataDependent<T>(
   const bandScaleFactory = resolveBandScale(bandScale);
   const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
 
+  const setX = numericScaleFactory(
+    sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
+    [sizes.sets.w, 0],
+    {
+      orientation: 'horizontal',
+      fontSizeHint: tickFontSize,
+    }
+  );
   const setY = bandScaleFactory(
     sets.map((d) => d.name).reverse(), // reverse order
     sizes.sets.h,
@@ -79,6 +89,14 @@ export default function deriveDataDependent<T>(
     cs.map((d) => d.name),
     sizes.cs.w,
     sizes.padding
+  );
+  const combinationY = numericScaleFactory(
+    cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
+    [sizes.cs.h, barLabelFontSize],
+    {
+      orientation: 'vertical',
+      fontSizeHint: tickFontSize,
+    }
   );
   const r = (Math.min(setY.bandwidth(), combinationX.bandwidth()) / 2) * dotPadding;
 
@@ -91,31 +109,19 @@ export default function deriveDataDependent<T>(
     sets: {
       v: sets,
       rv: sets.slice().reverse(),
-      x: numericScaleFactory(
-        sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
-        [sizes.sets.w, 0],
-        {
-          orientation: 'horizontal',
-          fontSizeHint: tickFontSize,
-        }
-      ),
+      x: setX,
       y: setY,
       bandWidth: setY.bandwidth(),
       cy: setY.bandwidth() / 2 + sizes.cs.h,
+      format: setX.tickFormat(),
     },
     cs: {
       v: cs,
       x: combinationX,
-      y: numericScaleFactory(
-        cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
-        [sizes.cs.h, barLabelFontSize],
-        {
-          orientation: 'vertical',
-          fontSizeHint: tickFontSize,
-        }
-      ),
+      y: combinationY,
       cx: combinationX.bandwidth() / 2,
       bandWidth: combinationX.bandwidth(),
+      format: combinationY.tickFormat(),
     },
   };
 }
