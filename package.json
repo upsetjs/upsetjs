@@ -22,7 +22,7 @@
     "lint:fix": "yarn workspaces foreach -v --topological-dev run lint --fix",
     "test": "yarn workspaces foreach -v -p --topological-dev run test",
     "build": "yarn workspaces foreach -v -p --topological-dev run build",
-    "build-storybook": "yarn workspaces foreach -v -p --topological-dev run build-storybook",
+    "docs": "yarn workspaces foreach -v -p run docs",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start"
   },

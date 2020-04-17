@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "strictBindCallApply": true,
     "noImplicitAny": true,
+    "stripInternal": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
@@ -25,5 +26,5 @@
     "moduleResolution": "node",
     "jsx": "react",
     "esModuleInterop": true
-  }
+  },
 }

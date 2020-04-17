@@ -27,7 +27,7 @@
     "lint": "tsdx lint src --ext .ts,.tsx",
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --quiet"
+    "docs": "build-storybook --quiet --no-dll -o ./docs"
   },
   "browserslist": [
     "defaults"
@@ -69,6 +69,7 @@
     "ts-loader": "^6.2.2",
     "tsdx": "~0.12.0",
     "tslib": "^1.11.1",
+    "typedoc": "next",
     "typescript": "^3.8.3"
   },
   "dependencies": {

@@ -13,5 +13,17 @@
       "react-dom": ["node_modules/preact/compat"],
       "*": ["*", "node_modules/*"]
     }
-  }
+  },
+  "typedocOptions": {
+    "name": "UpSet.js Bundle",
+    "out": "./docs",
+    "mode": "library",
+    "theme": "minimal",
+    "excludeNotExported": true,
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "includeVersion": true,
+    "hideGenerator": true,
+    "entryPoint": "\"index\"",
+  },
 }

@@ -38,15 +38,21 @@ jobs:
         env:
           CI: true
       - run: |
+          mkdir -p public/api/addons
+          mv packages/addons/docs/* public/api/addons/
           mkdir -p public/app
           mv packages/app/dist/schema* public/
           mv packages/app/dist/* public/app/
-          mkdir -p public/api
-          mv packages/react/storybook-static/* public/api/
-          mkdir -p public/api_addons
-          mv packages/addons/storybook-static/* public/api_addons/
-          mkdir -p public/vue
-          mv packages/vue-example/dist/* public/vue/
+          mkdir -p public/api/bundle
+          mv packages/bundle/docs/* public/api/bundle/
+          mkdir -p public/api/math
+          mv packages/math/docs/* public/api/math/
+          mkdir -p public/api/model
+          mv packages/model/docs/* public/api/model/
+          mkdir -p public/api/react
+          mv packages/react/docs/* public/api/react/
+          mkdir -p public/integrations/vue
+          mv packages/vue-example/dist/* public/integrations/vue/
           cp README.md public/
 
       - name: Deploy
