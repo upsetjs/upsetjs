@@ -317,7 +317,7 @@ export default React.forwardRef(function UpSet<T>(
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={(evt) => onClick(null, evt)}
+            onClick={(evt) => onClick(null, evt.nativeEvent)}
             className={`fillTransparent-${styleId}`}
           />
         )}

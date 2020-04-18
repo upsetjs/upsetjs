@@ -20,9 +20,9 @@ export default React.memo(function UpSetChart<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onClick?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onContextMenu?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   childrens: UpSetReactChildrens<T>;
 }>) {
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
@@ -30,7 +30,7 @@ export default React.memo(function UpSetChart<T>({
       wrap(onClick),
       wrap(onHover),
       wrap(onContextMenu),
-      onHover ? (evt: React.MouseEvent) => onHover(null, evt) : undefined,
+      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
     ],
     [onClick, onHover, onContextMenu]
   );

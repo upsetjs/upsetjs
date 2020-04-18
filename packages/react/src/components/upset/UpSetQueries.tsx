@@ -20,7 +20,7 @@ export default React.memo(function UpSetQueries<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   secondary: boolean;
   queries: ReadonlyArray<UpSetQuery<T>>;
 }>) {

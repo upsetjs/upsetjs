@@ -62,9 +62,9 @@ export interface UpSetDataProps<T> {
 
 export interface UpSetSelectionProps<T> {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onClick?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onContextMenu?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 }
