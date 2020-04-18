@@ -12,6 +12,7 @@ const SetChart = React.memo(function SetChart<T>({
   onMouseEnter,
   onMouseLeave,
   onClick,
+  onContextMenu,
   className,
   size,
   data,
@@ -35,6 +36,7 @@ const SetChart = React.memo(function SetChart<T>({
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
+      onContextMenu={onContextMenu(d)}
       className={className}
     >
       <title>

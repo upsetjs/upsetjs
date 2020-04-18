@@ -26,6 +26,7 @@ export default React.forwardRef(function UpSet<T>(
     combinations,
     selection = null,
     onClick,
+    onContextMenu,
     onHover,
     theme,
     dotPadding,
@@ -327,6 +328,7 @@ export default React.forwardRef(function UpSet<T>(
           data={dataInfo}
           onClick={onClick}
           onHover={onHover}
+          onContextMenu={onContextMenu}
           childrens={childrenFactories}
         />
         <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={onHover} selection={selection} />

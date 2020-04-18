@@ -12,6 +12,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   onClick,
   onMouseEnter,
   onMouseLeave,
+  onContextMenu,
   className,
   data,
   size,
@@ -35,6 +36,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
+      onContextMenu={onContextMenu(d)}
       className={className}
     >
       <title>
