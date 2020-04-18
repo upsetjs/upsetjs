@@ -63,8 +63,8 @@ export interface UpSetDataProps<T> {
 
 export interface UpSetSelectionProps<T> {
   selection?: ISetLike<T> | null | ReadonlyArray<T>;
-  onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T> | null): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 }

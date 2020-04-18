@@ -43,7 +43,7 @@ export default function UpSetSelection<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null): void;
+  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
   selection: ISetLike<T> | null | ReadonlyArray<T>;
 }>) {
   const empty = style.emptySelection;

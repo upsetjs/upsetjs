@@ -19,12 +19,12 @@ export default React.memo(function UpSetChart<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T> | null): void;
+  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
   childrens: UpSetReactChildrens<T>;
 }>) {
   const [onClickImpl, onMouseEnterImpl, onMouseLeaveImpl] = React.useMemo(
-    () => [wrap(onClick), wrap(onHover), onHover ? () => onHover(null) : undefined],
+    () => [wrap(onClick), wrap(onHover), onHover ? (evt: React.MouseEvent) => onHover(null, evt) : undefined],
     [onClick, onHover]
   );
 

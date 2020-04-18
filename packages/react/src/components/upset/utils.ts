@@ -4,13 +4,13 @@ function noop() {
   return undefined;
 }
 
-export function wrap<T>(f?: (set: ISetLike<T>) => void) {
+export function wrap<T>(f?: (set: ISetLike<T> | null, evt: React.MouseEvent) => void) {
   if (!f) {
     return noop;
   }
   return (set: ISetLike<T>) => {
-    return function (this: any) {
-      return f.call(this, set);
+    return function (this: any, evt: React.MouseEvent) {
+      return f.call(this, set, evt);
     };
   };
 }
