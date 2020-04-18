@@ -7,11 +7,11 @@ async function loadUpSet() {
   react.src = 'https://unpkg.com/react@16/umd/react.development.js';
   document.head.appendChild(react);
   await new Promise((resolve) => (react.onload = resolve));
-  const reactdom = document.createElement('script');
-  reactdom.crossOrigin = true;
-  reactdom.src = 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
-  document.head.appendChild(reactdom);
-  await new Promise((resolve) => (reactdom.onload = resolve));
+  const reactDOM = document.createElement('script');
+  reactDOM.crossOrigin = true;
+  reactDOM.src = 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
+  document.head.appendChild(reactDOM);
+  await new Promise((resolve) => (reactDOM.onload = resolve));
 
   window.UpSetJSModel = window.exports = {};
 
