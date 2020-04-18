@@ -21,6 +21,7 @@ In addition, there are the following sibling repositories and projects
 
 - [upsetjs_r](https://github.com/upsetjs/upsetjs_r) R HTMLWidget wrapper around UpSet.js
 - [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
+- [upsetjs_powerbi_visuals](https://github.com/upsetjs/upsetjs_powerbi_visuals) PowerBI Custom Visuals around UpSet.js
 - [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library) Observable HQ wrapper around UpSet.js
 
 ## Usage and Installation
@@ -293,6 +294,14 @@ w
 ![upset_from_dict](https://user-images.githubusercontent.com/4129778/79368564-e4715d00-7f4f-11ea-92f5-23ee89b5332f.png)
 
 see also [![Open in NBViewer][nbviewer]](https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb)
+
+### PowerBI
+
+A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-visualization/?cdn=disable) is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
+
+Download the latest package from [https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz](https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz) and install into your PowerBI environment.
+
+![UpSet.js Report](https://user-images.githubusercontent.com/4129778/79641879-808ea480-819a-11ea-87f9-441c3647812f.png)
 
 ## Dev Environment
 
