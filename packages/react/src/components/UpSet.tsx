@@ -298,6 +298,7 @@ export default React.forwardRef(function UpSet<T>(
       width={width}
       height={height}
       ref={ref}
+      viewBox={`0 0 ${width} ${height}`}
       data-theme={theme ?? 'light'}
     >
       <style>{rules}</style>
