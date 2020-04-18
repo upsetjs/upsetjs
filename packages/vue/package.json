@@ -1,12 +1,15 @@
 {
   "name": "@upsetjs/vue",
-  "description": "UpSetR Vue component implementation",
+  "description": "UpSet.js Vue component implementation",
   "version": "0.4.2",
   "license": "AGPL-3.0",
   "author": {
     "name": "Samuel Gratzl",
-    "email": "samu@sgratzl.com",
+    "email": "sam@sgratzl.com",
     "url": "https://wwww.sgratzl.com"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://github.com/upsetjs/upsetjs",
   "bugs": {
