@@ -5,62 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>UpSet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
   </head>
-  <body style="background-color: black;">
-    <div id="app"></div>
+  <body>
+    <script src="./upset.js"></script>
     <script>
-      window.UpSetJSModel = window.exports = {};
-    </script>
-    <script src="../../model/dist/model.cjs.development.js"></script>
-    <script>
-      function require(id) {
-        if (id === 'react') {
-          return window.React;
-        }
-        if (id === '@upsetjs/model') {
-          return window.UpSetJSModel;
-        }
-      }
-      window.require = require;
-      window.UpSetJS = window.exports = {};
-    </script>
-    <script src="../dist/react.cjs.development.js"></script>
+      loadUpSet().then(({ UpSetJS, render }) => {
+        const elems = [
+          { name: 'Lisa', sets: ['School'] },
+          { name: 'Bart', sets: ['School', 'Male'] },
+          { name: 'Homer', sets: ['Duff Fan', 'Male'] },
+          { name: 'Marge', sets: ['Blue Hair'] },
+          { name: 'Maggie', sets: [] },
+          { name: 'Barney', sets: ['Duff Fan', 'Male'] },
+          { name: 'Mr. Burns', sets: ['Evil', 'Male'] },
+          { name: 'Mo', sets: ['Duff Fan', 'Male'] },
+          { name: 'Ned', sets: ['Male'] },
+          { name: 'Milhouse', sets: ['School', 'Blue Hair', 'Male'] },
+          { name: 'Grampa', sets: ['Male'] },
+          { name: 'Krusty', sets: ['Duff Fan', 'Evil', 'Male'] },
+          { name: 'Smithers', sets: ['Evil', 'Male'] },
+          { name: 'Ralph', sets: ['School', 'Male'] },
+          { name: 'Sideshow Bob', sets: ['Evil', 'Male'] },
+          { name: 'Kent Brockman', sets: ['Male'] },
+          { name: 'Fat Tony', sets: ['Evil', 'Male'] },
+          { name: 'Jacqueline Bouvier ', sets: ['Blue Hair'] },
+          { name: 'Patty Bouvier', sets: [] },
+          { name: 'Selma Bouvier', sets: [] },
+          { name: 'Lenny Leonard', sets: ['Duff Fan', 'Male'] },
+          { name: 'Carl Carlson', sets: ['Duff Fan', 'Male'] },
+          { name: 'Nelson', sets: ['School', 'Evil', 'Male'] },
+          { name: 'Martin Prince', sets: ['School', 'Male'] },
+        ];
+        const sets = UpSetJS.extractSets(elems);
 
-    <script>
-      const elems = [
-        { name: 'Lisa', sets: ['School'] },
-        { name: 'Bart', sets: ['School', 'Male'] },
-        { name: 'Homer', sets: ['Duff Fan', 'Male'] },
-        { name: 'Marge', sets: ['Blue Hair'] },
-        { name: 'Maggie', sets: [] },
-        { name: 'Barney', sets: ['Duff Fan', 'Male'] },
-        { name: 'Mr. Burns', sets: ['Evil', 'Male'] },
-        { name: 'Mo', sets: ['Duff Fan', 'Male'] },
-        { name: 'Ned', sets: ['Male'] },
-        { name: 'Milhouse', sets: ['School', 'Blue Hair', 'Male'] },
-        { name: 'Grampa', sets: ['Male'] },
-        { name: 'Krusty', sets: ['Duff Fan', 'Evil', 'Male'] },
-        { name: 'Smithers', sets: ['Evil', 'Male'] },
-        { name: 'Ralph', sets: ['School', 'Male'] },
-        { name: 'Sideshow Bob', sets: ['Evil', 'Male'] },
-        { name: 'Kent Brockman', sets: ['Male'] },
-        { name: 'Fat Tony', sets: ['Evil', 'Male'] },
-        { name: 'Jacqueline Bouvier ', sets: ['Blue Hair'] },
-        { name: 'Patty Bouvier', sets: [] },
-        { name: 'Selma Bouvier', sets: [] },
-        { name: 'Lenny Leonard', sets: ['Duff Fan', 'Male'] },
-        { name: 'Carl Carlson', sets: ['Duff Fan', 'Male'] },
-        { name: 'Nelson', sets: ['School', 'Evil', 'Male'] },
-        { name: 'Martin Prince', sets: ['School', 'Male'] },
-      ];
-      const sets = UpSetJS.extractSets(elems);
-
-      let selection = null;
-      function render() {
-        ReactDOM.render(
-          React.createElement(UpSetJS.default, {
+        let selection = null;
+        function rerender() {
+          render({
             sets,
             width: 1200,
             height: 500,
@@ -68,13 +48,12 @@
             selection,
             onHover: (s) => {
               selection = s;
-              render();
+              rerender();
             },
-          }),
-          document.getElementById('app')
-        );
-      }
-      render();
+          });
+        }
+        rerender();
+      });
     </script>
   </body>
 </html>
