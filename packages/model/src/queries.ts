@@ -1,7 +1,7 @@
 import { ISetLike } from './model';
 import { setOverlapFactory, SetOverlap, setElemOverlapFactory, SetElemOverlap } from './data/setOverlap';
 
-export type UpSetElemQuery<T> = {
+export type UpSetElemQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
@@ -14,7 +14,7 @@ export type UpSetElemQuery<T> = {
   elems: ReadonlyArray<T> | Set<T>;
 };
 
-export type UpSetSetQuery<T> = {
+export type UpSetSetQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
@@ -27,7 +27,7 @@ export type UpSetSetQuery<T> = {
   set: ISetLike<T>;
 };
 
-export type UpSetCalcQuery<T> = {
+export type UpSetCalcQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
@@ -42,10 +42,10 @@ export type UpSetCalcQuery<T> = {
    * @param s the current set to evaluate
    * @return at most `s.cardinality`
    */
-  overlap(s: ISetLike<T>): number;
+  overlap(s: ISetLike<T> | ReadonlyArray<T>): number;
 };
 
-export type UpSetQuery<T> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
+export type UpSetQuery<T = any> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
 
 export function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);
