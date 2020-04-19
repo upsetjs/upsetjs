@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "compile": "tsc -p tsconfig.json --noEmit",
-    "start": "tsdx watch",
+    "start": "tsdx watch --noClean",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
