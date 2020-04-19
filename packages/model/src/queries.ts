@@ -59,11 +59,11 @@ export function isSetQuery<T>(q: UpSetQuery<T>): q is UpSetSetQuery<T> {
   return (q as UpSetSetQuery<T>).set != null;
 }
 
-export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap) {
+export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap, toElemKey?: (e: T) => string) {
   if (isCalcQuery(q)) {
     return q.overlap;
   }
-  const f = setOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems);
+  const f = setOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems)[what];
   };
@@ -71,12 +71,13 @@ export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap) {
 
 export function queryElemOverlap<T>(
   q: UpSetQuery<T>,
-  what: keyof SetElemOverlap<T>
+  what: keyof SetElemOverlap<T>,
+  toElemKey?: (e: T) => string
 ): (s: ISetLike<T>) => ReadonlyArray<T> | null {
   if (isCalcQuery(q)) {
     return () => null;
   }
-  const f = setElemOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems);
+  const f = setElemOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems)[what];
   };

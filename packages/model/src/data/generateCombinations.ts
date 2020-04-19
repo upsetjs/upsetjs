@@ -1,4 +1,4 @@
-import { ISetCombination, ISetCombinations, ISets } from '../model';
+import { ISetCombination, ISetCombinations, ISets, ISet } from '../model';
 import { isSetLike } from '../validators';
 import { postprocessCombinations, PostprocessCombinationsOptions } from './asCombinations';
 import powerSet from './powerSet';
@@ -28,21 +28,33 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
   elems?: ReadonlyArray<T>;
 
   notPartOfAnySet?: ReadonlyArray<T> | number;
+
+  toElemKey?(v: T): string;
 } & PostprocessCombinationsOptions;
 
 function intersectionBuilder<T>(
   sets: ISets<T>,
   allElements: ReadonlyArray<T>,
-  notPartOfAnySet?: ReadonlyArray<T> | number
+  notPartOfAnySet?: ReadonlyArray<T> | number,
+  toElemKey?: (v: T) => string
 ) {
-  const setElems = new Map(sets.map((s) => [s, new Set(s.elems)]));
+  const setElems = new Map(sets.map((s) => [s, toElemKey ? new Set(s.elems.map(toElemKey!)) : new Set(s.elems)]));
+  const setDirectElems = toElemKey ? null : (setElems as Map<ISet<T>, Set<T>>);
+  const setKeyElems = toElemKey ? (setElems as Map<ISet<T>, Set<string>>) : null;
 
   function computeIntersection(intersection: ISets<T>) {
     if (intersection.length === 0) {
       if (Array.isArray(notPartOfAnySet)) {
         return notPartOfAnySet;
       }
-      const lookup = Array.from(setElems.values());
+      if (setKeyElems && toElemKey) {
+        const lookup = Array.from(setKeyElems.values());
+        return allElements.filter((e) => {
+          const k = toElemKey(e);
+          return lookup.every((s) => !s.has(k));
+        });
+      }
+      const lookup = Array.from(setDirectElems!.values());
       return allElements.filter((e) => lookup.every((s) => !s.has(e)));
     }
     if (intersection.length === 1) {
@@ -52,16 +64,34 @@ function intersectionBuilder<T>(
       (acc, d) => (!acc || acc.length > d.elems.length ? d.elems : acc),
       null as ReadonlyArray<T> | null
     )!;
-    return smallest.filter((elem) => intersection.every((s) => setElems.get(s)!.has(elem)));
+    if (setKeyElems && toElemKey) {
+      return smallest.filter((elem) => {
+        const key = toElemKey(elem);
+        return intersection.every((s) => setKeyElems.get(s)!.has(key));
+      });
+    }
+    return smallest.filter((elem) => intersection.every((s) => setDirectElems!.get(s)!.has(elem)));
   }
   return computeIntersection;
 }
 
-function unionBuilder<T>(sets: ISets<T>, allElements: ReadonlyArray<T>, notPartOfAnySet?: ReadonlyArray<T> | number) {
+function unionBuilder<T>(
+  sets: ISets<T>,
+  allElements: ReadonlyArray<T>,
+  notPartOfAnySet?: ReadonlyArray<T> | number,
+  toElemKey?: (v: T) => string
+) {
   function computeUnion(union: ISets<T>) {
     if (union.length === 0) {
       if (Array.isArray(notPartOfAnySet)) {
         return notPartOfAnySet;
+      }
+      if (toElemKey) {
+        const lookup = new Set<string>();
+        sets.forEach((set) => {
+          set.elems.forEach((e) => lookup.add(toElemKey(e)));
+        });
+        return allElements.filter((e) => !lookup.has(toElemKey(e)));
       }
       const lookup = new Set<T>();
       sets.forEach((set) => {
@@ -78,7 +108,7 @@ function unionBuilder<T>(sets: ISets<T>, allElements: ReadonlyArray<T>, notPartO
     )!;
 
     const all: T[] = largest.slice();
-    const contained = new Set(all);
+    const contained = toElemKey ? new Set(all.map(toElemKey)) : new Set(all);
 
     union.forEach((set) => {
       if (set.elems === largest) {
@@ -86,9 +116,15 @@ function unionBuilder<T>(sets: ISets<T>, allElements: ReadonlyArray<T>, notPartO
         return;
       }
       set.elems.forEach((elem) => {
-        if (!contained.has(elem)) {
+        if (toElemKey) {
+          const key = toElemKey(elem);
+          if (!(contained as Set<string>).has(key)) {
+            all.push(elem);
+            (contained as Set<string>).add(key);
+          }
+        } else if (!(contained as Set<T>).has(elem)) {
           all.push(elem);
-          contained.add(elem);
+          (contained as Set<T>).add(elem);
         }
       });
     });
@@ -107,13 +143,19 @@ export default function generateCombinations<T = any>(
     empty = false,
     elems: allElements = [],
     notPartOfAnySet,
+    toElemKey,
     ...postprocess
   }: GenerateSetCombinationsOptions<T> = { type: 'intersection' }
 ): ISetCombinations<T> {
   const joiner = type === 'intersection' ? ' ∩ ' : ' ∪ ';
   const combinations: ISetCombination<T>[] = [];
 
-  const compute = (type === 'intersection' ? intersectionBuilder : unionBuilder)(sets, allElements, notPartOfAnySet);
+  const compute = (type === 'intersection' ? intersectionBuilder : unionBuilder)(
+    sets,
+    allElements,
+    notPartOfAnySet,
+    toElemKey
+  );
 
   powerSet(sets, { min, max }).forEach((combo) => {
     if (combo.length === 0 && typeof notPartOfAnySet === 'number' && notPartOfAnySet > 0) {
