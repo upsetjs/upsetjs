@@ -1,13 +1,14 @@
-import { generateCombinations, ISet, fromIndicesArray } from '@upsetjs/model';
+import { generateCombinations, ISets, fromIndicesArray } from '@upsetjs/model';
 import { IEmbeddedDumpSchema, ISetRef } from './interfaces';
 
 export default function loadDump<T>(dump: IEmbeddedDumpSchema, gen: typeof generateCombinations): T {
   const elems = dump.elements;
 
-  const sets = dump.sets.map((set) => {
-    ((set.elems as unknown) as any[]) = fromIndicesArray(set.elems, elems);
-    return set as ISet<any>;
-  });
+  const sets: ISets<T> = dump.sets.map((set) =>
+    Object.assign({}, set, {
+      elems: fromIndicesArray(set.elems, elems),
+    })
+  );
   const combinations = gen(
     sets,
     Object.assign(
