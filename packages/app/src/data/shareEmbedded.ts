@@ -36,7 +36,14 @@ export default function shareEmbedded(store: Store) {
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL(window.location.toString());
   url.hash = '';
-  url.pathname = 'embed.html';
+  if (url.pathname.endsWith('/')) {
+    url.pathname = `${url.pathname}embed.html`;
+  } else if (url.pathname.endsWith('index.html')) {
+    url.pathname = url.pathname.replace('index.html', 'embed.html');
+  } else {
+    url.pathname = `${url.pathname}/embed.html`;
+  }
+  url.search = '?';
   url.searchParams.set('p', arg);
 
   if (url.toString().length < 2048) {
