@@ -11,6 +11,7 @@ export {
   ISet,
   ISets,
   IBaseSet,
+  toKey,
 } from './model';
 
 export * from './queries';

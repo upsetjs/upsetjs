@@ -11,19 +11,19 @@ import UpSetSelectionChart from './UpSetSelectionChart';
 
 const EMPTY_ARRAY: any[] = [];
 
-function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null): s is ISetLike<T> {
+function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null | ((s: ISetLike<T>) => number)): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
 }
 
-function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
-  const f = setOverlapFactory(query);
+function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+  const f = setOverlapFactory(query, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems).intersection;
   };
 }
 
-function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>) {
-  const f = setElemOverlapFactory(query);
+function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+  const f = setElemOverlapFactory(query, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems).intersection;
   };
@@ -43,20 +43,43 @@ export default function UpSetSelection<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  selection: ISetLike<T> | null | ReadonlyArray<T>;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
 }>) {
   const empty = style.emptySelection;
-  const selectionOverlap = selection
-    ? elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
-    : noOverlap;
-  const selectionName = Array.isArray(selection) ? `Array(${selection.length})` : (selection as ISetLike<T>)?.name;
+
+  function generateSelectionOverlap(): (s: ISetLike<T>) => number {
+    if (!selection) {
+      return noOverlap;
+    }
+    if (typeof selection === 'function') {
+      return selection;
+    }
+    if (Array.isArray(selection)) {
+      return elemOverlapOf(selection, data.toElemKey);
+    }
+    const ss = selection as ISetLike<T>;
+    if (ss.overlap) {
+      return ss.overlap;
+    }
+    const f = elemOverlapOf(ss.elems, data.toElemKey);
+    return (s) => {
+      return s.overlap ? s.overlap(ss) : f(s);
+    };
+  }
+
+  const selectionOverlap = generateSelectionOverlap();
+  const selectionName = Array.isArray(selection)
+    ? `Array(${selection.length})`
+    : typeof selection === 'function'
+    ? '?'
+    : (selection as ISetLike<T>)?.name;
 
   const someAddon =
     size.sets.addons.some((s) => s.renderSelection != null) || size.cs.addons.some((s) => s.renderSelection != null);
   const selectionElemOverlap =
-    selection && someAddon
-      ? elemElemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems)
+    selection && typeof selection !== 'function' && someAddon
+      ? elemElemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems, data.toElemKey)
       : null;
 
   function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>) {

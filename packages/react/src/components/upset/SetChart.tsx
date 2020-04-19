@@ -32,7 +32,7 @@ const SetChart = React.memo(function SetChart<T>({
   const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w);
   return (
     <g
-      transform={`translate(0, ${data.sets.y(d.name)})`}
+      transform={`translate(0, ${data.sets.y(d)})`}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}

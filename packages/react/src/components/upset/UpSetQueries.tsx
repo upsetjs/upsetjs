@@ -20,7 +20,7 @@ export default React.memo(function UpSetQueries<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   secondary: boolean;
   queries: ReadonlyArray<UpSetQuery<T>>;
 }>) {
@@ -30,10 +30,10 @@ export default React.memo(function UpSetQueries<T>({
     () =>
       queries.map((q) => ({
         ...q,
-        overlap: queryOverlap(q, 'intersection'),
-        elemOverlap: someAddon ? queryElemOverlap(q, 'intersection') : null,
+        overlap: queryOverlap(q, 'intersection', data.toElemKey),
+        elemOverlap: someAddon ? queryElemOverlap(q, 'intersection', data.toElemKey) : null,
       })),
-    [queries, someAddon]
+    [queries, someAddon, data.toElemKey]
   );
 
   function wrapAddon<

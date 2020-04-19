@@ -8,6 +8,7 @@ import {
   UpSetQuery,
   ISet,
   ISetCombination,
+  toKey,
 } from '@upsetjs/model';
 
 export interface UpSetSizeProps {
@@ -58,13 +59,25 @@ export interface UpSetDataProps<T> {
    * the combinations to visualize by default all combinations
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
+
+  /**
+   * optional function to identify the same sets
+   * @param set the set to generate a key for
+   */
+  toKey?(set: ISetLike<T>): string;
+
+  /**
+   * optional function to identify the same elem
+   * @param elem the element the key for
+   */
+  toElemKey?(elem: T): string;
 }
 
 export interface UpSetSelectionProps<T> {
-  selection?: ISetLike<T> | null | ReadonlyArray<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onClick?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onContextMenu?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  selection?: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
 
   queries?: ReadonlyArray<UpSetQuery<T>>;
 }
@@ -92,7 +105,7 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
 }
 
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
-  selection: ISetLike<T> | null | ReadonlyArray<T>;
+  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
   selectionColor: string;
   overlap: ReadonlyArray<T> | null;
 }
@@ -302,6 +315,7 @@ export function fillDefaults<T>(
       setAddons: EMPTY_ARRAY,
       combinationAddons: EMPTY_ARRAY,
       emptySelection: true,
+      toKey,
     },
     theme,
     props,

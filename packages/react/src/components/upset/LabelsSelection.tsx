@@ -21,7 +21,7 @@ export default function LabelsSelection<T>({
   const d = selection;
   return (
     <rect
-      y={data.sets.y(d.name)}
+      y={data.sets.y(d)}
       width={size.labels.w + size.cs.w + size.sets.after}
       height={data.sets.bandWidth}
       className={`selectionHint-${style.id}`}

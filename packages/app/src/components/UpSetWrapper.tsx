@@ -5,6 +5,7 @@ import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
+import UpSetImpl from '@upsetjs/react';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UpSet = lazy(() => import('@upsetjs/react'));
+const UpSet = lazy(() => import('@upsetjs/react')) as typeof UpSetImpl;
 
 const UpSetRenderer = observer(({ width, height }: { width: number; height: number }) => {
   const store = useStore();

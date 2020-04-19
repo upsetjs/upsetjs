@@ -87,6 +87,17 @@ function deriveDataSetName(file: File | string) {
   return name.includes('.') ? name.slice(0, name.lastIndexOf('.')) : name;
 }
 
+function findNameAttr(fields: string[]) {
+  const fs = fields.map((f) => f.toLowerCase());
+  if (fs.includes('name')) {
+    return fields[fs.indexOf('name')];
+  }
+  if (fs.includes('id')) {
+    return fields[fs.indexOf('id')];
+  }
+  return fields[0]; // first one
+}
+
 export function importCSV(file: File | string): Promise<IDataSet> {
   const name = deriveDataSetName(file);
   return new Promise<IDataSet>((resolve) => {
@@ -96,10 +107,11 @@ export function importCSV(file: File | string): Promise<IDataSet> {
       header: true,
       complete(results) {
         const fields = results.meta.fields;
+        const nameAttr = findNameAttr(fields);
         const setNames = determineSets(results.data, fields);
         const attrs = determineAttrs(
           results.data,
-          fields.filter((d) => !setNames.includes(d))
+          fields.filter((d) => !setNames.includes(d) && d !== nameAttr)
         );
         resolve({
           id: name,
@@ -109,8 +121,8 @@ export function importCSV(file: File | string): Promise<IDataSet> {
           description: `imported from ${name}`,
           attrs,
           load: () => {
-            const elems: IElems = results.data.map((e) => ({
-              name: e.name as string,
+            const elems: IElems = results.data.map((e, i) => ({
+              name: (e[nameAttr] ?? i.toString()) as string,
               sets: setNames.filter((f) => isTrue(e[f])),
               attrs: toAttrs(attrs, e),
             }));
