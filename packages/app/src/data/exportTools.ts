@@ -1,10 +1,30 @@
 import Store, { stripDefaults } from '../store/Store';
 
+import { toIndicesArray } from '@upsetjs/model';
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
 
 declare const __VERSION__: string;
+
+const fromIndicesArray = `function fromIndicesArray(indices) {
+  if (typeof indices === 'string') {
+    if (indices.length === 0) {
+      return [];
+    }
+    return indices
+      .split(',')
+      .map((s) => {
+        if (s.includes('+')) {
+          const [start, length] = s.split('+').map((si) => Number.parseInt(si, 10));
+          return elems.slice(start, start + length + 1);
+        }
+        return elems[Number.parseInt(s, 10)];
+      })
+      .flat();
+  }
+  return indices.map((i) => elems[i]);
+}`;
 
 const HTML_CODE = `<div id="app"></div>`;
 const CSS_CODE = `#app {
@@ -14,9 +34,13 @@ const CSS_CODE = `#app {
 
 function jsCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
-  const sets = store.visibleSets.map((s) => ({
+  const setElems = store.visibleSets.map((s) => toIndicesArray(s.elems, helper.toElemIndex, true));
+  const useEncoding = setElems.some((s) => typeof s === 'string');
+  const sets = store.visibleSets.map((s, i) => ({
     ...s,
-    elems: `CC${JSON.stringify(s.elems.map(helper.toElemIndex))}.map(byIndex)CC`,
+    elems: `CC${
+      useEncoding ? `fromIndicesArray(${JSON.stringify(setElems[i])}` : `${JSON.stringify(setElems[i])}.map(byIndex)`
+    })CC`,
   }));
 
   const addons =
@@ -36,7 +60,7 @@ const root = document.getElementById("app");
 
 const elems = ${JSON.stringify(toJS(helper.elems), null, 2)};
 
-const byIndex = (i) => elems[i];
+${useEncoding ? fromIndicesArray : `const byIndex = (i) => elems[i];`}
 
 const sets = ${JSON.stringify(toJS(sets), null, 2)};
 

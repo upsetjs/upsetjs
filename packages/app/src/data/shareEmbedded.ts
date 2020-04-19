@@ -2,6 +2,7 @@ import { toJS } from 'mobx';
 import { IEmbeddedDumpSchema } from '../dump';
 import Store, { stripDefaults } from '../store/Store';
 import exportHelper from './exportHelper';
+import { toIndicesArray } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
 
 export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
@@ -16,7 +17,7 @@ export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
     attrs: toJS(helper.attrs),
     sets: helper.sets.map((set) => ({
       ...set,
-      elems: set.elems.map(helper.toElemIndex),
+      elems: toIndicesArray(set.elems, helper.toElemIndex, true),
     })),
     combinations: toJS(store.combinationsOptions),
     props: stripDefaults(store.props, store.ui.theme),

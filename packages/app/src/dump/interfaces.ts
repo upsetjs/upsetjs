@@ -17,7 +17,7 @@ export interface IEmbeddedDumpSchema {
     type: 'set';
     name: string;
     cardinality: number;
-    elems: number[];
+    elems: string | ReadonlyArray<number>;
   }>;
   combinations: GenerateSetCombinationsOptions<any>;
   selection?: ISetRef;

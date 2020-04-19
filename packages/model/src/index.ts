@@ -16,6 +16,7 @@ export {
 
 export * from './queries';
 export * from './scales';
+export { fromIndicesArray, toIndicesArray } from './array';
 
 export const validators = {
   isGenerateSetCombinationOptions,
