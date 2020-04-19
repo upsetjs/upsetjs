@@ -278,7 +278,7 @@ A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.c
 
 ```bash
 pip install upsetjs_jupyter_widget
-jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0.alpha-0
+jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0-alpha.0
 ```
 
 ```python
