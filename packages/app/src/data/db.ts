@@ -46,7 +46,7 @@ function getDB(): Promise<UpSetJSDB> {
 }
 
 function asDataSet(dump: IStoredDump): IDataSet {
-  const d = fromDump(dump, dump.uid!);
+  const d = fromDump(dump, String(dump.uid!));
   d.uid = dump.uid!;
   d.creationDate = new Date(dump.creationDate);
   return d;

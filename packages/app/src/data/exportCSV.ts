@@ -110,7 +110,7 @@ export function importCSV(file: File): Promise<IDataSet> {
           attrs,
           load: () => {
             const elems: IElems = results.data.map((e, i) => ({
-              name: (e[nameAttr] as string) ?? i.toString(),
+              name: (e[nameAttr] ?? i.toString()) as string,
               sets: setNames.filter((f) => isTrue(e[f])),
               attrs: toAttrs(attrs, e),
             }));
