@@ -20,9 +20,9 @@ export default React.memo(function UpSetChart<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onClick?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
-  onContextMenu?(selection: ISetLike<T> | null, evt: React.MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   childrens: UpSetReactChildrens<T>;
 }>) {
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
@@ -30,7 +30,7 @@ export default React.memo(function UpSetChart<T>({
       wrap(onClick),
       wrap(onHover),
       wrap(onContextMenu),
-      onHover ? (evt: React.MouseEvent) => onHover(null, evt) : undefined,
+      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
     ],
     [onClick, onHover, onContextMenu]
   );
@@ -40,7 +40,7 @@ export default React.memo(function UpSetChart<T>({
       <g transform={`translate(${size.sets.x},${size.sets.y})`}>
         {data.sets.v.map((d, i) => (
           <SetChart
-            key={d.name}
+            key={data.sets.keys[i]}
             d={d}
             i={i}
             onClick={onClickImpl}
@@ -58,9 +58,9 @@ export default React.memo(function UpSetChart<T>({
       </g>
 
       <g transform={`translate(${size.cs.x},${size.cs.y})`}>
-        {data.cs.v.map((d) => (
+        {data.cs.v.map((d, i) => (
           <CombinationChart
-            key={d.name}
+            key={data.cs.keys[i]}
             d={d}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}

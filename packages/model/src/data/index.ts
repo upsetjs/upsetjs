@@ -1,9 +1,4 @@
-export { GenerateSetIntersectionsOptions } from './generateIntersections';
-export { default as generateIntersections } from './generateIntersections';
-export { GenerateSetUnionsOptions } from './generateUnions';
-export { default as generateUnions } from './generateUnions';
-export { GenerateSetCombinationsOptions } from './generateCombinations';
-export { default as generateCombinations } from './generateCombinations';
+export { default as generateCombinations, GenerateSetCombinationsOptions } from './generateCombinations';
 export { default as asSets, asSet, PostprocessSetOptions } from './asSets';
 export {
   default as asCombinations,

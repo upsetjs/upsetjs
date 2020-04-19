@@ -23,6 +23,7 @@ export default React.forwardRef(function UpSet<T>(
     padding: margin,
     barPadding,
     sets,
+    toKey,
     combinations,
     selection = null,
     onClick,
@@ -144,7 +145,8 @@ export default React.forwardRef(function UpSet<T>(
         barLabelOffset + Number.parseInt(fontBarLabel ?? '10'),
         dotPadding,
         barPadding,
-        Number.parseInt(fontAxisTick ?? '10')
+        Number.parseInt(fontAxisTick ?? '10'),
+        toKey
       ),
     [
       sets,
@@ -157,6 +159,7 @@ export default React.forwardRef(function UpSet<T>(
       dotPadding,
       barPadding,
       fontAxisTick,
+      toKey,
     ]
   );
 
@@ -317,7 +320,7 @@ export default React.forwardRef(function UpSet<T>(
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={(evt) => onClick(null, evt)}
+            onClick={(evt) => onClick(null, evt.nativeEvent)}
             className={`fillTransparent-${styleId}`}
           />
         )}
