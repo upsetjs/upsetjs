@@ -4,7 +4,11 @@ import { exportSVG } from '../../exporter';
 function exportChart(evt: React.MouseEvent<SVGElement>) {
   const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
   const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png';
-  exportSVG(svg, { type, toRemove: `.${evt.currentTarget.className}`, theme: svg.dataset.theme as 'light' | 'dark' });
+  exportSVG(svg, {
+    type,
+    toRemove: `.${evt.currentTarget.getAttribute('class')}`,
+    theme: svg.dataset.theme as 'light' | 'dark',
+  });
 }
 
 export default function ExportButtons({ transform, styleId }: { transform: string; styleId: string }) {
