@@ -28,16 +28,16 @@ function UpSetSelectionChart<T>({
   }
   const d = selection;
   return (
-    <g transform={`translate(${size.labels.w + data.cs.x(d.name)!}, 0)`}>
+    <g transform={`translate(${size.labels.w + data.cs.x(d)!}, 0)`}>
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />
       {data.sets.v
-        .filter((s) => d.sets.has(s))
+        .filter((s) => data.cs.has(d, s))
         .map((s) => (
           <UpSetDot
-            key={s.name}
+            key={data.toKey(s)}
             r={r * 1.1}
             cx={cx}
-            cy={data.sets.y(s.name)! + cy}
+            cy={data.sets.y(s)! + cy}
             name={s.name}
             className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
             style={style.styles.dot}
@@ -46,9 +46,9 @@ function UpSetSelectionChart<T>({
       {d.sets.size > 1 && (
         <line
           x1={cx}
-          y1={data.sets.y(data.sets.v.find((p) => d.sets.has(p))!.name)! + cy}
+          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + cy}
           x2={cx}
-          y2={data.sets.y(data.sets.rv.find((p) => d.sets.has(p))!.name)! + cy}
+          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + cy}
           className={`upsetSelectionLine-${data.id}`}
         />
       )}

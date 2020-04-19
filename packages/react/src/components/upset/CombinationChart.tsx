@@ -31,8 +31,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   const genPosition = addonPositionGenerator(size.cs.h + size.sets.h);
   return (
     <g
-      key={d.name}
-      transform={`translate(${data.cs.x(d.name)}, 0)`}
+      transform={`translate(${data.cs.x(d)}, 0)`}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
@@ -71,13 +70,13 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       >
         {d.name}
       </text>
-      {data.sets.v.map((s) => (
+      {data.sets.v.map((s, i) => (
         <UpSetDot
-          key={s.name}
+          key={data.sets.keys[i]}
           r={data.r}
           cx={data.cs.cx}
-          cy={data.sets.y(s.name)! + data.sets.cy}
-          name={d.sets.has(s) ? s.name : d.name}
+          cy={data.sets.y(s)! + data.sets.cy}
+          name={data.cs.has(d, s) ? s.name : d.name}
           style={style.styles.dot}
           className={clsx(
             d.sets.has(s) ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`,
@@ -88,9 +87,9 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       {d.sets.size > 1 && (
         <line
           x1={data.cs.cx}
-          y1={data.sets.y(data.sets.v.find((p) => d.sets.has(p))!.name)! + data.sets.cy}
+          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
           x2={data.cs.cx}
-          y2={data.sets.y(data.sets.rv.find((p) => d.sets.has(p))!.name)! + data.sets.cy}
+          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
           className={`upsetLine-${data.id}`}
         />
       )}

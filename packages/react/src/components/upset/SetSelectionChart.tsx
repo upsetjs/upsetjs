@@ -35,11 +35,12 @@ function SetSelectionChart<T>({
   const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${style.id}`, style.classNames.bar);
   return (
     <g transform={transform}>
-      {data.sets.v.map((d) => {
-        const y = data.sets.y(d.name)!;
+      {data.sets.v.map((d, i) => {
+        const y = data.sets.y(d)!;
+        const key = data.sets.keys[i];
         if (empty && !secondary) {
           return (
-            <rect key={d.name} x={width} y={y} width={0} height={height} className={className} style={style.styles.bar}>
+            <rect key={key} x={width} y={y} width={0} height={height} className={className} style={style.styles.bar}>
               {tooltip && <title></title>}
             </rect>
           );
@@ -53,7 +54,7 @@ function SetSelectionChart<T>({
 
         const content = secondary ? (
           <path
-            key={d.name}
+            key={key}
             transform={`translate(${x}, ${y + height})`}
             d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${
               data.triangleSize
@@ -63,15 +64,7 @@ function SetSelectionChart<T>({
             {title}
           </path>
         ) : (
-          <rect
-            key={d.name}
-            x={x}
-            y={y}
-            width={width - x}
-            height={height}
-            className={className}
-            style={style.styles.bar}
-          >
+          <rect key={key} x={x} y={y} width={width - x} height={height} className={className} style={style.styles.bar}>
             {title}
           </rect>
         );
@@ -96,7 +89,7 @@ function SetSelectionChart<T>({
           return content;
         }
         return (
-          <g key={d.name}>
+          <g key={key}>
             {content}
             {addons}
           </g>

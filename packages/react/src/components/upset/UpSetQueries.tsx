@@ -30,10 +30,10 @@ export default React.memo(function UpSetQueries<T>({
     () =>
       queries.map((q) => ({
         ...q,
-        overlap: queryOverlap(q, 'intersection'),
-        elemOverlap: someAddon ? queryElemOverlap(q, 'intersection') : null,
+        overlap: queryOverlap(q, 'intersection', data.toElemKey),
+        elemOverlap: someAddon ? queryElemOverlap(q, 'intersection', data.toElemKey) : null,
       })),
-    [queries, someAddon]
+    [queries, someAddon, data.toElemKey]
   );
 
   function wrapAddon<

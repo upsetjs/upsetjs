@@ -36,7 +36,7 @@ export function setOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (
     }
     let intersection = 0;
     b.forEach((e: T) => {
-      if (toElemKey && ((elems as Set<string>).has(toElemKey(e)) || (!toElemKey && (elems as Set<T>).has(e)))) {
+      if ((toElemKey && (elems as Set<string>).has(toElemKey(e))) || (!toElemKey && (elems as Set<T>).has(e))) {
         intersection++;
       }
     });
@@ -87,7 +87,7 @@ export function setElemOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey
     const intersection: T[] = [];
     const union: T[] = setA.slice();
     b.forEach((e: T) => {
-      if (toElemKey && ((elems as Set<string>).has(toElemKey(e)) || (!toElemKey && (elems as Set<T>).has(e)))) {
+      if ((toElemKey && (elems as Set<string>).has(toElemKey(e))) || (!toElemKey && (elems as Set<T>).has(e))) {
         intersection.push(e);
       } else {
         union.push(e);

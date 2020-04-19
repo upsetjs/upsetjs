@@ -2,7 +2,6 @@ import {
   ISetCombinations,
   ISets,
   NumericScaleLike,
-  BandScaleLike,
   NumericScaleFactory,
   BandScaleFactory,
   GenerateSetCombinationsOptions,
@@ -10,6 +9,9 @@ import {
   linearScale,
   logScale,
   bandScale,
+  ISetLike,
+  ISet,
+  ISetCombination,
 } from '@upsetjs/model';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from './utils';
@@ -34,21 +36,26 @@ export declare type UpSetDataInfo<T> = {
   triangleSize: number;
   sets: {
     v: ISets<T>;
+    keys: ReadonlyArray<string>;
     rv: ISets<T>;
     x: NumericScaleLike;
-    y: BandScaleLike;
+    y(s: ISet<T>): number;
     bandWidth: number;
     cy: number;
     format(v: number): string;
   };
   cs: {
     v: ISetCombinations<T>;
-    x: BandScaleLike;
+    keys: ReadonlyArray<string>;
+    x(s: ISetCombination<T>): number;
     y: NumericScaleLike;
     bandWidth: number;
     cx: number;
     format(v: number): string;
+    has(v: ISetCombination<T>, s: ISet<T>): boolean;
   };
+  toKey(s: ISetLike<T>): string;
+  toElemKey?(e: T): string;
 };
 
 function areCombinations<T>(
@@ -66,7 +73,9 @@ export default function deriveDataDependent<T>(
   barLabelFontSize: number,
   dotPadding: number,
   barPadding: number,
-  tickFontSize: number
+  tickFontSize: number,
+  toKey: (s: ISetLike<T>) => string,
+  toElemKey?: (e: T) => string
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
@@ -80,16 +89,14 @@ export default function deriveDataDependent<T>(
       fontSizeHint: tickFontSize,
     }
   );
+  const setKeys = sets.map(toKey);
   const setY = bandScaleFactory(
-    sets.map((d) => d.name).reverse(), // reverse order
+    setKeys.slice().reverse(), // reverse order
     sizes.sets.h,
     sizes.padding
   );
-  const combinationX = bandScaleFactory(
-    cs.map((d) => d.name),
-    sizes.cs.w,
-    sizes.padding
-  );
+  const csKeys = cs.map(toKey);
+  const combinationX = bandScaleFactory(csKeys, sizes.cs.w, sizes.padding);
   const combinationY = numericScaleFactory(
     cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0),
     [sizes.cs.h, barLabelFontSize],
@@ -108,20 +115,28 @@ export default function deriveDataDependent<T>(
     triangleSize,
     sets: {
       v: sets,
+      keys: setKeys,
       rv: sets.slice().reverse(),
       x: setX,
-      y: setY,
+      y: (s) => setY(toKey(s))!,
       bandWidth: setY.bandwidth(),
       cy: setY.bandwidth() / 2 + sizes.cs.h,
       format: setX.tickFormat(),
     },
     cs: {
       v: cs,
-      x: combinationX,
+      keys: cs.map(toKey),
+      x: (s) => combinationX(toKey(s))!,
       y: combinationY,
       cx: combinationX.bandwidth() / 2,
       bandWidth: combinationX.bandwidth(),
       format: combinationY.tickFormat(),
+      has: (v, s) => {
+        const sk = toKey(s);
+        return Array.from(v.sets).some((ss) => toKey(ss) === sk);
+      },
     },
+    toKey,
+    toElemKey,
   };
 }

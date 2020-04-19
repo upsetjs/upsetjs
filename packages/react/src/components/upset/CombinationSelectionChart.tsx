@@ -35,11 +35,12 @@ function CombinationSelectionChart<T>({
   const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
     <g transform={transform}>
-      {data.cs.v.map((d) => {
-        const x = data.cs.x(d.name)!;
+      {data.cs.v.map((d, i) => {
+        const x = data.cs.x(d)!;
+        const key = data.cs.keys[i];
         if (empty && !secondary) {
           return (
-            <rect key={d.name} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
+            <rect key={key} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
               {tooltip && <title></title>}
             </rect>
           );
@@ -53,7 +54,7 @@ function CombinationSelectionChart<T>({
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         const content = secondary ? (
           <path
-            key={d.name}
+            key={key}
             transform={`translate(${x}, ${y})`}
             d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
               data.triangleSize
@@ -63,15 +64,7 @@ function CombinationSelectionChart<T>({
             {title}
           </path>
         ) : (
-          <rect
-            key={d.name}
-            x={x}
-            y={y}
-            height={height - y}
-            width={width}
-            className={className}
-            style={style.styles.bar}
-          >
+          <rect key={key} x={x} y={y} height={height - y} width={width} className={className} style={style.styles.bar}>
             {title}
           </rect>
         );
@@ -96,7 +89,7 @@ function CombinationSelectionChart<T>({
           return content;
         }
         return (
-          <g key={d.name}>
+          <g key={key}>
             {content}
             {addons}
           </g>
