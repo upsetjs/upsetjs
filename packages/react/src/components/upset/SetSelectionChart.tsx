@@ -1,4 +1,4 @@
-import { ISet } from '@upsetjs/model';
+import { ISetLike, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddons } from '../config';
 import { UpSetDataInfo } from './deriveDataDependent';
@@ -23,7 +23,7 @@ function SetSelectionChart<T>({
   style: UpSetStyleInfo;
   suffix: string;
   empty?: boolean;
-  elemOverlap: (s: ISet<any>) => number;
+  elemOverlap: (s: ISetLike<T>) => number;
   secondary?: boolean;
   tooltip?: string;
   transform?: string;

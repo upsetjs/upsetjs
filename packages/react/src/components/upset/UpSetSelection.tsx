@@ -47,11 +47,28 @@ export default function UpSetSelection<T>({
   selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
 }>) {
   const empty = style.emptySelection;
-  const selectionOverlap = selection
-    ? typeof selection === 'function'
-      ? selection
-      : elemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems, data.toElemKey)
-    : noOverlap;
+
+  function generateSelectionOverlap(): (s: ISetLike<T>) => number {
+    if (!selection) {
+      return noOverlap;
+    }
+    if (typeof selection === 'function') {
+      return selection;
+    }
+    if (Array.isArray(selection)) {
+      return elemOverlapOf(selection, data.toElemKey);
+    }
+    const ss = selection as ISetLike<T>;
+    if (ss.overlap) {
+      return ss.overlap;
+    }
+    const f = elemOverlapOf(ss.elems, data.toElemKey);
+    return (s) => {
+      return s.overlap ? s.overlap(ss) : f(s);
+    };
+  }
+
+  const selectionOverlap = generateSelectionOverlap();
   const selectionName = Array.isArray(selection)
     ? `Array(${selection.length})`
     : typeof selection === 'function'

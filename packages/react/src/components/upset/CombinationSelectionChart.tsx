@@ -1,4 +1,4 @@
-import { ISet, ISetCombination } from '@upsetjs/model';
+import { ISetLike, ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddons } from '../config';
 import { UpSetDataInfo } from './deriveDataDependent';
@@ -24,7 +24,7 @@ function CombinationSelectionChart<T>({
   style: UpSetStyleInfo;
   suffix: string;
   empty?: boolean;
-  elemOverlap: (s: ISet<any> | ISetCombination<T>) => number;
+  elemOverlap: (s: ISetLike<T>) => number;
   secondary?: boolean;
   tooltip?: string;
   combinationAddons: UpSetAddons<ISetCombination<T>, T>;

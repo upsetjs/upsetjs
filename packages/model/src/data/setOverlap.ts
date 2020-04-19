@@ -117,3 +117,20 @@ export function setElemOverlap<T>(
     setB: r.setA,
   });
 }
+
+export function setElemIntersectionFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+  const arr = a instanceof Set ? Array.from(a) : a;
+  const elems = !toElemKey ? (a instanceof Set ? a : new Set(a)) : new Set(arr.map(toElemKey));
+  return (b: Set<T> | ReadonlyArray<T>): ReadonlyArray<T> => {
+    if (b === a) {
+      return arr;
+    }
+    const intersection: T[] = [];
+    b.forEach((e: T) => {
+      if ((toElemKey && (elems as Set<string>).has(toElemKey(e))) || (!toElemKey && (elems as Set<T>).has(e))) {
+        intersection.push(e);
+      }
+    });
+    return intersection;
+  };
+}
