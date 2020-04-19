@@ -1,16 +1,7 @@
 import { IEmbeddedDumpSchema } from './interfaces';
 
 export function loadJSON(url: string): Promise<IEmbeddedDumpSchema> {
-  const p = fetch(url).then((r) => r.json());
-  return new Promise<IEmbeddedDumpSchema>((resolve, reject) => {
-    p.then(resolve);
-    p.catch(() => {
-      // try again with cors wrapper
-      fetch(`https://cors-anywhere.herokuapp.com/${url}`)
-        .then((r) => r.json())
-        .then(resolve, reject);
-    });
-  });
+  return fetch(`https://cors-anywhere.herokuapp.com/${url}`).then((r) => r.json());
 }
 
 export default function loadFile(file: File) {
