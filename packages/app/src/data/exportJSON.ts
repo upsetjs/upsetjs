@@ -5,6 +5,7 @@ import Store from '../store/Store';
 import { toEmbeddedDump } from './shareEmbedded';
 import { ICustomizeOptions, IDataSet } from './interfaces';
 import { UpSetProps, generateCombinations } from '@upsetjs/react';
+import { loadJSON } from '../dump/loadFile';
 
 export interface IDumpSchema extends IEmbeddedDumpSchema {
   $schema: string;
@@ -42,6 +43,11 @@ export function fromDump(dump: IEmbeddedDumpSchema, id: string): IDataSet {
   };
 }
 
-export function importJSON(file: File): Promise<IDataSet> {
+export function importJSON(file: File | string): Promise<IDataSet> {
+  if (typeof file === 'string') {
+    return loadJSON(file).then((dump) =>
+      fromDump(dump, file.includes('/') ? file.slice(file.lastIndexOf('/') + 1) : file)
+    );
+  }
   return loadFile(file).then((dump) => fromDump(dump, file.name));
 }
