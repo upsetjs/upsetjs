@@ -1,5 +1,5 @@
 import { parse } from 'papaparse';
-import { IDataSet, IElems, IAttrs } from '../interfaces';
+import { IDataSet, IElem, IAttrs } from '../interfaces';
 import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {
@@ -96,7 +96,7 @@ export function listUpSet2Datasets() {
   return listUpSetDatasets(`${baseUrlV2}/data/datasets.json`, baseUrlV2);
 }
 
-async function elementsFromDataset(ds: IUpSetDataSet): Promise<IElems> {
+async function elementsFromDataset(ds: IUpSetDataSet): Promise<ReadonlyArray<IElem & { sets: string[] }>> {
   const rawText = await fetchCors(ds.file).then((r) => r.text());
   const csv = parse(rawText, {
     delimiter: ds.separator,

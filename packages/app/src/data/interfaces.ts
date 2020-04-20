@@ -18,7 +18,6 @@ export interface IAttrs {
 
 export interface IElem {
   name: string;
-  sets: string[];
   attrs: IAttrs;
 }
 

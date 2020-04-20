@@ -1,10 +1,39 @@
 import { ISetLike } from '@upsetjs/model';
 import { ISetRef } from '../dump';
 import Store from '../store/Store';
+import { IElem, IAttrs } from './interfaces';
 
 function toIndex<T>(arr: ReadonlyArray<T>) {
   const r = new Map(arr.map((v, i) => [v, i]));
   return (v: T) => r.get(v)!;
+}
+
+export function compressElems(elems: ReadonlyArray<IElem>, attrs: string[]) {
+  return elems.map((elem) => {
+    if (attrs.length === 0) {
+      return elem.name;
+    }
+    const r: any = { name: elem.name };
+    attrs.forEach((attr) => (r[attr] = elem.attrs[attr]));
+    return r;
+  });
+}
+
+export function uncompressElems(elems: ReadonlyArray<any>, attrNames: string[]): IElem[] {
+  return elems.map(
+    (elem): IElem => {
+      if (typeof elem === 'string') {
+        return { name: elem, attrs: {} };
+      }
+      const attrs: IAttrs = elem.attrs ?? {};
+      attrNames.forEach((attr) => {
+        if (typeof elem[attr] !== 'undefined') {
+          attrs[attr] = elem[attr];
+        }
+      });
+      return { name: elem.name, attrs };
+    }
+  );
 }
 
 export default function exportHelper(store: Store, options: { all?: boolean } = {}) {
@@ -27,19 +56,13 @@ export default function exportHelper(store: Store, options: { all?: boolean } = 
     };
   };
 
-  const attrs = (store.dataset?.attrs ?? []).filter((a) => store.selectedAttrs.has(a));
+  const allAttrs = store.dataset?.attrs ?? [];
+  const attrs = options.all ? allAttrs : allAttrs.filter((a) => store.selectedAttrs.has(a));
 
   return {
     all,
     sets,
-    elems: elems.map((elem) => {
-      if (attrs.length === 0) {
-        return elem.name;
-      }
-      const r: any = { name: elem.name };
-      attrs.forEach((attr) => (r[attr] = elem.attrs[attr]));
-      return r;
-    }),
+    elems: compressElems(elems, attrs),
     attrs,
     toElemIndex,
     toSetIndex,

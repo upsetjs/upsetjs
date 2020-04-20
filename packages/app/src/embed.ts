@@ -47,7 +47,8 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    loadDump<UpSetProps<any>>(dump!, generateCombinations),
+    loadDump<UpSetProps<any>>(dump!, dump!.elements, generateCombinations),
+    dump!.props || {},
     custom,
     cinteractive
       ? {
