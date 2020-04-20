@@ -1,5 +1,4 @@
-import { action, observable, autorun } from 'mobx';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { action, observable, autorun, computed } from 'mobx';
 import { createRef } from 'react';
 
 export interface ISetTableOptions {
@@ -20,8 +19,7 @@ function defaultTheme() {
   if (localStorage.getItem('theme')) {
     return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
   }
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  return prefersDarkMode ? 'dark' : 'light';
+  return null;
 }
 
 export default class UIStore {
@@ -37,7 +35,7 @@ export default class UIStore {
   zen = localStorage.getItem('zen') === 'T';
 
   @observable
-  theme: 'dark' | 'light' = defaultTheme();
+  defaultTheme: 'dark' | 'light' | null = defaultTheme();
 
   @observable
   readonly setTable: ISetTableOptions = {
@@ -61,7 +59,7 @@ export default class UIStore {
 
   constructor() {
     autorun(() => {
-      localStorage.setItem('theme', this.theme);
+      localStorage.setItem('theme', this.theme ?? 'light');
     });
     autorun(() => {
       localStorage.setItem('zen', this.zen ? 'T' : 'F');
@@ -69,6 +67,11 @@ export default class UIStore {
     autorun(() => {
       localStorage.setItem('sidePanel', Array.from(this.sidePanelExpanded).join(','));
     });
+  }
+
+  @computed
+  get theme() {
+    return this.defaultTheme ?? 'light';
   }
 
   @action
@@ -112,7 +115,7 @@ export default class UIStore {
 
   @action.bound
   toggleTheme() {
-    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    this.defaultTheme = this.defaultTheme === 'dark' ? 'light' : 'dark';
   }
 
   @action.bound
