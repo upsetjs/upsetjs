@@ -35,6 +35,7 @@ import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportJSON, importJSON } from '../data/exportJSON';
 import { exportCSV, importCSV } from '../data/exportCSV';
 import exportR from '../data/exportR';
+import exportPython from '../data/exportPython';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
 import shareEmbedded from '../data/shareEmbedded';
 
@@ -546,6 +547,17 @@ export default class Store {
     });
     const url = URL.createObjectURL(b);
     downloadUrl(url, `${this.title}.R`, document);
+    URL.revokeObjectURL(url);
+  }
+
+  @action.bound
+  exportPython() {
+    const text = exportPython(this);
+    const b = new Blob([text], {
+      type: 'application/vnd.jupyter',
+    });
+    const url = URL.createObjectURL(b);
+    downloadUrl(url, `${this.title}.ipynb`, document);
     URL.revokeObjectURL(url);
   }
 

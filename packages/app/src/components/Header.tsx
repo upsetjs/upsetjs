@@ -16,6 +16,8 @@ import FileExcel from 'mdi-material-ui/FileExcel';
 import Codepen from 'mdi-material-ui/Codepen';
 import JSFiddle from 'mdi-material-ui/Jsfiddle';
 import CodeString from 'mdi-material-ui/CodeString';
+import LanguageR from 'mdi-material-ui/LanguageR';
+import LanguagePython from 'mdi-material-ui/LanguagePython';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -212,10 +214,16 @@ export default observer(({ className }: { className?: string }) => {
             onClick={store.exportCodesandbox}
           />
           <SpeedDialAction
-            icon={<FileCode />}
+            icon={<LanguageR />}
             tooltipTitle={'Create R Script'}
             tooltipPlacement="bottom"
             onClick={store.exportR}
+          />
+          <SpeedDialAction
+            icon={<LanguagePython />}
+            tooltipTitle={'Create Jupyter Notebook'}
+            tooltipPlacement="bottom"
+            onClick={store.exportPython}
           />
           <SpeedDialAction
             icon={<ShareCircle />}
