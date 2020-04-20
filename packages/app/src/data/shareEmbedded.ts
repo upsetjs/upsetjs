@@ -5,8 +5,8 @@ import exportHelper from './exportHelper';
 import { toIndicesArray } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
 
-export function toEmbeddedDump(store: Store): IEmbeddedDumpSchema {
-  const helper = exportHelper(store);
+export function toEmbeddedDump(store: Store, options: { all?: boolean } = {}): IEmbeddedDumpSchema {
+  const helper = exportHelper(store, options);
   const ds = store.dataset!;
 
   return {

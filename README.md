@@ -39,7 +39,7 @@ In addition, there are the following sibling repositories and projects
   [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
 - [upsetjs_powerbi_visuals](https://github.com/upsetjs/upsetjs_powerbi_visuals) PowerBI Custom Visuals around UpSet.js
-- [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library) Observable HQ wrapper around UpSet.js
+- [upset-js](https://observablehq.com/@sgratzl/upset-js) Observable HQ wrapper around UpSet.js [![Open Example][example]][example-o-url]
 
 ## Usage and Installation
 
@@ -235,7 +235,9 @@ The most relevant and required properties of the `UpSet` component are:
 
 ### Observable HQ
 
-A [ObservableHQ](https://observablehq.com/) wrapper is located at [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library).
+[![Open Example][example]][example-o-url]
+
+A [ObservableHQ](https://observablehq.com/) wrapper is located at [upset-js](https://observablehq.com/@sgratzl/upset-js)
 
 ```js
 data = fetch(
@@ -245,7 +247,7 @@ data = fetch(
 ```
 
 ```js
-import { extractSets, UpSet, generateIntersections } from '@sgratzl/upset-observable-library';
+import { extractSets, UpSet, generateIntersections } from '@sgratzl/upset-js';
 ```
 
 ```js
@@ -264,7 +266,7 @@ viewof selection = UpSet(sets, intersections)
 selection ? selection.elems.map((d) => d.name) : 'None';
 ```
 
-[ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-example)
+[ObservableHQ](https://observablehq.com/@sgratzl/upset-js)
 
 An advanced example showing all datasets from the live UpSet demo is located at [ObservableHQ](https://observablehq.com/@sgratzl/upset-observable-dataset-chooser-example)
 
@@ -399,3 +401,4 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 [example]: https://img.shields.io/badge/Example-open-red
 [example-r-url]: https://upset.js.org/integrations/r/articles/basic
 [example-j-url]: https://upset.js.org/integrations/jupyter
+[example-o-url]: https://observablehq.com/@sgratzl/upset-observable-example

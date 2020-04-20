@@ -74,7 +74,7 @@ export function saveLocal(store: Store): Promise<IDataSet> {
     {
       creationDate: Date.now(),
     },
-    toEmbeddedDump(store)
+    toEmbeddedDump(store, { all: true })
   );
   dump.name = `${dump.name} - Local`;
   return getDB()

@@ -7,16 +7,17 @@ function toIndex<T>(arr: ReadonlyArray<T>) {
   return (v: T) => r.get(v)!;
 }
 
-export default function exportHelper(store: Store) {
+export default function exportHelper(store: Store, options: { all?: boolean } = {}) {
   let elems = store.elems;
   const all = store.combinationsOptions.min === 0;
+  const sets = options.all ? store.sortedSets : store.visibleSets;
   if (!all) {
     // we can filter out the members that are not used at all
-    const union = new Set(store.visibleSets.map((s) => s.elems).flat());
+    const union = new Set(sets.map((s) => s.elems).flat());
     elems = elems.filter((elem) => union.has(elem));
   }
   const toElemIndex = toIndex(elems);
-  const toSetIndex = toIndex(store.visibleSets);
+  const toSetIndex = toIndex(sets);
   const toCombinationIndex = toIndex(store.visibleCombinations);
 
   const toSetRef = (set: ISetLike<any>): ISetRef => {
@@ -30,7 +31,7 @@ export default function exportHelper(store: Store) {
 
   return {
     all,
-    sets: store.visibleSets,
+    sets,
     elems: elems.map((elem) => {
       if (attrs.length === 0) {
         return elem.name;
