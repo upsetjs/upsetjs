@@ -6,24 +6,28 @@ export function compressIndicesArray(arr: ReadonlyArray<number>): string {
   const encoded: string[] = [];
 
   let startIndex = 0;
+
+  const push = (i: number) => {
+    if (i === startIndex + 1) {
+      encoded.push(arr[startIndex].toString());
+    } else if (i === startIndex + 2 && i < 10) {
+      // don't save anything (1+1, vs 1,2)
+      encoded.push(`${arr[startIndex]},${arr[startIndex + 1]}`);
+    } else {
+      encoded.push(`${arr[startIndex]}+${i - startIndex - 1}`);
+    }
+    return i;
+  };
   for (let i = 1; i < arr.length; i++) {
     const expected = arr[i - 1] + 1;
     const v = arr[i];
     if (v !== expected) {
       // slice break
-      if (i === startIndex + 1) {
-        encoded.push(arr[startIndex].toString());
-      } else {
-        encoded.push(`${arr[startIndex]}+${i - startIndex - 1}`);
-      }
+      startIndex = push(i);
       startIndex = i;
     }
   }
-  if (startIndex === arr.length - 1) {
-    encoded.push(arr[startIndex].toString());
-  } else {
-    encoded.push(`${arr[startIndex]}+${arr.length - startIndex - 1}`);
-  }
+  push(arr.length);
   return encoded.join(',');
 }
 
