@@ -34,18 +34,26 @@ export function compressIndicesArray(arr: ReadonlyArray<number>): string {
 export function toIndicesArray<T>(
   arr: ReadonlyArray<T>,
   toIndex: (v: T) => number,
-  sortAble = false
+  options: { sortAble?: boolean; maxCompress?: boolean } = {}
 ): string | ReadonlyArray<number> {
   if (arr.length === 0) {
     return [];
   }
   const base = arr.map((v) => toIndex(v));
 
-  if (sortAble) {
+  if (options.sortAble) {
     base.sort((a, b) => a - b);
   }
   const encoded = compressIndicesArray(base);
-  if (encoded.length + 2 < JSON.stringify(base).length * 0.6) {
+  const baseLength = JSON.stringify(base).length;
+  const encodedLength = encoded.length + 2; // for ""
+
+  if (
+    encodedLength < baseLength * 0.6 ||
+    baseLength - encodedLength > 50 ||
+    (options.maxCompress && encodedLength < baseLength)
+  ) {
+    // save 40% or more than 50 characters
     return encoded;
   }
   return base;

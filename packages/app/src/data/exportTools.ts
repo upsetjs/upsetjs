@@ -15,7 +15,7 @@ const CSS_CODE = `#app {
 
 function toJSCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
-  const setElems = store.visibleSets.map((s) => toIndicesArray(s.elems, helper.toElemIndex, true));
+  const setElems = store.visibleSets.map((s) => toIndicesArray(s.elems, helper.toElemIndex, { sortAble: true }));
   const sets = store.visibleSets.map((s, i) => ({
     name: s.name,
     elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,

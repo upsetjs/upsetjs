@@ -5,8 +5,7 @@ import Store from '../store/Store';
 import { toEmbeddedDump } from './shareEmbedded';
 import { ICustomizeOptions, IDataSet } from './interfaces';
 import { generateCombinations } from '@upsetjs/react';
-import { loadJSON } from '../dump/loadFile';
-import { uncompressElems } from './exportHelper';
+import { loadJSON, uncompressElems } from '../dump';
 
 export interface IDumpSchema extends IEmbeddedDumpSchema {
   $schema: string;

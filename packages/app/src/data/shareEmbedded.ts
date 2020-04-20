@@ -5,7 +5,10 @@ import exportHelper from './exportHelper';
 import { toIndicesArray } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
 
-export function toEmbeddedDump(store: Store, options: { all?: boolean } = {}): IEmbeddedDumpSchema {
+export function toEmbeddedDump(
+  store: Store,
+  options: { all?: boolean; maxCompress?: boolean } = {}
+): IEmbeddedDumpSchema {
   const helper = exportHelper(store, options);
   const ds = store.dataset!;
 
@@ -17,7 +20,7 @@ export function toEmbeddedDump(store: Store, options: { all?: boolean } = {}): I
     attrs: toJS(helper.attrs),
     sets: helper.sets.map((set) => ({
       ...set,
-      elems: toIndicesArray(set.elems, helper.toElemIndex, true),
+      elems: toIndicesArray(set.elems, helper.toElemIndex, { sortAble: true, maxCompress: options.maxCompress }),
     })),
     combinations: toJS(store.combinationsOptions),
     props: stripDefaults(store.props, store.ui.theme),
@@ -32,7 +35,7 @@ export function toEmbeddedDump(store: Store, options: { all?: boolean } = {}): I
 }
 
 export default function shareEmbedded(store: Store) {
-  const r = toEmbeddedDump(store);
+  const r = toEmbeddedDump(store, { maxCompress: true });
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL(window.location.toString());
   url.hash = '';

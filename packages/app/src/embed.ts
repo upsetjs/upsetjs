@@ -2,7 +2,7 @@
 // import 'regenerator-runtime';
 import { renderUpSet, UpSetProps, ISetLike, generateCombinations, boxplotAddon } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
-import { IEmbeddedDumpSchema, loadDump, loadFile } from './dump';
+import { IEmbeddedDumpSchema, loadDump, loadFile, uncompressElems } from './dump';
 
 const root = document.getElementById('app')! as HTMLElement;
 Object.assign(root.style, {
@@ -41,13 +41,14 @@ function customizeFromParams(interactive: boolean) {
 
 function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
   const [custom, cinteractive] = customizeFromParams(dump.interactive);
+  const elems = uncompressElems(dump!.elements, dump.attrs);
   const props: UpSetProps<any> = Object.assign(
     {
       sets: [],
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    loadDump<UpSetProps<any>>(dump!, dump!.elements, generateCombinations),
+    loadDump(dump!, elems, generateCombinations),
     dump!.props || {},
     custom,
     cinteractive
@@ -61,10 +62,10 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
     dump.attrs.length > 0
       ? {
           combinationAddons: dump.attrs.map((attr) =>
-            boxplotAddon((v) => v[attr], dump.elements, { orient: 'vertical', name: attr })
+            boxplotAddon((v) => v.attrs[attr], elems, { orient: 'vertical', name: attr })
           ),
 
-          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v[attr], dump.elements, { name: attr })),
+          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v.attrs[attr], elems, { name: attr })),
         }
       : {}
   );
