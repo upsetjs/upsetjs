@@ -7,41 +7,21 @@ import exportHelper from './exportHelper';
 
 declare const __VERSION__: string;
 
-const fromIndicesArray = `function fromIndicesArray(indices) {
-  if (typeof indices === 'string') {
-    if (indices.length === 0) {
-      return [];
-    }
-    return indices
-      .split(',')
-      .map((s) => {
-        if (s.includes('+')) {
-          const [start, length] = s.split('+').map((si) => Number.parseInt(si, 10));
-          return elems.slice(start, start + length + 1);
-        }
-        return elems[Number.parseInt(s, 10)];
-      })
-      .flat();
-  }
-  return indices.map((i) => elems[i]);
-}`;
-
 const HTML_CODE = `<div id="app"></div>`;
 const CSS_CODE = `#app {
   width: 100vw;
   height: 100vh;
 }`;
 
-function jsCode(store: Store, prefix = 'UpSetJS.') {
+function toJSCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
   const setElems = store.visibleSets.map((s) => toIndicesArray(s.elems, helper.toElemIndex, true));
-  const useEncoding = setElems.some((s) => typeof s === 'string');
   const sets = store.visibleSets.map((s, i) => ({
-    ...s,
-    elems: `CC${
-      useEncoding ? `fromIndicesArray(${JSON.stringify(setElems[i])}` : `${JSON.stringify(setElems[i])}.map(byIndex)`
-    })CC`,
+    name: s.name,
+    elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,
   }));
+
+  const needSetRef = store.visibleQueries.length > 0 || store.hover != null;
 
   const addons =
     helper.attrs.length > 0
@@ -55,14 +35,9 @@ function jsCode(store: Store, prefix = 'UpSetJS.') {
       .join(',')
   )}`
       : '';
-  return `
+  const js = `
 const root = document.getElementById("app");
-
-const elems = ${JSON.stringify(toJS(helper.elems), null, 2)};
-
-${useEncoding ? fromIndicesArray : `const byIndex = (i) => elems[i];`}
-
-const sets = ${JSON.stringify(toJS(sets), null, 2)};
+const sets = ${prefix}asSets(${JSON.stringify(toJS(sets), null, 2)});
 
 const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(
     {
@@ -73,11 +48,15 @@ const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(
     2
   )});
 
-function fromSetRef(ref) {
+${
+  needSetRef
+    ? `function fromSetRef(ref) {
   if (ref.type === "set") {
     return sets[ref.index];
   }
   return combinations[ref.index];
+}`
+    : ''
 }
 
 let selection = ${store.hover ? `CCfromSetRef(${JSON.stringify(helper.toSetRef(store.hover))})CC` : null};
@@ -119,9 +98,25 @@ render();
 `
     .replace(/"CC/gm, '')
     .replace(/CC"/gm, '');
+  return { elems: toJS(helper.elems), js };
+}
+
+function toEmbeddedCode(store: Store) {
+  const { elems, js } = toJSCode(store);
+  const html = `${HTML_CODE}
+<script id="data" type="application/json">
+${JSON.stringify(elems)}
+</script>
+`;
+  return {
+    html,
+    js: `const elems = JSON.parse(document.getElementById("data").textContent);
+${js}`,
+  };
 }
 
 export function exportJSFiddle(store: Store) {
+  const { html, js } = toEmbeddedCode(store);
   const form = document.createElement('form');
   form.method = 'post';
   form.action = 'https://jsfiddle.net/api/post/library/pure/';
@@ -146,9 +141,9 @@ export function exportJSFiddle(store: Store) {
 
   setInput('title', store.title);
   setInput('description', store.dataset!.description);
-  setInput('html', HTML_CODE);
+  setInput('html', html);
   setInput('css', CSS_CODE);
-  setInput('js', jsCode(store));
+  setInput('js', js);
   setInput('resources', `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`);
 
   document.body.appendChild(form);
@@ -157,6 +152,7 @@ export function exportJSFiddle(store: Store) {
 }
 
 export function exportCodeSandbox(store: Store) {
+  const { elems, js } = toJSCode(store, '');
   const parameters = {
     files: {
       'index.html': {
@@ -175,12 +171,16 @@ ${HTML_CODE}
       'main.css': {
         content: CSS_CODE,
       },
+      'data.json': {
+        content: elems,
+      },
       'index.js': {
         content: `
-import {renderUpSet, generateCombinations} from "@upsetjs/bundle";
+import {renderUpSet, generateCombinations, fromIndexArray, asSets} from "@upsetjs/bundle";
+import elems from './data.json';
 import "./main.css";
 
-${jsCode(store, '')}
+${js}
 `,
       },
       'package.json': {
@@ -214,14 +214,15 @@ ${jsCode(store, '')}
 }
 
 export function exportCodepen(store: Store) {
+  const { html, js } = toEmbeddedCode(store);
   const data = {
     title: store.title,
     description: store.dataset!.description,
-    html: HTML_CODE,
+    html,
     css: CSS_CODE,
     css_pre_processor: 'scss',
     css_starter: 'normalize',
-    js: jsCode(store),
+    js,
     js_pre_processor: 'babel',
     js_modernizr: false,
     js_external: `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`,
