@@ -29,7 +29,7 @@
     "docs": "yarn workspaces foreach -v -p run docs",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
-    "prettier": "prettier .eslintrc.js .prettierrc \"*.{yml,json}\" \".github/**\"",
+    "prettier": "prettier .eslintrc.js .prettierrc *.json .yarnrc_patch.yml \".github/**\"",
     "prettier:write": "npm run prettier -- --write",
     "prettier:check": "npm run prettier -- --check"
   },
