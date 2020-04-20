@@ -26,8 +26,15 @@ export default function exportPython(store: Store) {
   Object.keys(p).forEach((key) => {
     const k = key as keyof ICustomizeOptions;
     const v = p[k];
-    props.push(`w.${toSnakeCase(k)} = ${JSON.stringify(v)}\n`);
-    // TODO special cases font_sizes and widht height ratios
+    if (k === 'heightRatios' || k === 'widthRatios') {
+      props.push(`w.${toSnakeCase(k)} = (${v})\n`);
+    } else if (k === 'fontSizes') {
+      Object.keys(v as object).forEach((fk) => {
+        props.push(`w.font_sizes.${toSnakeCase(fk)} = "${(v as any)[fk]}"\n`);
+      });
+    } else {
+      props.push(`w.${toSnakeCase(k)} = ${JSON.stringify(v)}\n`);
+    }
   });
 
   const nb = {
@@ -70,6 +77,7 @@ export default function exportPython(store: Store) {
         outputs: [],
         source: [
           'from ipywidgets import interact\n',
+          'from collections import OrderedDict\n',
           'from upsetjs_jupyter_widget import UpSetWidget\n',
           'import pandas as pd',
         ],
@@ -80,14 +88,14 @@ export default function exportPython(store: Store) {
         metadata: {},
         outputs: [],
         source: [
-          'dict_input = {\n',
+          'dict_input = OrderedDict([\n',
           ...store.visibleSets.map(
             (s, i) =>
-              `   "${s.name}": ${JSON.stringify(s.elems.map((e) => e.name))}${
+              `   ("${s.name}", ${JSON.stringify(s.elems.map((e) => e.name))})${
                 i < store.visibleSets.length - 1 ? ',' : ''
               }\n`
           ),
-          '}\n',
+          '])\n',
           '\n',
           'w = UpSetWidget[str]()\n',
           'w.from_dict(dict_input)\n',

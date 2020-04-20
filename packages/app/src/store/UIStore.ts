@@ -10,9 +10,15 @@ export interface IElemTableOptions {
   orderBy: string;
 }
 
+export interface IToastLink {
+  href: string;
+  alt: string;
+}
+
 export interface IToast {
   severity: 'error' | 'info' | 'warning' | 'success';
   message: string;
+  link?: IToastLink;
 }
 
 export default class UIStore {

@@ -1,5 +1,5 @@
 import { observable, action, autorun, runInAction, computed } from 'mobx';
-import UIStore from './UIStore';
+import UIStore, { IToastLink } from './UIStore';
 import {
   IDataSet,
   listStatic,
@@ -195,12 +195,17 @@ export default class Store {
 
   constructor() {
     this.appendDatasets(listStatic());
+    this.ui.showToast({
+      severity: 'info',
+      message: 'Preparing Datasets...',
+    });
     Promise.all([
       listLocal().then((ds) => this.appendDatasets(ds)),
       listRemote().then((ds) => {
         ds.forEach((d) => d.then((ds) => this.appendDatasets([ds])));
       }),
     ]).then(() => {
+      this.ui.closeToast();
       this.syncHistory();
     });
 
@@ -517,48 +522,44 @@ export default class Store {
     }
   }
 
-  @action.bound
-  exportCSV() {
-    const text = exportCSV(this);
+  private downloadFile(text: string, mimeType: string, extension: string, link?: IToastLink) {
     const b = new Blob([text], {
-      type: 'text/csv',
+      type: mimeType,
     });
     const url = URL.createObjectURL(b);
-    downloadUrl(url, `${this.title}.csv`, document);
+    downloadUrl(url, `${this.title}.${extension}`, document);
     URL.revokeObjectURL(url);
+    this.ui.showToast({
+      severity: 'success',
+      message: `${this.title}.${extension} generated`,
+      link,
+    });
+  }
+
+  @action.bound
+  exportCSV() {
+    this.downloadFile(exportCSV(this), 'text/csv', 'csv');
   }
 
   @action.bound
   exportJSON() {
-    const text = exportJSON(this);
-    const b = new Blob([text], {
-      type: 'application/json',
-    });
-    const url = URL.createObjectURL(b);
-    downloadUrl(url, `${this.title}.json`, document);
-    URL.revokeObjectURL(url);
+    this.downloadFile(exportJSON(this), 'application/json', 'json');
   }
 
   @action.bound
   exportR() {
-    const text = exportR(this);
-    const b = new Blob([text], {
-      type: 'text/plain',
+    this.downloadFile(exportR(this), 'text/plain', 'R', {
+      href: 'https://mybinder.org/v2/gh/upsetjs/upsetjs_r/master?urlpath=rstudio/',
+      alt: 'Open MyBinder R Environment',
     });
-    const url = URL.createObjectURL(b);
-    downloadUrl(url, `${this.title}.R`, document);
-    URL.revokeObjectURL(url);
   }
 
   @action.bound
   exportPython() {
-    const text = exportPython(this);
-    const b = new Blob([text], {
-      type: 'application/vnd.jupyter',
+    this.downloadFile(exportPython(this), 'application/vnd.jupyter', 'ipynb', {
+      href: 'https://mybinder.org/v2/gh/upsetjs/upsetjs_jupyter_widget/master?urlpath=lab/',
+      alt: 'Open MyBinder Python Environment',
     });
-    const url = URL.createObjectURL(b);
-    downloadUrl(url, `${this.title}.ipynb`, document);
-    URL.revokeObjectURL(url);
   }
 
   @action.bound
@@ -580,10 +581,30 @@ export default class Store {
   @action.bound
   importFile(file: File | string) {
     const name = typeof file == 'string' ? file : file.name;
-    if (name.endsWith('.json')) {
-      importJSON(file).then((ds) => this.pushDataSet(ds));
-    } else if (name.endsWith('.csv')) {
-      importCSV(file).then((ds) => this.pushDataSet(ds));
+    this.ui.showToast({
+      severity: 'info',
+      message: `Importing Dataset: ${name}...`,
+    });
+    const loader = name.endsWith('.json') ? importJSON : name.endsWith('.csv') ? importCSV : null;
+
+    if (!loader) {
+      this.ui.showToast({
+        severity: 'error',
+        message: 'Unknown Dataset type: only .csv and .json are supported',
+      });
+      return;
     }
+    loader(file)
+      .then((ds) => {
+        this.ui.closeToast();
+        this.pushDataSet(ds);
+      })
+      .catch((error) => {
+        console.error(error);
+        this.ui.showToast({
+          severity: 'error',
+          message: 'Error occurred during dataset import!',
+        });
+      });
   }
 }

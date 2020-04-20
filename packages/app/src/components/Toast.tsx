@@ -16,6 +16,11 @@ export default observer(() => {
       {store.ui.toast ? (
         <Alert onClose={store.ui.closeToast} severity={store.ui.toast.severity}>
           {store.ui.toast.message}
+          {store.ui.toast.link && (
+            <a href={store.ui.toast.link.href} target="_blank" rel="noopener noreferrer">
+              {store.ui.toast.link.alt}
+            </a>
+          )}
         </Alert>
       ) : undefined}
     </Snackbar>
