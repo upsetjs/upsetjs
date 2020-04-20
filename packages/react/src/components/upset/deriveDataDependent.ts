@@ -56,6 +56,7 @@ export declare type UpSetDataInfo<T> = {
   };
   toKey(s: ISetLike<T>): string;
   toElemKey?(e: T): string;
+  barLabelFontSize: number;
 };
 
 function areCombinations<T>(
@@ -138,5 +139,6 @@ export default function deriveDataDependent<T>(
     },
     toKey,
     toElemKey,
+    barLabelFontSize,
   };
 }
