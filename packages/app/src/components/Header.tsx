@@ -212,6 +212,12 @@ export default observer(({ className }: { className?: string }) => {
             onClick={store.exportCodesandbox}
           />
           <SpeedDialAction
+            icon={<FileCode />}
+            tooltipTitle={'Create R Script'}
+            tooltipPlacement="bottom"
+            onClick={store.exportR}
+          />
+          <SpeedDialAction
             icon={<ShareCircle />}
             tooltipTitle={'Open Embedded Version'}
             tooltipPlacement="bottom"

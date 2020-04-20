@@ -21,7 +21,7 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
     elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,
   }));
 
-  const needSetRef = store.visibleQueries.length > 0 || store.hover != null;
+  const needSetRef = store.visibleQueries.length > 0 || store.selection != null;
 
   const addons =
     helper.attrs.length > 0
@@ -59,7 +59,7 @@ ${
     : ''
 }
 
-let selection = ${store.hover ? `CCfromSetRef(${JSON.stringify(helper.toSetRef(store.hover))})CC` : null};
+let selection = ${store.selection ? `CCfromSetRef(${JSON.stringify(helper.toSetRef(store.selection))})CC` : null};
 const queries = ${JSON.stringify(
     store.visibleQueries.map((q) => ({
       name: q.name,

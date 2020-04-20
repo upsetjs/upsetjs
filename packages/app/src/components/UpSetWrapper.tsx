@@ -37,7 +37,7 @@ const UpSetRenderer = observer(({ width, height }: { width: number; height: numb
             className={classes.wrapper}
             {...store.props}
             sets={store.visibleSets}
-            queries={store.visibleQueries}
+            queries={store.queriesAndSelection}
             combinations={store.visibleCombinations}
             selection={store.hover}
             onHover={store.setHover}

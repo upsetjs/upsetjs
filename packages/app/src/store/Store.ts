@@ -34,6 +34,7 @@ import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import { exportJSON, importJSON } from '../data/exportJSON';
 import { exportCSV, importCSV } from '../data/exportCSV';
+import exportR from '../data/exportR';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
 import shareEmbedded from '../data/shareEmbedded';
 
@@ -446,7 +447,12 @@ export default class Store {
 
   @computed
   get visibleQueries(): UpSetSetQuery<IElem>[] {
-    const qs = this.queries.filter((d) => d.visible).map((d) => d.q);
+    return this.queries.filter((d) => d.visible).map((d) => d.q);
+  }
+
+  @computed
+  get queriesAndSelection(): UpSetSetQuery<IElem>[] {
+    const qs = this.visibleQueries;
     if (!this.selection) {
       return qs;
     }
@@ -529,6 +535,17 @@ export default class Store {
     });
     const url = URL.createObjectURL(b);
     downloadUrl(url, `${this.title}.json`, document);
+    URL.revokeObjectURL(url);
+  }
+
+  @action.bound
+  exportR() {
+    const text = exportR(this);
+    const b = new Blob([text], {
+      type: 'text/plain',
+    });
+    const url = URL.createObjectURL(b);
+    downloadUrl(url, `${this.title}.R`, document);
     URL.revokeObjectURL(url);
   }
 

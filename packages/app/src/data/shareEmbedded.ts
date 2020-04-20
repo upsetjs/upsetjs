@@ -24,7 +24,7 @@ export function toEmbeddedDump(
     })),
     combinations: toJS(store.combinationsOptions),
     props: stripDefaults(store.props, store.ui.theme),
-    selection: store.hover ? helper.toSetRef(store.hover) : undefined,
+    selection: store.selection ? helper.toSetRef(store.selection) : undefined,
     queries: store.visibleQueries.map((q) => ({
       name: q.name,
       color: q.color,
