@@ -9,18 +9,35 @@ UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentatio
 This monorepo contains following packages:
 
 - [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/master/packages/model) the data model definition of UpSet.js
+  [![Open Docs][docs]](https://upset.js.org/api/model)
+
 - [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/master/packages/react) the main UpSet.js React component
+  [![Open Docs][docs]](https://upset.js.org/api/react)
+
 - [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/master/packages/math) utility package for computing stats
+
 - [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/master/packages/addons) extensions to the React component for rendering boxplots
+  [![Open Docs][docs]](https://upset.js.org/api/addons)
+
 - [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
+  [![Open Docs][docs]](https://upset.js.org/api/bundle)
+
 - [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
+  [![Open Example][example]](https://upset.js.org/app)
+
 - [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master/packages/vue) vue wrapper based on the bundled version
+
 - [@upsetjs/vue-example](https://github.com/upsetjs/upsetjs/tree/master/packages/vue-example) vue example using the vue wrapper
+  [![Open Example][example]](https://upset.js.org/integrations/vue)
 
 In addition, there are the following sibling repositories and projects
 
 - [upsetjs_r](https://github.com/upsetjs/upsetjs_r) R HTMLWidget wrapper around UpSet.js
+  [![Open in Binder][binder]][binder-r-url] [![Open Docs][docs]][docs-r-url] [![Open example][example]][example-r-url]
+
 - [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
+  [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
+
 - [upsetjs_powerbi_visuals](https://github.com/upsetjs/upsetjs_powerbi_visuals) PowerBI Custom Visuals around UpSet.js
 - [upset-observable-library](https://observablehq.com/@sgratzl/upset-observable-library) Observable HQ wrapper around UpSet.js
 
@@ -253,6 +270,8 @@ An advanced example showing all datasets from the live UpSet demo is located at 
 
 ### R/RMarkdown/RShiny HTMLWidget
 
+[Open in Binder][binder]][binder-r-url][open docs][docs]][docs-r-url][open example][example]][example-r-url]
+
 A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [upset_r](https://github.com/upsetjs/upsetjs_r). The API follows the building pattern using the chaining operator `%>%`.
 In contrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
 
@@ -270,15 +289,15 @@ upsetjs() %>% fromList(listInput) %>% interactiveChart()
 
 see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic.Rmd)
 
-and [R Package Documentation](https://upsetjs.github.io/upsetjs_r)
-
 ### Juptyer Widget
+
+[![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [Open Example][example]][example-j-url]
 
 A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
 
 ```bash
 pip install upsetjs_jupyter_widget
-jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0.alpha-0
+jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0-alpha.0
 ```
 
 ```python
@@ -292,8 +311,6 @@ w
 ```
 
 ![upset_from_dict](https://user-images.githubusercontent.com/4129778/79368564-e4715d00-7f4f-11ea-92f5-23ee89b5332f.png)
-
-see also [![Open in NBViewer][nbviewer]](https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb)
 
 ### PowerBI
 
@@ -372,3 +389,13 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
 [nbviewer]: https://img.shields.io/badge/NBViewer-open-blue?logo=jupyter
+[nbviewer-url]: https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb
+[binder]: https://mybinder.org/badge_logo.svg
+[binder-r-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_r/master?urlpath=rstudio
+[binder-j-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_jupyter_widget/master?urlpath=lab/tree/examples/introduction.ipynb
+[docs]: https://img.shields.io/badge/API-open-blue
+[docs-r-url]: https://upset.js.org/integrations/r
+[docs-j-url]: https://upset.js.org/api/jupyter
+[example]: https://img.shields.io/badge/Example-open-red
+[example-r-url]: https://upset.js.org/integrations/r/articles/basic
+[example-j-url]: https://upset.js.org/integrations/jupyter

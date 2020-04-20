@@ -213,18 +213,22 @@ export default class Store {
   }
 
   private syncHistory() {
-    const onURLChange = () => {
+    const onURLChangeImpl = (firstRun = false) => {
       const url = new URL(window.location.href);
       if (url.searchParams.has('ds')) {
         const id = decodeURIComponent(url.searchParams.get('ds')!);
-        if (this.dataset?.id !== id) {
+        if (firstRun && id.startsWith('http')) {
+          // URL mode
+          this.importFile(id);
+        } else if (this.dataset?.id !== id) {
           this.selectDataSet(id);
         }
       }
     };
+    const onURLChange = onURLChangeImpl.bind(this, false);
 
     window.addEventListener('popstate', onURLChange);
-    onURLChange();
+    onURLChangeImpl(true);
 
     autorun(() => {
       const params = new URLSearchParams();
@@ -545,10 +549,11 @@ export default class Store {
     shareEmbedded(this);
   }
   @action.bound
-  importFile(file: File) {
-    if (file.name.endsWith('.json')) {
+  importFile(file: File | string) {
+    const name = typeof file == 'string' ? file : file.name;
+    if (name.endsWith('.json')) {
       importJSON(file).then((ds) => this.pushDataSet(ds));
-    } else if (file.name.endsWith('.csv')) {
+    } else if (name.endsWith('.csv')) {
       importCSV(file).then((ds) => this.pushDataSet(ds));
     }
   }

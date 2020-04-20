@@ -1,6 +1,6 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, hydrateUpSet, ISetLike, generateCombinations, boxplotAddon } from '@upsetjs/bundle';
+import { renderUpSet, UpSetProps, ISetLike, generateCombinations, boxplotAddon } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { IEmbeddedDumpSchema, loadDump, loadFile } from './dump';
 
@@ -84,7 +84,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
   });
 
   if (hyrdateFirst) {
-    hydrateUpSet(root, props);
+    render();
   } else {
     root.innerHTML = '';
     render();

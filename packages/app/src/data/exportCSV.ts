@@ -76,6 +76,17 @@ function toAttrs(attrs: string[], e: any) {
   return r;
 }
 
+function deriveDataSetName(file: File | string) {
+  let name: string = '';
+  if (typeof file === 'string') {
+    // url
+    name = file.includes('/') ? file.slice(file.lastIndexOf('/') + 1) : file;
+  } else {
+    name = file.name;
+  }
+  return name.includes('.') ? name.slice(0, name.lastIndexOf('.')) : name;
+}
+
 function findNameAttr(fields: string[]) {
   const fs = fields.map((f) => f.toLowerCase());
   if (fs.includes('name')) {
@@ -87,10 +98,11 @@ function findNameAttr(fields: string[]) {
   return fields[0]; // first one
 }
 
-export function importCSV(file: File): Promise<IDataSet> {
-  const name = file.name.includes('.') ? file.name.slice(0, file.name.lastIndexOf('.')) : file.name;
+export function importCSV(file: File | string): Promise<IDataSet> {
+  const name = deriveDataSetName(file);
   return new Promise<IDataSet>((resolve) => {
     parse(file, {
+      download: typeof file === 'string',
       dynamicTyping: true,
       header: true,
       complete(results) {
@@ -102,11 +114,11 @@ export function importCSV(file: File): Promise<IDataSet> {
           fields.filter((d) => !setNames.includes(d) && d !== nameAttr)
         );
         resolve({
-          id: file.name,
+          id: name,
           name,
           creationDate: new Date(),
           author: 'User',
-          description: `imported from ${file.name}`,
+          description: `imported from ${name}`,
           attrs,
           load: () => {
             const elems: IElems = results.data.map((e, i) => ({
