@@ -47,7 +47,7 @@ export interface UpSetSizeProps {
   /**
    * width ratios for different plots
    * [set chart, set labels, intersection chart]
-   * @default [0.25, 0.1, 0.65]
+   * @default [0.21, 0.19, 0.7]
    */
   widthRatios?: [number, number, number];
   /**
