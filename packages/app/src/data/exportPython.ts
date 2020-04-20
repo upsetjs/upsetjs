@@ -3,12 +3,11 @@ import { ISetLike } from '@upsetjs/model';
 import { ICustomizeOptions } from './interfaces';
 
 function toSnakeCase(v: string) {
-  return v.replace(/\W/gm, (v) => `_${v.toLowerCase()}`);
+  return v.replace(/([A-Z])/gm, (v) => `_${v.toLowerCase()}`);
 }
 
 export default function exportPython(store: Store) {
   // support addons
-  // TODO support props
 
   const toRef = (s: ISetLike<any>) => {
     return `next(s for s in w.${s.type === 'set' ? 'sets' : 'combinations'} if s.name == "${s.name}")`;
