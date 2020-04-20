@@ -24,6 +24,6 @@
     "excludePrivate": true,
     "includeVersion": true,
     "hideGenerator": true,
-    "entryPoint": "\"index\"",
-  },
+    "entryPoint": "\"index\""
+  }
 }

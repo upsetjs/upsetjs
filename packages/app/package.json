@@ -21,7 +21,13 @@
     "dist"
   ],
   "scripts": {
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "npm run eslint && npm run prettier:check",
+    "fix": "npm run eslint:fix && npm run prettier:write",
+    "prettier": "prettier \"*.{md,json,js}\" \"src/**\"",
+    "prettier:write": "npm run prettier -- --write",
+    "prettier:check": "npm run prettier -- --check",
+    "eslint": "eslint src --ext .ts,.tsx",
+    "eslint:fix": "npm run eslint -- --fix",
     "prebuild": "rimraf dist",
     "build": "webpack-cli -p",
     "build:stats": "webpack-cli -p --json > dist/stats.json",

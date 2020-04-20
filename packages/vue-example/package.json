@@ -20,7 +20,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "echo no tests",
-    "lint": "vue-cli-service lint"
+    "lint": "npm run eslint && npm run prettier:check",
+    "fix": "npm run eslint:fix && npm run prettier:write",
+    "prettier": "prettier \"*.{md,json,js}\" \"src/*\" public/index.html",
+    "prettier:write": "npm run prettier -- --write",
+    "prettier:check": "npm run prettier -- --check",
+    "eslint": "vue-cli-service lint",
+    "eslint:fix": "npm run eslint -- --fix"
   },
   "dependencies": {
     "@upsetjs/vue": "^0.4.2",

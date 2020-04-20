@@ -20,5 +20,5 @@
     "moduleResolution": "node",
     "jsx": "react",
     "esModuleInterop": true
-  },
+  }
 }
