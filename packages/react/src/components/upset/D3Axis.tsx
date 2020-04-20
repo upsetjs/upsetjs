@@ -10,6 +10,7 @@ export type D3AxisProps = {
   tickSizeOuter?: number;
   tickPadding?: number;
   size: number;
+  shift: number;
   style: UpSetStyleInfo;
   transform?: string;
 };
@@ -86,11 +87,12 @@ export default function D3Axis({
   tickSizeOuter = 6,
   tickPadding = 3,
   size,
+  shift,
   style,
   transform,
 }: PropsWithChildren<D3AxisProps>) {
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
-  const range0 = 0;
+  const range0 = shift;
   const range1 = size;
 
   const k = orient === 'top' || orient === 'left' ? -1 : 1;

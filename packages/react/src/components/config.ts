@@ -10,6 +10,14 @@ import {
   ISetCombination,
   toKey,
 } from '@upsetjs/model';
+import {
+  DEFAULT_COMBINATIONS,
+  DEFAULT_FONTSIZES,
+  DEFAULT_HEIGHT_RATIO,
+  DEFAULT_WIDTH_RATIO,
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
+} from './defaults';
 
 export interface UpSetSizeProps {
   /**
@@ -215,8 +223,8 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   classNames?: UpSetStyleClassNames;
   theme?: 'light' | 'dark';
   barLabelOffset?: number;
-  setNameAxisOffset?: number;
-  combinationNameAxisOffset?: number;
+  setNameAxisOffset?: number | 'auto';
+  combinationNameAxisOffset?: number | 'auto';
   /**
    * show a legend of queries
    * enabled by default when queries are set
@@ -261,19 +269,6 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
-const EMPTY_OBJECT = {};
-const EMPTY_ARRAY: any[] = [];
-const DEFAULT_FONTSIZES: UpSetFontSizes = {
-  setLabel: '16px',
-  axisTick: '10px',
-  chartLabel: '16px',
-  barLabel: '10px',
-  legend: '10px',
-};
-const DEFAULT_WIDTH_RATIO = [0.2, 0.1, 0.7];
-const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];
-const DEFAULT_COMBINATIONS = { type: 'intersection' };
-
 export function fillDefaults<T>(
   props: UpSetProps<T>
 ): Required<UpSetDataProps<T>> &
@@ -295,8 +290,8 @@ export function fillDefaults<T>(
           ? 'Union Size'
           : 'Intersection Size',
       barLabelOffset: 2,
-      setNameAxisOffset: 24,
-      combinationNameAxisOffset: 30,
+      setNameAxisOffset: 'auto',
+      combinationNameAxisOffset: 'auto',
       setName: 'Set Size',
       fontFamily: 'sans-serif',
       widthRatios: DEFAULT_WIDTH_RATIO,
