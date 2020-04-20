@@ -25,6 +25,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "compile": "tsc -p tsconfig.json --noEmit",
     "start": "tsdx watch --noClean",

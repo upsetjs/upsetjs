@@ -26,6 +26,7 @@
     "dist",
     "src"
   ],
+  "sideEffects": false,
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
