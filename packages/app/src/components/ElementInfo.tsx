@@ -34,7 +34,7 @@ export default observer(() => {
   const attrs = store.dataset?.attrs ?? [];
 
   return (
-    <SidePanelEntry id="elems" title={`Selected Elements${rows.length > 0 ? `: ${rows.length}` : ''}`}>
+    <SidePanelEntry id="elems" title={`Selected ${rows.length.toLocaleString()} Items`}>
       <TableContainer>
         <Table size="small" className={classes.root}>
           <TableHead>

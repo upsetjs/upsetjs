@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  header: {
+    whiteSpace: 'nowrap',
+  },
 }));
 
 export default observer(
@@ -27,7 +30,9 @@ export default observer(
         className={className}
       >
         <ExpansionPanelSummary expandIcon={<ChevronDown />} aria-controls={id} id={id}>
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6" className={classes.header}>
+            {title}
+          </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.root}>{children}</ExpansionPanelDetails>
       </ExpansionPanel>
