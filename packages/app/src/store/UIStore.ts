@@ -15,13 +15,6 @@ export interface IToast {
   message: string;
 }
 
-function defaultTheme() {
-  if (localStorage.getItem('theme')) {
-    return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
-  }
-  return null;
-}
-
 export default class UIStore {
   @observable
   readonly sidePanelExpanded = new Set<string>(
@@ -35,7 +28,7 @@ export default class UIStore {
   zen = localStorage.getItem('zen') === 'T';
 
   @observable
-  defaultTheme: 'dark' | 'light' | null = defaultTheme();
+  defaultTheme: 'dark' | 'light' | null = null;
 
   @observable
   readonly setTable: ISetTableOptions = {
@@ -58,9 +51,6 @@ export default class UIStore {
   toast: IToast | null = null;
 
   constructor() {
-    autorun(() => {
-      localStorage.setItem('theme', this.theme ?? 'light');
-    });
     autorun(() => {
       localStorage.setItem('zen', this.zen ? 'T' : 'F');
     });
