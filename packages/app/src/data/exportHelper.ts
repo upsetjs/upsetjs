@@ -22,8 +22,8 @@ export function compressElems(elems: ReadonlyArray<IElem>, attrs: string[]) {
 export function uncompressElems(elems: ReadonlyArray<any>, attrNames: string[]): IElem[] {
   return elems.map(
     (elem): IElem => {
-      if (typeof elem === 'string') {
-        return { name: elem, attrs: {} };
+      if (typeof elem === 'string' || typeof elem === 'number') {
+        return { name: String(elem), attrs: {} };
       }
       const attrs: IAttrs = elem.attrs ?? {};
       attrNames.forEach((attr) => {

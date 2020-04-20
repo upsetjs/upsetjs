@@ -98,6 +98,13 @@ function findNameAttr(fields: string[]) {
   return fields[0]; // first one
 }
 
+function safeName(name: string | undefined, i: number) {
+  if (name != null) {
+    return name.toString();
+  }
+  return i.toString();
+}
+
 export function importCSV(file: File | string): Promise<IDataSet> {
   const name = deriveDataSetName(file);
   return new Promise<IDataSet>((resolve) => {
@@ -122,7 +129,7 @@ export function importCSV(file: File | string): Promise<IDataSet> {
           attrs,
           load: () => {
             const elems = results.data.map((e, i) => ({
-              name: (e[nameAttr] ?? i.toString()) as string,
+              name: safeName(e[nameAttr], i),
               sets: setNames.filter((f) => isTrue(e[f])),
               attrs: toAttrs(attrs, e),
             }));
