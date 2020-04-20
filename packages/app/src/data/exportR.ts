@@ -1,7 +1,12 @@
-import Store from '../store/Store';
+import Store, { stripDefaults } from '../store/Store';
 import { ISetLike } from '@upsetjs/model';
+import { ICustomizeOptions } from './interfaces';
 
 declare const __VERSION__: string;
+
+function toRCase(v: string) {
+  return v.replace(/([A-Z])/gm, (v) => `.${v.toLowerCase()}`);
+}
 
 function str(v: string | ReadonlyArray<string>): string {
   if (typeof v === 'string') {
@@ -19,6 +24,30 @@ function toRef(s: ISetLike<any>) {
     .sort();
 }
 
+function generateProps(props: ICustomizeOptions) {
+  const keys = Object.keys(props);
+  if (keys.length === 0) {
+    return '';
+  }
+  const r: string[] = [];
+  keys.forEach((key) => {
+    const k = key as keyof ICustomizeOptions;
+    const v = props[k];
+    if (k === 'widthRatios' || k === 'heightRatios') {
+      r.push(`${toRCase(k)} = c(${v})`);
+    } else if (k === 'fontSizes') {
+      r.push(
+        `font.sizes = list(${Object.keys(v!)
+          .map((fk) => `${toRCase(fk)} = "${(v as any)![fk]}"`)
+          .join(', ')})`
+      );
+    } else {
+      r.push(`${toRCase(k)} = ${JSON.stringify(v)}`);
+    }
+  });
+  return ` %>% chartProps(${r.join(', ')})`;
+}
+
 export default function exportR(store: Store) {
   // support addons
   // TODO support props
@@ -33,7 +62,7 @@ export default function exportR(store: Store) {
     .map((q) => `%>% addQuery(${str(q.name)}, ${str(q.color)}, set=${str(toRef(q.set))})`)
     .join('');
 
-  // const props = stripDefaults(store.props, store.ui.theme);
+  const rProps = generateProps(stripDefaults(store.props, store.ui.theme));
 
   return `
 devtools::install_url("https://github.com/upsetjs/upsetjs_r/releases/v${__VERSION__}/download/upsetjs.tar.gz")
@@ -42,6 +71,6 @@ library(upsetjs)
 listInput <- list(
 ${store.visibleSets.map((s) => `   \`${s.name}\`=${str(s.elems.map((e) => e.name))}`).join(',\n')}
 )
-upsetjs() %>% fromList(listInput) ${generate}${selection}${queries} %>% interactiveChart()
+upsetjs() %>% fromList(listInput) ${generate}${selection}${queries}${rProps} %>% interactiveChart()
 `;
 }
