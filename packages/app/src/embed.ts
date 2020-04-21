@@ -1,8 +1,8 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, ISetLike, generateCombinations, boxplotAddon } from '@upsetjs/bundle';
+import { renderUpSet, UpSetProps, ISetLike, boxplotAddon, hydrateUpSet, fromDump } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
-import { IEmbeddedDumpSchema, loadDump, loadFile, uncompressElems } from './dump';
+import { IEmbeddedDumpSchema, loadFile, uncompressElems } from './dump';
 
 const root = document.getElementById('app')! as HTMLElement;
 Object.assign(root.style, {
@@ -40,15 +40,16 @@ function customizeFromParams(interactive: boolean) {
 }
 
 function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
-  const [custom, cinteractive] = customizeFromParams(dump.interactive);
+  const [custom, cinteractive] = customizeFromParams(true);
   const elems = uncompressElems(dump!.elements, dump.attrs);
   const props: UpSetProps<any> = Object.assign(
     {
+      id: 'upset',
       sets: [],
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    loadDump(dump!, elems, generateCombinations),
+    fromDump(dump!, elems, {}),
     dump!.props || {},
     custom,
     cinteractive
@@ -86,7 +87,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
   });
 
   if (hyrdateFirst) {
-    render();
+    hydrateUpSet(root, props);
   } else {
     root.innerHTML = '';
     render();

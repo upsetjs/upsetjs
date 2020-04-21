@@ -50,7 +50,7 @@
         }
       }
     },
-    "combinations": {
+    "combinationOptions": {
       "$comment": "TODO",
       "type": "object",
       "additionalProperties": true

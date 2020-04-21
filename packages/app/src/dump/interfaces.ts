@@ -1,27 +1,11 @@
-import { GenerateSetCombinationsOptions } from '@upsetjs/model';
+import { IUpSetDump } from '@upsetjs/model';
 
-export interface ISetRef {
-  type: 'set' | string;
-  index: number;
-}
-
-export interface IEmbeddedDumpSchema {
+export interface IEmbeddedDumpSchema extends IUpSetDump {
   name: string;
   description: string;
   author: string;
 
   elements: ReadonlyArray<number | string | any>;
   attrs: string[];
-
-  sets: ReadonlyArray<{
-    type: 'set';
-    name: string;
-    cardinality: number;
-    elems: string | ReadonlyArray<number>;
-  }>;
-  combinations: GenerateSetCombinationsOptions<any>;
-  selection?: ISetRef;
-  queries: { name: string; color: string; set: ISetRef }[];
   props: any;
-  interactive: boolean;
 }

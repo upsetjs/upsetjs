@@ -4,7 +4,6 @@ import { IEmbeddedDumpSchema, loadFile, loadDump } from '../dump';
 import Store from '../store/Store';
 import { toEmbeddedDump } from './shareEmbedded';
 import { ICustomizeOptions, IDataSet } from './interfaces';
-import { generateCombinations } from '@upsetjs/react';
 import { loadJSON, uncompressElems } from '../dump';
 
 export interface IDumpSchema extends IEmbeddedDumpSchema {
@@ -17,7 +16,7 @@ export function exportJSON(store: Store) {
     {
       $schema: 'https://upset.js.org/schema.1.0.0.json',
     },
-    toEmbeddedDump(store)
+    toEmbeddedDump(store, { compress: 'no' })
   );
   return JSON.stringify(r, null, 2);
 }
@@ -33,12 +32,12 @@ export function fromDump(dump: IEmbeddedDumpSchema, id: string): IDataSet {
     setCount: dump.sets.length,
     load: () => {
       const elems = uncompressElems(dump.elements, dump.attrs);
-      const infos = loadDump(dump, elems, generateCombinations);
+      const infos = loadDump(dump, elems, {});
       return Promise.resolve({
         elems: elems,
         sets: infos.sets,
         props: dump.props,
-        combinations: dump.combinations,
+        combinations: dump.combinationOptions,
         queries: dump.queries,
       });
     },
