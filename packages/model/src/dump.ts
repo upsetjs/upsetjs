@@ -35,7 +35,7 @@ export interface IUpSetDumpData<T> {
 }
 
 export interface IUpSetToDumpConfig<T> {
-  compress: 'no' | 'yes' | 'auto';
+  compress?: 'no' | 'yes' | 'auto';
   toKey?(set: ISetLike<T>): string;
 }
 
