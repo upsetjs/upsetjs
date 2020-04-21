@@ -79,7 +79,8 @@ export default function deriveDataDependent<T>(
   barPadding: number,
   tickFontSize: number,
   toKey: (s: ISetLike<T>) => string,
-  toElemKey?: (e: T) => string
+  toElemKey?: (e: T) => string,
+  id?: string
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
@@ -114,7 +115,7 @@ export default function deriveDataDependent<T>(
   const triangleSize = Math.max(2, (Math.min(setY.bandwidth(), combinationX.bandwidth()) / 2) * barPadding);
 
   return {
-    id: generateId(),
+    id: id ? id : generateId(),
     r,
     triangleSize,
     sets: {

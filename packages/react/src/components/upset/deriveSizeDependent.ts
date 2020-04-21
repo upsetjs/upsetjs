@@ -9,7 +9,8 @@ export default function deriveSizeDependent(
   widthRatios: [number, number, number],
   heightRatios: [number, number],
   setAddons: ReadonlyArray<UpSetAddon<any, any>>,
-  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>
+  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>,
+  id: string
 ) {
   const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
   const setAddonsAfter = setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
@@ -22,7 +23,7 @@ export default function deriveSizeDependent(
   const labelsWidth = w * widthRatios[1];
   const combinationHeight = h * heightRatios[0];
   return {
-    id: generateId(),
+    id: id ? id : generateId(),
     cs: {
       before: combnationAddonsBefore,
       after: combinationAddonsAfter,
