@@ -7,6 +7,6 @@ export const DEFAULT_FONTSIZES = {
   barLabel: '10px',
   legend: '10px',
 };
-export const DEFAULT_WIDTH_RATIO = [0.21, 0.19, 0.7];
+export const DEFAULT_WIDTH_RATIO = [0.18, 0.12, 0.7];
 export const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];
 export const DEFAULT_COMBINATIONS = { type: 'intersection' };

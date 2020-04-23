@@ -219,6 +219,7 @@ export interface UpSetFontSizes {
 }
 
 export interface UpSetStyleProps extends UpSetThemeProps {
+  id?: string;
   className?: string;
   classNames?: UpSetStyleClassNames;
   theme?: 'light' | 'dark';

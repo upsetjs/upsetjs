@@ -20,6 +20,12 @@
           { "type": "string" },
           {
             "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
             "additionalProperties": true
           }
         ]
@@ -50,7 +56,7 @@
         }
       }
     },
-    "combinations": {
+    "combinationOptions": {
       "$comment": "TODO",
       "type": "object",
       "additionalProperties": true

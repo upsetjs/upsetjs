@@ -1,5 +1,5 @@
-import { ISetLike } from '@upsetjs/model';
-import { ISetRef, compressElems } from '../dump';
+import { ISetLike, IUpSetDumpRef } from '@upsetjs/model';
+import { compressElems } from '../dump';
 import Store from '../store/Store';
 
 function toIndex<T>(arr: ReadonlyArray<T>) {
@@ -20,7 +20,7 @@ export default function exportHelper(store: Store, options: { all?: boolean; max
   const toSetIndex = toIndex(sets);
   const toCombinationIndex = toIndex(store.visibleCombinations);
 
-  const toSetRef = (set: ISetLike<any>): ISetRef => {
+  const toSetRef = (set: ISetLike<any>): IUpSetDumpRef => {
     return {
       type: set.type,
       index: set.type === 'set' ? toSetIndex(set) : toCombinationIndex(set),

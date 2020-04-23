@@ -196,6 +196,12 @@ export default observer(({ className }: { className?: string }) => {
             onClick={store.exportJSON}
           />
           <SpeedDialAction
+            icon={<FileCode />}
+            tooltipTitle={'Static JSON File'}
+            tooltipPlacement="bottom"
+            onClick={store.exportStaticJSON}
+          />
+          <SpeedDialAction
             icon={<Codepen />}
             tooltipTitle={'Export to Codepen.io'}
             tooltipPlacement="bottom"

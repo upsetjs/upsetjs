@@ -112,6 +112,7 @@ export function importCSV(file: File | string): Promise<IDataSet> {
       download: typeof file === 'string',
       dynamicTyping: true,
       header: true,
+      skipEmptyLines: true,
       complete(results) {
         const fields = results.meta.fields;
         const nameAttr = findNameAttr(fields);

@@ -16,6 +16,7 @@ export default React.forwardRef(function UpSet<T>(
   ref: React.Ref<SVGSVGElement>
 ) {
   const {
+    id,
     className,
     style,
     width,
@@ -24,6 +25,7 @@ export default React.forwardRef(function UpSet<T>(
     barPadding,
     sets,
     toKey,
+    toElemKey,
     combinations,
     selection = null,
     onClick,
@@ -69,21 +71,24 @@ export default React.forwardRef(function UpSet<T>(
   } = fontSizes;
   const styleId = useMemo(
     () =>
-      generateId([
-        fontFamily,
-        fontAxisTick,
-        fontBarLabel,
-        fontChartLabel,
-        fontLegend,
-        fontSetLabel,
-        textColor,
-        hoverHintColor,
-        color,
-        selectionColor,
-        notMemberColor,
-        alternatingBackgroundColor,
-      ]),
+      id
+        ? id
+        : generateId([
+            fontFamily,
+            fontAxisTick,
+            fontBarLabel,
+            fontChartLabel,
+            fontLegend,
+            fontSetLabel,
+            textColor,
+            hoverHintColor,
+            color,
+            selectionColor,
+            notMemberColor,
+            alternatingBackgroundColor,
+          ]),
     [
+      id,
       fontFamily,
       fontAxisTick,
       fontBarLabel,
@@ -130,8 +135,18 @@ export default React.forwardRef(function UpSet<T>(
 
   const sizeInfo = useMemo(
     () =>
-      defineSizeDependent(width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons),
-    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons]
+      defineSizeDependent(
+        width,
+        height,
+        margin,
+        barPadding,
+        widthRatios,
+        heightRatios,
+        setAddons,
+        combinationAddons,
+        id
+      ),
+    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons, id]
   );
 
   const dataInfo = useMemo(
@@ -146,7 +161,9 @@ export default React.forwardRef(function UpSet<T>(
         dotPadding,
         barPadding,
         Number.parseInt(fontAxisTick ?? '10'),
-        toKey
+        toKey,
+        toElemKey,
+        id
       ),
     [
       sets,
@@ -160,6 +177,8 @@ export default React.forwardRef(function UpSet<T>(
       barPadding,
       fontAxisTick,
       toKey,
+      toElemKey,
+      id,
     ]
   );
 
@@ -297,6 +316,7 @@ export default React.forwardRef(function UpSet<T>(
 
   return (
     <svg
+      id={id}
       className={clsx(`root-${styleId}`, className)}
       style={style}
       width={width}

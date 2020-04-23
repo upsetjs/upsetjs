@@ -1,41 +1,68 @@
 import { toJS } from 'mobx';
-import { IEmbeddedDumpSchema } from '../dump';
+import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema } from '../dump';
 import Store, { stripDefaults } from '../store/Store';
 import exportHelper from './exportHelper';
-import { toIndicesArray } from '@upsetjs/model';
+import { toDump, toStaticDump } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
 
 export function toEmbeddedDump(
   store: Store,
-  options: { all?: boolean; maxCompress?: boolean } = {}
+  options: { all?: boolean; compress?: 'yes' | 'no' | 'auto' } = {}
 ): IEmbeddedDumpSchema {
   const helper = exportHelper(store, options);
   const ds = store.dataset!;
 
+  const dump = toDump(
+    {
+      sets: helper.sets,
+      queries: store.visibleQueries,
+      toElemIndex: helper.toElemIndex,
+      selection: store.selection || undefined,
+      combinations: store.visibleCombinations,
+      combinationOptions: toJS(store.combinationsOptions),
+    },
+    {
+      compress: options.compress ?? 'auto',
+    }
+  );
+
   return {
+    ...dump,
     name: ds.name,
     description: ds.description,
     author: ds.author,
     elements: toJS(helper.elems),
     attrs: toJS(helper.attrs),
-    sets: helper.sets.map((set) => ({
-      ...set,
-      elems: toIndicesArray(set.elems, helper.toElemIndex, { sortAble: true, maxCompress: options.maxCompress }),
-    })),
-    combinations: toJS(store.combinationsOptions),
     props: stripDefaults(store.props, store.ui.theme),
-    selection: store.selection ? helper.toSetRef(store.selection) : undefined,
-    queries: store.visibleQueries.map((q) => ({
-      name: q.name,
-      color: q.color,
-      set: helper.toSetRef(q.set),
-    })),
-    interactive: true,
+  };
+}
+
+export function toEmbeddedStaticdump(
+  store: Store,
+  options: { compress?: 'yes' | 'no' | 'auto' } = {}
+): IEmbeddedStaticDumpSchema {
+  const ds = store.dataset!;
+  const dump = toStaticDump(
+    {
+      sets: store.visibleSets,
+      combinations: store.visibleCombinations,
+      selection: store.selection ?? undefined,
+      queries: store.visibleQueries,
+    },
+    options
+  );
+
+  return {
+    ...dump,
+    name: ds.name,
+    description: ds.description,
+    author: ds.author,
+    props: stripDefaults(store.props, store.ui.theme),
   };
 }
 
 export default function shareEmbedded(store: Store) {
-  const r = toEmbeddedDump(store, { maxCompress: true });
+  const r = toEmbeddedDump(store, { compress: 'yes' });
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL(window.location.toString());
   url.hash = '';
@@ -51,20 +78,24 @@ export default function shareEmbedded(store: Store) {
 
   if (url.toString().length < 2048) {
     window.open(url.toString(), '_blank');
-  } else {
-    // send via frame message
-    url.searchParams.delete('p');
-    const w = window.open(url.toString(), '_blank');
-    w?.addEventListener('load', () => {
-      w?.postMessage(r, url.origin);
-    });
+    return;
+  }
+  if (store.selectedAttrs.size === 0) {
+    // try other compression
+    const r = toEmbeddedStaticdump(store, { compress: 'yes' });
+    const arg = compressToEncodedURIComponent(JSON.stringify(r));
+    url.searchParams.set('p', arg);
+
+    if (url.toString().length < 2048) {
+      window.open(url.toString(), '_blank');
+      return;
+    }
   }
 
-  // const a = document.createElement('a');
-  // a.href = url.toString();
-  // a.target = '_blank';
-  // a.rel = 'noopener noreferrer';
-  // document.body.appendChild(a);
-  // a.click();
-  // a.remove();
+  // send via frame message
+  url.searchParams.delete('p');
+  const w = window.open(url.toString(), '_blank');
+  w?.addEventListener('load', () => {
+    w?.postMessage(r, url.origin);
+  });
 }

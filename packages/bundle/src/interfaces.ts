@@ -59,6 +59,18 @@ export interface UpSetDataProps<T> {
    * the combinations to visualize by default all combinations
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
+
+  /**
+   * optional function to identify the same sets
+   * @param set the set to generate a key for
+   */
+  toKey?(set: ISetLike<T>): string;
+
+  /**
+   * optional function to identify the same elem
+   * @param elem the element the key for
+   */
+  toElemKey?(elem: T): string;
 }
 
 export interface UpSetSelectionProps<T> {
@@ -114,6 +126,7 @@ export interface UpSetStyleFontSizes {
 
 export interface UpSetStyleProps extends UpSetThemeProps {
   theme?: 'light' | 'dark';
+  id?: string;
   className?: string;
   classNames?: UpSetStyleClassNames;
 

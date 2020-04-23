@@ -100,6 +100,7 @@ async function elementsFromDataset(ds: IUpSetDataSet): Promise<ReadonlyArray<IEl
   const rawText = await fetchCors(ds.file).then((r) => r.text());
   const csv = parse(rawText, {
     delimiter: ds.separator,
+    skipEmptyLines: true,
   });
   const set = { start: ds.sets[0].start, end: ds.sets[0].end };
   const idColumnIndex = ds.meta.find((d) => d.type === 'id')?.index ?? 0;
