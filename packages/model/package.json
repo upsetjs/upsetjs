@@ -2,7 +2,7 @@
   "name": "@upsetjs/model",
   "description": "UpSet.js React component implementation",
   "version": "0.4.2",
-  "license": "AGPL-3.0",
+  "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
     "email": "sam@sgratzl.com",
