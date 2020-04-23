@@ -38,6 +38,8 @@ const SetChart = React.memo(function SetChart<T>({
       onClick={onClick(d)}
       onContextMenu={onContextMenu(d)}
       className={className}
+      data-cardinality={d.cardinality}
+      data-type={d.type}
     >
       <title>
         {d.name}: {data.sets.format(d.cardinality)}

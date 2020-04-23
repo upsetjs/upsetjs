@@ -13,13 +13,24 @@ It contains a sample application for exploring sets and set intersections. It is
 - load one of the predefined datasets from [UpSet2](https://vdl.sci.utah.edu/upset2/)
 - import CSV files to create additional datasets. Note: the datasets are stored in your local browser only. No data will be transferred to any server
 - download as
+
   - PNG/SVG file
+  - [Vega Lite](https://vega.github.io/) static export
   - CSV File (set intersection as rows, sets as columns)
   - UpSet.js JSON dump file (can be reimported with the whole state)
+  - UpSet.js JSON static dump file
+
 - export to
+
   - [Codepen](https://codepen.io) with all data and settings
   - [Codesandbox](https://codesandbox.io) with all data and settings
   - [JSFiddle](https://jsfiddle.org) with all data and settings
+
+- generate
+
+  - [R Script](https://vega.github.io/) using [upsetjs_r](https://github.com/upsetjs/upsetjs_r)
+  - [Jupyter Lab Notebook](https://jupyter.org) using [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget)
+
 - generate a shareable page that can be shared and saved in a self contained way
 - toggle between light and dark theme
 - customize UpSet plot (layout, fonts, colors, ...)

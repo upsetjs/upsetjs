@@ -175,13 +175,19 @@ export default observer(({ className }: { className?: string }) => {
             icon={<FileImage />}
             tooltipTitle={'PNG Image'}
             tooltipPlacement="bottom"
-            onClick={() => store.exportImage('png')}
+            onClick={store.exportPNG}
           />
           <SpeedDialAction
             icon={<FileChart />}
             tooltipTitle={'SVG Image'}
             tooltipPlacement="bottom"
-            onClick={() => store.exportImage('svg')}
+            onClick={store.exportSVG}
+          />
+          <SpeedDialAction
+            icon={<FileChart />}
+            tooltipTitle={'Vega Lite Specification (static)'}
+            tooltipPlacement="bottom"
+            onClick={store.exportVega}
           />
           <SpeedDialAction
             icon={<FileExcel />}
