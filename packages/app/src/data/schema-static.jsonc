@@ -1,0 +1,116 @@
+{
+  "definitions": {},
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://upset.js.org/schema-static.1.0.0.json",
+  "type": "object",
+  "title": "UpSet.js App Static Dump Schema",
+  "required": ["name", "sets", "combinations", "overlap"],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "sets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cardinality": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "combinations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cardinality": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["composite", "intersection", "union"]
+          },
+          "sets": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "required": ["type", "index"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["set", "composite", "intersection", "union"]
+        },
+        "index": {
+          "type": "integer"
+        }
+      }
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "color"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "set": {
+            "type": "object",
+            "required": ["type", "index"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["set", "composite", "intersection", "union"]
+              },
+              "index": {
+                "type": "integer"
+              }
+            }
+          },
+          "overlaps": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "overlaps": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      }
+    },
+
+    "props": {
+      "$comment": "TODO",
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

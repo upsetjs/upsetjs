@@ -1,4 +1,4 @@
-import { ISetCombinations, ISetLike, ISets } from '../model';
+import { ISetCombinations, ISetLike, ISets, toKey as toKeyImpl } from '../model';
 import { SetOverlap, setOverlapFactory } from './setOverlap';
 
 export declare type GenerateOverlapLookupOptions<T> = {
@@ -41,17 +41,21 @@ export function generateOverlapLookup<T>(
 export function generateOverlapLookupFunction<T>(
   lookup: ReadonlyArray<ReadonlyArray<number>>,
   sets: ISets<T>,
-  combinations: ISetCombinations<T>
+  combinations: ISetCombinations<T>,
+  toKey: (v: ISetLike<T>) => string = toKeyImpl
 ) {
-  const setIndex = new Map<ISetLike<T>, number>(sets.map((set, i) => [set, i]));
-  const combinationIndex = new Map<ISetLike<T>, number>(combinations.map((set, i) => [set, i + sets.length]));
+  const setIndex = new Map(sets.map((set, i) => [toKey(set), i]));
+  const combinationIndex = new Map(combinations.map((set, i) => [toKey(set), i + sets.length]));
 
-  return (a: ISetLike<T>, b: ISetLike<T>) => {
+  const compute = (a: ISetLike<T>, b: ISetLike<T>) => {
     if (a === b) {
       return a.cardinality;
     }
-    const aIndex = setIndex.has(a) ? setIndex.get(a) : combinationIndex.get(a);
-    const bIndex = setIndex.has(b) ? setIndex.get(b) : combinationIndex.get(b);
+    const aKey = toKey(a);
+    const bKey = toKey(b);
+    const aIndex = setIndex.has(aKey) ? setIndex.get(aKey)! : combinationIndex.get(aKey)!;
+    const bIndex = setIndex.has(bKey) ? setIndex.get(bKey)! : combinationIndex.get(bKey)!;
+
     if (aIndex === bIndex) {
       return a.cardinality;
     }
@@ -61,5 +65,11 @@ export function generateOverlapLookupFunction<T>(
       return 0;
     }
     return lookup[row][col];
+  };
+
+  return {
+    setIndex,
+    compute,
+    combinationIndex,
   };
 }

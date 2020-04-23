@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import '!file-loader?name=schema-static.1.0.0.json!./schema-static.jsonc';
 import { IEmbeddedDumpSchema, loadFile, loadDump } from '../dump';
 import Store from '../store/Store';
 import { toEmbeddedDump } from './shareEmbedded';
