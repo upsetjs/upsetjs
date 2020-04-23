@@ -2,16 +2,12 @@ import { downloadUrl } from './exportSVG';
 import { DARK_BACKGROUND_COLOR } from '../components/defaults';
 
 export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
-  /*
-  TODO: sizes, colors
-  */
   const resolveStyle =
     (node.getComputedStyle || node.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
   const theme = node.dataset.theme;
   const styleId = Array.from(node.classList)
     .find((d) => d.startsWith('root-'))!
     .slice('root-'.length);
-  // const css = node.querySelector('style')!.textContent;
 
   const sets = Array.from(node.querySelectorAll<HTMLElement>('[data-cardinality][data-type=set]'))
     .map((set) => {

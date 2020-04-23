@@ -60,7 +60,7 @@ function CombinationSelectionChart<T>({
               data.triangleSize
             },${data.triangleSize} Z`}
             className={className}
-            data-cardinality={o}
+            data-q-cardinality={o}
           >
             {title}
           </path>
@@ -70,7 +70,7 @@ function CombinationSelectionChart<T>({
             x={x}
             y={y}
             height={height - y}
-            data-cardinality={o}
+            data-q-cardinality={o}
             width={width}
             className={className}
             style={style.styles.bar}
