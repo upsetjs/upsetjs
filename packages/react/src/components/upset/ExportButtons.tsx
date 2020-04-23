@@ -1,13 +1,16 @@
 import React from 'react';
-import { exportSVG } from '../../exporter';
+import { exportSVG, exportVegaLite } from '../../exporter';
 
 function exportChart(evt: React.MouseEvent<SVGElement>) {
   const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
-  const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png';
+  const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega';
+  if (type === 'vega') {
+    exportVegaLite(svg);
+    return;
+  }
   exportSVG(svg, {
     type,
     toRemove: `.${evt.currentTarget.getAttribute('class')}`,
-    theme: svg.dataset.theme as 'light' | 'dark',
   });
 }
 
@@ -26,6 +29,13 @@ export default function ExportButtons({ transform, styleId }: { transform: strin
         <rect y={-9} width={24} height={11} rx={2} ry={2} />
         <text className={`exportTextStyle-${styleId}`} x={12}>
           SVG
+        </text>
+      </g>
+      <g className={`exportButton-${styleId}`} onClick={exportChart} data-type="vega" transform="translate(-84, 0)">
+        <title>Download VEGA-Lite Specification</title>
+        <rect y={-9} width={32} height={11} rx={2} ry={2} />
+        <text className={`exportTextStyle-${styleId}`} x={16}>
+          VEGA
         </text>
       </g>
     </g>

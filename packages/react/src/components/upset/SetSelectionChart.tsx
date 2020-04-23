@@ -59,12 +59,22 @@ function SetSelectionChart<T>({
             d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${
               data.triangleSize
             },${data.triangleSize} Z`}
+            data-cardinality={o}
             className={className}
           >
             {title}
           </path>
         ) : (
-          <rect key={key} x={x} y={y} width={width - x} height={height} className={className} style={style.styles.bar}>
+          <rect
+            key={key}
+            data-cardinality={o}
+            x={x}
+            y={y}
+            width={width - x}
+            height={height}
+            className={className}
+            style={style.styles.bar}
+          >
             {title}
           </rect>
         );

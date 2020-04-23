@@ -1,14 +1,12 @@
+import { DARK_BACKGROUND_COLOR } from '../components/defaults';
+
 export async function exportSVG(
   node: SVGSVGElement,
-  {
-    type = 'png',
-    title = 'UpSet',
-    theme = 'light',
-    toRemove,
-  }: { type?: 'png' | 'svg'; title?: string; theme?: 'light' | 'dark'; toRemove?: string }
+  { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
 ) {
+  const theme = node.dataset.theme;
   const clone = node.cloneNode(true) as SVGSVGElement;
-  clone.style.backgroundColor = theme === 'dark' ? '#303030' : 'white';
+  clone.style.backgroundColor = theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white';
 
   if (toRemove) {
     Array.from(clone.querySelectorAll(toRemove)).forEach((d) => d.remove());
