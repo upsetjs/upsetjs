@@ -48,9 +48,34 @@ function generateProps(props: ICustomizeOptions) {
   return ` %>% chartProps(${r.join(', ')})`;
 }
 
+function generateSimpleData(store: Store) {
+  return `listInput <- list(
+${store.visibleSets.map((s) => `   \`${s.name}\`=${str(s.elems.map((e) => e.name))}`).join(',\n')}
+)
+upsetjs() %>% fromList(listInput)`;
+}
+
+function generateAddonData(store: Store) {
+  const elems = store.elems;
+  const attrs = Array.from(store.selectedAttrs);
+
+  const sets = store.visibleSets.map((s) => {
+    const hasElem = new Set(s.elems);
+    return `   \`${s.name}\`= c(${elems.map((e) => (hasElem.has(e) ? 1 : 0)).join(',')})`;
+  });
+
+  return `df <- data.frame(
+${sets.join(',\n')}
+)
+rownames(df) <- ${str(elems.map((e) => e.name))}
+df.attributes <- list(
+${attrs.map((attr) => `\`${attr}\` = c(${elems.map((elem) => elem.attrs[attr] ?? 'NULL').join(',')})`).join(',\n')}
+)
+upsetjs() %>% fromDataFrame(df, attributes=df.attributes)`;
+}
+
 export default function exportR(store: Store) {
-  // support addons
-  // TODO support props
+  const input = store.selectedAttrs.size > 0 ? generateAddonData(store) : generateSimpleData(store);
   const selection = store.selection ? `%>% setSelection(${str(toRef(store.selection))})` : '';
 
   const c = store.combinationsOptions;
@@ -68,9 +93,6 @@ export default function exportR(store: Store) {
 devtools::install_url("https://github.com/upsetjs/upsetjs_r/releases/v${__VERSION__}/download/upsetjs.tar.gz")
 library(upsetjs)
 
-listInput <- list(
-${store.visibleSets.map((s) => `   \`${s.name}\`=${str(s.elems.map((e) => e.name))}`).join(',\n')}
-)
-upsetjs() %>% fromList(listInput) ${generate}${selection}${queries}${rProps} %>% interactiveChart()
+${input} ${generate}${selection}${queries}${rProps} %>% interactiveChart()
 `;
 }
