@@ -210,7 +210,8 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
     return invalid;
   }
 
-  const s = vs.subarray(0, valid).sort();
+  // add comparator since the polyfill doesn't to a real sorting
+  const s = vs.subarray(0, valid).sort((a, b) => (a === b ? 0 : a < b ? -1 : 1));
   const { median, q1, q3 } = quantiles(s, valid);
   const iqr = q3 - q1;
   const coefValid = typeof coef === 'number' && coef > 0;
