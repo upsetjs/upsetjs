@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/addons",
   "description": "UpSet.js React component addons",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "@types/react": "^16.9.31",
-    "@upsetjs/math": "^0.4.2",
-    "@upsetjs/react": "^0.4.2"
+    "@upsetjs/math": "^0.5.0",
+    "@upsetjs/react": "^0.5.0"
   }
 }

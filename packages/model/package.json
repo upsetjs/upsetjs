@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/model",
   "description": "UpSet.js React component implementation",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
