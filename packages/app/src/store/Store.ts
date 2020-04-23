@@ -27,6 +27,7 @@ import {
   UpSetFontSizes,
   UpSetAddon,
   exportSVG,
+  exportVegaLite,
   downloadUrl,
 } from '@upsetjs/react';
 import { boxplotAddon } from '@upsetjs/addons';
@@ -512,12 +513,38 @@ export default class Store {
   }
 
   @action
-  exportImage(type: 'svg' | 'png') {
+  exportSVG() {
     if (this.ui.ref.current) {
       exportSVG(this.ui.ref.current, {
-        type,
+        type: 'svg',
         title: this.title,
-        theme: this.props.theme,
+      });
+    }
+  }
+
+  @action
+  exportPNG() {
+    if (this.ui.ref.current) {
+      exportSVG(this.ui.ref.current, {
+        type: 'png',
+        title: this.title,
+      });
+    }
+  }
+
+  @action.bound
+  exportVega() {
+    if (this.ui.ref.current) {
+      exportVegaLite(this.ui.ref.current, {
+        title: this.title,
+      });
+      this.ui.showToast({
+        severity: 'success',
+        message: `${this.title}.json generated`,
+        link: {
+          alt: 'Vega-Lite Editor',
+          href: 'https://vega.github.io/',
+        },
       });
     }
   }
