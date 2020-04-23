@@ -1,8 +1,16 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
-import { renderUpSet, UpSetProps, ISetLike, boxplotAddon, hydrateUpSet, fromDump } from '@upsetjs/bundle';
+import {
+  renderUpSet,
+  UpSetProps,
+  ISetLike,
+  boxplotAddon,
+  hydrateUpSet,
+  fromDump,
+  fromStaticDump,
+} from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
-import { IEmbeddedDumpSchema, loadFile, uncompressElems } from './dump';
+import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema, loadFile, uncompressElems } from './dump';
 
 const root = document.getElementById('app')! as HTMLElement;
 Object.assign(root.style, {
@@ -39,9 +47,13 @@ function customizeFromParams(interactive: boolean) {
   return [r, interactive];
 }
 
-function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
+function isStaticDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema): dump is IEmbeddedStaticDumpSchema {
+  return typeof (dump as IEmbeddedStaticDumpSchema).overlaps !== 'undefined';
+}
+
+function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdateFirst = false) {
   const [custom, cinteractive] = customizeFromParams(true);
-  const elems = uncompressElems(dump!.elements, dump.attrs);
+  const elems = isStaticDump(dump) ? [] : uncompressElems(dump!.elements, dump.attrs);
   const props: UpSetProps<any> = Object.assign(
     {
       id: 'upset',
@@ -49,7 +61,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
       width: root.clientWidth,
       height: root.clientHeight,
     },
-    fromDump(dump!, elems, {}),
+    isStaticDump(dump) ? fromStaticDump(dump) : fromDump(dump!, elems, {}),
     dump!.props || {},
     custom,
     cinteractive
@@ -60,7 +72,7 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
           },
         }
       : {},
-    dump.attrs.length > 0
+    !isStaticDump(dump) && dump.attrs.length > 0
       ? {
           combinationAddons: dump.attrs.map((attr) =>
             boxplotAddon((v) => v.attrs[attr], elems, { orient: 'vertical', name: attr })
@@ -75,6 +87,9 @@ function showDump(dump: IEmbeddedDumpSchema, hyrdateFirst = false) {
     makeDark();
   }
   document.title = `UpSet - ${dump.name}`;
+  document.querySelector('title')!.textContent = `UpSet - ${dump.name}`;
+  document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
+  document.querySelector('meta[name=author]')!.setAttribute('content', dump.author);
 
   function render() {
     renderUpSet(root, props);
@@ -108,13 +123,13 @@ function fromURLParam(): IEmbeddedDumpSchema | null {
   }
 }
 
-function saveHTMLDump(dump: IEmbeddedDumpSchema) {
+function saveHTMLDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema) {
   const s = document.createElement('script');
   s.textContent = `window.UPSET_DUMP = ${JSON.stringify(dump, null, 2)}`;
   document.body.insertAdjacentElement('afterbegin', s);
 }
 
-function fromHTMLFile(): IEmbeddedDumpSchema {
+function fromHTMLFile(): IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema {
   return (window as any).UPSET_DUMP || null;
 }
 
@@ -125,7 +140,7 @@ function fromHTMLFile(): IEmbeddedDumpSchema {
   }
 }
 
-function enableUpload(root: HTMLElement, onDump: (dump: IEmbeddedDumpSchema) => void) {
+function enableUpload(root: HTMLElement, onDump: (dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema) => void) {
   root.innerHTML = `
   <input type="file" accept="application/json,.json">
   `;
@@ -174,8 +189,13 @@ window.onload = () => {
   window.addEventListener(
     'message',
     (evt) => {
-      const dump: IEmbeddedDumpSchema = evt.data;
-      if (dump && Array.isArray(dump.sets) && Array.isArray(dump.elements)) {
+      const dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema = evt.data;
+      if (
+        dump &&
+        Array.isArray(dump.sets) &&
+        ((!isStaticDump(dump) && Array.isArray(dump.elements)) ||
+          (isStaticDump(dump) && Array.isArray(dump.combinations)))
+      ) {
         saveHTMLDump(dump);
         showDump(dump);
       }

@@ -1,8 +1,8 @@
 import { toJS } from 'mobx';
-import { IEmbeddedDumpSchema } from '../dump';
+import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema } from '../dump';
 import Store, { stripDefaults } from '../store/Store';
 import exportHelper from './exportHelper';
-import { toDump } from '@upsetjs/model';
+import { toDump, toStaticDump } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
 
 export function toEmbeddedDump(
@@ -37,6 +37,30 @@ export function toEmbeddedDump(
   };
 }
 
+export function toEmbeddedStaticdump(
+  store: Store,
+  options: { compress?: 'yes' | 'no' | 'auto' } = {}
+): IEmbeddedStaticDumpSchema {
+  const ds = store.dataset!;
+  const dump = toStaticDump(
+    {
+      sets: store.visibleSets,
+      combinations: store.visibleCombinations,
+      selection: store.selection ?? undefined,
+      queries: store.visibleQueries,
+    },
+    options
+  );
+
+  return {
+    ...dump,
+    name: ds.name,
+    description: ds.description,
+    author: ds.author,
+    props: stripDefaults(store.props, store.ui.theme),
+  };
+}
+
 export default function shareEmbedded(store: Store) {
   const r = toEmbeddedDump(store, { compress: 'yes' });
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
@@ -54,20 +78,24 @@ export default function shareEmbedded(store: Store) {
 
   if (url.toString().length < 2048) {
     window.open(url.toString(), '_blank');
-  } else {
-    // send via frame message
-    url.searchParams.delete('p');
-    const w = window.open(url.toString(), '_blank');
-    w?.addEventListener('load', () => {
-      w?.postMessage(r, url.origin);
-    });
+    return;
+  }
+  if (store.selectedAttrs.size === 0) {
+    // try other compression
+    const r = toEmbeddedStaticdump(store, { compress: 'yes' });
+    const arg = compressToEncodedURIComponent(JSON.stringify(r));
+    url.searchParams.set('p', arg);
+
+    if (url.toString().length < 2048) {
+      window.open(url.toString(), '_blank');
+      return;
+    }
   }
 
-  // const a = document.createElement('a');
-  // a.href = url.toString();
-  // a.target = '_blank';
-  // a.rel = 'noopener noreferrer';
-  // document.body.appendChild(a);
-  // a.click();
-  // a.remove();
+  // send via frame message
+  url.searchParams.delete('p');
+  const w = window.open(url.toString(), '_blank');
+  w?.addEventListener('load', () => {
+    w?.postMessage(r, url.origin);
+  });
 }

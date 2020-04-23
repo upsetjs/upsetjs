@@ -32,7 +32,7 @@ import {
 import { boxplotAddon } from '@upsetjs/addons';
 import { stableSort } from './utils';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { exportJSON, importJSON } from '../data/exportJSON';
+import { exportStaticJSON, exportJSON, importJSON } from '../data/exportJSON';
 import { exportCSV, importCSV } from '../data/exportCSV';
 import exportR from '../data/exportR';
 import exportPython from '../data/exportPython';
@@ -544,6 +544,10 @@ export default class Store {
   @action.bound
   exportJSON() {
     this.downloadFile(exportJSON(this), 'application/json', 'json');
+  }
+  @action.bound
+  exportStaticJSON() {
+    this.downloadFile(exportStaticJSON(this), 'application/json', 'json');
   }
 
   @action.bound

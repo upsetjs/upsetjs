@@ -152,7 +152,7 @@ export interface IUpSetStaticDump {
   }>;
   selection?: IUpSetDumpRef;
   queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: ReadonlyArray<number> }>;
-  overlaps: ReadonlyArray<ReadonlyArray<number>>;
+  overlaps: ReadonlyArray<ReadonlyArray<number>> | string;
 }
 
 export interface IUpSetStaticDumpData<T> {
@@ -234,25 +234,28 @@ export function fromStaticDump(
   const toKey = config.toKey ?? toDefaultKey;
   let computeF: (a: ISetLike<never>, b: ISetLike<never>) => number = () => 0;
 
-  function overlap(this: ISetLike<never>, s: ISetLike<never>) {
-    return computeF(this, s);
+  function withOverlap<T extends ISetLike<never>>(s: T) {
+    s.overlap = (b: ISetLike<never>) => computeF(s, b);
+    return s;
   }
-  const sets: ISets<never> = dump.sets.map((set) => ({
-    name: set.name,
-    cardinality: set.cardinality,
-    type: 'set',
-    elems: [],
-    overlap,
-  }));
-  const combinations: ISetCombinations<never> = dump.combinations.map((set) => ({
-    name: set.name,
-    cardinality: set.cardinality,
-    type: set.type,
-    degree: set.sets.length,
-    sets: new Set(set.sets.map((s) => sets[s])),
-    elems: [],
-    overlap,
-  }));
+  const sets: ISets<never> = dump.sets.map((set) =>
+    withOverlap({
+      name: set.name,
+      cardinality: set.cardinality,
+      type: 'set',
+      elems: [],
+    })
+  );
+  const combinations: ISetCombinations<never> = dump.combinations.map((set) =>
+    withOverlap({
+      name: set.name,
+      cardinality: set.cardinality,
+      type: set.type,
+      degree: set.sets.length,
+      sets: new Set(set.sets.map((s) => sets[s])),
+      elems: [],
+    })
+  );
 
   const { setIndex, combinationIndex, compute } = generateOverlapLookupFunction(
     dump.overlaps,
