@@ -38,7 +38,7 @@ import { exportCSV, importCSV } from '../data/exportCSV';
 import exportR from '../data/exportR';
 import exportPython from '../data/exportPython';
 import { exportCodepen, exportCodeSandbox, exportJSFiddle } from '../data/exportTools';
-import shareEmbedded from '../data/shareEmbedded';
+import shareEmbedded, { MAX_URL_LENGTH } from '../data/shareEmbedded';
 
 export interface ISetTableOptions {
   order: 'asc' | 'desc';
@@ -611,7 +611,7 @@ export default class Store {
     if (!inline) {
       this.ui.showToast({
         severity: 'warning',
-        message: `The current dataset cannot be encoded within 2000 characters in the URL. You can either try to deactive any attriubtes or save the page and host it yourself`,
+        message: `The current dataset cannot be encoded within ${MAX_URL_LENGTH.toLocaleString()} characters in the URL. You can either try to deactive any attriubtes or save the page and host it yourself`,
       });
     }
   }

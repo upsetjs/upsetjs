@@ -61,6 +61,8 @@ export function toEmbeddedStaticdump(
   };
 }
 
+export const MAX_URL_LENGTH = 2048 * 2;
+
 export default function shareEmbedded(store: Store) {
   const r = toEmbeddedDump(store, { compress: 'yes' });
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
@@ -76,7 +78,7 @@ export default function shareEmbedded(store: Store) {
   url.search = '?';
   url.searchParams.set('p', arg);
 
-  if (url.toString().length < 2048) {
+  if (url.toString().length < MAX_URL_LENGTH) {
     window.open(url.toString(), '_blank');
     return true;
   }
@@ -86,7 +88,7 @@ export default function shareEmbedded(store: Store) {
     const arg = compressToEncodedURIComponent(JSON.stringify(r));
     url.searchParams.set('p', arg);
 
-    if (url.toString().length < 2048) {
+    if (url.toString().length < MAX_URL_LENGTH) {
       window.open(url.toString(), '_blank');
       return true;
     }
