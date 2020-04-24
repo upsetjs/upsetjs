@@ -32,13 +32,12 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["name", "c", "sets"],
+        "required": ["name", "cardinality", "type", "sets"],
         "properties": {
           "name": {
             "type": "string"
           },
-          "c": {
-            "description": "cardinality",
+          "cardinality": {
             "type": "integer"
           },
           "type": {
