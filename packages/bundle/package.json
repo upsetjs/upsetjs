@@ -29,7 +29,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "start": "tsdx watch --name UpSetJS --format esm,umd",
+    "start": "tsdx watch  --noClean --name UpSetJS --format esm,umd",
     "build": "tsdx build --name UpSetJS --format esm,umd",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
