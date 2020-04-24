@@ -2,6 +2,7 @@ import { ISetCombination, ISetCombinations, ISets, ISet } from '../model';
 import { isSetLike } from '../validators';
 import { postprocessCombinations, PostprocessCombinationsOptions } from './asCombinations';
 import powerSet from './powerSet';
+import { SET_JOINERS } from './constants';
 
 export declare type GenerateSetCombinationsOptions<T = any> = {
   type: 'intersection' | 'union';
@@ -147,7 +148,7 @@ export default function generateCombinations<T = any>(
     ...postprocess
   }: GenerateSetCombinationsOptions<T> = { type: 'intersection' }
 ): ISetCombinations<T> {
-  const joiner = type === 'intersection' ? ' ∩ ' : ' ∪ ';
+  const joiner = SET_JOINERS[type];
   const combinations: ISetCombination<T>[] = [];
 
   const compute = (type === 'intersection' ? intersectionBuilder : unionBuilder)(

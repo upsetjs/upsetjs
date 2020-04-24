@@ -607,7 +607,13 @@ export default class Store {
   }
   @action.bound
   sharedEmbedded() {
-    shareEmbedded(this);
+    const inline = shareEmbedded(this);
+    if (!inline) {
+      this.ui.showToast({
+        severity: 'warning',
+        message: `The current dataset cannot be encoded within 2000 characters in the URL. You can either try to deactive any attriubtes or save the page and host it yourself`,
+      });
+    }
   }
   @action.bound
   importFile(file: File | string) {

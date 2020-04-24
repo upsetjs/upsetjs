@@ -1,8 +1,9 @@
 import { GenerateSetCombinationsOptions, asSet, asCombination, generateCombinations, setOverlapFactory } from './data';
-import { ISets, ISetCombinations, ISetLike, toKey as toDefaultKey } from './model';
+import { ISets, ISetCombinations, ISetLike, toKey as toDefaultKey, ISetCombination } from './model';
 import { UpSetElemQuery, UpSetSetQuery, isSetQuery, isElemQuery, UpSetCalcQuery } from './queries';
 import { toIndicesArray, fromIndicesArray } from './array';
 import { generateOverlapLookup, generateOverlapLookupFunction } from './data/generateOverlapLookup';
+import { SET_JOINERS } from './data/constants';
 
 export interface IUpSetDumpRef {
   type: 'set' | 'composite' | 'intersection' | 'union';
@@ -142,22 +143,26 @@ export function fromDump<T>(
   };
 }
 
+declare type UpSetFromStaticDumpFullCombination = {
+  name: string;
+  type: 'composite' | 'intersection' | 'union';
+  sets: ReadonlyArray<number>;
+  cardinality: number;
+};
+
+declare type UpSetFromStaticDumpCompressedCombination = {
+  // if missing can be derived
+  n?: string;
+  c: number;
+  // default: i
+  type?: 'c' | 'i' | 'u';
+  // bit index
+  s: number;
+};
+
 export interface IUpSetStaticDump {
   sets: ReadonlyArray<{ name: string; cardinality: number } | { n: string; c: number }>;
-  combinations: ReadonlyArray<
-    | {
-        name: string;
-        type: 'composite' | 'intersection' | 'union';
-        sets: ReadonlyArray<number>;
-        cardinality: number;
-      }
-    | {
-        n: string;
-        c: number;
-        type?: 'composite' | 'intersection' | 'union';
-        sets: ReadonlyArray<number>;
-      }
-  >;
+  combinations: ReadonlyArray<UpSetFromStaticDumpFullCombination | UpSetFromStaticDumpCompressedCombination>;
   selection?: IUpSetDumpRef;
   queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: ReadonlyArray<number> }>;
   overlaps: ReadonlyArray<ReadonlyArray<number>> | string;
@@ -174,6 +179,10 @@ export interface IUpSetToStaticDumpConfig<T> {
   compress?: 'no' | 'yes' | 'auto';
   toKey?(set: ISetLike<T>): string;
   toElemKey?(set: T): string;
+}
+
+function generateName(sets: ISets<any>, type: 'intersection' | 'union' | 'composite') {
+  return sets.map((set) => set.name).join(SET_JOINERS[type]);
 }
 
 export function toStaticDump<T>(
@@ -195,29 +204,40 @@ export function toStaticDump<T>(
 
   const shortNames = config.compress === 'yes';
 
+  const compressCombination = (set: ISetCombination<T>) => {
+    const partOf = Array.from(set.sets)
+      .map((s) => setIndex.get(toKey(s))!)
+      .sort((a, b) => a - b);
+    const r: {
+      n?: string;
+      c: number;
+      s: number;
+      type?: 'c' | 'i' | 'u';
+    } = {
+      c: set.cardinality,
+      s: partOf.reduce((acc, i) => acc + Math.pow(10, i), 0),
+    };
+    if (
+      set.name !==
+      generateName(
+        partOf.map((i) => data.sets[i]),
+        set.type
+      )
+    ) {
+      r.n = set.name;
+    }
+    if (set.type !== 'intersection') {
+      r.type = set.type[0] as 'i' | 'c' | 'u';
+    }
+    return r;
+  };
+
   return {
     sets: shortNames
       ? data.sets.map((set) => ({ n: set.name, c: set.cardinality }))
       : data.sets.map((set) => ({ name: set.name, cardinality: set.cardinality })),
     combinations: shortNames
-      ? data.combinations.map((set) => {
-          const r: {
-            n: string;
-            c: number;
-            sets: ReadonlyArray<number>;
-            type?: 'composite' | 'intersection' | 'union';
-          } = {
-            n: set.name,
-            c: set.cardinality,
-            sets: Array.from(set.sets)
-              .map((s) => setIndex.get(toKey(s))!)
-              .sort((a, b) => a - b),
-          };
-          if (set.type !== 'intersection') {
-            r.type = set.type;
-          }
-          return r;
-        })
+      ? data.combinations.map(compressCombination)
       : data.combinations.map((set) => ({
           name: set.name,
           cardinality: set.cardinality,
@@ -253,6 +273,17 @@ export interface IUpSetFromStaticDumpConfig<T> {
   toKey?(set: ISetLike<T>): string;
 }
 
+function isCompressed(
+  s: UpSetFromStaticDumpCompressedCombination | UpSetFromStaticDumpFullCombination
+): s is UpSetFromStaticDumpCompressedCombination {
+  return typeof (s as UpSetFromStaticDumpCompressedCombination).c === 'number';
+}
+function isCompressedSet(
+  s: { name: string; cardinality: number } | { n?: string; c: number }
+): s is { n?: string; c: number } {
+  return typeof (s as { n?: string; c: number }).c === 'number';
+}
+
 export function fromStaticDump(
   dump: IUpSetStaticDump,
   config: IUpSetFromStaticDumpConfig<never> = {}
@@ -269,29 +300,38 @@ export function fromStaticDump(
     s.overlap = (b: ISetLike<never>) => computeF(s, b);
     return s;
   }
-  const isCompressed = (
-    d: { name: string; cardinality: number } | { n: string; c: number }
-  ): d is { n: string; c: number } => {
-    return typeof (d as { n: string; c: number }).c === 'number';
-  };
+
   const sets: ISets<never> = dump.sets.map((set) =>
     withOverlap({
-      name: isCompressed(set) ? set.n : set.name,
-      cardinality: isCompressed(set) ? set.c : set.cardinality,
+      name: isCompressedSet(set) ? set.n : set.name,
+      cardinality: isCompressedSet(set) ? set.c : set.cardinality,
       type: 'set',
       elems: [],
     })
   );
-  const combinations: ISetCombinations<never> = dump.combinations.map((set) =>
-    withOverlap({
-      name: isCompressed(set) ? set.n : set.name,
+  const fromBit = (v: number) => {
+    return sets.filter((_, i) => {
+      const position = Math.pow(10, i);
+      return (v & position) !== 0;
+    });
+  };
+  const combinations: ISetCombinations<never> = dump.combinations.map((set) => {
+    const partOf = isCompressed(set) ? fromBit(set.s) : set.sets.map((i) => sets[i]);
+    const lookup = {
+      i: 'intersection' as 'intersection',
+      u: 'union' as 'union',
+      c: 'composite' as 'composite',
+    };
+    const type = lookup[(set.type ?? 'i')[0] as 'i' | 'u' | 'c'];
+    return withOverlap({
+      name: isCompressed(set) ? set.n ?? generateName(partOf, type) : set.name,
       cardinality: isCompressed(set) ? set.c : set.cardinality,
-      type: set.type ?? 'intersection',
-      degree: set.sets.length,
-      sets: new Set(set.sets.map((s) => sets[s])),
+      type,
+      degree: partOf.length,
+      sets: new Set(partOf),
       elems: [],
-    })
-  );
+    });
+  });
 
   const { setIndex, combinationIndex, compute } = generateOverlapLookupFunction(
     dump.overlaps,

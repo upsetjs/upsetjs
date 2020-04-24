@@ -12,12 +12,12 @@ export interface IElemTableOptions {
 
 export interface IToastLink {
   href: string;
-  alt: string;
+  alt: string | React.ReactNode;
 }
 
 export interface IToast {
   severity: 'error' | 'info' | 'warning' | 'success';
-  message: string;
+  message: string | React.ReactNode;
   link?: IToastLink;
 }
 
