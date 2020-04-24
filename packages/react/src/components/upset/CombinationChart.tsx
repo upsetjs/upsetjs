@@ -38,7 +38,6 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       onContextMenu={onContextMenu(d)}
       className={className}
       data-cardinality={d.cardinality}
-      data-type={d.type}
     >
       <title>
         {d.name}: {data.cs.format(d.cardinality)}

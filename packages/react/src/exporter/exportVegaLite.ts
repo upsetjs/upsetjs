@@ -9,7 +9,9 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
     .find((d) => d.startsWith('root-'))!
     .slice('root-'.length);
 
-  const sets = Array.from(svg.querySelectorAll<HTMLElement>('[data-cardinality][data-type=set]'))
+  const sets: { name: string; cardinality: number; selection?: number }[] = Array.from(
+    svg.querySelectorAll<HTMLElement>('[data-upset=sets] [data-cardinality]')
+  )
     .map((set) => {
       return {
         name: set.querySelector(`text.setTextStyle-${styleId}`)!.textContent!,
@@ -24,17 +26,15 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
   const csName = svg.querySelector(`.cChartTextStyle-${styleId}`)!.textContent!;
   const setName = svg.querySelector(`.sChartTextStyle-${styleId}`)!.textContent!;
 
-  const combinations = Array.from(svg.querySelectorAll<HTMLElement>('[data-cardinality]:not([data-type=set])')).map(
-    (set) => {
-      return {
-        name: set.querySelector(`text.hoverBarTextStyle-${styleId}`)!.textContent!,
-        cardinality: Number.parseInt(set.dataset.cardinality!, 10),
-        sets: Array.from(set.querySelectorAll<HTMLElement>(`.fillPrimary-${styleId} > title`)).map(
-          (n) => n.textContent!
-        ),
-      };
-    }
-  );
+  const combinations: { name: string; cardinality: number; selection?: number; sets: string[] }[] = Array.from(
+    svg.querySelectorAll<HTMLElement>('[data-upset=cs] [data-cardinality]')
+  ).map((set) => {
+    return {
+      name: set.querySelector(`text.hoverBarTextStyle-${styleId}`)!.textContent!,
+      cardinality: Number.parseInt(set.dataset.cardinality!, 10),
+      sets: Array.from(set.querySelectorAll<HTMLElement>(`.fillPrimary-${styleId} > title`)).map((n) => n.textContent!),
+    };
+  });
 
   const translateX = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/(\d+),/)![1], 10);
   const translateY = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/,(\d+)/)![1], 10);
@@ -52,23 +52,55 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
 
   const radius = Number.parseInt(svg.querySelector('[data-cardinality] circle')!.getAttribute('r')!, 10);
 
+  const hasSelection = svg.querySelector('[data-upset=sets-s] [data-cardinality]') != null;
+  let selectionColor = 'orange';
+  if (hasSelection) {
+    // inject the selection data
+    Array.from(svg.querySelectorAll<HTMLElement>('[data-upset=sets-s] [data-cardinality]')).forEach((elem) => {
+      // since artifically reversed
+      const i = sets.length - Number.parseInt(elem.dataset.i!, 10) - 1;
+      sets[i].selection = Number.parseInt(elem.dataset.cardinality!, 10);
+    });
+    Array.from(svg.querySelectorAll<HTMLElement>('[data-upset=cs-s] [data-cardinality]')).forEach((elem) => {
+      const i = Number.parseInt(elem.dataset.i!, 10);
+      combinations[i].selection = Number.parseInt(elem.dataset.cardinality!, 10);
+    });
+    selectionColor = resolveStyle(svg.querySelector<HTMLElement>('[data-upset=sets-s] [data-cardinality]')!).fill;
+  }
+  const highlightedCombination = Number.parseInt(
+    svg.querySelector<HTMLElement>('[data-upset=cs-ss]')?.dataset.i ?? '-1',
+    10
+  );
+
+  const filter =
+    highlightedCombination >= 0
+      ? {
+          field: 'partOf',
+          oneOf: [1, 2],
+        }
+      : {
+          field: 'partOf',
+          equal: 1,
+        };
+
+  // part of: 0 ... negative list, 1 ... positive set list, 2, ... positive and selected
   const spec = {
     $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
     title,
     datasets: {
       sets,
       combinations: combinations
-        .map((c) => ({
-          name: c.name,
-          cardinality: c.cardinality,
-          partOf: 1, // has set list
-          nsets: [''],
-          sets: c.sets,
-        }))
+        .map((c, i) =>
+          Object.assign({}, c, {
+            partOf: highlightedCombination === i ? 2 : 1, // has set list
+            nsets: [''],
+          })
+        )
         .concat(
           combinations.map((c) => ({
             name: c.name,
             cardinality: c.cardinality,
+            // no selection!
             partOf: 0, // has not set list for full dots
             sets: [''],
             nsets: sets.filter((s) => !c.sets.includes(s.name)).map((s) => s.name),
@@ -91,10 +123,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
             },
             transform: [
               {
-                filter: {
-                  field: 'partOf',
-                  equal: 1,
-                },
+                filter,
               },
             ],
             layer: [
@@ -115,7 +144,20 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
                   text: { field: 'cardinality', type: 'quantitative' },
                 },
               },
-            ],
+              hasSelection && {
+                mark: {
+                  type: 'bar',
+                  fill: selectionColor,
+                  tooltip: true,
+                },
+                encoding: {
+                  y: {
+                    field: 'selection',
+                    type: 'quantitative',
+                  },
+                },
+              },
+            ].filter(Boolean),
             encoding: {
               x: { field: 'name', type: 'ordinal', axis: null, sort: null },
               y: {
@@ -156,7 +198,20 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
                   text: { field: 'cardinality', type: 'quantitative' },
                 },
               },
-            ],
+              hasSelection && {
+                mark: {
+                  type: 'bar',
+                  fill: selectionColor,
+                  tooltip: true,
+                },
+                encoding: {
+                  x: {
+                    field: 'selection',
+                    type: 'quantitative',
+                  },
+                },
+              },
+            ].filter(Boolean),
             encoding: {
               y: { field: 'name', type: 'ordinal', axis: null, sort: null },
               x: {
@@ -220,7 +275,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
                     type: 'nominal',
                     legend: null,
                     scale: {
-                      range: [fillNotMember, color],
+                      range: [fillNotMember, color].concat(highlightedCombination >= 0 ? [selectionColor] : []),
                     },
                   },
                   y: { field: 'set', type: 'ordinal', axis: null, sort: null },
@@ -230,10 +285,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
                 mark: 'rule',
                 transform: [
                   {
-                    filter: {
-                      field: 'partOf',
-                      equal: 1,
-                    },
+                    filter,
                   },
                   {
                     calculate: 'datum.sets[datum.sets.length -1]',
@@ -243,6 +295,18 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
                 encoding: {
                   y: { field: 'sets[0]', type: 'ordinal', axis: null, sort: null },
                   y2: { field: 'set_end' },
+                  ...(highlightedCombination < 0
+                    ? {}
+                    : {
+                        color: {
+                          field: 'partOf',
+                          type: 'nominal',
+                          legend: null,
+                          scale: {
+                            range: [color, selectionColor],
+                          },
+                        },
+                      }),
                 },
               },
             ],
@@ -276,7 +340,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
       rule: {
         stroke: color,
         strokeWidth: Number.parseInt(
-          resolveStyle(svg.querySelector(`[data-cardinality]:not([data-type=set]) line`)!).strokeWidth,
+          resolveStyle(svg.querySelector(`[data-upset=cs] [data-cardinality] line`)!).strokeWidth,
           10
         ),
       },

@@ -27,8 +27,9 @@ function UpSetSelectionChart<T>({
     return null;
   }
   const d = selection;
+  const index = data.cs.keys.indexOf(data.toKey(d));
   return (
-    <g transform={`translate(${size.labels.w + data.cs.x(d)!}, 0)`}>
+    <g transform={`translate(${size.labels.w + data.cs.x(d)!}, 0)`} data-upset="cs-ss" data-i={index}>
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />
       {data.sets.v
         .filter((s) => data.cs.has(d, s))

@@ -34,7 +34,7 @@ function SetSelectionChart<T>({
   const height = data.sets.bandWidth;
   const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${style.id}`, style.classNames.bar);
   return (
-    <g transform={transform}>
+    <g transform={transform} data-upset={secondary ? 'sets-q' : 'sets-s'}>
       {data.sets.v.map((d, i) => {
         const y = data.sets.y(d)!;
         const key = data.sets.keys[i];
@@ -59,7 +59,8 @@ function SetSelectionChart<T>({
             d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${
               data.triangleSize
             },${data.triangleSize} Z`}
-            data-q-cardinality={o}
+            data-i={i}
+            data-cardinality={o}
             className={className}
           >
             {title}
@@ -67,7 +68,8 @@ function SetSelectionChart<T>({
         ) : (
           <rect
             key={key}
-            data-q-cardinality={o}
+            data-i={i}
+            data-cardinality={o}
             x={x}
             y={y}
             width={width - x}

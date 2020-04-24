@@ -34,7 +34,7 @@ function CombinationSelectionChart<T>({
   const height = size.cs.h;
   const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
-    <g transform={transform}>
+    <g transform={transform} data-upset={secondary ? 'cs-q' : 'cs-s'}>
       {data.cs.v.map((d, i) => {
         const x = data.cs.x(d)!;
         const key = data.cs.keys[i];
@@ -60,7 +60,8 @@ function CombinationSelectionChart<T>({
               data.triangleSize
             },${data.triangleSize} Z`}
             className={className}
-            data-q-cardinality={o}
+            data-i={i}
+            data-cardinality={o}
           >
             {title}
           </path>
@@ -70,7 +71,8 @@ function CombinationSelectionChart<T>({
             x={x}
             y={y}
             height={height - y}
-            data-q-cardinality={o}
+            data-i={i}
+            data-cardinality={o}
             width={width}
             className={className}
             style={style.styles.bar}

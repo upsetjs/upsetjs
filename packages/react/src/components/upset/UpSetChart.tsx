@@ -37,7 +37,7 @@ export default React.memo(function UpSetChart<T>({
 
   return (
     <g className={onClick ? `clickAble-${style.id}` : undefined}>
-      <g transform={`translate(${size.sets.x},${size.sets.y})`}>
+      <g transform={`translate(${size.sets.x},${size.sets.y})`} data-upset="sets">
         {data.sets.v.map((d, i) => (
           <SetChart
             key={data.sets.keys[i]}
@@ -57,7 +57,7 @@ export default React.memo(function UpSetChart<T>({
         ))}
       </g>
 
-      <g transform={`translate(${size.cs.x},${size.cs.y})`}>
+      <g transform={`translate(${size.cs.x},${size.cs.y})`} data-upset="cs">
         {data.cs.v.map((d, i) => (
           <CombinationChart
             key={data.cs.keys[i]}
