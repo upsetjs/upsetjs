@@ -1,15 +1,15 @@
 import { downloadUrl } from './exportSVG';
 import { DARK_BACKGROUND_COLOR } from '../components/defaults';
 
-export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
+export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
   const resolveStyle =
-    (node.getComputedStyle || node.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
-  const theme = node.dataset.theme;
-  const styleId = Array.from(node.classList)
+    (svg.getComputedStyle || svg.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
+  const theme = svg.dataset.theme;
+  const styleId = Array.from(svg.classList)
     .find((d) => d.startsWith('root-'))!
     .slice('root-'.length);
 
-  const sets = Array.from(node.querySelectorAll<HTMLElement>('[data-cardinality][data-type=set]'))
+  const sets = Array.from(svg.querySelectorAll<HTMLElement>('[data-cardinality][data-type=set]'))
     .map((set) => {
       return {
         name: set.querySelector(`text.setTextStyle-${styleId}`)!.textContent!,
@@ -17,14 +17,14 @@ export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title
       };
     })
     .reverse();
-  const barLabelOffset = -Number.parseInt(node.querySelector(`.sBarTextStyle-${styleId}`)!.getAttribute('dx')!, 10);
-  const color = resolveStyle(node.querySelector(`.fillPrimary-${styleId}`)!).fill;
-  const fillNotMember = resolveStyle(node.querySelector(`.fillNotMember-${styleId}`)!).fill;
-  const textColor = resolveStyle(node.querySelector('text')!).fill;
-  const csName = node.querySelector(`.cChartTextStyle-${styleId}`)!.textContent!;
-  const setName = node.querySelector(`.sChartTextStyle-${styleId}`)!.textContent!;
+  const barLabelOffset = -Number.parseInt(svg.querySelector(`.sBarTextStyle-${styleId}`)!.getAttribute('dx')!, 10);
+  const color = resolveStyle(svg.querySelector(`.fillPrimary-${styleId}`)!).fill;
+  const fillNotMember = resolveStyle(svg.querySelector(`.fillNotMember-${styleId}`)!).fill;
+  const textColor = resolveStyle(svg.querySelector('text')!).fill;
+  const csName = svg.querySelector(`.cChartTextStyle-${styleId}`)!.textContent!;
+  const setName = svg.querySelector(`.sChartTextStyle-${styleId}`)!.textContent!;
 
-  const combinations = Array.from(node.querySelectorAll<HTMLElement>('[data-cardinality]:not([data-type=set])')).map(
+  const combinations = Array.from(svg.querySelectorAll<HTMLElement>('[data-cardinality]:not([data-type=set])')).map(
     (set) => {
       return {
         name: set.querySelector(`text.hoverBarTextStyle-${styleId}`)!.textContent!,
@@ -38,19 +38,19 @@ export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title
 
   const translateX = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/(\d+),/)![1], 10);
   const translateY = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/,(\d+)/)![1], 10);
-  const base = node.lastElementChild!;
+  const base = svg.querySelector('[data-upset=base]')!;
   const padding = translateX(base);
   // combination axis block
-  const setWidth = translateX(base.firstElementChild!.firstElementChild!);
+  const setWidth = translateX(svg.querySelector('[data-upset=csaxis]')!);
   // axisline
-  const csWidth = Number.parseInt(base.firstElementChild!.firstElementChild!.children[1]!.getAttribute('x2')!, 10);
+  const csWidth = Number.parseInt(base.querySelector('g')!.firstElementChild!.children[1]!.getAttribute('x2')!, 10);
   // set axis block
-  const csHeight = translateY(base.firstElementChild!.lastElementChild!);
+  const csHeight = translateY(svg.querySelector('[data-upset=setaxis]')!);
   // set label clip path
-  const labelWidth = Number.parseInt(node.querySelector('defs rect')!.getAttribute('width')!, 10);
-  const setHeight = Number.parseInt(node.querySelector('defs rect')!.getAttribute('height')!, 10);
+  const labelWidth = Number.parseInt(svg.querySelector('defs rect')!.getAttribute('width')!, 10);
+  const setHeight = Number.parseInt(svg.querySelector('defs rect')!.getAttribute('height')!, 10);
 
-  const radius = Number.parseInt(node.querySelector('[data-cardinality] circle')!.getAttribute('r')!, 10);
+  const radius = Number.parseInt(svg.querySelector('[data-cardinality] circle')!.getAttribute('r')!, 10);
 
   const spec = {
     $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
@@ -180,7 +180,7 @@ export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title
               type: 'text',
               align: 'center',
               baseline: 'middle',
-              fontSize: Number.parseInt(resolveStyle(node.querySelector(`.setTextStyle-${styleId}`)!).fontSize, 10),
+              fontSize: Number.parseInt(resolveStyle(svg.querySelector(`.setTextStyle-${styleId}`)!).fontSize, 10),
             },
             encoding: {
               y: { field: 'name', type: 'ordinal', axis: null, sort: null },
@@ -276,22 +276,22 @@ export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title
       rule: {
         stroke: color,
         strokeWidth: Number.parseInt(
-          resolveStyle(node.querySelector(`[data-cardinality]:not([data-type=set]) line`)!).strokeWidth,
+          resolveStyle(svg.querySelector(`[data-cardinality]:not([data-type=set]) line`)!).strokeWidth,
           10
         ),
       },
       axis: {
         labelColor: textColor,
-        labelFontSize: Number.parseInt(resolveStyle(node.querySelector(`.axisTextStyle-${styleId}`)!).fontSize, 10),
+        labelFontSize: Number.parseInt(resolveStyle(svg.querySelector(`.axisTextStyle-${styleId}`)!).fontSize, 10),
         titleColor: textColor,
-        titleFontSize: Number.parseInt(resolveStyle(node.querySelector(`.cChartTextStyle-${styleId}`)!).fontSize, 10),
+        titleFontSize: Number.parseInt(resolveStyle(svg.querySelector(`.cChartTextStyle-${styleId}`)!).fontSize, 10),
       },
       title: {
         color: textColor,
       },
       text: {
         fill: textColor,
-        fontSize: Number.parseInt(resolveStyle(node.querySelector(`.sBarTextStyle-${styleId}`)!).fontSize, 10),
+        fontSize: Number.parseInt(resolveStyle(svg.querySelector(`.sBarTextStyle-${styleId}`)!).fontSize, 10),
       },
     },
   };
@@ -301,6 +301,6 @@ export function exportVegaLite(node: SVGSVGElement, { title = 'UpSet' }: { title
       type: 'application/json',
     })
   );
-  downloadUrl(url, `${title}.json`, node.ownerDocument!);
+  downloadUrl(url, `${title}.json`, svg.ownerDocument!);
   URL.revokeObjectURL(url);
 }

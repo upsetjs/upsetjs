@@ -335,7 +335,7 @@ export default React.forwardRef(function UpSet<T>(
       {exportButtons && (
         <ExportButtons transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`} styleId={styleId} />
       )}
-      <g transform={`translate(${margin},${margin})`}>
+      <g transform={`translate(${margin},${margin})`} data-upset="base">
         {onClick && (
           <rect
             width={sizeInfo.cs.x}
