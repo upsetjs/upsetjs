@@ -182,7 +182,10 @@ export interface IUpSetToStaticDumpConfig<T> {
 }
 
 function generateName(sets: ISets<any>, type: 'intersection' | 'union' | 'composite') {
-  return sets.map((set) => set.name).join(SET_JOINERS[type]);
+  if (sets.length === 1) {
+    return sets[0].name;
+  }
+  return `(${sets.map((set) => set.name).join(SET_JOINERS[type])})`;
 }
 
 export function toStaticDump<T>(
@@ -215,7 +218,7 @@ export function toStaticDump<T>(
       type?: 'c' | 'i' | 'u';
     } = {
       c: set.cardinality,
-      s: partOf.reduce((acc, i) => acc + Math.pow(10, i), 0),
+      s: partOf.reduce((acc, i) => acc + Math.pow(2, i), 0),
     };
     if (
       set.name !==
@@ -311,8 +314,8 @@ export function fromStaticDump(
   );
   const fromBit = (v: number) => {
     return sets.filter((_, i) => {
-      const position = Math.pow(10, i);
-      return (v & position) !== 0;
+      const position = Math.pow(2, i);
+      return (v & position) === position;
     });
   };
   const combinations: ISetCombinations<never> = dump.combinations.map((set) => {

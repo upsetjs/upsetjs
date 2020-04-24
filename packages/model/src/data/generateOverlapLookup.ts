@@ -78,8 +78,8 @@ function decompressMatrix(matrix: string): ReadonlyArray<ReadonlyArray<number>> 
   const values = decompressLine(data);
   const r: number[][] = [];
   let acc = 0;
-  for (let i = rows - 1; i > 0; i--) {
-    r.push(values.slice(acc, i));
+  for (let i = rows; i > 0; i--) {
+    r.push(values.slice(acc, acc + i));
     acc += i;
   }
   return r;
