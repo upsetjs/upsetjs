@@ -21,6 +21,8 @@ function compressLine(line: ReadonlyArray<number>) {
     } else {
       if (len > 1) {
         r.push(`${start}=${len - 1}`);
+      } else if (start === 0) {
+        r.push('');
       } else {
         r.push(start.toString());
       }
@@ -30,6 +32,8 @@ function compressLine(line: ReadonlyArray<number>) {
   }
   if (len > 1) {
     r.push(`${start}=${len}`);
+  } else if (start === 0) {
+    r.push('');
   } else {
     r.push(start.toString());
   }
@@ -44,6 +48,9 @@ function decompressLine(line: string): ReadonlyArray<number> {
   return line
     .split(',')
     .map((v) => {
+      if (v === '') {
+        return 0;
+      }
       if (v.includes('=')) {
         const [value, length] = v.split('=').map((v) => Number.parseInt(v, 10));
         return Array(length + 1).fill(value);

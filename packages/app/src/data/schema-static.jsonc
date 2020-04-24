@@ -16,11 +16,13 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": ["name", "c"],
         "properties": {
           "name": {
             "type": "string"
           },
-          "cardinality": {
+          "c": {
+            "description": "cardinality",
             "type": "integer"
           }
         }
@@ -30,11 +32,13 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": ["name", "c", "sets"],
         "properties": {
           "name": {
             "type": "string"
           },
-          "cardinality": {
+          "c": {
+            "description": "cardinality",
             "type": "integer"
           },
           "type": {
@@ -98,13 +102,20 @@
       }
     },
     "overlaps": {
-      "type": "array",
-      "items": {
-        "type": "array",
-        "items": {
-          "type": "integer"
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "type": "string"
         }
-      }
+      ]
     },
 
     "props": {

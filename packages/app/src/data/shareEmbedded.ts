@@ -78,7 +78,7 @@ export default function shareEmbedded(store: Store) {
 
   if (url.toString().length < 2048) {
     window.open(url.toString(), '_blank');
-    return;
+    return true;
   }
   if (store.selectedAttrs.size === 0) {
     // try other compression
@@ -88,7 +88,7 @@ export default function shareEmbedded(store: Store) {
 
     if (url.toString().length < 2048) {
       window.open(url.toString(), '_blank');
-      return;
+      return true;
     }
   }
 
@@ -98,4 +98,5 @@ export default function shareEmbedded(store: Store) {
   w?.addEventListener('load', () => {
     w?.postMessage(r, url.origin);
   });
+  return false;
 }
