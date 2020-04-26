@@ -39,6 +39,7 @@ In addition, there are the following sibling repositories and projects
   [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
 - [upsetjs_powerbi_visuals](https://github.com/upsetjs/upsetjs_powerbi_visuals) PowerBI Custom Visuals around UpSet.js
+- [upsetjs_tableau_extension](https://github.com/upsetjs/upsetjs_tableau_extension) Tableau extension around UpSet.js
 - [upset-js](https://observablehq.com/@sgratzl/upset-js) Observable HQ wrapper around UpSet.js [![Open Example][example]][example-o-url]
 
 ## Usage and Installation
@@ -321,6 +322,17 @@ A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-
 Download the latest package from [https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz](https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz) and install into your PowerBI environment.
 
 ![UpSet.js Report](https://user-images.githubusercontent.com/4129778/79641879-808ea480-819a-11ea-87f9-441c3647812f.png)
+
+### Tableau
+
+A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extension](https://github.com/upsetjs/upsetjs_tableau_extension).
+
+1. Download the extension description file at [upsetjs.trex](https://upset.js.org/integrations/tableau/upsetjs.trex)
+1. Create a new dashboard and show at least one sheet in the dashboard
+1. Follow [https://tableau.github.io/extensions-api/docs/trex_overview.html](https://tableau.github.io/extensions-api/docs/trex_overview.html) and choose the downloaded file
+1. Use the `configure` button or the `configure` menu entry to specify the input data
+
+![image](https://user-images.githubusercontent.com/4129778/80315576-bcf47d00-87f8-11ea-854c-adb56fa6b044.png)
 
 ## Dev Environment
 
