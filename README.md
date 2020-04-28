@@ -332,7 +332,7 @@ A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extens
 1. Follow [https://tableau.github.io/extensions-api/docs/trex_overview.html](https://tableau.github.io/extensions-api/docs/trex_overview.html) and choose the downloaded file
 1. Use the `configure` button or the `configure` menu entry to specify the input data
 
-![image](https://user-images.githubusercontent.com/4129778/80315576-bcf47d00-87f8-11ea-854c-adb56fa6b044.png)
+![image](https://user-images.githubusercontent.com/4129778/80474503-d3f5b500-8947-11ea-8397-345a5efb5a65.png)
 
 ## Dev Environment
 
