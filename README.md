@@ -377,7 +377,7 @@ yarn build
 ### Release
 
 ```sh
-yarn workspaces foreach --verbose version patch --deferred
+yarn workspaces foreach --verbose version vX.X.X --deferred
 yarn version apply --all
 git commit -am 'release vX.X.X'
 git push
@@ -385,6 +385,19 @@ git tag vX.X.X
 git push --tags
 yarn build
 yarn workspaces foreach --verbose npm publish --access public
+```
+
+### Release Policy
+
+to simplify this monorepo together with its siblings the following strategy for versioning is used: 
+Major and Minor versions should be in sync. Patch version are independent except the 10 potent. 
+Thus, a next unified patch release should be increased to the next 10 potent. 
+
+e.g., 
+```
+upsetjs -> 0.5.0, upsetjs_r -> 0.5.0 good
+upsetjs -> 0.5.2, upsetjs_r -> 0.5.3 good since 0.5.02 ~ 0.5.03
+upsetjs -> 0.5.10, upsetjs_r -> 0.5.5 bad should be upsetjs_r -> 0.5.10, too
 ```
 
 ## Privacy Policy
