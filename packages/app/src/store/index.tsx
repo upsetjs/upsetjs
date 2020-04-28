@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React from 'react';
 import Store from './Store';
 import { useLocalStore } from 'mobx-react-lite';

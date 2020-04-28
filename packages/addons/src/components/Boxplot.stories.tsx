@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/addons
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import { boxplotAddon } from './Boxplot';

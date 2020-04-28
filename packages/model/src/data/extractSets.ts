@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISets, ISet } from '../model';
 
 export default function extractSets<T>(elements: ReadonlyArray<T>, acc: (elem: T) => string[]): ISets<T>;

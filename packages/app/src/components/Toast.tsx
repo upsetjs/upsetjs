@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Snackbar from '@material-ui/core/Snackbar';

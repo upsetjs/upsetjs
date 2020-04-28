@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import Typography from '@material-ui/core/Typography';
 import { observer } from 'mobx-react-lite';
 import React from 'react';

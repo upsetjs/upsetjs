@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
 export const DEFAULT_FONTSIZES = {

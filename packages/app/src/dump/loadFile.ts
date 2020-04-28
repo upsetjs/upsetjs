@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { IEmbeddedDumpSchema } from './interfaces';
 
 export function loadJSON(url: string): Promise<IEmbeddedDumpSchema> {

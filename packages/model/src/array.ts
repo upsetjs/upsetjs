@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export function compressIndicesArray(arr: ReadonlyArray<number>): string {
   if (arr.length === 0) {
     return '';

@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/math
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export interface IBoxPlot {
   readonly min: number;
   readonly max: number;

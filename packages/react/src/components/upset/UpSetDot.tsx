@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React, { PropsWithChildren } from 'react';
 
 const UpSetDot = React.memo(function UpSetDot({

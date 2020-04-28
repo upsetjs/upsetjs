@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { observable, action, autorun, runInAction, computed } from 'mobx';
 import UIStore, { IToastLink } from './UIStore';
 import {

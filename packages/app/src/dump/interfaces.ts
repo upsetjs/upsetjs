@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 
 export interface IEmbeddedDumpSchema extends IUpSetDump {

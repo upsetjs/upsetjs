@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { parse } from 'papaparse';
 import { IDataSet, IElem, IAttrs } from '../interfaces';
 import { extractSets } from '@upsetjs/model';

@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/addons
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';

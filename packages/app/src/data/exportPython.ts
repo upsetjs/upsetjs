@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import Store, { stripDefaults } from '../store/Store';
 import { ISetLike } from '@upsetjs/model';
 import { ICustomizeOptions } from './interfaces';

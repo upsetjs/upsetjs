@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/bundle
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { BoxplotStatsOptions } from '@upsetjs/math';
 import { UpSetCSSStyles } from '../react';
 import { UpSetAddon } from '../interfaces';

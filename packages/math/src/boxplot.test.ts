@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/math
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { quantilesType7, fivenum } from './boxplot';
 
 function asc(a: number, b: number) {

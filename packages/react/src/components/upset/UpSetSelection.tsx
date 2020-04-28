@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddon, UpSetAddonProps } from '../config';

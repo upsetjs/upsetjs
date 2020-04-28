@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISetCombinations, ISetLike, ISets, toKey as toKeyImpl } from '../model';
 import { SetOverlap, setOverlapFactory } from './setOverlap';
 

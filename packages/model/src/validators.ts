@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISet, ISetCombination, ISetLike, IBaseSet } from './model';
 import { GenerateSetCombinationsOptions } from './data';
 import { UpSetQuery, isElemQuery, isCalcQuery } from './queries';

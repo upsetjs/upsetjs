@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { UpSetAddon, UpSetAddonProps } from '../config';

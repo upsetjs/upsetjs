@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { StoreProvider, useStore } from '../store';

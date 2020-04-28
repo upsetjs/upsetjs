@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
 // eslint-disable-next-line import/no-webpack-loader-syntax

@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { ISetLike, IUpSetDumpRef } from '@upsetjs/model';
 import { compressElems } from '../dump';
 import Store from '../store/Store';

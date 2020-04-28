@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { downloadUrl } from './exportSVG';
 import { DARK_BACKGROUND_COLOR } from '../components/defaults';
 

@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { NumericScaleFactory, NumericScaleTick, TickOptions, genTicks, checkValues } from './numeric';
 
 function toStr(v: number) {
