@@ -273,7 +273,7 @@ An advanced example showing all datasets from the live UpSet demo is located at 
 
 ### R/RMarkdown/RShiny HTMLWidget
 
-[Open in Binder][binder]][binder-r-url][open docs][docs]][docs-r-url][open example][example]][example-r-url]
+[![Open in Binder][binder]][binder-r-url] [![open docs][docs]][docs-r-url] [![open example][example]][example-r-url]
 
 A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [upset_r](https://github.com/upsetjs/upsetjs_r). The API follows the building pattern using the chaining operator `%>%`.
 In contrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
@@ -294,7 +294,7 @@ see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic
 
 ### Juptyer Widget
 
-[![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [Open Example][example]][example-j-url]
+[![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
 A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
 
@@ -389,11 +389,12 @@ yarn workspaces foreach --verbose npm publish --access public
 
 ### Release Policy
 
-to simplify this monorepo together with its siblings the following strategy for versioning is used: 
-Major and Minor versions should be in sync. Patch version are independent except the 10 potent. 
-Thus, a next unified patch release should be increased to the next 10 potent. 
+to simplify this monorepo together with its siblings the following strategy for versioning is used:
+Major and Minor versions should be in sync. Patch version are independent except the 10 potent.
+Thus, a next unified patch release should be increased to the next 10 potent.
 
-e.g., 
+e.g.,
+
 ```
 upsetjs -> 0.5.0, upsetjs_r -> 0.5.0 good
 upsetjs -> 0.5.2, upsetjs_r -> 0.5.3 good since 0.5.02 ~ 0.5.03
