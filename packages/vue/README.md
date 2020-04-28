@@ -62,7 +62,11 @@ npm install @upsetjs/vue vue
 
 see also the [vue example application](https://github.com/com/upsetjs/upsetjs/tree/master/packags/vue-example) and deployed at https://upset.js.org/vue
 
-## License
+## Privacy Policy
+
+UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server. The uploaded data in the app are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests. However, as soon as you export your session within the app to an external service (e.g., Codepen.io) your data will be transferred.
+
+## License / Terms of Service
 
 ### Commercial license
 

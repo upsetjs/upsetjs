@@ -47,7 +47,11 @@ It contains a sample application for exploring sets and set intersections. It is
 
 ![upset_app_boxplots](https://user-images.githubusercontent.com/4129778/79371087-184e8180-7f54-11ea-9275-51ad3f58deca.png)
 
-## License
+## Privacy Policy
+
+UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server. The uploaded data in the app are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests. However, as soon as you export your session within the app to an external service (e.g., Codepen.io) your data will be transferred.
+
+## License / Terms of Service
 
 ### Commercial license
 
