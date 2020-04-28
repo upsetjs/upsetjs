@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { extractSets } from '@upsetjs/model';
 import { IDataSet, IElem } from '../interfaces';
 import data from './data.json';

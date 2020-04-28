@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export declare type TickOptions = {
   orientation: 'horizontal' | 'vertical';
   fontSizeHint: number;

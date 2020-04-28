@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { toJS } from 'mobx';
 import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema } from '../dump';
 import Store, { stripDefaults } from '../store/Store';

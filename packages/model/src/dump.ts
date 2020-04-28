@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { GenerateSetCombinationsOptions, asSet, asCombination, generateCombinations, setOverlapFactory } from './data';
 import { ISets, ISetCombinations, ISetLike, toKey as toDefaultKey, ISetCombination } from './model';
 import { UpSetElemQuery, UpSetSetQuery, isSetQuery, isElemQuery, UpSetCalcQuery } from './queries';

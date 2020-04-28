@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React, { PropsWithChildren, useMemo } from 'react';
 import { fillDefaults, UpSetProps } from './config';
 import deriveDataDependent from './upset/deriveDataDependent';

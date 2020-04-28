@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import React, { PropsWithChildren } from 'react';
 import D3Axis from './D3Axis';
 import { UpSetDataInfo } from './deriveDataDependent';

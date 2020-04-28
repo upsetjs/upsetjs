@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/bundle
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { render, h, hydrate } from 'preact';
 import UpSetElement, {
   UpSetProps as UpSetElementProps,

@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import { fromIndicesArray, toIndicesArray, compressIndicesArray } from './array';
 
 describe('fromIndicesArray', () => {

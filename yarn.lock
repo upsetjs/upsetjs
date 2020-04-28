@@ -17294,36 +17294,6 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root@workspace:."
-  dependencies:
-    "@typescript-eslint/eslint-plugin": ^2.26.0
-    "@typescript-eslint/parser": ^2.26.0
-    "@typescript-eslint/typescript-estree": ^2.26.0
-    "@yarnpkg/pnpify": ^2.0.0-rc.20
-    babel-eslint: ^10.1.0
-    eslint: ^6.8.0
-    eslint-config-prettier: ^6.10.1
-    eslint-config-react-app: ^5.2.1
-    eslint-plugin-flowtype: ^4.7.0
-    eslint-plugin-import: ^2.20.2
-    eslint-plugin-jsx-a11y: ^6.2.3
-    eslint-plugin-prettier: ^3.1.2
-    eslint-plugin-react: ^7.19.0
-    eslint-plugin-react-hooks: ^3.0.0
-    prettier: ^2.0.2
-    typescript: ^3.8.3
-  dependenciesMeta:
-    "@storybook/*":
-      unplugged: true
-    "@storybook/components":
-      unplugged: true
-    "@storybook/core":
-      unplugged: true
-  languageName: unknown
-  linkType: soft
-
 "rsvp@npm:^4.8.4":
   version: 4.8.5
   resolution: "rsvp@npm:4.8.5"
@@ -19625,6 +19595,36 @@ resolve@1.1.7:
   checksum: 2/82bfe8d6e11981608c68629de8221daf7c7e091aef9243bd7595a306beaeb9ff145afeaf003f5f1fbe1acb20de30e52421cc4564b7617375da52838da9173d19
   languageName: node
   linkType: hard
+
+"upsetjs@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "upsetjs@workspace:."
+  dependencies:
+    "@typescript-eslint/eslint-plugin": ^2.26.0
+    "@typescript-eslint/parser": ^2.26.0
+    "@typescript-eslint/typescript-estree": ^2.26.0
+    "@yarnpkg/pnpify": ^2.0.0-rc.20
+    babel-eslint: ^10.1.0
+    eslint: ^6.8.0
+    eslint-config-prettier: ^6.10.1
+    eslint-config-react-app: ^5.2.1
+    eslint-plugin-flowtype: ^4.7.0
+    eslint-plugin-import: ^2.20.2
+    eslint-plugin-jsx-a11y: ^6.2.3
+    eslint-plugin-prettier: ^3.1.2
+    eslint-plugin-react: ^7.19.0
+    eslint-plugin-react-hooks: ^3.0.0
+    prettier: ^2.0.2
+    typescript: ^3.8.3
+  dependenciesMeta:
+    "@storybook/*":
+      unplugged: true
+    "@storybook/components":
+      unplugged: true
+    "@storybook/core":
+      unplugged: true
+  languageName: unknown
+  linkType: soft
 
 "uri-js@npm:^4.2.2":
   version: 4.2.2

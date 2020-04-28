@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/math
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export function rand(seed = Date.now()) {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
   return () => {

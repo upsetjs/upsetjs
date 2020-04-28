@@ -1,6 +1,10 @@
 /**
- * represents an internal set
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
+
 export interface IBaseSet<T = any> {
   /**
    * name of the set

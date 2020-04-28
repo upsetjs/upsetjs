@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/app
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 function getComparator<T>(orderBy: keyof T | ((v: T) => number | string), order: 'asc' | 'desc') {
   const acc = typeof orderBy === 'function' ? orderBy : (v: T) => v[orderBy as keyof T];
   const factor = order === 'asc' ? 1 : -1;

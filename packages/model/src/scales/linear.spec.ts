@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/model
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 // import 'jest';
 import { TickOptions, NumericScaleTick, genTicks } from './numeric';
 import { niceFactors, linearScale, range } from './linear';
