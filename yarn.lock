@@ -3345,7 +3345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/addons@^0.5.0, @upsetjs/addons@workspace:packages/addons":
+"@upsetjs/addons@^0.6.0, @upsetjs/addons@workspace:packages/addons":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
   dependencies:
@@ -3361,8 +3361,8 @@ __metadata:
     "@types/react-dom": ^16.9.6
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/math": ^0.5.0
-    "@upsetjs/react": ^0.5.0
+    "@upsetjs/math": ^0.6.0
+    "@upsetjs/react": ^0.6.0
     "@yarnpkg/pnpify": ^2.0.0-rc.20
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
@@ -3411,11 +3411,11 @@ __metadata:
     "@types/react-router": ^5.1.5
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/addons": ^0.5.0
-    "@upsetjs/bundle": ^0.5.0
-    "@upsetjs/math": ^0.5.0
-    "@upsetjs/model": ^0.5.0
-    "@upsetjs/react": ^0.5.0
+    "@upsetjs/addons": ^0.6.0
+    "@upsetjs/bundle": ^0.6.0
+    "@upsetjs/math": ^0.6.0
+    "@upsetjs/model": ^0.6.0
+    "@upsetjs/react": ^0.6.0
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
     clsx: ^1.1.0
@@ -3458,7 +3458,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/bundle@^0.5.0, @upsetjs/bundle@workspace:packages/bundle":
+"@upsetjs/bundle@^0.6.0, @upsetjs/bundle@workspace:packages/bundle":
   version: 0.0.0-use.local
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
@@ -3468,10 +3468,10 @@ __metadata:
     "@types/jest": ^25.1.4
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/addons": ^0.5.0
-    "@upsetjs/math": ^0.5.0
-    "@upsetjs/model": ^0.5.0
-    "@upsetjs/react": ^0.5.0
+    "@upsetjs/addons": ^0.6.0
+    "@upsetjs/math": ^0.6.0
+    "@upsetjs/model": ^0.6.0
+    "@upsetjs/react": ^0.6.0
     babel-eslint: ^10.1.0
     eslint: ^6.8.0
     eslint-config-prettier: ^6.10.1
@@ -3492,7 +3492,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/math@^0.5.0, @upsetjs/math@workspace:packages/math":
+"@upsetjs/math@^0.6.0, @upsetjs/math@workspace:packages/math":
   version: 0.0.0-use.local
   resolution: "@upsetjs/math@workspace:packages/math"
   dependencies:
@@ -3519,7 +3519,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/model@^0.5.0, @upsetjs/model@workspace:packages/model":
+"@upsetjs/model@^0.6.0, @upsetjs/model@workspace:packages/model":
   version: 0.0.0-use.local
   resolution: "@upsetjs/model@workspace:packages/model"
   dependencies:
@@ -3546,7 +3546,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@^0.5.0, @upsetjs/react@workspace:packages/react":
+"@upsetjs/react@^0.6.0, @upsetjs/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -3562,7 +3562,7 @@ __metadata:
     "@types/react-dom": ^16.9.6
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/model": ^0.5.0
+    "@upsetjs/model": ^0.6.0
     "@yarnpkg/pnpify": ^2.0.0-rc.20
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
@@ -3597,7 +3597,7 @@ __metadata:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/vue": ^0.5.0
+    "@upsetjs/vue": ^0.6.0
     "@vue/cli-plugin-eslint": ~4.2.3
     "@vue/cli-plugin-typescript": ~4.2.3
     "@vue/cli-service": ~4.2.3
@@ -3613,7 +3613,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/vue@^0.5.0, @upsetjs/vue@workspace:packages/vue":
+"@upsetjs/vue@^0.6.0, @upsetjs/vue@workspace:packages/vue":
   version: 0.0.0-use.local
   resolution: "@upsetjs/vue@workspace:packages/vue"
   dependencies:
@@ -3623,7 +3623,7 @@ __metadata:
     "@types/jest": ^25.1.4
     "@typescript-eslint/eslint-plugin": ^2.26.0
     "@typescript-eslint/parser": ^2.26.0
-    "@upsetjs/bundle": ^0.5.0
+    "@upsetjs/bundle": ^0.6.0
     babel-eslint: ^10.1.0
     eslint: ^6.8.0
     eslint-config-prettier: ^6.10.1

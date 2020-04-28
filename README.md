@@ -377,7 +377,7 @@ yarn build
 ### Release
 
 ```sh
-yarn workspaces foreach --verbose version vX.X.X --deferred
+yarn workspaces foreach --verbose version X.X.X --deferred
 yarn version apply --all
 git commit -am 'release vX.X.X'
 git push
