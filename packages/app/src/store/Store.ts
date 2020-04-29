@@ -189,7 +189,13 @@ export default class Store {
   selectedAttrs = new Set<string>();
 
   @observable
-  readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> = {
+  readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> & {
+    type: 'intersection' | 'union';
+    min: number;
+    max: number;
+    empty: boolean;
+    limit: number;
+  } = {
     type: 'intersection',
     min: 1,
     max: 5,
