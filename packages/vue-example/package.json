@@ -29,7 +29,7 @@
     "eslint:fix": "npm run eslint -- --fix"
   },
   "dependencies": {
-    "@upsetjs/vue": "^0.6.0",
+    "@upsetjs/vue": "~0.6.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {

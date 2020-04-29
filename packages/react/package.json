@@ -88,6 +88,6 @@
   },
   "dependencies": {
     "@types/react": "^16.9.31",
-    "@upsetjs/model": "^0.6.0"
+    "@upsetjs/model": "~0.6.0"
   }
 }
