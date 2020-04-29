@@ -12,7 +12,10 @@ import powerSet from './powerSet';
 import { SET_JOINERS } from './constants';
 
 export declare type GenerateSetCombinationsOptions<T = any> = {
-  type: 'intersection' | 'union';
+  /**
+   * @default intersection
+   */
+  type?: 'intersection' | 'union';
   /**
    * minimum number of intersecting sets
    * @default 0
@@ -145,7 +148,7 @@ function unionBuilder<T>(
 export default function generateCombinations<T = any>(
   sets: ISets<T>,
   {
-    type,
+    type = 'intersection',
     min = 0,
     max = Infinity,
     empty = false,
@@ -153,12 +156,12 @@ export default function generateCombinations<T = any>(
     notPartOfAnySet,
     toElemKey,
     ...postprocess
-  }: GenerateSetCombinationsOptions<T> = { type: 'intersection' }
+  }: GenerateSetCombinationsOptions<T> = {}
 ): ISetCombinations<T> {
-  const joiner = SET_JOINERS[type];
+  const joiner = SET_JOINERS[type] ?? SET_JOINERS.intersection;
   const combinations: ISetCombination<T>[] = [];
 
-  const compute = (type === 'intersection' ? intersectionBuilder : unionBuilder)(
+  const compute = (type === 'union' ? unionBuilder : intersectionBuilder)(
     sets,
     allElements,
     notPartOfAnySet,
