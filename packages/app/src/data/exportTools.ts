@@ -7,7 +7,7 @@
 
 import Store, { stripDefaults } from '../store/Store';
 
-import { toIndicesArray } from '@upsetjs/model';
+import { toIndicesArray, ISetLike } from '@upsetjs/model';
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
@@ -29,6 +29,11 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
   }));
 
   const needSetRef = store.visibleQueries.length > 0 || store.selection != null;
+
+  const toSetRef = (v: ISetLike<any>) => {
+    const ref = helper.toSetRef(v);
+    return `{ type: '${ref.type}', index: ${ref.index} }`;
+  };
 
   const addons =
     helper.attrs.length > 0
@@ -66,12 +71,12 @@ ${
     : ''
 }
 
-let selection = ${store.selection ? `CCfromSetRef(${JSON.stringify(helper.toSetRef(store.selection))})CC` : null};
+let selection = ${store.selection ? `CCfromSetRef(${toSetRef(store.selection)})CC` : null};
 const queries = ${JSON.stringify(
     store.visibleQueries.map((q) => ({
       name: q.name,
       color: q.color,
-      set: `CCfromSetRef(${JSON.stringify(helper.toSetRef(q.set))})CC`,
+      set: `CCfromSetRef(${toSetRef(q.set)})CC`,
     })),
     null,
     2
