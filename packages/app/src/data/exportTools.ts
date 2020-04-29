@@ -39,12 +39,12 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
     helper.attrs.length > 0
       ? `
   setAddons: ${JSON.stringify(
-    helper.attrs.map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { name: '${attr}' })CC`).join(',')
+    helper.attrs.map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { name: '${attr}' })CC`)
   )},
   combinationAddons: ${JSON.stringify(
-    helper.attrs
-      .map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`)
-      .join(',')
+    helper.attrs.map(
+      (attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`
+    )
   )}`
       : '';
   const js = `
