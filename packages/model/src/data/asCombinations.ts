@@ -49,7 +49,7 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
 }
 
 /**
- * helper to create a proper data structures for UpSet sets
+ * helper to create a proper data structures for UpSet.js sets
  * @param sets set like structures
  */
 export function asCombination<T, S extends { name: string; elems: ReadonlyArray<T> }>(
@@ -70,7 +70,7 @@ export function asCombination<T, S extends { name: string; elems: ReadonlyArray<
 }
 
 /**
- * helper to create a proper data structures for UpSet sets
+ * helper to create a proper data structures for UpSet.js sets
  * @param sets set like structures
  */
 export default function asCombinations<T, S extends { name: string; elems: ReadonlyArray<T> }>(

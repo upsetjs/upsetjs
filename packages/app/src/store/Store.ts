@@ -522,7 +522,7 @@ export default class Store {
 
   @computed
   get title() {
-    return `UpSet - ${this.dataset?.name ?? 'Unknown'}`;
+    return `UpSet.js - ${this.dataset?.name ?? 'Unknown'}`;
   }
 
   @action

@@ -93,7 +93,7 @@ const props = Object.assign({
 }, ${JSON.stringify(stripDefaults(store.props, store.ui.theme), null, 2)});
 
 function render() {
-  ${prefix}renderUpSet(root, props);
+  ${prefix}renderUpSetJS(root, props);
 }
 
 // uncomment for interactivity
@@ -188,7 +188,7 @@ ${HTML_CODE}
       },
       'index.js': {
         content: `
-import {renderUpSet, generateCombinations, fromIndexArray, asSets} from "@upsetjs/bundle";
+import {renderUpSetJS, generateCombinations, fromIndexArray, asSets} from "@upsetjs/bundle";
 import elems from './data.json';
 import "./main.css";
 

@@ -43,7 +43,7 @@ function generateSimpleData(store: Store) {
     ),
     '])\n',
     '\n',
-    'w = UpSetWidget[str]().from_dict(dict_input)\n',
+    'w = UpSetJSWidget[str]().from_dict(dict_input)\n',
   ];
 }
 
@@ -71,7 +71,7 @@ function generateAddonData(store: Store) {
   r.push(')\n');
   r.push('\n');
   r.push(
-    `w = UpSetWidget[str]().from_dataframe(df${attrs.length > 0 ? `, attributes=${JSON.stringify(attrs)}` : ''})\n`
+    `w = UpSetJSWidget[str]().from_dataframe(df${attrs.length > 0 ? `, attributes=${JSON.stringify(attrs)}` : ''})\n`
   );
   return r;
 }
@@ -133,7 +133,7 @@ export default function exportPython(store: Store) {
         source: [
           'from ipywidgets import interact\n',
           'from collections import OrderedDict\n',
-          'from upsetjs_jupyter_widget import UpSetWidget\n',
+          'from upsetjs_jupyter_widget import UpSetJSWidget\n',
           'import pandas as pd',
         ],
       },

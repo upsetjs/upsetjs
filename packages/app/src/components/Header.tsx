@@ -153,7 +153,7 @@ export default observer(({ className }: { className?: string }) => {
               ))}
             </Select>
           </Typography>
-          <Tooltip title="CSV file or JSON UpSet Dump file">
+          <Tooltip title="CSV file or JSON UpSet.js Dump file">
             <IconButton onClick={clickFile}>
               <Upload />
             </IconButton>

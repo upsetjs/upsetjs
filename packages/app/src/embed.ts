@@ -8,11 +8,11 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
 import {
-  renderUpSet,
+  renderUpSetJS,
   UpSetProps,
   ISetLike,
   boxplotAddon,
-  hydrateUpSet,
+  hydrateUpSetJS,
   fromDump,
   fromStaticDump,
 } from '@upsetjs/bundle';
@@ -93,13 +93,13 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
   if (props.theme === 'dark') {
     makeDark();
   }
-  document.title = `UpSet - ${dump.name}`;
-  document.querySelector('title')!.textContent = `UpSet - ${dump.name}`;
+  document.title = `UpSet.js - ${dump.name}`;
+  document.querySelector('title')!.textContent = `UpSet.js - ${dump.name}`;
   document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
   document.querySelector('meta[name=author]')!.setAttribute('content', dump.author);
 
   function render() {
-    renderUpSet(root, props);
+    renderUpSetJS(root, props);
   }
 
   window.addEventListener('resize', () => {
@@ -109,7 +109,7 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
   });
 
   if (hyrdateFirst) {
-    hydrateUpSet(root, props);
+    hydrateUpSetJS(root, props);
   } else {
     root.innerHTML = '';
     render();

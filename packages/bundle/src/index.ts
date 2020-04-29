@@ -76,12 +76,17 @@ export function fillDefaults<T = any>(props: UpSetProps<T>) {
     UpSetSelectionProps<T>;
 }
 
-export function renderUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
+export function renderUpSetJS<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   render(h(UpSetElement as any, p), node);
 }
 
-export function hydrateUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
+/**
+ * @deprecated use renderUpSetJS instead
+ */
+export const renderUpSet = renderUpSetJS;
+
+export function hydrateUpSetJS<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
   hydrate(h(UpSetElement as any, p), node);
 }

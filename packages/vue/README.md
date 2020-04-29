@@ -17,16 +17,16 @@ npm install @upsetjs/vue vue
 ```html
 <template>
   <div>
-    <UpSet :sets="sets" :width="width" :height="height" @hover="hover" :selection="selection"></UpSet>
+    <UpSetJS :sets="sets" :width="width" :height="height" @hover="hover" :selection="selection"></UpSetJS>
   </div>
 </template>
 <script>
   import Vue from 'vue';
-  import UpSet, { extractSets, ISets, ISet } from '@upsetjs/vue';
+  import UpSetJS, { extractSets, ISets, ISet } from '@upsetjs/vue';
 
   export default {
     components: {
-      UpSet,
+      UpSetJS,
     },
     data() {
       return {

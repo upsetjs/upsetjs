@@ -7,16 +7,16 @@
 
 import React, { PropsWithChildren, useMemo } from 'react';
 import { fillDefaults, UpSetProps } from './config';
-import deriveDataDependent from './upset/deriveDataDependent';
-import defineSizeDependent from './upset/deriveSizeDependent';
-import deriveStyleDependent from './upset/deriveStyleDependent';
-import ExportButtons from './upset/ExportButtons';
-import QueryLegend from './upset/QueryLegend';
-import UpSetAxis from './upset/UpSetAxis';
-import UpSetChart from './upset/UpSetChart';
-import UpSetQueries from './upset/UpSetQueries';
-import UpSetSelection from './upset/UpSetSelection';
-import { clsx, generateId } from './upset/utils';
+import deriveDataDependent from './upsetjs/deriveDataDependent';
+import defineSizeDependent from './upsetjs/deriveSizeDependent';
+import deriveStyleDependent from './upsetjs/deriveStyleDependent';
+import ExportButtons from './upsetjs/ExportButtons';
+import QueryLegend from './upsetjs/QueryLegend';
+import UpSetAxis from './upsetjs/UpSetAxis';
+import UpSetChart from './upsetjs/UpSetChart';
+import UpSetQueries from './upsetjs/UpSetQueries';
+import UpSetSelection from './upsetjs/UpSetSelection';
+import { clsx, generateId } from './upsetjs/utils';
 
 export default React.forwardRef(function UpSet<T>(
   props: PropsWithChildren<UpSetProps<T>>,

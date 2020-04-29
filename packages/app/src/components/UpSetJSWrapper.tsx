@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UpSet = lazy(() => import('@upsetjs/react')) as typeof UpSetImpl;
+const UpSetJS = lazy(() => import('@upsetjs/react')) as typeof UpSetImpl;
 
 const UpSetRenderer = observer(({ width, height }: { width: number; height: number }) => {
   const store = useStore();
@@ -38,7 +38,7 @@ const UpSetRenderer = observer(({ width, height }: { width: number; height: numb
     <div>
       <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
         {width > 0 && height > 0 && (
-          <UpSet<IElem>
+          <UpSetJS<IElem>
             width={width}
             height={height}
             className={classes.wrapper}
@@ -60,7 +60,7 @@ const UpSetRenderer = observer(({ width, height }: { width: number; height: numb
   );
 });
 
-function renderUpSet({ width, height }: { width: number; height: number }) {
+function renderUpSetJS({ width, height }: { width: number; height: number }) {
   return <UpSetRenderer width={width} height={height} />;
 }
 
@@ -69,7 +69,7 @@ export default observer(() => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {store.sets.length > 0 && store.dataset && <ReactResizeDetector handleWidth handleHeight render={renderUpSet} />}
+      {store.sets.length > 0 && store.dataset && <ReactResizeDetector handleWidth handleHeight render={renderUpSetJS} />}
       {!store.dataset && <Loading>Choose Dataset</Loading>}
       {store.sets.length === 0 && store.dataset && <Loading />}
     </div>

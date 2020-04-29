@@ -12,7 +12,7 @@ import SidePanel from './SidePanel';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import RightSidePanel from './RightSidePanel';
-import UpSetWrapper from './UpSetWrapper';
+import UpSetJSWrapper from './UpSetJSWrapper';
 import Header from './Header';
 import DrawerMenu from './DrawerMenu';
 import Toast from './Toast';
@@ -104,7 +104,7 @@ export default observer(() => {
         <div className={classes.drawerHeader} />
         <main className={classes.main}>
           {!store.ui.zen && <SidePanel />}
-          <UpSetWrapper />
+          <UpSetJSWrapper />
           {!store.ui.zen && <RightSidePanel />}
         </main>
       </div>

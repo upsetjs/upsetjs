@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <UpSet :sets="sets" :width="width" :height="height" @hover="hover" :selection="selection"></UpSet>
+    <UpSetJS :sets="sets" :width="width" :height="height" @hover="hover" :selection="selection"></UpSetJS>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import UpSet, { extractSets, ISets, ISet } from '@upsetjs/vue';
+import UpSetJS, { extractSets, ISets, ISet } from '@upsetjs/vue';
 
 interface Elem {
   name: string;
@@ -21,7 +21,7 @@ export default Vue.extend<
 >({
   name: 'App',
   components: {
-    UpSet,
+    UpSetJS,
   },
   data() {
     return {

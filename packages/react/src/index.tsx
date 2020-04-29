@@ -5,9 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import UpSet from './components/UpSet';
+import UpSetJS from './components/UpSetJS';
 export * from './exporter';
 export * from './components/config';
 export * from '@upsetjs/model';
 
-export default UpSet;
+export default UpSetJS;

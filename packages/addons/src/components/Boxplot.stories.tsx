@@ -8,10 +8,10 @@
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import { boxplotAddon } from './Boxplot';
-import UpSet, { extractSets } from '@upsetjs/react';
+import UpSetJS, { extractSets } from '@upsetjs/react';
 
 export default {
-  title: 'UpSet Box plot Addon',
+  title: 'UpSet.js Box plot Addon',
   parameters: {
     docs: {
       container: DocsContainer,
@@ -45,7 +45,7 @@ const sets = extractSets(elems);
 
 export const Default = () => {
   return (
-    <UpSet
+    <UpSetJS
       sets={sets}
       width={1200}
       height={500}

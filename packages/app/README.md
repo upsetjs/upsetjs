@@ -33,7 +33,7 @@ It contains a sample application for exploring sets and set intersections. It is
 
 - generate a shareable page that can be shared and saved in a self contained way
 - toggle between light and dark theme
-- customize UpSet plot (layout, fonts, colors, ...)
+- customize UpSet.js plot (layout, fonts, colors, ...)
 - customize Set selection (which sets, ordering)
 - customize Set combination generation (mode: intersection or union, min, max, ordering, ...)
 - save persistent queries based on clicked elements

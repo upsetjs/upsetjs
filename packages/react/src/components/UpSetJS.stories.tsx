@@ -7,12 +7,12 @@
 
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import UpSet from './UpSet';
+import UpSetJS from './UpSetJS';
 import { extractSets, ISetLike, generateUnions, asSets } from '@upsetjs/model';
 import { UpSetAddonProps } from './config';
 
 export default {
-  component: UpSet,
+  component: UpSetJS,
   title: 'UpSet',
   parameters: {
     docs: {
@@ -59,22 +59,22 @@ const queries = [
 const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
-  return <UpSet {...common} />;
+  return <UpSetJS {...common} />;
 };
 
 export const Unions = () => {
-  return <UpSet {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
+  return <UpSetJS {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
 };
 
 export const Interactivity = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-  return <UpSet {...common} selection={selection} onHover={setSelection} />;
+  return <UpSetJS {...common} selection={selection} onHover={setSelection} />;
 };
 
 export const DarkTheme = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return (
-    <UpSet
+    <UpSetJS
       {...common}
       selection={selection}
       onHover={setSelection}
@@ -86,17 +86,17 @@ export const DarkTheme = () => {
 
 export const Click = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-  return <UpSet {...common} selection={selection} onClick={setSelection} />;
+  return <UpSetJS {...common} selection={selection} onClick={setSelection} />;
 };
 
 export const Queries = () => {
-  return <UpSet {...common} queries={queries} queryLegend />;
+  return <UpSetJS {...common} queries={queries} queryLegend />;
 };
 
 export const SmallSets = () => {
   return (
     <div>
-      <UpSet
+      <UpSetJS
         {...common}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
@@ -104,7 +104,7 @@ export const SmallSets = () => {
           { name: 'three', elems: [1, 5, 6, 7, 8, 9, 10, 12, 13] },
         ])}
       />
-      <UpSet
+      <UpSetJS
         {...common}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3] },
@@ -127,7 +127,7 @@ const SetAddon2: React.FC<UpSetAddonProps<ISetLike<any>, any>> = ({ width, heigh
 export const Addon = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return (
-    <UpSet
+    <UpSetJS
       {...common}
       selection={selection}
       onHover={setSelection}

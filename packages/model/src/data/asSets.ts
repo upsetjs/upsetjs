@@ -38,7 +38,7 @@ export function postprocessSets<T, S extends ISet<T>>(sets: ReadonlyArray<S>, op
 }
 
 /**
- * helper to create a proper data structures for UpSet sets
+ * helper to create a proper data structures for UpSet.js sets
  * @param sets set like structures
  */
 export default function asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(

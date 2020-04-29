@@ -52,7 +52,7 @@ npm install @upsetjs/react react react-dom
 
 ```ts
 import React from 'react';
-import UpSet, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
+import UpSetJS, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -64,19 +64,19 @@ const elems = [
 const sets = extractSets(elems);
 const combinations = generateIntersections(sets);
 
-<UpSet sets={sets} combinations={combinations} width={500} height={300} />;
+<UpSetJS sets={sets} combinations={combinations} width={500} height={300} />;
 ```
 
 with stored selection
 
 ```ts
-const UpSetSelection = (props: any) => {
+const UpSetJSSelection = (props: any) => {
   [selection, setSelection] = React.useState(null as ISetLike<any> | null);
 
-  return <UpSet {...props} selection={selection} onHover={setSelection} />;
+  return <UpSetJS {...props} selection={selection} onHover={setSelection} />;
 };
 
-<UpSetSelection sets={sets} combinations={combinations} />;
+<UpSetJSSelection sets={sets} combinations={combinations} />;
 ```
 
 ![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
@@ -90,7 +90,7 @@ npm install @upsetjs/bundle
 ```
 
 ```js
-import { extractSets, generateIntersections, renderUpSet } from '@upsetjs/bundle';
+import { extractSets, generateIntersections, renderUpSetJS } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -102,7 +102,7 @@ const elems = [
 const sets = extractSets(elems);
 const combinations = generateIntersections(sets);
 
-renderUpSet(document.body, { sets, combinations, width: 500, height: 300 });
+renderUpSetJS(document.body, { sets, combinations, width: 500, height: 300 });
 ```
 
 with stored selection
@@ -117,7 +117,7 @@ function onHover(set) {
 
 function render() {
   const props = { sets, combinations, width: 500, height: 300, selection, onHover };
-  renderUpSet(document.body, props);
+  renderUpSetJS(document.body, props);
 }
 
 render();
@@ -131,13 +131,13 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/GRpoMZY)
 
 **Interactivity**
 
-By specifying `onHover` and `selection` `UpSet` is fully interactive. As an alternative there is also the `onClick` property.
+By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
 
 ![interactions](https://user-images.githubusercontent.com/4129778/79372064-b262f980-7f55-11ea-872e-6e6857c0df82.png)
 
 **Queries**
 
-Similar to the original UpSetR, `UpSet` allows to specify queries by a set of elements which are then highlighted in the plot.
+Similar to the original UpSetR, UpSet.js allows to specify queries by a set of elements which are then highlighted in the plot.
 The first query is shown in full detail while others are shown using small indicators.
 
 ```ts
@@ -146,7 +146,7 @@ const queries = [
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
 ];
 
-renderUpSet(document.body, { sets, combinations, width: 500, height: 300, queries });
+renderUpSetJS(document.body, { sets, combinations, width: 500, height: 300, queries });
 ```
 
 ![queries](https://user-images.githubusercontent.com/4129778/79373208-9a3faa00-7f56-11ea-8281-47dabb9b42b9.png)
@@ -158,7 +158,7 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
 
 ```ts
-import { extractSets, renderUpSet, boxplotAddon } from '@upsetjs/bundle';
+import { extractSets, renderUpSetJS, boxplotAddon } from '@upsetjs/bundle';
 
 const elems = [
   { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
@@ -177,7 +177,7 @@ const elems = [
 ];
 const sets = extractSets(elems);
 
-renderUpSet(document.body, {
+renderUpSetJS(document.body, {
   sets,
   width: 500,
   height: 300,
@@ -198,9 +198,9 @@ The UpSet.js App is an web application for exploring sets and set intersections.
 
 see [Storybook](https://upset.js.org/api/?path=/docs/upset--default) for demos and properties.
 
-### UpSet
+### UpSetJS
 
-The most relevant and required properties of the `UpSet` component are:
+The most relevant and required properties of the `UpSetJS` component are:
 
 ```ts
 {
@@ -221,12 +221,12 @@ The most relevant and required properties of the `UpSet` component are:
 
 ## Data
 
-`UpSet` requires sets and optionally combinations of sets as input. There are some utility function to help creating the required data structures:
+`UpSetJS` requires sets and optionally combinations of sets as input. There are some utility function to help creating the required data structures:
 
 - `extractSets<T extends { sets: string[] }>(elements: ReadonlyArray<T>): ISet<T>[]`
   given an array of elements where each is having a property called `.sets` containing a list of set names in which this element is part of. e.g. `{ sets: ['Blue Hair', 'Female']}`. The return value is a list of sets in the required data structures and having a `.elems` with an array of the input elements.
 - `asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(sets: ReadonlyArray<S>): (S & ISet<T>)[]`
-  extends the given basic set objects (`name` and `elems`) with the required attributes for `UpSet`
+  extends the given basic set objects (`name` and `elems`) with the required attributes for `UpSetJS`
 - `generateIntersections<T>(sets: ISets<T>, { min = 0, max = Infinity, empty = false } = {}): ISetIntersection<T>[]`
   one needs to generate the list of the intersections to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set intersections (aka. power set). The options allow to limit the generation to skip `empty` set intersections or enforce a minimum/maximum amount of sets in the intersection.
 - `generateUnions<T>(sets: ISets<T>, { min = 2, max = Infinity } = {}): ISetUnion<T>[]`
@@ -248,7 +248,7 @@ data = fetch(
 ```
 
 ```js
-import { extractSets, UpSet, generateIntersections } from '@sgratzl/upset-js';
+import { extractSets, UpSetJSElement, generateIntersections } from '@sgratzl/upset-js';
 ```
 
 ```js
@@ -260,7 +260,7 @@ intersections = generateIntersections(sets);
 ```
 
 ```js
-viewof selection = UpSet(sets, intersections)
+viewof selection = UpSetJSElement(sets, intersections)
 ```
 
 ```js
@@ -304,11 +304,11 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager@3.0.0-alpha.0
 ```
 
 ```python
-from upsetjs_jupyter_widget import UpSetWidget
+from upsetjs_jupyter_widget import UpSetJSWidget
 ```
 
 ```python
-w = UpSetWidget[str]()
+w = UpSetJSWidget[str]()
 w.from_dict(dict(one = ['a', 'b', 'c', 'e', 'g', 'h', 'k', 'l', 'm'], two = ['a', 'b', 'd', 'e', 'j'], three = ['a', 'e', 'f', 'g', 'h', 'i', 'j', 'l', 'm']))
 w
 ```

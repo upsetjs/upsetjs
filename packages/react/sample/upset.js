@@ -1,4 +1,4 @@
-async function loadUpSet() {
+async function loadUpSetJS() {
   document.body.style.backgroundColor = 'black';
   document.body.insertAdjacentHTML('afterend', '<div id="app"></div>');
 

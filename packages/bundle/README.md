@@ -18,7 +18,7 @@ const elems = [...];
 const sets = UpSetJS.extractSets(elems);
 const combinations = UpSetJS.generateIntersections(elems);
 
-UpSetJS.renderUpSet(document.body, {sets, combinations, width: 500, height: 300});
+UpSetJS.renderUpSetJS(document.body, {sets, combinations, width: 500, height: 300});
 ```
 
 with stored selection
@@ -33,7 +33,7 @@ function onHover(set) {
 
 function render() {
   const props = { sets, combinations, width: 500, height: 300, selection, onHover };
-  UpSetJS.renderUpSet(document.body, props);
+  UpSetJS.renderUpSetJS(document.body, props);
 }
 
 render();

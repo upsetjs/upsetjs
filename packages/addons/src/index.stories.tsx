@@ -6,5 +6,5 @@
  */
 
 export default {
-  title: 'Welcome UpSet React',
+  title: 'Welcome UpSet.js React',
 };

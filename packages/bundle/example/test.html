@@ -13,7 +13,7 @@
         .then((r) => r.json())
         .then((elems) => {
           const sets = UpSetJS.extractSets(elems);
-          UpSetJS.renderUpSet(document.body, { sets, width: 1000, height: 500 });
+          UpSetJS.renderUpSetJS(document.body, { sets, width: 1000, height: 500 });
         });
     </script>
   </body>
