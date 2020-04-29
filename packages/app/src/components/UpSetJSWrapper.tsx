@@ -69,7 +69,9 @@ export default observer(() => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {store.sets.length > 0 && store.dataset && <ReactResizeDetector handleWidth handleHeight render={renderUpSetJS} />}
+      {store.sets.length > 0 && store.dataset && (
+        <ReactResizeDetector handleWidth handleHeight render={renderUpSetJS} />
+      )}
       {!store.dataset && <Loading>Choose Dataset</Loading>}
       {store.sets.length === 0 && store.dataset && <Loading />}
     </div>
