@@ -6,7 +6,7 @@
  */
 
 import { ISet } from '../model';
-import { byCardinality, byName, byComposite } from './utils';
+import { byCardinality, byName, byComposite, negate } from './utils';
 
 export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(set: S): S & ISet<T> {
   return Object.assign(
@@ -18,10 +18,35 @@ export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(se
   );
 }
 
+export declare type SortSetOrder =
+  | 'cardinality'
+  | 'name'
+  | 'cardinality:desc'
+  | 'name:asc'
+  | 'cardinality:asc'
+  | 'name:desc';
+
 export declare type PostprocessSetOptions = {
-  order?: 'cardinality' | 'name';
+  order?: SortSetOrder;
   limit?: number;
 };
+
+function toOrder<T, S extends ISet<T>>(order?: SortSetOrder): (a: S, b: S) => number {
+  if (!order) {
+    return byName;
+  }
+  switch (order) {
+    case 'cardinality':
+    case 'cardinality:desc':
+      return byComposite<S>([byCardinality, byName]);
+    case 'cardinality:asc':
+      return byComposite<S>([negate(byCardinality), byName]);
+    case 'name:desc':
+      return negate(byName);
+    default:
+      return byName;
+  }
+}
 
 /**
  * @internal
@@ -29,7 +54,8 @@ export declare type PostprocessSetOptions = {
 export function postprocessSets<T, S extends ISet<T>>(sets: ReadonlyArray<S>, options: PostprocessSetOptions = {}) {
   let r = sets as S[];
   if (options.order) {
-    r = r.slice().sort(options.order === 'cardinality' ? byComposite([byCardinality, byName]) : byName);
+    const order = toOrder(options.order);
+    r = r.slice().sort(order);
   }
   if (options.limit != null) {
     return r.slice(0, options.limit);

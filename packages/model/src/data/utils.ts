@@ -10,7 +10,7 @@ export function byName<T extends { name: string }>(a: T, b: T) {
 }
 
 export function byCardinality<T extends { cardinality: number }>(a: T, b: T) {
-  // dereasing
+  // decreasing
   return b.cardinality - a.cardinality;
 }
 
@@ -23,6 +23,10 @@ export function byComposite<T>(func: ((a: T, b: T) => number)[]) {
   return (a: T, b: T) => {
     return func.reduce((acc, f) => (acc === 0 ? f(a, b) : acc), 0);
   };
+}
+
+export function negate<T>(func: (a: T, b: T) => number) {
+  return (a: T, b: T) => -func(a, b);
 }
 
 export function byGroup<E, S extends { sets: ReadonlySet<E> }>(sets: ReadonlyArray<E>) {

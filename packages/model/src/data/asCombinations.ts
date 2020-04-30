@@ -6,7 +6,8 @@
  */
 
 import { ISet, ISetCombination } from '../model';
-import { byCardinality, byComposite, byDegree, byGroup, byName } from './utils';
+import { byCardinality, byComposite, byDegree, byGroup, byName, negate } from './utils';
+import { SortSetOrder } from './asSets';
 
 export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
   const byName = new Map(sets.map((s) => [s.name, s]));
@@ -15,10 +16,57 @@ export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|
   };
 }
 
+export declare type SortCombinationOrder =
+  | SortSetOrder
+  | 'group'
+  | 'degree'
+  | 'group:asc'
+  | 'group:desc'
+  | 'degree:asc'
+  | 'degree:desc';
+
 export declare type PostprocessCombinationsOptions = {
-  order?: 'group' | 'cardinality' | 'name' | 'degree' | ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'>;
+  order?: SortCombinationOrder | ReadonlyArray<SortCombinationOrder>;
   limit?: number;
 };
+
+function toOrder<T, S extends ISetCombination<T>>(
+  sets: ReadonlyArray<ISet<T>>,
+  order?: SortCombinationOrder | ReadonlyArray<SortCombinationOrder>
+): (a: S, b: S) => number {
+  if (!order) {
+    return byName;
+  }
+  const arr: ReadonlyArray<SortCombinationOrder> = Array.isArray(order) ? order : [order];
+  if (arr.length === 0) {
+    return byName;
+  }
+  return byComposite<S>(
+    arr.map((o) => {
+      switch (o) {
+        case 'cardinality':
+        case 'cardinality:desc':
+          return byCardinality;
+        case 'cardinality:asc':
+          return negate(byCardinality);
+        case 'name:desc':
+          return negate(byName);
+        case 'degree':
+        case 'degree:asc':
+          return byDegree;
+        case 'degree:desc':
+          return negate(byDegree);
+        case 'group':
+        case 'group:asc':
+          return byGroup(sets);
+        case 'group:desc':
+          return negate(byGroup(sets));
+        default:
+          return byName;
+      }
+    })
+  );
+}
 
 /**
  * @internal
@@ -30,17 +78,7 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
 ) {
   let r = combinations as S[];
   if (options.order) {
-    const order: ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'> = Array.isArray(options.order)
-      ? options.order
-      : [options.order];
-    const lookup = {
-      cardinality: byCardinality,
-      name: byName,
-      degree: byDegree,
-      group: byGroup(sets) as any,
-    };
-    const sorter = byComposite(order.map((v) => lookup[v]));
-    r = r.sort(sorter);
+    r = r.sort(toOrder(sets, options.order));
   }
   if (options.limit != null) {
     return r.slice(0, options.limit);
