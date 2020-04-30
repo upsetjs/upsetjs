@@ -26,6 +26,7 @@ import {
   UpSetSetQuery,
   ISet,
   ISetCombination,
+  validators,
 } from '@upsetjs/model';
 import {
   UpSetProps,
@@ -367,8 +368,36 @@ export default class Store {
   }
 
   @action.bound
-  setHover(set: ISetLike<IElem> | null) {
-    this.hover = set;
+  setHover(set: ISetLike<IElem> | null, evt: MouseEvent) {
+    if (!set || !this.selection || !evt.ctrlKey) {
+      this.hover = set;
+      return;
+    }
+    // hover to the set but the set which is an intersection of all of them.
+    // Thus it is simpler to find intersecting ones
+    const sets = new Set<ISet<IElem>>();
+    if (set.type === 'set') {
+      sets.add(set);
+    } else {
+      set.sets.forEach((s) => sets.add(s));
+    }
+    if (this.selection.type === 'set') {
+      sets.add(this.selection);
+    } else if (validators.isSetLike(this.selection)) {
+      this.selection.sets.forEach((s) => sets.add(s));
+    }
+    if (sets.size === 1) {
+      this.hover = set;
+      return;
+    }
+    const intersection = this.visibleCombinations.find(
+      (s) => s.degree === sets.size && Array.from(s.sets).every((s) => sets.has(s))
+    );
+    if (intersection) {
+      this.hover = intersection;
+    } else {
+      this.hover = set;
+    }
   }
 
   @action.bound
