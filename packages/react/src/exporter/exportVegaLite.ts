@@ -59,20 +59,33 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
 
   const radius = Number.parseInt(svg.querySelector('[data-cardinality] circle')!.getAttribute('r')!, 10);
 
-  const hasSelection = svg.querySelector('[data-upset=sets-s] [data-cardinality]') != null;
+  const hasPrimarySelection = svg.querySelector('[data-upset=sets-s] [data-cardinality]') != null;
+  const hasQuery = svg.querySelector('[data-upset=sets-q] [data-cardinality]') != null;
+  const hasSelection = hasPrimarySelection || hasQuery;
+
   let selectionColor = 'orange';
   if (hasSelection) {
     // inject the selection data
-    Array.from(svg.querySelectorAll<HTMLElement>('[data-upset=sets-s] [data-cardinality]')).forEach((elem) => {
-      // since artifically reversed
+    Array.from(
+      svg.querySelectorAll<HTMLElement>(
+        `[data-upset=sets-${hasPrimarySelection ? 's]' : 'q]:first-of-type'} [data-cardinality]`
+      )
+    ).forEach((elem) => {
+      // since artificially reversed
       const i = sets.length - Number.parseInt(elem.dataset.i!, 10) - 1;
       sets[i].selection = Number.parseInt(elem.dataset.cardinality!, 10);
     });
-    Array.from(svg.querySelectorAll<HTMLElement>('[data-upset=cs-s] [data-cardinality]')).forEach((elem) => {
+    Array.from(
+      svg.querySelectorAll<HTMLElement>(
+        `[data-upset=cs-${hasPrimarySelection ? 's]' : 'q:first-of-type'} [data-cardinality]`
+      )
+    ).forEach((elem) => {
       const i = Number.parseInt(elem.dataset.i!, 10);
       combinations[i].selection = Number.parseInt(elem.dataset.cardinality!, 10);
     });
-    selectionColor = resolveStyle(svg.querySelector<HTMLElement>('[data-upset=sets-s] [data-cardinality]')!).fill;
+    selectionColor = resolveStyle(
+      svg.querySelector<HTMLElement>(`[data-upset=sets-${hasPrimarySelection ? 's' : 'q'}] [data-cardinality]`)!
+    ).fill;
   }
   const highlightedCombination = Number.parseInt(
     svg.querySelector<HTMLElement>('[data-upset=cs-ss]')?.dataset.i ?? '-1',

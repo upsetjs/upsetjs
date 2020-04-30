@@ -36,7 +36,7 @@ async function loadUpSetJS() {
   await new Promise((resolve) => (s.onload = resolve));
 
   function render(props) {
-    window.ReactDOM.render(window.React.createElement(window.UpSetJS.default, props), document.getElementById('app'));
+    window.ReactDOM.render(window.React.createElement(window.exports.default, props), document.getElementById('app'));
   }
-  return { UpSetJS: window.UpSetJS, render };
+  return { UpSetJS: window.exports, render };
 }
