@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { render as renderPreact, h, hydrate } from 'preact';
+import { render as renderPreact, h, hydrate as hydratePreact } from 'preact';
 import UpSetElement, {
   UpSetProps as UpSetElementProps,
   fillDefaults as fillDefaultsImpl,
@@ -81,15 +81,14 @@ export function render<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   renderPreact(h(UpSetElement as any, p), node);
 }
 
-/**
- * @deprecated use render instead
- */
 export const renderUpSet = render;
 
-export function hydrateUpSetJS<T = any>(node: HTMLElement, props: UpSetProps<T>) {
+export function hydrate<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
-  hydrate(h(UpSetElement as any, p), node);
+  hydratePreact(h(UpSetElement as any, p), node);
 }
+
+export const hydrateUpSet = hydrate;
 
 export function exportSVG(
   node: SVGSVGElement,
