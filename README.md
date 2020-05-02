@@ -90,7 +90,7 @@ npm install @upsetjs/bundle
 ```
 
 ```js
-import { extractSets, generateIntersections, renderUpSetJS } from '@upsetjs/bundle';
+import { extractSets, generateIntersections, render } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -102,7 +102,7 @@ const elems = [
 const sets = extractSets(elems);
 const combinations = generateIntersections(sets);
 
-renderUpSetJS(document.body, { sets, combinations, width: 500, height: 300 });
+render(document.body, { sets, combinations, width: 500, height: 300 });
 ```
 
 with stored selection
@@ -117,7 +117,7 @@ function onHover(set) {
 
 function render() {
   const props = { sets, combinations, width: 1000, height: 300, selection, onHover };
-  renderUpSetJS(document.body, props);
+  render(document.body, props);
 }
 
 render();
@@ -147,7 +147,7 @@ const queries = [
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
 ]
 
-renderUpSetJS(document.body, { sets, width: 1000, height: 500, queries });
+render(document.body, { sets, width: 1000, height: 500, queries });
 ```
 
 ![queries](https://user-images.githubusercontent.com/4129778/80863309-a2e4ef80-8c7b-11ea-834d-9c5da34a386a.png)
@@ -159,7 +159,7 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
 
 ```ts
-import { extractSets, renderUpSetJS, boxplotAddon } from '@upsetjs/bundle';
+import { extractSets, render, boxplotAddon } from '@upsetjs/bundle';
 
 const elems = [
   { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
@@ -178,7 +178,7 @@ const elems = [
 ];
 const sets = extractSets(elems);
 
-renderUpSetJS(document.body, {
+render(document.body, {
   sets,
   width: 500,
   height: 300,

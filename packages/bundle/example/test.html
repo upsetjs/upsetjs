@@ -13,7 +13,7 @@
         .then((r) => r.json())
         .then((elems) => {
           const sets = UpSetJS.extractSets(elems).slice(0, 5);
-          UpSetJS.renderUpSetJS(document.body, { sets, width: 1000, height: 500 });
+          UpSetJS.render(document.body, { sets, width: 1000, height: 500 });
         });
     </script>
   </body>

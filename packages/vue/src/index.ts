@@ -7,7 +7,7 @@
 
 import Vue from 'vue';
 import {
-  renderUpSetJS,
+  render,
   UpSetProps as UpSetBundleProps,
   UpSetCSSStyles,
   propValidators,
@@ -256,7 +256,7 @@ export default Vue.extend<{}, { renderImpl(): void }, {}, UpSetProps>({
         listeners.onClick = (s) => this.$emit('click', s);
       }
 
-      renderUpSetJS(
+      render(
         this.$refs.react as HTMLElement,
         stripUndefined(
           (Object.assign(

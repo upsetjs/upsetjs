@@ -8,7 +8,7 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime';
 import {
-  renderUpSetJS,
+  render,
   UpSetProps,
   ISetLike,
   boxplotAddon,
@@ -98,21 +98,17 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
   document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
   document.querySelector('meta[name=author]')!.setAttribute('content', dump.author);
 
-  function render() {
-    renderUpSetJS(root, props);
-  }
-
   window.addEventListener('resize', () => {
     props.width = root.clientWidth;
     props.height = root.clientHeight;
-    render();
+    render(root, props);
   });
 
   if (hyrdateFirst) {
     hydrateUpSetJS(root, props);
   } else {
     root.innerHTML = '';
-    render();
+    render(root, props);
   }
 }
 
