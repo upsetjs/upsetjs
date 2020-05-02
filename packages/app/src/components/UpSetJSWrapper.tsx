@@ -12,8 +12,8 @@ import { IElem } from '../data/interfaces';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
 import UpSetImpl from '@upsetjs/react';
+import Skeleton from './Skeleton';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -36,7 +36,7 @@ const UpSetRenderer = observer(({ width, height }: { width: number; height: numb
   const classes = useStyles();
   return (
     <div>
-      <Suspense fallback={<Skeleton variant="rect" width={width} height={height} />}>
+      <Suspense fallback={<Skeleton />}>
         {width > 0 && height > 0 && (
           <UpSetJS<IElem>
             width={width}
