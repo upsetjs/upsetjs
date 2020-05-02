@@ -249,7 +249,10 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
       break;
     }
     // outlier
-    if (reversedOutliers.length === 0 || reversedOutliers[reversedOutliers.length - 1] !== v) {
+    if (
+      (reversedOutliers.length === 0 || reversedOutliers[reversedOutliers.length - 1] !== v) &&
+      (outlier.length === 0 || outlier[outlier.length - 1] !== v)
+    ) {
       reversedOutliers.push(v);
     }
   }
