@@ -75,7 +75,7 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
       ? {
           onHover: (s: ISetLike<any>) => {
             props.selection = s;
-            render();
+            render(root, props);
           },
         }
       : {},
