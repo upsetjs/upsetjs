@@ -22,7 +22,7 @@ const sets = extractSets(elems);
 const got: IDataSet = {
   id: 'got',
   name: 'Game of Thrones Characters',
-  description: 'Game of Thrones characters data from https://github.com/jeffreylancaster/game-of-thrones',
+  description: 'Game of Thrones characters data from https://github.com/ jeffreylancaster/game-of-thrones',
   author: 'Samuel Gratzl',
   attrs: ['words', 'episodes'],
   setCount: sets.length,

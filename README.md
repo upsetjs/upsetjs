@@ -4,7 +4,7 @@
 
 UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/) to create interactive set visualizations for more than three sets. The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component solely depending on the given properties.
 
-![interactions](https://user-images.githubusercontent.com/4129778/79372064-b262f980-7f55-11ea-872e-6e6857c0df82.png)
+![interactions](https://user-images.githubusercontent.com/4129778/80863076-f0f8f380-8c79-11ea-8790-f6ad86738b28.png)
 
 This monorepo contains following packages:
 
@@ -116,7 +116,7 @@ function onHover(set) {
 }
 
 function render() {
-  const props = { sets, combinations, width: 500, height: 300, selection, onHover };
+  const props = { sets, combinations, width: 1000, height: 300, selection, onHover };
   renderUpSetJS(document.body, props);
 }
 
@@ -133,7 +133,7 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/GRpoMZY)
 
 By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
 
-![interactions](https://user-images.githubusercontent.com/4129778/79372064-b262f980-7f55-11ea-872e-6e6857c0df82.png)
+![interactions](https://user-images.githubusercontent.com/4129778/80863076-f0f8f380-8c79-11ea-8790-f6ad86738b28.png)
 
 **Queries**
 
@@ -141,15 +141,16 @@ Similar to the original UpSetR, UpSet.js allows to specify queries by a set of e
 The first query is shown in full detail while others are shown using small indicators.
 
 ```ts
+
 const queries = [
   { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
-];
+]
 
-renderUpSetJS(document.body, { sets, combinations, width: 500, height: 300, queries });
+renderUpSetJS(document.body, { sets, width: 1000, height: 500, queries });
 ```
 
-![queries](https://user-images.githubusercontent.com/4129778/79373208-9a3faa00-7f56-11ea-8281-47dabb9b42b9.png)
+![queries](https://user-images.githubusercontent.com/4129778/80863309-a2e4ef80-8c7b-11ea-834d-9c5da34a386a.png)
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
@@ -192,7 +193,7 @@ renderUpSetJS(document.body, {
 
 The UpSet.js App is an web application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at [https://upset.js.org/app](https://upset.js.org/app).
 
-![upset_app1](https://user-images.githubusercontent.com/4129778/79368561-e3d8c680-7f4f-11ea-9a87-f4421a3846cf.png)
+![upset_app1](https://user-images.githubusercontent.com/4129778/80863152-97dd8f80-8c7a-11ea-8677-c86598fc6161.png)
 
 ## Components
 
@@ -321,6 +322,7 @@ A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-
 
 Download the latest package from [https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz](https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz) and install into your PowerBI environment.
 
+FIXME GOT
 ![UpSet.js Report](https://user-images.githubusercontent.com/4129778/79641879-808ea480-819a-11ea-87f9-441c3647812f.png)
 
 ### Tableau
@@ -332,6 +334,7 @@ A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extens
 1. Follow [https://tableau.github.io/extensions-api/docs/trex_overview.html](https://tableau.github.io/extensions-api/docs/trex_overview.html) and choose the downloaded file
 1. Use the `configure` button or the `configure` menu entry to specify the input data
 
+FIXME GOT
 ![image](https://user-images.githubusercontent.com/4129778/80474503-d3f5b500-8947-11ea-8397-345a5efb5a65.png)
 
 ## Dev Environment

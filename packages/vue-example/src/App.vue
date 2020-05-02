@@ -26,31 +26,92 @@ export default Vue.extend<
   data() {
     return {
       elems: [
-        { name: 'Lisa', sets: ['School'] },
-        { name: 'Bart', sets: ['School', 'Male'] },
-        { name: 'Homer', sets: ['Duff Fan', 'Male'] },
-        { name: 'Marge', sets: ['Blue Hair'] },
-        { name: 'Maggie', sets: [] },
-        { name: 'Barney', sets: ['Duff Fan', 'Male'] },
-        { name: 'Mr. Burns', sets: ['Evil', 'Male'] },
-        { name: 'Mo', sets: ['Duff Fan', 'Male'] },
-        { name: 'Ned', sets: ['Male'] },
-        { name: 'Milhouse', sets: ['School', 'Blue Hair', 'Male'] },
-        { name: 'Grampa', sets: ['Male'] },
-        { name: 'Krusty', sets: ['Duff Fan', 'Evil', 'Male'] },
-        { name: 'Smithers', sets: ['Evil', 'Male'] },
-        { name: 'Ralph', sets: ['School', 'Male'] },
-        { name: 'Sideshow Bob', sets: ['Evil', 'Male'] },
-        { name: 'Kent Brockman', sets: ['Male'] },
-        { name: 'Fat Tony', sets: ['Evil', 'Male'] },
-        { name: 'Jacqueline Bouvier ', sets: ['Blue Hair'] },
-        { name: 'Patty Bouvier', sets: [] },
-        { name: 'Selma Bouvier', sets: [] },
-        { name: 'Lenny Leonard', sets: ['Duff Fan', 'Male'] },
-        { name: 'Carl Carlson', sets: ['Duff Fan', 'Male'] },
-        { name: 'Nelson', sets: ['School', 'Evil', 'Male'] },
-        { name: 'Martin Prince', sets: ['School', 'Male'] },
+        {
+          name: 'Alton Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Arya Stark',
+          sets: ['Stark', 'female'],
+        },
+        {
+          name: 'Benjen Stark',
+          sets: ['was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Bran Stark',
+          sets: ['royal', 'Stark', 'male'],
+        },
+        {
+          name: 'Brandon Stark',
+          sets: ['was killed', 'Stark'],
+        },
+        {
+          name: 'Catelyn Stark',
+          sets: ['was killed', 'Stark', 'female'],
+        },
+        {
+          name: 'Cersei Lannister',
+          sets: ['royal', 'was killed', 'Lannister', 'female'],
+        },
+        {
+          name: 'Eddard Stark',
+          sets: ['was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Jaime Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Jon Snow',
+          sets: ['royal', 'was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Kevan Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Lancel Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Lyanna Stark',
+          sets: ['was killed', 'Stark', 'female'],
+        },
+        {
+          name: 'Martyn Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Rickard Stark',
+          sets: ['was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Rickon Stark',
+          sets: ['was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Robb Stark',
+          sets: ['royal', 'was killed', 'Stark', 'male'],
+        },
+        {
+          name: 'Sansa Stark',
+          sets: ['royal', 'Stark', 'female'],
+        },
+        {
+          name: 'Tyrion Lannister',
+          sets: ['Lannister', 'male'],
+        },
+        {
+          name: 'Tywin Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
+        {
+          name: 'Willem Lannister',
+          sets: ['was killed', 'Lannister', 'male'],
+        },
       ],
+
       width: 100,
       height: 100,
       selection: null,

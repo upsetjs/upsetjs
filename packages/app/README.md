@@ -6,7 +6,7 @@ This package is part of the UpSet.js ecosystem located at the main [Github Monor
 
 It contains a sample application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at https://upset.js.org/app.
 
-![upset_app1](https://user-images.githubusercontent.com/4129778/79368561-e3d8c680-7f4f-11ea-9a87-f4421a3846cf.png)
+![upset_app1](https://user-images.githubusercontent.com/4129778/80863152-97dd8f80-8c7a-11ea-8677-c86598fc6161.png)
 
 ## Features
 
@@ -41,7 +41,7 @@ It contains a sample application for exploring sets and set intersections. It is
 
 ## Screenshots
 
-![upset_app_export](https://user-images.githubusercontent.com/4129778/79368559-e2a79980-7f4f-11ea-8f0b-f567c702b2e8.png)
+![upset_app_export](https://user-images.githubusercontent.com/4129778/80863179-c6f40100-8c7a-11ea-9d70-5f9e6289b1f9.png)
 
 ![upset_app_query](https://user-images.githubusercontent.com/4129778/79368555-e20f0300-7f4f-11ea-8254-0aaf6c6caf0f.png)
 
