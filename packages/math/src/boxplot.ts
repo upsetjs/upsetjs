@@ -226,7 +226,7 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
   const right = coefValid ? Math.min(max, q3 + coef * iqr) : max;
 
   const outlier: number[] = [];
-  // look for the closests value which is bigger than the computed left
+  // look for the closest value which is bigger than the computed left
   let whiskerLow = left;
   for (let i = 0; i < valid; ++i) {
     const v = s[i];
@@ -239,7 +239,7 @@ export default function boxplot(data: ReadonlyArray<number>, options: BoxplotSta
       outlier.push(v);
     }
   }
-  // look for the closests value which is smaller than the computed right
+  // look for the closest value which is smaller than the computed right
   let whiskerHigh = right;
   const reversedOutliers: number[] = [];
   for (let i = valid - 1; i >= 0; --i) {

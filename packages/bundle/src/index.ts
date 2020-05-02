@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { render, h, hydrate } from 'preact';
+import { render as renderPreact, h, hydrate } from 'preact';
 import UpSetElement, {
   UpSetProps as UpSetElementProps,
   fillDefaults as fillDefaultsImpl,
@@ -76,15 +76,15 @@ export function fillDefaults<T = any>(props: UpSetProps<T>) {
     UpSetSelectionProps<T>;
 }
 
-export function renderUpSetJS<T = any>(node: HTMLElement, props: UpSetProps<T>) {
+export function render<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;
-  render(h(UpSetElement as any, p), node);
+  renderPreact(h(UpSetElement as any, p), node);
 }
 
 /**
- * @deprecated use renderUpSetJS instead
+ * @deprecated use render instead
  */
-export const renderUpSet = renderUpSetJS;
+export const renderUpSet = render;
 
 export function hydrateUpSetJS<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetElementProps<T> = props;

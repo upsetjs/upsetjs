@@ -322,8 +322,7 @@ A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-
 
 Download the latest package from [https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz](https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz) and install into your PowerBI environment.
 
-FIXME GOT
-![UpSet.js Report](https://user-images.githubusercontent.com/4129778/79641879-808ea480-819a-11ea-87f9-441c3647812f.png)
+![UpSet.js Report](https://user-images.githubusercontent.com/4129778/80864985-9b771380-8c86-11ea-809c-a4473b32ed3b.png)
 
 ### Tableau
 
@@ -334,8 +333,7 @@ A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extens
 1. Follow [https://tableau.github.io/extensions-api/docs/trex_overview.html](https://tableau.github.io/extensions-api/docs/trex_overview.html) and choose the downloaded file
 1. Use the `configure` button or the `configure` menu entry to specify the input data
 
-FIXME GOT
-![image](https://user-images.githubusercontent.com/4129778/80474503-d3f5b500-8947-11ea-8397-345a5efb5a65.png)
+![image](https://user-images.githubusercontent.com/4129778/80864773-04f62280-8c85-11ea-8db5-6df21683de0f.png)
 
 ## Dev Environment
 
