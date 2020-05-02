@@ -6,11 +6,12 @@
  */
 
 import got from './got';
+import got_small from './got_small';
 export { listUpSet2Datasets as listRemote } from './upset2';
 export { listLocal, saveLocal, deleteLocal } from './db';
 
 export * from './interfaces';
 
 export function listStatic() {
-  return [got];
+  return [got, got_small];
 }
