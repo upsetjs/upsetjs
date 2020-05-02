@@ -1,0 +1,500 @@
+[
+  {
+    "name": "Aegon Targaryen",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["royal", "was killed", "Targaryen"]
+  },
+  {
+    "name": "Aeron Greyjoy",
+    "episodes": 2,
+    "words": 206,
+    "sets": ["Greyjoy", "male"]
+  },
+  {
+    "name": "Aerys II Targaryen",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["royal", "was killed", "has killed", "Targaryen"]
+  },
+  {
+    "name": "Alton Lannister",
+    "episodes": 3,
+    "words": 339,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Arya Stark",
+    "episodes": 58,
+    "words": 6465,
+    "sets": ["has killed", "Stark", "female"]
+  },
+  {
+    "name": "Balon Greyjoy",
+    "episodes": 4,
+    "words": 809,
+    "sets": ["was killed", "Greyjoy", "male"]
+  },
+  {
+    "name": "Baratheon Guard",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["Baratheon"]
+  },
+  {
+    "name": "Benjen Stark",
+    "episodes": 6,
+    "words": 633,
+    "sets": ["was killed", "Stark", "male"]
+  },
+  {
+    "name": "Black Walder Rivers",
+    "episodes": 4,
+    "words": 173,
+    "sets": ["was killed", "has killed", "Frey", "male"]
+  },
+  {
+    "name": "Bran Stark",
+    "episodes": 38,
+    "words": 3260,
+    "sets": ["royal", "Stark", "male"]
+  },
+  {
+    "name": "Brandon Stark",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "Stark"]
+  },
+  {
+    "name": "Brynden Tully",
+    "episodes": 6,
+    "words": 762,
+    "sets": ["Tully", "male"]
+  },
+  {
+    "name": "Catelyn Stark",
+    "episodes": 25,
+    "words": 3496,
+    "sets": ["was killed", "has killed", "Stark", "Tully", "female"]
+  },
+  {
+    "name": "Cersei Lannister",
+    "episodes": 60,
+    "words": 15234,
+    "sets": ["royal", "was killed", "has killed", "Lannister", "Baratheon", "female"]
+  },
+  {
+    "name": "Daenerys Targaryen",
+    "episodes": 61,
+    "words": 12560,
+    "sets": ["royal", "was killed", "has killed", "Targaryen", "female"]
+  },
+  {
+    "name": "Doran Martell",
+    "episodes": 5,
+    "words": 526,
+    "sets": ["was killed", "Martell", "male"]
+  },
+  {
+    "name": "Drogon",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["has killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Eddard Stark",
+    "episodes": 11,
+    "words": 3511,
+    "sets": ["was killed", "has killed", "Stark", "male"]
+  },
+  {
+    "name": "Edmure Tully",
+    "episodes": 7,
+    "words": 684,
+    "sets": ["Tully", "male"]
+  },
+  {
+    "name": "Elia Martell",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["royal", "was killed", "Martell"]
+  },
+  {
+    "name": "Ellaria Sand",
+    "episodes": 12,
+    "words": 805,
+    "sets": ["has killed", "Martell", "female"]
+  },
+  {
+    "name": "Euron Greyjoy",
+    "episodes": 9,
+    "words": 1328,
+    "sets": ["was killed", "has killed", "Greyjoy", "male"]
+  },
+  {
+    "name": "Gendry",
+    "episodes": 21,
+    "words": 1894,
+    "sets": ["has killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Ghost",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["has killed", "Stark", "male", "direwolf"]
+  },
+  {
+    "name": "Grey Wind",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "has killed", "Stark", "male", "direwolf"]
+  },
+  {
+    "name": "Hoster Tully",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["Tully", "male"]
+  },
+  {
+    "name": "Jaime Lannister",
+    "episodes": 53,
+    "words": 11728,
+    "sets": ["was killed", "has killed", "Lannister", "male"]
+  },
+  {
+    "name": "Jeor Mormont",
+    "episodes": 12,
+    "words": 1601,
+    "sets": ["was killed", "Mormont", "male"]
+  },
+  {
+    "name": "Joffrey Baratheon",
+    "episodes": 21,
+    "words": 3303,
+    "sets": ["royal", "was killed", "has killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Jon Snow",
+    "episodes": 60,
+    "words": 12592,
+    "sets": ["royal", "was killed", "has killed", "Stark", "Targaryen", "male"]
+  },
+  {
+    "name": "Jorah Mormont",
+    "episodes": 49,
+    "words": 4806,
+    "sets": ["was killed", "has killed", "Mormont", "male"]
+  },
+  {
+    "name": "Kevan Lannister",
+    "episodes": 9,
+    "words": 492,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Kitty Frey",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["Frey", "female"]
+  },
+  {
+    "name": "Lady",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "Stark", "female", "direwolf"]
+  },
+  {
+    "name": "Lancel Lannister",
+    "episodes": 13,
+    "words": 752,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Loras Tyrell",
+    "episodes": 15,
+    "words": 1093,
+    "sets": ["was killed", "Tyrell", "male"]
+  },
+  {
+    "name": "Lothar Frey",
+    "episodes": 4,
+    "words": 163,
+    "sets": ["was killed", "has killed", "Frey", "male"]
+  },
+  {
+    "name": "Lyanna Mormont",
+    "episodes": 8,
+    "words": 565,
+    "sets": ["was killed", "has killed", "Mormont", "female"]
+  },
+  {
+    "name": "Lyanna Stark",
+    "episodes": 1,
+    "words": 63,
+    "sets": ["was killed", "Stark", "female"]
+  },
+  {
+    "name": "Lysa Arryn",
+    "episodes": 5,
+    "words": 1320,
+    "sets": ["was killed", "has killed", "Arryn", "Tully", "female"]
+  },
+  {
+    "name": "Mace Tyrell",
+    "episodes": 10,
+    "words": 483,
+    "sets": ["was killed", "Tyrell", "male"]
+  },
+  {
+    "name": "Maester Aemon",
+    "episodes": 11,
+    "words": 1350,
+    "sets": ["was killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Margaery Tyrell",
+    "episodes": 25,
+    "words": 3534,
+    "sets": ["was killed", "Tyrell", "female"]
+  },
+  {
+    "name": "Martyn Lannister",
+    "episodes": 2,
+    "words": 43,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Myrcella Baratheon",
+    "episodes": 7,
+    "words": 277,
+    "sets": ["royal", "was killed", "Baratheon", "female"]
+  },
+  {
+    "name": "Ned Umber",
+    "episodes": 2,
+    "words": 21,
+    "sets": ["was killed", "Umber", "male"]
+  },
+  {
+    "name": "Nymeria",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["Stark", "female", "direwolf"]
+  },
+  {
+    "name": "Nymeria Sand",
+    "episodes": 7,
+    "words": 147,
+    "sets": ["was killed", "Martell", "female"]
+  },
+  {
+    "name": "Obara Sand",
+    "episodes": 7,
+    "words": 212,
+    "sets": ["was killed", "has killed", "Martell", "female"]
+  },
+  {
+    "name": "Oberyn Martell",
+    "episodes": 7,
+    "words": 1912,
+    "sets": ["was killed", "Martell", "male"]
+  },
+  {
+    "name": "Olenna Tyrell",
+    "episodes": 18,
+    "words": 3924,
+    "sets": ["was killed", "has killed", "Tyrell", "female"]
+  },
+  {
+    "name": "Ramsay Snow",
+    "episodes": 20,
+    "words": 3329,
+    "sets": ["was killed", "has killed", "Bolton", "male"]
+  },
+  {
+    "name": "Renly Baratheon",
+    "episodes": 8,
+    "words": 1400,
+    "sets": ["was killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Rhaegal",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "has killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Rhaegar Targaryen",
+    "episodes": 1,
+    "words": 23,
+    "sets": ["royal", "was killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Rhaella Targaryen",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["royal", "Targaryen"]
+  },
+  {
+    "name": "Rhaenys Targaryen",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["royal", "was killed", "Targaryen"]
+  },
+  {
+    "name": "Rickard Stark",
+    "episodes": 1,
+    "words": 27,
+    "sets": ["was killed", "Stark", "male"]
+  },
+  {
+    "name": "Rickon Stark",
+    "episodes": 7,
+    "words": 124,
+    "sets": ["was killed", "Stark", "male"]
+  },
+  {
+    "name": "Robb Stark",
+    "episodes": 21,
+    "words": 3920,
+    "sets": ["royal", "was killed", "has killed", "Stark", "male"]
+  },
+  {
+    "name": "Robert Baratheon",
+    "episodes": 7,
+    "words": 2608,
+    "sets": ["royal", "was killed", "has killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Roose Bolton",
+    "episodes": 19,
+    "words": 2036,
+    "sets": ["was killed", "has killed", "Bolton", "male"]
+  },
+  {
+    "name": "Roslin Frey",
+    "episodes": 1,
+    "words": 33,
+    "sets": ["Frey", "female"]
+  },
+  {
+    "name": "Sansa Stark",
+    "episodes": 59,
+    "words": 8937,
+    "sets": ["royal", "Stark", "female"]
+  },
+  {
+    "name": "Selyse Baratheon",
+    "episodes": 7,
+    "words": 585,
+    "sets": ["was killed", "has killed", "Baratheon", "female"]
+  },
+  {
+    "name": "Shaggydog",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "Stark", "male", "direwolf"]
+  },
+  {
+    "name": "Shireen Baratheon",
+    "episodes": 8,
+    "words": 1046,
+    "sets": ["was killed", "Baratheon", "female"]
+  },
+  {
+    "name": "Stannis Baratheon",
+    "episodes": 24,
+    "words": 3607,
+    "sets": ["was killed", "has killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Stevron Frey",
+    "episodes": 1,
+    "words": 7,
+    "sets": ["Frey", "male"]
+  },
+  {
+    "name": "Summer",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "has killed", "Stark", "male", "direwolf"]
+  },
+  {
+    "name": "Talla Tarly",
+    "episodes": 1,
+    "words": 79,
+    "sets": ["Tarly", "female"]
+  },
+  {
+    "name": "Theon Greyjoy",
+    "episodes": 44,
+    "words": 5363,
+    "sets": ["was killed", "has killed", "Greyjoy", "male"]
+  },
+  {
+    "name": "Tommen Baratheon",
+    "episodes": 14,
+    "words": 1400,
+    "sets": ["royal", "was killed", "has killed", "Baratheon", "male"]
+  },
+  {
+    "name": "Trystane Martell",
+    "episodes": 4,
+    "words": 109,
+    "sets": ["was killed", "Martell", "male"]
+  },
+  {
+    "name": "Tyene Sand",
+    "episodes": 7,
+    "words": 201,
+    "sets": ["was killed", "has killed", "Martell", "female"]
+  },
+  {
+    "name": "Tyrion Lannister",
+    "episodes": 66,
+    "words": 27655,
+    "sets": ["has killed", "Lannister", "male"]
+  },
+  {
+    "name": "Tywin Lannister",
+    "episodes": 26,
+    "words": 5964,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Viserion",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "has killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Viserys Targaryen",
+    "episodes": 5,
+    "words": 1177,
+    "sets": ["royal", "was killed", "Targaryen", "male"]
+  },
+  {
+    "name": "Walda Bolton",
+    "episodes": 0,
+    "words": 0,
+    "sets": ["was killed", "Bolton", "Frey", "female"]
+  },
+  {
+    "name": "Walder Frey",
+    "episodes": 6,
+    "words": 1648,
+    "sets": ["was killed", "Frey", "male"]
+  },
+  {
+    "name": "Willem Lannister",
+    "episodes": 1,
+    "words": 4,
+    "sets": ["was killed", "Lannister", "male"]
+  },
+  {
+    "name": "Yara Greyjoy",
+    "episodes": 14,
+    "words": 1829,
+    "sets": ["Greyjoy", "female"]
+  }
+]

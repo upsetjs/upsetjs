@@ -5,12 +5,12 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import simpsons from './simpsons';
+import got from './got';
 export { listUpSet2Datasets as listRemote } from './upset2';
 export { listLocal, saveLocal, deleteLocal } from './db';
 
 export * from './interfaces';
 
 export function listStatic() {
-  return [simpsons];
+  return [got];
 }

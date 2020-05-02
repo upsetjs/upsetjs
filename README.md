@@ -242,7 +242,7 @@ A [ObservableHQ](https://observablehq.com/) wrapper is located at [upset-js](htt
 
 ```js
 data = fetch(
-  'https://raw.githubusercontent.com/upsetjs/upsetjs/master/packages/bundle/example/simpsons.json'
+  'https://raw.githubusercontent.com/upsetjs/upsetjs/master/packages/bundle/example/got.json'
 ).then(r => r.json())
 }
 ```

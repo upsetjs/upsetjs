@@ -287,10 +287,10 @@ export default class Store {
 
   private sortDatasets() {
     this.datasets = this.datasets.slice().sort((a, b) => {
-      if (a.id === 'simpsons') {
+      if (a.id === 'got') {
         return -1;
       }
-      if (b.id === 'simpsons') {
+      if (b.id === 'got') {
         return 1;
       }
       return a.name.localeCompare(b.name);
