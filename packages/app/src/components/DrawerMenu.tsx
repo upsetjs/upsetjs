@@ -8,6 +8,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
+import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -64,13 +65,13 @@ export default observer(() => {
             <License />
           </ListItemIcon>
           <ListItemText>
-            <a
+            <Link
               href="https://github.com/upsetjs/upsetjs/blob/master/LICENSE.md"
               target="_blank"
               rel="noopener noreferrer"
             >
               AGPL-3.0 and commercial license available
-            </a>
+            </Link>
           </ListItemText>
         </ListItem>
         <ListItem>
@@ -78,9 +79,9 @@ export default observer(() => {
             <Copyright />
           </ListItemIcon>
           <ListItemText>
-            <a href="https://www.sgratzl.com" target="_blank" rel="noopener noreferrer">
+            <Link href="https://www.sgratzl.com" target="_blank" rel="noopener noreferrer">
               Samuel Gratzl
-            </a>
+            </Link>
             {', 2020'}
           </ListItemText>
         </ListItem>
