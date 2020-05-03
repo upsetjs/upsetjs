@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { exportSVG, exportVegaLite } from '../../exporter';
+import { exportSVG, exportVegaLite } from '../exporter';
 
 function exportChart(evt: React.MouseEvent<SVGElement>) {
   const svg = evt.currentTarget.closest('svg') as SVGSVGElement;

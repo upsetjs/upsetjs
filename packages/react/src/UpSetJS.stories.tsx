@@ -1,25 +1,18 @@
 /**
- * @upsetjs/react
- * https://github.com/upsetjs/upsetjs
+ * @UpSetJSjs/react
+ * https://github.com/UpSetJSjs/UpSetJSjs
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import UpSetJS from './UpSetJS';
-import { extractSets, ISetLike, generateUnions, asSets } from '@upsetjs/model';
-import { UpSetAddonProps } from './config';
+import { UpSetJS } from './UpSetJS';
+import { extractSets, ISetLike, generateCombinations, asSets } from '@upsetjs/model';
+import { UpSetAddonProps } from './interfaces';
 
 export default {
   component: UpSetJS,
-  title: 'UpSet',
-  parameters: {
-    docs: {
-      container: DocsContainer,
-      page: DocsPage,
-    },
-  },
+  title: 'UpSetJS',
 };
 
 const style = {};
@@ -119,11 +112,13 @@ const queries = [
 const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
-  return <UpSetJS {...common} />;
+  return <UpSetJS sets={sets} width={1200} height={500} />;
 };
 
 export const Unions = () => {
-  return <UpSetJS {...common} combinations={generateUnions(sets)} combinationName="Union Size" />;
+  return (
+    <UpSetJS {...common} combinations={generateCombinations(sets, { type: 'union' })} combinationName="Union Size" />
+  );
 };
 
 export const Interactivity = () => {

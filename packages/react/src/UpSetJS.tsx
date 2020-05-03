@@ -1,27 +1,187 @@
 /**
  * @upsetjs/react
- * https://github.com/upsetjs/upsetjs
+ * https://github.com/components/components
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { PropsWithChildren, useMemo } from 'react';
-import { fillDefaults, UpSetProps } from './config';
-import deriveDataDependent from './upsetjs/deriveDataDependent';
-import defineSizeDependent from './upsetjs/deriveSizeDependent';
-import deriveStyleDependent from './upsetjs/deriveStyleDependent';
-import ExportButtons from './upsetjs/ExportButtons';
-import QueryLegend from './upsetjs/QueryLegend';
-import UpSetAxis from './upsetjs/UpSetAxis';
-import UpSetChart from './upsetjs/UpSetChart';
-import UpSetQueries from './upsetjs/UpSetQueries';
-import UpSetSelection from './upsetjs/UpSetSelection';
-import { clsx, generateId } from './upsetjs/utils';
+import React, { useMemo, ReactNode, CSSProperties, forwardRef, Ref } from 'react';
+import { UpSetAddon, UpSetReactStyles, UpSetStyleClassNames, UpSetFontSizes } from './interfaces';
+import deriveDataDependent from './components/deriveDataDependent';
+import defineSizeDependent from './components/deriveSizeDependent';
+import deriveStyleDependent from './components/deriveStyleDependent';
+import ExportButtons from './components/ExportButtons';
+import QueryLegend from './components/QueryLegend';
+import UpSetAxis from './components/UpSetAxis';
+import UpSetChart from './components/UpSetChart';
+import UpSetQueries from './components/UpSetQueries';
+import UpSetSelection from './components/UpSetSelection';
+import { clsx, generateId } from './components/utils';
 
-export default React.forwardRef(function UpSet<T>(
-  props: PropsWithChildren<UpSetProps<T>>,
-  ref: React.Ref<SVGSVGElement>
-) {
+import {
+  ISetLike,
+  BandScaleFactory,
+  NumericScaleFactory,
+  UpSetQuery,
+  ISet,
+  ISetCombination,
+  ISetCombinations,
+  GenerateSetCombinationsOptions,
+  ISets,
+} from '@upsetjs/model';
+import { fillDefaults } from './fillDefaults';
+
+export * from './interfaces';
+
+export interface UpSetDataProps<T> {
+  /**
+   * the sets to visualize
+   */
+  sets: ISets<T>;
+  /**
+   * the combinations to visualize by default all combinations
+   */
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
+
+  /**
+   * optional function to identify the same sets
+   * @param set the set to generate a key for
+   */
+  toKey?: (set: ISetLike<T>) => string;
+
+  /**
+   * optional function to identify the same elem
+   * @param elem the element the key for
+   */
+  toElemKey?: (elem: T) => string;
+}
+
+export interface UpSetSizeProps {
+  /**
+   * width of the chart
+   */
+  width: number;
+  /**
+   * height of the chart
+   */
+  height: number;
+  /**
+   * padding within the svg
+   * @default 5
+   */
+  padding?: number;
+  /**
+   * padding argument for scaleBand
+   * @default 0.1
+   */
+  barPadding?: number;
+
+  /**
+   * padding factor the for dots
+   * @default 0.7
+   */
+  dotPadding?: number;
+  /**
+   * width ratios for different plots
+   * [set chart, set labels, intersection chart]
+   * @default [0.21, 0.19, 0.7]
+   */
+  widthRatios?: [number, number, number];
+  /**
+   * height ratios for different plots
+   * [intersection chart, set chart]
+   * @default [0.6, 0.4]
+   */
+  heightRatios?: [number, number];
+}
+
+declare type UpSetQueries<T> = ReadonlyArray<UpSetQuery<T>>;
+
+export interface UpSetSelectionProps<T> {
+  selection?: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  onHover?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  onClick?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  onContextMenu?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+
+  queries?: UpSetQueries<T>;
+}
+
+export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
+
+export interface UpSetReactStyleProps<T> {
+  style?: CSSProperties;
+  styles?: UpSetReactStyles;
+  setAddons?: UpSetAddons<ISet<T>, T>;
+  combinationAddons?: UpSetAddons<ISetCombination<T>, T>;
+  setChildrenFactory?: (set: ISet<T>) => ReactNode;
+  combinationChildrenFactory?: (combination: ISetCombination<T>) => ReactNode;
+}
+
+export interface UpSetThemeProps {
+  selectionColor?: string;
+  /**
+   * set to false to disable alternating pattern
+   */
+  alternatingBackgroundColor?: string | false;
+  color?: string;
+  textColor?: string;
+  hoverHintColor?: string;
+  notMemberColor?: string;
+}
+
+export interface UpSetStyleProps extends UpSetThemeProps {
+  id?: string;
+  className?: string;
+  classNames?: UpSetStyleClassNames;
+  theme?: 'light' | 'dark';
+  barLabelOffset?: number;
+  setNameAxisOffset?: number | 'auto';
+  combinationNameAxisOffset?: number | 'auto';
+  /**
+   * show a legend of queries
+   * enabled by default when queries are set
+   */
+  queryLegend?: boolean;
+  /**
+   * show export buttons
+   * @default true
+   */
+  exportButtons?: boolean;
+
+  /**
+   * set to false to use the default font family
+   * @default sans-serif
+   */
+  fontFamily?: string | false;
+
+  fontSizes?: UpSetFontSizes;
+
+  numericScale?: NumericScaleFactory | 'linear' | 'log';
+  bandScale?: BandScaleFactory | 'band';
+
+  setName?: ReactNode;
+  combinationName?: ReactNode;
+
+  /**
+   * render empty selection for better performance
+   * @default true
+   */
+  emptySelection?: boolean;
+}
+
+export interface UpSetProps<T>
+  extends UpSetDataProps<T>,
+    UpSetSizeProps,
+    UpSetStyleProps,
+    UpSetReactStyleProps<T>,
+    UpSetSelectionProps<T> {
+  children?: ReactNode;
+}
+
+/**
+ * UpSetJS main React component 2
+ */
+const UpSetJS = forwardRef(function UpSetJS<T>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
   const {
     id,
     className,
@@ -40,7 +200,8 @@ export default React.forwardRef(function UpSet<T>(
     onHover,
     theme,
     dotPadding,
-    childrenFactories,
+    setChildrenFactory,
+    combinationChildrenFactory,
     widthRatios,
     heightRatios,
     queries = [],
@@ -352,14 +513,15 @@ export default React.forwardRef(function UpSet<T>(
           />
         )}
         <UpSetAxis size={sizeInfo} style={styleInfo} data={dataInfo} />
-        <UpSetChart
+        <UpSetChart<T>
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
           onClick={onClick}
           onHover={onHover}
           onContextMenu={onContextMenu}
-          childrens={childrenFactories}
+          setChildrenFactory={setChildrenFactory}
+          combinationChildrenFactory={combinationChildrenFactory}
         />
         <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={onHover} selection={selection} />
         <UpSetQueries
@@ -374,4 +536,6 @@ export default React.forwardRef(function UpSet<T>(
       {props.children}
     </svg>
   );
-}) as <T>(p: UpSetProps<T> & React.RefAttributes<SVGSVGElement>) => React.ReactElement;
+});
+
+export { UpSetJS };

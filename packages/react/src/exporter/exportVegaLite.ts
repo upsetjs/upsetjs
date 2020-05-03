@@ -6,7 +6,7 @@
  */
 
 import { downloadUrl } from './exportSVG';
-import { DARK_BACKGROUND_COLOR } from '../components/defaults';
+import { DARK_BACKGROUND_COLOR } from '../defaults';
 
 export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
   const resolveStyle =

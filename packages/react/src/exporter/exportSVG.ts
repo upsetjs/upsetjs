@@ -5,9 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { DARK_BACKGROUND_COLOR } from '../components/defaults';
+import { DARK_BACKGROUND_COLOR } from '../defaults';
 
-export async function exportSVG(
+export function exportSVG(
   node: SVGSVGElement,
   { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
 ) {
@@ -26,11 +26,13 @@ export async function exportSVG(
   const url = URL.createObjectURL(b);
   if (type === 'svg') {
     downloadUrl(url, `${title}.${type}`, node.ownerDocument!);
-  } else {
-    const purl = await toPNG(url, node);
-    downloadUrl(purl, `${title}.${type}`, node.ownerDocument!);
+    URL.revokeObjectURL(url);
+    return Promise.resolve(null);
   }
-  URL.revokeObjectURL(url);
+  return toPNG(url, node).then((purl) => {
+    downloadUrl(purl, `${title}.${type}`, node.ownerDocument!);
+    URL.revokeObjectURL(url);
+  });
 }
 
 function toPNG(url: string, node: SVGGElement) {

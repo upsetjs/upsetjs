@@ -5,9 +5,12 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import UpSetJS from './components/UpSetJS';
+import { RefAttributes, ReactElement } from 'react';
+import { UpSetJS, UpSetProps } from './UpSetJS';
+
 export * from './exporter';
-export * from './components/config';
+export * from './UpSetJS';
+export * from './fillDefaults';
 export * from '@upsetjs/model';
 
-export default UpSetJS;
+export default UpSetJS as <T>(p: UpSetProps<T> & RefAttributes<SVGSVGElement>) => ReactElement;

@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetAddon } from '../config';
+import { UpSetAddon } from '../interfaces';
 import { generateId } from './utils';
 
 export default function deriveSizeDependent(

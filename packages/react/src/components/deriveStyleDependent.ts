@@ -6,7 +6,7 @@
  */
 
 import { ReactNode } from 'react';
-import { UpSetReactStyles, UpSetStyleClassNames } from '../config';
+import { UpSetReactStyles, UpSetStyleClassNames } from '../UpSetJS';
 
 export default function deriveStyleDependent(
   theme: 'dark' | 'light',

@@ -7,7 +7,7 @@
 
 import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { UpSetAddon, UpSetAddonProps } from '../config';
+import { UpSetAddon, UpSetAddonProps } from '../interfaces';
 import CombinationSelectionChart from './CombinationSelectionChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';

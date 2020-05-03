@@ -5,9 +5,8 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
+import { ISetLike, ISetCombination, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetReactChildrens } from '../config';
 import CombinationChart from './CombinationChart';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
@@ -15,23 +14,27 @@ import { UpSetStyleInfo } from './deriveStyleDependent';
 import SetChart from './SetChart';
 import { wrap } from './utils';
 
-export default React.memo(function UpSetChart<T>({
-  data,
-  size,
-  style,
-  onHover,
-  onClick,
-  onContextMenu,
-  childrens,
-}: PropsWithChildren<{
+declare type Props<T> = {
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
   onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
-  childrens: UpSetReactChildrens<T>;
-}>) {
+  setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
+  combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
+};
+
+const UpSetChart = React.memo(function UpSetChart<T>({
+  data,
+  size,
+  style,
+  onHover,
+  onClick,
+  onContextMenu,
+  setChildrenFactory,
+  combinationChildrenFactory,
+}: PropsWithChildren<Props<T>>) {
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
     () => [
       wrap(onClick),
@@ -59,7 +62,7 @@ export default React.memo(function UpSetChart<T>({
             style={style}
             size={size}
           >
-            {childrens.set && childrens.set(d)}
+            {setChildrenFactory && setChildrenFactory(d)}
           </SetChart>
         ))}
       </g>
@@ -78,10 +81,12 @@ export default React.memo(function UpSetChart<T>({
             style={style}
             size={size}
           >
-            {childrens.combinations && childrens.combinations(d)}
+            {combinationChildrenFactory && combinationChildrenFactory(d)}
           </CombinationChart>
         ))}
       </g>
     </g>
   );
 });
+
+export default UpSetChart as <T>(props: PropsWithChildren<Props<T>>) => JSX.Element;

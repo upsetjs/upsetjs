@@ -5,27 +5,26 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike, ISetCombination } from '@upsetjs/model';
+import { ISetLike, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetAddons } from '../config';
+import { UpSetAddons } from '../interfaces';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { UpSetStyleInfo } from './deriveStyleDependent';
 import { addonPositionGenerator, clsx } from './utils';
 
-function CombinationSelectionChart<T>({
+function SetSelectionChart<T>({
   data,
   size,
   style,
   elemOverlap,
-  secondary,
-  tooltip,
   suffix,
-  transform,
+  secondary,
   empty,
-  combinationAddons,
+  tooltip,
+  setAddons,
+  transform,
 }: PropsWithChildren<{
-  transform?: string;
   data: UpSetDataInfo<T>;
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
@@ -34,20 +33,21 @@ function CombinationSelectionChart<T>({
   elemOverlap: (s: ISetLike<T>) => number;
   secondary?: boolean;
   tooltip?: string;
-  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
+  transform?: string;
+  setAddons: UpSetAddons<ISet<T>, T>;
 }>) {
-  const width = data.cs.bandWidth;
-  const totalHeight = size.cs.h + size.sets.h;
-  const height = size.cs.h;
-  const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
+  const width = size.sets.w;
+  const totalWidth = size.sets.w + size.labels.w + size.cs.w;
+  const height = data.sets.bandWidth;
+  const className = clsx(`fill${suffix}`, !tooltip && ` pnone-${style.id}`, style.classNames.bar);
   return (
-    <g transform={transform} data-upset={secondary ? 'cs-q' : 'cs-s'}>
-      {data.cs.v.map((d, i) => {
-        const x = data.cs.x(d)!;
-        const key = data.cs.keys[i];
+    <g transform={transform} data-upset={secondary ? 'sets-q' : 'sets-s'}>
+      {data.sets.v.map((d, i) => {
+        const y = data.sets.y(d)!;
+        const key = data.sets.keys[i];
         if (empty && !secondary) {
           return (
-            <rect key={key} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
+            <rect key={key} x={width} y={y} width={0} height={height} className={className} style={style.styles.bar}>
               {tooltip && <title></title>}
             </rect>
           );
@@ -56,31 +56,31 @@ function CombinationSelectionChart<T>({
         if (o === 0) {
           return null;
         }
-        const y = data.cs.y(o);
-
+        const x = data.sets.x(o);
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+
         const content = secondary ? (
           <path
             key={key}
-            transform={`translate(${x}, ${y})`}
-            d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
+            transform={`translate(${x}, ${y + height})`}
+            d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${
               data.triangleSize
             },${data.triangleSize} Z`}
-            className={className}
             data-i={i}
             data-cardinality={o}
+            className={className}
           >
             {title}
           </path>
         ) : (
           <rect
             key={key}
-            x={x}
-            y={y}
-            height={height - y}
             data-i={i}
             data-cardinality={o}
-            width={width}
+            x={x}
+            y={y}
+            width={width - x}
+            height={height}
             className={className}
             style={style.styles.bar}
           >
@@ -88,16 +88,16 @@ function CombinationSelectionChart<T>({
           </rect>
         );
 
-        const genPosition = addonPositionGenerator(totalHeight);
-        const addons = combinationAddons
+        const genPosition = addonPositionGenerator(totalWidth);
+        const addons = setAddons
           .map((addon) => {
             const v = genPosition(addon);
-            const content = addon.render({ set: d, width, height: addon.size, theme: style.theme });
+            const content = addon.render({ set: d, width: addon.size, height, theme: style.theme });
             if (!content) {
               return null;
             }
             return (
-              <g key={addon.name} transform={`translate(${x},${v})`}>
+              <g key={addon.name} transform={`translate(${v},${y})`}>
                 {content}
               </g>
             );
@@ -118,4 +118,4 @@ function CombinationSelectionChart<T>({
   );
 }
 
-export default CombinationSelectionChart;
+export default SetSelectionChart;
