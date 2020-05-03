@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { PropsWithChildren } from 'react';
+import React, { CSSProperties } from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';
 import { round2 } from './utils';
@@ -14,15 +14,24 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
   theme?: 'light' | 'dark';
   mode?: 'normal' | 'box' | 'indicator';
   orient?: 'horizontal' | 'vertical';
-  boxStyle?: React.CSSProperties;
-  lineStyle?: React.CSSProperties;
-  outlierStyle?: React.CSSProperties;
+  boxStyle?: CSSProperties;
+  lineStyle?: CSSProperties;
+  outlierStyle?: CSSProperties;
   boxPadding?: number;
   outlierRadius?: number;
   numberFormat?(v: number): string;
 }
 
-const Boxplot = React.memo(function Boxplot({
+declare type BoxplotProps = {
+  values: number[];
+  width: number;
+  height: number;
+  min: number;
+  max: number;
+  children?: React.ReactNode;
+} & IBoxplotStyleProps;
+
+export const Boxplot = ({
   theme = 'light',
   mode = 'normal',
   values,
@@ -38,15 +47,7 @@ const Boxplot = React.memo(function Boxplot({
   outlierRadius = 3,
   numberFormat: nf = (v) => v.toFixed(2),
   ...options
-}: PropsWithChildren<
-  {
-    values: number[];
-    width: number;
-    height: number;
-    min: number;
-    max: number;
-  } & IBoxplotStyleProps
->) {
+}: BoxplotProps) => {
   const b = boxplot(values, options);
   if (Number.isNaN(b.median)) {
     return <g></g>;
@@ -133,7 +134,9 @@ const Boxplot = React.memo(function Boxplot({
       </g>
     );
   }
-});
+};
+
+const BoxplotMemo = React.memo(Boxplot);
 
 export default Boxplot;
 
@@ -174,7 +177,9 @@ export function boxplotAddon<T>(
     size,
     render: ({ width, height, set, theme }) => {
       const values = set.elems.map(acc);
-      return <Boxplot values={values} width={width} height={height} min={min} max={max} theme={theme} {...extras} />;
+      return (
+        <BoxplotMemo values={values} width={width} height={height} min={min} max={max} theme={theme} {...extras} />
+      );
     },
     renderSelection: ({ width, height, overlap, selectionColor, theme }) => {
       if (overlap == null || overlap.length === 0) {
@@ -182,7 +187,7 @@ export function boxplotAddon<T>(
       }
       const values = overlap.map(acc);
       return (
-        <Boxplot
+        <BoxplotMemo
           values={values}
           width={width}
           height={height}
@@ -202,7 +207,7 @@ export function boxplotAddon<T>(
       }
       const values = overlap.map(acc);
       return (
-        <Boxplot
+        <BoxplotMemo
           values={values}
           width={width}
           height={height}

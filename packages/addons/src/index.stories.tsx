@@ -6,5 +6,5 @@
  */
 
 export default {
-  title: 'Welcome UpSet.js React',
+  title: 'Welcome UpSet.js React Box Plot Addon',
 };

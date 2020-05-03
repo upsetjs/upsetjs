@@ -5,52 +5,32 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import { boxplotAddon } from './Boxplot';
-import UpSetJS, { extractSets } from '@upsetjs/react';
+import Boxplot from './Boxplot';
 
 export default {
-  title: 'UpSet.js Box plot Addon',
-  parameters: {
-    docs: {
-      container: DocsContainer,
-      page: DocsPage,
-    },
-  },
+  component: Boxplot,
+  title: 'Box plot Component',
 };
 
-interface IElem {
-  name: string;
-  sets: string[];
-  value: number;
-}
-
-const elems: IElem[] = [
-  { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
-  { name: '2', sets: ['one', 'two'], value: Math.random() },
-  { name: '3', sets: ['one'], value: Math.random() },
-  { name: '4', sets: ['two'], value: Math.random() },
-  { name: '5', sets: ['one', 'two', 'three'], value: Math.random() },
-  { name: '6', sets: ['three'], value: Math.random() },
-  { name: '7', sets: ['one', 'three'], value: Math.random() },
-  { name: '8', sets: ['one', 'three'], value: Math.random() },
-  { name: '9', sets: ['three'], value: Math.random() },
-  { name: '10', sets: ['two', 'three'], value: Math.random() },
-  { name: '11', sets: ['one'], value: Math.random() },
-  { name: '12', sets: ['one', 'three'], value: Math.random() },
-  { name: '13', sets: ['one', 'three'], value: Math.random() },
-];
-const sets = extractSets(elems);
-
 export const Default = () => {
+  const values = Array(100)
+    .fill(0)
+    .map(() => Math.random());
   return (
-    <UpSetJS
-      sets={sets}
-      width={1200}
-      height={500}
-      setAddons={[boxplotAddon('value', elems)]}
-      combinationAddons={[boxplotAddon('value', elems, { orient: 'vertical' })]}
-    />
+    <svg width={200} height={50}>
+      <Boxplot width={200} height={50} min={0} max={1} values={values} />
+    </svg>
+  );
+};
+
+export const Vertical = () => {
+  const values = Array(100)
+    .fill(0)
+    .map(() => Math.random());
+  return (
+    <svg width={50} height={200}>
+      <Boxplot width={50} height={200} min={0} max={1} values={values} orient="vertical" />
+    </svg>
   );
 };
