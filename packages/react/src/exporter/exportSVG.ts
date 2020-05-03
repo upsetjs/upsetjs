@@ -10,7 +10,7 @@ import { DARK_BACKGROUND_COLOR } from '../defaults';
 export function exportSVG(
   node: SVGSVGElement,
   { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
-) {
+): Promise<void> {
   const theme = node.dataset.theme;
   const clone = node.cloneNode(true) as SVGSVGElement;
   clone.style.backgroundColor = theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white';
@@ -27,7 +27,7 @@ export function exportSVG(
   if (type === 'svg') {
     downloadUrl(url, `${title}.${type}`, node.ownerDocument!);
     URL.revokeObjectURL(url);
-    return Promise.resolve(null);
+    return Promise.resolve();
   }
   return toPNG(url, node).then((purl) => {
     downloadUrl(purl, `${title}.${type}`, node.ownerDocument!);
