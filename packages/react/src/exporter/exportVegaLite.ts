@@ -26,7 +26,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
       };
     })
     .reverse();
-  const barLabelOffset = -Number.parseInt(svg.querySelector(`.sBarTextStyle-${styleId}`)!.getAttribute('dx')!, 10);
+  const barLabelOffset = -Number.parseFloat(svg.querySelector(`.sBarTextStyle-${styleId}`)!.getAttribute('dx')!);
   const color = resolveStyle(svg.querySelector(`.fillPrimary-${styleId}`)!).fill;
   const fillNotMember = resolveStyle(svg.querySelector(`.fillNotMember-${styleId}`)!).fill;
   const textColor = resolveStyle(svg.querySelector('text')!).fill;
@@ -43,21 +43,23 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
     };
   });
 
-  const translateX = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/(\d+),/)![1], 10);
-  const translateY = (v: Element) => Number.parseInt(v.getAttribute('transform')!.match(/,(\d+)/)![1], 10);
+  const translateX = (v: Element) => Number.parseFloat(v.getAttribute('transform')!.match(/([\d.]+),/)![1]);
+  const translateY = (v: Element) => Number.parseFloat(v.getAttribute('transform')!.match(/,([\d.]+)/)![1]);
   const base = svg.querySelector('[data-upset=base]')!;
   const padding = translateX(base);
   // combination axis block
   const setWidth = translateX(svg.querySelector('[data-upset=csaxis]')!);
   // axisline
-  const csWidth = Number.parseInt(base.querySelector('g')!.firstElementChild!.children[1]!.getAttribute('x2')!, 10);
+  const csWidth = Number.parseFloat(base.querySelector('g')!.firstElementChild!.children[1]!.getAttribute('x2')!);
   // set axis block
   const csHeight = translateY(svg.querySelector('[data-upset=setaxis]')!);
   // set label clip path
-  const labelWidth = Number.parseInt(svg.querySelector('defs rect')!.getAttribute('width')!, 10);
-  const setHeight = Number.parseInt(svg.querySelector('defs rect')!.getAttribute('height')!, 10);
+  const labelWidth = Number.parseFloat(svg.querySelector('defs rect')!.getAttribute('width')!);
+  const setHeight = Number.parseFloat(svg.querySelector('defs rect')!.getAttribute('height')!);
 
-  const radius = Number.parseInt(svg.querySelector('[data-cardinality] circle')!.getAttribute('r')!, 10);
+  const radius = Number.parseFloat(
+    svg.querySelector(`[data-cardinality] circle.fillPrimary-${styleId}`)!.getAttribute('r')!
+  );
 
   const hasPrimarySelection = svg.querySelector('[data-upset=sets-s] [data-cardinality]') != null;
   const hasQuery = svg.querySelector('[data-upset=sets-q] [data-cardinality]') != null;
