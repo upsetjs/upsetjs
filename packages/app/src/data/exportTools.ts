@@ -71,7 +71,7 @@ ${
     : ''
 }
 
-let selection = ${store.selection ? `CCfromSetRef(${toSetRef(store.selection)})CC` : null};
+let selection = ${store.selection ? `fromSetRef(${toSetRef(store.selection)})` : null};
 const queries = ${JSON.stringify(
     store.visibleQueries.map((q) => ({
       name: q.name,
@@ -92,20 +92,20 @@ const props = Object.assign({
   queries: queries,${addons}
 }, ${JSON.stringify(stripDefaults(store.props, store.ui.theme), null, 2)});
 
-function render() {
+function update() {
   ${prefix}render(root, props);
 }
 
 // uncomment for interactivity
 props.onHover = (s) => {
   props.selection = s;
-  render();
+  update();
 }
 //props.onClick = (s) => {
 //  console.log(s);
 //}
 
-render();
+update();
 
 `
     .replace(/"CC/gm, '')
@@ -165,6 +165,8 @@ export function exportJSFiddle(store: Store) {
 
 export function exportCodeSandbox(store: Store) {
   const { elems, js } = toJSCode(store, '');
+  const hasAddons = js.includes('boxplotAddon(');
+  const hasIndices = js.includes('fromIndicesArray');
   const parameters = {
     files: {
       'index.html': {
@@ -188,7 +190,9 @@ ${HTML_CODE}
       },
       'index.js': {
         content: `
-import {render, generateCombinations, fromIndexArray, asSets} from "@upsetjs/bundle";
+import {render, generateCombinations, ${hasIndices ? 'fromIndicesArray, ' : ''}${
+          hasAddons ? 'boxplotAddon, ' : ''
+        }asSets)} from "@upsetjs/bundle";
 import elems from './data.json';
 import "./main.css";
 

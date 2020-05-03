@@ -77,7 +77,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
     });
     Array.from(
       svg.querySelectorAll<HTMLElement>(
-        `[data-upset=cs-${hasPrimarySelection ? 's]' : 'q:first-of-type'} [data-cardinality]`
+        `[data-upset=cs-${hasPrimarySelection ? 's]' : 'q]:first-of-type'} [data-cardinality]`
       )
     ).forEach((elem) => {
       const i = Number.parseInt(elem.dataset.i!, 10);

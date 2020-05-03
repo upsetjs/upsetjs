@@ -554,7 +554,7 @@ export default class Store {
     return `UpSet.js - ${this.dataset?.name ?? 'Unknown'}`;
   }
 
-  @action
+  @action.bound
   exportSVG() {
     if (this.ui.ref.current) {
       exportSVG(this.ui.ref.current, {
@@ -564,7 +564,7 @@ export default class Store {
     }
   }
 
-  @action
+  @action.bound
   exportPNG() {
     if (this.ui.ref.current) {
       exportSVG(this.ui.ref.current, {
