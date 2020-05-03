@@ -110,7 +110,7 @@ function fromURLParam(): IEmbeddedDumpSchema | null {
     return null;
   }
   try {
-    const value = decompressFromEncodedURIComponent(params.get('p')!);
+    const value = decompressFromEncodedURIComponent(params.get('p')!)!;
     return JSON.parse(value);
   } catch (e) {
     console.warn('cannot parse props argument: ', e);

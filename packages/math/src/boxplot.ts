@@ -156,7 +156,7 @@ export declare type BoxplotStatsOptions = {
   coef?: number;
 
   /**
-   * @default 7
+   * @default type7
    */
   quantiles?: QuantilesMethod | CustomQuantileMethod;
 };
