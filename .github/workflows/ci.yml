@@ -19,9 +19,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./.yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn2-
       - run: yarn install --immutable
         env:
           CI: true
