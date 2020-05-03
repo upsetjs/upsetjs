@@ -8,6 +8,10 @@
 import { ISet } from '../model';
 import { byCardinality, byName, byComposite, negate } from './utils';
 
+/**
+ * helper method to create proper UpSet.js structures by adding extra properties
+ * @param set the set to complete
+ */
 export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(set: S): S & ISet<T> {
   return Object.assign(
     {
@@ -18,6 +22,9 @@ export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(se
   );
 }
 
+/**
+ * possible set sort orders
+ */
 export declare type SortSetOrder =
   | 'cardinality'
   | 'name'
@@ -27,7 +34,13 @@ export declare type SortSetOrder =
   | 'name:desc';
 
 export declare type PostprocessSetOptions = {
+  /**
+   * order the set by the given criteria
+   */
   order?: SortSetOrder;
+  /**
+   * limit to the top N sets after sorting
+   */
   limit?: number;
 };
 
@@ -64,8 +77,9 @@ export function postprocessSets<T, S extends ISet<T>>(sets: ReadonlyArray<S>, op
 }
 
 /**
- * helper to create a proper data structures for UpSet.js sets
+ * helper to create a proper data structures for UpSet.js sets by adding extra properties
  * @param sets set like structures
+ * @param options additional postprocessing options
  */
 export default function asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(
   sets: ReadonlyArray<S>,

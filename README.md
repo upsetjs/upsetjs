@@ -2,7 +2,7 @@
 
 [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/) to create interactive set visualizations for more than three sets. The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSet` React component is implemented as a pure functional component solely depending on the given properties.
+UpSet.js is a JavaScript re-implementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/) to create interactive set visualizations for more than three sets. The core library is written in React but provides also bundle editions for plain JavaScript use. The `UpSetJS` React component is implemented as a pure functional component solely depending on the given properties.
 
 ![interactions](https://user-images.githubusercontent.com/4129778/80863076-f0f8f380-8c79-11ea-8790-f6ad86738b28.png)
 
@@ -112,15 +112,15 @@ let selection = null;
 
 function onHover(set) {
   selection = set;
-  render();
+  rerender();
 }
 
-function render() {
+function rerender() {
   const props = { sets, combinations, width: 1000, height: 300, selection, onHover };
   render(document.body, props);
 }
 
-render();
+rerender();
 ```
 
 ![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
@@ -141,11 +141,10 @@ Similar to the original UpSetR, UpSet.js allows to specify queries by a set of e
 The first query is shown in full detail while others are shown using small indicators.
 
 ```ts
-
 const queries = [
   { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
-]
+];
 
 render(document.body, { sets, width: 1000, height: 500, queries });
 ```
@@ -341,7 +340,8 @@ A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extens
 npm i -g yarn
 yarn set version berry
 yarn plugin import version
-yarn plugin import plugin-workspace-tools
+yarn plugin import workspace-tools
+cat .yarnrc_patch.yml >> .yarnrc.yml
 yarn install
 yarn pnpify --sdk
 ```

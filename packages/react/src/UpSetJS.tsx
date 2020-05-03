@@ -33,24 +33,23 @@ import { fillDefaults } from './fillDefaults';
 
 export * from './interfaces';
 
-export interface UpSetDataProps<T> {
+export interface UpSetDataProps<T = any> {
   /**
    * the sets to visualize
    */
   sets: ISets<T>;
   /**
-   * the combinations to visualize by default all combinations
+   * the set combinations to visualize or the generation options to generate the set combinations
+   * by default all set intersections are computed
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
-
   /**
    * optional function to identify the same sets
    * @param set the set to generate a key for
    */
   toKey?: (set: ISetLike<T>) => string;
-
   /**
-   * optional function to identify the same elem
+   * optional function to identify the same element
    * @param elem the element the key for
    */
   toElemKey?: (elem: T) => string;
@@ -75,7 +74,6 @@ export interface UpSetSizeProps {
    * @default 0.1
    */
   barPadding?: number;
-
   /**
    * padding factor the for dots
    * @default 0.7
@@ -95,47 +93,123 @@ export interface UpSetSizeProps {
   heightRatios?: [number, number];
 }
 
-declare type UpSetQueries<T> = ReadonlyArray<UpSetQuery<T>>;
+declare type UpSetQueries<T = any> = ReadonlyArray<UpSetQuery<T>>;
 
-export interface UpSetSelectionProps<T> {
+export interface UpSetSelectionProps<T = any> {
+  /**
+   * the selection of the plot. Can be a set like (set or set combination), an array of elements, or a function to compute the overlap to a given set
+   */
   selection?: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  /**
+   * mouse hover listener, triggered when the user is over a set (combination)
+   */
   onHover?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  /**
+   * mouse click listener, triggered when the user is clicking on a set (combination)
+   */
   onClick?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  /**
+   * mouse context menu listener, triggered when the user right clicks on a set (combination)
+   */
   onContextMenu?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
-
+  /**
+   * list of queries as an alternative to provide a single selection
+   */
   queries?: UpSetQueries<T>;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
 
-export interface UpSetReactStyleProps<T> {
+export interface UpSetReactStyleProps<T = any> {
+  /**
+   * style object applied to the SVG element
+   */
   style?: CSSProperties;
+  /**
+   * object for applying styles to certain sub elements
+   */
   styles?: UpSetReactStyles;
+  /**
+   * list of addons that should be rendered along the horizontal sets
+   */
   setAddons?: UpSetAddons<ISet<T>, T>;
+  /**
+   * list of addons that should be rendered along the vertical set combinations
+   */
   combinationAddons?: UpSetAddons<ISetCombination<T>, T>;
+  /**
+   * factory to create extra react nodes for each set
+   */
   setChildrenFactory?: (set: ISet<T>) => ReactNode;
+  /**
+   * factory to create extra react nodes for each set combination
+   */
   combinationChildrenFactory?: (combination: ISetCombination<T>) => ReactNode;
 }
 
 export interface UpSetThemeProps {
+  /**
+   * color used to highlight the selection
+   * @default orange
+   */
   selectionColor?: string;
   /**
+   * color used to highlight alternating background in the sets for easier comparison
    * set to false to disable alternating pattern
    */
   alternatingBackgroundColor?: string | false;
+  /**
+   * main color to render bars and dark dots
+   * @default black
+   */
   color?: string;
+  /**
+   * main color to render text
+   * @default black
+   */
   textColor?: string;
+  /**
+   * color for the hover hint rects for set combinations
+   */
   hoverHintColor?: string;
+  /**
+   * color for dots that indicate it is not a member
+   */
   notMemberColor?: string;
 }
 
 export interface UpSetStyleProps extends UpSetThemeProps {
+  /**
+   * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
+   */
   id?: string;
+  /**
+   * optional classname for the SVG element
+   */
   className?: string;
+  /**
+   * object of classnames for certain sub elements
+   */
   classNames?: UpSetStyleClassNames;
+  /**
+   * basic theme of the plot either 'light' or 'dark'
+   * @default light
+   */
   theme?: 'light' | 'dark';
+  /**
+   * offset of the label on top or left of a bar
+   * @default 2
+   */
   barLabelOffset?: number;
+  /**
+   * offset of the set name from the set x axis. 'auto' means that it will be guessed according to the current values
+   * @default auto
+   */
   setNameAxisOffset?: number | 'auto';
+  /**
+   * offset of the combination name from the combination y axis. 'auto' means that it will be guessed according to the current values
+   * @default auto
+   */
   combinationNameAxisOffset?: number | 'auto';
   /**
    * show a legend of queries
@@ -147,21 +221,35 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    * @default true
    */
   exportButtons?: boolean;
-
   /**
-   * set to false to use the default font family
+   * specify the overall font family, set to false to use the default font family
    * @default sans-serif
    */
   fontFamily?: string | false;
-
+  /**
+   * specify font sizes for different sub elements
+   */
   fontSizes?: UpSetFontSizes;
-
+  /**
+   * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
+   * @default linear
+   */
   numericScale?: NumericScaleFactory | 'linear' | 'log';
+  /**
+   * band scale to use, either constant 'band' or a custom factory function
+   * @default band
+   */
   bandScale?: BandScaleFactory | 'band';
-
+  /**
+   * set axis label
+   * @default Set Size
+   */
   setName?: ReactNode;
+  /**
+   * combination axis label
+   * @default Intersection Size
+   */
   combinationName?: ReactNode;
-
   /**
    * render empty selection for better performance
    * @default true
@@ -169,7 +257,10 @@ export interface UpSetStyleProps extends UpSetThemeProps {
   emptySelection?: boolean;
 }
 
-export interface UpSetProps<T>
+/**
+ * the UpSetJS component properties, separated in multiple semantic sub interfaces
+ */
+export interface UpSetProps<T = any>
   extends UpSetDataProps<T>,
     UpSetSizeProps,
     UpSetStyleProps,
@@ -179,9 +270,11 @@ export interface UpSetProps<T>
 }
 
 /**
- * UpSetJS main React component 2
+ * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
+ *
+ * with React.forwardRef support to specify a reference to the SVG element
  */
-const UpSetJS = forwardRef(function UpSetJS<T>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
+const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
   const {
     id,
     className,

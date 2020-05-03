@@ -12,22 +12,67 @@ import { round2 } from './utils';
 
 export interface IBoxplotStyleProps extends BoxplotStatsOptions {
   theme?: 'light' | 'dark';
+  /**
+   * the render mode and level of detail to render
+   * @default normal
+   */
   mode?: 'normal' | 'box' | 'indicator';
+  /**
+   * orientation of the box plot
+   * @default horizontal
+   */
   orient?: 'horizontal' | 'vertical';
+  /**
+   * custom styles applied to the box element
+   */
   boxStyle?: CSSProperties;
+  /**
+   * custom styles applied to the whisker element
+   */
   lineStyle?: CSSProperties;
+  /**
+   * custom styles applied to the outlier elements
+   */
   outlierStyle?: CSSProperties;
+  /**
+   * padding of the box from its corners
+   * @default 0.1
+   */
   boxPadding?: number;
+  /**
+   * radius of the outlier circles
+   * @default 3
+   */
   outlierRadius?: number;
+  /**
+   * number format used for the tooltip
+   * @default .toFixed(2)
+   */
   numberFormat?(v: number): string;
 }
 
 declare type BoxplotProps = {
+  /**
+   * the values to render as a box plot
+   */
   values: number[];
+  /**
+   * width of the box plot
+   */
   width: number;
+  /**
+   * height of the box plot
+   */
   height: number;
+  /**
+   * domain minimum value
+   */
   min: number;
+  /**
+   * domain maximum value
+   */
   max: number;
+
   children?: React.ReactNode;
 } & IBoxplotStyleProps;
 
@@ -140,6 +185,12 @@ const BoxplotMemo = React.memo(Boxplot);
 
 export default Boxplot;
 
+/**
+ * generates a boxplot addon to render box plots as UpSet.js addon for aggregated set data
+ * @param prop accessor or name of the property within the element
+ * @param elems list of elements or their minimum / maximum value for specifying the data domain
+ * @param options additional options
+ */
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
   elems: ReadonlyArray<T> | { min: number; max: number },

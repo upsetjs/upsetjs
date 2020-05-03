@@ -26,6 +26,9 @@ export * from './scales';
 export { fromIndicesArray, toIndicesArray } from './array';
 export * from './dump';
 
+/**
+ * helper for validation and type checking
+ */
 export const validators = {
   isGenerateSetCombinationOptions,
   isSet,

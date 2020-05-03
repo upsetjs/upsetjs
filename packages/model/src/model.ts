@@ -14,12 +14,10 @@ export interface IBaseSet<T = any> {
    * elements in this set
    */
   readonly elems: ReadonlyArray<T>;
-
   /**
    * number of elements in the set
    */
   readonly cardinality: number;
-
   /**
    * custom overlap computation function
    * @param o to compare with
@@ -28,6 +26,9 @@ export interface IBaseSet<T = any> {
 }
 
 export interface ISet<T = any> extends IBaseSet<T> {
+  /**
+   * a fixed set type to separate between sets and set combinations
+   */
   readonly type: 'set';
 }
 
@@ -76,11 +77,26 @@ export interface ISetComposite<T = any> extends IBaseSet<T> {
   readonly degree: number;
 }
 
+/**
+ * union of all set combination types
+ */
 export declare type ISetCombination<T = any> = ISetIntersection<T> | ISetUnion<T> | ISetComposite<T>;
+/**
+ * union of a set or a set combination
+ */
 export declare type ISetLike<T = any> = ISet<T> | ISetCombination<T>;
 
+/**
+ * readonly array of sets
+ */
 export declare type ISets<T = any> = ReadonlyArray<ISet<T>>;
+/**
+ * readonly array of set combinations
+ */
 export declare type ISetCombinations<T = any> = ReadonlyArray<ISetCombination<T>>;
+/**
+ * readonly array of set like objects
+ */
 export declare type ISetLikes<T = any> = ReadonlyArray<ISetLike<T>>;
 
 /**

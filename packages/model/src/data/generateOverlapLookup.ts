@@ -14,6 +14,10 @@ export declare type GenerateOverlapLookupOptions<T> = {
   compress?: 'no' | 'yes' | 'auto';
 };
 
+/**
+ * compresses a given line, the idea is to reduce elements with the same value,
+ * e.g., 1,2,2,2,2,2,3 is compressed to 1,2=4,3
+ */
 function compressLine(line: ReadonlyArray<number>) {
   if (line.length === 0) {
     return '';
@@ -92,6 +96,12 @@ function decompressMatrix(matrix: string): ReadonlyArray<ReadonlyArray<number>> 
   return r;
 }
 
+/**
+ * generate a (compressed) overlap lookup matrix that can be dumped and later used to lookup overlaps
+ * @param sets the sets of the plot
+ * @param combinations the set combinations of the plot
+ * @param options additional options
+ */
 export function generateOverlapLookup<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T>,
@@ -135,6 +145,13 @@ export function generateOverlapLookup<T>(
   return compressedLength < encodedLength * 0.6 ? compressed : matrix;
 }
 
+/**
+ * uses the given overlap lookup function to generate a compute and indices functions
+ * @param matrix the compressed overlap matrix
+ * @param sets the sets of the plot
+ * @param combinations the set combinations of the plot
+ * @param toKey
+ */
 export function generateOverlapLookupFunction<T>(
   matrix: ReadonlyArray<ReadonlyArray<number>> | string,
   sets: ISets<T>,

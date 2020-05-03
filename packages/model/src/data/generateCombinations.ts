@@ -13,6 +13,7 @@ import { SET_JOINERS } from './constants';
 
 export declare type GenerateSetCombinationsOptions<T = any> = {
   /**
+   * type of set combination
    * @default intersection
    */
   type?: 'intersection' | 'union';
@@ -31,15 +32,19 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
    * @default false
    */
   empty?: boolean;
-
   /**
    * list of all elements used to compute the elements which aren't part of any given set
-   * or the number of elements that are not part of any set
    */
   elems?: ReadonlyArray<T>;
-
+  /**
+   * alternative to `.elems` by directly specifying the elements that are not part of any set
+   * just makes sense with min=0
+   */
   notPartOfAnySet?: ReadonlyArray<T> | number;
-
+  /**
+   * optional elem key function
+   * @param v
+   */
   toElemKey?(v: T): string;
 } & PostprocessCombinationsOptions;
 
@@ -145,6 +150,11 @@ function unionBuilder<T>(
   return computeUnion;
 }
 
+/**
+ * generate set intersection/unions for a given list of sets
+ * @param sets the sets with their elements
+ * @param options additional customization options
+ */
 export default function generateCombinations<T = any>(
   sets: ISets<T>,
   {

@@ -7,6 +7,11 @@
 
 import { DARK_BACKGROUND_COLOR } from '../defaults';
 
+/**
+ * helper method to export an download an SVG image
+ * @param node the SVG element to download
+ * @param options additional options
+ */
 export function exportSVG(
   node: SVGSVGElement,
   { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
@@ -53,6 +58,12 @@ function toPNG(url: string, node: SVGGElement) {
   });
 }
 
+/**
+ * helper method to download a given url in the browser
+ * @param url the url to download
+ * @param title the desired file name
+ * @param doc the root document
+ */
 export function downloadUrl(url: string, title: string, doc: Document) {
   const a = doc.createElement('a');
   a.href = url;

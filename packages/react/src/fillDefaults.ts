@@ -50,7 +50,10 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
-export function fillDefaults<T>(
+/**
+ * helper methods to fill up partial UpSet.js properties with their default values
+ */
+export function fillDefaults<T = any>(
   props: UpSetProps<T>
 ): Required<UpSetDataProps<T>> &
   Required<UpSetSizeProps> &

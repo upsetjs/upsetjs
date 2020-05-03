@@ -5,6 +5,11 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+/**
+ * compresses an indices array to a string by avoiding increasing indices references.
+ * e.g., 1,2,3,4 will become 1+3 (1 followed by 3 increasing numbers)
+ * @param arr the array to compress
+ */
 export function compressIndicesArray(arr: ReadonlyArray<number>): string {
   if (arr.length === 0) {
     return '';
@@ -38,6 +43,11 @@ export function compressIndicesArray(arr: ReadonlyArray<number>): string {
   return encoded.join(',');
 }
 
+/**
+ * creates an (compressed) indices array for the given array of elements
+ * @param arr the array to compress
+ * @param toIndex the element to index function
+ */
 export function toIndicesArray<T>(
   arr: ReadonlyArray<T>,
   toIndex: (v: T) => number,
@@ -70,6 +80,11 @@ export function toIndicesArray<T>(
   return base;
 }
 
+/**
+ * reverse operation of `toIndicesArray` by supporting compressed indices notation
+ * @param indices the (compressed) indices
+ * @param elements the elements to refer by index
+ */
 export function fromIndicesArray<T>(
   indices: string | ReadonlyArray<number>,
   elements: ReadonlyArray<T>

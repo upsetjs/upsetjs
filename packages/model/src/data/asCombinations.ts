@@ -9,6 +9,11 @@ import { ISet, ISetCombination } from '../model';
 import { byCardinality, byComposite, byDegree, byGroup, byName, negate } from './utils';
 import { SortSetOrder } from './asSets';
 
+/**
+ * helper method to extract the sets in a set combination from its name, e.g. S1&S2 => S1,S2
+ * @param sets the list of possible sets
+ * @param symbol the regex to split a name
+ */
 export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
   const byName = new Map(sets.map((s) => [s.name, s]));
   return (s: { name: string }) => {
@@ -16,6 +21,9 @@ export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|
   };
 }
 
+/**
+ * sort orders for set combinations
+ */
 export declare type SortCombinationOrder =
   | SortSetOrder
   | 'group'
@@ -26,7 +34,13 @@ export declare type SortCombinationOrder =
   | 'degree:desc';
 
 export declare type PostprocessCombinationsOptions = {
+  /**
+   * order the sets combinations by the given criteria
+   */
   order?: SortCombinationOrder | ReadonlyArray<SortCombinationOrder>;
+  /**
+   * limit to the top N after sorting
+   */
   limit?: number;
 };
 
@@ -87,7 +101,7 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
 }
 
 /**
- * helper to create a proper data structures for UpSet.js sets
+ * helper to create a proper data structures for UpSet.js sets by adding extra properties
  * @param sets set like structures
  */
 export function asCombination<T, S extends { name: string; elems: ReadonlyArray<T> }>(
@@ -108,8 +122,10 @@ export function asCombination<T, S extends { name: string; elems: ReadonlyArray<
 }
 
 /**
- * helper to create a proper data structures for UpSet.js sets
+ * helper to create a proper data structures for UpSet.js sets by adding extra properties
  * @param sets set like structures
+ * @param type hint for the type of combinations
+ * @param toSets resolver of the contained sets
  */
 export default function asCombinations<T, S extends { name: string; elems: ReadonlyArray<T> }>(
   sets: ReadonlyArray<S>,
