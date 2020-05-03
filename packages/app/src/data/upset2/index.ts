@@ -65,7 +65,7 @@ function asDataSet(ds: IUpSetDataSet): IDataSet {
     description: ds.description ?? '',
     author: ds.author ?? '',
     attrs: ds.meta.filter((d) => d.type === 'float' || d.type === 'integer').map((d) => d.name),
-    setCount: ds.sets.length > 0 ? ds.sets[0].end - ds.sets[0].start : undefined,
+    setCount: ds.sets.length > 0 ? ds.sets[0].end - ds.sets[0].start + 1 : undefined,
     load: async () => {
       const elems = await elementsFromDataset(ds);
       const sets = extractSets(elems);
@@ -109,7 +109,7 @@ async function elementsFromDataset(ds: IUpSetDataSet): Promise<ReadonlyArray<IEl
     delimiter: ds.separator,
     skipEmptyLines: true,
   });
-  const set = { start: ds.sets[0].start, end: ds.sets[0].end };
+  const set = { start: ds.sets[0].start, end: ds.sets[0].end + 1 };
   const idColumnIndex = ds.meta.find((d) => d.type === 'id')?.index ?? 0;
 
   const raw = csv.data as string[][];
