@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/math",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
