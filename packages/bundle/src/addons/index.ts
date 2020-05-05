@@ -6,3 +6,4 @@
  */
 
 export * from './boxplot';
+export * from './categorical';
