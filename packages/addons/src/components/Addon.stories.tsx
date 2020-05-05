@@ -5,10 +5,10 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { boxplotAddon } from './Boxplot';
 import { categoricalAddon } from './Categorical';
-import UpSetJS, { extractSets } from '@upsetjs/react';
+import UpSetJS, { extractSets, ISetLike, UpSetProps } from '@upsetjs/react';
 
 export default {
   title: 'UpSetJS Addons',
@@ -24,6 +24,12 @@ interface ICatElem {
   name: string;
   sets: string[];
   value: string;
+}
+
+function InteractiveUpSet<T>(props: UpSetProps<T>) {
+  const [selection, setSelection] = useState(null as ISetLike<T> | null);
+
+  return <UpSetJS selection={selection} onHover={setSelection} {...props} />;
 }
 
 export const BoxPlot = () => {
@@ -45,7 +51,7 @@ export const BoxPlot = () => {
   const sets = extractSets(elems);
 
   return (
-    <UpSetJS
+    <InteractiveUpSet
       sets={sets}
       width={1200}
       height={500}
@@ -75,7 +81,7 @@ export const Categorical = () => {
   const sets = extractSets(elems);
 
   return (
-    <UpSetJS
+    <InteractiveUpSet
       sets={sets}
       width={1200}
       height={500}

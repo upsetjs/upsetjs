@@ -36,3 +36,15 @@ export const Vertical = () => {
     </svg>
   );
 };
+
+export const Dark = () => {
+  const categories = ['c1', 'c2', 'c3'];
+  const values = Array(100)
+    .fill(0)
+    .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
+  return (
+    <svg width={200} height={50}>
+      <Categorical width={200} height={50} categories={categories} values={values} theme="dark" />
+    </svg>
+  );
+};

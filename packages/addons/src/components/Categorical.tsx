@@ -52,7 +52,7 @@ interface IBin extends Required<ICategory> {
 
 function colorGen(theme: 'light' | 'dark') {
   // from ColorBrewer
-  const schemeDark2 = ['#1b9e77d', '#95f027', '#570b3e', '#7298a6', '#6a61ee', '#6ab02a', '#6761d6'];
+  const schemeDark2 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d'];
   const schemeSet2 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494'];
 
   const set = theme === 'light' ? schemeSet2.concat(schemeDark2) : schemeDark2.concat(schemeSet2);
