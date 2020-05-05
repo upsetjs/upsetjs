@@ -55,7 +55,7 @@ declare type BoxplotProps = {
   /**
    * the values to render as a box plot
    */
-  values: number[];
+  values: ReadonlyArray<number>;
   /**
    * width of the box plot
    */
