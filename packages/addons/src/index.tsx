@@ -6,3 +6,4 @@
  */
 
 export * from './components/Boxplot';
+export * from './components/Categorical';

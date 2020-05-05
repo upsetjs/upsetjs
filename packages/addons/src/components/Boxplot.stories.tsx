@@ -10,7 +10,7 @@ import Boxplot from './Boxplot';
 
 export default {
   component: Boxplot,
-  title: 'Box plot Component',
+  title: 'Components.Box plot',
 };
 
 export const Default = () => {

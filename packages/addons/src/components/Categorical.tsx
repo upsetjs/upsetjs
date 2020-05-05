@@ -9,7 +9,7 @@ import React from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { normalize, denormalize } from '@upsetjs/math';
 
-export interface ICategoricalHistogramStyleProps {
+export interface ICategoricalStyleProps {
   theme?: 'light' | 'dark';
   /**
    * orientation of the box plot
@@ -24,7 +24,7 @@ export declare interface ICategory {
   label?: string;
 }
 
-declare type CategoricalHistogramProps = {
+declare type CategoricalProps = {
   /**
    * the values to render
    */
@@ -43,7 +43,7 @@ declare type CategoricalHistogramProps = {
   categories: ReadonlyArray<string | ICategory>;
 
   children?: React.ReactNode;
-} & ICategoricalHistogramStyleProps;
+} & ICategoricalStyleProps;
 
 interface IBin extends Required<ICategory> {
   count: number;
@@ -62,7 +62,7 @@ function colorGen(theme: 'light' | 'dark') {
   };
 }
 
-function generateHist(
+function generateBins(
   values: ReadonlyArray<string>,
   categories: ReadonlyArray<string | ICategory>,
   theme: 'light' | 'dark'
@@ -101,15 +101,15 @@ function generateHist(
   return hist;
 }
 
-export const CategoricalHistogram = ({
+export const Categorical = ({
   theme = 'light',
   values,
   orient = 'horizontal',
   width: w,
   height: h,
   categories,
-}: CategoricalHistogramProps) => {
-  const hist = generateHist(values, categories, theme);
+}: CategoricalProps) => {
+  const bins = generateBins(values, categories, theme);
   const hor = orient === 'horizontal';
   const n = normalize([0, values.length]);
   const dn = denormalize([0, hor ? w : h]);
@@ -118,7 +118,7 @@ export const CategoricalHistogram = ({
   if (hor) {
     return (
       <g>
-        {hist.map((bin) => (
+        {bins.map((bin) => (
           <rect
             key={bin.value}
             x={scale(bin.acc)}
@@ -136,8 +136,8 @@ export const CategoricalHistogram = ({
 
   return (
     <g>
-      {hist.map((bin) => (
-        <rect key={bin.value} y={scale(bin.acc)} height={scale(bin.count)} x={0} width={h} style={{ fill: bin.color }}>
+      {bins.map((bin) => (
+        <rect key={bin.value} y={scale(bin.acc)} height={scale(bin.count)} x={0} width={w} style={{ fill: bin.color }}>
           <title>{`${bin.label}: ${bin.count}`}</title>
         </rect>
       ))}
@@ -145,17 +145,17 @@ export const CategoricalHistogram = ({
   );
 };
 
-const CategoricalHistogramMemo = React.memo(CategoricalHistogram);
+const CategoricalMemo = React.memo(Categorical);
 
-export default CategoricalHistogram;
+export default Categorical;
 
 /**
- * generates a categorical histogram addon to render histograms as UpSet.js addon for aggregated set data
+ * generates a categorical addon to render distributions as UpSet.js addon for aggregated set data
  * @param prop accessor or name of the property within the element
  * @param elems list of elements or their categories
  * @param options additional options
  */
-export function categoricalHistogramAddon<T>(
+export function categoricalAddon<T>(
   prop: keyof T | ((v: T) => string),
   elems: ReadonlyArray<T> | { categories: ReadonlyArray<string | ICategory> },
   {
@@ -163,7 +163,7 @@ export function categoricalHistogramAddon<T>(
     position,
     name = prop.toString(),
     ...extras
-  }: Partial<Pick<UpSetAddon<ISetLike<T>, T>, 'size' | 'position' | 'name'>> & ICategoricalHistogramStyleProps = {}
+  }: Partial<Pick<UpSetAddon<ISetLike<T>, T>, 'size' | 'position' | 'name'>> & ICategoricalStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T> {
   const acc = typeof prop === 'function' ? prop : (v: T) => (v[prop as keyof T] as unknown) as string;
   let categories: ReadonlyArray<string | ICategory> = [];
@@ -187,7 +187,7 @@ export function categoricalHistogramAddon<T>(
     render: ({ width, height, set, theme }) => {
       const values = set.elems.map(acc);
       return (
-        <CategoricalHistogramMemo
+        <CategoricalMemo
           values={values}
           width={width}
           height={height}

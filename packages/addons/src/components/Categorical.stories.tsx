@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import CategoricalHistogram from './CategoricalHistogram';
+import Categorical from './Categorical';
 
 export default {
-  component: CategoricalHistogram,
-  title: 'CategoricalHistogram Component',
+  component: Categorical,
+  title: 'Components.Categorical',
 };
 
 export const Default = () => {
@@ -20,7 +20,7 @@ export const Default = () => {
     .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
   return (
     <svg width={200} height={50}>
-      <CategoricalHistogram width={200} height={50} categories={categories} values={values} />
+      <Categorical width={200} height={50} categories={categories} values={values} />
     </svg>
   );
 };
@@ -32,7 +32,7 @@ export const Vertical = () => {
     .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
   return (
     <svg width={50} height={200}>
-      <CategoricalHistogram width={50} height={200} categories={categories} values={values} />
+      <Categorical width={50} height={200} categories={categories} values={values} orient="vertical" />
     </svg>
   );
 };
