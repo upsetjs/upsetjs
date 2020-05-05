@@ -58,6 +58,10 @@ export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAdd
    */
   query: UpSetQuery<T>;
   /**
+   * query index
+   */
+  index: number;
+  /**
    * the optional overlap of the query with the current set
    */
   overlap: ReadonlyArray<T> | null;

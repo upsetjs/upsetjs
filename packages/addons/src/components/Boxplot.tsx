@@ -35,6 +35,11 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
    */
   outlierStyle?: CSSProperties;
   /**
+   * margin applied
+   * @default 0
+   */
+  margin?: number;
+  /**
    * padding of the box from its corners
    * @default 0.1
    */
@@ -88,6 +93,7 @@ export const Boxplot = ({
   boxStyle,
   lineStyle,
   outlierStyle,
+  margin = 0,
   boxPadding: bpp = 0.1,
   outlierRadius = 3,
   numberFormat: nf = (v) => v.toFixed(2),
@@ -97,7 +103,6 @@ export const Boxplot = ({
   if (Number.isNaN(b.median)) {
     return <g></g>;
   }
-  const o = mode === 'indicator' ? 1 : 0; // everything one pixel inner if just the indicator
   const hor = orient === 'horizontal';
   const n = normalize([min, max]);
   const dn = denormalize([0, hor ? w : h]);
@@ -128,14 +133,14 @@ export const Boxplot = ({
 
   if (hor) {
     const c = h / 2;
-    const bp = round2(h * bpp) + o;
-    const hp = h - bp - o;
-    const w1 = `M${s.wl},${o} l0,${h - o * 2} M${s.wl},${c} L${s.q1},${c}`;
-    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${o} L${s.wh},${h - o}`;
+    const bp = round2(h * bpp) + margin;
+    const hp = h - bp;
+    const w1 = `M${s.wl},${margin} l0,${h - margin * 2} M${s.wl},${c} L${s.q1},${c}`;
+    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${margin} L${s.wh},${h - margin}`;
     const box = `M${s.q1},${bp} L${s.q3},${bp} L${s.q3},${hp} L${s.q1},${hp} L${s.q1},${bp} M${s.med},${bp} l0,${
       hp - bp
     }`;
-    const p = <path d={`${w1}  ${w2} ${box}`} style={styles.line} />;
+    const p = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
     if (mode === 'indicator') {
       return p;
     }
@@ -154,10 +159,10 @@ export const Boxplot = ({
   }
   {
     const c = w / 2;
-    const bp = round2(w * bpp) + o;
-    const wp = w - bp - o;
-    const w1 = `M${o},${s.wl} l${w - 2 * o},0 M${c},${s.wl} L${c},${s.q1}`;
-    const w2 = `M${c},${s.q3} L${c},${s.wh} M${o},${s.wh} L${w - o},${s.wh}`;
+    const bp = round2(w * bpp) + margin;
+    const wp = w - bp;
+    const w1 = `M${margin},${s.wl} l${w - 2 * margin},0 M${c},${s.wl} L${c},${s.q1}`;
+    const w2 = `M${c},${s.q3} L${c},${s.wh} M${margin},${s.wh} L${w - margin},${s.wh}`;
     const box = `M${bp},${s.q1} L${bp},${s.q3} l${wp - bp},0 L${wp},${s.q1} L${bp},${s.q1} M${bp},${s.med} l${
       wp - bp
     },0`;
@@ -245,14 +250,14 @@ export function boxplotAddon<T>(
           min={min}
           max={max}
           mode="box"
-          lineStyle={{ stroke: selectionColor }}
+          lineStyle={{ stroke: selectionColor, strokeWidth: 2 }}
           outlierStyle={{ fill: selectionColor }}
           theme={theme}
           {...extras}
         />
       );
     },
-    renderQuery: ({ width, height, overlap, query, secondary, theme }) => {
+    renderQuery: ({ width, height, overlap, query, secondary, index, theme }) => {
       if (overlap == null || overlap.length === 0) {
         return null;
       }
@@ -265,7 +270,8 @@ export function boxplotAddon<T>(
           min={min}
           max={max}
           mode={secondary ? 'indicator' : 'box'}
-          lineStyle={{ stroke: query.color }}
+          margin={secondary ? index + 2 : 0}
+          lineStyle={{ stroke: query.color, strokeWidth: secondary ? 1 : 2 }}
           outlierStyle={{ fill: query.color }}
           theme={theme}
           {...extras}

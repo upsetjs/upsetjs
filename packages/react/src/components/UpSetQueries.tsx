@@ -45,12 +45,12 @@ export default React.memo(function UpSetQueries<T>({
 
   function wrapAddon<
     S extends ISetLike<T>
-  >(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
+  >(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {
         const overlap = overlapper(props.set);
-        return addon.renderQuery ? addon.renderQuery({ query, overlap, secondary, ...props }) : null;
+        return addon.renderQuery ? addon.renderQuery({ query, overlap, index, secondary, ...props }) : null;
       },
     };
   }
@@ -71,7 +71,7 @@ export default React.memo(function UpSetQueries<T>({
             setAddons={
               size.sets.addons.length === 0
                 ? EMPTY_ARRAY
-                : size.sets.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
+                : size.sets.addons.map((a, i) => wrapAddon(a, q, i, q.elemOverlap!, secondary || i > 0))
             }
           />
         ))}
@@ -90,7 +90,7 @@ export default React.memo(function UpSetQueries<T>({
             combinationAddons={
               size.cs.addons.length === 0
                 ? EMPTY_ARRAY
-                : size.cs.addons.map((a) => wrapAddon(a, q, q.elemOverlap!, secondary || i > 0))
+                : size.cs.addons.map((a, i) => wrapAddon(a, q, i, q.elemOverlap!, secondary || i > 0))
             }
           />
         ))}

@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { normalize, denormalize } from '@upsetjs/math';
 
@@ -30,6 +30,22 @@ declare type CategoricalProps = {
    */
   values: ReadonlyArray<string>;
   /**
+   * possible categories
+   */
+  categories: ReadonlyArray<string | ICategory>;
+  /**
+   *
+   */
+  base?: ReadonlyArray<string>;
+  /**
+   * margin offset
+   */
+  margin?: number;
+  /**
+   * style applied to each rect
+   */
+  rectStyle?: CSSProperties;
+  /**
    * width of the box plot
    */
   width: number;
@@ -37,10 +53,6 @@ declare type CategoricalProps = {
    * height of the box plot
    */
   height: number;
-  /**
-   * domain minimum value
-   */
-  categories: ReadonlyArray<string | ICategory>;
 
   children?: React.ReactNode;
 } & ICategoricalStyleProps;
@@ -62,9 +74,25 @@ function colorGen(theme: 'light' | 'dark') {
   };
 }
 
+function bin(hist: IBin[], values: ReadonlyArray<string>) {
+  const map = new Map(hist.map((bin) => [bin.value, 0]));
+  values.forEach((value) => {
+    if (value == null) {
+      return;
+    }
+    const key = value.toString();
+    if (!map.has(key)) {
+      return;
+    }
+    map.set(key, map.get(key)! + 1);
+  });
+  return map;
+}
+
 function generateBins(
   values: ReadonlyArray<string>,
   categories: ReadonlyArray<string | ICategory>,
+  base: ReadonlyArray<string> | undefined,
   theme: 'light' | 'dark'
 ) {
   const nextColor = colorGen(theme);
@@ -82,36 +110,32 @@ function generateBins(
       typeof cat === 'string' ? {} : cat
     );
   });
-  const map = new Map(hist.map((bin) => [bin.value, bin]));
-  values.forEach((value) => {
-    if (value == null) {
-      return;
-    }
-    const key = value.toString();
-    if (!map.has(key)) {
-      return;
-    }
-    map.get(key)!.count++;
-  });
+  const map = bin(hist, values);
+  const baseMap = base ? bin(hist, base) : null;
+
   let acc = 0;
   hist.forEach((bin) => {
     bin.acc = acc;
-    acc += bin.count;
+    bin.count = map.get(bin.value)!;
+    acc += baseMap ? baseMap.get(bin.value)! : map.get(bin.value)!;
   });
   return hist;
 }
 
 export const Categorical = ({
   theme = 'light',
-  values,
   orient = 'horizontal',
   width: w,
   height: h,
+  values,
   categories,
+  base,
+  margin = 0,
+  rectStyle = {},
 }: CategoricalProps) => {
-  const bins = generateBins(values, categories, theme);
+  const bins = generateBins(values, categories, base, theme);
   const hor = orient === 'horizontal';
-  const n = normalize([0, values.length]);
+  const n = normalize([0, base?.length ?? values.length]);
   const dn = denormalize([0, hor ? w : h]);
   const scale = (v: number) => dn(n(v));
 
@@ -123,9 +147,9 @@ export const Categorical = ({
             key={bin.value}
             x={scale(bin.acc)}
             width={scale(bin.count)}
-            y={0}
-            height={h}
-            style={{ fill: bin.color }}
+            y={margin}
+            height={h - 2 * margin}
+            style={Object.assign({ fill: bin.color }, rectStyle)}
           >
             <title>{`${bin.label}: ${bin.count}`}</title>
           </rect>
@@ -137,7 +161,14 @@ export const Categorical = ({
   return (
     <g>
       {bins.map((bin) => (
-        <rect key={bin.value} y={scale(bin.acc)} height={scale(bin.count)} x={0} width={w} style={{ fill: bin.color }}>
+        <rect
+          key={bin.value}
+          y={scale(bin.acc)}
+          height={scale(bin.count)}
+          x={margin}
+          width={w - 2 * margin}
+          style={Object.assign({ fill: bin.color }, rectStyle)}
+        >
           <title>{`${bin.label}: ${bin.count}`}</title>
         </rect>
       ))}
@@ -148,6 +179,9 @@ export const Categorical = ({
 const CategoricalMemo = React.memo(Categorical);
 
 export default Categorical;
+
+const lightOverlap = 'rgba(255,255,255,0.2)';
+const darkOverlap = 'rgba(0,0,0,0.1)';
 
 /**
  * generates a categorical addon to render distributions as UpSet.js addon for aggregated set data
@@ -189,9 +223,48 @@ export function categoricalAddon<T>(
       return (
         <CategoricalMemo
           values={values}
+          categories={categories}
           width={width}
           height={height}
+          theme={theme}
+          {...extras}
+        />
+      );
+    },
+    renderSelection: ({ width, height, set, theme, overlap, selectionColor }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const base = set.elems.map(acc);
+      const values = overlap.map(acc);
+      return (
+        <CategoricalMemo
+          values={values}
+          base={base}
           categories={categories}
+          width={width}
+          height={height}
+          theme={theme}
+          rectStyle={{ stroke: selectionColor, strokeWidth: 2, fill: theme === 'light' ? darkOverlap : lightOverlap }}
+          {...extras}
+        />
+      );
+    },
+    renderQuery: ({ width, height, overlap, set, query, secondary, index, theme }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const base = set.elems.map(acc);
+      const values = overlap.map(acc);
+      return (
+        <CategoricalMemo
+          values={values}
+          base={base}
+          categories={categories}
+          width={width}
+          height={height}
+          margin={secondary ? index + 2 : 0}
+          rectStyle={{ stroke: query.color, fill: theme === 'light' ? darkOverlap : lightOverlap }}
           theme={theme}
           {...extras}
         />
