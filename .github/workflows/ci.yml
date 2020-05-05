@@ -83,4 +83,3 @@ jobs:
           publish_dir: ./public
           enable_jekyll: true
           remove_path_spec: 'next/api/addons/,next/app/,next/api/bundle/,next/api/math/,next/api/model/,next/api/react/,next/integrations/vue/'
-
