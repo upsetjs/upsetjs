@@ -1323,7 +1323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime-corejs3@npm:^7.8.3":
+"@babel/runtime-corejs3@npm:^7.7.4, @babel/runtime-corejs3@npm:^7.8.3":
   version: 7.9.6
   resolution: "@babel/runtime-corejs3@npm:7.9.6"
   dependencies:
@@ -1333,7 +1333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.4.5, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.4.5, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.4, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
   version: 7.9.6
   resolution: "@babel/runtime@npm:7.9.6"
   dependencies:
@@ -2856,6 +2856,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:^7.2.2":
+  version: 7.2.2
+  resolution: "@testing-library/dom@npm:7.2.2"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+    "@types/testing-library__dom": ^7.0.0
+    aria-query: ^4.0.2
+    dom-accessibility-api: ^0.4.2
+    pretty-format: ^25.1.0
+  checksum: 3/8de0c6374a01f408fe146e6c42a83e1feb389c9a3a74f640193907fd1d6a5a21fb47a29c41c0f12294501775f33faa63619385f168cf39ca0817bdc4b4e52f04
+  languageName: node
+  linkType: hard
+
+"@testing-library/react@npm:^10.0.4":
+  version: 10.0.4
+  resolution: "@testing-library/react@npm:10.0.4"
+  dependencies:
+    "@babel/runtime": ^7.9.6
+    "@testing-library/dom": ^7.2.2
+    "@types/testing-library__react": ^10.0.1
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+  checksum: 3/a806425d3c7d2d4a8949da89f0c7d6b5f34057a9a5bbcfa4ad12e8a507e3b9b370ade17b8440eabea279e9c436d073b0923fc58dd807fdc77b18cc7738d7dfb4
+  languageName: node
+  linkType: hard
+
 "@types/anymatch@npm:*":
   version: 1.3.1
   resolution: "@types/anymatch@npm:1.3.1"
@@ -3207,7 +3234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^16.9.7":
+"@types/react-dom@npm:*, @types/react-dom@npm:^16.9.7":
   version: 16.9.7
   resolution: "@types/react-dom@npm:16.9.7"
   dependencies:
@@ -3305,6 +3332,26 @@ __metadata:
   version: 1.0.5
   resolution: "@types/tapable@npm:1.0.5"
   checksum: 3/f87cd98a09be272dde705155097d0e02dfdd7fe98395ade968632ff7ee1f39839f03daee59da921345c2177d118f085dcb4e4e4d2d4bea801d354cc0f33a1d2d
+  languageName: node
+  linkType: hard
+
+"@types/testing-library__dom@npm:*, @types/testing-library__dom@npm:^7.0.0":
+  version: 7.0.2
+  resolution: "@types/testing-library__dom@npm:7.0.2"
+  dependencies:
+    pretty-format: ^25.1.0
+  checksum: 3/aa1193d45f9527ca7b04b946e6ea2a497a0eb4102c7e344ad17ce8b6fc632c569670df9436962e09cca6f569af8ca8da601b38e1417d8057968bfe0c9fd34223
+  languageName: node
+  linkType: hard
+
+"@types/testing-library__react@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "@types/testing-library__react@npm:10.0.1"
+  dependencies:
+    "@types/react-dom": "*"
+    "@types/testing-library__dom": "*"
+    pretty-format: ^25.1.0
+  checksum: 3/20b6597fad68760af1590aa897abc0f75c19f747fc461ae81adf3405c43b37064903df02c38edce2c23c01194b17765feefb4f534cb12679a94b83e7e6240716
   languageName: node
   linkType: hard
 
@@ -3414,6 +3461,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/experimental-utils@npm:^2.29.0":
+  version: 2.31.0
+  resolution: "@typescript-eslint/experimental-utils@npm:2.31.0"
+  dependencies:
+    "@types/json-schema": ^7.0.3
+    "@typescript-eslint/typescript-estree": 2.31.0
+    eslint-scope: ^5.0.0
+    eslint-utils: ^2.0.0
+  peerDependencies:
+    eslint: "*"
+  checksum: 3/7e0758b0dde03febbde0b25c4f6356dd8dab4adbf8dcfc91f1ee44f057e63e10e4fcec2156e2d5fa4f1159c4be856e3b0b4a55dfa88b02e7c4ab53748e1c0e01
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/parser@npm:^2.12.0, @typescript-eslint/parser@npm:^2.30.0":
   version: 2.30.0
   resolution: "@typescript-eslint/parser@npm:2.30.0"
@@ -3449,6 +3510,26 @@ __metadata:
     typescript:
       optional: true
   checksum: 3/b068d0ce28328d38719c2caec37a3e14ebd15e7d57c23ea66604e3b7995a9d79b1438a80cc53486298c9bbda0f8b27f457ae6a218f5d57687494718984efc6e1
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:2.31.0":
+  version: 2.31.0
+  resolution: "@typescript-eslint/typescript-estree@npm:2.31.0"
+  dependencies:
+    debug: ^4.1.1
+    eslint-visitor-keys: ^1.1.0
+    glob: ^7.1.6
+    is-glob: ^4.0.1
+    lodash: ^4.17.15
+    semver: ^6.3.0
+    tsutils: ^3.17.1
+  peerDependencies:
+    typescript: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 3/edbe58ebe51902b37cbdc81851f4881b84a4216b438da422aab5b619266cfed23c075f8863e5cc2bf8d17bcd4b2bf3554f21a19b5719483f738a09a5a3d17365
   languageName: node
   linkType: hard
 
@@ -3654,9 +3735,11 @@ __metadata:
     "@storybook/addons": ^6.0.0-beta.1
     "@storybook/preset-typescript": ^3.0.0
     "@storybook/react": ^6.0.0-beta.1
+    "@testing-library/react": ^10.0.4
     "@types/jest": ^25.2.1
     "@types/react": ^16.9.34
     "@types/react-dom": ^16.9.7
+    "@types/testing-library__react": ^10.0.1
     "@typescript-eslint/eslint-plugin": ^2.30.0
     "@typescript-eslint/parser": ^2.30.0
     "@upsetjs/model": ~1.0.0
@@ -3670,6 +3753,7 @@ __metadata:
     eslint-plugin-prettier: ^3.1.3
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
+    eslint-plugin-testing-library: ^3.1.0
     prettier: ^2.0.5
     react: ^16.13.0
     react-docgen-typescript-loader: ^3.7.2
@@ -4680,6 +4764,16 @@ __metadata:
     ast-types-flow: 0.0.7
     commander: ^2.11.0
   checksum: 3/4603ead43ae64ef3920268b42c612adfc977941f72de1c1b1fcee99041388f7d6dd7cd4fb51957bc160f574b6c4748f478d9f366922bac77eb8e43f4002311bc
+  languageName: node
+  linkType: hard
+
+"aria-query@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "aria-query@npm:4.0.2"
+  dependencies:
+    "@babel/runtime": ^7.7.4
+    "@babel/runtime-corejs3": ^7.7.4
+  checksum: 3/d26256cea7b8b2ce926d7621c7e48d0a990283020846aa930900327f2db78d462039b25ddb37d61dc35f3a842e967b4eb4fa1f0e6dc73d50d6266610cd4f5361
   languageName: node
   linkType: hard
 
@@ -8058,6 +8152,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom-accessibility-api@npm:^0.4.2":
+  version: 0.4.3
+  resolution: "dom-accessibility-api@npm:0.4.3"
+  checksum: 3/2fda22716f591972f8c4b3b912b8062b5a199aea03db82cca86d320fbc647325e3149f2e9157fdd1627a5c5ea09242c9b91d169e4737122df23af7d80b76100c
+  languageName: node
+  linkType: hard
+
 "dom-converter@npm:^0.2":
   version: 0.2.0
   resolution: "dom-converter@npm:0.2.0"
@@ -8769,6 +8870,17 @@ __metadata:
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
   checksum: 3/3e5b7bd3b2ea663716fd2518efd1eed359712711a3c0284ed04e5955e6b7019151d8b54dddad2a9116a54e251dd180bf5ba0ccf34a80ffbe8f4d535a0d03e6b3
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-testing-library@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "eslint-plugin-testing-library@npm:3.1.0"
+  dependencies:
+    "@typescript-eslint/experimental-utils": ^2.29.0
+  peerDependencies:
+    eslint: ">=5"
+  checksum: 3/4de4705620a97a25dc80731698ad56043ea9d4def847561d61366e58a20df7e897c22811462d3a8d5ad714fe9a29e6e57ca701a4cf51c264815821b33256bd81
   languageName: node
   linkType: hard
 
@@ -15896,7 +16008,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^25.2.1, pretty-format@npm:^25.5.0":
+"pretty-format@npm:^25.1.0, pretty-format@npm:^25.2.1, pretty-format@npm:^25.5.0":
   version: 25.5.0
   resolution: "pretty-format@npm:25.5.0"
   dependencies:

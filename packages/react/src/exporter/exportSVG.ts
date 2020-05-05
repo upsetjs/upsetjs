@@ -7,6 +7,17 @@
 
 import { DARK_BACKGROUND_COLOR } from '../defaults';
 
+export function createSVG(node: SVGSVGElement, toRemove?: string) {
+  const theme = node.dataset.theme;
+  const clone = node.cloneNode(true) as SVGSVGElement;
+  clone.style.backgroundColor = theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white';
+
+  if (toRemove) {
+    Array.from(clone.querySelectorAll(toRemove)).forEach((d) => d.remove());
+  }
+  return new XMLSerializer().serializeToString(clone);
+}
+
 /**
  * helper method to export an download an SVG image
  * @param node the SVG element to download
@@ -16,15 +27,7 @@ export function exportSVG(
   node: SVGSVGElement,
   { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
 ): Promise<void> {
-  const theme = node.dataset.theme;
-  const clone = node.cloneNode(true) as SVGSVGElement;
-  clone.style.backgroundColor = theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white';
-
-  if (toRemove) {
-    Array.from(clone.querySelectorAll(toRemove)).forEach((d) => d.remove());
-  }
-
-  const b = new Blob([new XMLSerializer().serializeToString(clone)], {
+  const b = new Blob([createSVG(node, toRemove)], {
     type: 'image/svg+xml;charset=utf-8',
   });
 

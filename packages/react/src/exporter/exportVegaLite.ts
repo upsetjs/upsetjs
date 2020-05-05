@@ -8,7 +8,7 @@
 import { downloadUrl } from './exportSVG';
 import { DARK_BACKGROUND_COLOR } from '../defaults';
 
-export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
+export function createVegaSpec(svg: SVGSVGElement, title: string) {
   const resolveStyle =
     (svg.getComputedStyle || svg.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
   const theme = svg.dataset.theme;
@@ -106,7 +106,7 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
         };
 
   // part of: 0 ... negative list, 1 ... positive set list, 2, ... positive and selected
-  const spec = {
+  return {
     $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
     title,
     datasets: {
@@ -381,7 +381,10 @@ export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?
       },
     },
   };
+}
 
+export function exportVegaLite(svg: SVGSVGElement, { title = 'UpSet' }: { title?: string } = {}) {
+  const spec = createVegaSpec(svg, title);
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(spec, null, 2)], {
       type: 'application/json',

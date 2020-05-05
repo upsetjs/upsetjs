@@ -5,5 +5,5 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export * from './exportSVG';
-export * from './exportVegaLite';
+export { downloadUrl, exportSVG } from './exportSVG';
+export { exportVegaLite } from './exportVegaLite';
