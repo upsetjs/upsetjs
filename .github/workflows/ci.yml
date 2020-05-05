@@ -54,21 +54,33 @@ jobs:
           mkdir -p public/integrations/vue
           mv packages/vue-example/dist/* public/integrations/vue/
           cp README.md public/
-      - name: Deploy
-        if: github.ref == 'refs/heads/develop'
-        # move to next directory
-        run: |
-          mv public public2
-          mkdir -p public
-          mv public2 public/next
 
-      - name: Deploy
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop') && github.event_name == 'push'
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy Master
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: upsetjs/actions-gh-pages@sgratzl
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: upsetjs/upsetjs.github.io
           publish_branch: master
           publish_dir: ./public
           enable_jekyll: true
-          keep_files: true
+          remove_path_spec: 'api/addons/,app/,api/bundle/,api/math/,api/model/,api/react/,integrations/vue/'
+
+      - if: github.ref == 'refs/heads/develop'
+        # move to next directory
+        run: |
+          mv public public2
+          mkdir -p public
+          mv public2 public/next
+
+      - name: Deploy Develop
+        if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+        uses: upsetjs/actions-gh-pages@sgratzl
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: upsetjs/upsetjs.github.io
+          publish_branch: master
+          publish_dir: ./public
+          enable_jekyll: true
+          remove_path_spec: 'next/api/addons/,next/app/,next/api/bundle/,next/api/math/,next/api/model/,next/api/react/,next/integrations/vue/'
+
