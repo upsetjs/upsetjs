@@ -10,7 +10,7 @@ import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';
 import { round2 } from './utils';
 
-export interface IBoxplotStyleProps extends BoxplotStatsOptions {
+export interface IBoxplotStylePlainProps extends BoxplotStatsOptions {
   theme?: 'light' | 'dark';
   /**
    * the render mode and level of detail to render
@@ -22,18 +22,6 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
    * @default horizontal
    */
   orient?: 'horizontal' | 'vertical';
-  /**
-   * custom styles applied to the box element
-   */
-  boxStyle?: CSSProperties;
-  /**
-   * custom styles applied to the whisker element
-   */
-  lineStyle?: CSSProperties;
-  /**
-   * custom styles applied to the outlier elements
-   */
-  outlierStyle?: CSSProperties;
   /**
    * margin applied
    * @default 0
@@ -54,6 +42,21 @@ export interface IBoxplotStyleProps extends BoxplotStatsOptions {
    * @default .toFixed(2)
    */
   numberFormat?(v: number): string;
+}
+
+export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
+  /**
+   * custom styles applied to the box element
+   */
+  boxStyle?: CSSProperties;
+  /**
+   * custom styles applied to the whisker element
+   */
+  lineStyle?: CSSProperties;
+  /**
+   * custom styles applied to the outlier elements
+   */
+  outlierStyle?: CSSProperties;
 }
 
 declare type BoxplotProps = {
@@ -77,9 +80,7 @@ declare type BoxplotProps = {
    * domain maximum value
    */
   max: number;
-
-  children?: React.ReactNode;
-} & IBoxplotStyleProps;
+};
 
 export const Boxplot = ({
   theme = 'light',
@@ -98,7 +99,7 @@ export const Boxplot = ({
   outlierRadius = 3,
   numberFormat: nf = (v) => v.toFixed(2),
   ...options
-}: BoxplotProps) => {
+}: React.PropsWithChildren<BoxplotProps & IBoxplotStyleProps>) => {
   const b = boxplot(values, options);
   if (Number.isNaN(b.median)) {
     return <g></g>;

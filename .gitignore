@@ -15,3 +15,4 @@ storybook-static
 .yarnrc.yml
 .pnp.js
 /packages/*/docs/
+.tmp

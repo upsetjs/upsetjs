@@ -6,7 +6,7 @@
  */
 
 import React, { useMemo, ReactNode, CSSProperties, forwardRef, Ref } from 'react';
-import { UpSetAddon, UpSetReactStyles, UpSetStyleClassNames, UpSetFontSizes } from './interfaces';
+import { UpSetAddons, UpSetReactStyles, UpSetStyleClassNames, UpSetFontSizes } from './interfaces';
 import deriveDataDependent from './components/deriveDataDependent';
 import defineSizeDependent from './components/deriveSizeDependent';
 import deriveStyleDependent from './components/deriveStyleDependent';
@@ -117,8 +117,6 @@ export interface UpSetSelectionProps<T = any> {
    */
   queries?: UpSetQueries<T>;
 }
-
-export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
 
 export interface UpSetReactStyleProps<T = any> {
   /**

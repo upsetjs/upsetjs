@@ -15,6 +15,7 @@ export {
   ISetIntersection,
   ISetLike,
   ISetLikes,
+  ISetUnion,
   ISet,
   ISets,
   IBaseSet,

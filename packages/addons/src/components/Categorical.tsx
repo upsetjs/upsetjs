@@ -53,8 +53,6 @@ declare type CategoricalProps = {
    * height of the box plot
    */
   height: number;
-
-  children?: React.ReactNode;
 } & ICategoricalStyleProps;
 
 interface IBin extends Required<ICategory> {

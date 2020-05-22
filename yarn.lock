@@ -3565,6 +3565,8 @@ __metadata:
     react-docgen-typescript-loader: ^3.7.2
     react-dom: ^16.13.1
     react-is: ^16.13.1
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^7.0.2
     tsdx: ~0.13.2
@@ -3665,6 +3667,8 @@ __metadata:
     eslint-plugin-react-hooks: ^4.0.0
     preact: ^10.4.1
     prettier: ^2.0.5
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3691,6 +3695,8 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3717,6 +3723,8 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3759,6 +3767,8 @@ __metadata:
     react-docgen-typescript-loader: ^3.7.2
     react-dom: ^16.13.1
     react-is: ^16.13.1
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^7.0.2
     tsdx: ~0.13.2
@@ -3815,6 +3825,8 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
+    rollup: ^2.10.7
+    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -17623,6 +17635,21 @@ resolve@1.15.1:
   languageName: node
   linkType: hard
 
+"rollup-plugin-dts@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "rollup-plugin-dts@npm:1.4.6"
+  dependencies:
+    "@babel/code-frame": ^7.8.3
+  peerDependencies:
+    rollup: ^2.10.0
+    typescript: ^3.9.2
+  dependenciesMeta:
+    "@babel/code-frame":
+      optional: true
+  checksum: 3/fa77c5e6b1f6fb1ce52397fcbf292afde80dbb59b907499ab2fc6feb5ea4bf1dd7ff918d80bb6214d320490b4a60148568eb01515c0e422dbfeb82b662ea430d
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-pnp-resolve@npm:^2.0.0":
   version: 2.0.0
   resolution: "rollup-plugin-pnp-resolve@npm:2.0.0"
@@ -17692,6 +17719,20 @@ resolve@1.15.1:
   bin:
     rollup: dist/bin/rollup
   checksum: 3/fc59b8af482e0729fd720a6be1221f477ae1848fd88b0474d10f805567aa4ad5f16afa9a976c8fd30fd196fcb689b252826cdd138e7a4ad88462547adb5dbf40
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.10.7":
+  version: 2.10.7
+  resolution: "rollup@npm:2.10.7"
+  dependencies:
+    fsevents: ~2.1.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 3/374ca2dac443da9e122b270eda63e8733eca890411e46b37ac12694e585e7a87037a9d75448bb98f8217c9a9ce00199c99ed4c03aafb3df1723bf9d3b5965aba
   languageName: node
   linkType: hard
 

@@ -30,7 +30,8 @@
   "scripts": {
     "compile": "tsc -p tsconfig.json --noEmit",
     "start": "tsdx watch --noClean",
-    "build": "tsdx build",
+    "build": "tsdx build && npm run typings",
+    "typings": "tsc -p tsconfig.dts.json && rollup -c rollup.dts.config.js",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
@@ -59,6 +60,8 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "prettier": "^2.0.5",
+    "rollup": "^2.10.7",
+    "rollup-plugin-dts": "^1.4.6",
     "rollup-plugin-pnp-resolve": "^2.0.0",
     "tsdx": "~0.13.2",
     "tslib": "^1.11.1",

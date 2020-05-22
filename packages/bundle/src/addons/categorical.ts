@@ -5,28 +5,11 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetCSSStyles } from '../react';
 import { UpSetAddon } from '../interfaces';
-import { categoricalAddon as categoricalAddonImpl } from '@upsetjs/addons';
+import { categoricalAddon as categoricalAddonImpl, ICategory, ICategoricalStyleProps } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
 
-export declare interface ICategory {
-  value: string;
-  color?: string;
-  label?: string;
-}
-
-export interface ICategoricalStyleProps {
-  /**
-   * orientation of the categorical distribution
-   * @default horizontal
-   */
-  orient?: 'horizontal' | 'vertical';
-  /**
-   * custom styles applied to the box element
-   */
-  rectStyle?: UpSetCSSStyles;
-}
+export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
 
 /**
  * generates a categorical addon to render categorical distribution as UpSet.js addon for aggregated set data
