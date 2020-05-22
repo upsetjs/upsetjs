@@ -17,7 +17,7 @@ import {
 } from '@upsetjs/react';
 
 export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'> &
-  Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'>;
+  Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'> & { combinationName?: string; setName?: string };
 
 export interface IAttrs {
   [key: string]: number;
