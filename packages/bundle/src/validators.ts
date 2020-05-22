@@ -15,7 +15,7 @@ import {
   BandScaleFactory,
   validators,
 } from '@upsetjs/model';
-import { UpSetStyleClassNames, UpSetStyleFontSizes, UpSetCSSStyles } from './interfaces';
+import { UpSetStyleClassNames, UpSetFontSizes, UpSetCSSStyles } from './interfaces';
 
 export function widthRatios(value?: [number, number, number]) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
@@ -75,11 +75,10 @@ export function classNames(value?: UpSetStyleClassNames) {
   );
 }
 
-export function fontSizes(value?: UpSetStyleFontSizes) {
-  const keys: (keyof UpSetStyleFontSizes)[] = ['axisTick', 'barLabel', 'chartLabel', 'legend', 'setLabel'];
+export function fontSizes(value?: UpSetFontSizes) {
+  const keys: (keyof UpSetFontSizes)[] = ['axisTick', 'barLabel', 'chartLabel', 'legend', 'setLabel'];
   return (
-    value == null ||
-    Object.keys(value).every((k) => keys.includes(k as keyof UpSetStyleFontSizes) && typeof k === 'string')
+    value == null || Object.keys(value).every((k) => keys.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
   );
 }
 

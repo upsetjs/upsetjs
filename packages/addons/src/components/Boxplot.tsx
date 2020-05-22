@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';
 import { round2 } from './utils';
@@ -48,15 +48,15 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
   /**
    * custom styles applied to the box element
    */
-  boxStyle?: CSSProperties;
+  boxStyle?: React.CSSProperties;
   /**
    * custom styles applied to the whisker element
    */
-  lineStyle?: CSSProperties;
+  lineStyle?: React.CSSProperties;
   /**
    * custom styles applied to the outlier elements
    */
-  outlierStyle?: CSSProperties;
+  outlierStyle?: React.CSSProperties;
 }
 
 declare type BoxplotProps = {

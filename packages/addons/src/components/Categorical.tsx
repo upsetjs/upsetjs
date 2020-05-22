@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { UpSetAddon, ISetLike } from '@upsetjs/react';
 import { normalize, denormalize } from '@upsetjs/math';
 
@@ -44,7 +44,7 @@ declare type CategoricalProps = {
   /**
    * style applied to each rect
    */
-  rectStyle?: CSSProperties;
+  rectStyle?: React.CSSProperties;
   /**
    * width of the box plot
    */

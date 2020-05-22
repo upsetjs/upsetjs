@@ -6,16 +6,16 @@
  */
 
 import { ISetLike, UpSetQuery } from '@upsetjs/model';
-import { CSSProperties, ReactNode } from 'react';
+import React from 'react';
 
 export interface UpSetReactStyles {
-  chartLabel?: CSSProperties;
-  axisTick?: CSSProperties;
-  setLabel?: CSSProperties;
-  barLabel?: CSSProperties;
-  bar?: CSSProperties;
-  dot?: CSSProperties;
-  legend?: CSSProperties;
+  chartLabel?: React.CSSProperties;
+  axisTick?: React.CSSProperties;
+  setLabel?: React.CSSProperties;
+  barLabel?: React.CSSProperties;
+  bar?: React.CSSProperties;
+  dot?: React.CSSProperties;
+  legend?: React.CSSProperties;
 }
 
 export interface UpSetAddonProps<S extends ISetLike<T>, T> {
@@ -88,15 +88,15 @@ export interface UpSetAddon<S extends ISetLike<T>, T> {
   /**
    * react component to render the addon
    */
-  render: (props: UpSetAddonProps<S, T>) => ReactNode;
+  render: (props: UpSetAddonProps<S, T>) => React.ReactNode;
   /**
    * optional react component to render the selection
    */
-  renderSelection?: (props: UpSetSelectionAddonProps<S, T>) => ReactNode;
+  renderSelection?: (props: UpSetSelectionAddonProps<S, T>) => React.ReactNode;
   /**
    * optional react component to render a query
    */
-  renderQuery?: (props: UpSetQueryAddonProps<S, T>) => ReactNode;
+  renderQuery?: (props: UpSetQueryAddonProps<S, T>) => React.ReactNode;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;

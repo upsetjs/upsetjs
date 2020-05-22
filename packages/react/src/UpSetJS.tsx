@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useMemo, ReactNode, CSSProperties, forwardRef, Ref } from 'react';
+import React, { useMemo, forwardRef, Ref } from 'react';
 import { UpSetAddons, UpSetReactStyles, UpSetStyleClassNames, UpSetFontSizes } from './interfaces';
 import deriveDataDependent from './components/deriveDataDependent';
 import defineSizeDependent from './components/deriveSizeDependent';
@@ -122,7 +122,7 @@ export interface UpSetReactStyleProps<T = any> {
   /**
    * style object applied to the SVG element
    */
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   /**
    * object for applying styles to certain sub elements
    */
@@ -138,11 +138,21 @@ export interface UpSetReactStyleProps<T = any> {
   /**
    * factory to create extra react nodes for each set
    */
-  setChildrenFactory?: (set: ISet<T>) => ReactNode;
+  setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
   /**
    * factory to create extra react nodes for each set combination
    */
-  combinationChildrenFactory?: (combination: ISetCombination<T>) => ReactNode;
+  combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
+  /**
+   * set axis label
+   * @default Set Size
+   */
+  setName?: React.ReactNode;
+  /**
+   * combination axis label
+   * @default Intersection Size
+   */
+  combinationName?: React.ReactNode;
 }
 
 export interface UpSetThemeProps {
@@ -239,16 +249,6 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   bandScale?: BandScaleFactory | 'band';
   /**
-   * set axis label
-   * @default Set Size
-   */
-  setName?: ReactNode;
-  /**
-   * combination axis label
-   * @default Intersection Size
-   */
-  combinationName?: ReactNode;
-  /**
    * render empty selection for better performance
    * @default true
    */
@@ -264,7 +264,7 @@ export interface UpSetProps<T = any>
     UpSetStyleProps,
     UpSetReactStyleProps<T>,
     UpSetSelectionProps<T> {
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
