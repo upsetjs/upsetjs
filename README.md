@@ -410,7 +410,9 @@ upsetjs -> 0.5.10, upsetjs_r -> 0.5.5 bad should be upsetjs_r -> 0.5.10, too
 
 ## Privacy Policy
 
-UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server. The uploaded data in the app are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests. However, as soon as you export your session within the app to an external service (e.g., Codepen.io) your data will be transferred.
+UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server.
+The uploaded data in the app are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests.
+However, as soon as you export your session within the app to an external service (e.g., Codepen.io) your data will be transferred.
 
 ## License / Terms of Service
 
@@ -420,7 +422,8 @@ If you want to use Upset.js for a commercial application the commercial license 
 
 ### Open-source license
 
-This library is released under the `GNU AGPLv3` version to be used for private and academic purposes. In case of a commercial use, please get in touch regarding a commercial license.
+This library is released under the `GNU AGPLv3` version to be used for private and academic purposes.
+In case of a commercial use, please get in touch regarding a commercial license.
 
 [npm-image]: https://badge.fury.io/js/%40upsetjs%2Freact.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/react
