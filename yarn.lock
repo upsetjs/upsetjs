@@ -3533,7 +3533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/addons@^1.0.0, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.0.0":
+"@upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.0.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
   dependencies:
@@ -3652,10 +3652,10 @@ __metadata:
     "@types/jest": ^25.2.1
     "@typescript-eslint/eslint-plugin": ^2.30.0
     "@typescript-eslint/parser": ^2.30.0
-    "@upsetjs/addons": ^1.0.0
+    "@upsetjs/addons": ~1.0.0
     "@upsetjs/math": ~1.0.0
     "@upsetjs/model": ~1.0.0
-    "@upsetjs/react": ^1.0.0
+    "@upsetjs/react": ~1.0.0
     eslint: ^6.8.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -3733,7 +3733,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@^1.0.0, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.0.0":
+"@upsetjs/react@workspace:packages/react, @upsetjs/react@~1.0.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -3825,8 +3825,6 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
-    rollup: ^2.10.7
-    rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
