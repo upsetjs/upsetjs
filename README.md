@@ -39,7 +39,7 @@ This monorepo contains following packages:
 In addition, there are the following sibling repositories and projects
 
 - [upsetjs_r](https://github.com/upsetjs/upsetjs_r) R HTMLWidget wrapper around UpSet.js
-  [![Open in Binder][binder]][binder-r-url] [![Open Docs][docs]][docs-r-url] [![Open example][example]][example-r-url]
+  [![CRAN][cran-image]][cran-url] [![Open in Binder][binder]][binder-r-url] [![Open Docs][docs]][docs-r-url] [![Open example][example]][example-r-url]
 
 - [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
   [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
@@ -279,12 +279,15 @@ An advanced example showing all datasets from the live UpSet demo is located at 
 
 ### R/RMarkdown/RShiny HTMLWidget
 
-[![Open in Binder][binder]][binder-r-url] [![open docs][docs]][docs-r-url] [![open example][example]][example-r-url]
+[![CRAN][cran-image]][cran-url] [![Open in Binder][binder]][binder-r-url] [![open docs][docs]][docs-r-url] [![open example][example]][example-r-url]
 
 A R wrapper using [HTMLWidgets](https://www.htmlwidgets.org/) is located at [upset_r](https://github.com/upsetjs/upsetjs_r). The API follows the building pattern using the chaining operator `%>%`.
 In contrast to the original UpsetR implementation it focusses on the UpSet plot itself only. However it supports interactivity either using custom Shiny events or HTMLWidgets Crosstalk. See also Shiny examples.
 
 ```R
+# CRAN version
+install.packages('upsetjs')
+# or
 devtools::install_url("https://github.com/upsetjs/upsetjs_r/releases/latest/download/upsetjs.tar.gz")
 library(upsetjs)
 ```
@@ -442,3 +445,5 @@ In case of a commercial use, please get in touch regarding a commercial license.
 [example-r-url]: https://upset.js.org/integrations/r/articles/basic
 [example-j-url]: https://upset.js.org/integrations/jupyter
 [example-o-url]: https://observablehq.com/@sgratzl/upset-observable-example
+[cran-image]: https://img.shields.io/cran/v/upsetjs
+[cran-url]: https://www.rdocumentation.org/packages/upsetjs
