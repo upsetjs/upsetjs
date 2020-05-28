@@ -5,9 +5,10 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetAddon } from '../interfaces';
+import { UpSetAddon } from '@upsetjs/react';
 import { categoricalAddon as categoricalAddonImpl, ICategory, ICategoricalStyleProps } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
+import { UpSetReactElement } from '../react';
 
 export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
 
@@ -20,7 +21,8 @@ export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
 export function categoricalAddon<T>(
   prop: keyof T | ((v: T) => string),
   elems: ReadonlyArray<T> | { categories: ReadonlyArray<string | ICategory> },
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T>, 'size' | 'position' | 'name'>> & ICategoricalStyleProps = {}
-): UpSetAddon<ISetLike<T>, T> {
+  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+    ICategoricalStyleProps = {}
+): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
   return categoricalAddonImpl(prop, elems, options);
 }

@@ -6,13 +6,7 @@
  */
 
 import React, { useMemo, forwardRef, Ref } from 'react';
-import {
-  UpSetDataProps,
-  UpSetSizeProps,
-  UpSetStyleProps,
-  UpSetReactStyleProps,
-  UpSetSelectionProps,
-} from './interfaces';
+import { UpSetProps } from './interfaces';
 import deriveDataDependent from './components/deriveDataDependent';
 import defineSizeDependent from './components/deriveSizeDependent';
 import deriveStyleDependent from './components/deriveStyleDependent';
@@ -26,18 +20,6 @@ import { clsx, generateId } from './components/utils';
 import { fillDefaults } from './fillDefaults';
 
 export * from './interfaces';
-
-/**
- * the UpSetJS component properties, separated in multiple semantic sub interfaces
- */
-export interface UpSetProps<T = any>
-  extends UpSetDataProps<T>,
-    UpSetSizeProps,
-    UpSetStyleProps,
-    UpSetReactStyleProps<T>,
-    UpSetSelectionProps<T> {
-  children?: React.ReactNode;
-}
 
 /**
  * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
@@ -90,7 +72,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     styles: cStyles,
     textColor,
     emptySelection,
-  } = fillDefaults(props);
+  } = fillDefaults<T>(props);
 
   // generate a "random" but attribute stable id to avoid styling conflicts
   const {

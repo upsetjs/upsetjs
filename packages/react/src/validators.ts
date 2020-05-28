@@ -15,7 +15,8 @@ import {
   BandScaleFactory,
   validators,
 } from '@upsetjs/model';
-import { UpSetStyleClassNames, UpSetFontSizes, UpSetCSSStyles } from './interfaces';
+import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle } from './interfaces';
+import { fontSizesKeys, multiStyleKeys } from './keys';
 
 export function widthRatios(value?: [number, number, number]) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
@@ -60,39 +61,31 @@ export function theme(value?: 'light' | 'dark') {
 }
 
 export function classNames(value?: UpSetStyleClassNames) {
-  const keys: (keyof UpSetStyleClassNames)[] = [
-    'axisTick',
-    'bar',
-    'barLabel',
-    'chartLabel',
-    'dot',
-    'legend',
-    'setLabel',
-  ];
   return (
     value == null ||
-    Object.keys(value).every((k) => keys.includes(k as keyof UpSetStyleClassNames) && typeof k === 'string')
+    Object.keys(value).every((k) => multiStyleKeys.includes(k as keyof UpSetStyleClassNames) && typeof k === 'string')
   );
 }
 
 export function fontSizes(value?: UpSetFontSizes) {
-  const keys: (keyof UpSetFontSizes)[] = ['axisTick', 'barLabel', 'chartLabel', 'legend', 'setLabel'];
   return (
-    value == null || Object.keys(value).every((k) => keys.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
+    value == null ||
+    Object.keys(value).every((k) => fontSizesKeys.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
   );
 }
 
 export function numericScale(value?: 'linear' | 'log' | NumericScaleFactory) {
   return value == null || value === 'linear' || value === 'log' || typeof value === 'function';
 }
+
 export function bandScale(value?: 'band' | BandScaleFactory) {
   return value == null || value === 'band' || typeof value === 'function';
 }
 
-export function style(value?: UpSetCSSStyles) {
+export function style(value?: any) {
   return value == null || typeof value === 'object';
 }
 
-export function styles(value?: UpSetCSSStyles) {
-  return value == null || typeof value === 'object';
+export function styles(value?: UpSetMultiStyle<any>) {
+  return value == null || Object.keys(value).every((k) => multiStyleKeys.includes(k as keyof UpSetStyleClassNames));
 }

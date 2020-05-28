@@ -5,15 +5,6 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import {
-  UpSetThemeProps,
-  UpSetProps,
-  UpSetDataProps,
-  UpSetSizeProps,
-  UpSetStyleProps,
-  UpSetReactStyleProps,
-  UpSetSelectionProps,
-} from './UpSetJS';
 import { ISetCombinations, GenerateSetCombinationsOptions, toKey } from '@upsetjs/model';
 import {
   DEFAULT_COMBINATIONS,
@@ -23,6 +14,7 @@ import {
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
 } from './defaults';
+import { UpSetThemeProps, UpSetProps, UpSetFullProps, UpSetFullPropsG } from './interfaces';
 
 const lightTheme: Required<UpSetThemeProps> = {
   selectionColor: '#ffa500',
@@ -53,13 +45,7 @@ function areCombinations<T>(
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
  */
-export function fillDefaults<T = any>(
-  props: UpSetProps<T>
-): Required<UpSetDataProps<T>> &
-  Required<UpSetSizeProps> &
-  Required<UpSetStyleProps> &
-  Required<UpSetReactStyleProps<T>> &
-  UpSetSelectionProps<T> {
+export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPropsG<T, C, N, L> {
   const theme = getTheme(props.theme);
   return Object.assign(
     {
@@ -104,4 +90,8 @@ export function fillDefaults<T = any>(
         }
       : EMPTY_OBJECT
   );
+}
+
+export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
+  return fillDefaultsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>(props);
 }

@@ -34,7 +34,7 @@ function SetSelectionChart<T>({
   secondary?: boolean;
   tooltip?: string;
   transform?: string;
-  setAddons: UpSetAddons<ISet<T>, T>;
+  setAddons: UpSetAddons<ISet<T>, T, React.ReactNode>;
 }>) {
   const width = size.sets.w;
   const totalWidth = size.sets.w + size.labels.w + size.cs.w;

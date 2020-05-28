@@ -13,6 +13,8 @@ export * from './UpSetJS';
 export * from './fillDefaults';
 export * from '@upsetjs/model';
 
+export * as propValidators from './validators';
+
 /**
  * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
  *

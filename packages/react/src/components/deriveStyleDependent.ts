@@ -5,12 +5,12 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ReactNode } from 'react';
-import { UpSetReactStyles, UpSetStyleClassNames } from '../UpSetJS';
+import { CSSProperties, ReactNode } from 'react';
+import { UpSetMultiStyle, UpSetStyleClassNames } from '../UpSetJS';
 
 export default function deriveStyleDependent(
   theme: 'dark' | 'light',
-  styles: UpSetReactStyles,
+  styles: UpSetMultiStyle<CSSProperties>,
   classNames: UpSetStyleClassNames,
   combinationName: string | ReactNode,
   combinationNameAxisOffset: number | 'auto',

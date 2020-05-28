@@ -62,6 +62,7 @@ export type UpSetCalcQuery<T = any> = {
 };
 
 export type UpSetQuery<T = any> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
+export type UpSetQueries<T = any> = ReadonlyArray<UpSetQuery<T>>;
 
 export function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);

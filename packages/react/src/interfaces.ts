@@ -4,7 +4,6 @@
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
-
 import React from 'react';
 import {
   ISetLike,
@@ -16,6 +15,7 @@ import {
   ISetCombinations,
   GenerateSetCombinationsOptions,
   ISets,
+  UpSetQueries,
 } from '@upsetjs/model';
 
 export interface UpSetAddonProps<S extends ISetLike<T>, T> {
@@ -71,7 +71,7 @@ export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAdd
   secondary: boolean;
 }
 
-export interface UpSetAddon<S extends ISetLike<T>, T> {
+export interface UpSetAddon<S extends ISetLike<T>, T, N> {
   /**
    * addon name
    */
@@ -88,28 +88,18 @@ export interface UpSetAddon<S extends ISetLike<T>, T> {
   /**
    * react component to render the addon
    */
-  render: (props: UpSetAddonProps<S, T>) => React.ReactNode;
+  render: (props: UpSetAddonProps<S, T>) => N;
   /**
    * optional react component to render the selection
    */
-  renderSelection?: (props: UpSetSelectionAddonProps<S, T>) => React.ReactNode;
+  renderSelection?: (props: UpSetSelectionAddonProps<S, T>) => N;
   /**
    * optional react component to render a query
    */
-  renderQuery?: (props: UpSetQueryAddonProps<S, T>) => React.ReactNode;
+  renderQuery?: (props: UpSetQueryAddonProps<S, T>) => N;
 }
 
-export declare type UpSetAddons<S extends ISetLike<T>, T> = ReadonlyArray<UpSetAddon<S, T>>;
-
-export interface UpSetStyleClassNames {
-  legend?: string;
-  chartLabel?: string;
-  axisTick?: string;
-  setLabel?: string;
-  barLabel?: string;
-  bar?: string;
-  dot?: string;
-}
+export declare type UpSetAddons<S extends ISetLike<T>, T, N> = ReadonlyArray<UpSetAddon<S, T, N>>;
 
 export interface UpSetFontSizes {
   /**
@@ -134,7 +124,7 @@ export interface UpSetFontSizes {
   legend?: string;
 }
 
-export interface UpSetDataProps<T = any> {
+export interface UpSetDataProps<T, N> {
   /**
    * the sets to visualize
    */
@@ -154,9 +144,27 @@ export interface UpSetDataProps<T = any> {
    * @param elem the element the key for
    */
   toElemKey?: (elem: T) => string;
+  /**
+   * list of addons that should be rendered along the horizontal sets
+   */
+  setAddons?: UpSetAddons<ISet<T>, T, N>;
+  /**
+   * list of addons that should be rendered along the vertical set combinations
+   */
+  combinationAddons?: UpSetAddons<ISetCombination<T>, T, N>;
+  /**
+   * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
+   * @default linear
+   */
+  numericScale?: NumericScaleFactory | 'linear' | 'log';
+  /**
+   * band scale to use, either constant 'band' or a custom factory function
+   * @default band
+   */
+  bandScale?: BandScaleFactory | 'band';
 }
 
-export interface UpSetSizeProps {
+export interface UpSetLayoutProps {
   /**
    * width of the chart
    */
@@ -193,8 +201,6 @@ export interface UpSetSizeProps {
    */
   heightRatios?: [number, number];
 }
-
-declare type UpSetQueries<T = any> = ReadonlyArray<UpSetQuery<T>>;
 
 export interface UpSetSelectionProps<T = any> {
   /**
@@ -250,7 +256,18 @@ export interface UpSetThemeProps {
   notMemberColor?: string;
 }
 
-export interface UpSetStyleProps extends UpSetThemeProps {
+export interface UpSetMultiStyle<C> {
+  chartLabel?: C;
+  axisTick?: C;
+  setLabel?: C;
+  barLabel?: C;
+  bar?: C;
+  dot?: C;
+  legend?: C;
+}
+export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
+
+export interface UpSetElementProps<T, C, N> {
   /**
    * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
    */
@@ -264,6 +281,25 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   classNames?: UpSetStyleClassNames;
   /**
+   * style object applied to the SVG element
+   */
+  style?: C;
+  /**
+   * object for applying styles to certain sub elements
+   */
+  styles?: UpSetMultiStyle<C>;
+  /**
+   * factory to create extra react nodes for each set
+   */
+  setChildrenFactory?: (set: ISet<T>) => N;
+  /**
+   * factory to create extra react nodes for each set combination
+   */
+  combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
+}
+
+export interface UpSetStyleProps<L> {
+  /**
    * basic theme of the plot either 'light' or 'dark'
    * @default light
    */
@@ -274,10 +310,20 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   barLabelOffset?: number;
   /**
+   * set axis label
+   * @default Set Size
+   */
+  setName?: L;
+  /**
    * offset of the set name from the set x axis. 'auto' means that it will be guessed according to the current values
    * @default auto
    */
   setNameAxisOffset?: number | 'auto';
+  /**
+   * combination axis label
+   * @default Intersection Size
+   */
+  combinationName?: L;
   /**
    * offset of the combination name from the combination y axis. 'auto' means that it will be guessed according to the current values
    * @default auto
@@ -303,65 +349,33 @@ export interface UpSetStyleProps extends UpSetThemeProps {
    */
   fontSizes?: UpSetFontSizes;
   /**
-   * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
-   * @default linear
-   */
-  numericScale?: NumericScaleFactory | 'linear' | 'log';
-  /**
-   * band scale to use, either constant 'band' or a custom factory function
-   * @default band
-   */
-  bandScale?: BandScaleFactory | 'band';
-  /**
    * render empty selection for better performance
    * @default true
    */
   emptySelection?: boolean;
 }
 
-export interface UpSetReactStyles {
-  chartLabel?: React.CSSProperties;
-  axisTick?: React.CSSProperties;
-  setLabel?: React.CSSProperties;
-  barLabel?: React.CSSProperties;
-  bar?: React.CSSProperties;
-  dot?: React.CSSProperties;
-  legend?: React.CSSProperties;
+/**
+ * the UpSetJS component properties, separated in multiple semantic sub interfaces
+ */
+export interface UpSetPropsG<T, C, N, L>
+  extends UpSetDataProps<T, N>,
+    UpSetLayoutProps,
+    UpSetStyleProps<L>,
+    UpSetThemeProps,
+    UpSetElementProps<T, C, N>,
+    UpSetSelectionProps<T> {
+  children?: N;
 }
 
-export interface UpSetReactStyleProps<T = any> {
-  /**
-   * style object applied to the SVG element
-   */
-  style?: React.CSSProperties;
-  /**
-   * object for applying styles to certain sub elements
-   */
-  styles?: UpSetReactStyles;
-  /**
-   * list of addons that should be rendered along the horizontal sets
-   */
-  setAddons?: UpSetAddons<ISet<T>, T>;
-  /**
-   * list of addons that should be rendered along the vertical set combinations
-   */
-  combinationAddons?: UpSetAddons<ISetCombination<T>, T>;
-  /**
-   * factory to create extra react nodes for each set
-   */
-  setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
-  /**
-   * factory to create extra react nodes for each set combination
-   */
-  combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
-  /**
-   * set axis label
-   * @default Set Size
-   */
-  setName?: React.ReactNode;
-  /**
-   * combination axis label
-   * @default Intersection Size
-   */
-  combinationName?: React.ReactNode;
-}
+export declare type UpSetProps<T = any> = UpSetPropsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>;
+
+export interface UpSetFullPropsG<T, C, N, L>
+  extends Required<UpSetDataProps<T, N>>,
+    Required<UpSetLayoutProps>,
+    Required<UpSetStyleProps<L>>,
+    Required<UpSetThemeProps>,
+    Required<UpSetElementProps<T, C, N>>,
+    UpSetSelectionProps<T> {}
+
+export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>;

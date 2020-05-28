@@ -5,8 +5,8 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetCSSStyles } from '../react';
-import { UpSetAddon } from '../interfaces';
+import { UpSetCSSStyles, UpSetReactElement } from '../react';
+import { UpSetAddon } from '@upsetjs/react';
 import { boxplotAddon as boxplotAddonImpl, IBoxplotStylePlainProps } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
 
@@ -34,7 +34,8 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
   elems: ReadonlyArray<T> | { min: number; max: number },
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T>, 'size' | 'position' | 'name'>> & IBoxplotStyleProps = {}
-): UpSetAddon<ISetLike<T>, T> {
+  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+    IBoxplotStyleProps = {}
+): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
   return boxplotAddonImpl(prop, elems, options);
 }

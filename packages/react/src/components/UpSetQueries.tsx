@@ -45,7 +45,7 @@ export default React.memo(function UpSetQueries<T>({
 
   function wrapAddon<
     S extends ISetLike<T>
-  >(addon: UpSetAddon<S, T>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
+  >(addon: UpSetAddon<S, T, React.ReactNode>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {

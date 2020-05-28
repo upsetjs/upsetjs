@@ -89,7 +89,7 @@ export default function UpSetSelection<T>({
       ? elemElemOverlapOf(Array.isArray(selection) ? selection : (selection as ISetLike<T>).elems, data.toElemKey)
       : null;
 
-  function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T>) {
+  function wrapAddon<S extends ISetLike<T>>(addon: UpSetAddon<S, T, React.ReactNode>) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {

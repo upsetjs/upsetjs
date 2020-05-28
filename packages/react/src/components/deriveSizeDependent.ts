@@ -5,6 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import { ReactNode } from 'react';
 import { UpSetAddon } from '../interfaces';
 import { generateId } from './utils';
 
@@ -15,8 +16,8 @@ export default function deriveSizeDependent(
   barPadding: number,
   widthRatios: [number, number, number],
   heightRatios: [number, number],
-  setAddons: ReadonlyArray<UpSetAddon<any, any>>,
-  combinationAddons: ReadonlyArray<UpSetAddon<any, any>>,
+  setAddons: ReadonlyArray<UpSetAddon<any, any, ReactNode>>,
+  combinationAddons: ReadonlyArray<UpSetAddon<any, any, ReactNode>>,
   id: string
 ) {
   const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);

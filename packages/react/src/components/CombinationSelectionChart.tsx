@@ -6,7 +6,7 @@
  */
 
 import { ISetLike, ISetCombination } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import { UpSetAddons } from '../interfaces';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
@@ -34,7 +34,7 @@ function CombinationSelectionChart<T>({
   elemOverlap: (s: ISetLike<T>) => number;
   secondary?: boolean;
   tooltip?: string;
-  combinationAddons: UpSetAddons<ISetCombination<T>, T>;
+  combinationAddons: UpSetAddons<ISetCombination<T>, T, ReactNode>;
 }>) {
   const width = data.cs.bandWidth;
   const totalHeight = size.cs.h + size.sets.h;
