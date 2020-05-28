@@ -7,6 +7,7 @@
 
 import React, { PropsWithChildren } from 'react';
 import D3Axis from './D3Axis';
+import UpSetTitle from './UpSetTitle';
 import { UpSetDataInfo } from './deriveDataDependent';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { UpSetStyleInfo } from './deriveStyleDependent';
@@ -27,6 +28,7 @@ export default React.memo(function UpSetAxis<T>({
   const setNameOffset = style.sets.offset === 'auto' ? data.sets.labelOffset : style.sets.offset;
   return (
     <g>
+      <UpSetTitle style={style} width={size.cs.x} />
       <g transform={`translate(${size.cs.x},${size.cs.y})`} data-upset="csaxis">
         <D3Axis scale={data.cs.y} orient="left" size={size.cs.h} shift={size.cs.h - data.cs.yAxisWidth} style={style} />
         <line x1={0} x2={size.cs.w} y1={size.cs.h + 1} y2={size.cs.h + 1} className={`axisLine-${style.id}`} />

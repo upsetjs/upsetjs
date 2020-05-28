@@ -10,7 +10,7 @@ import {
   DEFAULT_COMBINATIONS,
   DEFAULT_HEIGHT_RATIO,
   EMPTY_ARRAY,
-  DEFAULT_FONTSIZES,
+  DEFAULT_FONT_SIZES,
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
 } from './defaults';
@@ -63,6 +63,8 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPr
       setNameAxisOffset: 'auto',
       combinationNameAxisOffset: 'auto',
       setName: 'Set Size',
+      title: '',
+      description: '',
       fontFamily: 'sans-serif',
       widthRatios: DEFAULT_WIDTH_RATIO,
       heightRatios: DEFAULT_HEIGHT_RATIO,
@@ -72,7 +74,7 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPr
       numericScale: 'linear',
       bandScale: 'band',
       className: '',
-      fontSizes: DEFAULT_FONTSIZES,
+      fontSizes: DEFAULT_FONT_SIZES,
       classNames: EMPTY_OBJECT,
       style: EMPTY_OBJECT,
       styles: EMPTY_OBJECT,
@@ -86,7 +88,7 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPr
     props,
     props.fontSizes
       ? {
-          fontSizes: Object.assign({}, DEFAULT_FONTSIZES, props.fontSizes),
+          fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
         }
       : EMPTY_OBJECT
   );

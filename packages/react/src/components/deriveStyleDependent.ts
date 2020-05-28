@@ -19,7 +19,9 @@ export default function deriveStyleDependent(
   styleId: string,
   barLabelOffset: number,
   selectionColor: string,
-  emptySelection: boolean
+  emptySelection: boolean,
+  title: string | ReactNode,
+  description: string | ReactNode
 ) {
   return {
     theme,
@@ -37,6 +39,8 @@ export default function deriveStyleDependent(
     id: styleId,
     barLabelOffset,
     selectionColor,
+    title,
+    description,
   };
 }
 

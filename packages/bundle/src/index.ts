@@ -14,8 +14,9 @@ import UpSetElement, {
   exportSVG as exportSVGImpl,
   downloadUrl as downloadUrlImpl,
 } from '@upsetjs/react';
-export { propValidators } from '@upsetjs/react';
 import { UpSetCSSStyles, UpSetReactElement } from './react';
+
+export { propValidators } from '@upsetjs/react';
 
 export * from './addons';
 export * from '@upsetjs/model';

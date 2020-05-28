@@ -16,7 +16,7 @@ import {
   validators,
 } from '@upsetjs/model';
 import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle } from './interfaces';
-import { fontSizesKeys, multiStyleKeys } from './keys';
+import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS } from './defaults';
 
 export function widthRatios(value?: [number, number, number]) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
@@ -63,14 +63,14 @@ export function theme(value?: 'light' | 'dark') {
 export function classNames(value?: UpSetStyleClassNames) {
   return (
     value == null ||
-    Object.keys(value).every((k) => multiStyleKeys.includes(k as keyof UpSetStyleClassNames) && typeof k === 'string')
+    Object.keys(value).every((k) => MULTI_STYLE_KEYS.includes(k as keyof UpSetStyleClassNames) && typeof k === 'string')
   );
 }
 
 export function fontSizes(value?: UpSetFontSizes) {
   return (
     value == null ||
-    Object.keys(value).every((k) => fontSizesKeys.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
+    Object.keys(value).every((k) => FONT_SIZES_KEYS.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
   );
 }
 
@@ -87,5 +87,5 @@ export function style(value?: any) {
 }
 
 export function styles(value?: UpSetMultiStyle<any>) {
-  return value == null || Object.keys(value).every((k) => multiStyleKeys.includes(k as keyof UpSetStyleClassNames));
+  return value == null || Object.keys(value).every((k) => MULTI_STYLE_KEYS.includes(k as keyof UpSetStyleClassNames));
 }

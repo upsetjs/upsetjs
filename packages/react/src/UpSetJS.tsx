@@ -72,6 +72,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     styles: cStyles,
     textColor,
     emptySelection,
+    title,
+    description,
   } = fillDefaults<T>(props);
 
   // generate a "random" but attribute stable id to avoid styling conflicts
@@ -81,6 +83,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     chartLabel: fontChartLabel,
     legend: fontLegend,
     setLabel: fontSetLabel,
+    description: fontDescription,
+    title: fontTitle,
   } = fontSizes;
   const styleId = useMemo(
     () =>
@@ -93,6 +97,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
             fontChartLabel,
             fontLegend,
             fontSetLabel,
+            fontTitle,
+            fontDescription,
             textColor,
             hoverHintColor,
             color,
@@ -108,6 +114,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       fontChartLabel,
       fontLegend,
       fontSetLabel,
+      fontTitle,
+      fontDescription,
       textColor,
       hoverHintColor,
       color,
@@ -129,7 +137,9 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         styleId,
         barLabelOffset,
         selectionColor,
-        emptySelection
+        emptySelection,
+        title,
+        description
       ),
     [
       theme,
@@ -143,6 +153,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       styleId,
       selectionColor,
       emptySelection,
+      title,
+      description,
     ]
   );
 
@@ -198,6 +210,14 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   const rules = `
   .root-${styleId} {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
+  }
+  .titleTextStyle-${styleId} {
+    fill: ${textColor};
+    ${fontTitle ? `font-size: ${fontTitle};` : ''}
+  }
+  .descTextStyle-${styleId} {
+    fill: ${textColor};
+    ${fontDescription ? `font-size: ${fontDescription};` : ''}
   }
   .axisTextStyle-${styleId} {
     fill: ${textColor};

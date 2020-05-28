@@ -122,6 +122,26 @@ export interface UpSetFontSizes {
    * @default 10px
    */
   legend?: string;
+  /**
+   * @default 24px
+   */
+  title?: string;
+  /**
+   * @default 16px
+   */
+  description?: string;
+}
+
+export interface UpSetMultiStyle<C> {
+  chartLabel?: C;
+  axisTick?: C;
+  setLabel?: C;
+  barLabel?: C;
+  bar?: C;
+  dot?: C;
+  legend?: C;
+  title?: C;
+  description?: C;
 }
 
 export interface UpSetDataProps<T, N> {
@@ -256,15 +276,6 @@ export interface UpSetThemeProps {
   notMemberColor?: string;
 }
 
-export interface UpSetMultiStyle<C> {
-  chartLabel?: C;
-  axisTick?: C;
-  setLabel?: C;
-  barLabel?: C;
-  bar?: C;
-  dot?: C;
-  legend?: C;
-}
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
 
 export interface UpSetElementProps<T, C, N> {
@@ -353,6 +364,15 @@ export interface UpSetStyleProps<L> {
    * @default true
    */
   emptySelection?: boolean;
+
+  /**
+   * optional title text for the plot
+   */
+  title?: L;
+  /**
+   * optional description text for the plot
+   */
+  description?: L;
 }
 
 /**
