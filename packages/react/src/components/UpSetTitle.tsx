@@ -12,11 +12,18 @@ import { clsx } from './utils';
 const MultilineText = React.memo(function MultilineText({
   width,
   text,
-  ...props
+  dy,
+  x,
+  style,
+  className,
 }: {
   width: number;
   text: React.ReactNode;
-} & React.SVGProps<SVGTSpanElement>) {
+  x?: string | number;
+  dy: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const ref = useRef<SVGTSpanElement>(null);
   const [lines, setLines] = useState<string[]>(typeof text === 'string' ? [text] : []);
 
@@ -61,10 +68,10 @@ const MultilineText = React.memo(function MultilineText({
     return null;
   }
   return (
-    <tspan ref={ref} {...props}>
+    <tspan ref={ref} dy={dy} style={style} x={x} className={className}>
       {lines.length > 1
         ? lines.map((l, i) => (
-            <tspan key={l} x={0} dy={i > 0 ? '1.2em' : props.dy}>
+            <tspan key={l} x={0} dy={i > 0 ? '1.2em' : dy}>
               {l}
             </tspan>
           ))
@@ -95,7 +102,7 @@ export default React.memo(function UpSetTitle({
       <MultilineText
         x={0}
         width={width}
-        dy={style.title ? '2em' : 0}
+        dy={style.title ? '2em' : '10px'}
         text={style.description}
         className={clsx(`descTextStyle-${style.id}`, style.classNames.description)}
         style={style.styles.description}

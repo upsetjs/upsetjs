@@ -3745,6 +3745,7 @@ __metadata:
     "@storybook/react": ^6.0.0-beta.1
     "@testing-library/react": ^10.0.4
     "@types/jest": ^25.2.1
+    "@types/lz-string": ^1.3.34
     "@types/react": ^16.9.34
     "@types/react-dom": ^16.9.7
     "@types/testing-library__react": ^10.0.1
@@ -3762,6 +3763,7 @@ __metadata:
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
     eslint-plugin-testing-library: ^3.1.0
+    lz-string: ^1.4.4
     prettier: ^2.0.5
     react: ^16.13.0
     react-docgen-typescript-loader: ^3.7.2

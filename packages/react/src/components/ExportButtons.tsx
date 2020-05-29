@@ -7,8 +7,8 @@
 
 import React, { useCallback } from 'react';
 import { exportSVG, exportVegaLite } from '../exporter';
-import { exportDump } from '../exporter/exportDump';
-import { UpSetProps } from '../interfaces';
+import { exportDump, exportSharedLink } from '../exporter/exportDump';
+import { UpSetProps, UpSetExportOptions } from '../interfaces';
 import { UpSetDataInfo } from './deriveDataDependent';
 
 export default function ExportButtons({
@@ -20,26 +20,31 @@ export default function ExportButtons({
 }: {
   transform: string;
   styleId: string;
-  exportButtons?: boolean | { png: boolean; svg: boolean; vega: boolean; dump: boolean };
+  exportButtons?: boolean | UpSetExportOptions;
   props: UpSetProps<any>;
   data: UpSetDataInfo<any>;
 }) {
   const exportChart = useCallback(
     (evt: React.MouseEvent<SVGElement>) => {
       const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
-      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump';
-      if (type === 'vega') {
-        exportVegaLite(svg);
-        return;
+      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
+      switch (type) {
+        case 'vega':
+          exportVegaLite(svg);
+          break;
+        case 'dump':
+          exportDump(svg, props, data);
+          break;
+        case 'share':
+          exportSharedLink(props, data);
+          break;
+        case 'svg':
+        case 'png':
+          exportSVG(svg, {
+            type,
+            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
+          });
       }
-      if (type === 'dump') {
-        exportDump(svg, props, data);
-        return;
-      }
-      exportSVG(svg, {
-        type,
-        toRemove: `.${evt.currentTarget.getAttribute('class')}`,
-      });
     },
     [data, props]
   );
@@ -50,6 +55,7 @@ export default function ExportButtons({
   const pngWidth = 26;
   const vegaWidth = 34;
   const dumpWidth = 34;
+  const shareWidth = 42;
   const space = 2;
   let acc = 0;
   const buttons: React.ReactNode[] = [];
@@ -124,6 +130,25 @@ export default function ExportButtons({
         <rect y={-9} width={dumpWidth} height={11} rx={2} ry={2} />
         <text className={`exportTextStyle-${styleId}`} x={dumpWidth / 2}>
           DUMP
+        </text>
+      </g>
+    );
+    acc += space;
+  }
+  if (exportButtons === true || exportButtons.share) {
+    acc += shareWidth;
+    buttons.push(
+      <g
+        key="dump"
+        className={`exportButton-${styleId}`}
+        onClick={exportChart}
+        data-type="share"
+        transform={`translate(-${acc}, 0)`}
+      >
+        <title>Open a shareable URL</title>
+        <rect y={-9} width={shareWidth} height={11} rx={2} ry={2} />
+        <text className={`exportTextStyle-${styleId}`} x={shareWidth / 2}>
+          SHARE
         </text>
       </g>
     );

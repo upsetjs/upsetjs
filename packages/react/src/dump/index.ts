@@ -67,36 +67,36 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
   });
 
   const r: any = {};
-  for (const key of DUMP_KEYS) {
+  DUMP_KEYS.forEach((key) => {
     const value = props[key];
     const defaultValue = full[key];
     if (key === 'theme' && value === 'dark') {
       // keep dark theme flag
       r[key] = value;
-      continue;
+      return;
     }
     if (value == null || value === defaultValue) {
-      continue;
+      return;
     }
     if (key === 'fontSizes') {
       // nested check
       let empty = true;
       const sub: UpSetFontSizes = {};
-      for (const fKey of FONT_SIZES_KEYS) {
+      FONT_SIZES_KEYS.forEach((fKey) => {
         const fValue = (value as UpSetFontSizes)[fKey];
         const fDefaultValue = (defaultValue as UpSetFontSizes)[fKey];
         if (fValue !== fDefaultValue) {
           sub[fKey] = fValue;
           empty = false;
         }
-      }
+      });
       if (!empty) {
         r[key] = sub;
       }
     } else {
       r[key] = value;
     }
-  }
+  });
   return r;
 }
 

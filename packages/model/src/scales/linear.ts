@@ -48,8 +48,8 @@ function distributeTicks(
   const factors = niceFactors(max, maxCount);
 
   // try out all factors
-  for (const factor of factors) {
-    const values = range(max, factor);
+  for (let i = 0; i < factors.length; i++) {
+    const values = range(max, factors[i]);
     const r = checkValues(values, scale, heightPerTick, max, toStr);
     if (r) {
       return r;

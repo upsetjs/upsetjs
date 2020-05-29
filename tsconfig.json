@@ -13,6 +13,7 @@
     "strictBindCallApply": true,
     "stripInternal": true,
     "resolveJsonModule": true,
+    "downlevelIteration": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,

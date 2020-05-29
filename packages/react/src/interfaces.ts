@@ -309,6 +309,14 @@ export interface UpSetElementProps<T, C, N> {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
 }
 
+export interface UpSetExportOptions {
+  png?: boolean;
+  svg?: boolean;
+  vega?: boolean;
+  dump?: boolean;
+  share?: boolean;
+}
+
 export interface UpSetStyleProps<L> {
   /**
    * basic theme of the plot either 'light' or 'dark'
@@ -349,7 +357,7 @@ export interface UpSetStyleProps<L> {
    * show export buttons
    * @default true
    */
-  exportButtons?: boolean | { png: boolean; svg: boolean; vega: boolean; dump: boolean };
+  exportButtons?: boolean | UpSetExportOptions;
   /**
    * specify the overall font family, set to false to use the default font family
    * @default sans-serif
