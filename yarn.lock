@@ -3668,6 +3668,7 @@ __metadata:
     preact: ^10.4.1
     prettier: ^2.0.5
     rollup: ^2.10.7
+    rollup-plugin-cleanup: ^3.1.1
     rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
@@ -3724,6 +3725,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
     rollup: ^2.10.7
+    rollup-plugin-cleanup: ^3.1.1
     rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
@@ -3770,6 +3772,7 @@ __metadata:
     react-dom: ^16.13.1
     react-is: ^16.13.1
     rollup: ^2.10.7
+    rollup-plugin-cleanup: ^3.1.1
     rollup-plugin-dts: ^1.4.6
     rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^7.0.2
@@ -12590,6 +12593,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"js-cleanup@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "js-cleanup@npm:1.0.1"
+  dependencies:
+    magic-string: ^0.25.1
+    perf-regexes: ^1.0.1
+    skip-regex: ^1.0.2
+  checksum: 3/31da4a33a559ec9837f3a4c36571c01cfd38b7675c195d3bf3a6a649dac1a48b4bd608e50705ae912bbd42538eadf075da97fcd478acc02b5c544a653c89e419
+  languageName: node
+  linkType: hard
+
 "js-message@npm:1.0.5":
   version: 1.0.5
   resolution: "js-message@npm:1.0.5"
@@ -13487,7 +13501,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.0, magic-string@npm:^0.25.2, magic-string@npm:^0.25.5":
+"magic-string@npm:^0.25.0, magic-string@npm:^0.25.1, magic-string@npm:^0.25.2, magic-string@npm:^0.25.5":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
   dependencies:
@@ -15349,6 +15363,13 @@ fsevents@^1.2.7:
     safe-buffer: ^5.0.1
     sha.js: ^2.4.8
   checksum: 3/6a5ad5bb8f70d3d1f7f9a022afdc39809e20562c1f4aed424881c1a9fddf3ff15073c9d952000f13cdee885e04b0f2b4b748abac6b813a36717641ef4993cdf0
+  languageName: node
+  linkType: hard
+
+"perf-regexes@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "perf-regexes@npm:1.0.1"
+  checksum: 3/0aa34565ba249739d4c3c0a1b407be88ea48be2eb910b73d529a923f20b5043feb1bb43470457226d78fd7778e7d8c176b28148c8bd14a511222c68555b1d383
   languageName: node
   linkType: hard
 
@@ -17635,6 +17656,18 @@ resolve@1.15.1:
   languageName: node
   linkType: hard
 
+"rollup-plugin-cleanup@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "rollup-plugin-cleanup@npm:3.1.1"
+  dependencies:
+    js-cleanup: ^1.0.1
+    rollup-pluginutils: ^2.3.3
+  peerDependencies:
+    rollup: ">=0.50.0"
+  checksum: 3/7c6a4f583ca746faf56f0c48dbd49b8c354453f7bdac9f5f3830178387e8ee1c86a973a114c9ad5565a3576fd4460e11aa6bcad0ae727a24a50bc49c41a30b8f
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-dts@npm:^1.4.6":
   version: 1.4.6
   resolution: "rollup-plugin-dts@npm:1.4.6"
@@ -17700,7 +17733,7 @@ resolve@1.15.1:
   languageName: node
   linkType: hard
 
-"rollup-pluginutils@npm:2.8.2, rollup-pluginutils@npm:^2.0.1, rollup-pluginutils@npm:^2.8.1, rollup-pluginutils@npm:^2.8.2":
+"rollup-pluginutils@npm:2.8.2, rollup-pluginutils@npm:^2.0.1, rollup-pluginutils@npm:^2.3.3, rollup-pluginutils@npm:^2.8.1, rollup-pluginutils@npm:^2.8.2":
   version: 2.8.2
   resolution: "rollup-pluginutils@npm:2.8.2"
   dependencies:
@@ -18172,6 +18205,13 @@ resolve@1.15.1:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: 3/6554debe10fa4c6a7e8d58531313fdb61c39bb435ba420f8d7a01d8aaffecc654cca846b586e33f3c904350e24f229d5bbd8069abdb583c93252849a0f73e933
+  languageName: node
+  linkType: hard
+
+"skip-regex@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "skip-regex@npm:1.0.2"
+  checksum: 3/84bb6382b823949691cec53a2d3d8d872994009cced78f107c36cca3667c3b99a6db8e5b27deb12f60f152a326a12b1f8ace045263da17b6da03004a7d0a35f8
   languageName: node
   linkType: hard
 
