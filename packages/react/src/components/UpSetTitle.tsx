@@ -39,7 +39,7 @@ const MultilineText = React.memo(function MultilineText({
     let lineWidth = width;
     let start = 0;
     // compute line splits
-    const p = ref.current.ownerSVGElement!.createSVGPoint();
+    const p = ref.current.getStartPositionOfChar(0);
     while (len > lineWidth) {
       p.x = lineWidth;
       const num = ref.current.getCharNumAtPosition(p);
@@ -64,7 +64,7 @@ const MultilineText = React.memo(function MultilineText({
     <tspan ref={ref} {...props}>
       {lines.length > 1
         ? lines.map((l, i) => (
-            <tspan key={l} x={0} dy={i > 0 ? '1.2em' : 0}>
+            <tspan key={l} x={0} dy={i > 0 ? '1.2em' : props.dy}>
               {l}
             </tspan>
           ))
@@ -88,6 +88,7 @@ export default React.memo(function UpSetTitle({
       <MultilineText
         text={style.title}
         width={width}
+        dy="10px"
         className={clsx(`titleTextStyle-${style.id}`, style.classNames.title)}
         style={style.styles.title}
       />
