@@ -3566,7 +3566,7 @@ __metadata:
     react-dom: ^16.13.1
     react-is: ^16.13.1
     rollup: ^2.10.7
-    rollup-plugin-dts: ^1.4.6
+    rollup-plugin-dts: ^1.4.7
     rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^7.0.2
     tsdx: ~0.13.2
@@ -3669,7 +3669,7 @@ __metadata:
     prettier: ^2.0.5
     rollup: ^2.10.7
     rollup-plugin-cleanup: ^3.1.1
-    rollup-plugin-dts: ^1.4.6
+    rollup-plugin-dts: ^1.4.7
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3697,7 +3697,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.0.0
     prettier: ^2.0.5
     rollup: ^2.10.7
-    rollup-plugin-dts: ^1.4.6
+    rollup-plugin-dts: ^1.4.7
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3726,7 +3726,7 @@ __metadata:
     prettier: ^2.0.5
     rollup: ^2.10.7
     rollup-plugin-cleanup: ^3.1.1
-    rollup-plugin-dts: ^1.4.6
+    rollup-plugin-dts: ^1.4.7
     rollup-plugin-pnp-resolve: ^2.0.0
     tsdx: ~0.13.2
     tslib: ^1.11.1
@@ -3773,7 +3773,7 @@ __metadata:
     react-is: ^16.13.1
     rollup: ^2.10.7
     rollup-plugin-cleanup: ^3.1.1
-    rollup-plugin-dts: ^1.4.6
+    rollup-plugin-dts: ^1.4.7
     rollup-plugin-pnp-resolve: ^2.0.0
     ts-loader: ^7.0.2
     tsdx: ~0.13.2
@@ -17668,18 +17668,18 @@ resolve@1.15.1:
   languageName: node
   linkType: hard
 
-"rollup-plugin-dts@npm:^1.4.6":
-  version: 1.4.6
-  resolution: "rollup-plugin-dts@npm:1.4.6"
+"rollup-plugin-dts@npm:^1.4.7":
+  version: 1.4.7
+  resolution: "rollup-plugin-dts@npm:1.4.7"
   dependencies:
     "@babel/code-frame": ^7.8.3
   peerDependencies:
-    rollup: ^2.10.0
+    rollup: ^2.10.2
     typescript: ^3.9.2
   dependenciesMeta:
     "@babel/code-frame":
       optional: true
-  checksum: 3/fa77c5e6b1f6fb1ce52397fcbf292afde80dbb59b907499ab2fc6feb5ea4bf1dd7ff918d80bb6214d320490b4a60148568eb01515c0e422dbfeb82b662ea430d
+  checksum: 3/3439e9c035fc80d6e5cfcb5493c7a511101b641a8a9f8822ba4d1ac0ae4a7c01948547ebe74ca6021d6adf4ede4aef247ac14f2b8d5c4403b1f9f5479ccecf4a
   languageName: node
   linkType: hard
 
