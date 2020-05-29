@@ -1,9 +1,15 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
 import { UpSetLayoutProps, UpSetStyleProps, UpSetThemeProps, UpSetProps, UpSetFontSizes } from '../interfaces';
 import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 import { fillDefaults } from '../fillDefaults';
 import { FONT_SIZES_KEYS } from '../defaults';
 
-export interface UpSetDumpProps
+export interface UpSetJSDumpProps
   extends Partial<UpSetLayoutProps>,
     UpSetThemeProps,
     Omit<UpSetStyleProps<string>, 'title' | 'description'> {
@@ -34,11 +40,11 @@ const STYLE_KEYS: (keyof UpSetStyleProps<any>)[] = [
   'queryLegend',
 ];
 
-const DUMP_KEYS: (keyof UpSetDumpProps)[] = ['bandScale', 'numericScale'].concat(
+const DUMP_KEYS: (keyof UpSetJSDumpProps)[] = ['bandScale', 'numericScale'].concat(
   THEME_KEYS as string[],
   LAYOUT_KEYS as string[],
   STYLE_KEYS as string[]
-) as (keyof UpSetDumpProps)[];
+) as (keyof UpSetJSDumpProps)[];
 
 export interface IUpSetJSDump extends IUpSetDump {
   $schema: string;
@@ -48,14 +54,14 @@ export interface IUpSetJSDump extends IUpSetDump {
 
   elements: ReadonlyArray<number | string | any>;
   attrs: ReadonlyArray<string>;
-  props: UpSetDumpProps;
+  props: UpSetJSDumpProps;
 }
 
-function toDumpProps(props: UpSetProps): UpSetDumpProps {
+function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
   const full = fillDefaults({
     width: 0,
     height: 0,
-    sets: props.sets,
+    sets: props.sets ?? [],
     combinations: props.combinations,
     theme: props.theme,
   });
@@ -97,7 +103,7 @@ function toDumpProps(props: UpSetProps): UpSetDumpProps {
 export function toUpSetJSDump(
   dump: IUpSetDump,
   elements: ReadonlyArray<number | string | any>,
-  props: UpSetProps<any>,
+  props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSDump {
   return Object.assign(
@@ -119,12 +125,12 @@ export interface IUpSetJSStaticDump extends IUpSetStaticDump {
   name: string;
   description: string;
   author?: string;
-  props: UpSetDumpProps;
+  props: UpSetJSDumpProps;
 }
 
 export function toUpSetJSStaticDump(
   dump: IUpSetStaticDump,
-  props: UpSetProps<any>,
+  props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSStaticDump {
   return Object.assign(

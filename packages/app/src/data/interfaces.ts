@@ -5,19 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
+import { ISets, ISetCombinations, GenerateSetCombinationsOptions, UpSetJSDumpProps } from '@upsetjs/react';
 
-import {
-  ISets,
-  UpSetSizeProps,
-  UpSetStyleProps,
-  ISetCombinations,
-  GenerateSetCombinationsOptions,
-} from '@upsetjs/react';
-
-export declare type ICustomizeOptions = Omit<UpSetSizeProps, 'width' | 'height'> &
-  Omit<UpSetStyleProps, 'exportButtons' | 'queryLegend'> & { combinationName?: string; setName?: string };
+export declare type ICustomizeOptions = UpSetJSDumpProps;
 
 export interface IAttrs {
   [key: string]: number;
@@ -44,7 +34,7 @@ export interface IDataSet {
   name: string;
   description: string;
   author: string;
-  attrs: string[];
+  attrs: ReadonlyArray<string>;
   setCount?: number;
 
   creationDate?: Date;

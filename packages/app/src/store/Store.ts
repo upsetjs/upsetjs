@@ -5,6 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import React from 'react';
 import { observable, action, autorun, runInAction, computed } from 'mobx';
 import UIStore, { IToastLink } from './UIStore';
 import {
@@ -29,7 +30,6 @@ import {
   validators,
 } from '@upsetjs/model';
 import {
-  UpSetProps,
   fillDefaults,
   UpSetThemeProps,
   UpSetFontSizes,
@@ -57,6 +57,94 @@ export interface ISetTableOptions {
 
 const colors = [schemeCategory10[0], ...schemeCategory10.slice(2)]; // no orange
 export const TEMP_QUERY_COLOR = colors.shift()!;
+
+const themeKeys: (keyof UpSetThemeProps)[] = [
+  'selectionColor',
+  'color',
+  'textColor',
+  'hoverHintColor',
+  'notMemberColor',
+  'alternatingBackgroundColor',
+];
+const otherOptionKeys: string[] = [
+  'padding',
+  'barPadding',
+  'dotPadding',
+  'widthRatios',
+  'heightRatios',
+
+  'fontSizes',
+  'combinationName',
+  'setName',
+  'barLabelOffset',
+  'setNameAxisOffset',
+  'combinationNameAxisOffset',
+  'theme',
+  'fontFamily',
+  'numericScale',
+  'bandScale',
+  '',
+];
+
+function extractTheme(theme: 'light' | 'dark') {
+  const defaults: any = fillDefaults({
+    theme,
+    width: 100,
+    height: 100,
+    sets: [],
+  });
+  const r: UpSetThemeProps = {};
+  for (const key of themeKeys) {
+    r[key] = defaults[key];
+  }
+  return r as Required<UpSetThemeProps>;
+}
+
+function extractDefaults(keys: any[], theme: 'dark' | 'light') {
+  const defaults: any = fillDefaults({
+    theme,
+    width: 100,
+    height: 100,
+    sets: [],
+  });
+  const r: any = {};
+  for (const key of keys) {
+    r[key] = defaults[key];
+  }
+  return r;
+}
+
+export function stripDefaults(props: Required<ICustomizeOptions>, theme: 'dark' | 'light') {
+  const defaults = extractDefaults((themeKeys as string[]).concat(otherOptionKeys), theme);
+  const stripDefaultsImpl = (a: any, defaults: any) => {
+    const r: any = {};
+    for (const key of Object.keys(a)) {
+      const defaultValue = defaults[key];
+      const value = a[key];
+      if (defaultValue === value) {
+        continue;
+      }
+      r[key] = value;
+    }
+    return r;
+  };
+  const r: ICustomizeOptions = stripDefaultsImpl(props, defaults);
+  if (r.fontSizes) {
+    const sub = stripDefaultsImpl(r.fontSizes, defaults.fontSizes!);
+    if (Object.keys(sub).length === 0) {
+      delete r.fontSizes;
+    } else {
+      r.fontSizes = sub;
+    }
+  }
+  if (Array.isArray(r.heightRatios) && r.heightRatios.every((v, i) => v === defaults.heightRatios[i])) {
+    delete r.heightRatios;
+  }
+  if (Array.isArray(r.widthRatios) && r.widthRatios.every((v, i) => v === defaults.widthRatios[i])) {
+    delete r.widthRatios;
+  }
+  return r;
+}
 
 class StoreQuery {
   @observable.ref
@@ -325,7 +413,7 @@ export default class Store {
   }
 
   @computed
-  get visibleSetAddons(): ReadonlyArray<UpSetAddon<ISet<IElem>, IElem>> {
+  get visibleSetAddons(): ReadonlyArray<UpSetAddon<ISet<IElem>, IElem, React.ReactNode>> {
     if (!this.dataset) {
       return [];
     }
@@ -335,7 +423,7 @@ export default class Store {
   }
 
   @computed
-  get visibleCombinationAddons(): ReadonlyArray<UpSetAddon<ISetCombination<IElem>, IElem>> {
+  get visibleCombinationAddons(): ReadonlyArray<UpSetAddon<ISetCombination<IElem>, IElem, React.ReactNode>> {
     if (!this.dataset) {
       return [];
     }

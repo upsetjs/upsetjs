@@ -7,14 +7,14 @@
 
 import Dexie from 'dexie';
 import { IDataSet } from './interfaces';
-import { IEmbeddedDumpSchema } from '../dump';
 import { toEmbeddedDump } from './shareEmbedded';
 import { fromDump } from './exportJSON';
 import Store from '../store/Store';
+import { IUpSetJSDump } from '@upsetjs/react';
 
 const SCHEMA_VERSION = 1;
 
-export interface IStoredDump extends IEmbeddedDumpSchema {
+export interface IStoredDump extends IUpSetJSDump {
   uid?: string;
   creationDate: number;
 }

@@ -13,13 +13,18 @@ import UpSetElement, {
   fillDefaultsG,
   exportSVG as exportSVGImpl,
   downloadUrl as downloadUrlImpl,
+  toUpSetJSDump as toUpSetJSDumpImpl,
+  toUpSetJSStaticDump as toUpSetJSStaticDumpImpl,
+  IUpSetDump,
+  IUpSetStaticDump,
+  IUpSetJSDump,
+  IUpSetJSStaticDump,
 } from '@upsetjs/react';
 import { UpSetCSSStyles, UpSetReactElement } from './react';
 
-export { propValidators } from '@upsetjs/react';
-
 export * from './addons';
 export * from '@upsetjs/model';
+export { propValidators, IUpSetJSDump, IUpSetJSStaticDump, UpSetJSDumpProps } from '@upsetjs/react';
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, UpSetCSSStyles, UpSetReactElement, string>;
 export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, UpSetCSSStyles, UpSetReactElement, string>;
@@ -85,4 +90,21 @@ export function exportSVG(
  */
 export function downloadUrl(url: string, title: string, doc: Document) {
   downloadUrlImpl(url, title, doc);
+}
+
+export function toUpSetJSDump(
+  dump: IUpSetDump,
+  elements: ReadonlyArray<number | string | any>,
+  props: Partial<UpSetProps<any>>,
+  author?: string
+): IUpSetJSDump {
+  return toUpSetJSDumpImpl(dump, elements, props, author);
+}
+
+export function toUpSetJSStaticDump(
+  dump: IUpSetStaticDump,
+  props: Partial<UpSetProps<any>>,
+  author?: string
+): IUpSetJSStaticDump {
+  return toUpSetJSStaticDumpImpl(dump, props, author);
 }

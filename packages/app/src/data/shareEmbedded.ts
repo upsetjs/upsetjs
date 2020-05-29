@@ -6,16 +6,16 @@
  */
 
 import { toJS } from 'mobx';
-import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema } from '../dump';
-import Store, { stripDefaults } from '../store/Store';
+import Store from '../store/Store';
 import exportHelper from './exportHelper';
 import { toDump, toStaticDump } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';
+import { toUpSetJSDump, toUpSetJSStaticDump, IUpSetJSDump, IUpSetJSStaticDump } from '@upsetjs/react';
 
 export function toEmbeddedDump(
   store: Store,
   options: { all?: boolean; compress?: 'yes' | 'no' | 'auto' } = {}
-): IEmbeddedDumpSchema {
+): IUpSetJSDump {
   const helper = exportHelper(store, options);
   const ds = store.dataset!;
 
@@ -33,21 +33,18 @@ export function toEmbeddedDump(
     }
   );
 
-  return {
-    ...dump,
+  return Object.assign({}, toUpSetJSDump(dump, toJS(helper.elems), store.props, ds.author), {
     name: ds.name,
     description: ds.description,
     author: ds.author,
-    elements: toJS(helper.elems),
     attrs: toJS(helper.attrs),
-    props: stripDefaults(store.props, store.ui.theme),
-  };
+  });
 }
 
-export function toEmbeddedStaticdump(
+export function toEmbeddedStaticDump(
   store: Store,
   options: { compress?: 'yes' | 'no' | 'auto' } = {}
-): IEmbeddedStaticDumpSchema {
+): IUpSetJSStaticDump {
   const ds = store.dataset!;
   const dump = toStaticDump(
     {
@@ -59,19 +56,18 @@ export function toEmbeddedStaticdump(
     options
   );
 
-  return {
-    ...dump,
+  return Object.assign({}, toUpSetJSStaticDump(dump, store.props, ds.author), {
     name: ds.name,
     description: ds.description,
     author: ds.author,
-    props: stripDefaults(store.props, store.ui.theme),
-  };
+  });
 }
 
 export const MAX_URL_LENGTH = 2048 * 2;
 
 export default function shareEmbedded(store: Store) {
   const r = toEmbeddedDump(store, { compress: 'yes' });
+  delete r.$schema;
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL(window.location.toString());
   url.hash = '';
@@ -91,7 +87,8 @@ export default function shareEmbedded(store: Store) {
   }
   if (store.selectedAttrs.size === 0) {
     // try other compression
-    const r = toEmbeddedStaticdump(store, { compress: 'yes' });
+    const r = toEmbeddedStaticDump(store, { compress: 'yes' });
+    delete r.$schema;
     const arg = compressToEncodedURIComponent(JSON.stringify(r));
     url.searchParams.set('p', arg);
 

@@ -7,9 +7,19 @@
 
 // import 'core-js/stable';
 // import 'regenerator-runtime';
-import { render, UpSetProps, ISetLike, boxplotAddon, hydrate, fromDump, fromStaticDump } from '@upsetjs/bundle';
+import {
+  render,
+  UpSetProps,
+  ISetLike,
+  boxplotAddon,
+  hydrate,
+  fromDump,
+  fromStaticDump,
+  IUpSetJSDump,
+  IUpSetJSStaticDump,
+} from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
-import { IEmbeddedDumpSchema, IEmbeddedStaticDumpSchema, loadFile, uncompressElems } from './dump';
+import { loadFile, decompressElems } from './dump';
 
 const root = document.getElementById('app')! as HTMLElement;
 Object.assign(root.style, {
@@ -46,24 +56,26 @@ function customizeFromParams(interactive: boolean) {
   return [r, interactive];
 }
 
-function isStaticDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema): dump is IEmbeddedStaticDumpSchema {
-  return typeof (dump as IEmbeddedStaticDumpSchema).overlaps !== 'undefined';
+function isStaticDump(dump: IUpSetJSDump | IUpSetJSStaticDump): dump is IUpSetJSStaticDump {
+  return typeof (dump as IUpSetJSStaticDump).overlaps !== 'undefined';
 }
 
-function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdateFirst = false) {
-  const [custom, cinteractive] = customizeFromParams(true);
-  const elems = isStaticDump(dump) ? [] : uncompressElems(dump!.elements, dump.attrs);
+function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false) {
+  const [custom, enforceInteractive] = customizeFromParams(true);
+  const elems = isStaticDump(dump) ? [] : decompressElems(dump!.elements, dump.attrs);
   const props: UpSetProps<any> = Object.assign(
     {
       id: 'upset',
       sets: [],
       width: root.clientWidth,
       height: root.clientHeight,
+      title: dump.name,
+      description: dump.description,
     },
     isStaticDump(dump) ? fromStaticDump(dump) : fromDump(dump!, elems, {}),
     dump!.props || {},
     custom,
-    cinteractive
+    enforceInteractive
       ? {
           onHover: (s: ISetLike<any>) => {
             props.selection = s;
@@ -88,7 +100,7 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
   document.title = `UpSet.js - ${dump.name}`;
   document.querySelector('title')!.textContent = `UpSet.js - ${dump.name}`;
   document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
-  document.querySelector('meta[name=author]')!.setAttribute('content', dump.author);
+  document.querySelector('meta[name=author]')!.setAttribute('content', dump.author ?? 'Unknown');
 
   window.addEventListener('resize', () => {
     props.width = root.clientWidth;
@@ -96,7 +108,7 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
     render(root, props);
   });
 
-  if (hyrdateFirst) {
+  if (hydrateFirst) {
     hydrate(root, props);
   } else {
     root.innerHTML = '';
@@ -104,7 +116,7 @@ function showDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema, hyrdate
   }
 }
 
-function fromURLParam(): IEmbeddedDumpSchema | null {
+function fromURLParam(): IUpSetJSDump | null {
   const params = new URLSearchParams(window.location.search);
   if (!params.has('p')) {
     return null;
@@ -118,13 +130,13 @@ function fromURLParam(): IEmbeddedDumpSchema | null {
   }
 }
 
-function saveHTMLDump(dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema) {
+function saveHTMLDump(dump: IUpSetJSDump | IUpSetJSStaticDump) {
   const s = document.createElement('script');
   s.textContent = `window.UPSET_DUMP = ${JSON.stringify(dump, null, 2)}`;
   document.body.insertAdjacentElement('afterbegin', s);
 }
 
-function fromHTMLFile(): IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema {
+function fromHTMLFile(): IUpSetJSDump | IUpSetJSStaticDump {
   return (window as any).UPSET_DUMP || null;
 }
 
@@ -135,7 +147,7 @@ function fromHTMLFile(): IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema {
   }
 }
 
-function enableUpload(root: HTMLElement, onDump: (dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema) => void) {
+function enableUpload(root: HTMLElement, onDump: (dump: IUpSetJSDump | IUpSetJSStaticDump) => void) {
   root.innerHTML = `
   <input type="file" accept="application/json,.json">
   `;
@@ -184,7 +196,7 @@ window.onload = () => {
   window.addEventListener(
     'message',
     (evt) => {
-      const dump: IEmbeddedDumpSchema | IEmbeddedStaticDumpSchema = evt.data;
+      const dump: IUpSetJSDump | IUpSetJSStaticDump = evt.data;
       if (
         dump &&
         Array.isArray(dump.sets) &&

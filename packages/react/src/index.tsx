@@ -12,6 +12,7 @@ export * from './exporter';
 export * from './UpSetJS';
 export * from './fillDefaults';
 export * from '@upsetjs/model';
+export * from './dump';
 
 export * as propValidators from './validators';
 

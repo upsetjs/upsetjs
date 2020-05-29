@@ -5,53 +5,34 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { IEmbeddedDumpSchema, loadFile, loadDump, IEmbeddedStaticDumpSchema } from '../dump';
+import { loadFile, loadDump } from '../dump';
 import Store from '../store/Store';
-import { toEmbeddedDump, toEmbeddedStaticdump } from './shareEmbedded';
-import { ICustomizeOptions, IDataSet } from './interfaces';
-import { loadJSON, uncompressElems } from '../dump';
-
-export interface IDumpSchema extends IEmbeddedDumpSchema {
-  $schema: string;
-  props: ICustomizeOptions;
-}
+import { toEmbeddedDump, toEmbeddedStaticDump } from './shareEmbedded';
+import { IDataSet } from './interfaces';
+import { loadJSON, decompressElems } from '../dump';
+import { IUpSetJSDump } from '../../../bundle/dist';
 
 export function exportJSON(store: Store) {
-  const r: IDumpSchema = Object.assign(
-    {
-      $schema: 'https://upset.js.org/schema.1.0.0.json',
-    },
-    toEmbeddedDump(store, { compress: 'no' })
-  );
+  const r = toEmbeddedDump(store, { compress: 'no' });
   return JSON.stringify(r, null, 2);
-}
-
-export interface IStaticDumpSchema extends IEmbeddedStaticDumpSchema {
-  $schema: string;
-  props: ICustomizeOptions;
 }
 
 export function exportStaticJSON(store: Store) {
-  const r: IStaticDumpSchema = Object.assign(
-    {
-      $schema: 'https://upset.js.org/schema-static.1.0.0.json',
-    },
-    toEmbeddedStaticdump(store, { compress: 'no' })
-  );
+  const r = toEmbeddedStaticDump(store, { compress: 'no' });
   return JSON.stringify(r, null, 2);
 }
 
-export function fromDump(dump: IEmbeddedDumpSchema, id: string): IDataSet {
+export function fromDump(dump: IUpSetJSDump, id: string): IDataSet {
   return {
     id,
     name: dump.name,
-    author: dump.author,
+    author: dump.author ?? 'Unknown',
     description: dump.description,
     creationDate: new Date(),
     attrs: dump.attrs,
     setCount: dump.sets.length,
     load: () => {
-      const elems = uncompressElems(dump.elements, dump.attrs);
+      const elems = decompressElems(dump.elements, dump.attrs);
       const infos = loadDump(dump, elems, {});
       return Promise.resolve({
         elems: elems,
