@@ -365,9 +365,13 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         </clipPath>
       </defs>
       {queryLegend && <QueryLegend queries={queries} size={sizeInfo} style={styleInfo} data={dataInfo} />}
-      {exportButtons && (
-        <ExportButtons transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`} styleId={styleId} />
-      )}
+      <ExportButtons
+        transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
+        styleId={styleId}
+        exportButtons={exportButtons}
+        props={props}
+        data={dataInfo}
+      />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         {onClick && (
           <rect

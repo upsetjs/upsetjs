@@ -31,6 +31,18 @@ export const Default = () => {
   return <UpSetJS sets={sets} width={1200} height={500} />;
 };
 
+export const Title = () => {
+  return (
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={500}
+      title="Game of Thrones"
+      description="Information about the characters of the tv series Game of Thrones"
+    />
+  );
+};
+
 export const Unions = () => {
   return (
     <UpSetJS {...common} combinations={generateCombinations(sets, { type: 'union' })} combinationName="Union Size" />

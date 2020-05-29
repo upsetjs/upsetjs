@@ -349,7 +349,7 @@ export interface UpSetStyleProps<L> {
    * show export buttons
    * @default true
    */
-  exportButtons?: boolean;
+  exportButtons?: boolean | { png: boolean; svg: boolean; vega: boolean; dump: boolean };
   /**
    * specify the overall font family, set to false to use the default font family
    * @default sans-serif

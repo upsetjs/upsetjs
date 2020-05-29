@@ -41,7 +41,7 @@ jobs:
           mkdir -p public/api/addons
           mv packages/addons/docs/* public/api/addons/
           mkdir -p public/app
-          mv packages/app/dist/schema* public/
+          cp packages/react/src/dump/schema* public/
           mv packages/app/dist/* public/app/
           mkdir -p public/api/bundle
           mv packages/bundle/docs/* public/api/bundle/

@@ -6,6 +6,7 @@
  */
 
 import { DARK_BACKGROUND_COLOR } from '../defaults';
+import { extractStyleId, extractTitle } from './utils';
 
 export function createSVG(node: SVGSVGElement, toRemove?: string) {
   const theme = node.dataset.theme;
@@ -25,20 +26,22 @@ export function createSVG(node: SVGSVGElement, toRemove?: string) {
  */
 export function exportSVG(
   node: SVGSVGElement,
-  { type = 'png', title = 'UpSet', toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
+  { type = 'png', title, toRemove }: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
 ): Promise<void> {
   const b = new Blob([createSVG(node, toRemove)], {
     type: 'image/svg+xml;charset=utf-8',
   });
+  const styleId = extractStyleId(node);
 
+  const chartTitle = title ?? extractTitle(node, styleId);
   const url = URL.createObjectURL(b);
   if (type === 'svg') {
-    downloadUrl(url, `${title}.${type}`, node.ownerDocument!);
+    downloadUrl(url, `${chartTitle}.${type}`, node.ownerDocument!);
     URL.revokeObjectURL(url);
     return Promise.resolve();
   }
   return toPNG(url, node).then((purl) => {
-    downloadUrl(purl, `${title}.${type}`, node.ownerDocument!);
+    downloadUrl(purl, `${chartTitle}.${type}`, node.ownerDocument!);
     URL.revokeObjectURL(url);
   });
 }

@@ -22,9 +22,9 @@ export default function deriveSizeDependent(
 ) {
   const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
   const setAddonsAfter = setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
-  const combnationAddonsBefore = combinationAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
+  const combinationAddonsBefore = combinationAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
   const combinationAddonsAfter = combinationAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
-  const h = height - 2 * margin - 20 - combinationAddonsAfter - combnationAddonsBefore;
+  const h = height - 2 * margin - 20 - combinationAddonsAfter - combinationAddonsBefore;
   const w = width - 2 * margin - setAddonsBefore - setAddonsAfter;
 
   const setWidth = w * widthRatios[0];
@@ -33,17 +33,17 @@ export default function deriveSizeDependent(
   return {
     id: id ? id : generateId(),
     cs: {
-      before: combnationAddonsBefore,
+      before: combinationAddonsBefore,
       after: combinationAddonsAfter,
       x: setAddonsBefore + setWidth + labelsWidth,
-      y: combnationAddonsBefore,
+      y: combinationAddonsBefore,
       w: w - setWidth - labelsWidth,
       h: combinationHeight,
       addons: combinationAddons,
     },
     labels: {
       x: setAddonsBefore + setWidth,
-      y: combnationAddonsBefore + combinationHeight,
+      y: combinationAddonsBefore + combinationHeight,
       w: labelsWidth,
       h: h - combinationHeight,
     },
@@ -51,7 +51,7 @@ export default function deriveSizeDependent(
       before: setAddonsBefore,
       after: setAddonsAfter,
       x: setAddonsBefore,
-      y: combnationAddonsBefore + combinationHeight,
+      y: combinationAddonsBefore + combinationHeight,
       w: setWidth,
       h: h - combinationHeight,
       addons: setAddons,

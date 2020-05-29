@@ -5,10 +5,6 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import '!file-loader?name=schema.1.0.0.json!./schema.jsonc';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import '!file-loader?name=schema-static.1.0.0.json!./schema-static.jsonc';
 import { IEmbeddedDumpSchema, loadFile, loadDump, IEmbeddedStaticDumpSchema } from '../dump';
 import Store from '../store/Store';
 import { toEmbeddedDump, toEmbeddedStaticdump } from './shareEmbedded';

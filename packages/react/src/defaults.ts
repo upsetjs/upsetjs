@@ -24,7 +24,7 @@ export const DEFAULT_COMBINATIONS = { type: 'intersection' };
 
 export const DARK_BACKGROUND_COLOR = '#303030';
 
-export const FONT_SIZES_KEYS = /* #__PURE__ */ Object.keys(DEFAULT_FONT_SIZES);
+export const FONT_SIZES_KEYS = /* #__PURE__ */ Object.keys(DEFAULT_FONT_SIZES) as (keyof UpSetFontSizes)[];
 export const MULTI_STYLE_KEYS: (keyof UpSetMultiStyle<any>)[] = [
   'axisTick',
   'bar',
