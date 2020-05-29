@@ -77,7 +77,7 @@ export function exportSharedLink(props: UpSetProps<any>, data: UpSetDataInfo<any
   const r = exportDumpData(props, data, true);
   delete r.$schema;
   const arg = LZString.compressToEncodedURIComponent(JSON.stringify(r));
-  const url = new URL('https://upset.js.org/embed.html');
+  const url = new URL('https://upset.js.org/app/embed.html');
   url.searchParams.set('p', arg);
 
   if (url.toString().length < MAX_URL_LENGTH) {

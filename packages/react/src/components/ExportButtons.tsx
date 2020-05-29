@@ -139,7 +139,7 @@ export default function ExportButtons({
     acc += shareWidth;
     buttons.push(
       <g
-        key="dump"
+        key="share"
         className={`exportButton-${styleId}`}
         onClick={exportChart}
         data-type="share"

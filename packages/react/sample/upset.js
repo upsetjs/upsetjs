@@ -2,16 +2,19 @@ async function loadUpSetJS() {
   document.body.style.backgroundColor = 'black';
   document.body.insertAdjacentHTML('afterend', '<div id="app"></div>');
 
-  const react = document.createElement('script');
-  react.crossOrigin = true;
-  react.src = 'https://unpkg.com/react@16/umd/react.development.js';
-  document.head.appendChild(react);
-  await new Promise((resolve) => (react.onload = resolve));
-  const reactDOM = document.createElement('script');
-  reactDOM.crossOrigin = true;
-  reactDOM.src = 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
-  document.head.appendChild(reactDOM);
-  await new Promise((resolve) => (reactDOM.onload = resolve));
+  function loadScript(url) {
+    const s = document.createElement('script');
+    s.crossOrigin = true;
+    s.src = url;
+    document.head.appendChild(s);
+    return new Promise((resolve) => (s.onload = resolve));
+  }
+
+  await Promise.all([
+    loadScript('https://unpkg.com/react@16/umd/react.development.js'),
+    loadScript('https://unpkg.com/react-dom@16/umd/react-dom.development.js'),
+    loadScript('https://unpkg.com/lz-string'),
+  ]);
 
   window.UpSetJSModel = window.exports = {};
 
@@ -23,6 +26,9 @@ async function loadUpSetJS() {
   window.require = function require(id) {
     if (id === 'react') {
       return window.React;
+    }
+    if (id === 'lz-string') {
+      return window.LZString;
     }
     if (id === '@upsetjs/model') {
       return window.UpSetJSModel;
