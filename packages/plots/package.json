@@ -1,0 +1,97 @@
+{
+  "name": "@upsetjs/plots",
+  "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
+  "version": "1.0.0",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": {
+    "name": "Samuel Gratzl",
+    "email": "sam@sgratzl.com",
+    "url": "https://wwww.sgratzl.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/upsetjs/upsetjs",
+  "bugs": {
+    "url": "https://github.com/upsetjs/upsetjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgratzl/upsetjs.git"
+  },
+  "module": "dist/plots.esm.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "compile": "tsc -p tsconfig.build.json --noEmit",
+    "start": "tsdx watch --tsconfig tsconfig.build.json --noClean",
+    "build": "tsdx build --tsconfig tsconfig.build.json && npm run typings",
+    "typings": "tsc -p tsconfig.dts.json && rollup -c rollup.dts.config.js",
+    "test": "tsdx test --passWithNoTests",
+    "test:watch": "tsdx test --passWithNoTests --watch",
+    "test:coverage": "tsdx test --passWithNoTests --coverage",
+    "lint": "npm run eslint && npm run prettier",
+    "fix": "npm run eslint:fix && npm run prettier:write",
+    "prettier:impl": "prettier \"*.{md,json,js}\" \"{src,.storybook}/**\"",
+    "prettier:write": "npm run prettier:impl -- --write",
+    "prettier": "npm run prettier:impl -- --check",
+    "eslint": "tsdx lint src --ext .ts,.tsx",
+    "eslint:fix": "npm run eslint -- --fix",
+    "prepare": "tsdx build",
+    "storybook": "start-storybook -p 8080",
+    "docs": "build-storybook --quiet -o ./docs"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@storybook/addon-docs": "^6.0.0-beta.1",
+    "@storybook/addons": "^6.0.0-beta.1",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^6.0.0-beta.1",
+    "@types/jest": "^25.2.1",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "prettier": "^2.0.5",
+    "react": "^16.13.0",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
+    "rollup": "^2.10.7",
+    "rollup-plugin-dts": "^1.4.7",
+    "rollup-plugin-pnp-resolve": "^2.0.0",
+    "ts-loader": "^7.0.2",
+    "tsdx": "~0.13.2",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0"
+  },
+  "dependencies": {
+    "@types/react": "^16.9.34",
+    "@upsetjs/react": "~1.0.0",
+    "react-vega": "^7.3.0",
+    "vega": "^5.12.3",
+    "vega-lite": "^4.12.2",
+    "vega-typings": "^0.17.2"
+  }
+}

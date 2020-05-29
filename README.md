@@ -28,6 +28,9 @@ This monorepo contains following packages:
 - [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
   [![Open Docs][docs]](https://upset.js.org/api/bundle)
 
+- [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/master/packages/plots) VEGA plot helper to be linked with UpSet.js
+  [![Open Docs][docs]](https://upset.js.org/api/plots)
+
 - [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
   [![Open Example][example]](https://upset.js.org/app)
 
