@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetFontSizes, UpSetMultiStyle } from './interfaces';
+import { UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions } from './interfaces';
 
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
@@ -34,3 +34,4 @@ export const MULTI_STYLE_KEYS: (keyof UpSetMultiStyle<any>)[] = [
   'legend',
   'setLabel',
 ];
+export const EXPORT_OPTION_KEYS: (keyof UpSetExportOptions)[] = ['dump', 'png', 'share', 'svg', 'vega'];

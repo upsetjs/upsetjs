@@ -15,8 +15,8 @@ import {
   BandScaleFactory,
   validators,
 } from '@upsetjs/model';
-import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle } from './interfaces';
-import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS } from './defaults';
+import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions } from './interfaces';
+import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
 export function widthRatios(value?: [number, number, number]) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
@@ -63,14 +63,18 @@ export function theme(value?: 'light' | 'dark') {
 export function classNames(value?: UpSetStyleClassNames) {
   return (
     value == null ||
-    Object.keys(value).every((k) => MULTI_STYLE_KEYS.includes(k as keyof UpSetStyleClassNames) && typeof k === 'string')
+    (Object.keys(value) as (keyof UpSetStyleClassNames)[]).every(
+      (k) => MULTI_STYLE_KEYS.includes(k) && typeof value[k] === 'string'
+    )
   );
 }
 
 export function fontSizes(value?: UpSetFontSizes) {
   return (
     value == null ||
-    Object.keys(value).every((k) => FONT_SIZES_KEYS.includes(k as keyof UpSetFontSizes) && typeof k === 'string')
+    (Object.keys(value) as (keyof UpSetFontSizes)[]).every(
+      (k) => FONT_SIZES_KEYS.includes(k) && typeof value[k] === 'string'
+    )
   );
 }
 
@@ -88,4 +92,14 @@ export function style(value?: any) {
 
 export function styles(value?: UpSetMultiStyle<any>) {
   return value == null || Object.keys(value).every((k) => MULTI_STYLE_KEYS.includes(k as keyof UpSetStyleClassNames));
+}
+
+export function exportButtons(value?: boolean | UpSetExportOptions) {
+  return (
+    value == null ||
+    typeof value === 'boolean' ||
+    (Object.keys(value) as (keyof UpSetExportOptions)[]).every(
+      (k) => EXPORT_OPTION_KEYS.includes(k) && typeof value[k] === 'boolean'
+    )
+  );
 }

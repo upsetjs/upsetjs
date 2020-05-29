@@ -6,13 +6,7 @@
  */
 
 import Vue from 'vue';
-import {
-  render,
-  UpSetProps as UpSetBundleProps,
-  UpSetCSSStyles,
-  propValidators,
-  UpSetSelectionProps,
-} from '@upsetjs/bundle';
+import { render, UpSetProps as UpSetBundleProps, propValidators } from '@upsetjs/bundle';
 export {
   asCombination,
   asCombinations,
@@ -164,7 +158,10 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
    * show export buttons
    * @default true
    */
-  exportButtons: Boolean,
+  exportButtons: {
+    type: [Boolean, Object],
+    validator: propValidators.exportButtons,
+  },
   /**
    * set to false to use the default font family
    * @default sans-serif
@@ -188,6 +185,8 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
   },
   setName: String,
   combinationName: String,
+  title: String,
+  description: String,
 });
 
 const upsetPlainStyleProps = {
@@ -202,7 +201,7 @@ const upsetPlainStyleProps = {
 };
 
 export interface UpSetProps extends Omit<UpSetBundleProps, 'style'> {
-  extraStyle?: UpSetCSSStyles;
+  extraStyle?: CSSStyleDeclaration;
 }
 
 function stripUndefined(props: UpSetBundleProps) {
@@ -248,7 +247,7 @@ export default Vue.extend<{}, { renderImpl(): void }, {}, UpSetProps>({
   },
   methods: {
     renderImpl() {
-      const listeners: UpSetSelectionProps<any> = {};
+      const listeners: Partial<UpSetBundleProps<any>> = {};
       if (this.$listeners.hover) {
         listeners.onHover = (s) => this.$emit('hover', s);
       }
