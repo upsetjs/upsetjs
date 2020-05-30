@@ -22,22 +22,18 @@ export function createSetComposite<T>(elems: ReadonlyArray<T>): ISetComposite<T>
   };
 }
 
-interface ITransformedData<T> {
-  _vgsid_: number;
-  e: T;
-}
-
 export function updateMulti<T>(
   selection: string,
   view: View,
   s: ISetCombination<T>,
   transformedData: string,
-  layerData: string
+  unitData: string,
+  elemField: string
 ) {
   const v = view.signal(`${selection}_tuple`) as { values: number[] };
-  const allData: ITransformedData<T>[] = view.data(transformedData);
+  const allData: any[] = view.data(transformedData);
   const lookup = new Set(s.elems);
-  const values = allData.filter((b) => lookup.has(b.e)).map((d) => d._vgsid_);
+  const values = allData.filter((b) => lookup.has(b[elemField])).map((d) => d._vgsid_);
 
   const current = v ? v.values : [];
   if (sameArray(current, values)) {
@@ -45,7 +41,7 @@ export function updateMulti<T>(
   }
   const entry = v
     ? Object.assign({}, v, { values })
-    : { unit: layerData, fields: view.signal(`${selection}_tuple_fields`, values) };
+    : { unit: unitData, fields: view.signal(`${selection}_tuple_fields`, values) };
   view.signal(`${selection}_tuple`, entry);
 }
 
@@ -61,7 +57,8 @@ export function generateListener<T>(
   viewRef: RefObject<View>,
   selectionRef: RefObject<UpSetSelection<T> | undefined>,
   listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  transformedData: string
+  transformedData: string,
+  elemField: string
 ) {
   return (_type: string, item: unknown) => {
     if (!viewRef.current) {
@@ -73,8 +70,8 @@ export function generateListener<T>(
       return;
     }
     const contained = new Set(data._vgsid_);
-    const allElems: { _vgsid_: number; e: T }[] = viewRef.current.data(transformedData);
-    const elems = allElems.filter((d) => contained.has(d._vgsid_)).map((d) => d.e);
+    const allElems = viewRef.current.data(transformedData);
+    const elems = allElems.filter((d) => contained.has(d._vgsid_)).map((d) => d[elemField] as T);
     if (elems.length === 0) {
       listener(null);
       return;
@@ -97,7 +94,7 @@ export function useVegaMultiSelection<T>(
   selection: UpSetSelection<T> | undefined,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  { selectionName = 'select', transformedData = 'data_0', layerData = 'layer_0' } = {}
+  { selectionName = 'select', transformedData = 'data_0', unitData = '', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -106,13 +103,13 @@ export function useVegaMultiSelection<T>(
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
     if (onClick) {
-      r[selectionName] = generateListener(viewRef, selectionRef, onClick, transformedData);
+      r[selectionName] = generateListener(viewRef, selectionRef, onClick, transformedData, elemField);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generateListener(viewRef, selectionRef, onHover, transformedData);
+      r[`${selectionName}_hover`] = generateListener(viewRef, selectionRef, onHover, transformedData, elemField);
     }
     return r;
-  }, [onClick, onHover, viewRef, selectionRef, selectionName, transformedData]);
+  }, [onClick, onHover, viewRef, selectionRef, selectionName, transformedData, elemField]);
 
   // update bin selection with selection
   useLayoutEffect(() => {
@@ -121,11 +118,11 @@ export function useVegaMultiSelection<T>(
       return;
     }
     if (isSetCombination(selection)) {
-      updateMulti(selectionName, viewRef.current, selection, transformedData, layerData);
+      updateMulti(selectionName, viewRef.current, selection, transformedData, unitData, elemField);
     } else if (selection == null) {
       clearMulti(selectionName, viewRef.current);
     }
-  }, [viewRef, selection, selectionName, onClick, transformedData, layerData]);
+  }, [viewRef, selection, selectionName, onClick, transformedData, unitData, elemField]);
 
   const selectionSpec = useMemo(
     () =>

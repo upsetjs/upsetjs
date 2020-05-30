@@ -56,14 +56,24 @@ function sameBins(a: ReadonlyArray<[number, number]>, b: ReadonlyArray<[number, 
 
 interface IBinStructure {
   _vgsid_: number;
+  [key: string]: number;
   bin_maxbins_10_v: number;
   bin_maxbins_10_v_end: number;
 }
 
-function updateBins(selection: string, view: View, s: IBinSetComposite<any>, binData: string, layerData: string) {
+function updateBins(
+  selection: string,
+  view: View,
+  s: IBinSetComposite<any>,
+  binData: string,
+  unitData: string,
+  valueField: string
+) {
   const v = view.signal(`${selection}_tuple`) as { values: number[] };
   const allBins: IBinStructure[] = view.data(binData);
-  const values = allBins.filter((b) => s.bins.find((sb) => sb[0] === b.bin_maxbins_10_v)).map((d) => d._vgsid_);
+  const values = allBins
+    .filter((b) => s.bins.find((sb) => sb[0] === b[`bin_maxbins_10_${valueField}`]))
+    .map((d) => d._vgsid_);
 
   const current = v ? v.values : [];
   if (sameArray(current, values)) {
@@ -71,7 +81,7 @@ function updateBins(selection: string, view: View, s: IBinSetComposite<any>, bin
   }
   const entry = v
     ? Object.assign({}, v, { values })
-    : { unit: layerData, fields: view.signal(`${selection}_tuple_fields`, values) };
+    : { unit: unitData, fields: view.signal(`${selection}_tuple_fields`, values) };
   view.signal(`${selection}_tuple`, entry);
 }
 
@@ -81,7 +91,7 @@ export function useVegaBinSelection<T>(
   name: string,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  { selectionName = 'select', binData = 'data_1', layerData = 'layer_0' } = {}
+  { selectionName = 'select', binData = 'data_1', unitData = 'layer_0', valueField = 'v', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -104,7 +114,9 @@ export function useVegaBinSelection<T>(
         const allBins: IBinStructure[] = viewRef.current.data(binData);
         const bins = allBins
           .filter((d) => contained.has(d._vgsid_))
-          .map((bin) => [bin.bin_maxbins_10_v, bin.bin_maxbins_10_v_end] as [number, number]);
+          .map(
+            (bin) => [bin[`bin_maxbins_10_${valueField}`], bin[`bin_maxbins_10_${valueField}_end`]] as [number, number]
+          );
         if (
           selectionRef.current &&
           isBinSetComposite(selectionRef.current, name) &&
@@ -112,8 +124,10 @@ export function useVegaBinSelection<T>(
         ) {
           return;
         }
-        const table: { v: number; e: T }[] = viewRef.current.data('table');
-        const elems = table.filter((d) => bins.some((b) => b[0] <= d.v && d.v <= b[1])).map((d) => d.e);
+        const table: any[] = viewRef.current.data('table');
+        const elems = table
+          .filter((d) => bins.some((b) => b[0] <= d[valueField] && d[valueField] <= b[1]))
+          .map((d) => d[elemField]);
         const set = createBinSetComposite(name, elems, bins);
         listener(set);
         // }, 100);
@@ -125,7 +139,7 @@ export function useVegaBinSelection<T>(
       r[`${selectionName}_hover`] = generate(onHover);
     }
     return r;
-  }, [onClick, onHover, viewRef, name, selectionRef, selectionName, binData]);
+  }, [onClick, onHover, viewRef, name, selectionRef, selectionName, binData, elemField, valueField]);
 
   // update bin selection with selection
   useLayoutEffect(() => {
@@ -134,11 +148,11 @@ export function useVegaBinSelection<T>(
       return;
     }
     if (isBinSetComposite(selection, name)) {
-      updateBins(selectionName, viewRef.current, selection, binData, layerData);
+      updateBins(selectionName, viewRef.current, selection, binData, unitData, valueField);
     } else if (selection == null) {
       clearMulti(selectionName, viewRef.current);
     }
-  }, [viewRef, selection, name, selectionName, onClick, binData, layerData]);
+  }, [viewRef, selection, name, selectionName, onClick, binData, unitData, valueField]);
 
   const selectionSpec = useMemo(
     () =>
