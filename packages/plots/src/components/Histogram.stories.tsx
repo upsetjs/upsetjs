@@ -32,3 +32,7 @@ export const Default = () => {
 export const Interactive = () => {
   return <InteractiveHistogram width={500} height={100} elems={elems} attr="a" title="As" />;
 };
+
+export const Selection = () => {
+  return <Histogram width={500} height={100} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />;
+};

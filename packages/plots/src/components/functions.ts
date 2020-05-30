@@ -15,7 +15,7 @@ import {
   isSetLike,
   UpSetQueries,
 } from '@upsetjs/react';
-import { useCallback, MutableRefObject, useMemo, useRef, useLayoutEffect } from 'react';
+import { useCallback, MutableRefObject, useRef, useLayoutEffect } from 'react';
 
 function generateQueryChecker<T>(query: UpSetQuery<T>) {
   if (isCalcQuery(query)) {
