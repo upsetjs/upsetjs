@@ -7,7 +7,7 @@
 
 import { ISet, ISetCombination, ISetLike, IBaseSet } from './model';
 import { GenerateSetCombinationsOptions } from './data';
-import { UpSetQuery, isElemQuery, isCalcQuery } from './queries';
+import { UpSetQuery, isElemQuery, isCalcQuery, isSetQuery } from './queries';
 
 function isBaseSet(v: any): v is IBaseSet<any> {
   const vt: IBaseSet<any> = v;
@@ -37,7 +37,7 @@ export function isGenerateSetCombinationOptions(v: any): v is GenerateSetCombina
   return v != null && (vt.type == null || ['intersection', 'union'].includes(vt.type));
 }
 
-export function isSetQuery(v: any): v is UpSetQuery<any> {
+export function isUpSetQuery(v: any): v is UpSetQuery<any> {
   const vt: UpSetQuery<any> = v;
   return (
     v != null &&

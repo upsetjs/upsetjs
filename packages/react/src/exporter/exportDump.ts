@@ -7,7 +7,7 @@ import {
   isSetQuery,
   UpSetElemQuery,
   UpSetSetQuery,
-  validators,
+  isSetLike,
   GenerateSetCombinationsOptions,
   toStaticDump,
 } from '@upsetjs/model';
@@ -30,7 +30,7 @@ export function exportDumpData(props: UpSetProps<any>, data: UpSetDataInfo<any>,
       sets: props.sets,
       queries: props.queries?.filter((d): d is UpSetElemQuery | UpSetSetQuery => isElemQuery(d) || isSetQuery(d)) ?? [],
       toElemIndex,
-      selection: props.selection && validators.isSetLike(props.selection) ? props.selection : undefined,
+      selection: props.selection && isSetLike(props.selection) ? props.selection : undefined,
       combinations: data.cs.v,
       combinationOptions: Array.isArray(props.combinations)
         ? {}
@@ -49,7 +49,7 @@ export function exportStaticDumpData(props: UpSetProps<any>, data: UpSetDataInfo
     {
       sets: props.sets,
       queries: props.queries?.filter((d): d is UpSetElemQuery | UpSetSetQuery => isElemQuery(d) || isSetQuery(d)) ?? [],
-      selection: props.selection && validators.isSetLike(props.selection) ? props.selection : undefined,
+      selection: props.selection && isSetLike(props.selection) ? props.selection : undefined,
       combinations: data.cs.v,
     },
     {

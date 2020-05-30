@@ -13,7 +13,11 @@ import {
   UpSetQuery,
   NumericScaleFactory,
   BandScaleFactory,
-  validators,
+  isSet,
+  isSetCombination,
+  isGenerateSetCombinationOptions,
+  isSetLike,
+  isUpSetQuery,
 } from '@upsetjs/model';
 import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions } from './interfaces';
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
@@ -25,19 +29,17 @@ export function heightRatios(value?: [number, number]) {
   return value == null || (Array.isArray(value) && value.length === 2 && value.every((v) => typeof v === 'number'));
 }
 export function sets(value: ISets<any>) {
-  return Array.isArray(value) && value.every(validators.isSet);
+  return Array.isArray(value) && value.every(isSet);
 }
 
 export function combinations(value?: ISetCombinations<any> | GenerateSetCombinationsOptions<any>) {
   return (
-    value == null ||
-    (Array.isArray(value) && value.every(validators.isSetCombination)) ||
-    validators.isGenerateSetCombinationOptions(value)
+    value == null || (Array.isArray(value) && value.every(isSetCombination)) || isGenerateSetCombinationOptions(value)
   );
 }
 
 export function selection(value?: ISetLike<any> | ReadonlyArray<any>) {
-  return value == null || Array.isArray(value) || validators.isSetLike(value);
+  return value == null || Array.isArray(value) || isSetLike(value);
 }
 
 export function onHover(value?: (selection: ISetLike<any> | null) => void) {
@@ -49,7 +51,7 @@ export function onClick(value?: (selection: ISetLike<any> | null) => void) {
 }
 
 export function queries(value?: UpSetQuery<any>[]) {
-  return !value || (Array.isArray(value) && value.every(validators.isSetQuery));
+  return !value || (Array.isArray(value) && value.every(isUpSetQuery));
 }
 
 export function stringOrFalse(value?: string | false) {
