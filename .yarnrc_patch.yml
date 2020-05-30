@@ -22,3 +22,6 @@ packageExtensions:
     dependencies:
       'vega-util': '*'
       'tslib': '*'
+  'vega-tooltip@*':
+    dependencies:
+      'vega-typings': '*'

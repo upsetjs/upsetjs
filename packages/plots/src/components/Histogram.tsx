@@ -8,72 +8,126 @@
 import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
+import { TopLevelSpec } from 'vega-lite';
+import { useVegaHooks } from './functions';
 
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
 
-  attr: keyof T | ((v: T) => number);
   elems: ReadonlyArray<T>;
+  attr: keyof T | ((v: T) => number);
+  label?: string;
+}
+
+function generateLayer(attr: string, color: string) {
+  return {
+    mark: {
+      type: 'bar' as 'bar',
+    },
+    encoding: {
+      color: {
+        value: color,
+      },
+      x: {
+        bin: true,
+        field: 'v',
+        type: 'quantitative' as 'quantitative',
+      },
+      y: {
+        aggregate: 'sum' as 'sum',
+        field: attr,
+        type: 'quantitative' as 'quantitative',
+      },
+    },
+  };
 }
 
 export default function Histogram<T>(props: HistogramProps<T>) {
-  const full = fillDefaults(props);
+  const { title, description, selectionColor, color, theme } = fillDefaults(props);
   const { attr, elems, width, height } = props;
-  const data = {
-    table: typeof attr !== 'function' ? elems : elems.map((e) => ({ e, v: attr(e) })),
-  };
+  const name = props.label ?? typeof attr === 'function' ? 'x' : attr.toString();
+
+  const table = useMemo(() => {
+    const acc = typeof attr === 'function' ? attr : (v: T) => (v[attr] as unknown) as number;
+    return elems.map((e) => ({ e, i: 1, v: acc(e) }));
+  }, [elems, attr]);
+
+  const { viewRef, vegaProps } = useVegaHooks(table, props.queries, props.selection);
+
   const listeners = useMemo(() => {
     return {
       select: (type: string, item: unknown) => {
         console.log(type, item);
-      },
-      select_tuple: (type: string, item: unknown) => {
-        console.log(type, item);
+        // const data = item as { _vgsid_: number[] };
+        if (viewRef.current) {
+          const bins = viewRef.current.data('data_0');
+          console.log(viewRef.current.data('select_store'));
+          console.log(bins);
+        }
       },
       highlight: (type: string, item: unknown) => {
         console.log(type, item);
       },
-      highlight_tuple: (type: string, item: unknown) => {
-        console.log(type, item);
-      },
     };
-  }, []);
+  }, [viewRef]);
+
+  const spec = useMemo((): TopLevelSpec => {
+    return {
+      title,
+      description,
+      data: {
+        name: 'table',
+      },
+      transform: [
+        { calculate: 'inSetStore(data("set_store"), datum.e) ? 1 : 0', as: 's' },
+        ...(props.queries ?? []).map((_, i) => ({
+          calculate: `inSetStore(data("q${i}_store"), datum.e) ? 1 : 0`,
+          as: `q${i}`,
+        })),
+      ],
+      layer: [
+        {
+          selection: {
+            highlight: { type: 'single', empty: 'none', on: 'mouseover' },
+            select: { type: 'single', empty: 'none' },
+          },
+          mark: {
+            type: 'bar',
+            cursor: 'pointer',
+          },
+          encoding: {
+            color: {
+              condition: { selection: 'select', value: selectionColor },
+              value: color,
+            },
+            x: {
+              bin: true,
+              field: 'v',
+              type: 'quantitative',
+              title: name,
+            },
+            y: {
+              aggregate: 'sum',
+              field: 'i',
+              type: 'quantitative',
+            },
+          },
+        },
+        generateLayer('s', selectionColor),
+        ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
+      ],
+    };
+  }, [name, title, description, selectionColor, color, props.queries]);
+
   return (
     <VegaLite
-      spec={{
-        title: full.title,
-        description: full.description,
-        selection: {
-          highlight: { type: 'single', empty: 'none', on: 'mouseover' },
-          select: { type: 'single', empty: 'none' },
-        },
-        mark: {
-          type: 'bar',
-          cursor: 'pointer',
-        },
-        encoding: {
-          color: {
-            condition: { selection: 'select', value: full.selectionColor },
-            value: full.color,
-          },
-          x: {
-            bin: true,
-            field: typeof attr !== 'function' ? attr.toString() : 'v',
-            type: 'quantitative',
-          },
-          y: {
-            aggregate: 'count',
-            type: 'quantitative',
-          },
-        },
-        data: { name: 'table' },
-      }}
-      data={data}
+      spec={spec}
       width={width}
       height={height}
-      theme={full.theme === 'dark' ? 'dark' : undefined}
       signalListeners={listeners}
+      theme={theme === 'dark' ? 'dark' : undefined}
+      {...vegaProps}
     />
   );
 }

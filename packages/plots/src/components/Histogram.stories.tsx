@@ -19,5 +19,5 @@ export const Default = () => {
     .map(() => ({
       a: Math.random(),
     }));
-  return <Histogram width={500} height={100} elems={elems} attr="a" title="As" />;
+  return <Histogram width={500} height={100} elems={elems} attr="a" title="As" selection={elems.slice(0, 10)} />;
 };

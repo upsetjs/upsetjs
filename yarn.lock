@@ -21020,7 +21020,7 @@ resolve@1.15.1:
   languageName: node
   linkType: hard
 
-"vega-typings@npm:^0.17.2, vega-typings@npm:~0.17.2":
+"vega-typings@npm:*, vega-typings@npm:^0.17.2, vega-typings@npm:~0.17.2":
   version: 0.17.2
   resolution: "vega-typings@npm:0.17.2"
   dependencies:
