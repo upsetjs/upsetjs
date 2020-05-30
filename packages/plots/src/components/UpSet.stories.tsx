@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import UpSetJS, { extractSets, UpSetSelection } from '@upsetjs/react';
 import Scatterplot from './Scatterplot';
 import Histogram from './Histogram';
+import BarChart from './BarChart';
 
 export default {
   title: 'UpSetJS Plot Addons',
@@ -42,21 +43,28 @@ export const UpSetScatterplot = () => {
   const [selection, setSelection] = useState<UpSetSelection<IElem>>(null);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       <UpSetJS selection={selection} onHover={setSelection} sets={sets} width={1200} height={500} />
-      <div style={{ display: 'flex' }}>
-        <Scatterplot
-          selection={selection}
-          onClick={setSelection}
-          onHover={setSelection}
-          width={500}
-          height={500}
-          xAttr="a"
-          yAttr="b"
-          elems={elems}
-        />
-        <Histogram selection={selection} onHover={setSelection} width={500} height={300} attr="a" elems={elems} />
-      </div>
+      <Scatterplot
+        selection={selection}
+        onClick={setSelection}
+        // onHover={setSelection}
+        width={500}
+        height={500}
+        xAttr="a"
+        yAttr="b"
+        elems={elems}
+      />
+      <Histogram selection={selection} onHover={setSelection} width={500} height={300} attr="a" elems={elems} />
+      <BarChart
+        selection={selection}
+        onHover={setSelection}
+        width={500}
+        height={300}
+        vAttr="a"
+        iAttr="name"
+        elems={elems}
+      />
     </div>
   );
 };

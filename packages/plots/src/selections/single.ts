@@ -75,6 +75,11 @@ export function generateListener<T>(
     const contained = new Set(data._vgsid_);
     const allElems: { _vgsid_: number; e: T }[] = viewRef.current.data(transformedData);
     const elems = allElems.filter((d) => contained.has(d._vgsid_)).map((d) => d.e);
+    if (elems.length === 0) {
+      listener(null);
+      return;
+    }
+
     if (
       selectionRef.current &&
       isSetCombination(selectionRef.current) &&

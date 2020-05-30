@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import Histogram, { HistogramProps } from './Histogram';
-import { UpSetSelection } from '../../../../.yarn/$$virtual/@upsetjs-react-virtual-66d30e5a77/1/packages/react/dist';
+import { UpSetSelection } from '@upsetjs/react';
 
 export default {
   component: Histogram,
