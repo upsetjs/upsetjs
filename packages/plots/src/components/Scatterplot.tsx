@@ -29,13 +29,13 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
   const xName = props.xLabel ?? typeof xAttr === 'function' ? 'x' : xAttr.toString();
   const yName = props.yLabel ?? typeof yAttr === 'function' ? 'y' : yAttr.toString();
 
-  const table = useMemo(() => {
+  const data = useMemo(() => {
     const xAcc = typeof xAttr === 'function' ? xAttr : (v: T) => (v[xAttr] as unknown) as number;
     const yAcc = typeof yAttr === 'function' ? yAttr : (v: T) => (v[yAttr] as unknown) as number;
-    return elems.map((e) => ({ e, x: xAcc(e), y: yAcc(e) }));
+    return { table: elems.map((e) => ({ e, x: xAcc(e), y: yAcc(e) })) };
   }, [elems, xAttr, yAttr]);
 
-  const { viewRef, vegaProps } = useVegaHooks(table, props.queries, props.selection);
+  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection);
 
   const { signalListeners, selection, selectionName } = useVegaIntervalSelection(
     viewRef,
@@ -84,6 +84,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
       signalListeners={signalListeners}
       width={width}
       height={height}
+      data={data}
       theme={theme === 'dark' ? 'dark' : undefined}
       {...vegaProps}
     />

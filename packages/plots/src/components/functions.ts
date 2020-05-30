@@ -15,7 +15,7 @@ import {
   isSetLike,
   UpSetQueries,
 } from '@upsetjs/react';
-import { useCallback, MutableRefObject, useMemo, useRef } from 'react';
+import { useCallback, MutableRefObject, useMemo, useRef, useLayoutEffect } from 'react';
 
 function generateQueryChecker<T>(query: UpSetQuery<T>) {
   if (isCalcQuery(query)) {
@@ -32,12 +32,12 @@ function generateQueryChecker<T>(query: UpSetQuery<T>) {
     const lookup = new Set(query.elems);
     return (v: T) => lookup.has(v);
   }
-  return () => false;
+  return false;
 }
 
 function generateSelectionChecker<T>(selection?: UpSetSelection<T>) {
   if (!selection) {
-    return () => false;
+    return false;
   }
   if (typeof selection === 'function') {
     return (v: T) => selection({ type: 'set', name: 'S', cardinality: 1, elems: [v] }) > 0;
@@ -53,50 +53,56 @@ function generateSelectionChecker<T>(selection?: UpSetSelection<T>) {
     const lookup = new Set(selection);
     return (v: T) => lookup.has(v);
   }
-  return () => false;
+  return false;
 }
 
-function createQueryStore<T>(includes: (v: T) => boolean) {
-  return [includes];
+function wrap(v: false | ((v: any) => boolean)) {
+  return v === false ? false : () => v;
 }
 
-function inSetStore<T>(store: any[], elem: T) {
-  return store != null && typeof store[0] === 'function' && store[0](elem);
+function inSetStore<T>(signal: (v: T) => boolean, elem: T) {
+  return typeof signal === 'function' && signal(elem);
 }
 expressionFunction('inSetStore', inSetStore);
 
 export function isSelectedTest(color: string) {
-  return { test: 'inSetStore(data("set_store"), datum.e)', value: color };
+  return { test: 'inSetStore(upset_signal, datum.e)', value: color };
 }
 
 export function areQueriesTests(queries?: UpSetQueries<any>) {
   return (queries ?? []).map((query, i) => ({
-    test: `inSetStore(data("q${i}_store"), datum.e)`,
+    test: `inSetStore(upset_q${i}_signal, datum.e)`,
     value: query.color,
   }));
 }
 
-export function useVegaHooks(table: any[], queries?: UpSetQueries, selection?: UpSetSelection<any>) {
+export function useVegaHooks(queries?: UpSetQueries, selection?: UpSetSelection<any>) {
   const viewRef = useRef<View>(null);
-  const data = useMemo(() => {
-    const r: { [key: string]: any[] } = {
-      table,
-      set_store: createQueryStore(generateSelectionChecker(selection)),
-    };
-    (queries ?? []).forEach((query, i) => {
-      r[`q${i}_store`] = createQueryStore(generateQueryChecker(query));
-    });
-    return r;
-  }, [table, selection, queries]);
 
+  const selectionRef = useRef(selection);
   const patch = useCallback(
     (spec: Spec) => {
-      spec.data!.push({ name: 'set_store' });
-      (queries ?? []).forEach((_, i) => spec.data!.push({ name: `q${i}_store` }));
+      spec.signals = spec.signals || [];
+      spec.signals!.push({
+        name: 'upset_signal',
+        value: wrap(generateSelectionChecker(selectionRef.current)),
+      });
+      (queries ?? []).forEach((query, i) =>
+        spec.signals!.push({ name: `upset_q${i}_signal`, value: wrap(generateQueryChecker(query)) })
+      );
       return spec;
     },
-    [queries]
+    [selectionRef, queries]
   );
+
+  useLayoutEffect(() => {
+    (selectionRef as MutableRefObject<UpSetSelection<any>>).current = selection ?? null;
+    if (!viewRef.current) {
+      return;
+    }
+    viewRef.current.signal('upset_signal', generateSelectionChecker(selection));
+    (queries ?? []).forEach((query, i) => viewRef.current!.signal(`upset_q${i}_signal`, generateQueryChecker(query)));
+  }, [viewRef, selection, queries]);
 
   const onNewView = useCallback(
     (view: View) => {
@@ -109,7 +115,6 @@ export function useVegaHooks(table: any[], queries?: UpSetQueries, selection?: U
     viewRef,
     vegaProps: {
       patch,
-      data,
       onNewView,
     },
   };

@@ -6,9 +6,10 @@
  */
 
 import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/react';
-import { RefObject, useLayoutEffect, useMemo } from 'react';
+import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
 import { View } from 'vega';
 import { SingleSelection } from 'vega-lite/build/src/selection';
+import throttle from 'lodash.throttle';
 
 export interface IBinSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'bin';
@@ -97,36 +98,39 @@ export function useVegaBinSelection<T>(
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   selectionName = 'select'
 ) {
+  const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
     if (!onClick && !onHover) {
       return undefined;
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
-    const generate = (listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void) => (
-      _type: string,
-      item: unknown
-    ) => {
-      if (!viewRef.current) {
-        return;
-      }
-      const data = item as { _vgsid_: number[] };
-      if (!data || !data._vgsid_ || data._vgsid_.length === 0) {
-        listener(null);
-        return;
-      }
-      const contained = new Set(data._vgsid_);
-      const allBins: IBinStructure[] = viewRef.current.data('data_1');
-      const bins = allBins
-        .filter((d) => contained.has(d._vgsid_))
-        .map((bin) => [bin.bin_maxbins_10_v, bin.bin_maxbins_10_v_end] as [number, number]);
-      if (isBinSetComposite(selection, name) && sameBins(selection.bins, bins)) {
-        return;
-      }
-      const table: { v: number; e: T }[] = viewRef.current.data('table');
-      const elems = table.filter((d) => bins.some((b) => b[0] <= d.v && d.v <= b[1])).map((d) => d.e);
-      const set = createBinSetComposite(name, elems, bins);
-      listener(set);
-    };
+    const generate = (listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void) =>
+      throttle((_type: string, item: unknown) => {
+        if (!viewRef.current) {
+          return;
+        }
+        const data = item as { _vgsid_: number[] };
+        if (!data || !data._vgsid_ || data._vgsid_.length === 0) {
+          listener(null);
+          return;
+        }
+        const contained = new Set(data._vgsid_);
+        const allBins: IBinStructure[] = viewRef.current.data('data_1');
+        const bins = allBins
+          .filter((d) => contained.has(d._vgsid_))
+          .map((bin) => [bin.bin_maxbins_10_v, bin.bin_maxbins_10_v_end] as [number, number]);
+        if (
+          selectionRef.current &&
+          isBinSetComposite(selectionRef.current, name) &&
+          sameBins(selectionRef.current.bins, bins)
+        ) {
+          return;
+        }
+        const table: { v: number; e: T }[] = viewRef.current.data('table');
+        const elems = table.filter((d) => bins.some((b) => b[0] <= d.v && d.v <= b[1])).map((d) => d.e);
+        const set = createBinSetComposite(name, elems, bins);
+        listener(set);
+      }, 100);
     if (onClick) {
       r[selectionName] = generate(onClick);
     }
@@ -134,11 +138,12 @@ export function useVegaBinSelection<T>(
       r[`${selectionName}_hover`] = generate(onHover);
     }
     return r;
-  }, [onClick, onHover, viewRef, name, selection, selectionName]);
+  }, [onClick, onHover, viewRef, name, selectionRef, selectionName]);
 
   // update bin selection with selection
   useLayoutEffect(() => {
-    if (!viewRef.current) {
+    (selectionRef as MutableRefObject<UpSetSelection<any>>).current = selection ?? null;
+    if (!viewRef.current || !onClick) {
       return;
     }
     if (isBinSetComposite(selection, name)) {
@@ -146,7 +151,7 @@ export function useVegaBinSelection<T>(
     } else if (selection == null) {
       clearBins(selectionName, viewRef.current);
     }
-  }, [viewRef, selection, name, selectionName]);
+  }, [viewRef, selection, name, selectionName, onClick]);
 
   const selectionSpec = useMemo(
     () =>

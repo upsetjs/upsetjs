@@ -25,6 +25,7 @@ function generateLayer(attr: string, color: string) {
   return {
     mark: {
       type: 'bar' as 'bar',
+      tooltip: false,
     },
     encoding: {
       color: {
@@ -49,12 +50,12 @@ export default function Histogram<T>(props: HistogramProps<T>) {
   const { attr, elems, width, height } = props;
   const name = props.label ?? typeof attr === 'function' ? 'x' : attr.toString();
 
-  const table = useMemo(() => {
+  const data = useMemo(() => {
     const acc = typeof attr === 'function' ? attr : (v: T) => (v[attr] as unknown) as number;
-    return elems.map((e) => ({ e, i: 1, v: acc(e) }));
+    return { table: elems.map((e) => ({ e, i: 1, v: acc(e) })) };
   }, [elems, attr]);
 
-  const { viewRef, vegaProps } = useVegaHooks(table, props.queries, props.selection);
+  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection);
 
   const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
     viewRef,
@@ -72,9 +73,9 @@ export default function Histogram<T>(props: HistogramProps<T>) {
         name: 'table',
       },
       transform: [
-        { calculate: 'inSetStore(data("set_store"), datum.e) ? 1 : 0', as: 's' },
+        { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
         ...(props.queries ?? []).map((_, i) => ({
-          calculate: `inSetStore(data("q${i}_store"), datum.e) ? 1 : 0`,
+          calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
           as: `q${i}`,
         })),
       ],
@@ -117,6 +118,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
       spec={spec}
       width={width}
       height={height}
+      data={data}
       signalListeners={signalListeners}
       theme={theme === 'dark' ? 'dark' : undefined}
       {...vegaProps}

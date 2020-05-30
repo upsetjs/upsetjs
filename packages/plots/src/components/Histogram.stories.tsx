@@ -16,7 +16,7 @@ export default {
 
 function InteractiveHistogram(props: HistogramProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);
-  return <Histogram selection={selection} onClick={setSelection} {...props} />;
+  return <Histogram selection={selection} onHover={setSelection} {...props} />;
 }
 
 const elems = Array(100)

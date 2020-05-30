@@ -124,7 +124,6 @@ export function useVegaIntervalSelection<T>(
         .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
         .map((e) => e.e);
       const set = createIntervalSetComposite(xName, yName, elems, brush);
-      console.log(set);
       listener(set);
     }, 200);
     return r;
@@ -133,7 +132,7 @@ export function useVegaIntervalSelection<T>(
   // update brush with selection
   useLayoutEffect(() => {
     (selectionRef as MutableRefObject<UpSetSelection<any>>).current = selection ?? null;
-    if (!viewRef.current) {
+    if (!viewRef.current || !listener) {
       return;
     }
     if (isIntervalSetComposite(selection, xName, yName)) {
@@ -141,7 +140,7 @@ export function useVegaIntervalSelection<T>(
     } else if (!selection) {
       clearIntervalBrush(selectionName, viewRef.current);
     }
-  }, [selectionName, viewRef, selection, xName, yName]);
+  }, [selectionName, viewRef, selection, xName, yName, listener]);
 
   const selectionSpec = useMemo(
     () =>
