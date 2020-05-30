@@ -76,7 +76,7 @@ export function areQueriesTests(queries?: UpSetQueries<any>) {
   }));
 }
 
-export function useVegaHooks(queries?: UpSetQueries, selection?: UpSetSelection<any>) {
+export function useVegaHooks(queries?: UpSetQueries, selection?: UpSetSelection<any>, trigger = false) {
   const viewRef = useRef<View>(null);
 
   const selectionRef = useRef(selection);
@@ -102,7 +102,10 @@ export function useVegaHooks(queries?: UpSetQueries, selection?: UpSetSelection<
     }
     viewRef.current.signal('upset_signal', generateSelectionChecker(selection));
     (queries ?? []).forEach((query, i) => viewRef.current!.signal(`upset_q${i}_signal`, generateQueryChecker(query)));
-  }, [viewRef, selection, queries]);
+    if (trigger && !(viewRef.current as any)._running) {
+      viewRef.current.resize().run();
+    }
+  }, [viewRef, selection, queries, trigger]);
 
   const onNewView = useCallback(
     (view: View) => {

@@ -105,7 +105,8 @@ export function useVegaBinSelection<T>(
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
     const generate = (listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void) =>
-      throttle((_type: string, item: unknown) => {
+      // throttle((_type: string, item: unknown) => {
+      (_type: string, item: unknown) => {
         if (!viewRef.current) {
           return;
         }
@@ -130,7 +131,8 @@ export function useVegaBinSelection<T>(
         const elems = table.filter((d) => bins.some((b) => b[0] <= d.v && d.v <= b[1])).map((d) => d.e);
         const set = createBinSetComposite(name, elems, bins);
         listener(set);
-      }, 100);
+        // }, 100);
+      };
     if (onClick) {
       r[selectionName] = generate(onClick);
     }

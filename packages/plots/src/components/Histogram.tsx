@@ -55,7 +55,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
     return { table: elems.map((e) => ({ e, i: 1, v: acc(e) })) };
   }, [elems, attr]);
 
-  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection);
+  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
 
   const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
     viewRef,
