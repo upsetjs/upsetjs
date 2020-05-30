@@ -13,35 +13,35 @@ import { IntervalSelection } from 'vega-lite/build/src/selection';
 
 export interface IIntervalSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'interval';
-  readonly xName: string;
-  readonly yName: string;
+  readonly xAttr: string;
+  readonly yAttr: string;
   readonly x: [number, number];
   readonly y: [number, number];
 }
 
 export function isIntervalSetComposite<T>(
   s: UpSetSelection<T> | undefined,
-  xName: string,
-  yName: string
+  xAttr: string,
+  yAttr: string
 ): s is IIntervalSetComposite<T> {
   return (
     s != null &&
     isSetLike(s) &&
     s.type === 'composite' &&
     (s as IIntervalSetComposite<T>).subType === 'interval' &&
-    (s as IIntervalSetComposite<T>).xName === xName &&
-    (s as IIntervalSetComposite<T>).yName === yName
+    (s as IIntervalSetComposite<T>).xAttr === xAttr &&
+    (s as IIntervalSetComposite<T>).yAttr === yAttr
   );
 }
 
 export function createIntervalSetComposite<T>(
-  xName: string,
-  yName: string,
+  xAttr: string,
+  yAttr: string,
   elems: ReadonlyArray<T>,
   brush: { x: [number, number]; y: [number, number] }
 ): IIntervalSetComposite<T> {
   return {
-    name: `Brush (${xName}: ${brush.x}, ${yName}: ${brush.y})`,
+    name: `Brush (${xAttr}: ${brush.x}, ${yAttr}: ${brush.y})`,
     type: 'composite',
     subType: 'interval',
     cardinality: elems.length,
@@ -50,8 +50,8 @@ export function createIntervalSetComposite<T>(
     sets: new Set(),
     x: brush.x,
     y: brush.y,
-    xName,
-    yName,
+    xAttr,
+    yAttr,
   };
 }
 
@@ -78,19 +78,31 @@ function updateIntervalBrush(selection: string, view: View, s: IIntervalSetCompo
   }
 }
 
+function clearIntervalBrush(selection: string, view: View) {
+  const x = view.signal(`${selection}_x`) as [number, number];
+  const y = view.signal(`${selection}_y`) as [number, number];
+  if (x) {
+    view.signal(`${selection}_x`, null);
+  }
+  if (y) {
+    view.signal(`${selection}_y`, null);
+  }
+}
+
 export function useVegaIntervalSelection<T>(
   viewRef: RefObject<View>,
   selection: UpSetSelection<T> | undefined,
   xName: string,
   yName: string,
-  listener?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void
+  listener?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  selectionName = 'select'
 ) {
   const listeners = useMemo(() => {
     if (!listener) {
       return undefined;
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
-    r.select = throttle((_type: string, item: unknown) => {
+    r[selectionName] = throttle((_type: string, item: unknown) => {
       if (!viewRef.current) {
         return;
       }
@@ -110,21 +122,25 @@ export function useVegaIntervalSelection<T>(
       listener(set);
     }, 200);
     return r;
-  }, [listener, viewRef, xName, yName, selection]);
+  }, [selectionName, listener, viewRef, xName, yName, selection]);
 
   // update brush with selection
   useLayoutEffect(() => {
-    if (!viewRef.current || !isIntervalSetComposite(selection, xName, yName)) {
+    if (!viewRef.current) {
       return;
     }
-    updateIntervalBrush('select', viewRef.current, selection);
-  }, [viewRef, selection, xName, yName]);
+    if (isIntervalSetComposite(selection, xName, yName)) {
+      updateIntervalBrush(selectionName, viewRef.current, selection);
+    } else if (!selection) {
+      clearIntervalBrush(selectionName, viewRef.current);
+    }
+  }, [selectionName, viewRef, selection, xName, yName]);
 
   return {
     signalListeners: listeners,
-    selectionName: 'select',
+    selectionName,
     selection: {
-      select: { type: 'interval', empty: 'none' } as IntervalSelection,
+      [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
     },
   };
 }

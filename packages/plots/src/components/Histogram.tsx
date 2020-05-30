@@ -10,6 +10,7 @@ import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks } from './functions';
+import { useVegaBinSelection } from '../selections';
 
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -55,22 +56,13 @@ export default function Histogram<T>(props: HistogramProps<T>) {
 
   const { viewRef, vegaProps } = useVegaHooks(table, props.queries, props.selection);
 
-  const listeners = useMemo(() => {
-    return {
-      select: (type: string, item: unknown) => {
-        console.log(type, item);
-        // const data = item as { _vgsid_: number[] };
-        if (viewRef.current) {
-          const bins = viewRef.current.data('data_0');
-          console.log(viewRef.current.data('select_store'));
-          console.log(bins);
-        }
-      },
-      highlight: (type: string, item: unknown) => {
-        console.log(type, item);
-      },
-    };
-  }, [viewRef]);
+  const { selection, signalListeners } = useVegaBinSelection(
+    viewRef,
+    props.selection,
+    name,
+    props.onClick,
+    props.onHover
+  );
 
   const spec = useMemo((): TopLevelSpec => {
     return {
@@ -88,17 +80,17 @@ export default function Histogram<T>(props: HistogramProps<T>) {
       ],
       layer: [
         {
-          selection: {
-            highlight: { type: 'single', empty: 'none', on: 'mouseover' },
-            select: { type: 'single', empty: 'none' },
-          },
+          selection,
           mark: {
             type: 'bar',
             cursor: 'pointer',
           },
           encoding: {
             color: {
-              condition: { selection: 'select', value: selectionColor },
+              condition: [
+                { selection: 'select_hover', value: selectionColor },
+                { selection: 'select', value: selectionColor },
+              ],
               value: color,
             },
             x: {
@@ -118,14 +110,14 @@ export default function Histogram<T>(props: HistogramProps<T>) {
         ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
       ],
     };
-  }, [name, title, description, selectionColor, color, props.queries]);
+  }, [name, title, description, selectionColor, color, props.queries, selection]);
 
   return (
     <VegaLite
       spec={spec}
       width={width}
       height={height}
-      signalListeners={listeners}
+      signalListeners={signalListeners}
       theme={theme === 'dark' ? 'dark' : undefined}
       {...vegaProps}
     />

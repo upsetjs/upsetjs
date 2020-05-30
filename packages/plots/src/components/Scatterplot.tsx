@@ -61,7 +61,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
             { selection: selectionName, value: selectionColor },
             isSelectedTest(selectionColor),
             ...areQueriesTests(props.queries),
-          ],
+          ].filter(Boolean),
           value: color,
         },
         x: {

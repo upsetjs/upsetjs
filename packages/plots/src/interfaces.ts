@@ -28,10 +28,6 @@ export interface UpSetPlotSelectionProps<T> {
    */
   onClick?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
   /**
-   * mouse context menu listener, triggered when the user right clicks on a set (combination)
-   */
-  onContextMenu?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
-  /**
    * list of queries as an alternative to provide a single selection
    */
   queries?: UpSetQueries<T>;
