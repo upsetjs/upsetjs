@@ -5,30 +5,40 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import Scatterplot from './Scatterplot';
+import { UpSetSelection } from '@upsetjs/react';
 
 export default {
   component: Scatterplot,
   title: 'Components/Scatterplot',
 };
 
+function InteractiveScatterplot(props: any) {
+  const [selection, setSelection] = useState<UpSetSelection<any>>(null);
+  return <Scatterplot selection={selection} onClick={setSelection} {...props} />;
+}
+const elems = Array(100)
+  .fill(0)
+  .map(() => ({
+    a: Math.random(),
+    b: Math.random(),
+  }));
+
 export const Default = () => {
-  const elems = Array(100)
-    .fill(0)
-    .map(() => ({
-      a: Math.random(),
-      b: Math.random(),
-    }));
+  return <InteractiveScatterplot width={500} height={500} elems={elems} xAttr="a" yAttr="b" title="As" />;
+};
+
+export const Queries = () => {
   return (
-    <Scatterplot
+    <InteractiveScatterplot
       width={500}
       height={500}
       elems={elems}
       xAttr="a"
       yAttr="b"
       title="As"
-      onClick={(s) => console.log(s)}
+      queries={[{ name: 'test', color: 'green', elems: elems.slice(0, 10) }]}
     />
   );
 };

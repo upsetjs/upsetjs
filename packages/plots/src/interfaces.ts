@@ -4,29 +4,33 @@
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
-import { ISetLike, UpSetQueries, getDefaultTheme as getReactDefaultTheme, UpSetThemeProps } from '@upsetjs/react';
+import {
+  UpSetSelection,
+  UpSetQueries,
+  getDefaultTheme as getReactDefaultTheme,
+  UpSetThemeProps,
+  ISetLike,
+} from '@upsetjs/react';
 
 export interface UpSetPlotThemeProps {
   selectionColor?: string;
   color?: string;
 }
 
-export declare type IUpSetSelection<T> = ISetLike<T> | ReadonlyArray<T> | null;
-
 export interface UpSetPlotSelectionProps<T> {
-  selection?: IUpSetSelection<T>;
+  selection?: UpSetSelection<T>;
   /**
    * mouse hover listener, triggered when the user is over a set (combination)
    */
-  onHover?: (selection: IUpSetSelection<T>) => void;
+  onHover?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
   /**
    * mouse click listener, triggered when the user is clicking on a set (combination)
    */
-  onClick?: (selection: IUpSetSelection<T>) => void;
+  onClick?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
   /**
    * mouse context menu listener, triggered when the user right clicks on a set (combination)
    */
-  onContextMenu?: (selection: IUpSetSelection<T>) => void;
+  onContextMenu?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
   /**
    * list of queries as an alternative to provide a single selection
    */
