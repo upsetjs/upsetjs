@@ -10,18 +10,14 @@ import Histogram from './Histogram';
 
 export default {
   component: Histogram,
-  title: 'Components.Histogram',
+  title: 'Components/Histogram',
 };
 
 export const Default = () => {
   const elems = Array(100)
     .fill(0)
     .map(() => ({
-      v: Math.random(),
+      a: Math.random(),
     }));
-  return (
-    <svg width={200} height={50}>
-      <Histogram width={200} height={50} elems={elems} attr="v" />
-    </svg>
-  );
+  return <Histogram width={500} height={100} elems={elems} attr="a" title="As" />;
 };

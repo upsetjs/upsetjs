@@ -3138,6 +3138,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.throttle@npm:^4.1.6":
+  version: 4.1.6
+  resolution: "@types/lodash.throttle@npm:4.1.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 3/6ee4ca706681cb561b96f0b7a14da2f637783d0fe9af0b68efa8f29bff3b2caa1ad4e13d59ed139a4e4ef10098c825447045145b1b8f63410cdb5dc256b33082
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.153
+  resolution: "@types/lodash@npm:4.14.153"
+  checksum: 3/7d12c7c2e00abd498a0aabd129eeb2361d4872e1f40ddc0b42d7a80fab445171c217222e5bf6e9085e93531a4c0a2ec131f4078112d395db6b91328f40c40f5e
+  languageName: node
+  linkType: hard
+
 "@types/lz-string@npm:^1.3.34":
   version: 1.3.34
   resolution: "@types/lz-string@npm:1.3.34"
@@ -3760,6 +3776,7 @@ __metadata:
     "@storybook/preset-typescript": ^3.0.0
     "@storybook/react": ^6.0.0-beta.1
     "@types/jest": ^25.2.1
+    "@types/lodash.throttle": ^4.1.6
     "@types/react": ^16.9.34
     "@types/react-dom": ^16.9.7
     "@typescript-eslint/eslint-plugin": ^2.30.0
@@ -3775,6 +3792,7 @@ __metadata:
     eslint-plugin-prettier: ^3.1.3
     eslint-plugin-react: ^7.19.0
     eslint-plugin-react-hooks: ^4.0.0
+    lodash.throttle: ^4.1.1
     prettier: ^2.0.5
     react: ^16.13.0
     react-docgen-typescript-loader: ^3.7.2
@@ -13597,6 +13615,13 @@ fsevents@^1.2.7:
   dependencies:
     lodash._reinterpolate: ^3.0.0
   checksum: 3/45546a5b76376b138ef4f01aa2722813127c639428eb9baef3fbac176b509ee2dab5cb9d1ee8267dbeeef8d49371f9a748af3df83649bf8b75fa54993f65b7aa
+  languageName: node
+  linkType: hard
+
+"lodash.throttle@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "lodash.throttle@npm:4.1.1"
+  checksum: 3/d9107c79033f609f23552f48f5ba93b8a98a07a2b38914745a48d33f18704a4c6a125610ad2bab2a0139974d1da7c5d6a24271243e21571f01e21bf3b2f6b21d
   languageName: node
   linkType: hard
 

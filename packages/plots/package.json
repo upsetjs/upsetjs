@@ -87,8 +87,10 @@
     "webpack": "^4.43.0"
   },
   "dependencies": {
+    "@types/lodash.throttle": "^4.1.6",
     "@types/react": "^16.9.34",
     "@upsetjs/react": "~1.0.0",
+    "lodash.throttle": "^4.1.1",
     "react-vega": "^7.3.0",
     "vega": "^5.12.3",
     "vega-lite": "^4.12.2",
