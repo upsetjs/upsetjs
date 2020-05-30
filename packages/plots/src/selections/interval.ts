@@ -10,6 +10,7 @@ import { View } from 'vega';
 import { useLayoutEffect, RefObject, useMemo, useRef, MutableRefObject } from 'react';
 import throttle from 'lodash.throttle';
 import { IntervalSelection, SingleSelection } from 'vega-lite/build/src/selection';
+import { generateListener } from './single';
 
 export interface IIntervalSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'interval';
@@ -41,7 +42,7 @@ export function createIntervalSetComposite<T>(
   brush: { x: [number, number]; y: [number, number] }
 ): IIntervalSetComposite<T> {
   return {
-    name: `Brush (${xAttr}: ${brush.x}, ${yAttr}: ${brush.y})`,
+    name: `Vega Brush (${xAttr}: ${brush.x}, ${yAttr}: ${brush.y})`,
     type: 'composite',
     subType: 'interval',
     cardinality: elems.length,
@@ -96,7 +97,7 @@ export function useVegaIntervalSelection<T>(
   yName: string,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  selectionName = 'select'
+  { selectionName = 'select', transformedData = 'data_0' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -130,33 +131,10 @@ export function useVegaIntervalSelection<T>(
       }, 200);
     }
     if (onHover) {
-      r[selectionName] = (_type: string, item: unknown) => {
-        if (!viewRef.current) {
-          return;
-        }
-        console.log(item);
-        // const brush = item as { x: [number, number]; y: [number, number] };
-        // if (brush.x == null) {
-        //   onHover(null);
-        //   return;
-        // }
-        // if (
-        //   selectionRef.current &&
-        //   isIntervalSetComposite(selectionRef.current, xName, yName) &&
-        //   sameInterval(selectionRef.current, brush)
-        // ) {
-        //   return;
-        // }
-        // const table: { x: number; y: number; e: T }[] = viewRef.current.data('table');
-        // const elems = table
-        //   .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
-        //   .map((e) => e.e);
-        // const set = createIntervalSetComposite(xName, yName, elems, brush);
-        // onHover(set);
-      };
+      r[`${selectionName}_hover`] = generateListener(viewRef, selectionRef, onHover, transformedData);
     }
     return r;
-  }, [selectionName, onClick, onHover, viewRef, xName, yName, selectionRef]);
+  }, [selectionName, onClick, onHover, viewRef, xName, yName, selectionRef, transformedData]);
 
   // update brush with selection
   useLayoutEffect(() => {

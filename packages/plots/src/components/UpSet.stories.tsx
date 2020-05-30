@@ -48,13 +48,14 @@ export const UpSetScatterplot = () => {
         <Scatterplot
           selection={selection}
           onClick={setSelection}
+          onHover={setSelection}
           width={500}
           height={500}
           xAttr="a"
           yAttr="b"
           elems={elems}
         />
-        <Histogram selection={selection} onClick={setSelection} width={500} height={300} attr="a" elems={elems} />
+        <Histogram selection={selection} onHover={setSelection} width={500} height={300} attr="a" elems={elems} />
       </div>
     </div>
   );

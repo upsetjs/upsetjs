@@ -9,6 +9,8 @@ import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/rea
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
 import { View } from 'vega';
 import { SingleSelection } from 'vega-lite/build/src/selection';
+import { sameArray } from './utils';
+import { clearMulti } from './single';
 
 export interface IBinSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'bin';
@@ -32,7 +34,7 @@ export function createBinSetComposite<T>(
   bins: ReadonlyArray<[number, number]>
 ): IBinSetComposite<T> {
   return {
-    name: `Bin ${attr}: ${bins.map((bin) => `[${bins[0]},${bin[1]})`).join(', ')}`,
+    name: `Vega Bin ${attr}: ${bins.map((bin) => `[${bin[0]},${bin[1]})`).join(', ')}`,
     type: 'composite',
     subType: 'bin',
     cardinality: elems.length,
@@ -58,35 +60,19 @@ interface IBinStructure {
   bin_maxbins_10_v_end: number;
 }
 
-function sameIds(a: number[], b: number[]) {
-  if (a.length !== b.length) {
-    return false;
-  }
-  const bs = new Set(b);
-  return a.every((ai) => bs.has(ai));
-}
-
-function updateBins(selection: string, view: View, s: IBinSetComposite<any>) {
+function updateBins(selection: string, view: View, s: IBinSetComposite<any>, binData: string, layerData: string) {
   const v = view.signal(`${selection}_tuple`) as { values: number[] };
-  const allBins: IBinStructure[] = view.data('data_1');
+  const allBins: IBinStructure[] = view.data(binData);
   const values = allBins.filter((b) => s.bins.find((sb) => sb[0] === b.bin_maxbins_10_v)).map((d) => d._vgsid_);
 
   const current = v ? v.values : [];
-  if (sameIds(current, values)) {
+  if (sameArray(current, values)) {
     return;
   }
   const entry = v
     ? Object.assign({}, v, { values })
-    : { unit: 'layer_0', fields: view.signal(`${selection}_tuple_fields`, values) };
+    : { unit: layerData, fields: view.signal(`${selection}_tuple_fields`, values) };
   view.signal(`${selection}_tuple`, entry);
-}
-
-function clearBins(selection: string, view: View) {
-  const v = view.signal(`${selection}_tuple`) as { values: number[] };
-  if (!v || v.values.length === 0) {
-    return;
-  }
-  view.signal(`${selection}_tuple`, null);
 }
 
 export function useVegaBinSelection<T>(
@@ -95,7 +81,7 @@ export function useVegaBinSelection<T>(
   name: string,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  selectionName = 'select'
+  { selectionName = 'select', binData = 'data_1', layerData = 'layer_0' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -115,7 +101,7 @@ export function useVegaBinSelection<T>(
           return;
         }
         const contained = new Set(data._vgsid_);
-        const allBins: IBinStructure[] = viewRef.current.data('data_1');
+        const allBins: IBinStructure[] = viewRef.current.data(binData);
         const bins = allBins
           .filter((d) => contained.has(d._vgsid_))
           .map((bin) => [bin.bin_maxbins_10_v, bin.bin_maxbins_10_v_end] as [number, number]);
@@ -139,7 +125,7 @@ export function useVegaBinSelection<T>(
       r[`${selectionName}_hover`] = generate(onHover);
     }
     return r;
-  }, [onClick, onHover, viewRef, name, selectionRef, selectionName]);
+  }, [onClick, onHover, viewRef, name, selectionRef, selectionName, binData]);
 
   // update bin selection with selection
   useLayoutEffect(() => {
@@ -148,11 +134,11 @@ export function useVegaBinSelection<T>(
       return;
     }
     if (isBinSetComposite(selection, name)) {
-      updateBins(selectionName, viewRef.current, selection);
+      updateBins(selectionName, viewRef.current, selection, binData, layerData);
     } else if (selection == null) {
-      clearBins(selectionName, viewRef.current);
+      clearMulti(selectionName, viewRef.current);
     }
-  }, [viewRef, selection, name, selectionName, onClick]);
+  }, [viewRef, selection, name, selectionName, onClick, binData, layerData]);
 
   const selectionSpec = useMemo(
     () =>
