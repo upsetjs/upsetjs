@@ -56,7 +56,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
 
   const { viewRef, vegaProps } = useVegaHooks(table, props.queries, props.selection);
 
-  const { selection, signalListeners } = useVegaBinSelection(
+  const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
     viewRef,
     props.selection,
     name,
@@ -83,14 +83,14 @@ export default function Histogram<T>(props: HistogramProps<T>) {
           selection,
           mark: {
             type: 'bar',
-            cursor: 'pointer',
+            cursor: selectionName || hoverName ? 'pointer' : undefined,
           },
           encoding: {
             color: {
               condition: [
-                { selection: 'select_hover', value: selectionColor },
-                { selection: 'select', value: selectionColor },
-              ],
+                hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
+                selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
+              ].flat(),
               value: color,
             },
             x: {
@@ -110,7 +110,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
         ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
       ],
     };
-  }, [name, title, description, selectionColor, color, props.queries, selection]);
+  }, [name, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
 
   return (
     <VegaLite

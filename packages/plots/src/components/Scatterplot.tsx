@@ -58,10 +58,10 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
       encoding: {
         fill: {
           condition: [
-            { selection: selectionName, value: selectionColor },
+            selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
             isSelectedTest(selectionColor),
-            ...areQueriesTests(props.queries),
-          ].filter(Boolean),
+            areQueriesTests(props.queries),
+          ].flat(),
           value: color,
         },
         x: {

@@ -7,7 +7,7 @@
 
 import { ISetComposite, isSetLike, UpSetSelection, ISetLike } from '@upsetjs/react';
 import { View } from 'vega';
-import { useLayoutEffect, RefObject, useMemo } from 'react';
+import { useLayoutEffect, RefObject, useMemo, useRef, MutableRefObject } from 'react';
 import throttle from 'lodash.throttle';
 import { IntervalSelection } from 'vega-lite/build/src/selection';
 
@@ -97,6 +97,7 @@ export function useVegaIntervalSelection<T>(
   listener?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   selectionName = 'select'
 ) {
+  const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
     if (!listener) {
       return undefined;
@@ -111,7 +112,11 @@ export function useVegaIntervalSelection<T>(
         listener(null);
         return;
       }
-      if (isIntervalSetComposite(selection, xName, yName) && sameInterval(selection, brush)) {
+      if (
+        selectionRef.current &&
+        isIntervalSetComposite(selectionRef.current, xName, yName) &&
+        sameInterval(selectionRef.current, brush)
+      ) {
         return;
       }
       const table: { x: number; y: number; e: T }[] = viewRef.current.data('table');
@@ -119,13 +124,15 @@ export function useVegaIntervalSelection<T>(
         .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
         .map((e) => e.e);
       const set = createIntervalSetComposite(xName, yName, elems, brush);
+      console.log(set);
       listener(set);
     }, 200);
     return r;
-  }, [selectionName, listener, viewRef, xName, yName, selection]);
+  }, [selectionName, listener, viewRef, xName, yName, selectionRef]);
 
   // update brush with selection
   useLayoutEffect(() => {
+    (selectionRef as MutableRefObject<UpSetSelection<any>>).current = selection ?? null;
     if (!viewRef.current) {
       return;
     }
@@ -136,11 +143,18 @@ export function useVegaIntervalSelection<T>(
     }
   }, [selectionName, viewRef, selection, xName, yName]);
 
+  const selectionSpec = useMemo(
+    () =>
+      listener
+        ? {
+            [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
+          }
+        : {},
+    [selectionName, listener]
+  );
   return {
     signalListeners: listeners,
-    selectionName,
-    selection: {
-      [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
-    },
+    selectionName: listener ? selectionName : null,
+    selection: selectionSpec,
   };
 }

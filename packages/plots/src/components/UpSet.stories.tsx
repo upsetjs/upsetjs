@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import UpSetJS, { extractSets, UpSetSelection } from '@upsetjs/react';
 import Scatterplot from './Scatterplot';
+import Histogram from './Histogram';
 
 export default {
   title: 'UpSetJS Plot Addons',
@@ -43,15 +44,18 @@ export const UpSetScatterplot = () => {
   return (
     <div>
       <UpSetJS selection={selection} onHover={setSelection} sets={sets} width={1200} height={500} />
-      <Scatterplot
-        selection={selection}
-        onClick={setSelection}
-        width={500}
-        height={500}
-        xAttr="a"
-        yAttr="b"
-        elems={elems}
-      />
+      <div style={{ display: 'flex' }}>
+        <Scatterplot
+          selection={selection}
+          onClick={setSelection}
+          width={500}
+          height={500}
+          xAttr="a"
+          yAttr="b"
+          elems={elems}
+        />
+        <Histogram selection={selection} onClick={setSelection} width={500} height={300} attr="a" elems={elems} />
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import Scatterplot from './Scatterplot';
+import Scatterplot, { ScatterplotProps } from './Scatterplot';
 import { UpSetSelection } from '@upsetjs/react';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   title: 'Components/Scatterplot',
 };
 
-function InteractiveScatterplot(props: any) {
+function InteractiveScatterplot(props: ScatterplotProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);
   return <Scatterplot selection={selection} onClick={setSelection} {...props} />;
 }
@@ -26,6 +26,10 @@ const elems = Array(100)
   }));
 
 export const Default = () => {
+  return <Scatterplot width={500} height={500} elems={elems} xAttr="a" yAttr="b" title="As" />;
+};
+
+export const Interactive = () => {
   return <InteractiveScatterplot width={500} height={500} elems={elems} xAttr="a" yAttr="b" title="As" />;
 };
 

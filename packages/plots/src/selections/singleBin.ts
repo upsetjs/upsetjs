@@ -110,7 +110,7 @@ export function useVegaBinSelection<T>(
         return;
       }
       const data = item as { _vgsid_: number[] };
-      if (data._vgsid_.length === 0) {
+      if (!data || !data._vgsid_ || data._vgsid_.length === 0) {
         listener(null);
         return;
       }
@@ -148,12 +148,27 @@ export function useVegaBinSelection<T>(
     }
   }, [viewRef, selection, name, selectionName]);
 
+  const selectionSpec = useMemo(
+    () =>
+      Object.assign(
+        {},
+        onClick
+          ? {
+              [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
+            }
+          : {},
+        onHover
+          ? {
+              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+            }
+          : {}
+      ),
+    [selectionName, onClick, onHover]
+  );
   return {
     signalListeners: listeners,
-    selectionName,
-    selection: {
-      [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
-      [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-    },
+    hoverName: onHover ? `${selectionName}_hover` : null,
+    selectionName: onClick ? selectionName : null,
+    selection: selectionSpec,
   };
 }

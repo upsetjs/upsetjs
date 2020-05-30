@@ -78,7 +78,7 @@ export function areQueriesTests(queries?: UpSetQueries<any>) {
 
 export function useVegaHooks(table: any[], queries?: UpSetQueries, selection?: UpSetSelection<any>) {
   const viewRef = useRef<View>(null);
-  const [data, patch] = useMemo(() => {
+  const data = useMemo(() => {
     const r: { [key: string]: any[] } = {
       table,
       set_store: createQueryStore(generateSelectionChecker(selection)),
@@ -86,15 +86,17 @@ export function useVegaHooks(table: any[], queries?: UpSetQueries, selection?: U
     (queries ?? []).forEach((query, i) => {
       r[`q${i}_store`] = createQueryStore(generateQueryChecker(query));
     });
+    return r;
+  }, [table, selection, queries]);
 
-    const patch = (spec: Spec) => {
+  const patch = useCallback(
+    (spec: Spec) => {
       spec.data!.push({ name: 'set_store' });
       (queries ?? []).forEach((_, i) => spec.data!.push({ name: `q${i}_store` }));
       return spec;
-    };
-
-    return [r, patch];
-  }, [table, selection, queries]);
+    },
+    [queries]
+  );
 
   const onNewView = useCallback(
     (view: View) => {
