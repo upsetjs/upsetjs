@@ -45,6 +45,7 @@ export function updateMulti<T>(
   view.signal(`${selection}_tuple`, entry);
 }
 
+/** @internal */
 export function clearMulti(selection: string, view: View) {
   const v = view.signal(`${selection}_tuple`) as { values: number[] };
   if (!v || v.values.length === 0) {
@@ -53,6 +54,7 @@ export function clearMulti(selection: string, view: View) {
   view.signal(`${selection}_tuple`, null);
 }
 
+/** @internal */
 export function generateListener<T>(
   viewRef: RefObject<View>,
   selectionRef: RefObject<UpSetSelection<T> | undefined>,

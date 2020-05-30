@@ -6,3 +6,6 @@
  */
 
 export * from './components/Histogram';
+export * from './components/Scatterplot';
+export * from './components/BarChart';
+export * from './selections';
