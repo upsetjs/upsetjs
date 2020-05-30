@@ -37,12 +37,13 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
 
   const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection);
 
-  const { signalListeners, selection, selectionName } = useVegaIntervalSelection(
+  const { signalListeners, selection, selectionName, hoverName } = useVegaIntervalSelection(
     viewRef,
     props.selection,
     xName,
     yName,
-    props.onClick
+    props.onClick,
+    props.onHover
   );
 
   const spec = useMemo((): TopLevelSpec => {
@@ -54,10 +55,13 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
       mark: {
         type: 'point',
         stroke: null,
+        cursor: hoverName ? 'pointer' : undefined,
+        tooltip: true,
       },
       encoding: {
         fill: {
           condition: [
+            hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
             selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
             isSelectedTest(selectionColor),
             areQueriesTests(props.queries),
@@ -76,7 +80,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>) {
         },
       },
     };
-  }, [xName, yName, title, description, selectionColor, color, props.queries, selection, selectionName]);
+  }, [xName, yName, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
 
   return (
     <VegaLite

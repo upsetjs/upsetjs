@@ -33,6 +33,20 @@ export const Interactive = () => {
   return <InteractiveScatterplot width={500} height={500} elems={elems} xAttr="a" yAttr="b" title="As" />;
 };
 
+export const Hover = () => {
+  return (
+    <InteractiveScatterplot
+      width={500}
+      height={500}
+      elems={elems}
+      xAttr="a"
+      yAttr="b"
+      title="As"
+      onHover={(v) => console.log(v)}
+    />
+  );
+};
+
 export const Queries = () => {
   return (
     <InteractiveScatterplot

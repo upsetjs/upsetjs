@@ -40,6 +40,7 @@ function generateLayer(attr: string, color: string) {
         aggregate: 'sum' as 'sum',
         field: attr,
         type: 'quantitative' as 'quantitative',
+        title: false,
       },
     },
   };
@@ -85,6 +86,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
           mark: {
             type: 'bar',
             cursor: selectionName || hoverName ? 'pointer' : undefined,
+            tooltip: true,
           },
           encoding: {
             color: {
@@ -104,6 +106,7 @@ export default function Histogram<T>(props: HistogramProps<T>) {
               aggregate: 'sum',
               field: 'i',
               type: 'quantitative',
+              title: 'Count',
             },
           },
         },

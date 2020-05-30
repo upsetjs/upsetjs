@@ -9,7 +9,6 @@ import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/rea
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
 import { View } from 'vega';
 import { SingleSelection } from 'vega-lite/build/src/selection';
-import throttle from 'lodash.throttle';
 
 export interface IBinSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'bin';

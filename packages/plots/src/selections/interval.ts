@@ -9,7 +9,7 @@ import { ISetComposite, isSetLike, UpSetSelection, ISetLike } from '@upsetjs/rea
 import { View } from 'vega';
 import { useLayoutEffect, RefObject, useMemo, useRef, MutableRefObject } from 'react';
 import throttle from 'lodash.throttle';
-import { IntervalSelection } from 'vega-lite/build/src/selection';
+import { IntervalSelection, SingleSelection } from 'vega-lite/build/src/selection';
 
 export interface IIntervalSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'interval';
@@ -94,45 +94,74 @@ export function useVegaIntervalSelection<T>(
   selection: UpSetSelection<T> | undefined,
   xName: string,
   yName: string,
-  listener?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   selectionName = 'select'
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
-    if (!listener) {
+    if (!onClick && !onHover) {
       return undefined;
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
-    r[selectionName] = throttle((_type: string, item: unknown) => {
-      if (!viewRef.current) {
-        return;
-      }
-      const brush = item as { x: [number, number]; y: [number, number] };
-      if (brush.x == null) {
-        listener(null);
-        return;
-      }
-      if (
-        selectionRef.current &&
-        isIntervalSetComposite(selectionRef.current, xName, yName) &&
-        sameInterval(selectionRef.current, brush)
-      ) {
-        return;
-      }
-      const table: { x: number; y: number; e: T }[] = viewRef.current.data('table');
-      const elems = table
-        .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
-        .map((e) => e.e);
-      const set = createIntervalSetComposite(xName, yName, elems, brush);
-      listener(set);
-    }, 200);
+    if (onClick) {
+      r[selectionName] = throttle((_type: string, item: unknown) => {
+        if (!viewRef.current) {
+          return;
+        }
+        const brush = item as { x: [number, number]; y: [number, number] };
+        if (brush.x == null) {
+          onClick(null);
+          return;
+        }
+        if (
+          selectionRef.current &&
+          isIntervalSetComposite(selectionRef.current, xName, yName) &&
+          sameInterval(selectionRef.current, brush)
+        ) {
+          return;
+        }
+        const table: { x: number; y: number; e: T }[] = viewRef.current.data('table');
+        const elems = table
+          .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
+          .map((e) => e.e);
+        const set = createIntervalSetComposite(xName, yName, elems, brush);
+        onClick(set);
+      }, 200);
+    }
+    if (onHover) {
+      r[selectionName] = (_type: string, item: unknown) => {
+        if (!viewRef.current) {
+          return;
+        }
+        console.log(item);
+        // const brush = item as { x: [number, number]; y: [number, number] };
+        // if (brush.x == null) {
+        //   onHover(null);
+        //   return;
+        // }
+        // if (
+        //   selectionRef.current &&
+        //   isIntervalSetComposite(selectionRef.current, xName, yName) &&
+        //   sameInterval(selectionRef.current, brush)
+        // ) {
+        //   return;
+        // }
+        // const table: { x: number; y: number; e: T }[] = viewRef.current.data('table');
+        // const elems = table
+        //   .filter((d) => d.x >= brush.x[0] && d.x <= brush.x[1] && d.y >= brush.y[0] && d.y <= brush.y[1])
+        //   .map((e) => e.e);
+        // const set = createIntervalSetComposite(xName, yName, elems, brush);
+        // onHover(set);
+      };
+    }
     return r;
-  }, [selectionName, listener, viewRef, xName, yName, selectionRef]);
+  }, [selectionName, onClick, onHover, viewRef, xName, yName, selectionRef]);
 
   // update brush with selection
   useLayoutEffect(() => {
     (selectionRef as MutableRefObject<UpSetSelection<any>>).current = selection ?? null;
-    if (!viewRef.current || !listener) {
+    if (!viewRef.current || !onClick) {
       return;
     }
     if (isIntervalSetComposite(selection, xName, yName)) {
@@ -140,20 +169,29 @@ export function useVegaIntervalSelection<T>(
     } else if (!selection) {
       clearIntervalBrush(selectionName, viewRef.current);
     }
-  }, [selectionName, viewRef, selection, xName, yName, listener]);
+  }, [selectionName, viewRef, selection, xName, yName, onClick]);
 
   const selectionSpec = useMemo(
     () =>
-      listener
-        ? {
-            [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
-          }
-        : {},
-    [selectionName, listener]
+      Object.assign(
+        {},
+        onClick
+          ? {
+              [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
+            }
+          : {},
+        onHover
+          ? {
+              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+            }
+          : {}
+      ),
+    [selectionName, onClick, onHover]
   );
   return {
     signalListeners: listeners,
-    selectionName: listener ? selectionName : null,
+    hoverName: onHover ? `${selectionName}_hover` : null,
+    selectionName: onClick ? selectionName : null,
     selection: selectionSpec,
   };
 }
