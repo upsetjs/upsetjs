@@ -10,33 +10,33 @@ import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks } from './functions';
-import { useVegaBinSelection } from '../selections';
+import { useVegaAggregatedGroupSelection } from '../selections';
 
-export interface HistogramProps<T> extends UpSetPlotProps<T> {
+export interface PieChartProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
 
+  innerRadius?: number;
+
   elems: ReadonlyArray<T>;
-  attr: keyof T | ((v: T) => number);
+  attr: keyof T | ((v: T) => string);
   label?: string;
 }
 
-function generateLayer(attr: string, color: string) {
+function generateLayer(attr: string, color: string, innerRadius?: number) {
   return {
     mark: {
-      type: 'bar' as 'bar',
+      type: 'arc' as 'arc',
       tooltip: false,
+      innerRadius,
     },
     encoding: {
       color: {
         value: color,
       },
-      x: {
-        bin: true,
-        field: 'v',
-        type: 'quantitative' as 'quantitative',
-      },
-      y: {
+      // theta: { field: 'value', type: 'quantitative' },
+      // color: { field: 'category', type: 'nominal' },
+      theta: {
         aggregate: 'sum' as 'sum',
         field: attr,
         type: 'quantitative' as 'quantitative',
@@ -46,9 +46,9 @@ function generateLayer(attr: string, color: string) {
   };
 }
 
-export default function Histogram<T>(props: HistogramProps<T>): React.ReactElement<any, any> | null {
+export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { attr, elems, width, height } = props;
+  const { attr, elems, width, height, innerRadius } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
@@ -58,7 +58,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
 
   const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
 
-  const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
+  const { selection, signalListeners, selectionName, hoverName } = useVegaAggregatedGroupSelection(
     viewRef,
     props.selection,
     name,
@@ -74,19 +74,46 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
         name: 'table',
       },
       transform: [
-        { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
-        ...(props.queries ?? []).map((_, i) => ({
-          calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
-          as: `q${i}`,
-        })),
+        // { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
+        // ...(props.queries ?? []).map((_, i) => ({
+        //   calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
+        //   as: `q${i}`,
+        // })),
+        {
+          aggregate: [
+            {
+              op: 'sum',
+              field: 'i',
+              as: 'i_sum',
+            },
+            // {
+            //   op: 'sum',
+            //   field: 's',
+            //   as: 's_sum',
+            // },
+            // ...(props.queries ?? []).map((_, i) => ({
+            //   op: 'sum' as 'sum',
+            //   field: `q${i}`,
+            //   as: `q${i}_sum`,
+            // })),
+          ],
+          groupby: ['v'],
+        },
+        {
+          stack: 'i_sum',
+          as: ['i_sum_start', 'i_sum_end'],
+          sort: [{ field: 'v', order: 'ascending' }],
+          groupby: [],
+        },
       ],
       layer: [
         {
           selection,
           mark: {
-            type: 'bar',
+            type: 'arc',
             cursor: selectionName || hoverName ? 'pointer' : undefined,
             tooltip: true,
+            innerRadius,
           },
           encoding: {
             color: {
@@ -94,27 +121,38 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
                 hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
                 selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
               ].flat(),
-              value: color,
-            },
-            x: {
-              bin: true,
               field: 'v',
-              type: 'quantitative',
+              type: 'nominal',
               title: name,
+              // value: color,
             },
-            y: {
-              aggregate: 'sum',
-              field: 'i',
+            theta: {
+              field: 'i_sum_start',
               type: 'quantitative',
               title: 'Count',
             },
+            theta2: {
+              field: 'i_sum_end',
+              title: null,
+            },
           },
         },
-        generateLayer('s', selectionColor),
-        ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
+        // generateLayer('s', selectionColor),
+        // ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
       ],
     };
-  }, [name, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
+  }, [
+    name,
+    title,
+    description,
+    selectionColor,
+    color,
+    props.queries,
+    selection,
+    selectionName,
+    hoverName,
+    innerRadius,
+  ]);
 
   return (
     <VegaLite

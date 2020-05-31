@@ -11,3 +11,5 @@ export * from './Scatterplot';
 export { default as Scatterplot } from './Scatterplot';
 export * from './Histogram';
 export { default as Histogram } from './Histogram';
+export * from './PieChart';
+export { default as PieChart } from './PieChart';
