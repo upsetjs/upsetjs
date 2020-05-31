@@ -10,7 +10,7 @@ import Categorical from './Categorical';
 
 export default {
   component: Categorical,
-  title: 'Components.Categorical',
+  title: 'Components/Categorical',
 };
 
 export const Default = () => {

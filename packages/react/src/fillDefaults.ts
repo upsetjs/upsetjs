@@ -33,7 +33,7 @@ const darkTheme: Required<UpSetThemeProps> = {
   alternatingBackgroundColor: '#ffffff33',
 };
 
-function getTheme(theme?: 'light' | 'dark') {
+export function getDefaultTheme(theme?: 'light' | 'dark'): Readonly<Required<UpSetThemeProps>> {
   return theme === 'dark' ? darkTheme : lightTheme;
 }
 function areCombinations<T>(
@@ -46,7 +46,7 @@ function areCombinations<T>(
  * helper methods to fill up partial UpSet.js properties with their default values
  */
 export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPropsG<T, C, N, L> {
-  const theme = getTheme(props.theme);
+  const theme = getDefaultTheme(props.theme);
   return Object.assign(
     {
       theme: 'light',

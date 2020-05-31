@@ -27,7 +27,7 @@ import {
   UpSetSetQuery,
   ISet,
   ISetCombination,
-  validators,
+  isSetLike,
 } from '@upsetjs/model';
 import {
   fillDefaults,
@@ -385,7 +385,7 @@ export default class Store {
     }
     if (this.selection.type === 'set') {
       sets.add(this.selection);
-    } else if (validators.isSetLike(this.selection)) {
+    } else if (isSetLike(this.selection)) {
       this.selection.sets.forEach((s) => sets.add(s));
     }
     if (sets.size === 1) {

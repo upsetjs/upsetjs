@@ -30,11 +30,15 @@ function UpSetSelectionChart<T>({
   const height = size.sets.h + size.sets.after;
   const width = data.cs.bandWidth;
 
-  if (!selection || selection.type === 'set') {
+  if (!selection || selection.type === 'set' || !data.cs) {
     return null;
   }
   const d = selection;
   const index = data.cs.keys.indexOf(data.toKey(d));
+  if (index < 0) {
+    return null;
+  }
+
   return (
     <g transform={`translate(${size.labels.w + data.cs.x(d)!}, 0)`} data-upset="cs-ss" data-i={index}>
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />

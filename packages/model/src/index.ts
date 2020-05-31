@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export * as validators from './validators';
+export * from './validators';
 
 export * from './data';
 export {

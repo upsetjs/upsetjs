@@ -15,3 +15,13 @@ packageExtensions:
   'jss-plugin-rule-value-function@*':
     dependencies:
       'tiny-warning': '*'
+  'react-vega@*':
+    dependencies:
+      'prop-types': '*'
+  'vega-embed@*':
+    dependencies:
+      'vega-util': '*'
+      'tslib': '*'
+  'vega-tooltip@*':
+    dependencies:
+      'vega-typings': '*'

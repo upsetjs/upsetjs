@@ -37,11 +37,13 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   theme: 'dark' | 'light';
 }
 
+export declare type UpSetSelection<T> = ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
   /**
    * the current selection of the plot
    */
-  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  selection: UpSetSelection<T>;
   /**
    * the specified selection color
    */
@@ -226,7 +228,7 @@ export interface UpSetSelectionProps<T = any> {
   /**
    * the selection of the plot. Can be a set like (set or set combination), an array of elements, or a function to compute the overlap to a given set
    */
-  selection?: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  selection?: UpSetSelection<T>;
   /**
    * mouse hover listener, triggered when the user is over a set (combination)
    */
