@@ -15,7 +15,8 @@ import {
   isSetLike,
   UpSetQueries,
 } from '@upsetjs/react';
-import { useCallback, MutableRefObject, useRef, useLayoutEffect } from 'react';
+import { useCallback, MutableRefObject, useRef, useLayoutEffect, RefObject } from 'react';
+import { VegaProps } from 'react-vega/lib/Vega';
 
 function generateQueryChecker<T>(query: UpSetQuery<T>) {
   if (isCalcQuery(query)) {
@@ -65,18 +66,38 @@ function inSetStore<T>(signal: (v: T) => boolean, elem: T) {
 }
 expressionFunction('inSetStore', inSetStore);
 
-export function isSelectedTest(color: string) {
-  return { test: 'inSetStore(upset_signal, datum.e)', value: color };
+/**
+ * generates a condition which checks whether the datum has been selected
+ * @param color the selection color
+ * @param elemField the property in the datum which hold the raw element
+ */
+export function isSelectedTest(color: string, elemField = 'e') {
+  return { test: `inSetStore(upset_signal, datum.${elemField})`, value: color };
 }
-
-export function areQueriesTests(queries?: UpSetQueries<any>) {
+/**
+ * generates condition which checks whether the datum has been selected in one of the given queries
+ * @param queries the queries to check
+ * @param elemField the property in the datum which hold the raw element
+ */
+export function areQueriesTests(queries?: UpSetQueries<any>, elemField = 'e') {
   return (queries ?? []).map((query, i) => ({
-    test: `inSetStore(upset_q${i}_signal, datum.e)`,
+    test: `inSetStore(upset_q${i}_signal, datum.${elemField})`,
     value: query.color,
   }));
 }
 
-export function useVegaHooks(queries?: UpSetQueries, selection?: UpSetSelection<any>, trigger = false) {
+/**
+ * React hook which injects signals for injecting queries and the current selection into the vega spec, use `isSelectedTest` and `areQueriesTests`
+ * to check
+ * @param queries
+ * @param selection
+ * @param trigger whether to trigger an "update" after the signal has been changed (needed sometimes)
+ */
+export function useVegaHooks(
+  queries?: UpSetQueries,
+  selection?: UpSetSelection<any>,
+  trigger = false
+): { viewRef: RefObject<View>; vegaProps: Partial<VegaProps> } {
   const viewRef = useRef<View>(null);
 
   const selectionRef = useRef(selection);

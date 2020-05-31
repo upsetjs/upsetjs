@@ -16,6 +16,11 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
 
+  /**
+   * @default vertical
+   */
+  orientation?: 'horizontal' | 'vertical';
+
   elems: ReadonlyArray<T>;
   iLabel?: string;
   iAttr: keyof T | ((v: T) => string);
@@ -25,7 +30,9 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
 
 export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { vAttr, iAttr, elems, width, height } = props;
+  const { vAttr, iAttr, elems, width, height, orientation = 'vertical' } = props;
+  const iAxis = orientation === 'horizontal' ? 'y' : 'x';
+  const vAxis = orientation === 'horizontal' ? 'x' : 'y';
   const vName = props.vLabel ?? typeof vAttr === 'function' ? 'v' : vAttr.toString();
   const iName = props.iLabel ?? typeof iAttr === 'function' ? 'i' : iAttr.toString();
 
@@ -38,6 +45,7 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
   const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
 
   const { signalListeners, selection, selectionName, hoverName } = useVegaMultiSelection(
+    'multi',
     viewRef,
     props.selection,
     props.onClick,
@@ -66,20 +74,33 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
           ] as any[]).filter(Boolean),
           value: color,
         },
-        x: {
+        [iAxis]: {
           field: 'i',
           type: 'nominal',
           title: iName,
           axis: { labelAngle: 0 },
         },
-        y: {
+        [vAxis]: {
           field: 'v',
           type: 'quantitative',
           title: vName,
         },
       },
     };
-  }, [iName, vName, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
+  }, [
+    iName,
+    vName,
+    title,
+    description,
+    selectionColor,
+    color,
+    props.queries,
+    selection,
+    selectionName,
+    hoverName,
+    iAxis,
+    vAxis,
+  ]);
 
   return (
     <VegaLite
