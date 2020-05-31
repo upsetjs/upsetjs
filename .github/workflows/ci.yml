@@ -40,6 +40,8 @@ jobs:
       - run: |
           mkdir -p public/api/addons
           mv packages/addons/docs/* public/api/addons/
+          mkdir -p public/api/plots
+          mv packages/plots/docs/* public/api/plots/
           mkdir -p public/app
           cp packages/react/src/dump/schema* public/
           mv packages/app/dist/* public/app/
