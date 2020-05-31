@@ -39,8 +39,8 @@ function generateLayer(attr: string, color: string, secondary = false) {
       },
       x: {
         bin: true,
-        band: 0,
         field: 'v',
+        band: secondary ? 0 : undefined,
         type: 'quantitative' as 'quantitative',
       },
       y: {
@@ -70,7 +70,13 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
     props.selection,
     name,
     props.onClick,
-    props.onHover
+    props.onHover,
+    {
+      binData:
+        props.queries && (props.queries.length > 1 || (props.queries.length === 1 && (props.onClick || props.onHover)))
+          ? 'data_4'
+          : 'data_1',
+    }
   );
 
   const spec = useMemo((): TopLevelSpec => {
