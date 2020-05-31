@@ -46,7 +46,7 @@ function generateLayer(attr: string, color: string) {
   };
 }
 
-export default function Histogram<T>(props: HistogramProps<T>) {
+export default function Histogram<T>(props: HistogramProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
   const { attr, elems, width, height } = props;
   const name = props.label ?? typeof attr === 'function' ? 'x' : attr.toString();

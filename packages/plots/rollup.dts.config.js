@@ -6,10 +6,10 @@ export default {
     file: 'dist/index.d.ts',
     format: 'es',
   },
-  external: ['@upsetjs/model', '@upsetjs/react', 'react'],
+  // external: ['@upsetjs/model', '@upsetjs/react', 'react', 'vega', 'vega-lite', 'react-vega'],
   plugins: [
     dts({
-      respectExternal: true,
+      // respectExternal: true,
     }),
   ],
 };

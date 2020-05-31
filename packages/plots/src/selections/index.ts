@@ -6,4 +6,4 @@
  */
 export * from './interval';
 export * from './singleBin';
-export * from './single';
+export { createSetComposite, useVegaMultiSelection } from './single';

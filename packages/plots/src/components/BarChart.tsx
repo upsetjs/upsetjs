@@ -23,7 +23,7 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
   vAttr: keyof T | ((v: T) => number);
 }
 
-export default function BarChart<T>(props: BarChartProps<T>) {
+export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
   const { vAttr, iAttr, elems, width, height } = props;
   const vName = props.vLabel ?? typeof vAttr === 'function' ? 'v' : vAttr.toString();

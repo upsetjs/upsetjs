@@ -23,7 +23,7 @@ export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
   yAttr: keyof T | ((v: T) => number);
 }
 
-export default function Scatterplot<T>(props: ScatterplotProps<T>) {
+export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
   const { xAttr, yAttr, elems, width, height } = props;
   const xName = props.xLabel ?? typeof xAttr === 'function' ? 'x' : xAttr.toString();
