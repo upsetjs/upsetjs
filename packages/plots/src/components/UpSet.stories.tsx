@@ -137,8 +137,17 @@ export const UpSetScatterplot = () => {
         xAttr="a"
         yAttr="b"
         elems={elems}
+        actions={false}
       />
-      <Histogram selection={selection} onHover={setSelection} width={500 * f} height={300 * f} attr="a" elems={elems} />
+      <Histogram
+        selection={selection}
+        onHover={setSelection}
+        width={500 * f}
+        height={300 * f}
+        attr="a"
+        elems={elems}
+        actions={false}
+      />
       <BarChart
         selection={selection}
         onHover={setSelection}
@@ -147,8 +156,17 @@ export const UpSetScatterplot = () => {
         vAttr="a"
         iAttr="name"
         elems={elems}
+        actions={false}
       />
-      <PieChart selection={selection} onHover={setSelection} width={500 * f} height={500 * f} attr="c" elems={elems} />
+      <PieChart
+        selection={selection}
+        onHover={setSelection}
+        width={500 * f}
+        height={500 * f}
+        attr="c"
+        elems={elems}
+        actions={false}
+      />
     </div>
   );
 };

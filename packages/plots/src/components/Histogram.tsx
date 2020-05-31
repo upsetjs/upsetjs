@@ -15,6 +15,7 @@ import { useVegaBinSelection } from '../selections';
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
+  actions?: boolean;
 
   elems: ReadonlyArray<T>;
   attr: keyof T | ((v: T) => number);
@@ -55,7 +56,7 @@ function generateLayer(attr: string, color: string, secondary = false) {
 
 export default function Histogram<T>(props: HistogramProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { attr, elems, width, height } = props;
+  const { attr, elems, width, height, actions } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
@@ -139,6 +140,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
       data={data}
       signalListeners={signalListeners}
       theme={theme === 'dark' ? 'dark' : undefined}
+      actions={actions}
       {...vegaProps}
     />
   );

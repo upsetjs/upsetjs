@@ -15,6 +15,7 @@ import { areQueriesTests, isSelectedTest, useVegaHooks } from './functions';
 export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
+  actions?: boolean;
 
   elems: ReadonlyArray<T>;
   xLabel?: string;
@@ -25,7 +26,7 @@ export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
 
 export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { xAttr, yAttr, elems, width, height } = props;
+  const { xAttr, yAttr, elems, width, height, actions } = props;
   const xName = props.xLabel ?? typeof xAttr === 'function' ? 'x' : xAttr.toString();
   const yName = props.yLabel ?? typeof yAttr === 'function' ? 'y' : yAttr.toString();
 
@@ -90,6 +91,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactE
       height={height}
       data={data}
       theme={theme === 'dark' ? 'dark' : undefined}
+      actions={actions}
       {...vegaProps}
     />
   );

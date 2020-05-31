@@ -15,6 +15,7 @@ import { useVegaAggregatedGroupSelection } from '../selections';
 export interface PieChartProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
+  actions?: boolean;
 
   innerRadius?: number;
 
@@ -23,7 +24,13 @@ export interface PieChartProps<T> extends UpSetPlotProps<T> {
   label?: string;
 }
 
-function generateLayer(attr: string, color: string, secondary: boolean, innerRadius?: number) {
+function generateLayer(
+  attr: string,
+  color: string,
+  secondary: boolean,
+  theme?: 'light' | 'dark',
+  innerRadius?: number
+) {
   return {
     mark: {
       type: 'arc' as 'arc',
@@ -42,7 +49,18 @@ function generateLayer(attr: string, color: string, secondary: boolean, innerRad
         title: false,
       },
       ...(!secondary
-        ? { color: { value: color } }
+        ? {
+            color: { value: color },
+            stroke: {
+              field: 'v',
+              type: 'nominal',
+              title: null,
+              legend: null,
+              scale: {
+                scheme: theme === 'dark' ? 'dark2' : 'set2',
+              },
+            },
+          }
         : {
             stroke: {
               value: color,
@@ -56,7 +74,7 @@ function generateLayer(attr: string, color: string, secondary: boolean, innerRad
 
 export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, theme } = fillDefaults(props);
-  const { attr, elems, width, height, innerRadius } = props;
+  const { attr, elems, width, height, innerRadius, actions } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
@@ -140,6 +158,9 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
               field: 'v',
               type: 'nominal',
               title: name,
+              scale: {
+                scheme: theme === 'dark' ? 'dark2' : 'set2',
+              },
               // value: color,
             },
             theta: {
@@ -150,9 +171,9 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
             },
           },
         },
-        generateLayer('s', selectionColor, false, innerRadius),
+        generateLayer('s', selectionColor, false, theme, innerRadius),
         ...(props.queries ?? []).map((q, i) =>
-          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null, innerRadius)
+          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null, theme, innerRadius)
         ),
       ],
       resolve: {
@@ -161,7 +182,18 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
         },
       },
     };
-  }, [name, title, description, selectionColor, props.queries, selection, selectionName, hoverName, innerRadius]);
+  }, [
+    name,
+    title,
+    description,
+    selectionColor,
+    props.queries,
+    selection,
+    selectionName,
+    hoverName,
+    innerRadius,
+    theme,
+  ]);
 
   return (
     <VegaLite
@@ -171,6 +203,7 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
       data={data}
       signalListeners={signalListeners}
       theme={theme === 'dark' ? 'dark' : undefined}
+      actions={actions}
       {...vegaProps}
     />
   );

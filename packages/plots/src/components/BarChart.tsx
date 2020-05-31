@@ -15,6 +15,7 @@ import { useVegaMultiSelection } from '../selections/single';
 export interface BarChartProps<T> extends UpSetPlotProps<T> {
   width: number;
   height: number;
+  actions?: boolean;
 
   /**
    * @default vertical
@@ -30,7 +31,7 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
 
 export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { vAttr, iAttr, elems, width, height, orientation = 'vertical' } = props;
+  const { vAttr, iAttr, elems, width, height, orientation = 'vertical', actions } = props;
   const iAxis = orientation === 'horizontal' ? 'y' : 'x';
   const vAxis = orientation === 'horizontal' ? 'x' : 'y';
   const vName = props.vLabel ?? typeof vAttr === 'function' ? 'v' : vAttr.toString();
@@ -110,6 +111,7 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
       height={height}
       data={data}
       theme={theme === 'dark' ? 'dark' : undefined}
+      actions={actions}
       {...vegaProps}
     />
   );
