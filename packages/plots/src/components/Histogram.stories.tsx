@@ -36,3 +36,16 @@ export const Interactive = () => {
 export const Selection = () => {
   return <Histogram width={500} height={100} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />;
 };
+
+export const Queries = () => {
+  return (
+    <InteractiveHistogram
+      width={500}
+      height={100}
+      elems={elems}
+      attr="a"
+      title="As"
+      queries={[{ name: 'test', color: 'green', elems: elems.slice(0, 10) }]}
+    />
+  );
+};

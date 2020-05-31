@@ -21,18 +21,25 @@ export interface HistogramProps<T> extends UpSetPlotProps<T> {
   label?: string;
 }
 
-function generateLayer(attr: string, color: string) {
+function generateLayer(attr: string, color: string, secondary = false) {
   return {
-    mark: {
-      type: 'bar' as 'bar',
-      tooltip: false,
-    },
+    mark: !secondary
+      ? {
+          type: 'bar' as 'bar',
+          tooltip: false,
+        }
+      : {
+          type: 'point' as 'point',
+          shape: 'triangle-right',
+          tooltip: false,
+        },
     encoding: {
       color: {
         value: color,
       },
       x: {
         bin: true,
+        band: 0,
         field: 'v',
         type: 'quantitative' as 'quantitative',
       },
@@ -111,7 +118,9 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
           },
         },
         generateLayer('s', selectionColor),
-        ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
+        ...(props.queries ?? []).map((q, i) =>
+          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null)
+        ),
       ],
     };
   }, [name, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);

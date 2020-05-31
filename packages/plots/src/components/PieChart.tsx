@@ -23,7 +23,7 @@ export interface PieChartProps<T> extends UpSetPlotProps<T> {
   label?: string;
 }
 
-function generateLayer(attr: string, color: string, innerRadius?: number) {
+function generateLayer(attr: string, color: string, secondary: boolean, innerRadius?: number) {
   return {
     mark: {
       type: 'arc' as 'arc',
@@ -31,23 +31,31 @@ function generateLayer(attr: string, color: string, innerRadius?: number) {
       innerRadius,
     },
     encoding: {
-      color: {
-        value: color,
-      },
-      // theta: { field: 'value', type: 'quantitative' },
-      // color: { field: 'category', type: 'nominal' },
       theta: {
-        aggregate: 'sum' as 'sum',
-        field: attr,
+        field: `i_sum_start`,
         type: 'quantitative' as 'quantitative',
         title: false,
       },
+      theta2: {
+        field: `${attr}_sum_end`,
+        type: 'quantitative' as 'quantitative',
+        title: false,
+      },
+      ...(!secondary
+        ? { color: { value: color } }
+        : {
+            stroke: {
+              value: color,
+            },
+            color: { value: color },
+            fillOpacity: { value: 0.3 },
+          }),
     },
   };
 }
 
 export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement<any, any> | null {
-  const { title, description, selectionColor, color, theme } = fillDefaults(props);
+  const { title, description, selectionColor, theme } = fillDefaults(props);
   const { attr, elems, width, height, innerRadius } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
@@ -74,11 +82,11 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
         name: 'table',
       },
       transform: [
-        // { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
-        // ...(props.queries ?? []).map((_, i) => ({
-        //   calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
-        //   as: `q${i}`,
-        // })),
+        { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
+        ...(props.queries ?? []).map((_, i) => ({
+          calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
+          as: `q${i}`,
+        })),
         {
           aggregate: [
             {
@@ -86,16 +94,16 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
               field: 'i',
               as: 'i_sum',
             },
-            // {
-            //   op: 'sum',
-            //   field: 's',
-            //   as: 's_sum',
-            // },
-            // ...(props.queries ?? []).map((_, i) => ({
-            //   op: 'sum' as 'sum',
-            //   field: `q${i}`,
-            //   as: `q${i}_sum`,
-            // })),
+            {
+              op: 'sum',
+              field: 's',
+              as: 's_sum',
+            },
+            ...(props.queries ?? []).map((_, i) => ({
+              op: 'sum' as 'sum',
+              field: `q${i}`,
+              as: `q${i}_sum`,
+            })),
           ],
           groupby: ['v'],
         },
@@ -105,6 +113,14 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
           sort: [{ field: 'v', order: 'ascending' }],
           groupby: [],
         },
+        {
+          calculate: 'datum.i_sum_start + datum.s_sum',
+          as: 's_sum_end',
+        },
+        ...(props.queries ?? []).map((_, i) => ({
+          calculate: `datum.i_sum_start + datum.q${i}_sum`,
+          as: `q${i}_sum_end`,
+        })),
       ],
       layer: [
         {
@@ -127,32 +143,25 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
               // value: color,
             },
             theta: {
-              field: 'i_sum_start',
+              field: 'i_sum',
+              stack: true,
               type: 'quantitative',
               title: 'Count',
             },
-            theta2: {
-              field: 'i_sum_end',
-              title: null,
-            },
           },
         },
-        // generateLayer('s', selectionColor),
-        // ...(props.queries ?? []).map((q, i) => generateLayer(`q${i}`, q.color)),
+        generateLayer('s', selectionColor, false, innerRadius),
+        ...(props.queries ?? []).map((q, i) =>
+          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null, innerRadius)
+        ),
       ],
+      resolve: {
+        scale: {
+          theta: 'shared',
+        },
+      },
     };
-  }, [
-    name,
-    title,
-    description,
-    selectionColor,
-    color,
-    props.queries,
-    selection,
-    selectionName,
-    hoverName,
-    innerRadius,
-  ]);
+  }, [name, title, description, selectionColor, props.queries, selection, selectionName, hoverName, innerRadius]);
 
   return (
     <VegaLite

@@ -36,3 +36,16 @@ export const Interactive = () => {
 export const Selection = () => {
   return <PieChart width={500} height={500} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />;
 };
+
+export const Queries = () => {
+  return (
+    <PieChart
+      width={500}
+      height={500}
+      elems={elems}
+      attr="a"
+      title="As"
+      queries={[{ name: 'test', color: 'green', elems: elems.slice(0, 10) }]}
+    />
+  );
+};
