@@ -22,7 +22,7 @@ export default function LabelsSelection<T>({
   style: UpSetStyleInfo;
   selection: ISetLike<T> | null;
 }>) {
-  if (!selection || selection.type !== 'set') {
+  if (!selection || selection.type !== 'set' || !data.sets.keys.includes(data.toKey(selection))) {
     return null;
   }
   const d = selection;
