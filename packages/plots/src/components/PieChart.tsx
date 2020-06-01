@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
-import { useVegaHooks } from './functions';
+import { useVegaHooks, countQueryExpression, countSelectedExpression } from './functions';
 import { useVegaAggregatedGroupSelection } from '../selections';
 import { LayerSpec, UnitSpec } from 'vega-lite/build/src/spec';
 
@@ -26,7 +26,7 @@ export interface PieChartProps<T> extends UpSetPlotProps<T> {
 }
 
 function generateLayer(
-  attr: string,
+  expr: string,
   color: string,
   secondary: boolean,
   theme?: 'light' | 'dark',
@@ -45,7 +45,9 @@ function generateLayer(
         title: null,
       },
       theta2: {
-        field: `${attr}_sum_end`,
+        datum: {
+          signal: `datum.i_sum_start + ${expr}`,
+        },
         type: 'quantitative',
         title: null,
       },
@@ -101,11 +103,6 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
         name: 'table',
       },
       transform: [
-        { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
-        ...(props.queries ?? []).map((_, i) => ({
-          calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
-          as: `q${i}`,
-        })),
         {
           aggregate: [
             {
@@ -117,16 +114,6 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
               field: 'i',
               as: 'i_sum',
             },
-            {
-              op: 'sum',
-              field: 's',
-              as: 's_sum',
-            },
-            ...(props.queries ?? []).map((_, i) => ({
-              op: 'sum' as 'sum',
-              field: `q${i}`,
-              as: `q${i}_sum`,
-            })),
           ],
           groupby: ['v'],
         },
@@ -136,14 +123,6 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
           sort: [{ field: 'v', order: 'ascending' }],
           groupby: [],
         },
-        {
-          calculate: 'datum.i_sum_start + datum.s_sum',
-          as: 's_sum_end',
-        },
-        ...(props.queries ?? []).map((_, i) => ({
-          calculate: `datum.i_sum_start + datum.q${i}_sum`,
-          as: `q${i}_sum_end`,
-        })),
       ],
       layer: [
         {
@@ -170,15 +149,20 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
             },
             theta: {
               field: 'i_sum',
-              stack: true,
               type: 'quantitative',
               title: 'Count',
             },
           },
         },
-        generateLayer('s', selectionColor, false, theme, innerRadius),
+        generateLayer(countSelectedExpression(), selectionColor, false, theme, innerRadius),
         ...(props.queries ?? []).map((q, i) =>
-          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null, theme, innerRadius)
+          generateLayer(
+            countQueryExpression(i),
+            q.color,
+            i > 0 || hoverName != null || selectionName != null,
+            theme,
+            innerRadius
+          )
         ),
       ],
       resolve: {
