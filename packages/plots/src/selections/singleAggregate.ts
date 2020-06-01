@@ -87,6 +87,7 @@ export function useVegaAggregatedGroupSelection<T>(
     aggregatedData = 'data_0',
     unitData = 'layer_0',
     aggregateField = 'v',
+    valuesField = 'values',
     elemField = 'e',
   } = {}
 ) {
@@ -109,17 +110,20 @@ export function useVegaAggregatedGroupSelection<T>(
         }
         const contained = new Set(data._vgsid_);
         const allGroups: IAggregateStructure[] = viewRef.current.data(aggregatedData);
-        const groups = allGroups.filter((d) => contained.has(d._vgsid_)).map((g) => g[aggregateField]);
+        const groups = allGroups.filter((d) => contained.has(d._vgsid_));
+        const groupNames = groups.map((g) => g[aggregateField] as string);
         if (
           selectionRef.current &&
           isAggregatedGroupSetComposite(selectionRef.current, name) &&
-          sameArray(selectionRef.current.groups, groups)
+          sameArray(selectionRef.current.groups, groupNames)
         ) {
           return;
         }
-        const table: any[] = viewRef.current.data('table');
-        const elems = table.filter((d) => groups.includes(d[aggregateField])).map((d) => d[elemField]);
-        const set = createAggregatedGroupSetComposite(name, elems, groups);
+        const elems = groups
+          .map((group) => group[valuesField] || [])
+          .flat()
+          .map((d) => d[elemField] as T);
+        const set = createAggregatedGroupSetComposite(name, elems, groupNames);
         listener(set);
         // }, 100);
       };
@@ -130,7 +134,18 @@ export function useVegaAggregatedGroupSelection<T>(
       r[`${selectionName}_hover`] = generate(onHover);
     }
     return r;
-  }, [onClick, onHover, viewRef, name, selectionRef, selectionName, aggregatedData, elemField, aggregateField]);
+  }, [
+    onClick,
+    onHover,
+    viewRef,
+    name,
+    selectionRef,
+    selectionName,
+    aggregatedData,
+    elemField,
+    aggregateField,
+    valuesField,
+  ]);
 
   // update bin selection with selection
   useLayoutEffect(() => {

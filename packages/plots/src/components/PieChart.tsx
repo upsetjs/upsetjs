@@ -108,6 +108,10 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
         {
           aggregate: [
             {
+              op: 'values',
+              as: 'values',
+            },
+            {
               op: 'sum',
               field: 'i',
               as: 'i_sum',
