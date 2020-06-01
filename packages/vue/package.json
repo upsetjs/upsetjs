@@ -21,7 +21,6 @@
   },
   "module": "dist/vue.esm.js",
   "main": "dist/index.js",
-  "unpkg": "dist/vue.cjs.production.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

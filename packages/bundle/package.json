@@ -22,6 +22,8 @@
   "module": "dist/upsetjs.esm.js",
   "main": "dist/upsetjs.umd.development.js",
   "unpkg": "dist/upsetjs.umd.production.min.js",
+  "jsdelivr": "dist/upsetjs.umd.production.min.js",
+  "browser": "dist/upsetjs.umd.production.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",

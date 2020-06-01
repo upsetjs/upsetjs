@@ -156,7 +156,7 @@ export function exportJSFiddle(store: Store) {
   setInput('html', html);
   setInput('css', CSS_CODE);
   setInput('js', js);
-  setInput('resources', `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`);
+  setInput('resources', `https://cdn.jsdelivr.net/npm/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`);
 
   document.body.appendChild(form);
   form.submit();
@@ -241,7 +241,7 @@ export function exportCodepen(store: Store) {
     js,
     js_pre_processor: 'babel',
     js_modernizr: false,
-    js_external: `https://unpkg.com/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`,
+    js_external: `https://cdn.jsdelivr.net/npm/@upsetjs/bundle@${encodeURIComponent('^')}${__VERSION__}`,
   };
 
   const json = JSON.stringify(data)

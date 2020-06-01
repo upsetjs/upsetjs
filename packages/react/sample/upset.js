@@ -11,9 +11,9 @@ async function loadUpSetJS() {
   }
 
   await Promise.all([
-    loadScript('https://unpkg.com/react@16/umd/react.development.js'),
-    loadScript('https://unpkg.com/react-dom@16/umd/react-dom.development.js'),
-    loadScript('https://unpkg.com/lz-string'),
+    loadScript('https://cdn.jsdelivr.net/npm/react@16/umd/react.development.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.development.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/lz-string'),
   ]);
 
   window.UpSetJSModel = window.exports = {};
