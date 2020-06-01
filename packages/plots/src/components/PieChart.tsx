@@ -11,6 +11,7 @@ import { UpSetPlotProps, fillDefaults } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks } from './functions';
 import { useVegaAggregatedGroupSelection } from '../selections';
+import { LayerSpec, UnitSpec } from 'vega-lite/build/src/spec';
 
 export interface PieChartProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -30,23 +31,23 @@ function generateLayer(
   secondary: boolean,
   theme?: 'light' | 'dark',
   innerRadius?: number
-) {
+): LayerSpec | UnitSpec {
   return {
     mark: {
-      type: 'arc' as 'arc',
+      type: 'arc',
       tooltip: false,
       innerRadius,
     },
     encoding: {
       theta: {
         field: `i_sum_start`,
-        type: 'quantitative' as 'quantitative',
-        title: false,
+        type: 'quantitative',
+        title: null,
       },
       theta2: {
         field: `${attr}_sum_end`,
-        type: 'quantitative' as 'quantitative',
-        title: false,
+        type: 'quantitative',
+        title: null,
       },
       ...(!secondary
         ? {

@@ -64,7 +64,20 @@ function wrap(v: false | ((v: any) => boolean)) {
 function inSetStore<T>(signal: (v: T) => boolean, elem: T) {
   return typeof signal === 'function' && signal(elem);
 }
+
+function countInSetStore<T, E extends { [key: string]: T }>(
+  signal: (v: T) => boolean,
+  values: ReadonlyArray<E>,
+  key: keyof E
+) {
+  if (typeof signal !== 'function' || !Array.isArray(values)) {
+    return 0;
+  }
+  return values.reduce((acc, v) => acc + (signal(v[key]) ? 1 : 0), 0);
+}
+
 expressionFunction('inSetStore', inSetStore);
+expressionFunction('countInSetStore', countInSetStore);
 
 /**
  * generates a condition which checks whether the datum has been selected
@@ -74,6 +87,26 @@ expressionFunction('inSetStore', inSetStore);
 export function isSelectedTest(color: string, elemField = 'e') {
   return { test: `inSetStore(upset_signal, datum.${elemField})`, value: color };
 }
+
+/**
+ * generates a count field which counts the number of selected
+ * @param valuesField the property in the aggregated datum which holds the raw values elements
+ * @param elemField the property in the datum which holds the raw element
+ */
+export function countSelectedExpression(valuesField = 'values', elemField = 'e') {
+  return `countInSetStore(upset_signal, datum.${valuesField}, '${elemField}')`;
+}
+
+/**
+ * generates a count field which counts the number of selected
+ * @param queryIndex
+ * @param valuesField the property in the aggregated datum which holds the raw values elements
+ * @param elemField the property in the datum which holds the raw element
+ */
+export function countQueryExpression(queryIndex: number, valuesField = 'values', elemField = 'e') {
+  return `countInSetStore(upset_q${queryIndex}_signal, datum.${valuesField}, '${elemField}')`;
+}
+
 /**
  * generates condition which checks whether the datum has been selected in one of the given queries
  * @param queries the queries to check

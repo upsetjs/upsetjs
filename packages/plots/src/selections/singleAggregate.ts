@@ -15,7 +15,7 @@ import { clearMulti } from './single';
 export interface IAggregatedGroupSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'aggregate';
   readonly attr: string;
-  readonly groups: ReadonlyArray<string>;
+  readonly groups: ReadonlyArray<string | number>;
 }
 
 export function isAggregatedGroupSetComposite<T>(
@@ -34,10 +34,11 @@ export function isAggregatedGroupSetComposite<T>(
 export function createAggregatedGroupSetComposite<T>(
   attr: string,
   elems: ReadonlyArray<T>,
-  groups: ReadonlyArray<string>
+  groups: ReadonlyArray<string | number>,
+  name?: string
 ): IAggregatedGroupSetComposite<T> {
   return {
-    name: `Vega Group ${attr}: ${groups.join(', ')}`,
+    name: name ?? `Vega Group ${attr}: ${groups.join(', ')}`,
     type: 'composite',
     subType: 'aggregate',
     cardinality: elems.length,
@@ -89,6 +90,15 @@ export function useVegaAggregatedGroupSelection<T>(
     aggregateField = 'v',
     valuesField = 'values',
     elemField = 'e',
+    nameGen,
+  }: {
+    selectionName?: string;
+    aggregatedData?: string;
+    unitData?: string;
+    aggregateField?: string;
+    valuesField?: string;
+    elemField?: string;
+    nameGen?: (groups: any[]) => string;
   } = {}
 ) {
   const selectionRef = useRef(selection);
@@ -111,7 +121,7 @@ export function useVegaAggregatedGroupSelection<T>(
         const contained = new Set(data._vgsid_);
         const allGroups: IAggregateStructure[] = viewRef.current.data(aggregatedData);
         const groups = allGroups.filter((d) => contained.has(d._vgsid_));
-        const groupNames = groups.map((g) => g[aggregateField] as string);
+        const groupNames = groups.map((g) => g[aggregateField] as string | number);
         if (
           selectionRef.current &&
           isAggregatedGroupSetComposite(selectionRef.current, name) &&
@@ -123,7 +133,7 @@ export function useVegaAggregatedGroupSelection<T>(
           .map((group) => group[valuesField] || [])
           .flat()
           .map((d) => d[elemField] as T);
-        const set = createAggregatedGroupSetComposite(name, elems, groupNames);
+        const set = createAggregatedGroupSetComposite(name, elems, groupNames, nameGen ? nameGen(groups) : undefined);
         listener(set);
         // }, 100);
       };
@@ -145,6 +155,7 @@ export function useVegaAggregatedGroupSelection<T>(
     elemField,
     aggregateField,
     valuesField,
+    nameGen,
   ]);
 
   // update bin selection with selection

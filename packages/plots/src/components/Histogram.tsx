@@ -9,8 +9,9 @@ import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
-import { useVegaHooks } from './functions';
+import { useVegaHooks, countSelectedExpression, countQueryExpression } from './functions';
 import { useVegaBinSelection } from '../selections';
+import { UnitSpec, LayerSpec } from 'vega-lite/build/src/spec';
 
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -22,18 +23,23 @@ export interface HistogramProps<T> extends UpSetPlotProps<T> {
   label?: string;
 }
 
-function generateLayer(attr: string, color: string, secondary = false) {
+function generateLayer(expr: string, color: string): UnitSpec | LayerSpec {
   return {
-    mark: !secondary
-      ? {
-          type: 'bar' as 'bar',
-          tooltip: false,
-        }
-      : {
-          type: 'point' as 'point',
-          shape: 'triangle-right',
-          tooltip: false,
-        },
+    transform: [
+      {
+        aggregate: [
+          {
+            op: 'values' as 'values',
+            as: 'values',
+          },
+        ],
+        groupby: ['bin_maxbins_10_v', 'bin_maxbins_10_v_end'],
+      },
+    ],
+    mark: {
+      type: 'bar' as 'bar',
+      tooltip: false,
+    },
     encoding: {
       color: {
         value: color,
@@ -41,14 +47,57 @@ function generateLayer(attr: string, color: string, secondary = false) {
       x: {
         bin: true,
         field: 'v',
-        band: secondary ? 0 : undefined,
-        type: 'quantitative' as 'quantitative',
+        type: 'quantitative',
       },
       y: {
-        aggregate: 'sum' as 'sum',
-        field: attr,
-        type: 'quantitative' as 'quantitative',
-        title: false,
+        datum: {
+          signal: expr,
+        },
+        type: 'quantitative',
+        title: null,
+      },
+      y2: {
+        type: 'quantitative',
+        datum: 0,
+        title: null,
+      },
+    },
+  };
+}
+
+function generateSecondaryLayer(expr: string, color: string): UnitSpec | LayerSpec {
+  return {
+    transform: [
+      {
+        aggregate: [
+          {
+            op: 'values' as 'values',
+            as: 'values',
+          },
+        ],
+        groupby: ['bin_maxbins_10_v', 'bin_maxbins_10_v_end'],
+      },
+    ],
+    mark: {
+      type: 'point',
+      shape: 'triangle-right',
+      tooltip: false,
+    },
+    encoding: {
+      color: {
+        value: color,
+      },
+      x: {
+        bin: true,
+        band: 0,
+        field: 'v',
+        type: 'quantitative',
+      },
+      y: {
+        datum: {
+          signal: expr,
+        },
+        type: 'quantitative',
       },
     },
   };
@@ -71,13 +120,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
     props.selection,
     name,
     props.onClick,
-    props.onHover,
-    {
-      binData:
-        props.queries && (props.queries.length > 1 || (props.queries.length === 1 && (props.onClick || props.onHover)))
-          ? 'data_4'
-          : 'data_1',
-    }
+    props.onHover
   );
 
   const spec = useMemo((): TopLevelSpec => {
@@ -88,7 +131,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
         name: 'table',
       },
       transform: [
-        { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
+        // { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
         ...(props.queries ?? []).map((_, i) => ({
           calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
           as: `q${i}`,
@@ -124,11 +167,18 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
             },
           },
         },
-        generateLayer('s', selectionColor),
+        generateLayer(countSelectedExpression(), selectionColor),
         ...(props.queries ?? []).map((q, i) =>
-          generateLayer(`q${i}`, q.color, i > 0 || hoverName != null || selectionName != null)
+          i > 0 || hoverName != null || selectionName != null
+            ? generateSecondaryLayer(countQueryExpression(i), q.color)
+            : generateLayer(countQueryExpression(i), q.color)
         ),
       ],
+      resolve: {
+        scale: {
+          y: 'shared',
+        },
+      },
     };
   }, [name, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
 
