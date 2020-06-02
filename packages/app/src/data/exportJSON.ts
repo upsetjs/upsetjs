@@ -8,9 +8,9 @@
 import { loadFile, loadDump } from '../dump';
 import Store from '../store/Store';
 import { toEmbeddedDump, toEmbeddedStaticDump } from './shareEmbedded';
-import { IDataSet } from './interfaces';
+import { IDataSet, IElem } from './interfaces';
 import { loadJSON, decompressElems } from '../dump';
-import { IUpSetJSDump } from '../../../bundle/dist';
+import { IUpSetJSDump, extractSets } from '@upsetjs/react';
 
 export function exportJSON(store: Store) {
   const r = toEmbeddedDump(store, { compress: 'no' });
@@ -45,11 +45,45 @@ export function fromDump(dump: IUpSetJSDump, id: string): IDataSet {
   };
 }
 
+export function fromJSON(arr: ReadonlyArray<{ name: string; sets: string[] }>, id: string): IDataSet {
+  const elems: (IElem & { sets: string[] })[] = arr.map((e, i) =>
+    Object.assign({}, { name: i.toString(), attrs: {} }, e)
+  );
+  const sets = extractSets(elems);
+  return {
+    id,
+    name: id,
+    author: 'Unknown',
+    description: '',
+    creationDate: new Date(),
+    attrs: [],
+    setCount: sets.length,
+    load: () => {
+      return Promise.resolve({
+        elems,
+        sets,
+        props: {},
+        combinations: {},
+        queries: [],
+      });
+    },
+  };
+}
+
 export function importJSON(file: File | string): Promise<IDataSet> {
   if (typeof file === 'string') {
-    return loadJSON(file).then((dump) =>
-      fromDump(dump, file.includes('/') ? file.slice(file.lastIndexOf('/') + 1) : file)
-    );
+    return loadJSON<any>(file).then((dump) => {
+      const name = file.includes('/') ? file.slice(file.lastIndexOf('/') + 1) : file;
+      if (dump.$schema === 'https://upset.js.org/schema.1.0.0.json') {
+        return fromDump(dump, name);
+      }
+      return fromJSON(dump, name);
+    });
   }
-  return loadFile(file).then((dump) => fromDump(dump, file.name));
+  return loadFile<any>(file).then((dump) => {
+    if (dump.$schema === 'https://upset.js.org/schema.1.0.0.json') {
+      return fromDump(dump, file.name);
+    }
+    return fromJSON(dump, file.name);
+  });
 }
