@@ -5,10 +5,12 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useMemo, forwardRef, Ref } from 'react';
+import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
 import { UpSetProps } from './interfaces';
+import { exportSVG, exportVegaLite } from './exporter';
+import { exportDump, exportSharedLink } from './exporter/exportDump';
 import deriveDataDependent from './components/deriveDataDependent';
-import defineSizeDependent from './components/deriveSizeDependent';
+import deriveSizeDependent from './components/deriveSizeDependent';
 import deriveStyleDependent from './components/deriveStyleDependent';
 import ExportButtons from './components/ExportButtons';
 import QueryLegend from './components/QueryLegend';
@@ -160,7 +162,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   const sizeInfo = useMemo(
     () =>
-      defineSizeDependent(
+      deriveSizeDependent(
         width,
         height,
         margin,
@@ -347,6 +349,31 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     .join('\n')}
   `;
 
+  const exportChart = useCallback(
+    (evt: React.MouseEvent<SVGElement>) => {
+      const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
+      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
+      switch (type) {
+        case 'vega':
+          exportVegaLite(svg);
+          break;
+        case 'dump':
+          exportDump(svg, props, dataInfo);
+          break;
+        case 'share':
+          exportSharedLink(props, dataInfo);
+          break;
+        case 'svg':
+        case 'png':
+          exportSVG(svg, {
+            type,
+            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
+          });
+      }
+    },
+    [dataInfo, props]
+  );
+
   return (
     <svg
       id={id}
@@ -364,13 +391,12 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect x={sizeInfo.sets.w} y={0} width={sizeInfo.labels.w} height={sizeInfo.sets.h} />
         </clipPath>
       </defs>
-      {queryLegend && <QueryLegend queries={queries} size={sizeInfo} style={styleInfo} data={dataInfo} />}
+      {queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
         exportButtons={exportButtons}
-        props={props}
-        data={dataInfo}
+        exportChart={exportChart}
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         {onClick && (

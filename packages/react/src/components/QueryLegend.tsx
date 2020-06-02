@@ -8,24 +8,21 @@
 import React, { PropsWithChildren } from 'react';
 import { UpSetQuery, isSetQuery, isElemQuery } from '@upsetjs/model';
 import { clsx } from './utils';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
-import { UpSetDataInfo } from './deriveDataDependent';
 
 const QueryLegend = React.memo(function QueryLegend<T>({
   queries,
-  size,
+  x,
   style,
   data,
 }: PropsWithChildren<{
   queries: ReadonlyArray<UpSetQuery<T>>;
-  size: UpSetSizeInfo;
-  style: UpSetStyleInfo;
-  data: UpSetDataInfo<T>;
+  x: number;
+  style: { id: string; styles: { legend?: React.CSSProperties }; classNames: { legend?: string } };
+  data: { id: string; sets: { format(v: number): string } };
 }>) {
   return (
     <text
-      transform={`translate(${size.legend.x},4)`}
+      transform={`translate(${x},4)`}
       style={style.styles.legend}
       className={clsx(`legendTextStyle-${style.id}`, style.classNames.legend)}
     >

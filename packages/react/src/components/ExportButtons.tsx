@@ -15,39 +15,13 @@ export default function ExportButtons({
   transform,
   styleId,
   exportButtons,
-  props,
-  data,
+  exportChart,
 }: {
   transform: string;
   styleId: string;
   exportButtons?: boolean | UpSetExportOptions;
-  props: UpSetProps<any>;
-  data: UpSetDataInfo<any>;
+  exportChart: (evt: React.MouseEvent<SVGElement>) => void;
 }) {
-  const exportChart = useCallback(
-    (evt: React.MouseEvent<SVGElement>) => {
-      const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
-      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
-      switch (type) {
-        case 'vega':
-          exportVegaLite(svg);
-          break;
-        case 'dump':
-          exportDump(svg, props, data);
-          break;
-        case 'share':
-          exportSharedLink(props, data);
-          break;
-        case 'svg':
-        case 'png':
-          exportSVG(svg, {
-            type,
-            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
-          });
-      }
-    },
-    [data, props]
-  );
   if (!exportButtons) {
     return null;
   }

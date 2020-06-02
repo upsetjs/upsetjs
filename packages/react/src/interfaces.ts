@@ -103,23 +103,11 @@ export interface UpSetAddon<S extends ISetLike<T>, T, N> {
 
 export declare type UpSetAddons<S extends ISetLike<T>, T, N> = ReadonlyArray<UpSetAddon<S, T, N>>;
 
-export interface UpSetFontSizes {
-  /**
-   * @default 16px
-   */
-  chartLabel?: string;
-  /**
-   * @default 10px
-   */
-  axisTick?: string;
+export interface UpSetBaseFontSizes {
   /**
    * @default 16px
    */
   setLabel?: string;
-  /**
-   * @default 10px
-   */
-  barLabel?: string;
   /**
    * @default 10px
    */
@@ -134,16 +122,46 @@ export interface UpSetFontSizes {
   description?: string;
 }
 
-export interface UpSetMultiStyle<C> {
-  chartLabel?: C;
-  axisTick?: C;
+export interface UpSetFontSizes extends UpSetBaseFontSizes {
+  /**
+   * @default 16px
+   */
+  chartLabel?: string;
+  /**
+   * @default 10px
+   */
+  axisTick?: string;
+  /**
+   * @default 10px
+   */
+  barLabel?: string;
+}
+
+export interface VennDiagramFontSizes extends UpSetBaseFontSizes {
+  /**
+   * @default 12px
+   */
+  valueLabel?: string;
+}
+
+export interface UpSetBaseMultiStyle<C> {
   setLabel?: C;
-  barLabel?: C;
-  bar?: C;
-  dot?: C;
   legend?: C;
   title?: C;
   description?: C;
+}
+
+export interface UpSetMultiStyle<C> extends UpSetBaseMultiStyle<C> {
+  chartLabel?: C;
+  axisTick?: C;
+  barLabel?: C;
+  bar?: C;
+  dot?: C;
+}
+
+export interface VennDiagramMultiStyle<C> extends UpSetBaseMultiStyle<C> {
+  valueLabel?: C;
+  set?: C;
 }
 
 export interface UpSetDataProps<T, N> {
@@ -186,6 +204,25 @@ export interface UpSetDataProps<T, N> {
   bandScale?: BandScaleFactory | 'band';
 }
 
+export interface VennDiagramDataProps<T> {
+  /**
+   * the sets to visualize
+   */
+  sets: ISets<T>;
+  /**
+   * optional function to identify the same sets
+   * @param set the set to generate a key for
+   */
+  toKey?: (set: ISetLike<T>) => string;
+  /**
+   * optional function to identify the same element
+   * @param elem the element the key for
+   */
+  toElemKey?: (elem: T) => string;
+
+  valueFormat?: (cardinality: number) => string;
+}
+
 export interface UpSetLayoutProps {
   /**
    * width of the chart
@@ -222,6 +259,22 @@ export interface UpSetLayoutProps {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
+}
+
+export interface VennDiagramLayoutProps {
+  /**
+   * width of the chart
+   */
+  width: number;
+  /**
+   * height of the chart
+   */
+  height: number;
+  /**
+   * padding within the svg
+   * @default 5
+   */
+  padding?: number;
 }
 
 export interface UpSetSelectionProps<T = any> {
@@ -278,6 +331,29 @@ export interface UpSetThemeProps {
   notMemberColor?: string;
 }
 
+export interface VennDiagramThemeProps {
+  /**
+   * color used to highlight the selection
+   * @default orange
+   */
+  selectionColor?: string;
+  /**
+   * main color to render bars and dark dots
+   * @default black
+   */
+  color?: string;
+  /**
+   * main color to render text
+   * @default black
+   */
+  textColor?: string;
+  /**
+   * main color to render text
+   * @default black
+   */
+  valueTextColor?: string;
+}
+
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
 
 export interface UpSetElementProps<T, C, N> {
@@ -311,6 +387,29 @@ export interface UpSetElementProps<T, C, N> {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
 }
 
+export interface VennDiagramElementProps<C> {
+  /**
+   * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
+   */
+  id?: string;
+  /**
+   * optional class name for the SVG element
+   */
+  className?: string;
+  /**
+   * object of classnames for certain sub elements
+   */
+  classNames?: VennDiagramMultiStyle<string>;
+  /**
+   * style object applied to the SVG element
+   */
+  style?: C;
+  /**
+   * object for applying styles to certain sub elements
+   */
+  styles?: VennDiagramMultiStyle<C>;
+}
+
 export interface UpSetExportOptions {
   png?: boolean;
   svg?: boolean;
@@ -319,12 +418,38 @@ export interface UpSetExportOptions {
   share?: boolean;
 }
 
-export interface UpSetStyleProps<L> {
+export interface UpSetBaseStyleProps<L> {
   /**
    * basic theme of the plot either 'light' or 'dark'
    * @default light
    */
   theme?: 'light' | 'dark';
+  /**
+   * show a legend of queries
+   * enabled by default when queries are set
+   */
+  queryLegend?: boolean;
+  /**
+   * show export buttons
+   * @default true
+   */
+  exportButtons?: boolean | UpSetExportOptions;
+  /**
+   * specify the overall font family, set to false to use the default font family
+   * @default sans-serif
+   */
+  fontFamily?: string | false;
+  /**
+   * optional title text for the plot
+   */
+  title?: L;
+  /**
+   * optional description text for the plot
+   */
+  description?: L;
+}
+
+export interface UpSetStyleProps<L> extends UpSetBaseStyleProps<L> {
   /**
    * offset of the label on top or left of a bar
    * @default 2
@@ -351,21 +476,6 @@ export interface UpSetStyleProps<L> {
    */
   combinationNameAxisOffset?: number | 'auto';
   /**
-   * show a legend of queries
-   * enabled by default when queries are set
-   */
-  queryLegend?: boolean;
-  /**
-   * show export buttons
-   * @default true
-   */
-  exportButtons?: boolean | UpSetExportOptions;
-  /**
-   * specify the overall font family, set to false to use the default font family
-   * @default sans-serif
-   */
-  fontFamily?: string | false;
-  /**
    * specify font sizes for different sub elements
    */
   fontSizes?: UpSetFontSizes;
@@ -374,15 +484,13 @@ export interface UpSetStyleProps<L> {
    * @default true
    */
   emptySelection?: boolean;
+}
 
+export interface VennDiagramStyleProps<L> extends UpSetBaseStyleProps<L> {
   /**
-   * optional title text for the plot
+   * specify font sizes for different sub elements
    */
-  title?: L;
-  /**
-   * optional description text for the plot
-   */
-  description?: L;
+  fontSizes?: VennDiagramFontSizes;
 }
 
 /**
@@ -409,3 +517,35 @@ export interface UpSetFullPropsG<T, C, N, L>
     UpSetSelectionProps<T> {}
 
 export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>;
+
+export interface VennDiagramPropsG<T, C, N, L>
+  extends VennDiagramDataProps<T>,
+    VennDiagramLayoutProps,
+    VennDiagramStyleProps<L>,
+    VennDiagramThemeProps,
+    VennDiagramElementProps<C>,
+    UpSetSelectionProps<T> {
+  children?: N;
+}
+
+export declare type VennDiagramProps<T = any> = VennDiagramPropsG<
+  T,
+  React.CSSProperties,
+  React.ReactNode,
+  React.ReactNode
+>;
+
+export interface VennDiagramFullPropsG<T, C, N, L>
+  extends Required<VennDiagramDataProps<T>>,
+    Required<VennDiagramLayoutProps>,
+    Required<VennDiagramStyleProps<L>>,
+    Required<VennDiagramThemeProps>,
+    Required<VennDiagramElementProps<C>>,
+    UpSetSelectionProps<T> {}
+
+export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
+  T,
+  React.CSSProperties,
+  React.ReactNode,
+  React.ReactNode
+>;

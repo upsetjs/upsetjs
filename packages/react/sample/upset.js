@@ -41,8 +41,11 @@ async function loadUpSetJS() {
   document.body.appendChild(s);
   await new Promise((resolve) => (s.onload = resolve));
 
-  function render(props) {
-    window.ReactDOM.render(window.React.createElement(window.exports.default, props), document.getElementById('app'));
+  function render(props, elem) {
+    window.ReactDOM.render(
+      window.React.createElement(elem || window.exports.default, props),
+      document.getElementById('app')
+    );
   }
 
   const elems = await fetch('../src/data/got.json').then((r) => r.json());
