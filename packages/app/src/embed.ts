@@ -153,7 +153,7 @@ function enableUpload(root: HTMLElement, onDump: (dump: IUpSetJSDump | IUpSetJSS
   `;
 
   root.querySelector('input')!.addEventListener('change', (evt) => {
-    loadFile((evt.currentTarget as HTMLInputElement).files![0]).then((dump) => {
+    loadFile<IUpSetJSDump>((evt.currentTarget as HTMLInputElement).files![0]).then((dump) => {
       onDump(dump);
     });
   });
@@ -166,7 +166,7 @@ function enableUpload(root: HTMLElement, onDump: (dump: IUpSetJSDump | IUpSetJSS
       return;
     }
     e.preventDefault();
-    loadFile(e.dataTransfer!.files![0]).then((dump) => {
+    loadFile<IUpSetJSDump>(e.dataTransfer!.files![0]).then((dump) => {
       onDump(dump);
     });
   });
