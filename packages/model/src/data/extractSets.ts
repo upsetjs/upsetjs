@@ -27,10 +27,11 @@ export default function extractSets<T>(
 
   elements.forEach((elem) => {
     acc(elem).forEach((set) => {
-      if (!sets.has(set)) {
-        sets.set(set, [elem]);
+      const s = String(set);
+      if (!sets.has(s)) {
+        sets.set(s, [elem]);
       } else {
-        sets.get(set)!.push(elem);
+        sets.get(s)!.push(elem);
       }
     });
   });
@@ -38,7 +39,7 @@ export default function extractSets<T>(
     const r: ISet<T> = {
       type: 'set',
       elems,
-      name: set.toString(),
+      name: String(set),
       cardinality: elems.length,
     };
     return r;
