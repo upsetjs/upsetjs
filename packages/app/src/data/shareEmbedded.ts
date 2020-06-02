@@ -33,7 +33,7 @@ export function toEmbeddedDump(
     }
   );
 
-  return Object.assign({}, toUpSetJSDump(dump, toJS(helper.elems), store.props, ds.author), {
+  return Object.assign({}, toUpSetJSDump(dump, toJS(helper.elems), toJS(store.props), ds.author), {
     name: ds.name,
     description: ds.description,
     author: ds.author,
@@ -56,7 +56,7 @@ export function toEmbeddedStaticDump(
     options
   );
 
-  return Object.assign({}, toUpSetJSStaticDump(dump, store.props, ds.author), {
+  return Object.assign({}, toUpSetJSStaticDump(dump, toJS(store.props), ds.author), {
     name: ds.name,
     description: ds.description,
     author: ds.author,
