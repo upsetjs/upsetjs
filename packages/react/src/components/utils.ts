@@ -41,7 +41,3 @@ export function addonPositionGenerator(total: number) {
     return x;
   };
 }
-
-export function generateId(_args?: any) {
-  return `upset-${Math.random().toString(36).slice(4)}`;
-}

@@ -1,5 +1,5 @@
 import { UpSetProps } from '../interfaces';
-import { UpSetDataInfo } from '../components/deriveDataDependent';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { toUpSetJSDump, toUpSetJSStaticDump } from '../dump';
 import {
   toDump,

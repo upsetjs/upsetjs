@@ -9,9 +9,9 @@ import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/mod
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddon, UpSetAddonProps } from '../interfaces';
 import CombinationSelectionChart from './CombinationSelectionChart';
-import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
+import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import LabelsSelection from './LabelsSelection';
 import SetSelectionChart from './SetSelectionChart';
 import UpSetSelectionChart from './UpSetSelectionChart';

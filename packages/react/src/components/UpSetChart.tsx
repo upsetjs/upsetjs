@@ -8,9 +8,9 @@
 import { ISetLike, ISetCombination, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import CombinationChart from './CombinationChart';
-import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
+import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import SetChart from './SetChart';
 import { wrap } from './utils';
 

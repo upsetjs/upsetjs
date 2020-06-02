@@ -6,7 +6,6 @@
  */
 
 import React, { PropsWithChildren, useRef, useLayoutEffect, useState } from 'react';
-import { UpSetStyleInfo } from './deriveStyleDependent';
 import { clsx } from './utils';
 
 const MultilineText = React.memo(function MultilineText({
@@ -85,7 +84,13 @@ export default React.memo(function UpSetTitle({
   style,
 }: PropsWithChildren<{
   width: number;
-  style: UpSetStyleInfo;
+  style: {
+    id: string;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+    styles: { title?: React.CSSProperties; description?: React.CSSProperties };
+    classNames: { title?: string; description?: string };
+  };
 }>) {
   if (!style.title && !style.description) {
     return null;

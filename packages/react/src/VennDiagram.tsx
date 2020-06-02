@@ -7,10 +7,11 @@
 import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
 import { VennDiagramProps } from './interfaces';
 import { fillVennDiagramDefaults } from './fillDefaults';
-import { clsx, generateId } from './components/utils';
-import deriveVennStyleDependent from './components/deriveVennStyleDependent';
-import deriveVennSizeDependent from './components/deriveVennSizeDependent';
-import deriveVennDataDependent from './components/deriveVennDataDependent';
+import { clsx } from './components/utils';
+import { generateId } from './derive/utils';
+import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
+import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
+import deriveVennDataDependent from './derive/deriveVennDataDependent';
 import ExportButtons from './components/ExportButtons';
 import QueryLegend from './components/QueryLegend';
 import { exportSVG } from './exporter';
