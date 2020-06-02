@@ -5,11 +5,8 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useCallback } from 'react';
-import { exportSVG, exportVegaLite } from '../exporter';
-import { exportDump, exportSharedLink } from '../exporter/exportDump';
-import { UpSetProps, UpSetExportOptions } from '../interfaces';
-import { UpSetDataInfo } from './deriveDataDependent';
+import React from 'react';
+import { UpSetExportOptions } from '../interfaces';
 
 export default function ExportButtons({
   transform,

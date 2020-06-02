@@ -120,6 +120,10 @@ export interface UpSetBaseFontSizes {
    * @default 16px
    */
   description?: string;
+  /**
+   * @default 10px
+   */
+  exportLabel?: string;
 }
 
 export interface UpSetFontSizes extends UpSetBaseFontSizes {

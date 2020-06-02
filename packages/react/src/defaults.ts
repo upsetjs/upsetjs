@@ -18,6 +18,7 @@ export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes & VennDiagramFontSizes>
   description: '16px',
   title: '24px',
   valueLabel: '12px',
+  exportLabel: '10px',
 };
 export const DEFAULT_WIDTH_RATIO = [0.18, 0.12, 0.7];
 export const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];

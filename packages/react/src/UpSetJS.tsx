@@ -20,6 +20,7 @@ import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
 import { clsx, generateId } from './components/utils';
 import { fillDefaults } from './fillDefaults';
+import { baseRules } from './rules';
 
 export * from './interfaces';
 
@@ -87,6 +88,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     setLabel: fontSetLabel,
     description: fontDescription,
     title: fontTitle,
+    exportLabel: fontExportLabel,
   } = fontSizes;
   const styleId = useMemo(
     () =>
@@ -100,6 +102,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
             fontLegend,
             fontSetLabel,
             fontTitle,
+            fontExportLabel,
             fontDescription,
             textColor,
             hoverHintColor,
@@ -117,6 +120,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       fontLegend,
       fontSetLabel,
       fontTitle,
+      fontExportLabel,
       fontDescription,
       textColor,
       hoverHintColor,
@@ -210,17 +214,18 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   );
 
   const rules = `
-  .root-${styleId} {
-    ${fontFamily ? `font-family: ${fontFamily};` : ''}
-  }
-  .titleTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontTitle ? `font-size: ${fontTitle};` : ''}
-  }
-  .descTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontDescription ? `font-size: ${fontDescription};` : ''}
-  }
+  ${baseRules(
+    styleId,
+    textColor,
+    color,
+    selectionColor,
+    fontFamily,
+    fontTitle,
+    fontDescription,
+    fontLegend,
+    fontExportLabel
+  )}
+
   .axisTextStyle-${styleId} {
     fill: ${textColor};
     ${fontAxisTick ? `font-size: ${fontAxisTick};` : ''}
@@ -264,46 +269,14 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     text-anchor: middle;
     dominant-baseline: hanging;
   }
-  .exportTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
-  }
-  .legendTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontLegend ? `font-size: ${fontLegend};` : ''}
-    text-anchor: middle;
-    dominant-baseline: hanging;
-    pointer-events: none;
-  }
-  .startText-${styleId} {
-    text-anchor: start;
-  }
-  .endText-${styleId} {
-    text-anchor: end;
-  }
-  .pnone-${styleId} {
-    pointer-events: none;
-  }
-  .fillPrimary-${styleId} { fill: ${color}; }
-  .fillSelection-${styleId} { fill: ${selectionColor}; }
+
   .fillNotMember-${styleId} { fill: ${notMemberColor}; }
   .fillAlternating-${styleId} { fill: ${alternatingBackgroundColor || 'transparent'}; }
-  .fillTransparent-${styleId} { fill: transparent; }
-
-  .selectionHint-${styleId} {
-    fill: transparent;
-    pointer-events: none;
-    stroke: ${selectionColor};
-  }
 
   .axisLine-${styleId} {
     fill: none;
     stroke: ${textColor};
   }
-  .clickAble-${styleId} {
-    cursor: pointer;
-  }
-
   .hoverBar-${styleId} {
     fill: transparent;
   }
@@ -313,21 +286,6 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   }
   .interactive-${styleId}:hover > .hoverBarTextStyle-${styleId} {
     display: unset;
-  }
-
-  .exportButtons-${styleId} {
-    text-anchor: middle;
-  }
-  .exportButton-${styleId} {
-    cursor: pointer;
-    opacity: 0.5;
-  }
-  .exportButton-${styleId}:hover {
-    opacity: 1;
-  }
-  .exportButton-${styleId} > rect {
-    fill: none;
-    stroke: ${textColor};
   }
 
   .upsetLine-${dataInfo.id} {

@@ -8,8 +8,8 @@
 import { generateId } from './utils';
 
 export default function deriveVennSizeDependent(width: number, height: number, margin: number, id: string) {
-  const h = height - 2 * margin;
-  const w = width - 2 * margin;
+  // const h = height - 2 * margin;
+  // const w = width - 2 * margin;
   return {
     id: id ? id : generateId(),
     legend: {

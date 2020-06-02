@@ -14,6 +14,7 @@ import deriveVennDataDependent from './components/deriveVennDataDependent';
 import ExportButtons from './components/ExportButtons';
 import QueryLegend from './components/QueryLegend';
 import { exportSVG } from './exporter';
+import { baseRules } from './rules';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -54,6 +55,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     setLabel: fontSetLabel,
     description: fontDescription,
     title: fontTitle,
+    exportLabel: fontExportLabel,
   } = fontSizes;
 
   const styleId = useMemo(
@@ -66,6 +68,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             fontLegend,
             fontSetLabel,
             fontTitle,
+            fontExportLabel,
             fontDescription,
             textColor,
             color,
@@ -79,6 +82,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       fontLegend,
       fontSetLabel,
       fontTitle,
+      fontExportLabel,
       fontDescription,
       textColor,
       color,
@@ -103,70 +107,29 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   ]);
 
   const rules = `
-  .root-${styleId} {
-    ${fontFamily ? `font-family: ${fontFamily};` : ''}
-  }
-  .titleTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontTitle ? `font-size: ${fontTitle};` : ''}
-  }
-  .descTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontDescription ? `font-size: ${fontDescription};` : ''}
-  }
+  ${baseRules(
+    styleId,
+    textColor,
+    color,
+    selectionColor,
+    fontFamily,
+    fontTitle,
+    fontDescription,
+    fontLegend,
+    fontExportLabel
+  )}
+
   .valueTextStyle-${styleId} {
     fill: ${valueTextColor};
     ${fontValueLabel ? `font-size: ${fontValueLabel};` : ''}
+    text-anchor: middle;
+    dominant-baseline: central;
   }
   .setTextStyle-${styleId} {
     fill: ${textColor};
     ${fontSetLabel ? `font-size: ${fontSetLabel};` : ''}
     text-anchor: middle;
     dominant-baseline: central;
-  }
-  .legendTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontLegend ? `font-size: ${fontLegend};` : ''}
-    text-anchor: middle;
-    dominant-baseline: hanging;
-    pointer-events: none;
-  }
-  .startText-${styleId} {
-    text-anchor: start;
-  }
-  .endText-${styleId} {
-    text-anchor: end;
-  }
-  .pnone-${styleId} {
-    pointer-events: none;
-  }
-  .fillPrimary-${styleId} { fill: ${color}; }
-  .fillSelection-${styleId} { fill: ${selectionColor}; }
-  .fillTransparent-${styleId} { fill: transparent; }
-
-  .selectionHint-${styleId} {
-    fill: transparent;
-    pointer-events: none;
-    stroke: ${selectionColor};
-  }
-
-  .clickAble-${styleId} {
-    cursor: pointer;
-  }
-
-  .exportButtons-${styleId} {
-    text-anchor: middle;
-  }
-  .exportButton-${styleId} {
-    cursor: pointer;
-    opacity: 0.5;
-  }
-  .exportButton-${styleId}:hover {
-    opacity: 1;
-  }
-  .exportButton-${styleId} > rect {
-    fill: none;
-    stroke: ${textColor};
   }
 
   ${queries
@@ -219,6 +182,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             className={`fillTransparent-${styleId}`}
           />
         )} */}
+        {selection && onClick && onContextMenu && onHover ? '1' : 0}
       </g>
       {props.children}
     </svg>
