@@ -21,6 +21,7 @@ export declare type VennDiagramDataInfo<T> = {
   universe: {
     v: ISetCombination<T>;
     l: IUniverseSet;
+    key: string;
     format(v: number): string;
   };
   cs: {
@@ -64,6 +65,7 @@ export default function deriveVennDataDependent<T>(
       format: valueFormat,
     },
     universe: {
+      key: toKey(universe),
       v: universe,
       l: layout.universe,
       format: valueFormat,

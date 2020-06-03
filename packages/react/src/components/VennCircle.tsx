@@ -18,6 +18,7 @@ export default React.memo(function VennCircle<T>({
   d,
   style,
   data,
+  selected,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -26,6 +27,7 @@ export default React.memo(function VennCircle<T>({
   {
     circle: ICircle;
     d: ISet<T>;
+    selected?: boolean;
     style: VennDiagramStyleInfo;
     data: VennDiagramDataInfo<T>;
   } & UpSetSelection
@@ -39,7 +41,7 @@ export default React.memo(function VennCircle<T>({
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
       onContextMenu={onContextMenu(d)}
-      className={clsx(`circle-${style.id}`, style.classNames.set)}
+      className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
       style={style.styles.set}
     >
       <title>

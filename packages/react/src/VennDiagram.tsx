@@ -20,6 +20,7 @@ import UpSetTitle from './components/UpSetTitle';
 import VennCircle from './components/VennCircle';
 import VennArcSlice from './components/VennArcSlice';
 import VennUniverse from './components/VennUniverse';
+import { isSetLike } from '@upsetjs/model';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -113,6 +114,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   ]);
 
   const rules = `
+  .circle-${styleId} {
+    fill: ${color};
+    stroke: black;
+    fill-opacity: 0.5;
+  }
+
   ${baseRules(
     styleId,
     textColor,
@@ -124,12 +131,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fontLegend,
     fontExportLabel
   )}
-
-  .circle-${styleId} {
-    fill: ${color};
-    stroke: black;
-    fill-opacity: 0.5;
-  }
 
   .valueTextStyle-${styleId} {
     fill: ${valueTextColor};
@@ -176,6 +177,8 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     [onClick, onHover, onContextMenu]
   );
 
+  const selectionKey = selection != null && isSetLike(selection) ? dataInfo.toKey(selection) : null;
+
   return (
     <svg
       id={id}
@@ -197,49 +200,45 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
-        {/* {onClick && (
-          <rect
-            width={sizeInfo.cs.x}
-            height={sizeInfo.sets.y}
-            onClick={(evt) => onClick(null, evt.nativeEvent)}
-            className={`fillTransparent-${styleId}`}
-          />
-        )} */}
-        {selection && onClick && onContextMenu && onHover ? '1' : 0}
-        <VennUniverse
-          data={dataInfo}
-          style={styleInfo}
-          onClick={onClickImpl}
-          onMouseEnter={onMouseEnterImpl}
-          onMouseLeave={onMouseLeaveImpl}
-          onContextMenu={onContextMenuImpl}
-        />
-        {dataInfo.sets.l.map((l, i) => (
-          <VennCircle
-            key={dataInfo.sets.keys[i]}
-            d={dataInfo.sets.v[i]}
-            circle={l}
-            style={styleInfo}
+        <g className={clsx(onClick && `clickAble-${styleId}`)}>
+          <VennUniverse
             data={dataInfo}
+            style={styleInfo}
+            selected={dataInfo.universe.key === selectionKey}
             onClick={onClickImpl}
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             onContextMenu={onContextMenuImpl}
           />
-        ))}
-        {dataInfo.cs.l.map((l, i) => (
-          <VennArcSlice
-            key={dataInfo.cs.keys[i]}
-            d={dataInfo.cs.v[i]}
-            slice={l}
-            style={styleInfo}
-            data={dataInfo}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            onContextMenu={onContextMenuImpl}
-          />
-        ))}
+          {dataInfo.sets.l.map((l, i) => (
+            <VennCircle
+              key={dataInfo.sets.keys[i]}
+              d={dataInfo.sets.v[i]}
+              circle={l}
+              style={styleInfo}
+              data={dataInfo}
+              selected={dataInfo.sets.keys[i] === selectionKey}
+              onClick={onClickImpl}
+              onMouseEnter={onMouseEnterImpl}
+              onMouseLeave={onMouseLeaveImpl}
+              onContextMenu={onContextMenuImpl}
+            />
+          ))}
+          {dataInfo.cs.l.map((l, i) => (
+            <VennArcSlice
+              key={dataInfo.cs.keys[i]}
+              d={dataInfo.cs.v[i]}
+              slice={l}
+              style={styleInfo}
+              data={dataInfo}
+              selected={dataInfo.cs.keys[i] === selectionKey}
+              onClick={onClickImpl}
+              onMouseEnter={onMouseEnterImpl}
+              onMouseLeave={onMouseLeaveImpl}
+              onContextMenu={onContextMenuImpl}
+            />
+          ))}
+        </g>
       </g>
       {props.children}
     </svg>

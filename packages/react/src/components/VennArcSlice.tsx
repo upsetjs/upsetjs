@@ -6,7 +6,7 @@
  */
 
 import React, { PropsWithChildren } from 'react';
-import { IArcSlice } from '../layout/vennDiagramLayout';
+import { IArcSlice, generateArcSlicePath } from '../layout/vennDiagramLayout';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { clsx } from './utils';
 import { UpSetSelection } from './interfaces';
@@ -18,6 +18,7 @@ export default React.memo(function VennArcSlice<T>({
   d,
   style,
   data,
+  selected,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -25,17 +26,13 @@ export default React.memo(function VennArcSlice<T>({
 }: PropsWithChildren<
   {
     slice: IArcSlice;
+    selected?: boolean;
     d: ISetCombination<T>;
     style: VennDiagramStyleInfo;
     data: VennDiagramDataInfo<T>;
   } & UpSetSelection
 >) {
-  const p = `M ${slice.x1},${slice.y1} ${slice.arcs
-    .map(
-      (arc) =>
-        `A ${arc.rx} ${arc.ry} ${arc.rotation} ${arc.largeArcFlag ? 1 : 0} ${arc.sweepFlag ? 1 : 0} ${arc.x2} ${arc.y2}`
-    )
-    .join(' ')}`;
+  const p = generateArcSlicePath(slice);
   return (
     <path
       onMouseEnter={onMouseEnter(d)}
@@ -43,7 +40,7 @@ export default React.memo(function VennArcSlice<T>({
       onClick={onClick(d)}
       onContextMenu={onContextMenu(d)}
       d={p}
-      className={clsx(`circle-${style.id}`, style.classNames.set)}
+      className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
       style={style.styles.set}
     >
       <title>
