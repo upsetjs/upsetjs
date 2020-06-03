@@ -9,10 +9,13 @@ export function baseRules(
   fontLegend?: string,
   fontExportLabel?: string
 ) {
-  return `
+  return {
+    root: `
   .root-${styleId} {
     ${fontFamily ? `font-family: ${fontFamily};` : ''}
   }
+  `,
+    text: `
   .titleTextStyle-${styleId} {
     fill: ${textColor};
     ${fontTitle ? `font-size: ${fontTitle};` : ''}
@@ -29,15 +32,8 @@ export function baseRules(
     dominant-baseline: hanging;
     pointer-events: none;
   }
-  .startText-${styleId} {
-    text-anchor: start;
-  }
-  .endText-${styleId} {
-    text-anchor: end;
-  }
-  .pnone-${styleId} {
-    pointer-events: none;
-  }
+  `,
+    fill: `
   .fillPrimary-${styleId} { fill: ${color}; }
   .fillSelection-${styleId} { fill: ${selectionColor}; }
   .fillTransparent-${styleId} { fill: transparent; }
@@ -51,6 +47,16 @@ export function baseRules(
     cursor: pointer;
   }
 
+  .startText-${styleId} {
+    text-anchor: start;
+  }
+  .endText-${styleId} {
+    text-anchor: end;
+  }
+  .pnone-${styleId} {
+    pointer-events: none;
+  }`,
+    export: `
   .exportTextStyle-${styleId} {
     fill: ${textColor};
     ${fontExportLabel ? `font-size: ${fontExportLabel};` : ''}
@@ -69,5 +75,6 @@ export function baseRules(
     fill: none;
     stroke: ${textColor};
   }
-  `;
+  `,
+  };
 }

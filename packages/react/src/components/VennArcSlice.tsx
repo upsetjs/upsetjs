@@ -34,18 +34,23 @@ export default React.memo(function VennArcSlice<T>({
 >) {
   const p = generateArcSlicePath(slice);
   return (
-    <path
-      onMouseEnter={onMouseEnter(d)}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick(d)}
-      onContextMenu={onContextMenu(d)}
-      d={p}
-      className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
-      style={style.styles.set}
-    >
-      <title>
-        {d.name}: {data.cs.format(d.cardinality)}
-      </title>
-    </path>
+    <g>
+      <path
+        onMouseEnter={onMouseEnter(d)}
+        onMouseLeave={onMouseLeave}
+        onClick={onClick(d)}
+        onContextMenu={onContextMenu(d)}
+        d={p}
+        className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
+        style={style.styles.set}
+      >
+        <title>
+          {d.name}: {data.cs.format(d.cardinality)}
+        </title>
+      </path>
+      <text x={slice.cx} y={slice.cy} className={`setTextStyle-${style.id}`}>
+        {data.cs.format(d.cardinality)}
+      </text>
+    </g>
   );
 });

@@ -12,6 +12,7 @@ export interface ICircle {
   r: number;
   x: number;
   y: number;
+  align: 'center' | 'left' | 'right';
 }
 
 // could be slice
@@ -26,6 +27,9 @@ export interface IArc {
 }
 
 export interface IArcSlice {
+  cx: number;
+  cy: number;
+
   x1: number;
   y1: number;
   arcs: ReadonlyArray<IArc>;
@@ -80,6 +84,7 @@ function one(size: IChartArea): IVennDiagramLayout {
         r: size.r,
         x: size.cx,
         y: size.cy,
+        align: 'center',
       },
     ],
     universe: {
@@ -88,6 +93,8 @@ function one(size: IChartArea): IVennDiagramLayout {
       height: size.h,
       x1: size.cx,
       y1: size.cy - size.r,
+      cx: size.cx,
+      cy: size.cy,
       arcs: [
         {
           rx: size.r,
@@ -128,11 +135,24 @@ function arc(p1: { x: number; y: number }, r: number, largeArcFlag = false, swee
   };
 }
 
+function computeCenter(arcs: IArc[]) {
+  const sumX = arcs.reduce((acc, a) => acc + a.x2, 0);
+  const sumY = arcs.reduce((acc, a) => acc + a.y2, 0);
+  return {
+    cx: sumX / arcs.length,
+    cy: sumY / arcs.length,
+  };
+}
+
 function arcSlice(p0: { x: number; y: number }, p1: { x: number; y: number }, r: number): IArcSlice {
+  const arcs = [arc(p1, r), arc(p0, r)];
+  const { cx, cy } = computeCenter(arcs);
   return {
     x1: p0.x,
     y1: p0.y,
-    arcs: [arc(p1, r), arc(p0, r)],
+    arcs,
+    cx,
+    cy,
   };
 }
 
@@ -144,16 +164,20 @@ function two(size: IChartArea): IVennDiagramLayout {
     r,
     x: size.cx - r * (1 - radiOverlap),
     y: size.cy,
+    align: 'right',
   };
   const c1: ICircle = {
     r,
     x: size.cx + r * (1 - radiOverlap),
     y: size.cy,
+    align: 'left',
   };
   const [p0, p1] = circleIntersectionPoints(c0, c1);
   return {
     sets: [c0, c1],
     universe: {
+      cx: size.cx,
+      cy: size.cy,
       width: size.w,
       height: size.h,
       x1: p0.x,
@@ -184,24 +208,31 @@ function three(size: IChartArea): IVennDiagramLayout {
     r,
     x: cx + offset * Math.cos(-90 * DEG2RAD),
     y: cy + offset * Math.sin(-90 * DEG2RAD),
+    align: 'center',
   };
   const c1: ICircle = {
     r,
     x: cx + offset * Math.cos(30 * DEG2RAD),
     y: cy + offset * Math.sin(30 * DEG2RAD),
+    align: 'left',
   };
   const c2: ICircle = {
     r,
     x: cx + offset * Math.cos(150 * DEG2RAD),
     y: cy + offset * Math.sin(150 * DEG2RAD),
+    align: 'right',
   };
 
   const [p12_0, p12_1] = circleIntersectionPoints(c1, c2);
   const [p20_0, p20_1] = circleIntersectionPoints(c2, c0);
   const [p01_0, p01_1] = circleIntersectionPoints(c0, c1);
+
+  const inner = [arc(p20_0, r, false, true), arc(p01_0, r, false, true), arc(p12_0, r, false, true)];
   return {
     sets: [c0, c1, c2],
     universe: {
+      cx: size.cx,
+      cy: size.cy,
       width: size.w,
       height: size.h,
       x1: p12_0.x,
@@ -210,13 +241,16 @@ function three(size: IChartArea): IVennDiagramLayout {
     },
     intersections: [
       arcSlice(p01_0, p01_1, r),
-      arcSlice(p12_0, p12_1, r),
       arcSlice(p20_0, p20_1, r),
-      {
-        x1: p12_0.x,
-        y1: p12_0.y,
-        arcs: [arc(p20_0, r, false, true), arc(p01_0, r, false, true), arc(p12_0, r, false, true)],
-      },
+      arcSlice(p12_0, p12_1, r),
+      Object.assign(
+        {
+          x1: p12_0.x,
+          y1: p12_0.y,
+          arcs: inner,
+        },
+        computeCenter(inner)
+      ),
     ],
   };
 }
@@ -231,6 +265,8 @@ export default function vennDiagramLayout<T>(
       return {
         sets: [],
         universe: {
+          cx: size.cx,
+          cy: size.cy,
           width: size.w,
           height: size.h,
           x1: 0,

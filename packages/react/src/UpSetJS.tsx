@@ -214,8 +214,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     ]
   );
 
-  const rules = `
-  ${baseRules(
+  const rulesHelper = baseRules(
     styleId,
     textColor,
     color,
@@ -225,7 +224,10 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     fontDescription,
     fontLegend,
     fontExportLabel
-  )}
+  );
+  const rules = `
+  ${rulesHelper.root}
+  ${rulesHelper.text}
 
   .axisTextStyle-${styleId} {
     fill: ${textColor};
@@ -271,6 +273,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     dominant-baseline: hanging;
   }
 
+  ${rulesHelper.fill}
   .fillNotMember-${styleId} { fill: ${notMemberColor}; }
   .fillAlternating-${styleId} { fill: ${alternatingBackgroundColor || 'transparent'}; }
 
@@ -289,6 +292,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     display: unset;
   }
 
+  ${rulesHelper.export}
+
   .upsetLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6};
     stroke: ${color};
@@ -299,6 +304,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     stroke: ${selectionColor};
     pointer-events: none;
   }
+
   ${queries
     .map(
       (q, i) => `.fillQ${i}-${dataInfo.id} {

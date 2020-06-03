@@ -33,20 +33,31 @@ export default React.memo(function VennCircle<T>({
   } & UpSetSelection
 >) {
   return (
-    <circle
-      cx={circle.x}
-      cy={circle.y}
-      r={circle.r}
-      onMouseEnter={onMouseEnter(d)}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick(d)}
-      onContextMenu={onContextMenu(d)}
-      className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
-      style={style.styles.set}
-    >
+    <g onMouseEnter={onMouseEnter(d)} onMouseLeave={onMouseLeave} onClick={onClick(d)} onContextMenu={onContextMenu(d)}>
       <title>
         {d.name}: {data.sets.format(d.cardinality)}
       </title>
-    </circle>
+      <circle
+        cx={circle.x}
+        cy={circle.y}
+        r={circle.r}
+        className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
+        style={style.styles.set}
+      ></circle>
+      <text
+        x={circle.x}
+        y={circle.y}
+        className={clsx(
+          `setTextStyle-${style.id}`
+          // circle.align === 'left' && `startText-${style.id}`,
+          // circle.align === 'right' && `endText-${style.id}`
+        )}
+      >
+        <tspan dy="-0.6em">{d.name}</tspan>
+        <tspan x={circle.x} dy="1.2em">
+          {data.sets.format(d.cardinality)}
+        </tspan>
+      </text>
+    </g>
   );
 });

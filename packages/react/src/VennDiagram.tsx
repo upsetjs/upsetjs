@@ -113,14 +113,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     id,
   ]);
 
-  const rules = `
-  .circle-${styleId} {
-    fill: ${color};
-    stroke: black;
-    fill-opacity: 0.5;
-  }
-
-  ${baseRules(
+  const rulesHelper = baseRules(
     styleId,
     textColor,
     color,
@@ -130,7 +123,11 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fontDescription,
     fontLegend,
     fontExportLabel
-  )}
+  );
+
+  const rules = `
+  ${rulesHelper.root}
+  ${rulesHelper.text}
 
   .valueTextStyle-${styleId} {
     fill: ${valueTextColor};
@@ -144,6 +141,14 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     text-anchor: middle;
     dominant-baseline: central;
   }
+
+  .circle-${styleId} {
+    fill: ${color};
+    stroke: black;
+    fill-opacity: 0.5;
+  }
+  ${rulesHelper.fill}
+  ${rulesHelper.export}
 
   ${queries
     .map(

@@ -12,26 +12,32 @@
     <script>
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
         const sets = UpSetJS.extractSets(elems);
+        let asets = sets.slice(0, document.getElementById('value').valueAsNumber);
 
         let selection = null;
+        const onHover = (s) => {
+          selection = s;
+          rerender();
+        };
         function rerender() {
           render(
             {
-              sets: sets.slice(0, document.getElementById('value').valueAsNumber),
+              sets: asets,
               width: 1200,
               height: 500,
               theme: 'dark',
               selection,
-              onHover: (s) => {
-                selection = s;
-                rerender();
-              },
+              onHover,
             },
             UpSetJS.VennDiagram
           );
         }
         rerender();
-        document.getElementById('value').onchange = rerender;
+        function update() {
+          asets = sets.slice(0, document.getElementById('value').valueAsNumber);
+          rerender();
+        }
+        document.getElementById('value').onchange = update;
       });
     </script>
   </body>

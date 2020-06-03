@@ -104,6 +104,10 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetPropsG<T, C, N, L>): U
   );
 }
 
+function valueFormat(v: number) {
+  return v.toLocaleString();
+}
+
 export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
   return fillDefaultsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>(props);
 }
@@ -126,7 +130,7 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
       queries: EMPTY_ARRAY,
       queryLegend: props.queries != null && props.queries.length > 0,
       exportButtons: true,
-      valueFormat: (v: number) => v.toLocaleString(),
+      valueFormat,
       className: '',
       fontSizes: DEFAULT_FONT_SIZES,
       classNames: EMPTY_OBJECT,
