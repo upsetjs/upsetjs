@@ -41,9 +41,7 @@ export default function deriveVennDataDependent<T>(
   toElemKey?: (e: T) => string,
   id?: string
 ): VennDiagramDataInfo<T> {
-  // TODO options regarding empty set?
   const universe = generateCombinations(sets, { min: 0, max: 1, empty: true, toElemKey })[0];
-  console.log(universe);
 
   const cs = generateCombinations(sets, {
     min: 2,

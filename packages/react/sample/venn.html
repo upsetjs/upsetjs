@@ -8,15 +8,16 @@
   </head>
   <body>
     <script src="./upset.js"></script>
+    <input id="value" type="number" min="1" max="3" value="2" />
     <script>
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
-        const sets = UpSetJS.extractSets(elems).slice(0, 2);
+        const sets = UpSetJS.extractSets(elems);
 
         let selection = null;
         function rerender() {
           render(
             {
-              sets,
+              sets: sets.slice(0, document.getElementById('value').valueAsNumber),
               width: 1200,
               height: 500,
               theme: 'dark',
@@ -30,6 +31,7 @@
           );
         }
         rerender();
+        document.getElementById('value').onchange = rerender;
       });
     </script>
   </body>
