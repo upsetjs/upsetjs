@@ -5,10 +5,10 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { generateCombinations, ISetCombinations, ISetLike, ISets } from '@upsetjs/model';
+import { generateCombinations, ISetCombinations, ISetLike, ISets, ISetCombination } from '@upsetjs/model';
 import { generateId } from './utils';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
-import vennDiagramLayout, { ICircle, IArcSlice } from '../layout/vennDiagramLayout';
+import vennDiagramLayout, { ICircle, IArcSlice, IUniverseSet } from '../layout/vennDiagramLayout';
 
 export declare type VennDiagramDataInfo<T> = {
   id: string;
@@ -16,6 +16,11 @@ export declare type VennDiagramDataInfo<T> = {
     v: ISets<T>;
     l: ReadonlyArray<ICircle>;
     keys: ReadonlyArray<string>;
+    format(v: number): string;
+  };
+  universe: {
+    v: ISetCombination<T>;
+    l: IUniverseSet;
     format(v: number): string;
   };
   cs: {
@@ -37,9 +42,14 @@ export default function deriveVennDataDependent<T>(
   id?: string
 ): VennDiagramDataInfo<T> {
   // TODO options regarding empty set?
+  const universe = generateCombinations(sets, { min: 0, max: 1, empty: true, toElemKey })[0];
+  console.log(universe);
+
   const cs = generateCombinations(sets, {
     min: 2,
+    empty: true,
     order: ['degree:asc', 'group:asc'],
+    toElemKey,
   });
 
   const csKeys = cs.map(toKey);
@@ -53,6 +63,11 @@ export default function deriveVennDataDependent<T>(
       v: sets,
       l: layout.sets,
       keys: setKeys,
+      format: valueFormat,
+    },
+    universe: {
+      v: universe,
+      l: layout.universe,
       format: valueFormat,
     },
     cs: {

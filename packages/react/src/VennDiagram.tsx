@@ -19,6 +19,7 @@ import { baseRules } from './rules';
 import UpSetTitle from './components/UpSetTitle';
 import VennCircle from './components/VennCircle';
 import VennArcSlice from './components/VennArcSlice';
+import VennUniverse from './components/VennUniverse';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -205,6 +206,14 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
           />
         )} */}
         {selection && onClick && onContextMenu && onHover ? '1' : 0}
+        <VennUniverse
+          data={dataInfo}
+          style={styleInfo}
+          onClick={onClickImpl}
+          onMouseEnter={onMouseEnterImpl}
+          onMouseLeave={onMouseLeaveImpl}
+          onContextMenu={onContextMenuImpl}
+        />
         {dataInfo.sets.l.map((l, i) => (
           <VennCircle
             key={dataInfo.sets.keys[i]}
