@@ -7,7 +7,7 @@
 import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
 import { VennDiagramProps } from './interfaces';
 import { fillVennDiagramDefaults } from './fillDefaults';
-import { clsx } from './components/utils';
+import { clsx, wrap } from './components/utils';
 import { generateId } from './derive/utils';
 import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
 import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
@@ -16,6 +16,9 @@ import ExportButtons from './components/ExportButtons';
 import QueryLegend from './components/QueryLegend';
 import { exportSVG } from './exporter';
 import { baseRules } from './rules';
+import UpSetTitle from './components/UpSetTitle';
+import VennCircle from './components/VennCircle';
+import VennArcSlice from './components/VennArcSlice';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -99,8 +102,9 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
 
   const sizeInfo = useMemo(() => deriveVennSizeDependent(width, height, margin, id), [width, height, margin, id]);
 
-  const dataInfo = useMemo(() => deriveVennDataDependent(sets, valueFormat, toKey, toElemKey, id), [
+  const dataInfo = useMemo(() => deriveVennDataDependent(sets, sizeInfo, valueFormat, toKey, toElemKey, id), [
     sets,
+    sizeInfo,
     valueFormat,
     toKey,
     toElemKey,
@@ -119,6 +123,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fontLegend,
     fontExportLabel
   )}
+
+  .circle-${styleId} {
+    fill: ${color};
+    stroke: black;
+    fill-opacity: 0.5;
+  }
 
   .valueTextStyle-${styleId} {
     fill: ${valueTextColor};
@@ -155,6 +165,16 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     }
   }, []);
 
+  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
+    () => [
+      wrap(onClick),
+      wrap(onHover),
+      wrap(onContextMenu),
+      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
+    ],
+    [onClick, onHover, onContextMenu]
+  );
+
   return (
     <svg
       id={id}
@@ -175,6 +195,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
         exportChart={exportChart}
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
+        <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
         {/* {onClick && (
           <rect
             width={sizeInfo.cs.x}
@@ -184,6 +205,32 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
           />
         )} */}
         {selection && onClick && onContextMenu && onHover ? '1' : 0}
+        {dataInfo.sets.l.map((l, i) => (
+          <VennCircle
+            key={dataInfo.sets.keys[i]}
+            d={dataInfo.sets.v[i]}
+            circle={l}
+            style={styleInfo}
+            data={dataInfo}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            onContextMenu={onContextMenuImpl}
+          />
+        ))}
+        {dataInfo.cs.l.map((l, i) => (
+          <VennArcSlice
+            key={dataInfo.cs.keys[i]}
+            d={dataInfo.cs.v[i]}
+            slice={l}
+            style={styleInfo}
+            data={dataInfo}
+            onClick={onClickImpl}
+            onMouseEnter={onMouseEnterImpl}
+            onMouseLeave={onMouseLeaveImpl}
+            onContextMenu={onContextMenuImpl}
+          />
+        ))}
       </g>
       {props.children}
     </svg>
