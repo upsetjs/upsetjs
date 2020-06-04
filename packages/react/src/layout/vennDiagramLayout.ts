@@ -200,26 +200,26 @@ function three(size: IChartArea): IVennDiagramLayout {
   const cx = size.cx;
   const a = r * (2 - radiOverlap * 2);
   const outerRadius = a / Math.sqrt(3);
-  const cy = r + outerRadius; // outer circle
+  const cy = size.h - r - outerRadius; // outer circle
 
   const offset = outerRadius;
 
   const c0: ICircle = {
     r,
     x: cx + offset * Math.cos(-90 * DEG2RAD),
-    y: cy + offset * Math.sin(-90 * DEG2RAD),
+    y: cy - offset * Math.sin(-90 * DEG2RAD),
     align: 'center',
   };
   const c1: ICircle = {
     r,
-    x: cx + offset * Math.cos(30 * DEG2RAD),
-    y: cy + offset * Math.sin(30 * DEG2RAD),
+    x: cx - offset * Math.cos(30 * DEG2RAD),
+    y: cy - offset * Math.sin(30 * DEG2RAD),
     align: 'left',
   };
   const c2: ICircle = {
     r,
-    x: cx + offset * Math.cos(150 * DEG2RAD),
-    y: cy + offset * Math.sin(150 * DEG2RAD),
+    x: cx - offset * Math.cos(150 * DEG2RAD),
+    y: cy - offset * Math.sin(150 * DEG2RAD),
     align: 'right',
   };
 

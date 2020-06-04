@@ -5,11 +5,21 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+declare type Point = { x: number; y: number };
+
+function len(x: number, y: number) {
+  return Math.sqrt(x * x + y * y);
+}
+
+function dist(a: Point, b: Point) {
+  return len(a.x - b.x, a.y - b.y);
+}
+
 export function circleIntersectionPoints(
   c0: { x: number; y: number; r: number },
   c1: { x: number; y: number; r: number }
-): [{ x: number; y: number }, { x: number; y: number }] {
-  const d = Math.sqrt((c0.x - c1.x) ** 2 + (c0.y - c1.y) ** 2);
+): [Point, Point] {
+  const d = dist(c0, c1);
   // based on http://paulbourke.net/geometry/circlesphere/
   const a = (c0.r * c0.r - c1.r * c1.r + d * d) / (2 * d);
 
@@ -32,4 +42,17 @@ export function circleIntersectionPoints(
       y: y3_2,
     },
   ];
+}
+
+export function circleArea(r: number) {
+  return r * r * Math.PI;
+}
+
+export function lineSegmentArea(p0: Point, p1: Point, r: number) {
+  const c = dist(p0, p1);
+  //a = b = r;
+  // law of cos: a =acos((a^2 + b^2 - c^2) / 2ab)
+  const angle = Math.acos((r * r + r * r - c * c) / (2 * r * r));
+  // (angle - sin(angle)) / 2 * r^2
+  return angle - Math.sin(angle) / (2 * r * r);
 }
