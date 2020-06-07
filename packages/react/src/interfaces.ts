@@ -356,6 +356,12 @@ export interface VennDiagramThemeProps {
    * @default black
    */
   valueTextColor?: string;
+
+  /**
+   * stroke color to render around sets
+   * @default black
+   */
+  strokeColor?: string;
 }
 
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;

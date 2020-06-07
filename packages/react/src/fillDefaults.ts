@@ -24,23 +24,28 @@ import {
   VennDiagramFullPropsG,
   UpSetPropsG,
   VennDiagramPropsG,
+  VennDiagramThemeProps,
 } from './interfaces';
 
-const lightTheme: Required<UpSetThemeProps> = {
+const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
   selectionColor: '#ffa500',
   color: '#000000',
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',
   alternatingBackgroundColor: '#0000000d',
+  valueTextColor: '#000000',
+  strokeColor: '#000000',
 };
-const darkTheme: Required<UpSetThemeProps> = {
+const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
   selectionColor: '#ffa500',
   color: '#cccccc',
   textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
   alternatingBackgroundColor: '#ffffff33',
+  valueTextColor: '#ffffff',
+  strokeColor: '#ffffff',
 };
 
 export function getDefaultTheme(theme?: 'light' | 'dark'): Readonly<Required<UpSetThemeProps>> {

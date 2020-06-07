@@ -53,8 +53,6 @@ export default function deriveVennDataDependent<T>(
 
   const csKeys = cs.map(toKey);
   const setKeys = sets.map(toKey);
-  console.log(setKeys);
-  console.log(csKeys);
 
   const layout = vennDiagramLayout(sets, cs, size.area);
 

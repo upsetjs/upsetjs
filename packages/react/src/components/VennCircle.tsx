@@ -17,8 +17,6 @@ export default React.memo(function VennCircle<T>({
   circle,
   d,
   style,
-  data,
-  selected,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -27,23 +25,62 @@ export default React.memo(function VennCircle<T>({
   {
     circle: ICircle;
     d: ISet<T>;
-    selected?: boolean;
     style: VennDiagramStyleInfo;
-    data: VennDiagramDataInfo<T>;
   } & UpSetSelection
 >) {
   return (
-    <g onMouseEnter={onMouseEnter(d)} onMouseLeave={onMouseLeave} onClick={onClick(d)} onContextMenu={onContextMenu(d)}>
-      <title>
-        {d.name}: {data.sets.format(d.cardinality)}
-      </title>
+    <circle
+      cx={circle.x}
+      cy={circle.y}
+      r={circle.r}
+      className={clsx(`circle-${style.id}`, style.classNames.set)}
+      style={style.styles.set}
+      onMouseEnter={onMouseEnter(d)}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick(d)}
+      onContextMenu={onContextMenu(d)}
+    />
+  );
+});
+
+export function VennCircleSelection({
+  circle,
+  style,
+}: PropsWithChildren<{
+  circle: ICircle;
+  style: VennDiagramStyleInfo;
+}>) {
+  return (
+    <circle
+      cx={circle.x}
+      cy={circle.y}
+      r={circle.r}
+      className={clsx(`circle-${style.id}`, `fillSelection-${style.id}`, style.classNames.set)}
+      style={style.styles.set}
+    />
+  );
+}
+
+export function VennCircleText<T>({
+  circle,
+  d,
+  style,
+  data,
+}: PropsWithChildren<{
+  circle: ICircle;
+  d: ISet<T>;
+  style: VennDiagramStyleInfo;
+  data: VennDiagramDataInfo<T>;
+}>) {
+  return (
+    <g>
       <circle
         cx={circle.x}
         cy={circle.y}
         r={circle.r}
-        className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
+        className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
         style={style.styles.set}
-      ></circle>
+      />
       <text
         x={circle.x}
         y={circle.y}
@@ -60,4 +97,4 @@ export default React.memo(function VennCircle<T>({
       </text>
     </g>
   );
-});
+}

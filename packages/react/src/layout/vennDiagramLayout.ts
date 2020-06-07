@@ -121,8 +121,6 @@ function one(size: IChartArea): IVennDiagramLayout {
   };
 }
 
-const radiOverlap = 0.25;
-
 function arc(p1: { x: number; y: number }, r: number, largeArcFlag = false, sweepFlag = false): IArc {
   return {
     rx: r,
@@ -156,7 +154,7 @@ function arcSlice(p0: { x: number; y: number }, p1: { x: number; y: number }, r:
   };
 }
 
-function two(size: IChartArea): IVennDiagramLayout {
+function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   // 0.5 radi overlap
   // 3.5 x 2 radi box
   const r = Math.floor(Math.min(size.h / 2, size.w / (4 - radiOverlap)));
@@ -190,7 +188,7 @@ function two(size: IChartArea): IVennDiagramLayout {
 
 const DEG2RAD = (1 / 180) * Math.PI;
 
-function three(size: IChartArea): IVennDiagramLayout {
+function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   // 3.5 x 2 radi box
   // r + r * (2 - o) * cos(60) + r
   // r (1 + (2- o) * cos(60) + 1)
@@ -258,7 +256,8 @@ function three(size: IChartArea): IVennDiagramLayout {
 export default function vennDiagramLayout<T>(
   sets: ISets<T>,
   _combinations: ISetCombinations<T>,
-  size: IChartArea
+  size: IChartArea,
+  radiOverlap = 0.25
 ): IVennDiagramLayout {
   switch (sets.length) {
     case 0:
@@ -278,8 +277,8 @@ export default function vennDiagramLayout<T>(
     case 1:
       return one(size);
     case 2:
-      return two(size);
+      return two(size, radiOverlap);
     default:
-      return three(size);
+      return three(size, radiOverlap);
   }
 }

@@ -17,8 +17,8 @@ import QueryLegend from './components/QueryLegend';
 import { exportSVG } from './exporter';
 import { baseRules } from './rules';
 import UpSetTitle from './components/UpSetTitle';
-import VennCircle from './components/VennCircle';
-import VennArcSlice from './components/VennArcSlice';
+import VennCircle, { VennCircleText, VennCircleSelection } from './components/VennCircle';
+import VennArcSlice, { VennArcSliceText, VennArcSliceSelection } from './components/VennArcSlice';
 import VennUniverse from './components/VennUniverse';
 import { isSetLike } from '@upsetjs/model';
 
@@ -49,6 +49,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     description,
     classNames,
     color,
+    strokeColor,
     valueTextColor,
     styles,
     valueFormat,
@@ -78,6 +79,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             fontDescription,
             textColor,
             color,
+            strokeColor,
             valueTextColor,
             selectionColor,
           ]),
@@ -92,6 +94,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       fontDescription,
       textColor,
       color,
+      strokeColor,
       valueTextColor,
       selectionColor,
     ]
@@ -144,8 +147,10 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
 
   .circle-${styleId} {
     fill: ${color};
-    stroke: black;
-    fill-opacity: 0.5;
+  }
+  .stroke-circle-${styleId} {
+    fill: transparent;
+    stroke: ${strokeColor};
   }
   ${rulesHelper.fill}
   ${rulesHelper.export}
@@ -221,8 +226,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               d={dataInfo.sets.v[i]}
               circle={l}
               style={styleInfo}
-              data={dataInfo}
-              selected={dataInfo.sets.keys[i] === selectionKey}
               onClick={onClickImpl}
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
@@ -236,11 +239,43 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               slice={l}
               style={styleInfo}
               data={dataInfo}
-              selected={dataInfo.cs.keys[i] === selectionKey}
               onClick={onClickImpl}
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
               onContextMenu={onContextMenuImpl}
+            />
+          ))}
+        </g>
+        <g className={`pnone-${styleId}`}>
+          {/* <VennUniverse data={dataInfo} style={styleInfo} selected={dataInfo.universe.key === selectionKey} /> */}
+          {dataInfo.sets.l
+            .filter((_, i) => dataInfo.sets.keys[i] === selectionKey)
+            .map((l, i) => (
+              <VennCircleSelection key={dataInfo.sets.keys[i]} circle={l} style={styleInfo} />
+            ))}
+          {dataInfo.cs.l
+            .filter((_, i) => dataInfo.cs.keys[i] === selectionKey)
+            .map((l, i) => (
+              <VennArcSliceSelection key={dataInfo.cs.keys[i]} slice={l} style={styleInfo} />
+            ))}
+        </g>
+        <g className={`pnone-${styleId}`}>
+          {dataInfo.sets.l.map((l, i) => (
+            <VennCircleText
+              key={dataInfo.sets.keys[i]}
+              d={dataInfo.sets.v[i]}
+              circle={l}
+              style={styleInfo}
+              data={dataInfo}
+            />
+          ))}
+          {dataInfo.cs.l.map((l, i) => (
+            <VennArcSliceText
+              key={dataInfo.cs.keys[i]}
+              d={dataInfo.cs.v[i]}
+              slice={l}
+              style={styleInfo}
+              data={dataInfo}
             />
           ))}
         </g>

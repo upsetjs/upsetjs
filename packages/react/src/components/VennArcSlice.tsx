@@ -18,7 +18,6 @@ export default React.memo(function VennArcSlice<T>({
   d,
   style,
   data,
-  selected,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -26,7 +25,6 @@ export default React.memo(function VennArcSlice<T>({
 }: PropsWithChildren<
   {
     slice: IArcSlice;
-    selected?: boolean;
     d: ISetCombination<T>;
     style: VennDiagramStyleInfo;
     data: VennDiagramDataInfo<T>;
@@ -34,23 +32,53 @@ export default React.memo(function VennArcSlice<T>({
 >) {
   const p = generateArcSlicePath(slice);
   return (
-    <g>
-      <path
-        onMouseEnter={onMouseEnter(d)}
-        onMouseLeave={onMouseLeave}
-        onClick={onClick(d)}
-        onContextMenu={onContextMenu(d)}
-        d={p}
-        className={clsx(`circle-${style.id}`, selected && `fillSelection-${style.id}`, style.classNames.set)}
-        style={style.styles.set}
-      >
-        <title>
-          {d.name}: {data.cs.format(d.cardinality)}
-        </title>
-      </path>
-      <text x={slice.cx} y={slice.cy} className={`setTextStyle-${style.id}`}>
-        {data.cs.format(d.cardinality)}
-      </text>
-    </g>
+    <path
+      onMouseEnter={onMouseEnter(d)}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick(d)}
+      onContextMenu={onContextMenu(d)}
+      d={p}
+      className={clsx(`circle-${style.id}`, style.classNames.set)}
+      style={style.styles.set}
+    >
+      <title>
+        {d.name}: {data.cs.format(d.cardinality)}
+      </title>
+    </path>
   );
 });
+
+export function VennArcSliceSelection({
+  slice,
+  style,
+}: PropsWithChildren<{
+  slice: IArcSlice;
+  style: VennDiagramStyleInfo;
+}>) {
+  const p = generateArcSlicePath(slice);
+  return (
+    <path
+      d={p}
+      className={clsx(`circle-${style.id}`, `fillSelection-${style.id}`, style.classNames.set)}
+      style={style.styles.set}
+    />
+  );
+}
+
+export function VennArcSliceText<T>({
+  slice,
+  d,
+  style,
+  data,
+}: PropsWithChildren<{
+  slice: IArcSlice;
+  d: ISetCombination<T>;
+  style: VennDiagramStyleInfo;
+  data: VennDiagramDataInfo<T>;
+}>) {
+  return (
+    <text x={slice.cx} y={slice.cy} className={`setTextStyle-${style.id}`}>
+      {data.cs.format(d.cardinality)}
+    </text>
+  );
+}
