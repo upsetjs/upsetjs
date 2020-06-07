@@ -1,6 +1,6 @@
 async function loadUpSetJS() {
   document.body.style.backgroundColor = 'black';
-  document.body.insertAdjacentHTML('afterend', '<div id="app"></div>');
+  document.body.insertAdjacentHTML('beforeend', '<div id="app"></div>');
 
   function loadScript(url) {
     const s = document.createElement('script');

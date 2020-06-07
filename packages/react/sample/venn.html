@@ -14,7 +14,7 @@
         const sets = UpSetJS.extractSets(elems);
         let asets = sets.slice(0, document.getElementById('value').valueAsNumber);
 
-        let selection = null;
+        let selection = asets[0];
         const onHover = (s) => {
           selection = s;
           rerender();
