@@ -11,7 +11,8 @@ import { UpSetAddons } from '../interfaces';
 import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { addonPositionGenerator, clsx } from './utils';
+import { addonPositionGenerator } from './utils';
+import { clsx } from '../utils';
 
 function SetSelectionChart<T>({
   data,

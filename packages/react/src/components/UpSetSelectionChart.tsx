@@ -11,7 +11,7 @@ import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import UpSetDot from './UpSetDot';
-import { clsx } from './utils';
+import { clsx } from '../utils';
 
 function UpSetSelectionChart<T>({
   data,

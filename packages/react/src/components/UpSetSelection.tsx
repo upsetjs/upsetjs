@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
+import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddon, UpSetAddonProps } from '../interfaces';
 import CombinationSelectionChart from './CombinationSelectionChart';
@@ -15,53 +15,9 @@ import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import LabelsSelection from './LabelsSelection';
 import SetSelectionChart from './SetSelectionChart';
 import UpSetSelectionChart from './UpSetSelectionChart';
+import { generateSelectionOverlap, elemElemOverlapOf, isSetLike, generateSelectionName } from '../utils';
 
 const EMPTY_ARRAY: any[] = [];
-
-function isSetLike<T>(s: ReadonlyArray<T> | ISetLike<T> | null | ((s: ISetLike<T>) => number)): s is ISetLike<T> {
-  return s != null && !Array.isArray(s);
-}
-
-function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
-  const f = setOverlapFactory(query, toElemKey);
-  return (s: ISetLike<T>) => {
-    return f(s.elems).intersection;
-  };
-}
-
-export function generateSelectionOverlap<T>(
-  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number) | undefined,
-  toElemKey?: (e: T) => string
-): (s: ISetLike<T>) => number {
-  if (!selection) {
-    return noOverlap;
-  }
-  if (typeof selection === 'function') {
-    return selection;
-  }
-  if (Array.isArray(selection)) {
-    return elemOverlapOf(selection, toElemKey);
-  }
-  const ss = selection as ISetLike<T>;
-  if (ss.overlap) {
-    return ss.overlap;
-  }
-  const f = elemOverlapOf(ss.elems, toElemKey);
-  return (s) => {
-    return s.overlap ? s.overlap(ss) : f(s);
-  };
-}
-
-function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
-  const f = setElemOverlapFactory(query, toElemKey);
-  return (s: ISetLike<T>) => {
-    return f(s.elems).intersection;
-  };
-}
-
-export function noOverlap() {
-  return 0;
-}
 
 export default function UpSetSelection<T>({
   size,
@@ -79,11 +35,7 @@ export default function UpSetSelection<T>({
   const empty = style.emptySelection;
 
   const selectionOverlap = generateSelectionOverlap(selection, data.toElemKey);
-  const selectionName = Array.isArray(selection)
-    ? `Array(${selection.length})`
-    : typeof selection === 'function'
-    ? '?'
-    : (selection as ISetLike<T>)?.name;
+  const selectionName = generateSelectionName(selection);
 
   const someAddon =
     size.sets.addons.some((s) => s.renderSelection != null) || size.cs.addons.some((s) => s.renderSelection != null);

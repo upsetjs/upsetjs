@@ -18,8 +18,7 @@ import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { clsx } from './components/utils';
-import { generateId } from './derive/utils';
+import { generateId, clsx } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
 

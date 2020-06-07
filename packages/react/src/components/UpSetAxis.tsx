@@ -11,7 +11,8 @@ import UpSetTitle from './UpSetTitle';
 import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { addonPositionGenerator, clsx } from './utils';
+import { addonPositionGenerator } from './utils';
+import { clsx } from '../utils';
 
 export default React.memo(function UpSetAxis<T>({
   size,

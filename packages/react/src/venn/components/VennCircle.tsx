@@ -8,7 +8,7 @@
 import React, { PropsWithChildren } from 'react';
 import { ICircle, generatePieSlice } from '../layout/vennDiagramLayout';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { clsx } from '../../components/utils';
+import { clsx } from '../../utils';
 import { UpSetSelection } from '../../components/interfaces';
 import { ISet, ISetLike } from '@upsetjs/model';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';

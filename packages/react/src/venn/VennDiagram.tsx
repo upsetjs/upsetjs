@@ -7,8 +7,7 @@
 import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
 import { VennDiagramProps } from '../interfaces';
 import { fillVennDiagramDefaults } from '../fillDefaults';
-import { clsx } from '../components/utils';
-import { generateId } from '../derive/utils';
+import { clsx, generateId } from '../utils';
 import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
 import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';

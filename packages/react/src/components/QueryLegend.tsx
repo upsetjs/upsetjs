@@ -7,7 +7,7 @@
 
 import React, { PropsWithChildren } from 'react';
 import { UpSetQuery, isSetQuery, isElemQuery } from '@upsetjs/model';
-import { clsx } from './utils';
+import { clsx } from '../utils';
 
 const QueryLegend = React.memo(function QueryLegend<T>({
   queries,

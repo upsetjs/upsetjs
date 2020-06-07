@@ -6,7 +6,7 @@
  */
 
 import { generateCombinations, ISetCombinations, ISetLike, ISets, ISetCombination } from '@upsetjs/model';
-import { generateId } from '../../derive/utils';
+import { generateId } from '../../utils';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
 import vennDiagramLayout, { ICircle, IArcSlice, IUniverseSet } from '../layout/vennDiagramLayout';
 

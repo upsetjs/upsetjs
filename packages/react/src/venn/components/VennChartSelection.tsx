@@ -12,7 +12,7 @@ import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { VennCircleSelection } from './VennCircle';
 import { ISetLike } from '@upsetjs/model';
 import { UpSetSelection } from '../../interfaces';
-import { generateSelectionOverlap } from '../../components/UpSetSelection';
+import { generateSelectionOverlap, generateSelectionName } from '../../utils';
 
 export default function VennChartSelection<T>({
   style,
@@ -26,11 +26,7 @@ export default function VennChartSelection<T>({
   selection?: UpSetSelection<T>;
 }>) {
   const selectionOverlap = generateSelectionOverlap(selection, data.toElemKey);
-  const selectionName = Array.isArray(selection)
-    ? `Array(${selection.length})`
-    : typeof selection === 'function'
-    ? '?'
-    : (selection as ISetLike<T>)?.name;
+  const selectionName = generateSelectionName(selection);
 
   return (
     <g className={onHover ? `pnone-${style.id}` : undefined}>

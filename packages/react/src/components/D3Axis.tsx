@@ -8,7 +8,7 @@
 import { NumericScaleLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { clsx } from './utils';
+import { clsx } from '../utils';
 
 export type D3AxisProps = {
   scale: NumericScaleLike;

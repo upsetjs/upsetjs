@@ -22,10 +22,6 @@ export function wrap<T>(f?: (set: ISetLike<T> | null, evt: MouseEvent) => void) 
   };
 }
 
-export function clsx(...clazzes: (boolean | string | undefined)[]) {
-  return clazzes.filter(Boolean).join(' ');
-}
-
 export function addonPositionGenerator(total: number) {
   let beforeAcc = 0;
   let afterAcc = 0;

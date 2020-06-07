@@ -6,7 +6,7 @@
  */
 
 import React, { PropsWithChildren, useRef, useLayoutEffect, useState } from 'react';
-import { clsx } from './utils';
+import { clsx } from '../utils';
 
 const MultilineText = React.memo(function MultilineText({
   width,
