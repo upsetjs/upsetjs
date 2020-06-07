@@ -9,7 +9,7 @@ import React, { PropsWithChildren } from 'react';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 // import { VennArcSliceSelection } from './VennArcSlice';
-import { VennCircleSelection } from './VennCircle';
+import VennCircleSelection from './VennCircleSelection';
 import { ISetLike } from '@upsetjs/model';
 import { UpSetSelection } from '../../interfaces';
 import { generateSelectionOverlap, generateSelectionName } from '../../utils';

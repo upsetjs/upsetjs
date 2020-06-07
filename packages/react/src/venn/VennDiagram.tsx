@@ -204,7 +204,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
           onContextMenu={onContextMenu}
         />
         <VennChartSelection data={dataInfo} style={styleInfo} selection={selection} onHover={onHover} />
-
         <VennChartLabels data={dataInfo} style={styleInfo} />
       </g>
       {props.children}

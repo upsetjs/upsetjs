@@ -56,7 +56,7 @@ export function generatePieSlice(c: ICircle, ratio: number, _secondary?: boolean
     y: c.y + Math.sin(angle) * c.r,
   });
   const deg2rad = Math.PI / 180;
-  const start = (c.align === 'center' ? 0 : c.align === 'left' ? 270 : 90) - 90;
+  const start = (c.align === 'center' ? 0 : c.align === 'left' ? 90 : 270) - 90;
   const end = start + 360 * ratio;
 
   const startPt = pt(start * deg2rad);

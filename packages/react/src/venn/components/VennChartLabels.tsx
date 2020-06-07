@@ -9,7 +9,7 @@ import React, { PropsWithChildren } from 'react';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { VennArcSliceText } from './VennArcSlice';
-import { VennCircleText } from './VennCircle';
+import VennCircleText from './VennCircleText';
 
 export default React.memo(function VennChartLabels<T>({
   style,
