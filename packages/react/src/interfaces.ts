@@ -551,7 +551,9 @@ export interface VennDiagramFullPropsG<T, C, N, L>
     Required<VennDiagramStyleProps<L>>,
     Required<VennDiagramThemeProps>,
     Required<VennDiagramElementProps<C>>,
-    UpSetSelectionProps<T> {}
+    UpSetSelectionProps<T> {
+  children?: N;
+}
 
 export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
   T,
