@@ -10,7 +10,7 @@ import UpSetElement, {
   UpSetPropsG,
   UpSetFullPropsG,
   UpSetProps as UpSetReactProps,
-  fillDefaultsG,
+  fillDefaults as fillDefaultsImpl,
   exportSVG as exportSVGImpl,
   downloadUrl as downloadUrlImpl,
   toUpSetJSDump as toUpSetJSDumpImpl,
@@ -34,7 +34,7 @@ export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, UpSetCSSStyles,
  */
 export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
   const p: UpSetReactProps<T> = props;
-  return fillDefaultsG<T, UpSetCSSStyles, UpSetReactElement, string>(p);
+  return fillDefaultsImpl(p) as UpSetFullProps<T>;
 }
 
 /**
