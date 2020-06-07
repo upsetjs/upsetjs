@@ -5,22 +5,21 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
-import { VennDiagramProps } from './interfaces';
-import { fillVennDiagramDefaults } from './fillDefaults';
-import { clsx, wrap } from './components/utils';
-import { generateId } from './derive/utils';
+import { VennDiagramProps } from '../interfaces';
+import { fillVennDiagramDefaults } from '../fillDefaults';
+import { clsx } from '../components/utils';
+import { generateId } from '../derive/utils';
 import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
 import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
-import ExportButtons from './components/ExportButtons';
-import QueryLegend from './components/QueryLegend';
-import { exportSVG } from './exporter';
-import { baseRules } from './rules';
-import UpSetTitle from './components/UpSetTitle';
-import VennCircle, { VennCircleText, VennCircleSelection } from './components/VennCircle';
-import VennArcSlice, { VennArcSliceText, VennArcSliceSelection } from './components/VennArcSlice';
-import VennUniverse from './components/VennUniverse';
-import { isSetLike } from '@upsetjs/model';
+import ExportButtons from '../components/ExportButtons';
+import QueryLegend from '../components/QueryLegend';
+import { exportSVG } from '../exporter';
+import { baseRules } from '../rules';
+import UpSetTitle from '../components/UpSetTitle';
+import VennChartLabels from './components/VennChartLabels';
+import VennChartSelection from './components/VennChartSelection';
+import VennChart from './components/VennChart';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -177,18 +176,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     }
   }, []);
 
-  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
-    () => [
-      wrap(onClick),
-      wrap(onHover),
-      wrap(onContextMenu),
-      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
-    ],
-    [onClick, onHover, onContextMenu]
-  );
-
-  const selectionKey = selection != null && isSetLike(selection) ? dataInfo.toKey(selection) : null;
-
   return (
     <svg
       id={id}
@@ -210,75 +197,16 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
-        <g className={clsx(onClick && `clickAble-${styleId}`)}>
-          <VennUniverse
-            data={dataInfo}
-            style={styleInfo}
-            selected={dataInfo.universe.key === selectionKey}
-            onClick={onClickImpl}
-            onMouseEnter={onMouseEnterImpl}
-            onMouseLeave={onMouseLeaveImpl}
-            onContextMenu={onContextMenuImpl}
-          />
-          {dataInfo.sets.l.map((l, i) => (
-            <VennCircle
-              key={dataInfo.sets.keys[i]}
-              d={dataInfo.sets.v[i]}
-              circle={l}
-              style={styleInfo}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-              onContextMenu={onContextMenuImpl}
-            />
-          ))}
-          {dataInfo.cs.l.map((l, i) => (
-            <VennArcSlice
-              key={dataInfo.cs.keys[i]}
-              d={dataInfo.cs.v[i]}
-              slice={l}
-              style={styleInfo}
-              data={dataInfo}
-              onClick={onClickImpl}
-              onMouseEnter={onMouseEnterImpl}
-              onMouseLeave={onMouseLeaveImpl}
-              onContextMenu={onContextMenuImpl}
-            />
-          ))}
-        </g>
-        <g className={`pnone-${styleId}`}>
-          {/* <VennUniverse data={dataInfo} style={styleInfo} selected={dataInfo.universe.key === selectionKey} /> */}
-          {dataInfo.sets.l
-            .filter((_, i) => dataInfo.sets.keys[i] === selectionKey)
-            .map((l, i) => (
-              <VennCircleSelection key={dataInfo.sets.keys[i]} circle={l} style={styleInfo} />
-            ))}
-          {dataInfo.cs.l
-            .filter((_, i) => dataInfo.cs.keys[i] === selectionKey)
-            .map((l, i) => (
-              <VennArcSliceSelection key={dataInfo.cs.keys[i]} slice={l} style={styleInfo} />
-            ))}
-        </g>
-        <g className={`pnone-${styleId}`}>
-          {dataInfo.sets.l.map((l, i) => (
-            <VennCircleText
-              key={dataInfo.sets.keys[i]}
-              d={dataInfo.sets.v[i]}
-              circle={l}
-              style={styleInfo}
-              data={dataInfo}
-            />
-          ))}
-          {dataInfo.cs.l.map((l, i) => (
-            <VennArcSliceText
-              key={dataInfo.cs.keys[i]}
-              d={dataInfo.cs.v[i]}
-              slice={l}
-              style={styleInfo}
-              data={dataInfo}
-            />
-          ))}
-        </g>
+        <VennChart
+          data={dataInfo}
+          style={styleInfo}
+          onClick={onClick}
+          onHover={onHover}
+          onContextMenu={onContextMenu}
+        />
+        <VennChartSelection data={dataInfo} style={styleInfo} selection={selection} onHover={onHover} />
+
+        <VennChartLabels data={dataInfo} style={styleInfo} />
       </g>
       {props.children}
     </svg>

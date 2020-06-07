@@ -44,6 +44,26 @@ export function generateArcSlicePath(slice: IArcSlice) {
     .join(' ')}`;
 }
 
+export function generatePieSlice(c: ICircle, ratio: number, _secondary?: boolean) {
+  if (ratio <= 0) {
+    return '';
+  }
+  if (ratio >= 1) {
+    return `M ${c.x} ${c.y - c.r} A ${c.r} ${c.r} 0 1 0 ${c.x} ${c.y - c.r}`;
+  }
+  const pt = (angle: number) => ({
+    x: c.x + Math.cos(angle) * c.r,
+    y: c.y + Math.sin(angle) * c.r,
+  });
+  const deg2rad = Math.PI / 180;
+  const start = (c.align === 'center' ? 0 : c.align === 'left' ? 270 : 90) - 90;
+  const end = start + 360 * ratio;
+
+  const startPt = pt(start * deg2rad);
+  const endPt = pt(end * deg2rad);
+  return `M ${startPt.x} ${startPt.y} A ${c.r} ${c.r} 0 ${ratio > 0.5 ? 1 : 0} 0 ${endPt.x} ${endPt.y}`;
+}
+
 export interface IUniverseSet extends IArcSlice {
   width: number;
   height: number;

@@ -8,8 +8,8 @@
 import React, { PropsWithChildren } from 'react';
 import { IArcSlice, generateArcSlicePath } from '../layout/vennDiagramLayout';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { clsx } from './utils';
-import { UpSetSelection } from './interfaces';
+import { clsx } from '../../components/utils';
+import { UpSetSelection } from '../../components/interfaces';
 import { ISetCombination } from '@upsetjs/model';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 

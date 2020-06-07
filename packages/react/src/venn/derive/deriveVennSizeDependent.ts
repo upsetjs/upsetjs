@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { generateId } from './utils';
+import { generateId } from '../../derive/utils';
 
 export default function deriveVennSizeDependent(width: number, height: number, margin: number, id: string) {
   const h = height - 2 * margin;

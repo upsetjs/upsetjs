@@ -29,6 +29,29 @@ function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) =
   };
 }
 
+export function generateSelectionOverlap<T>(
+  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number) | undefined,
+  toElemKey?: (e: T) => string
+): (s: ISetLike<T>) => number {
+  if (!selection) {
+    return noOverlap;
+  }
+  if (typeof selection === 'function') {
+    return selection;
+  }
+  if (Array.isArray(selection)) {
+    return elemOverlapOf(selection, toElemKey);
+  }
+  const ss = selection as ISetLike<T>;
+  if (ss.overlap) {
+    return ss.overlap;
+  }
+  const f = elemOverlapOf(ss.elems, toElemKey);
+  return (s) => {
+    return s.overlap ? s.overlap(ss) : f(s);
+  };
+}
+
 function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
   const f = setElemOverlapFactory(query, toElemKey);
   return (s: ISetLike<T>) => {
@@ -55,27 +78,7 @@ export default function UpSetSelection<T>({
 }>) {
   const empty = style.emptySelection;
 
-  function generateSelectionOverlap(): (s: ISetLike<T>) => number {
-    if (!selection) {
-      return noOverlap;
-    }
-    if (typeof selection === 'function') {
-      return selection;
-    }
-    if (Array.isArray(selection)) {
-      return elemOverlapOf(selection, data.toElemKey);
-    }
-    const ss = selection as ISetLike<T>;
-    if (ss.overlap) {
-      return ss.overlap;
-    }
-    const f = elemOverlapOf(ss.elems, data.toElemKey);
-    return (s) => {
-      return s.overlap ? s.overlap(ss) : f(s);
-    };
-  }
-
-  const selectionOverlap = generateSelectionOverlap();
+  const selectionOverlap = generateSelectionOverlap(selection, data.toElemKey);
   const selectionName = Array.isArray(selection)
     ? `Array(${selection.length})`
     : typeof selection === 'function'

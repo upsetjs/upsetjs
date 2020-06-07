@@ -8,8 +8,8 @@
 import React, { PropsWithChildren } from 'react';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { UpSetSelection } from './interfaces';
-import { clsx } from './utils';
+import { UpSetSelection } from '../../components/interfaces';
+import { clsx } from '../../components/utils';
 import { generateUniverseSetPath } from '../layout/vennDiagramLayout';
 
 export default React.memo(function VennUniverse<T>({

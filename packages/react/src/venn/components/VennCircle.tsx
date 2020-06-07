@@ -6,11 +6,11 @@
  */
 
 import React, { PropsWithChildren } from 'react';
-import { ICircle } from '../layout/vennDiagramLayout';
+import { ICircle, generatePieSlice } from '../layout/vennDiagramLayout';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { clsx } from './utils';
-import { UpSetSelection } from './interfaces';
-import { ISet } from '@upsetjs/model';
+import { clsx } from '../../components/utils';
+import { UpSetSelection } from '../../components/interfaces';
+import { ISet, ISetLike } from '@upsetjs/model';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 
 export default React.memo(function VennCircle<T>({
@@ -33,7 +33,7 @@ export default React.memo(function VennCircle<T>({
       cx={circle.x}
       cy={circle.y}
       r={circle.r}
-      className={clsx(`circle-${style.id}`, style.classNames.set)}
+      className={clsx(`fillPrimary-${style.id}`, style.classNames.set)}
       style={style.styles.set}
       onMouseEnter={onMouseEnter(d)}
       onMouseLeave={onMouseLeave}
@@ -43,21 +43,34 @@ export default React.memo(function VennCircle<T>({
   );
 });
 
-export function VennCircleSelection({
+export function VennCircleSelection<T>({
   circle,
+  d,
   style,
+  suffix,
+  secondary,
+  elemOverlap,
+  tooltip,
 }: PropsWithChildren<{
   circle: ICircle;
+  suffix: string;
+  d: ISet<T>;
+  elemOverlap: (s: ISetLike<T>) => number;
+  secondary?: boolean;
+  tooltip?: string;
   style: VennDiagramStyleInfo;
 }>) {
+  const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.set);
+  const o = elemOverlap(d);
+  if (o === 0) {
+    return null;
+  }
+  const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+
   return (
-    <circle
-      cx={circle.x}
-      cy={circle.y}
-      r={circle.r}
-      className={clsx(`circle-${style.id}`, `fillSelection-${style.id}`, style.classNames.set)}
-      style={style.styles.set}
-    />
+    <path d={generatePieSlice(circle, o / d.cardinality, secondary)} data-cardinality={o} className={className}>
+      {title}
+    </path>
   );
 }
 
