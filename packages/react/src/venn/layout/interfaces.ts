@@ -2,7 +2,7 @@ export interface ICircle {
   r: number;
   x: number;
   y: number;
-  align: 'center' | 'left' | 'right';
+  angle: number;
 }
 
 // could be slice

@@ -16,10 +16,12 @@ export function SelectionPattern({
   suffix,
   v,
   style,
+  rotate = 0,
 }: {
   id: string;
   suffix: string;
   v: number;
+  rotate?: number;
   style: VennDiagramStyleInfo;
 }) {
   if (v === 1) {
@@ -28,7 +30,13 @@ export function SelectionPattern({
   const ratio = Math.round(v * 10.0) / 100;
   return (
     <defs>
-      <pattern id={id} width="1" height="0.1" patternContentUnits="objectBoundingBox">
+      <pattern
+        id={id}
+        width="1"
+        height="0.1"
+        patternContentUnits="objectBoundingBox"
+        patternTransform={`rotate(${rotate})`}
+      >
         <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />
         <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
       </pattern>
@@ -62,16 +70,17 @@ export default function VennCircleSelection<T>({
   const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
   const id = `upset-${style.id}-s${i}`;
   return (
-    <g transform={`translate(${circle.x},${circle.y})`}>
-      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={suffix} />
+    <>
+      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={suffix} rotate={circle.angle} />
       <circle
+        cx={circle.x}
+        cy={circle.y}
         r={circle.r}
         fill={o < d.cardinality ? `url(#${id})` : undefined}
-        transform={`rotate(${circle.align === 'center' ? 0 : circle.align === 'left' ? 45 : -45})`}
         className={className}
       >
         {title}
       </circle>
-    </g>
+    </>
   );
 }

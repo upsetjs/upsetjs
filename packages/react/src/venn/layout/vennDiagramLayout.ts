@@ -45,7 +45,7 @@ function one(size: IChartArea): IVennDiagramLayout {
         r: size.r,
         x: size.cx,
         y: size.cy,
-        align: 'center',
+        angle: 0,
       },
     ],
     universe: {
@@ -123,13 +123,13 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
     r,
     x: size.cx - r * (1 - radiOverlap),
     y: size.cy,
-    align: 'right',
+    angle: 270,
   };
   const c1: ICircle = {
     r,
     x: size.cx + r * (1 - radiOverlap),
     y: size.cy,
-    align: 'left',
+    angle: 90,
   };
   const [p0, p1] = circleIntersectionPoints(c0, c1);
   return {
@@ -167,19 +167,19 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
     r,
     x: cx + offset * Math.cos(-90 * DEG2RAD),
     y: cy - offset * Math.sin(-90 * DEG2RAD),
-    align: 'center',
+    angle: 180,
   };
   const c1: ICircle = {
     r,
     x: cx - offset * Math.cos(30 * DEG2RAD),
     y: cy - offset * Math.sin(30 * DEG2RAD),
-    align: 'right',
+    angle: 300,
   };
   const c2: ICircle = {
     r,
     x: cx - offset * Math.cos(150 * DEG2RAD),
     y: cy - offset * Math.sin(150 * DEG2RAD),
-    align: 'left',
+    angle: 60,
   };
 
   const [p12_0, p12_1] = circleIntersectionPoints(c1, c2);

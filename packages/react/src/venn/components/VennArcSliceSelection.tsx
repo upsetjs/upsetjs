@@ -36,12 +36,13 @@ export default function VennArcSliceSelection<T>({
     return null;
   }
   const p = generateArcSlicePath(slice);
+  const rotate = slice.cx === slice.x1 ? 0 : slice.cx < slice.x1 ? 60 : -60;
   const className = clsx(o === d.cardinality && `fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.set);
   const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
   const id = `upset-${style.id}-cs${i}`;
   return (
     <>
-      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={suffix} />
+      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={suffix} rotate={rotate} />
       <path d={p} fill={o < d.cardinality ? `url(#${id})` : undefined} className={className}>
         {title}
       </path>
