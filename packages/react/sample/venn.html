@@ -14,9 +14,14 @@
         const sets = UpSetJS.extractSets(elems);
         let asets = sets.slice(0, document.getElementById('value').valueAsNumber);
 
+        let clicked = null;
         let selection = asets[0];
         const onHover = (s) => {
           selection = s;
+          rerender();
+        };
+        const onClick = (s) => {
+          clicked = clicked === s ? null : s;
           rerender();
         };
         function rerender() {
@@ -26,8 +31,9 @@
               width: 1200,
               height: 500,
               theme: 'dark',
-              selection,
+              selection: selection || clicked,
               onHover,
+              onClick,
             },
             UpSetJS.VennDiagram
           );

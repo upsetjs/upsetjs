@@ -8,7 +8,7 @@
 import React, { PropsWithChildren } from 'react';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-// import { VennArcSliceSelection } from './VennArcSlice';
+import VennArcSliceSelection from './VennArcSliceSelection';
 import VennCircleSelection from './VennCircleSelection';
 import { ISetLike } from '@upsetjs/model';
 import { UpSetSelection } from '../../interfaces';
@@ -36,17 +36,25 @@ export default function VennChartSelection<T>({
           d={data.sets.v[i]}
           key={data.sets.keys[i]}
           circle={l}
+          i={i}
           style={style}
           tooltip={onHover ? undefined : selectionName}
           suffix={`Selection-${style.id}`}
           elemOverlap={selectionOverlap}
         />
       ))}
-      {/* {data.cs.l
-        .filter((_, i) => data.cs.keys[i] === selectionKey)
-        .map((l, i) => (
-          <VennArcSliceSelection key={data.cs.keys[i]} slice={l} style={style} />
-        ))} */}
+      {data.cs.l.map((l, i) => (
+        <VennArcSliceSelection
+          d={data.cs.v[i]}
+          key={data.cs.keys[i]}
+          slice={l}
+          i={i}
+          style={style}
+          tooltip={onHover ? undefined : selectionName}
+          suffix={`Selection-${style.id}`}
+          elemOverlap={selectionOverlap}
+        />
+      ))}
     </g>
   );
 }

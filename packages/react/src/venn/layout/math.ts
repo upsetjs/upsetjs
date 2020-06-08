@@ -53,6 +53,35 @@ export function lineSegmentArea(p0: Point, p1: Point, r: number) {
   //a = b = r;
   // law of cos: a =acos((a^2 + b^2 - c^2) / 2ab)
   const angle = Math.acos((r * r + r * r - c * c) / (2 * r * r));
-  // (angle - sin(angle)) / 2 * r^2
-  return angle - Math.sin(angle) / (2 * r * r);
+  // r^2 / 2 * (angle - sin(angle))
+  return ((r * r) / 2) * (angle - Math.sin(angle));
+}
+
+export function circleAreaRatio(r: number, ratio: number) {
+  if (ratio <= 0 || ratio >= 1) {
+    return {
+      p1: { x: r, y: 0 },
+      p2: { x: r, y: 0 },
+      long: ratio >= 0,
+    };
+  }
+  if (ratio === 0.5) {
+    return {
+      p1: { x: r, y: 0 },
+      p2: { x: -r, y: 0 },
+      long: false,
+    };
+  }
+  const negate = ratio > 0.5;
+  // const v = Math.min(ratio, 1 - ratio);
+
+  // area = angle - Math.sin(angle) / (2 * r * r)
+  // r * r * PI * ratio = (r * r / 2) * (angle - Math.sin(angle))
+  // 2 * PI * ratio = angle - Math.sin(angle)
+
+  return {
+    p1: { x: 0, y: 0 },
+    p2: { x: 0, y: 0 },
+    long: negate,
+  };
 }

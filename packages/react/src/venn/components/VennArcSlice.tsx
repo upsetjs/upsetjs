@@ -47,38 +47,3 @@ export default React.memo(function VennArcSlice<T>({
     </path>
   );
 });
-
-export function VennArcSliceSelection({
-  slice,
-  style,
-}: PropsWithChildren<{
-  slice: IArcSlice;
-  style: VennDiagramStyleInfo;
-}>) {
-  const p = generateArcSlicePath(slice);
-  return (
-    <path
-      d={p}
-      className={clsx(`circle-${style.id}`, `fillSelection-${style.id}`, style.classNames.set)}
-      style={style.styles.set}
-    />
-  );
-}
-
-export function VennArcSliceText<T>({
-  slice,
-  d,
-  style,
-  data,
-}: PropsWithChildren<{
-  slice: IArcSlice;
-  d: ISetCombination<T>;
-  style: VennDiagramStyleInfo;
-  data: VennDiagramDataInfo<T>;
-}>) {
-  return (
-    <text x={slice.cx} y={slice.cy} className={`setTextStyle-${style.id}`}>
-      {data.cs.format(d.cardinality)}
-    </text>
-  );
-}
