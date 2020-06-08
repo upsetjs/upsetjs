@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 export function extractStyleId(node: SVGSVGElement) {
   return Array.from(node.classList)
     .find((d) => d.startsWith('root-'))!

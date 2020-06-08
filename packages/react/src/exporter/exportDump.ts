@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/components/components
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import {
   GenerateSetCombinationsOptions,
   isElemQuery,
