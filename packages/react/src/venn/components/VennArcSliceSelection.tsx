@@ -18,14 +18,14 @@ function SelectionPattern({
   suffix,
   v,
   style,
-  transparent,
+  secondary,
   rotate = 0,
 }: {
   id: string;
   suffix: string;
   v: number;
   rotate?: number;
-  transparent?: boolean;
+  secondary?: boolean;
   style: VennDiagramStyleInfo;
 }) {
   if (v >= 1 || v <= 0) {
@@ -41,8 +41,8 @@ function SelectionPattern({
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${rotate})`}
       >
-        {!transparent && <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />}
-        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
+        {!secondary && <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />}
+        <rect x="0" y="0" width="1" height={ratio} className={secondary ? `strokePattern${suffix}` : `fill${suffix}`} />
       </pattern>
     </defs>
   );
@@ -59,14 +59,18 @@ function sliceRotate(slice: IArcSlice | ICircle) {
   return slice.cx === slice.x1 ? 0 : slice.cx < slice.x1 ? 60 : -60;
 }
 
-export function generateArcSlicePath(s: IArcSlice | ICircle) {
+export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
   if (isCircle(s)) {
-    return `M ${s.x - s.r} ${s.y} a ${s.r} ${s.r} 0 1 0 ${2 * s.r} 0 a ${s.r} ${s.r} 0 1 0 ${-2 * s.r} 0`;
+    const r = s.r - p;
+    return `M ${s.x - r} ${s.y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`;
   }
-  return `M ${s.x1},${s.y1} ${s.arcs
+  // TODO
+  return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
     .map(
       (arc) =>
-        `A ${arc.rx} ${arc.ry} ${arc.rotation} ${arc.largeArcFlag ? 1 : 0} ${arc.sweepFlag ? 1 : 0} ${arc.x2} ${arc.y2}`
+        `A ${arc.rx - p} ${arc.ry - p} ${arc.rotation} ${arc.largeArcFlag ? 1 : 0} ${arc.sweepFlag ? 1 : 0} ${
+          arc.x2 - p
+        } ${arc.y2 - p}`
     )
     .join(' ')}`;
 }
@@ -110,6 +114,7 @@ export default function VennArcSliceSelection<T>({
     o >= d.cardinality || o <= 0 ? null : (
       <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={`Selection-${style.id}`} rotate={rotate} />
     );
+  const secondary = elemOverlap != null || onMouseLeave != null;
   const qsOverlaps = qs.map((q) => q(d));
   const qsPatterns = qsOverlaps.map((o, qi) =>
     o >= d.cardinality || o <= 0 ? null : (
@@ -118,9 +123,9 @@ export default function VennArcSliceSelection<T>({
         id={`upset-Q${qi}-${data.id}-${i}`}
         v={o / d.cardinality}
         style={style}
-        transparent
+        secondary={secondary || qi > 0}
         suffix={`Q${qi}-${data.id}`}
-        rotate={rotate + 30 * qi + 30}
+        rotate={rotate}
       />
     )
   );
@@ -155,10 +160,10 @@ export default function VennArcSliceSelection<T>({
           o > 0 && (
             <path
               key={qi}
-              d={p}
+              d={secondary || qi > 0 ? generateArcSlicePath(slice, qi + 1) : p}
               fill={o > 0 && o < d.cardinality ? `url(#upset-Q${qi}-${data.id}-${i})` : undefined}
               className={clsx(
-                o === d.cardinality && `fillQ${qi}-${data.id}`,
+                o === d.cardinality && (secondary || qi > 0 ? `strokeQ${qi}-${data.id}` : `fillQ${qi}-${data.id}`),
                 `query-circle-${style.id}`,
                 `pnone-${style.id}`,
                 style.classNames.set
