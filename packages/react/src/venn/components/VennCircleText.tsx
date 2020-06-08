@@ -10,7 +10,7 @@ import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { ICircle } from '../layout/vennDiagramLayout';
+import { ICircle } from '../layout/interfaces';
 
 export default function VennCircleText<T>({
   circle,

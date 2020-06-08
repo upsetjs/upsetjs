@@ -10,7 +10,7 @@ import React, { PropsWithChildren } from 'react';
 import { UpSetSelection } from '../../components/interfaces';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { ICircle } from '../layout/vennDiagramLayout';
+import { ICircle } from '../layout/interfaces';
 
 export default React.memo(function VennCircle<T>({
   circle,

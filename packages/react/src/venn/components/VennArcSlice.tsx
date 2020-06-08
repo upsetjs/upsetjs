@@ -6,7 +6,8 @@
  */
 
 import React, { PropsWithChildren } from 'react';
-import { IArcSlice, generateArcSlicePath } from '../layout/vennDiagramLayout';
+import { IArcSlice } from '../layout/interfaces';
+import { generateArcSlicePath } from './utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { clsx } from '../../utils';
 import { UpSetSelection } from '../../components/interfaces';

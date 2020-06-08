@@ -9,7 +9,8 @@ import { ISetCombination, ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { generateArcSlicePath, IArcSlice } from '../layout/vennDiagramLayout';
+import { IArcSlice } from '../layout/interfaces';
+import { generateArcSlicePath } from './utils';
 import { SelectionPattern } from './VennCircleSelection';
 
 export default function VennArcSliceSelection<T>({

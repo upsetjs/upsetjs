@@ -9,7 +9,7 @@ import { ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { IArcSlice } from '../layout/vennDiagramLayout';
+import { IArcSlice } from '../layout/interfaces';
 
 export default function VennArcSliceText<T>({
   slice,

@@ -9,7 +9,7 @@ import { ISet, ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { ICircle } from '../layout/vennDiagramLayout';
+import { ICircle } from '../layout/interfaces';
 
 export function SelectionPattern({
   id,
