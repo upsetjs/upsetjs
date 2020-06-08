@@ -7,7 +7,9 @@
 
 import { ISet, ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
+import { UpSetSelection } from '../../components/interfaces';
 import { clsx } from '../../utils';
+import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { ICircle } from '../layout/interfaces';
 
@@ -24,7 +26,7 @@ export function SelectionPattern({
   rotate?: number;
   style: VennDiagramStyleInfo;
 }) {
-  if (v === 1) {
+  if (v >= 1 || v <= 0) {
     return null;
   }
   const ratio = Math.round(v * 10.0) / 100;
@@ -48,38 +50,57 @@ export default function VennCircleSelection<T>({
   circle,
   d,
   i,
+  data,
   style,
-  suffix,
   elemOverlap,
-  tooltip,
-}: PropsWithChildren<{
-  circle: ICircle;
-  suffix: string;
-  i: number;
-  d: ISet<T>;
-  elemOverlap: (s: ISetLike<T>) => number;
-  secondary?: boolean;
-  tooltip?: string;
-  style: VennDiagramStyleInfo;
-}>) {
-  const o = elemOverlap(d);
-  if (o === 0) {
-    return null;
-  }
-  const className = clsx(o === d.cardinality && `fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.set);
-  const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+  selectionName,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  onContextMenu,
+}: PropsWithChildren<
+  {
+    circle: ICircle;
+    i: number;
+    d: ISet<T>;
+    elemOverlap: null | ((s: ISetLike<T>) => number);
+    selectionName?: string;
+    style: VennDiagramStyleInfo;
+    data: VennDiagramDataInfo<T>;
+  } & UpSetSelection
+>) {
+  const o = elemOverlap ? elemOverlap(d) : 0;
+  const className = clsx(
+    o === 0 && `fillPrimary-${style.id}`,
+    o === d.cardinality && `fillSelection-${style.id}`,
+    style.classNames.set
+  );
   const id = `upset-${style.id}-s${i}`;
   return (
     <>
-      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={suffix} rotate={circle.angle} />
+      <SelectionPattern
+        id={id}
+        v={o / d.cardinality}
+        style={style}
+        suffix={`Selection-${style.id}`}
+        rotate={circle.angle}
+      />
       <circle
+        onMouseEnter={onMouseEnter(d)}
+        onMouseLeave={onMouseLeave}
+        onClick={onClick(d)}
+        onContextMenu={onContextMenu(d)}
         cx={circle.x}
         cy={circle.y}
         r={circle.r}
-        fill={o < d.cardinality ? `url(#${id})` : undefined}
+        fill={o > 0 && o < d.cardinality ? `url(#${id})` : undefined}
         className={className}
       >
-        {title}
+        <title>
+          {elemOverlap
+            ? `${d.name} ∩ ${selectionName}: ${data.cs.format(o)}/${data.cs.format(d.cardinality)}`
+            : `${d.name}: ${data.cs.format(d.cardinality)}`}
+        </title>
       </circle>
     </>
   );

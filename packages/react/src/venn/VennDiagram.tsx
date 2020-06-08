@@ -17,7 +17,6 @@ import { exportSVG } from '../exporter';
 import { baseRules } from '../rules';
 import UpSetTitle from '../components/UpSetTitle';
 import VennChartLabels from './components/VennChartLabels';
-import VennChartSelection from './components/VennChartSelection';
 import VennChart from './components/VennChart';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
@@ -143,9 +142,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     dominant-baseline: central;
   }
 
-  .circle-${styleId} {
-    fill: ${color};
-  }
   .stroke-circle-${styleId} {
     fill: transparent;
     stroke: ${strokeColor};
@@ -202,8 +198,8 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
           onClick={onClick}
           onHover={onHover}
           onContextMenu={onContextMenu}
+          selection={selection}
         />
-        <VennChartSelection data={dataInfo} style={styleInfo} selection={selection} onHover={onHover} />
         <VennChartLabels data={dataInfo} style={styleInfo} />
       </g>
       {props.children}

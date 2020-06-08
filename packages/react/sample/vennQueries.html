@@ -12,6 +12,7 @@
     <script>
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
         const sets = UpSetJS.extractSets(elems);
+
         let clicked = null;
         const props = {
           sets: sets.slice(0, document.getElementById('value').valueAsNumber),

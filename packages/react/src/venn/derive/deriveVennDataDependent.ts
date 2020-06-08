@@ -8,7 +8,8 @@
 import { generateCombinations, ISetCombinations, ISetLike, ISets, ISetCombination } from '@upsetjs/model';
 import { generateId } from '../../utils';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
-import vennDiagramLayout, { ICircle, IArcSlice, IUniverseSet } from '../layout/vennDiagramLayout';
+import vennDiagramLayout from '../layout/vennDiagramLayout';
+import { ICircle, IArcSlice, IUniverseSet } from '../layout/interfaces';
 
 export declare type VennDiagramDataInfo<T> = {
   id: string;
