@@ -5,7 +5,6 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombinations, ISets } from '@upsetjs/model';
 import { circleIntersectionPoints } from './math';
 import { IArc, IArcSlice, ICircle, IUniverseSet } from './interfaces';
 
@@ -214,13 +213,8 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   };
 }
 
-export default function vennDiagramLayout<T>(
-  sets: ISets<T>,
-  _combinations: ISetCombinations<T>,
-  size: IChartArea,
-  radiOverlap = 0.25
-): IVennDiagramLayout {
-  switch (sets.length) {
+export default function vennDiagramLayout(sets: number, size: IChartArea, radiOverlap = 0.25): IVennDiagramLayout {
+  switch (sets) {
     case 0:
       return {
         sets: [],

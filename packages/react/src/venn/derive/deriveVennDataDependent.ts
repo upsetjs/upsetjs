@@ -47,7 +47,7 @@ export default function deriveVennDataDependent<T>(
   const csKeys = cs.map(toKey);
   const setKeys = sets.map(toKey);
 
-  const layout = vennDiagramLayout(sets, cs, size.area);
+  const layout = vennDiagramLayout(sets.length, size.area);
 
   return {
     id: id ? id : generateId(),

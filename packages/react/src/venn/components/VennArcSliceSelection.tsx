@@ -18,14 +18,12 @@ function SelectionPattern({
   suffix,
   v,
   style,
-  secondary,
   rotate = 0,
 }: {
   id: string;
   suffix: string;
   v: number;
   rotate?: number;
-  secondary?: boolean;
   style: VennDiagramStyleInfo;
 }) {
   if (v >= 1 || v <= 0) {
@@ -41,8 +39,8 @@ function SelectionPattern({
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${rotate})`}
       >
-        {!secondary && <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />}
-        <rect x="0" y="0" width="1" height={ratio} className={secondary ? `strokePattern${suffix}` : `fill${suffix}`} />
+        <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />
+        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
       </pattern>
     </defs>
   );
@@ -79,24 +77,80 @@ function generateTitle(
   d: ISetLike<any>,
   s: number,
   sName: string | undefined,
+  secondary: boolean,
   qs: number[],
-  _queries: UpSetQueries<any>,
-  data: VennDiagramDataInfo<any>
+  queries: UpSetQueries<any>,
+  data: VennDiagramDataInfo<any>,
+  cx: number
 ) {
   const dc = data.format(d.cardinality);
-  if (!sName && qs.length === 0) {
+  const baseName = !sName ? d.name : `${d.name} ∩ ${sName}`;
+  const baseCardinality = !sName ? dc : `${data.format(s)}/${dc}`;
+  if (qs.length === 0) {
     return {
-      tooltip: `${d.name}: ${dc}`,
-      title: d.type === 'set' ? [d.name, dc] : [dc],
+      tooltip: `${baseName}: ${baseCardinality}`,
+      title:
+        d.type === 'set' ? (
+          <>
+            <tspan dy="-0.6em">{d.name}</tspan>
+            <tspan x={cx} dy="1.2em">
+              {baseCardinality}
+            </tspan>
+          </>
+        ) : (
+          baseCardinality
+        ),
     };
   }
-  // if (sName && qs.length === 0) {
-  const sV = `${data.format(s)}/${dc}`;
+
+  if (qs.length === 1 && !secondary && !sName) {
+    return {
+      tooltip: `${d.name} ∩ ${queries[0].name}: ${data.format(qs[0])}/${dc}`,
+      title:
+        d.type === 'set' ? (
+          <>
+            <tspan dy="-0.6em">{d.name}</tspan>
+            <tspan x={cx} dy="1.2em">
+              {`${data.format(qs[0])}/${dc}`}
+            </tspan>
+          </>
+        ) : (
+          `${data.format(qs[0])}/${dc}`
+        ),
+    };
+  }
+
+  const queryLine = (
+    <tspan x={cx} dy="1.2em">
+      {queries.map((q, i) => (
+        <React.Fragment key={q.name}>
+          <tspan className={`fillQ${i}-${data.id}`}>{'⬤'}</tspan>
+          <tspan>{` ${data.format(qs[i])}/${dc}${i < queries.length - 1 ? ' ' : ''}`}</tspan>
+        </React.Fragment>
+      ))}
+    </tspan>
+  );
+
   return {
-    tooltip: `${d.name} ∩ ${sName}: ${sV}`,
-    title: d.type === 'set' ? [d.name, sV] : [sV],
+    tooltip: `${baseName}: ${baseCardinality}\n${queries
+      .map((q, i) => `${d.name} ∩ ${q.name}: ${data.format(qs[i])}/${dc}`)
+      .join('\n')}`,
+    title:
+      d.type === 'set' ? (
+        <>
+          <tspan dy="-1.2em">{d.name}</tspan>
+          <tspan x={cx} dy="1.2em">
+            {baseCardinality}
+          </tspan>
+          {queryLine}
+        </>
+      ) : (
+        <>
+          <tspan dy="-0.6em">{baseCardinality}</tspan>
+          {queryLine}
+        </>
+      ),
   };
-  // }
 }
 
 export default function VennArcSliceSelection<T>({
@@ -136,37 +190,14 @@ export default function VennArcSliceSelection<T>({
     style.classNames.set
   );
   const id = `upset-${style.id}-${i}`;
-  const selectionPattern =
-    o >= d.cardinality || o <= 0 ? null : (
-      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={`Selection-${style.id}`} rotate={rotate} />
-    );
   const secondary = elemOverlap != null || onMouseLeave != null;
   const qsOverlaps = qs.map((q) => q(d));
-  const qsPatterns = qsOverlaps.map((o, qi) =>
-    o >= d.cardinality || o <= 0 ? null : (
-      <SelectionPattern
-        key={qi}
-        id={`upset-Q${qi}-${data.id}-${i}`}
-        v={o / d.cardinality}
-        style={style}
-        secondary={secondary || qi > 0}
-        suffix={`Q${qi}-${data.id}`}
-        rotate={rotate}
-      />
-    )
-  );
-  const someDef = selectionPattern != null || qsPatterns.some((d) => d != null);
 
-  const { title, tooltip } = generateTitle(d, o, selectionName, qsOverlaps, queries, data);
+  const { title, tooltip } = generateTitle(d, o, selectionName, secondary, qsOverlaps, queries, data, slice.cx);
 
   return (
     <g>
-      {someDef && (
-        <defs>
-          {selectionPattern}
-          {qsPatterns}
-        </defs>
-      )}
+      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={`Selection-${style.id}`} rotate={rotate} />
       <path
         onMouseEnter={onMouseEnter(d)}
         onMouseLeave={onMouseLeave}
@@ -179,43 +210,17 @@ export default function VennArcSliceSelection<T>({
       >
         <title>{tooltip}</title>
       </path>
-      {qsOverlaps.map(
-        (o, qi) =>
-          o > 0 && (
-            <path
-              key={qi}
-              d={secondary || qi > 0 ? generateArcSlicePath(slice, qi + 1) : p}
-              fill={o > 0 && o < d.cardinality ? `url(#upset-Q${qi}-${data.id}-${i})` : undefined}
-              className={clsx(
-                o === d.cardinality && (secondary || qi > 0 ? `strokeQ${qi}-${data.id}` : `fillQ${qi}-${data.id}`),
-                `query-circle-${style.id}`,
-                `pnone-${style.id}`,
-                style.classNames.set
-              )}
-            />
-          )
-      )}
       <text
         x={slice.cx}
         y={slice.cy}
         className={clsx(
-          `setTextStyle-${style.id}`
+          `${d.type === 'set' ? 'set' : 'value'}TextStyle-${style.id}`,
+          `pnone-${style.id}`
           // circle.align === 'left' && `startText-${style.id}`,
           // circle.align === 'right' && `endText-${style.id}`
         )}
       >
-        {title.length === 1 ? (
-          title[0]
-        ) : (
-          <>
-            <tspan dy="-0.6em">{title[0]}</tspan>
-            {title.slice(1).map((t) => (
-              <tspan x={slice.cx} dy="1.2em" key={t}>
-                {t}
-              </tspan>
-            ))}
-          </>
-        )}
+        {title}
       </text>
     </g>
   );

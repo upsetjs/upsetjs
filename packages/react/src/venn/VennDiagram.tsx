@@ -149,9 +149,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fill: none;
     stroke: ${strokeColor};
   }
-  .query-circle-${styleId} {
-    fill-opacity: 0.5;
-  }
   ${rulesHelper.fill}
   ${rulesHelper.export}
 
@@ -159,13 +156,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     .map(
       (q, i) => `.fillQ${i}-${dataInfo.id} {
     fill: ${q.color};
-  } .strokeQ${i}-${dataInfo.id} {
-    stroke: ${q.color};
-    fill: transparent;
-  } .strokePatternQ${i}-${dataInfo.id} {
-    stroke: ${q.color};
-    stroke-width: 0.01;
-    fill: transparent;
   }`
     )
     .join('\n')}
