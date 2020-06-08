@@ -30,7 +30,7 @@ export default function ExportButtons({
   const space = 2;
   let acc = 0;
   const buttons: React.ReactNode[] = [];
-  if (exportButtons === true || exportButtons.svg) {
+  if (exportButtons === true || exportButtons.svg !== false) {
     acc += svgWidth;
     buttons.push(
       <g
@@ -49,7 +49,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.png) {
+  if (exportButtons === true || exportButtons.png !== false) {
     acc += pngWidth;
     buttons.push(
       <g
@@ -68,7 +68,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.vega) {
+  if (exportButtons === true || exportButtons.vega !== false) {
     acc += vegaWidth;
     buttons.push(
       <g
@@ -87,7 +87,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.vega) {
+  if (exportButtons === true || exportButtons.dump !== false) {
     acc += dumpWidth;
     buttons.push(
       <g
@@ -106,7 +106,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.share) {
+  if (exportButtons === true || exportButtons.share !== false) {
     acc += shareWidth;
     buttons.push(
       <g

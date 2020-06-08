@@ -21,6 +21,7 @@ import VennArcSliceSelection from './components/VennArcSliceSelection';
 import { generateSelectionOverlap, generateSelectionName } from '../utils';
 import { queryOverlap, ISetLike } from '@upsetjs/model';
 import { ICircle, IArcSlice } from './layout/interfaces';
+import { exportDump, exportSharedLink } from '../exporter/exportDump';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -161,18 +162,27 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     .join('\n')}
   `;
 
-  const exportChart = useCallback((evt: React.MouseEvent<SVGElement>) => {
-    const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
-    const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
-    switch (type) {
-      case 'svg':
-      case 'png':
-        exportSVG(svg, {
-          type,
-          toRemove: `.${evt.currentTarget.getAttribute('class')}`,
-        });
-    }
-  }, []);
+  const exportChart = useCallback(
+    (evt: React.MouseEvent<SVGElement>) => {
+      const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
+      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'dump' | 'share';
+      switch (type) {
+        case 'dump':
+          exportDump(svg, props, dataInfo);
+          break;
+        case 'share':
+          exportSharedLink(props, dataInfo);
+          break;
+        case 'svg':
+        case 'png':
+          exportSVG(svg, {
+            type,
+            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
+          });
+      }
+    },
+    [dataInfo, props]
+  );
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
     () => [
       wrap(onClick),
@@ -204,6 +214,11 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     }))
   );
 
+  const exportButtonsPatch = useMemo(
+    () => (!exportButtons ? false : Object.assign({}, exportButtons === true ? {} : exportButtons, { vega: false })),
+    [exportButtons]
+  );
+
   return (
     <svg
       id={id}
@@ -220,7 +235,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
-        exportButtons={exportButtons}
+        exportButtons={exportButtonsPatch}
         exportChart={exportChart}
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
