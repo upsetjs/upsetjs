@@ -16,7 +16,6 @@ import QueryLegend from '../components/QueryLegend';
 import { exportSVG } from '../exporter';
 import { baseRules } from '../rules';
 import UpSetTitle from '../components/UpSetTitle';
-import VennChartLabels from './components/VennChartLabels';
 import { wrap } from '../components/utils';
 import VennArcSliceSelection from './components/VennArcSliceSelection';
 import { generateSelectionOverlap, generateSelectionName } from '../utils';
@@ -147,7 +146,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   }
 
   .stroke-circle-${styleId} {
-    fill: transparent;
+    fill: none;
     stroke: ${strokeColor};
   }
   .query-circle-${styleId} {
@@ -201,19 +200,19 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     dataInfo.toElemKey,
   ]);
 
-  const data = dataInfo.sets.l
-    .map((l, i) => ({
+  const setInfo = dataInfo.sets.l.map((l, i) => ({
+    l: l as ICircle,
+    key: dataInfo.sets.keys[i],
+    d: dataInfo.sets.v[i] as ISetLike<T>,
+  }));
+
+  const data = (setInfo as { l: ICircle | IArcSlice; key: string; d: ISetLike<T> }[]).concat(
+    dataInfo.cs.l.map((l, i) => ({
       l: l as ICircle | IArcSlice,
-      key: dataInfo.sets.keys[i],
-      d: dataInfo.sets.v[i] as ISetLike<T>,
+      key: dataInfo.cs.keys[i],
+      d: dataInfo.cs.v[i] as ISetLike<T>,
     }))
-    .concat(
-      dataInfo.cs.l.map((l, i) => ({
-        l: l as ICircle | IArcSlice,
-        key: dataInfo.cs.keys[i],
-        d: dataInfo.cs.v[i] as ISetLike<T>,
-      }))
-    );
+  );
 
   return (
     <svg
@@ -237,12 +236,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
         <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
-          {data.map((l, i) => (
+          {data.map((d, i) => (
             <VennArcSliceSelection
-              key={l.key}
-              d={l.d}
+              key={d.key}
+              d={d.d}
               i={i}
-              slice={l.l}
+              slice={d.l}
               style={styleInfo}
               data={dataInfo}
               onClick={onClickImpl}
@@ -251,11 +250,23 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               onContextMenu={onContextMenuImpl}
               selectionName={selectionName}
               elemOverlap={selectionOverlap}
+              queries={queries}
               qs={qs}
             />
           ))}
         </g>
-        <VennChartLabels data={dataInfo} style={styleInfo} />
+        <g>
+          {setInfo.map((d) => (
+            <circle
+              key={d.key}
+              cx={d.l.cx}
+              cy={d.l.cy}
+              r={d.l.r}
+              className={clsx(`stroke-circle-${styleInfo.id}`, styleInfo.classNames.set)}
+              style={styleInfo.styles.set}
+            />
+          ))}
+        </g>
       </g>
       {props.children}
     </svg>

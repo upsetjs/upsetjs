@@ -1,7 +1,7 @@
 export interface ICircle {
   r: number;
-  x: number;
-  y: number;
+  cx: number;
+  cy: number;
   angle: number;
 }
 

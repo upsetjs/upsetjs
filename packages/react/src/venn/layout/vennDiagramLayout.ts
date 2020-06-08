@@ -43,8 +43,8 @@ function one(size: IChartArea): IVennDiagramLayout {
     sets: [
       {
         r: size.r,
-        x: size.cx,
-        y: size.cy,
+        cx: size.cx,
+        cy: size.cy,
         angle: 0,
       },
     ],
@@ -82,15 +82,15 @@ function one(size: IChartArea): IVennDiagramLayout {
   };
 }
 
-function arc(p1: { x: number; y: number }, r: number, largeArcFlag = false, sweepFlag = false): IArc {
+function arc(p1: { cx: number; cy: number }, r: number, largeArcFlag = false, sweepFlag = false): IArc {
   return {
     rx: r,
     ry: r,
     rotation: 0,
     largeArcFlag,
     sweepFlag,
-    x2: p1.x,
-    y2: p1.y,
+    x2: p1.cx,
+    y2: p1.cy,
   };
 }
 
@@ -103,12 +103,12 @@ function computeCenter(arcs: IArc[]) {
   };
 }
 
-function arcSlice(p0: { x: number; y: number }, p1: { x: number; y: number }, r: number): IArcSlice {
+function arcSlice(p0: { cx: number; cy: number }, p1: { cx: number; cy: number }, r: number): IArcSlice {
   const arcs = [arc(p1, r), arc(p0, r)];
   const { cx, cy } = computeCenter(arcs);
   return {
-    x1: p0.x,
-    y1: p0.y,
+    x1: p0.cx,
+    y1: p0.cy,
     arcs,
     cx,
     cy,
@@ -121,14 +121,14 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   const r = Math.floor(Math.min(size.h / 2, size.w / (4 - radiOverlap)));
   const c0: ICircle = {
     r,
-    x: size.cx - r * (1 - radiOverlap),
-    y: size.cy,
+    cx: size.cx - r * (1 - radiOverlap),
+    cy: size.cy,
     angle: 270,
   };
   const c1: ICircle = {
     r,
-    x: size.cx + r * (1 - radiOverlap),
-    y: size.cy,
+    cx: size.cx + r * (1 - radiOverlap),
+    cy: size.cy,
     angle: 90,
   };
   const [p0, p1] = circleIntersectionPoints(c0, c1);
@@ -139,8 +139,8 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
       cy: size.cy,
       width: size.w,
       height: size.h,
-      x1: p0.x,
-      y1: p0.y,
+      x1: p0.cx,
+      y1: p0.cy,
       arcs: [arc(p1, r, true), arc(p0, r, true)],
     },
     intersections: [arcSlice(p0, p1, r)],
@@ -165,20 +165,20 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
 
   const c0: ICircle = {
     r,
-    x: cx + offset * Math.cos(-90 * DEG2RAD),
-    y: cy - offset * Math.sin(-90 * DEG2RAD),
+    cx: cx + offset * Math.cos(-90 * DEG2RAD),
+    cy: cy - offset * Math.sin(-90 * DEG2RAD),
     angle: 180,
   };
   const c1: ICircle = {
     r,
-    x: cx - offset * Math.cos(30 * DEG2RAD),
-    y: cy - offset * Math.sin(30 * DEG2RAD),
+    cx: cx - offset * Math.cos(30 * DEG2RAD),
+    cy: cy - offset * Math.sin(30 * DEG2RAD),
     angle: 300,
   };
   const c2: ICircle = {
     r,
-    x: cx - offset * Math.cos(150 * DEG2RAD),
-    y: cy - offset * Math.sin(150 * DEG2RAD),
+    cx: cx - offset * Math.cos(150 * DEG2RAD),
+    cy: cy - offset * Math.sin(150 * DEG2RAD),
     angle: 60,
   };
 
@@ -194,8 +194,8 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
       cy: size.cy,
       width: size.w,
       height: size.h,
-      x1: p12_0.x,
-      y1: p12_0.y,
+      x1: p12_0.cx,
+      y1: p12_0.cy,
       arcs: [arc(p20_0, r, true), arc(p01_0, r, true), arc(p12_0, r, true)],
     },
     intersections: [
@@ -204,8 +204,8 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
       arcSlice(p12_0, p12_1, r),
       Object.assign(
         {
-          x1: p12_0.x,
-          y1: p12_0.y,
+          x1: p12_0.cx,
+          y1: p12_0.cy,
           arcs: inner,
         },
         computeCenter(inner)

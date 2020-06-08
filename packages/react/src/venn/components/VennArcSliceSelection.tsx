@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
+import { ISetLike, UpSetQueries } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
@@ -62,7 +62,7 @@ function sliceRotate(slice: IArcSlice | ICircle) {
 export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
   if (isCircle(s)) {
     const r = s.r - p;
-    return `M ${s.x - r} ${s.y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`;
+    return `M ${s.cx - r} ${s.cy} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`;
   }
   // TODO
   return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
@@ -73,6 +73,30 @@ export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
         } ${arc.y2 - p}`
     )
     .join(' ')}`;
+}
+
+function generateTitle(
+  d: ISetLike<any>,
+  s: number,
+  sName: string | undefined,
+  qs: number[],
+  _queries: UpSetQueries<any>,
+  data: VennDiagramDataInfo<any>
+) {
+  const dc = data.format(d.cardinality);
+  if (!sName && qs.length === 0) {
+    return {
+      tooltip: `${d.name}: ${dc}`,
+      title: d.type === 'set' ? [d.name, dc] : [dc],
+    };
+  }
+  // if (sName && qs.length === 0) {
+  const sV = `${data.format(s)}/${dc}`;
+  return {
+    tooltip: `${d.name} ∩ ${sName}: ${sV}`,
+    title: d.type === 'set' ? [d.name, sV] : [sV],
+  };
+  // }
 }
 
 export default function VennArcSliceSelection<T>({
@@ -87,6 +111,7 @@ export default function VennArcSliceSelection<T>({
   onMouseEnter,
   onMouseLeave,
   onContextMenu,
+  queries,
   qs,
 }: PropsWithChildren<
   {
@@ -97,6 +122,7 @@ export default function VennArcSliceSelection<T>({
     selectionName?: string;
     style: VennDiagramStyleInfo;
     data: VennDiagramDataInfo<T>;
+    queries: UpSetQueries<T>;
     qs: ReadonlyArray<(s: ISetLike<T>) => number>;
   } & UpSetSelection
 >) {
@@ -131,8 +157,10 @@ export default function VennArcSliceSelection<T>({
   );
   const someDef = selectionPattern != null || qsPatterns.some((d) => d != null);
 
+  const { title, tooltip } = generateTitle(d, o, selectionName, qsOverlaps, queries, data);
+
   return (
-    <>
+    <g>
       {someDef && (
         <defs>
           {selectionPattern}
@@ -149,11 +177,7 @@ export default function VennArcSliceSelection<T>({
         className={className}
         style={style.styles.set}
       >
-        <title>
-          {elemOverlap
-            ? `${d.name} ∩ ${selectionName}: ${data.format(o)}/${data.format(d.cardinality)}`
-            : `${d.name}: ${data.format(d.cardinality)}`}
-        </title>
+        <title>{tooltip}</title>
       </path>
       {qsOverlaps.map(
         (o, qi) =>
@@ -171,6 +195,28 @@ export default function VennArcSliceSelection<T>({
             />
           )
       )}
-    </>
+      <text
+        x={slice.cx}
+        y={slice.cy}
+        className={clsx(
+          `setTextStyle-${style.id}`
+          // circle.align === 'left' && `startText-${style.id}`,
+          // circle.align === 'right' && `endText-${style.id}`
+        )}
+      >
+        {title.length === 1 ? (
+          title[0]
+        ) : (
+          <>
+            <tspan dy="-0.6em">{title[0]}</tspan>
+            {title.slice(1).map((t) => (
+              <tspan x={slice.cx} dy="1.2em" key={t}>
+                {t}
+              </tspan>
+            ))}
+          </>
+        )}
+      </text>
+    </g>
   );
 }
