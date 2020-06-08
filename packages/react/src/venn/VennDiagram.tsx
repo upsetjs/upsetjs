@@ -17,7 +17,11 @@ import { exportSVG } from '../exporter';
 import { baseRules } from '../rules';
 import UpSetTitle from '../components/UpSetTitle';
 import VennChartLabels from './components/VennChartLabels';
-import VennChart from './components/VennChart';
+import { wrap } from '../components/utils';
+import VennArcSliceSelection from './components/VennArcSliceSelection';
+import { generateSelectionOverlap, generateSelectionName } from '../utils';
+import { queryOverlap, ISetLike } from '@upsetjs/model';
+import { ICircle, IArcSlice } from './layout/interfaces';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -146,6 +150,9 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fill: transparent;
     stroke: ${strokeColor};
   }
+  .query-circle-${styleId} {
+    fill-opacity: 0.5;
+  }
   ${rulesHelper.fill}
   ${rulesHelper.export}
 
@@ -170,6 +177,36 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
         });
     }
   }, []);
+  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
+    () => [
+      wrap(onClick),
+      wrap(onHover),
+      wrap(onContextMenu),
+      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
+    ],
+    [onClick, onHover, onContextMenu]
+  );
+
+  const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, dataInfo.toElemKey);
+  const selectionName = generateSelectionName(selection);
+  const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', dataInfo.toElemKey)), [
+    queries,
+    dataInfo.toElemKey,
+  ]);
+
+  const data = dataInfo.sets.l
+    .map((l, i) => ({
+      l: l as ICircle | IArcSlice,
+      key: dataInfo.sets.keys[i],
+      d: dataInfo.sets.v[i] as ISetLike<T>,
+    }))
+    .concat(
+      dataInfo.cs.l.map((l, i) => ({
+        l: l as ICircle | IArcSlice,
+        key: dataInfo.cs.keys[i],
+        d: dataInfo.cs.v[i] as ISetLike<T>,
+      }))
+    );
 
   return (
     <svg
@@ -192,14 +229,25 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
-        <VennChart
-          data={dataInfo}
-          style={styleInfo}
-          onClick={onClick}
-          onHover={onHover}
-          onContextMenu={onContextMenu}
-          selection={selection}
-        />
+        <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
+          {data.map((l, i) => (
+            <VennArcSliceSelection
+              key={l.key}
+              d={l.d}
+              i={i}
+              slice={l.l}
+              style={styleInfo}
+              data={dataInfo}
+              onClick={onClickImpl}
+              onMouseEnter={onMouseEnterImpl}
+              onMouseLeave={onMouseLeaveImpl}
+              onContextMenu={onContextMenuImpl}
+              selectionName={selectionName}
+              elemOverlap={selectionOverlap}
+              qs={qs}
+            />
+          ))}
+        </g>
         <VennChartLabels data={dataInfo} style={styleInfo} />
       </g>
       {props.children}

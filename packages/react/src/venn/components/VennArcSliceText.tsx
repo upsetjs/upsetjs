@@ -24,7 +24,7 @@ export default function VennArcSliceText<T>({
 }>) {
   return (
     <text x={slice.cx} y={slice.cy} className={`setTextStyle-${style.id}`}>
-      {data.cs.format(d.cardinality)}
+      {data.format(d.cardinality)}
     </text>
   );
 }

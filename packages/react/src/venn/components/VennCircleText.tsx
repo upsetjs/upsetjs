@@ -43,7 +43,7 @@ export default function VennCircleText<T>({
       >
         <tspan dy="-0.6em">{d.name}</tspan>
         <tspan x={circle.x} dy="1.2em">
-          {data.sets.format(d.cardinality)}
+          {data.format(d.cardinality)}
         </tspan>
       </text>
     </g>
