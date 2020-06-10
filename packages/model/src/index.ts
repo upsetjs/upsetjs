@@ -13,6 +13,8 @@ export {
   ISetCombinations,
   ISetComposite,
   ISetIntersection,
+  IDistinctSetIntersection,
+  SetCombinationType,
   ISetLike,
   ISetLikes,
   ISetUnion,

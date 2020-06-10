@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISet, ISetCombination } from '../model';
+import { ISet, ISetCombination, SetCombinationType } from '../model';
 import { byCardinality, byComposite, byDegree, byGroup, byName, negate } from './utils';
 import { SortSetOrder } from './asSets';
 
@@ -106,7 +106,7 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
  */
 export function asCombination<T, S extends { name: string; elems: ReadonlyArray<T> }>(
   set: S,
-  type: 'intersection' | 'union' | 'composite',
+  type: SetCombinationType,
   toSets: (s: S) => ReadonlyArray<ISet<T>>
 ): S & ISetCombination<T> {
   const sets = toSets(set);
@@ -129,7 +129,7 @@ export function asCombination<T, S extends { name: string; elems: ReadonlyArray<
  */
 export default function asCombinations<T, S extends { name: string; elems: ReadonlyArray<T> }>(
   sets: ReadonlyArray<S>,
-  type: 'intersection' | 'union' | 'composite',
+  type: SetCombinationType,
   toSets: (s: S) => ReadonlyArray<ISet<T>>
 ): (S & ISetCombination<T>)[] {
   return sets.map((set) => asCombination(set, type, toSets));

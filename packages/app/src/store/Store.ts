@@ -28,6 +28,7 @@ import {
   ISet,
   ISetCombination,
   isSetLike,
+  SetCombinationType,
 } from '@upsetjs/model';
 import {
   fillDefaults,
@@ -193,7 +194,7 @@ export default class Store {
 
   @observable
   readonly combinationsOptions: GenerateSetCombinationsOptions<IElem> & {
-    type: 'intersection' | 'union';
+    type: SetCombinationType;
     min: number;
     max: number;
     empty: boolean;

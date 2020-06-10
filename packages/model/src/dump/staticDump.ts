@@ -8,13 +8,20 @@
 import { setOverlapFactory } from '../data';
 import { SET_JOINERS } from '../data/constants';
 import { generateOverlapLookup, generateOverlapLookupFunction } from '../data/generateOverlapLookup';
-import { ISetCombination, ISetCombinations, ISetLike, ISets, toKey as toDefaultKey } from '../model';
+import {
+  ISetCombination,
+  ISetCombinations,
+  ISetLike,
+  ISets,
+  toKey as toDefaultKey,
+  SetCombinationType,
+} from '../model';
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery, UpSetCalcQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
 
 declare type UpSetFromStaticDumpFullCombination = {
   name: string;
-  type: 'composite' | 'intersection' | 'union';
+  type: SetCombinationType;
   sets: ReadonlyArray<number>;
   cardinality: number;
 };
@@ -24,7 +31,7 @@ declare type UpSetFromStaticDumpCompressedCombination = {
   n?: string;
   c: number;
   // default: i
-  type?: 'c' | 'i' | 'u';
+  type?: 'c' | 'i' | 'u' | 'd';
   // bit index
   s: number;
 };
@@ -50,7 +57,7 @@ export interface IUpSetToStaticDumpConfig<T> {
   toElemKey?(set: T): string;
 }
 
-function generateName(sets: ISets<any>, type: 'intersection' | 'union' | 'composite') {
+function generateName(sets: ISets<any>, type: SetCombinationType) {
   if (sets.length === 1) {
     return sets[0].name;
   }
@@ -84,7 +91,7 @@ export function toStaticDump<T>(
       n?: string;
       c: number;
       s: number;
-      type?: 'c' | 'i' | 'u';
+      type?: 'c' | 'i' | 'u' | 'd';
     } = {
       c: set.cardinality,
       s: partOf.reduce((acc, i) => acc + Math.pow(2, i), 0),
@@ -99,7 +106,7 @@ export function toStaticDump<T>(
       r.n = set.name;
     }
     if (set.type !== 'intersection') {
-      r.type = set.type[0] as 'i' | 'c' | 'u';
+      r.type = set.type[0] as 'i' | 'c' | 'u' | 'd';
     }
     return r;
   };
@@ -193,8 +200,9 @@ export function fromStaticDump(
       i: 'intersection' as 'intersection',
       u: 'union' as 'union',
       c: 'composite' as 'composite',
+      d: 'distinctIntersection' as 'distinctIntersection',
     };
-    const type = lookup[(set.type ?? 'i')[0] as 'i' | 'u' | 'c'];
+    const type = lookup[(set.type ?? 'i')[0] as 'i' | 'u' | 'c' | 'd'];
     return withOverlap({
       name: isCompressed(set) ? set.n ?? generateName(partOf, type) : set.name,
       cardinality: isCompressed(set) ? set.c : set.cardinality,

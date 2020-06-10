@@ -22,21 +22,11 @@ jobs:
           key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn2-
-      - run: yarn install --immutable
-        env:
-          CI: true
+      - run: yarn install
       - run: yarn build
-        env:
-          CI: true
       - run: yarn lint
-        env:
-          CI: true
       - run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          CI: true
       - run: yarn docs
-        env:
-          CI: true
       - run: |
           mkdir -p public/api/addons
           mv packages/addons/docs/* public/api/addons/
