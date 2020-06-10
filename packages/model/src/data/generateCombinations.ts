@@ -16,7 +16,7 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
    * type of set combination
    * @default intersection
    */
-  type?: 'intersection' | 'union';
+  type?: 'intersection' | 'union' | 'distinctIntersection';
   /**
    * minimum number of intersecting sets
    * @default 0
@@ -89,6 +89,58 @@ function intersectionBuilder<T>(
     return smallest.filter((elem) => intersection.every((s) => setDirectElems!.get(s)!.has(elem)));
   }
   return computeIntersection;
+}
+
+function distinctIntersectionBuilder<T>(
+  sets: ISets<T>,
+  allElements: ReadonlyArray<T>,
+  notPartOfAnySet?: ReadonlyArray<T> | number,
+  toElemKey?: (v: T) => string
+) {
+  const setElems = new Map(sets.map((s) => [s, toElemKey ? new Set(s.elems.map(toElemKey!)) : new Set(s.elems)]));
+  const setDirectElems = toElemKey ? null : (setElems as Map<ISet<T>, Set<T>>);
+  const setKeyElems = toElemKey ? (setElems as Map<ISet<T>, Set<string>>) : null;
+
+  function computeDistinctIntersection(intersection: ISets<T>) {
+    if (intersection.length === 0) {
+      if (Array.isArray(notPartOfAnySet)) {
+        return notPartOfAnySet;
+      }
+      if (setKeyElems && toElemKey) {
+        const lookup = Array.from(setKeyElems.values());
+        return allElements.filter((e) => {
+          const k = toElemKey(e);
+          return lookup.every((s) => !s.has(k));
+        });
+      }
+      const lookup = Array.from(setDirectElems!.values());
+      return allElements.filter((e) => lookup.every((s) => !s.has(e)));
+    }
+
+    const notIntersection = sets.filter((s) => !intersection.includes(s));
+
+    const smallest = intersection.reduce(
+      (acc, d) => (!acc || acc.length > d.elems.length ? d.elems : acc),
+      null as ReadonlyArray<T> | null
+    )!;
+
+    if (setKeyElems && toElemKey) {
+      return smallest.filter((elem) => {
+        const key = toElemKey(elem);
+        // in the contained one and not in the not contained one
+        return (
+          intersection.every((s) => setKeyElems.get(s)!.has(key)) &&
+          notIntersection.every((s) => !setKeyElems.get(s)!.has(key))
+        );
+      });
+    }
+    return smallest.filter(
+      (elem) =>
+        intersection.every((s) => setDirectElems!.get(s)!.has(elem)) &&
+        notIntersection.every((s) => !setDirectElems!.get(s)!.has(elem))
+    );
+  }
+  return computeDistinctIntersection;
 }
 
 function unionBuilder<T>(
@@ -171,12 +223,11 @@ export default function generateCombinations<T = any>(
   const joiner = SET_JOINERS[type] ?? SET_JOINERS.intersection;
   const combinations: ISetCombination<T>[] = [];
 
-  const compute = (type === 'union' ? unionBuilder : intersectionBuilder)(
-    sets,
-    allElements,
-    notPartOfAnySet,
-    toElemKey
-  );
+  const compute = (type === 'union'
+    ? unionBuilder
+    : type === 'distinctIntersection'
+    ? distinctIntersectionBuilder
+    : intersectionBuilder)(sets, allElements, notPartOfAnySet, toElemKey);
 
   powerSet(sets, { min, max }).forEach((combo) => {
     if (combo.length === 0 && typeof notPartOfAnySet === 'number' && notPartOfAnySet > 0) {

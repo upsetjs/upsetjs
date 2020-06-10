@@ -47,6 +47,21 @@ export interface ISetIntersection<T = any> extends IBaseSet<T> {
   readonly degree: number;
 }
 
+export interface IDistinctSetIntersection<T = any> extends IBaseSet<T> {
+  /**
+   * whether it is a set or an intersection
+   */
+  readonly type: 'distinctIntersection';
+  /**
+   * sets this set intersection is composed of
+   */
+  readonly sets: ReadonlySet<ISet<T>>;
+  /**
+   * number of set in this set intersection
+   */
+  readonly degree: number;
+}
+
 export interface ISetUnion<T = any> extends IBaseSet<T> {
   /**
    * whether it is a set or an intersection
@@ -80,7 +95,11 @@ export interface ISetComposite<T = any> extends IBaseSet<T> {
 /**
  * union of all set combination types
  */
-export declare type ISetCombination<T = any> = ISetIntersection<T> | ISetUnion<T> | ISetComposite<T>;
+export declare type ISetCombination<T = any> =
+  | ISetIntersection<T>
+  | ISetUnion<T>
+  | ISetComposite<T>
+  | IDistinctSetIntersection<T>;
 /**
  * union of a set or a set combination
  */
