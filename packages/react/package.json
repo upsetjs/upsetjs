@@ -29,7 +29,9 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json --noEmit",
     "start": "tsdx watch --tsconfig tsconfig.build.json --noClean",
-    "build": "tsdx build --tsconfig tsconfig.build.json && npm run typings",
+    "clean": "rimraf .tmp dist",
+    "build": "npm run clean && npm run build:impl && npm run typings",
+    "build:impl": "tsdx build --tsconfig tsconfig.build.json",
     "typings": "tsc -p tsconfig.dts.json && rollup -c rollup.dts.config.js",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
@@ -80,6 +82,7 @@
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
     "react-is": "^16.13.1",
+    "rimraf": "^3.0.2",
     "rollup": "^2.10.7",
     "rollup-plugin-cleanup": "^3.1.1",
     "rollup-plugin-dts": "^1.4.7",
