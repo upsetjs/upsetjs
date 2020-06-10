@@ -100,6 +100,8 @@ export declare type ISetCombination<T = any> =
   | ISetUnion<T>
   | ISetComposite<T>
   | IDistinctSetIntersection<T>;
+
+export declare type SetCombinationType = 'intersection' | 'union' | 'composite' | 'distinctIntersection';
 /**
  * union of a set or a set combination
  */

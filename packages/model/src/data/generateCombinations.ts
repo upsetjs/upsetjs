@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination, ISetCombinations, ISets, ISet } from '../model';
+import { ISetCombination, ISetCombinations, ISets, ISet, SetCombinationType } from '../model';
 import { isSetLike } from '../validators';
 import { postprocessCombinations, PostprocessCombinationsOptions } from './asCombinations';
 import powerSet from './powerSet';
@@ -16,7 +16,7 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
    * type of set combination
    * @default intersection
    */
-  type?: 'intersection' | 'union' | 'distinctIntersection';
+  type?: SetCombinationType;
   /**
    * minimum number of intersecting sets
    * @default 0

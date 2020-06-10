@@ -42,7 +42,7 @@
           },
           "type": {
             "type": "string",
-            "enum": ["composite", "intersection", "union"]
+            "enum": ["composite", "intersection", "union", "distinctIntersection"]
           },
           "sets": {
             "type": "array",
@@ -59,7 +59,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["set", "composite", "intersection", "union"]
+          "enum": ["set", "composite", "intersection", "union", "distinctIntersection"]
         },
         "index": {
           "type": "integer"
@@ -84,7 +84,7 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["set", "composite", "intersection", "union"]
+                "enum": ["set", "composite", "intersection", "union", "distinctIntersection"]
               },
               "index": {
                 "type": "integer"

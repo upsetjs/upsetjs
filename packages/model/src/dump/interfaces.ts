@@ -1,4 +1,6 @@
+import { SetCombinationType } from '../model';
+
 export interface IUpSetDumpRef {
-  type: 'set' | 'composite' | 'intersection' | 'union';
+  type: 'set' | SetCombinationType;
   index: number;
 }
