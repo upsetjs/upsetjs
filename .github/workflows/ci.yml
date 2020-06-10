@@ -23,20 +23,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn2-
       - run: yarn install
-        env:
-          CI: true
       - run: yarn build
-        env:
-          CI: true
       - run: yarn lint
-        env:
-          CI: true
       - run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          CI: true
       - run: yarn docs
-        env:
-          CI: true
       - run: |
           mkdir -p public/api/addons
           mv packages/addons/docs/* public/api/addons/
