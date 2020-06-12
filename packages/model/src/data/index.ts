@@ -6,6 +6,7 @@
  */
 
 export { default as generateCombinations, GenerateSetCombinationsOptions } from './generateCombinations';
+export { default as generateCombinations2 } from './generateCombinations2';
 export { default as asSets, asSet, PostprocessSetOptions } from './asSets';
 export {
   default as asCombinations,
