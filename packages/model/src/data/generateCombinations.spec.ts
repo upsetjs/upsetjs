@@ -17,10 +17,10 @@ function expectSet<T>(
   elems: ReadonlyArray<T>,
   sets: ISets<T>
 ) {
+  expect(s.type).toBe(type);
+  expect(s.name).toBe(name);
   expect(s.elems.slice().sort()).toEqual(elems.slice().sort());
   expect(s.cardinality).toBe(elems.length);
-  expect(s.name).toBe(name);
-  expect(s.type).toBe(type);
   expect(Array.from(s.sets)).toStrictEqual(sets);
   expect(s.degree).toBe(sets.length);
 }
@@ -129,11 +129,11 @@ describe('generateCombinations', () => {
       expect(r).toHaveLength(7);
       expectSet(r[0], type, 'A', [1, 2, 3, 4], [data[0]]);
       expectSet(r[1], type, 'B', [3, 4, 5, 6], [data[1]]);
-      expectSet(r[2], type, '(A ∩ B)', [3, 4], [data[0], data[1]]);
-      expectSet(r[3], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[2], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[3], type, '(A ∩ B)', [3, 4], [data[0], data[1]]);
       expectSet(r[4], type, '(A ∩ C)', [1, 3, 4], [data[0], data[2]]);
-      expectSet(r[5], type, '(B ∩ C)', [3, 4, 6], [data[1], data[2]]);
-      expectSet(r[6], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[5], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[6], type, '(B ∩ C)', [3, 4, 6], [data[1], data[2]]);
     });
     test('union', () => {
       const type: SetCombinationType = 'union';
@@ -141,11 +141,11 @@ describe('generateCombinations', () => {
       expect(r).toHaveLength(7);
       expectSet(r[0], type, 'A', [1, 2, 3, 4], [data[0]]);
       expectSet(r[1], type, 'B', [3, 4, 5, 6], [data[1]]);
-      expectSet(r[2], type, '(A ∪ B)', [1, 2, 3, 4, 5, 6], [data[0], data[1]]);
-      expectSet(r[3], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[2], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[3], type, '(A ∪ B)', [1, 2, 3, 4, 5, 6], [data[0], data[1]]);
       expectSet(r[4], type, '(A ∪ C)', [1, 2, 3, 4, 6, 7], [data[0], data[2]]);
-      expectSet(r[5], type, '(B ∪ C)', [1, 3, 4, 5, 6, 7], [data[1], data[2]]);
-      expectSet(r[6], type, '(A ∪ B ∪ C)', [1, 2, 3, 4, 5, 6, 7], [data[0], data[1], data[2]]);
+      expectSet(r[5], type, '(A ∪ B ∪ C)', [1, 2, 3, 4, 5, 6, 7], [data[0], data[1], data[2]]);
+      expectSet(r[6], type, '(B ∪ C)', [1, 3, 4, 5, 6, 7], [data[1], data[2]]);
     });
     test('composite', () => {
       const type: SetCombinationType = 'composite';
@@ -153,11 +153,11 @@ describe('generateCombinations', () => {
       expect(r).toHaveLength(7);
       expectSet(r[0], type, 'A', [1, 2, 3, 4], [data[0]]);
       expectSet(r[1], type, 'B', [3, 4, 5, 6], [data[1]]);
-      expectSet(r[2], type, '(A,B)', [3, 4], [data[0], data[1]]);
-      expectSet(r[3], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[2], type, 'C', [1, 3, 4, 6, 7], [data[2]]);
+      expectSet(r[3], type, '(A,B)', [3, 4], [data[0], data[1]]);
       expectSet(r[4], type, '(A,C)', [1, 3, 4], [data[0], data[2]]);
-      expectSet(r[5], type, '(B,C)', [3, 4, 6], [data[1], data[2]]);
-      expectSet(r[6], type, '(A,B,C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[5], type, '(A,B,C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[6], type, '(B,C)', [3, 4, 6], [data[1], data[2]]);
     });
     test('distinctIntersection', () => {
       const type: SetCombinationType = 'distinctIntersection';
@@ -168,8 +168,8 @@ describe('generateCombinations', () => {
       // expectSet(r[2], type, '(A ∩ B)', [], [data[0], data[1]]);
       expectSet(r[2], type, 'C', [7], [data[2]]);
       expectSet(r[3], type, '(A ∩ C)', [1], [data[0], data[2]]);
-      expectSet(r[4], type, '(B ∩ C)', [6], [data[1], data[2]]);
-      expectSet(r[5], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[4], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[5], type, '(B ∩ C)', [6], [data[1], data[2]]);
     });
   });
 
