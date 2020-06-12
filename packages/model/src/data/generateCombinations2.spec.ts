@@ -56,12 +56,12 @@ describe('generateCombinations', () => {
       expect(r).toHaveLength(1);
       expectSet(r[0], type, 'A', [1, 2, 3], data);
     });
-    // test('distinct', () => {
-    //   const type: SetCombinationType = 'distinctIntersection';
-    //   const r = generateCombinations(data, { type });
-    //   expect(r).toHaveLength(1);
-    //   expectSet(r[0], type, 'A', [1, 2, 3], data);
-    // });
+    test('distinct', () => {
+      const type: SetCombinationType = 'distinctIntersection';
+      const r = generateCombinations(data, { type });
+      expect(r).toHaveLength(1);
+      expectSet(r[0], type, 'A', [1, 2, 3], data);
+    });
   });
 
   describe('two', () => {
@@ -98,14 +98,14 @@ describe('generateCombinations', () => {
       expectSet(r[1], type, 'B', [3, 4], [data[1]]);
       expectSet(r[2], type, '(A,B)', [3], [data[0], data[1]]);
     });
-    // test('distinctIntersection', () => {
-    //   const type: SetCombinationType = 'distinctIntersection';
-    //   const r = generateCombinations(data, { type });
-    //   expect(r).toHaveLength(3);
-    //   expectSet(r[0], type, 'A', [1, 2], [data[0]]);
-    //   expectSet(r[1], type, 'B', [4], [data[1]]);
-    //   expectSet(r[2], type, '(A ∩ B)', [3], [data[0], data[1]]);
-    // });
+    test('distinctIntersection', () => {
+      const type: SetCombinationType = 'distinctIntersection';
+      const r = generateCombinations(data, { type });
+      expect(r).toHaveLength(3);
+      expectSet(r[0], type, 'A', [1, 2], [data[0]]);
+      expectSet(r[1], type, 'B', [4], [data[1]]);
+      expectSet(r[2], type, '(A ∩ B)', [3], [data[0], data[1]]);
+    });
   });
 
   describe('three', () => {
@@ -159,18 +159,18 @@ describe('generateCombinations', () => {
       expectSet(r[5], type, '(A,B,C)', [3, 4], [data[0], data[1], data[2]]);
       expectSet(r[6], type, '(B,C)', [3, 4, 6], [data[1], data[2]]);
     });
-    // test('distinctIntersection', () => {
-    //   const type: SetCombinationType = 'distinctIntersection';
-    //   const r = generateCombinations(data, { type });
-    //   expect(r).toHaveLength(7 - 1);
-    //   expectSet(r[0], type, 'A', [2], [data[0]]);
-    //   expectSet(r[1], type, 'B', [5], [data[1]]);
-    //   // expectSet(r[2], type, '(A ∩ B)', [], [data[0], data[1]]);
-    //   expectSet(r[2], type, 'C', [7], [data[2]]);
-    //   expectSet(r[3], type, '(A ∩ C)', [1], [data[0], data[2]]);
-    //   expectSet(r[4], type, '(B ∩ C)', [6], [data[1], data[2]]);
-    //   expectSet(r[5], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
-    // });
+    test('distinctIntersection', () => {
+      const type: SetCombinationType = 'distinctIntersection';
+      const r = generateCombinations(data, { type });
+      expect(r).toHaveLength(7 - 1);
+      expectSet(r[0], type, 'A', [2], [data[0]]);
+      expectSet(r[1], type, 'B', [5], [data[1]]);
+      // expectSet(r[2], type, '(A ∩ B)', [], [data[0], data[1]]);
+      expectSet(r[2], type, 'C', [7], [data[2]]);
+      expectSet(r[3], type, '(A ∩ C)', [1], [data[0], data[2]]);
+      expectSet(r[4], type, '(A ∩ B ∩ C)', [3, 4], [data[0], data[1], data[2]]);
+      expectSet(r[5], type, '(B ∩ C)', [6], [data[1], data[2]]);
+    });
   });
 
   describe('variant', () => {

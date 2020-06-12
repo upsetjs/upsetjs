@@ -14,7 +14,7 @@ import { GenerateSetCombinationsOptions } from './generateCombinations';
 /**
  * @internal
  */
-export function generateName<T>(combo: Set<ISet<T>>, setIndex: Map<ISet<T>, number>, joiner: string) {
+export function generateName<T>(combo: ReadonlySet<ISet<T>>, setIndex: ReadonlyMap<ISet<T>, number>, joiner: string) {
   const sorted = Array.from(combo).sort((a, b) => setIndex.get(a)! - setIndex.get(b)!);
   return sorted.length === 1 ? sorted[0].name : `(${sorted.map((d) => d.name).join(joiner)})`;
 }
@@ -22,7 +22,12 @@ export function generateName<T>(combo: Set<ISet<T>>, setIndex: Map<ISet<T>, numb
 /**
  * @internal
  */
-export function generateSet<T>(type: SetCombinationType, name: string, combo: Set<ISet<T>>, elems: ReadonlyArray<T>) {
+export function generateSet<T>(
+  type: SetCombinationType,
+  name: string,
+  combo: ReadonlySet<ISet<T>>,
+  elems: ReadonlyArray<T>
+) {
   return {
     type: combo.size === 0 ? 'composite' : type,
     elems,
@@ -39,17 +44,17 @@ export function generateSet<T>(type: SetCombinationType, name: string, combo: Se
 export function mergeIntersection<T, B>(
   a: ISetCombination<T>,
   b: ISetCombination<T>,
-  lookup: Map<ISetLike<T>, Set<B>>,
+  lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B,
-  setIndex: Map<ISet<T>, number>,
-  composite = false
+  setIndex: ReadonlyMap<ISet<T>, number>,
+  type: SetCombinationType
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
-  const name = generateName(merged, setIndex, composite ? SET_JOINERS.composite : SET_JOINERS.intersection);
+  const name = generateName(merged, setIndex, SET_JOINERS[type]);
 
   if (a.cardinality === 0 || b.cardinality === 0) {
-    return generateSet(composite ? 'composite' : 'intersection', name, merged, []);
+    return generateSet(type, name, merged, []);
   }
   let small = a;
   let big = b;
@@ -68,7 +73,7 @@ export function mergeIntersection<T, B>(
     }
     return true;
   });
-  const r = generateSet(composite ? 'composite' : 'intersection', name, merged, elems);
+  const r = generateSet(type, name, merged, elems);
   lookup.set(r, keySet);
   return r;
 }
@@ -79,9 +84,9 @@ export function mergeIntersection<T, B>(
 export function mergeUnion<T, B>(
   a: ISetCombination<T>,
   b: ISetCombination<T>,
-  lookup: Map<ISetLike<T>, Set<B>>,
+  lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B,
-  setIndex: Map<ISet<T>, number>
+  setIndex: ReadonlyMap<ISet<T>, number>
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
@@ -125,7 +130,7 @@ export function generateEmptySet<T, B>(
   type: SetCombinationType,
   notPartOfAnySet: ReadonlyArray<T> | number | undefined,
   allElements: ReadonlyArray<T>,
-  lookup: Map<ISetLike<T>, Set<B>>,
+  lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B
 ): ISetCombination<T> {
   if (typeof notPartOfAnySet === 'number') {
@@ -179,19 +184,41 @@ export default function generateCombinations<T = any>(
   const setElems = new Map(
     sets.map((s) => [s as ISetLike<T>, toElemKey ? new Set(s.elems.map(toElemKey!)) : new Set(s.elems)])
   );
-  const setDirectElems = toElemKey ? null : (setElems as Map<ISetLike<T>, Set<T>>);
-  const setKeyElems = toElemKey ? (setElems as Map<ISetLike<T>, Set<string>>) : null;
+  const setDirectElems = toElemKey ? null : (setElems as Map<ISetLike<T>, ReadonlySet<T>>);
+  const setKeyElems = toElemKey ? (setElems as Map<ISetLike<T>, ReadonlySet<string>>) : null;
 
   function push(s: ISetCombination<T>) {
-    if (empty || s.cardinality > 0) {
-      combinations.push(s);
+    if (s.degree < min || s.degree > max || (s.cardinality === 0 && !empty)) {
+      return;
     }
+    if (type !== 'distinctIntersection') {
+      combinations.push(s);
+      return;
+    }
+
+    const others = sets.filter((d) => !s.sets.has(d));
+    const elems = toElemKey
+      ? s.elems.filter((e) => {
+          const key = toElemKey(e);
+          return others.every((o) => !setKeyElems!.get(o)!.has(key));
+        })
+      : s.elems.filter((e) => others.every((o) => !setDirectElems!.get(o)!.has(e)));
+    if (elems.length === s.cardinality) {
+      combinations.push(s);
+      return;
+    }
+    const sDistinct = generateSet(type, s.name, s.sets, elems);
+
+    if (sDistinct.cardinality === 0 && !empty) {
+      return;
+    }
+    combinations.push(sDistinct);
   }
 
   function generateLevel<B>(
     arr: ISetCombinations<T>,
     degree: number,
-    lookup: Map<ISetLike<T>, Set<B>>,
+    lookup: Map<ISetLike<T>, ReadonlySet<B>>,
     toKey: (v: T) => B
   ) {
     if (degree > max) {
@@ -206,11 +233,9 @@ export default function generateCombinations<T = any>(
         const ab =
           type === 'union'
             ? mergeUnion(a, b, lookup, toKey, setIndex)
-            : mergeIntersection(a, b, lookup, toKey, setIndex, type === 'composite');
-        if (degree >= min) {
-          push(ab);
-        }
-        if (type !== 'intersection' || ab.cardinality > 0 || empty) {
+            : mergeIntersection(a, b, lookup, toKey, setIndex, type);
+        push(ab);
+        if (type === 'union' || ab.cardinality > 0 || empty) {
           sub.push(ab);
         }
       }
@@ -231,16 +256,13 @@ export default function generateCombinations<T = any>(
   const degree1 = sets.map((s) => {
     const r = generateSet(type, s.name, new Set([s]), s.elems);
     setElems.set(r, setElems.get(s)!);
+    push(r);
     return r;
   });
-  if (min <= 1 && 1 <= max) {
-    combinations.push(...degree1);
-  }
   if (toElemKey) {
     generateLevel(degree1, 2, setKeyElems!, toElemKey);
   } else {
     generateLevel(degree1, 2, setDirectElems!, (v) => v);
   }
-
   return postprocessCombinations(sets, combinations, postprocess);
 }
