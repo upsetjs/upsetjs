@@ -7,8 +7,10 @@
 
 /// <reference types="jest" />
 import generateCombinations from './generateCombinations2';
+import generateCombinationsOld from './generateCombinations';
 import asSets from './asSets';
-import { SetCombinationType, ISetCombination, ISets } from '../model';
+import { SetCombinationType, ISetCombination, ISets, ISetCombinations } from '../model';
+import extractSets from './extractSets';
 
 function expectSet<T>(
   s: ISetCombination<T>,
@@ -248,5 +250,226 @@ describe('generateCombinations', () => {
     ]);
 
     expect(generateCombinations(data, { empty: true })).toHaveLength(Math.pow(2, data.length));
+  });
+});
+
+describe('benchmark', () => {
+  function generate(numItems: number, numSets: number) {
+    const sets = Array(numSets)
+      .fill(0)
+      .map((_, i) => `s${i}`);
+    const items = Array(numItems)
+      .fill(0)
+      .map((_, i) => ({
+        name: `e${i}`,
+        sets: sets.filter(() => Math.random() < 1 / sets.length),
+      }));
+
+    return extractSets(items);
+  }
+
+  describe('100', () => {
+    describe('4', () => {
+      const sets = generate(100, 4);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('6', () => {
+      const sets = generate(100, 6);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('8', () => {
+      const sets = generate(100, 8);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('10', () => {
+      const sets = generate(100, 10);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+  });
+
+  describe('10000', () => {
+    describe('4', () => {
+      const sets = generate(10000, 4);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('6', () => {
+      const sets = generate(10000, 6);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('8', () => {
+      const sets = generate(10000, 8);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('10', () => {
+      const sets = generate(10000, 10);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    describe('16', () => {
+      const sets = generate(10000, 16);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+  });
+
+  describe('1000000', () => {
+    describe('4', () => {
+      const sets = generate(1000000, 4);
+      let r: ISetCombinations<any> = [];
+      let r2: ISetCombinations<any> = [];
+      test('new', () => {
+        r = generateCombinations(sets, { order: 'name' });
+      });
+      test('old', () => {
+        r2 = generateCombinationsOld(sets, { order: 'name' });
+      });
+      test('compare', () => {
+        expect(r).toEqual(r2);
+      });
+    });
+    // describe('6', () => {
+    //   const sets = generate(1000000, 6);
+    //   let r: ISetCombinations<any> = [];
+    //   let r2: ISetCombinations<any> = [];
+    //   test('new', () => {
+    //     r = generateCombinations(sets, { order: 'name' });
+    //   });
+    //   test('old', () => {
+    //     r2 = generateCombinationsOld(sets, { order: 'name' });
+    //   });
+    //   test('compare', () => {
+    //     expect(r).toEqual(r2);
+    //   });
+    // });
+    // describe('8', () => {
+    //   const sets = generate(1000000, 8);
+    //   let r: ISetCombinations<any> = [];
+    //   let r2: ISetCombinations<any> = [];
+    //   test('new', () => {
+    //     r = generateCombinations(sets, { order: 'name' });
+    //   });
+    //   test('old', () => {
+    //     r2 = generateCombinationsOld(sets, { order: 'name' });
+    //   });
+    //   test('compare', () => {
+    //     expect(r).toEqual(r2);
+    //   });
+    // });
+    // describe('10', () => {
+    //   const sets = generate(1000000, 10);
+    //   let r: ISetCombinations<any> = [];
+    //   let r2: ISetCombinations<any> = [];
+    //   test('new', () => {
+    //     r = generateCombinations(sets, { order: 'name' });
+    //   });
+    //   test('old', () => {
+    //     r2 = generateCombinationsOld(sets, { order: 'name' });
+    //   });
+    //   test('compare', () => {
+    //     expect(r).toEqual(r2);
+    //   });
+    // });
+    //   describe('20', () => {
+    //     const sets = generate(1000000, 20);
+    //     let r: ISetCombinations<any> = [];
+    //     let r2: ISetCombinations<any> = [];
+    //     test('new', () => {
+    //       r = generateCombinations(sets, { order: 'name' });
+    //     });
+    //     test('old', () => {
+    //       r2 = generateCombinationsOld(sets, { order: 'name' });
+    //     });
+    //     test('compare', () => {
+    //       expect(r).toEqual(r2);
+    //     });
+    //   });
   });
 });
