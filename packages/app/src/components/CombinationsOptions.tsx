@@ -11,6 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { SetCombinationType } from '@upsetjs/model';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 
@@ -54,11 +55,10 @@ export default observer(() => {
         value={c.type}
         select
         required
-        onChange={(e) =>
-          store.changeCombinations({ type: String(e.target.value) === 'intersection' ? 'intersection' : 'union' })
-        }
+        onChange={(e) => store.changeCombinations({ type: String(e.target.value) as SetCombinationType })}
       >
         <MenuItem value="intersection">Set Intersections</MenuItem>
+        <MenuItem value="distinctIntersection">Distinct Set Intersections</MenuItem>
         <MenuItem value="union">Set Unions</MenuItem>
       </TextField>
       <TextField

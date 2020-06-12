@@ -30,7 +30,9 @@
   "scripts": {
     "compile": "tsc -p tsconfig.json --noEmit",
     "start": "tsdx watch --noClean",
-    "build": "tsdx build && npm run typings",
+    "clean": "rimraf .tmp dist",
+    "build": "npm run clean && npm run build:impl && npm run typings",
+    "build:impl": "tsdx build",
     "typings": "tsc -p tsconfig.dts.json && rollup -c rollup.dts.config.js",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
@@ -60,6 +62,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "rollup": "^2.10.7",
     "rollup-plugin-cleanup": "^3.1.1",
     "rollup-plugin-dts": "^1.4.7",

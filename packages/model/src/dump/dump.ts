@@ -7,7 +7,7 @@
 
 import { toIndicesArray, fromIndicesArray } from '../array';
 import { GenerateSetCombinationsOptions, generateCombinations, asSet, asCombination } from '../data';
-import { ISetCombinations, ISetLike, ISets, toKey as toDefaultKey } from '../model';
+import { ISetCombinations, ISetLike, ISets, toKey as toDefaultKey, SetCombinationType } from '../model';
 import { isElemQuery, isSetQuery, UpSetElemQuery, UpSetSetQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
 
@@ -73,7 +73,7 @@ export interface IUpSetDump {
   sets: ReadonlyArray<{ name: string; cardinality: number; elems: UpSetCompressedIndices }>;
   combinations?: ReadonlyArray<{
     name: string;
-    type: 'composite' | 'intersection' | 'union';
+    type: SetCombinationType;
     sets: ReadonlyArray<number>;
     degree: number;
     cardinality: number;

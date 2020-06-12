@@ -22,7 +22,7 @@ export function isSetCombination(v: any): v is ISetCombination<any> {
   const vt: ISetCombination<any> = v;
   return (
     isBaseSet(v) &&
-    ['composite', 'union', 'intersection'].includes(vt.type) &&
+    ['composite', 'union', 'intersection', 'distinctIntersection'].includes(vt.type) &&
     vt.sets instanceof Set &&
     typeof vt.degree === 'number'
   );

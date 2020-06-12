@@ -6,6 +6,7 @@
  */
 
 export const SET_JOINERS = {
+  distinctIntersection: ' ∩ ',
   intersection: ' ∩ ',
   union: ' ∪ ',
   composite: ',',
