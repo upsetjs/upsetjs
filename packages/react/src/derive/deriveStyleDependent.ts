@@ -6,7 +6,7 @@
  */
 
 import { CSSProperties, ReactNode } from 'react';
-import { UpSetMultiStyle, UpSetStyleClassNames } from '../UpSetJS';
+import { UpSetMultiStyle, UpSetStyleClassNames } from '../interfaces';
 
 export default function deriveStyleDependent(
   theme: 'dark' | 'light',

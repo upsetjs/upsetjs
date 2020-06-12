@@ -14,23 +14,38 @@ import {
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
 } from './defaults';
-import { UpSetThemeProps, UpSetProps, UpSetFullProps, UpSetFullPropsG } from './interfaces';
+import {
+  UpSetThemeProps,
+  UpSetProps,
+  UpSetFullProps,
+  UpSetFullPropsG,
+  VennDiagramProps,
+  VennDiagramFullProps,
+  VennDiagramFullPropsG,
+  UpSetPropsG,
+  VennDiagramPropsG,
+  VennDiagramThemeProps,
+} from './interfaces';
 
-const lightTheme: Required<UpSetThemeProps> = {
+const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
   selectionColor: '#ffa500',
   color: '#000000',
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',
   alternatingBackgroundColor: '#0000000d',
+  valueTextColor: '#000000',
+  strokeColor: '#000000',
 };
-const darkTheme: Required<UpSetThemeProps> = {
+const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
   selectionColor: '#ffa500',
   color: '#cccccc',
   textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
   alternatingBackgroundColor: '#ffffff33',
+  valueTextColor: '#ffffff',
+  strokeColor: '#ffffff',
 };
 
 export function getDefaultTheme(theme?: 'light' | 'dark'): Readonly<Required<UpSetThemeProps>> {
@@ -45,7 +60,7 @@ function areCombinations<T>(
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
  */
-export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPropsG<T, C, N, L> {
+export function fillDefaultsG<T, C, N, L = N>(props: UpSetPropsG<T, C, N, L>): UpSetFullPropsG<T, C, N, L> {
   const theme = getDefaultTheme(props.theme);
   return Object.assign(
     {
@@ -94,6 +109,50 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetProps<T>): UpSetFullPr
   );
 }
 
+function valueFormat(v: number) {
+  return v.toLocaleString();
+}
+
 export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
   return fillDefaultsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>(props);
+}
+
+/**
+ * helper methods to fill up partial UpSet.js properties with their default values
+ */
+export function fillVennDiagramDefaultsG<T, C, N, L = N>(
+  props: VennDiagramPropsG<T, C, N, L>
+): VennDiagramFullPropsG<T, C, N, L> {
+  const theme = getDefaultTheme(props.theme);
+  return Object.assign(
+    {
+      theme: 'light',
+      padding: 20,
+      selection: null,
+      title: '',
+      description: '',
+      fontFamily: 'sans-serif',
+      queries: EMPTY_ARRAY,
+      queryLegend: props.queries != null && props.queries.length > 0,
+      exportButtons: true,
+      valueFormat,
+      className: '',
+      fontSizes: DEFAULT_FONT_SIZES,
+      classNames: EMPTY_OBJECT,
+      style: EMPTY_OBJECT,
+      styles: EMPTY_OBJECT,
+      toKey,
+    },
+    theme,
+    props,
+    props.fontSizes
+      ? {
+          fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
+        }
+      : EMPTY_OBJECT
+  );
+}
+
+export function fillVennDiagramDefaults<T = any>(props: VennDiagramProps<T>): VennDiagramFullProps<T> {
+  return fillVennDiagramDefaultsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>(props);
 }

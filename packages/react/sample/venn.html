@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>UpSet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="./upset.js"></script>
+    <input id="value" type="number" min="1" max="3" value="2" />
+    <script>
+      loadUpSetJS().then(({ UpSetJS, render, elems }) => {
+        const sets = UpSetJS.extractSets(elems);
+        let clicked = null;
+        const props = {
+          sets: sets.slice(0, document.getElementById('value').valueAsNumber),
+          width: 1200,
+          height: 500,
+          theme: 'dark',
+          selection: null,
+          onHover: (s) => {
+            props.selection = s || clicked;
+            rerender();
+          },
+          onClick: (s) => {
+            clicked = clicked === s ? null : s;
+            props.selection = clicked;
+            rerender();
+          },
+        };
+        function rerender() {
+          render(props, UpSetJS.VennDiagram);
+        }
+        rerender();
+        function update() {
+          props.sets = sets.slice(0, document.getElementById('value').valueAsNumber);
+          rerender();
+        }
+        document.getElementById('value').onchange = update;
+      });
+    </script>
+  </body>
+</html>

@@ -8,10 +8,11 @@
 import { ISetLike, ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { UpSetAddons } from '../interfaces';
-import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
-import { addonPositionGenerator, clsx } from './utils';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
+import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import { addonPositionGenerator } from './utils';
+import { clsx } from '../utils';
 
 function SetSelectionChart<T>({
   data,

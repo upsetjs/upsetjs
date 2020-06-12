@@ -18,6 +18,3 @@ export { default as extractSets } from './extractSets';
 
 export * from './setOverlap';
 export { default as setOverlap } from './setOverlap';
-
-export { PowerSetOptions } from './powerSet';
-export { default as powerSet } from './powerSet';

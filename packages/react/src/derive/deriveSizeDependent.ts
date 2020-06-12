@@ -7,7 +7,7 @@
 
 import { ReactNode } from 'react';
 import { UpSetAddon } from '../interfaces';
-import { generateId } from './utils';
+import { generateId } from '../utils';
 
 export default function deriveSizeDependent(
   width: number,

@@ -5,49 +5,20 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useCallback } from 'react';
-import { exportSVG, exportVegaLite } from '../exporter';
-import { exportDump, exportSharedLink } from '../exporter/exportDump';
-import { UpSetProps, UpSetExportOptions } from '../interfaces';
-import { UpSetDataInfo } from './deriveDataDependent';
+import React from 'react';
+import { UpSetExportOptions } from '../interfaces';
 
 export default function ExportButtons({
   transform,
   styleId,
   exportButtons,
-  props,
-  data,
+  exportChart,
 }: {
   transform: string;
   styleId: string;
   exportButtons?: boolean | UpSetExportOptions;
-  props: UpSetProps<any>;
-  data: UpSetDataInfo<any>;
+  exportChart: (evt: React.MouseEvent<SVGElement>) => void;
 }) {
-  const exportChart = useCallback(
-    (evt: React.MouseEvent<SVGElement>) => {
-      const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
-      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
-      switch (type) {
-        case 'vega':
-          exportVegaLite(svg);
-          break;
-        case 'dump':
-          exportDump(svg, props, data);
-          break;
-        case 'share':
-          exportSharedLink(props, data);
-          break;
-        case 'svg':
-        case 'png':
-          exportSVG(svg, {
-            type,
-            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
-          });
-      }
-    },
-    [data, props]
-  );
   if (!exportButtons) {
     return null;
   }
@@ -59,7 +30,7 @@ export default function ExportButtons({
   const space = 2;
   let acc = 0;
   const buttons: React.ReactNode[] = [];
-  if (exportButtons === true || exportButtons.svg) {
+  if (exportButtons === true || exportButtons.svg !== false) {
     acc += svgWidth;
     buttons.push(
       <g
@@ -78,7 +49,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.png) {
+  if (exportButtons === true || exportButtons.png !== false) {
     acc += pngWidth;
     buttons.push(
       <g
@@ -97,7 +68,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.vega) {
+  if (exportButtons === true || exportButtons.vega !== false) {
     acc += vegaWidth;
     buttons.push(
       <g
@@ -116,7 +87,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.vega) {
+  if (exportButtons === true || exportButtons.dump !== false) {
     acc += dumpWidth;
     buttons.push(
       <g
@@ -135,7 +106,7 @@ export default function ExportButtons({
     );
     acc += space;
   }
-  if (exportButtons === true || exportButtons.share) {
+  if (exportButtons === true || exportButtons.share !== false) {
     acc += shareWidth;
     buttons.push(
       <g

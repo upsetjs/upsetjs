@@ -7,11 +7,11 @@
 
 import { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
+import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import UpSetDot from './UpSetDot';
-import { clsx } from './utils';
+import { clsx } from '../utils';
 
 function UpSetSelectionChart<T>({
   data,

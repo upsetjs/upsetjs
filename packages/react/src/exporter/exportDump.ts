@@ -1,20 +1,29 @@
-import { UpSetProps } from '../interfaces';
-import { UpSetDataInfo } from '../components/deriveDataDependent';
-import { toUpSetJSDump, toUpSetJSStaticDump } from '../dump';
+/**
+ * @upsetjs/react
+ * https://github.com/components/components
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 import {
-  toDump,
+  GenerateSetCombinationsOptions,
   isElemQuery,
+  ISetCombinations,
+  isSetLike,
   isSetQuery,
+  toDump,
+  toStaticDump,
   UpSetElemQuery,
   UpSetSetQuery,
-  isSetLike,
-  GenerateSetCombinationsOptions,
-  toStaticDump,
 } from '@upsetjs/model';
-import { downloadUrl } from './exportSVG';
 import LZString from 'lz-string';
+import { toUpSetJSDump, toUpSetJSStaticDump } from '../dump';
+import { UpSetProps } from '../interfaces';
+import { downloadUrl } from './exportSVG';
 
-export function exportDumpData(props: UpSetProps<any>, data: UpSetDataInfo<any>, compress = false) {
+declare type IDumpDataInfo = { cs: { v: ISetCombinations<any> } };
+
+export function exportDumpData(props: UpSetProps<any>, data: IDumpDataInfo, compress = false) {
   const elems: any[] = [];
   const lookup = new Map<any, number>();
   const toElemIndex = (elem: any) => {
@@ -44,7 +53,7 @@ export function exportDumpData(props: UpSetProps<any>, data: UpSetDataInfo<any>,
   return toUpSetJSDump(dump, elems, props);
 }
 
-export function exportStaticDumpData(props: UpSetProps<any>, data: UpSetDataInfo<any>, compress = false) {
+export function exportStaticDumpData(props: UpSetProps<any>, data: IDumpDataInfo, compress = false) {
   const dump = toStaticDump(
     {
       sets: props.sets,
@@ -60,7 +69,7 @@ export function exportStaticDumpData(props: UpSetProps<any>, data: UpSetDataInfo
   return toUpSetJSStaticDump(dump, props);
 }
 
-export function exportDump(svg: SVGSVGElement, props: UpSetProps<any>, data: UpSetDataInfo<any>) {
+export function exportDump(svg: SVGSVGElement, props: UpSetProps<any>, data: IDumpDataInfo) {
   const dump = exportDumpData(props, data);
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(dump, null, 2)], {
@@ -73,7 +82,7 @@ export function exportDump(svg: SVGSVGElement, props: UpSetProps<any>, data: UpS
 
 export const MAX_URL_LENGTH = 2048 * 2;
 
-export function exportSharedLink(props: UpSetProps<any>, data: UpSetDataInfo<any>) {
+export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo) {
   const r = exportDumpData(props, data, true);
   delete r.$schema;
   const arg = LZString.compressToEncodedURIComponent(JSON.stringify(r));

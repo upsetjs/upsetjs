@@ -10,6 +10,7 @@ import { UpSetJS, UpSetProps } from './UpSetJS';
 
 export * from './exporter';
 export * from './UpSetJS';
+export * from './venn/VennDiagram';
 export * from './fillDefaults';
 export * from '@upsetjs/model';
 export * from './dump';

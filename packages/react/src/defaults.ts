@@ -5,11 +5,11 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions } from './interfaces';
+import { UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions, VennDiagramFontSizes } from './interfaces';
 
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
-export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes> = {
+export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes & VennDiagramFontSizes> = {
   setLabel: '16px',
   axisTick: '10px',
   chartLabel: '16px',
@@ -17,6 +17,8 @@ export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes> = {
   legend: '10px',
   description: '16px',
   title: '24px',
+  valueLabel: '12px',
+  exportLabel: '10px',
 };
 export const DEFAULT_WIDTH_RATIO = [0.18, 0.12, 0.7];
 export const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];

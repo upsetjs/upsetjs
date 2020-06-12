@@ -5,19 +5,22 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useMemo, forwardRef, Ref } from 'react';
+import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
 import { UpSetProps } from './interfaces';
-import deriveDataDependent from './components/deriveDataDependent';
-import defineSizeDependent from './components/deriveSizeDependent';
-import deriveStyleDependent from './components/deriveStyleDependent';
+import { exportSVG, exportVegaLite } from './exporter';
+import { exportDump, exportSharedLink } from './exporter/exportDump';
+import deriveDataDependent from './derive/deriveDataDependent';
+import deriveSizeDependent from './derive/deriveSizeDependent';
+import deriveStyleDependent from './derive/deriveStyleDependent';
 import ExportButtons from './components/ExportButtons';
 import QueryLegend from './components/QueryLegend';
 import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { clsx, generateId } from './components/utils';
+import { generateId, clsx } from './utils';
 import { fillDefaults } from './fillDefaults';
+import { baseRules } from './rules';
 
 export * from './interfaces';
 
@@ -85,6 +88,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     setLabel: fontSetLabel,
     description: fontDescription,
     title: fontTitle,
+    exportLabel: fontExportLabel,
   } = fontSizes;
   const styleId = useMemo(
     () =>
@@ -98,6 +102,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
             fontLegend,
             fontSetLabel,
             fontTitle,
+            fontExportLabel,
             fontDescription,
             textColor,
             hoverHintColor,
@@ -115,6 +120,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       fontLegend,
       fontSetLabel,
       fontTitle,
+      fontExportLabel,
       fontDescription,
       textColor,
       hoverHintColor,
@@ -160,7 +166,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   const sizeInfo = useMemo(
     () =>
-      defineSizeDependent(
+      deriveSizeDependent(
         width,
         height,
         margin,
@@ -207,18 +213,21 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     ]
   );
 
+  const rulesHelper = baseRules(
+    styleId,
+    textColor,
+    color,
+    selectionColor,
+    fontFamily,
+    fontTitle,
+    fontDescription,
+    fontLegend,
+    fontExportLabel
+  );
   const rules = `
-  .root-${styleId} {
-    ${fontFamily ? `font-family: ${fontFamily};` : ''}
-  }
-  .titleTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontTitle ? `font-size: ${fontTitle};` : ''}
-  }
-  .descTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontDescription ? `font-size: ${fontDescription};` : ''}
-  }
+  ${rulesHelper.root}
+  ${rulesHelper.text}
+
   .axisTextStyle-${styleId} {
     fill: ${textColor};
     ${fontAxisTick ? `font-size: ${fontAxisTick};` : ''}
@@ -262,46 +271,15 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     text-anchor: middle;
     dominant-baseline: hanging;
   }
-  .exportTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
-  }
-  .legendTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontLegend ? `font-size: ${fontLegend};` : ''}
-    text-anchor: middle;
-    dominant-baseline: hanging;
-    pointer-events: none;
-  }
-  .startText-${styleId} {
-    text-anchor: start;
-  }
-  .endText-${styleId} {
-    text-anchor: end;
-  }
-  .pnone-${styleId} {
-    pointer-events: none;
-  }
-  .fillPrimary-${styleId} { fill: ${color}; }
-  .fillSelection-${styleId} { fill: ${selectionColor}; }
+
+  ${rulesHelper.fill}
   .fillNotMember-${styleId} { fill: ${notMemberColor}; }
   .fillAlternating-${styleId} { fill: ${alternatingBackgroundColor || 'transparent'}; }
-  .fillTransparent-${styleId} { fill: transparent; }
-
-  .selectionHint-${styleId} {
-    fill: transparent;
-    pointer-events: none;
-    stroke: ${selectionColor};
-  }
 
   .axisLine-${styleId} {
     fill: none;
     stroke: ${textColor};
   }
-  .clickAble-${styleId} {
-    cursor: pointer;
-  }
-
   .hoverBar-${styleId} {
     fill: transparent;
   }
@@ -313,20 +291,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     display: unset;
   }
 
-  .exportButtons-${styleId} {
-    text-anchor: middle;
-  }
-  .exportButton-${styleId} {
-    cursor: pointer;
-    opacity: 0.5;
-  }
-  .exportButton-${styleId}:hover {
-    opacity: 1;
-  }
-  .exportButton-${styleId} > rect {
-    fill: none;
-    stroke: ${textColor};
-  }
+  ${rulesHelper.export}
 
   .upsetLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6};
@@ -338,6 +303,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     stroke: ${selectionColor};
     pointer-events: none;
   }
+
   ${queries
     .map(
       (q, i) => `.fillQ${i}-${dataInfo.id} {
@@ -346,6 +312,31 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     )
     .join('\n')}
   `;
+
+  const exportChart = useCallback(
+    (evt: React.MouseEvent<SVGElement>) => {
+      const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
+      const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'vega' | 'dump' | 'share';
+      switch (type) {
+        case 'vega':
+          exportVegaLite(svg);
+          break;
+        case 'dump':
+          exportDump(svg, props, dataInfo);
+          break;
+        case 'share':
+          exportSharedLink(props, dataInfo);
+          break;
+        case 'svg':
+        case 'png':
+          exportSVG(svg, {
+            type,
+            toRemove: `.${evt.currentTarget.getAttribute('class')}`,
+          });
+      }
+    },
+    [dataInfo, props]
+  );
 
   return (
     <svg
@@ -364,13 +355,12 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect x={sizeInfo.sets.w} y={0} width={sizeInfo.labels.w} height={sizeInfo.sets.h} />
         </clipPath>
       </defs>
-      {queryLegend && <QueryLegend queries={queries} size={sizeInfo} style={styleInfo} data={dataInfo} />}
+      {queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
         exportButtons={exportButtons}
-        props={props}
-        data={dataInfo}
+        exportChart={exportChart}
       />
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         {onClick && (

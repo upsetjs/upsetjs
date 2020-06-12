@@ -8,10 +8,11 @@
 import React, { PropsWithChildren } from 'react';
 import D3Axis from './D3Axis';
 import UpSetTitle from './UpSetTitle';
-import { UpSetDataInfo } from './deriveDataDependent';
-import { UpSetSizeInfo } from './deriveSizeDependent';
-import { UpSetStyleInfo } from './deriveStyleDependent';
-import { addonPositionGenerator, clsx } from './utils';
+import { UpSetDataInfo } from '../derive/deriveDataDependent';
+import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import { addonPositionGenerator } from './utils';
+import { clsx } from '../utils';
 
 export default React.memo(function UpSetAxis<T>({
   size,

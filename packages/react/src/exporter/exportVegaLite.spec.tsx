@@ -1,3 +1,10 @@
+/**
+ * @upsetjs/react
+ * https://github.com/upsetjs/upsetjs
+ *
+ * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ */
+
 // import 'jest';
 import React from 'react';
 import { createVegaSpec } from './exportVegaLite';

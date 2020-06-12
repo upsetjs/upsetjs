@@ -21,7 +21,7 @@ import {
   ISetCombination,
 } from '@upsetjs/model';
 import { UpSetSizeInfo } from './deriveSizeDependent';
-import { generateId } from './utils';
+import { generateId } from '../utils';
 
 function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
   if (factory === 'linear') {
