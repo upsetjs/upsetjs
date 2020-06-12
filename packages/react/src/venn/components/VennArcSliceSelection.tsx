@@ -54,7 +54,7 @@ function sliceRotate(slice: IArcSlice | ICircle) {
   if (isCircle(slice)) {
     return slice.angle;
   }
-  return slice.cx === slice.x1 ? 0 : slice.cx < slice.x1 ? 60 : -60;
+  return slice.text.x === slice.x1 ? 0 : slice.text.x < slice.x1 ? 60 : -60;
 }
 
 export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
@@ -160,6 +160,7 @@ export default function VennArcSliceSelection<T>({
   data,
   style,
   elemOverlap,
+  selected,
   selectionName,
   onClick,
   onMouseEnter,
@@ -172,6 +173,7 @@ export default function VennArcSliceSelection<T>({
     slice: IArcSlice | ICircle;
     i: number;
     d: ISetLike<T>;
+    selected: boolean;
     elemOverlap: null | ((s: ISetLike<T>) => number);
     selectionName?: string;
     style: VennDiagramStyleInfo;
@@ -185,15 +187,15 @@ export default function VennArcSliceSelection<T>({
 
   const o = elemOverlap ? elemOverlap(d) : 0;
   const className = clsx(
-    o === 0 && `fillPrimary-${style.id}`,
-    o === d.cardinality && `fillSelection-${style.id}`,
+    o === 0 && !selected && `fillPrimary-${style.id}`,
+    ((o === d.cardinality && d.cardinality > 0) || selected) && `fillSelection-${style.id}`,
     style.classNames.set
   );
   const id = `upset-${style.id}-${i}`;
   const secondary = elemOverlap != null || onMouseLeave != null;
   const qsOverlaps = qs.map((q) => q(d));
 
-  const { title, tooltip } = generateTitle(d, o, selectionName, secondary, qsOverlaps, queries, data, slice.cx);
+  const { title, tooltip } = generateTitle(d, o, selectionName, secondary, qsOverlaps, queries, data, slice.text.x);
 
   return (
     <g>
@@ -211,8 +213,8 @@ export default function VennArcSliceSelection<T>({
         <title>{tooltip}</title>
       </path>
       <text
-        x={slice.cx}
-        y={slice.cy}
+        x={slice.text.x}
+        y={slice.text.y}
         className={clsx(
           `${d.type === 'set' ? 'set' : 'value'}TextStyle-${style.id}`,
           `pnone-${style.id}`

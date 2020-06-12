@@ -10,6 +10,8 @@ export interface ICircle {
   cx: number;
   cy: number;
   angle: number;
+
+  text: { x: number; y: number };
 }
 
 // could be slice
@@ -24,8 +26,7 @@ export interface IArc {
 }
 
 export interface IArcSlice {
-  cx: number;
-  cy: number;
+  text: { x: number; y: number };
 
   x1: number;
   y1: number;
@@ -35,4 +36,5 @@ export interface IArcSlice {
 export interface IUniverseSet extends IArcSlice {
   width: number;
   height: number;
+  angle: number;
 }

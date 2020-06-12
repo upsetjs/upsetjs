@@ -4,24 +4,22 @@
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
-import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
-import { VennDiagramProps } from '../interfaces';
-import { fillVennDiagramDefaults } from '../fillDefaults';
-import { clsx, generateId } from '../utils';
-import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
-import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
-import deriveVennDataDependent from './derive/deriveVennDataDependent';
+import { queryOverlap, isSet } from '@upsetjs/model';
+import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import ExportButtons from '../components/ExportButtons';
 import QueryLegend from '../components/QueryLegend';
-import { exportSVG } from '../exporter';
-import { baseRules } from '../rules';
 import UpSetTitle from '../components/UpSetTitle';
 import { wrap } from '../components/utils';
-import VennArcSliceSelection from './components/VennArcSliceSelection';
-import { generateSelectionOverlap, generateSelectionName } from '../utils';
-import { queryOverlap, ISetLike } from '@upsetjs/model';
-import { ICircle, IArcSlice } from './layout/interfaces';
+import { exportSVG } from '../exporter';
 import { exportDump, exportSharedLink } from '../exporter/exportDump';
+import { fillVennDiagramDefaults } from '../fillDefaults';
+import { VennDiagramProps } from '../interfaces';
+import { baseRules } from '../rules';
+import { clsx, generateId, generateSelectionName, generateSelectionOverlap, isSetLike } from '../utils';
+import VennArcSliceSelection from './components/VennArcSliceSelection';
+import deriveVennDataDependent from './derive/deriveVennDataDependent';
+import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
+import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const {
@@ -193,26 +191,13 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     [onClick, onHover, onContextMenu]
   );
 
+  const selectionKey = selection != null && isSetLike(selection) ? dataInfo.toKey(selection) : null;
   const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, dataInfo.toElemKey);
   const selectionName = generateSelectionName(selection);
   const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', dataInfo.toElemKey)), [
     queries,
     dataInfo.toElemKey,
   ]);
-
-  const setInfo = dataInfo.sets.l.map((l, i) => ({
-    l: l as ICircle,
-    key: dataInfo.sets.keys[i],
-    d: dataInfo.sets.v[i] as ISetLike<T>,
-  }));
-
-  const data = (setInfo as { l: ICircle | IArcSlice; key: string; d: ISetLike<T> }[]).concat(
-    dataInfo.cs.l.map((l, i) => ({
-      l: l as ICircle | IArcSlice,
-      key: dataInfo.cs.keys[i],
-      d: dataInfo.cs.v[i] as ISetLike<T>,
-    }))
-  );
 
   const exportButtonsPatch = useMemo(
     () => (!exportButtons ? false : Object.assign({}, exportButtons === true ? {} : exportButtons, { vega: false })),
@@ -241,12 +226,32 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       <g transform={`translate(${margin},${margin})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
         <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
-          {data.map((d, i) => (
-            <VennArcSliceSelection
+          {dataInfo.sets.d.map((d, i) => (
+            <text
               key={d.key}
-              d={d.d}
+              x={d.l.text.x}
+              y={d.l.text.y}
+              onClick={onClickImpl(dataInfo.sets.v[i])}
+              onMouseEnter={onMouseEnterImpl(dataInfo.sets.v[i])}
+              onMouseLeave={onMouseLeaveImpl}
+              onContextMenu={onContextMenuImpl(dataInfo.sets.v[i])}
+              className={clsx(
+                `setTextStyle-${styleInfo.id}`,
+                d.l.angle > 200 && `endText-${styleInfo.id}`,
+                d.l.angle < 200 && `startText-${styleInfo.id}`
+              )}
+            >
+              {dataInfo.sets.v[i].name}
+            </text>
+          ))}
+        </g>
+        <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
+          {dataInfo.cs.d.map((l, i) => (
+            <VennArcSliceSelection
+              key={l.key}
+              d={l.v}
               i={i}
-              slice={d.l}
+              slice={l.l}
               style={styleInfo}
               data={dataInfo}
               onClick={onClickImpl}
@@ -254,6 +259,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               onMouseLeave={onMouseLeaveImpl}
               onContextMenu={onContextMenuImpl}
               selectionName={selectionName}
+              selected={selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}
               elemOverlap={selectionOverlap}
               queries={queries}
               qs={qs}
@@ -261,12 +267,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
           ))}
         </g>
         <g>
-          {setInfo.map((d) => (
+          {dataInfo.sets.d.map((l) => (
             <circle
-              key={d.key}
-              cx={d.l.cx}
-              cy={d.l.cy}
-              r={d.l.r}
+              key={l.key}
+              cx={l.l.cx}
+              cy={l.l.cy}
+              r={l.l.r}
               className={clsx(`stroke-circle-${styleInfo.id}`, styleInfo.classNames.set)}
               style={styleInfo.styles.set}
             />
