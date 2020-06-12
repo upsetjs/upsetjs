@@ -10,7 +10,7 @@
     <label>Items: 10e<input type="number" id="items" min="1" step="1" value="1" /></label>
     <label>Sets: <input type="number" id="sets" min="2" step="1" value="2" /></label>
     <script type="module">
-      import { generateCombinations, generateCombinations2, extractSets } from '../dist/model.esm.js';
+      import { generateCombinations, extractSets } from '../dist/model.esm.js';
 
       function generate(numItems, numSets) {
         const sets = Array(numSets)
@@ -31,12 +31,8 @@
       items.onchange = sets.onchange = () => {
         console.log(Math.pow(10, items.valueAsNumber), sets.valueAsNumber);
         const s = generate(Math.pow(10, items.valueAsNumber), sets.valueAsNumber);
-        // console.time('old');
-        // const rOld = generateCombinations(s);
-        // console.timeEnd('old');
-
         console.time('new');
-        const rNew = generateCombinations2(s);
+        const rNew = generateCombinations(s);
         console.timeEnd('new');
       };
     </script>
