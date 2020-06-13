@@ -7,7 +7,7 @@
 
 import { generateCombinations, ISetCombinations, ISetLike, ISets, ISet, ISetCombination } from '@upsetjs/model';
 import { generateId } from '../../utils';
-import { IArcSlice, ICircle } from '../layout/interfaces';
+import { ITextCircle, ITextArcSlice } from '../layout/interfaces';
 import vennDiagramLayout from '../layout/vennDiagramLayout';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
 
@@ -15,12 +15,12 @@ export declare type VennDiagramDataInfo<T> = {
   id: string;
   format(v: number): string;
   sets: {
-    d: ReadonlyArray<{ v: ISet<T>; l: ICircle; key: string }>;
+    d: ReadonlyArray<{ v: ISet<T>; l: ITextCircle; key: string }>;
     v: ISets<T>;
     format(v: number): string;
   };
   cs: {
-    d: ReadonlyArray<{ v: ISetCombination<T>; l: IArcSlice; key: string }>;
+    d: ReadonlyArray<{ v: ISetCombination<T>; l: ITextArcSlice; key: string }>;
     v: ISetCombinations<T>;
     has(v: ISetCombination<T>, s: ISet<T>): boolean;
   };
