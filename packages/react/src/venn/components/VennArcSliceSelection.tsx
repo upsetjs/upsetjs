@@ -9,9 +9,10 @@ import { ISetLike, UpSetQueries } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { IArcSlice, ICircle } from '../layout/interfaces';
+import { IArcSlice } from '../layout/interfaces';
 import { UpSetSelection } from '../../components/interfaces';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
+import { generateArcSlicePath } from '../layout/generate';
 
 function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: string; v: number; rotate?: number }) {
   if (v >= 1 || v <= 0) {
@@ -33,30 +34,8 @@ function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: s
   );
 }
 
-function isCircle(slice: IArcSlice | ICircle): slice is ICircle {
-  return typeof (slice as ICircle).r === 'number';
-}
-
-function sliceRotate(slice: IArcSlice | ICircle) {
-  if (isCircle(slice)) {
-    return slice.angle;
-  }
+function sliceRotate(slice: IArcSlice) {
   return slice.text.x === slice.x1 ? 0 : slice.text.x < slice.x1 ? 60 : -60;
-}
-
-export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
-  if (isCircle(s)) {
-    const r = s.r - p;
-    return `M ${s.cx - r} ${s.cy} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`;
-  }
-  return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
-    .map(
-      (arc) =>
-        `A ${arc.rx - p} ${arc.ry - p} ${arc.rotation} ${arc.largeArcFlag ? 1 : 0} ${arc.sweepFlag ? 1 : 0} ${
-          arc.x2 - p
-        } ${arc.y2 - p}`
-    )
-    .join(' ')}`;
 }
 
 function generateTitle(
@@ -156,7 +135,7 @@ export default function VennArcSliceSelection<T>({
   qs,
 }: PropsWithChildren<
   {
-    slice: IArcSlice | ICircle;
+    slice: IArcSlice;
     i: number;
     d: ISetLike<T>;
     selected: boolean;
