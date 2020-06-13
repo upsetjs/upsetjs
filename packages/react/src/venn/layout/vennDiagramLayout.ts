@@ -165,7 +165,7 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
       {
         x1: p0.cx,
         y1: p0.cy,
-        arcs: [arc(p1, r, true, false), arc(p0, r, false, false)],
+        arcs: [arc(p1, r, true, false), arc(p0, r, false, true)],
         text: {
           x: c1x,
           y: size.cy,
