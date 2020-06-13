@@ -36,16 +36,13 @@ export default function deriveVennDataDependent<T>(
   toElemKey?: (e: T) => string,
   id?: string
 ): VennDiagramDataInfo<T> {
-  const cs =
-    sets.length > 1
-      ? generateCombinations(sets, {
-          type: 'distinctIntersection',
-          min: 1,
-          empty: true,
-          order: ['degree:asc', 'group:asc'],
-          toElemKey,
-        })
-      : [];
+  const cs = generateCombinations(sets, {
+    type: 'distinctIntersection',
+    min: 1,
+    empty: true,
+    order: ['degree:asc', 'group:asc'],
+    toElemKey,
+  });
 
   const csKeys = cs.map(toKey);
   const setKeys = sets.map(toKey);

@@ -38,51 +38,49 @@ interface IChartArea {
 }
 
 function one(size: IChartArea): IVennDiagramLayout {
+  const p0 = {
+    cx: size.cx,
+    cy: size.cy - size.r,
+  };
+  const p1 = {
+    cx: size.cx,
+    cy: size.cy + size.r,
+  };
   return {
     sets: [
       {
         r: size.r,
         cx: size.cx,
         cy: size.cy,
-        angle: 0,
-        text: { x: size.cx, y: size.cy },
+        angle: 180,
+        text: pointAtCircle(size.cx, size.cy, size.r * 1.1, 120 - 90),
       },
     ],
     universe: {
       // rect without a circle
       width: size.w,
       height: size.h,
-      x1: size.cx,
-      y1: size.cy - size.r,
+      x1: p0.cx,
+      y1: p0.cy,
       // universe at lower left corner
       text: {
         x: (size.w - size.r * 2) / 2,
         y: size.h - (size.h - size.r * 2) / 2,
       },
       angle: 90,
-      arcs: [
-        {
-          rx: size.r,
-          ry: size.r,
-          rotation: 0,
-          largeArcFlag: false,
-          sweepFlag: false,
-          x2: size.cx,
-          y2: size.cy + size.r,
-        },
-        {
-          rx: size.r,
-          ry: size.r,
-          rotation: 0,
-          largeArcFlag: false,
-          sweepFlag: true,
-          x2: size.cx,
-          y2: size.cy - size.r,
-        },
-      ],
+      arcs: [arc(p1, size.r), arc(p0, size.r)],
     },
-
-    intersections: [],
+    intersections: [
+      {
+        x1: p0.cx,
+        y1: p0.cy,
+        text: {
+          x: size.cx,
+          y: size.cy,
+        },
+        arcs: [arc(p1, size.r), arc(p0, size.r)],
+      },
+    ],
   };
 }
 
