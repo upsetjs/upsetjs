@@ -13,19 +13,7 @@ import { IArcSlice, ICircle } from '../layout/interfaces';
 import { UpSetSelection } from '../../components/interfaces';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 
-function SelectionPattern({
-  id,
-  suffix,
-  v,
-  style,
-  rotate = 0,
-}: {
-  id: string;
-  suffix: string;
-  v: number;
-  rotate?: number;
-  style: VennDiagramStyleInfo;
-}) {
+function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: string; v: number; rotate?: number }) {
   if (v >= 1 || v <= 0) {
     return null;
   }
@@ -39,7 +27,6 @@ function SelectionPattern({
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${rotate})`}
       >
-        <rect x="0" y="0" width="1" height="0.1" className={`fillPrimary-${style.id}`} />
         <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
       </pattern>
     </defs>
@@ -62,7 +49,6 @@ export function generateArcSlicePath(s: IArcSlice | ICircle, p = 0) {
     const r = s.r - p;
     return `M ${s.cx - r} ${s.cy} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`;
   }
-  // TODO
   return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
     .map(
       (arc) =>
@@ -187,7 +173,7 @@ export default function VennArcSliceSelection<T>({
 
   const o = elemOverlap ? elemOverlap(d) : 0;
   const className = clsx(
-    o === 0 && !selected && `fillPrimary-${style.id}`,
+    o === 0 && !selected && `fillTransparent-${style.id}`,
     ((o === d.cardinality && d.cardinality > 0) || selected) && `fillSelection-${style.id}`,
     style.classNames.set
   );
@@ -199,7 +185,7 @@ export default function VennArcSliceSelection<T>({
 
   return (
     <g>
-      <SelectionPattern id={id} v={o / d.cardinality} style={style} suffix={`Selection-${style.id}`} rotate={rotate} />
+      <SelectionPattern id={id} v={o / d.cardinality} suffix={`Selection-${style.id}`} rotate={rotate} />
       <path
         onMouseEnter={onMouseEnter(d)}
         onMouseLeave={onMouseLeave}
