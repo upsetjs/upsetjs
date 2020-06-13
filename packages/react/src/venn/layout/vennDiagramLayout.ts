@@ -6,14 +6,14 @@
  */
 
 import { circleIntersectionPoints, DEG2RAD, pointAtCircle } from './math';
-import { IArc, IArcSlice, ICircle, IUniverseSet } from './interfaces';
+import { IArc, ITextArcSlice, ITextCircle, ITextUniverseSet } from './interfaces';
 
 // could be slice of three
 
 export interface IVennDiagramLayout {
-  sets: ICircle[];
-  universe: IUniverseSet;
-  intersections: IArcSlice[];
+  sets: ITextCircle[];
+  universe: ITextUniverseSet;
+  intersections: ITextArcSlice[];
 }
 
 interface IChartArea {
@@ -92,7 +92,7 @@ function computeCenter(arcs: IArc[]) {
   };
 }
 
-function arcSlice(p0: { cx: number; cy: number }, p1: { cx: number; cy: number }, r: number): IArcSlice {
+function arcSlice(p0: { cx: number; cy: number }, p1: { cx: number; cy: number }, r: number): ITextArcSlice {
   const arcs = [arc(p1, r), arc(p0, r)];
   const { cx, cy } = computeCenter(arcs);
   return {
@@ -103,7 +103,7 @@ function arcSlice(p0: { cx: number; cy: number }, p1: { cx: number; cy: number }
   };
 }
 
-function arcCenter(p1: { cx: number; cy: number }, arcs: IArc[]): IArcSlice {
+function arcCenter(p1: { cx: number; cy: number }, arcs: IArc[]): ITextArcSlice {
   const center = computeCenter(arcs);
   return {
     x1: p1.cx,
@@ -123,7 +123,7 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   const wRest = size.w - r * 3.5;
 
   const c0x = size.cx - r * (1 - radiOverlap);
-  const c0: ICircle = {
+  const c0: ITextCircle = {
     r,
     cx: c0x,
     cy: size.cy,
@@ -132,7 +132,7 @@ function two(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   };
 
   const c1x = size.cx + r * (1 - radiOverlap);
-  const c1: ICircle = {
+  const c1: ITextCircle = {
     r,
     cx: c1x,
     cy: size.cy,
@@ -192,7 +192,7 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
 
   const c0x = cx + offset * Math.cos(-90 * DEG2RAD);
   const c0y = cy - offset * Math.sin(-90 * DEG2RAD);
-  const c0: ICircle = {
+  const c0: ITextCircle = {
     r,
     cx: c0x,
     cy: c0y,
@@ -202,7 +202,7 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
 
   const c1x = cx - offset * Math.cos(30 * DEG2RAD);
   const c1y = cy - offset * Math.sin(30 * DEG2RAD);
-  const c1: ICircle = {
+  const c1: ITextCircle = {
     r,
     cx: c1x,
     cy: c1y,
@@ -212,7 +212,7 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
 
   const c2x = cx - offset * Math.cos(150 * DEG2RAD);
   const c2y = cy - offset * Math.sin(150 * DEG2RAD);
-  const c2: ICircle = {
+  const c2: ITextCircle = {
     r,
     cx: c2x,
     cy: c2y,

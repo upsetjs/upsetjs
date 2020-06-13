@@ -9,7 +9,7 @@ import { ISetLike, UpSetQueries } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
 import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { IArcSlice } from '../layout/interfaces';
+import { ITextArcSlice } from '../layout/interfaces';
 import { UpSetSelection } from '../../components/interfaces';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
@@ -34,7 +34,7 @@ function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: s
   );
 }
 
-function sliceRotate(slice: IArcSlice) {
+function sliceRotate(slice: ITextArcSlice) {
   return slice.text.x === slice.x1 ? 0 : slice.text.x < slice.x1 ? 60 : -60;
 }
 
@@ -135,7 +135,7 @@ export default function VennArcSliceSelection<T>({
   qs,
 }: PropsWithChildren<
   {
-    slice: IArcSlice;
+    slice: ITextArcSlice;
     i: number;
     d: ISetLike<T>;
     selected: boolean;
