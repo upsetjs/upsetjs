@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useStore } from '../store';
+import { UpSetThemes } from '@upsetjs/react';
 import SidePanelEntry from './SidePanelEntry';
 
 export default observer(() => {
@@ -27,10 +28,11 @@ export default observer(() => {
         value={p.theme}
         select
         required
-        onChange={(e) => store.changeProps({ theme: String(e.target.value) === 'dark' ? 'dark' : 'light' })}
+        onChange={(e) => store.changeProps({ theme: String(e.target.value) as UpSetThemes })}
       >
         <MenuItem value="dark">Dark Theme</MenuItem>
         <MenuItem value="light">Light Theme</MenuItem>
+        <MenuItem value="vega">Vega Theme</MenuItem>
       </TextField>
       <TextField label="Bar Color" required name="color" value={p.color} type="color" onChange={handleTextChange} />
       <TextField
