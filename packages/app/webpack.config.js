@@ -90,6 +90,10 @@ module.exports = function (env, argv) {
           use: [babel],
         },
         {
+          test: /\.css$/,
+          loader: 'style-loader!css-loader',
+        },
+        {
           test: /\.(png|jpg|gif|jpeg)$/,
           loader: 'url-loader',
           options: {

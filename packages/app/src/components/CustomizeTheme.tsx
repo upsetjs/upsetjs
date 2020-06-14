@@ -8,11 +8,63 @@
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { useStore } from '../store';
 import { UpSetThemes } from '@upsetjs/react';
 import SidePanelEntry from './SidePanelEntry';
-// import CP from '@taufik-nurrohman/color-picker';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import '@taufik-nurrohman/color-picker';
+import '@taufik-nurrohman/color-picker/color-picker.css';
+
+declare class CP {
+  static HEX(color: string): number[];
+  static HEX(color: number[]): string;
+  static RGB(color: string): number[];
+  static RGB(color: number[]): string;
+
+  constructor(parent: HTMLElement, options?: { color: string });
+
+  color(r: number, g: number, b: number, a: number): string;
+
+  on(type: 'change', callback: (r: number, g: number, b: number, a: number) => void): void;
+  pop(): void;
+}
+
+function parseRGBA(x: string): number[] {
+  let rgba: RegExpMatchArray | null;
+  if (
+    (rgba = x.match(
+      /^rgba\s*\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]|0?\.\d+)\s*\)$/i
+    ))
+  ) {
+    return [+rgba[1], +rgba[2], +rgba[3], +rgba[4]];
+  }
+  if (
+    (rgba = x.match(
+      /^rgb\s*\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*\)$/i
+    ))
+  ) {
+    return [+rgba[1], +rgba[2], +rgba[3], 1];
+  }
+  return [0, 0, 0, 1]; // Default to black
+}
+
+CP.RGB = (x: string | number[]): any => {
+  if (typeof x === 'string') {
+    return x.startsWith('#') ? CP.HEX(x) : parseRGBA(x);
+  }
+  // Convert color data to color string
+  const r = +x[0];
+  const g = +x[1];
+  const b = +x[2];
+  const a = +('undefined' === typeof x[3] ? 1 : x[3]);
+  if (1 === a) {
+    // Opaque, return as RGB color string
+    return CP.HEX(x); // `rgb(${r},${g},${b})`;
+  }
+  // Transparent, return as RGBA color string
+  return `rgba(${r},${g},${b},${a})`;
+};
 
 function ColorTextField({
   label,
@@ -27,7 +79,41 @@ function ColorTextField({
   required?: boolean;
   onChange: (e: { target: { name: string; value: string } }) => void;
 }) {
-  return <TextField label={label} name={name} value={value} required={required} onChange={onChange} />;
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    const cp = new CP(ref.current, { color: 'RGB' });
+    cp.on('change', function (this: CP, r, g, b, a) {
+      const color = a === 1 ? this.color(r, g, b, a) : `rgba(${r}, ${g}, ${b}, ${a})`;
+      if (ref.current && ref.current.value === color) {
+        return;
+      }
+      onChange({ target: { name, value: color } });
+    });
+    return () => cp.pop();
+  }, [ref, name, onChange]);
+  return (
+    <TextField
+      label={label}
+      name={name}
+      value={value}
+      required={required}
+      inputProps={{
+        ref,
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start" style={{ color: value }}>
+            <span role="img" aria-label="current color">
+              ⬤
+            </span>
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
 }
 // let picker = new CP(document.querySelector('input'));
 //     picker.on('change', function(r, g, b, a) {
