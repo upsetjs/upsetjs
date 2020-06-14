@@ -18,7 +18,7 @@ import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { generateId, clsx } from './utils';
+import { generateId, clsx, generateSelectionName } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
 
@@ -70,6 +70,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     numericScale,
     queryLegend,
     selectionColor,
+    hasSelectionColor,
     setName,
     setNameAxisOffset,
     styles: cStyles,
@@ -107,6 +108,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
             textColor,
             hoverHintColor,
             color,
+            hasSelectionColor,
             selectionColor,
             notMemberColor,
             alternatingBackgroundColor,
@@ -125,6 +127,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       textColor,
       hoverHintColor,
       color,
+      hasSelectionColor,
       selectionColor,
       notMemberColor,
       alternatingBackgroundColor,
@@ -218,6 +221,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     textColor,
     color,
     selectionColor,
+    hasSelectionColor,
     fontFamily,
     fontTitle,
     fontDescription,
@@ -297,6 +301,11 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     stroke-width: ${dataInfo.r * 0.6};
     stroke: ${color};
   }
+  ${
+    hasSelectionColor
+      ? `.root-${styleId}[data-selection] .upsetLine-${dataInfo.id} { stroke: ${hasSelectionColor}; }`
+      : ''
+  }
 
   .upsetSelectionLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6 * 1.1};
@@ -338,6 +347,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     [dataInfo, props]
   );
 
+  const selectionName = generateSelectionName(selection);
+
   return (
     <svg
       id={id}
@@ -348,6 +359,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       ref={ref}
       viewBox={`0 0 ${width} ${height}`}
       data-theme={theme ?? 'light'}
+      data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
       <defs>

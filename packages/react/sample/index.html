@@ -12,19 +12,18 @@
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
         const sets = UpSetJS.extractSets(elems);
 
-        let selection = null;
+        const props = {
+          sets,
+          width: 1200,
+          height: 500,
+          selection,
+          onHover: (s) => {
+            props.selection = s;
+            rerender();
+          },
+        };
         function rerender() {
-          render({
-            sets,
-            width: 1200,
-            height: 500,
-            theme: 'dark',
-            selection,
-            onHover: (s) => {
-              selection = s;
-              rerender();
-            },
-          });
+          render(props);
         }
         rerender();
       });

@@ -1,5 +1,4 @@
 async function loadUpSetJS() {
-  document.body.style.backgroundColor = 'black';
   document.body.insertAdjacentHTML('beforeend', '<div id="app"></div>');
 
   function loadScript(url) {
@@ -41,13 +40,19 @@ async function loadUpSetJS() {
   document.body.appendChild(s);
   await new Promise((resolve) => (s.onload = resolve));
 
+  const theme =
+    new URLSearchParams(window.location.search).get('theme') ||
+    (window.matchMedia('prefers-color-scheme: dark').matches ? 'dark' : 'light');
+
   function render(props, elem) {
+    props.theme = theme;
     window.ReactDOM.render(
       window.React.createElement(elem || window.exports.default, props),
       document.getElementById('app')
     );
   }
+  document.body.style.backgroundColor = window.exports.getDefaultTheme(theme).backgroundColor;
 
   const elems = await fetch('../src/data/got.json').then((r) => r.json());
-  return { UpSetJS: window.exports, render, elems };
+  return { UpSetJS: window.exports, render, elems, theme };
 }

@@ -3,6 +3,7 @@ export function baseRules(
   textColor: string,
   color: string,
   selectionColor: string,
+  hasSelectionColor: string,
   fontFamily?: string | false,
   fontTitle?: string,
   fontDescription?: string,
@@ -35,6 +36,7 @@ export function baseRules(
   `,
     fill: `
   .fillPrimary-${styleId} { fill: ${color}; }
+  ${hasSelectionColor ? `.root-${styleId}[data-selection] .fillPrimary-${styleId} { fill: ${hasSelectionColor}; }` : ''}
   .fillSelection-${styleId} { fill: ${selectionColor}; }
   .fillTransparent-${styleId} { fill: transparent; }
 

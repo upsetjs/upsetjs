@@ -39,11 +39,12 @@ const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraT
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',
-  alternatingBackgroundColor: '#0000000d',
+  alternatingBackgroundColor: 'rgba(0,0,0,0.05)',
   valueTextColor: '#000000',
   strokeColor: '#000000',
   backgroundColor: '#ffffff',
 };
+
 const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme> = {
   selectionColor: '#ffa500',
   color: '#cccccc',
@@ -51,16 +52,16 @@ const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTh
   textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
-  alternatingBackgroundColor: '#ffffff33',
+  alternatingBackgroundColor: 'rgba(255, 255, 255, 0.2)',
   valueTextColor: '#ffffff',
   strokeColor: '#ffffff',
   backgroundColor: '#303030',
 };
 
 const vegaTheme: Readonly<Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme>> = {
-  selectionColor: 'rgb(76,120,168)',
-  color: 'rgb(76,120,168)',
-  hasSelectionColor: 'rgba(76,120,168,0.3)',
+  selectionColor: '#4c78a8',
+  color: '#4c78a8',
+  hasSelectionColor: '#c9d6e5',
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',

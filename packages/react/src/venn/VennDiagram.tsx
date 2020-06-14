@@ -48,6 +48,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     description,
     classNames,
     color,
+    hasSelectionColor,
     strokeColor,
     valueTextColor,
     styles,
@@ -78,6 +79,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             fontDescription,
             textColor,
             color,
+            hasSelectionColor,
             strokeColor,
             valueTextColor,
             selectionColor,
@@ -93,6 +95,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       fontDescription,
       textColor,
       color,
+      hasSelectionColor,
       strokeColor,
       valueTextColor,
       selectionColor,
@@ -120,6 +123,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     textColor,
     color,
     selectionColor,
+    hasSelectionColor,
     fontFamily,
     fontTitle,
     fontDescription,
@@ -214,6 +218,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       ref={ref}
       viewBox={`0 0 ${width} ${height}`}
       data-theme={theme ?? 'light'}
+      data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
       {queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
