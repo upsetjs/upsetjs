@@ -8,7 +8,7 @@
 import { toIndicesArray, fromIndicesArray } from '../array';
 import { GenerateSetCombinationsOptions, generateCombinations, asSet, asCombination } from '../data';
 import { ISetCombinations, ISetLike, ISets, toKey as toDefaultKey, SetCombinationType } from '../model';
-import { isElemQuery, isSetQuery, UpSetElemQuery, UpSetSetQuery } from '../queries';
+import { isSetQuery, UpSetElemQuery, UpSetSetQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
 
 export interface IUpSetFromDumpConfig<T> {
@@ -22,7 +22,7 @@ export function fromDump<T>(
 ): {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
-  selection?: ISetLike<T>;
+  selection?: ISetLike<T> | ReadonlyArray<T>;
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 } {
   const sets: ISets<T> = dump.sets.map((set) => asSet({ ...set, elems: fromIndicesArray(set.elems, elems) }));
@@ -49,7 +49,11 @@ export function fromDump<T>(
   return {
     sets,
     combinations,
-    selection: dump.selection ? fromSetRef(dump.selection) : undefined,
+    selection: dump.selection
+      ? typeof dump.selection === 'string' || Array.isArray(dump.selection)
+        ? fromIndicesArray(dump.selection, elems)
+        : fromSetRef(dump.selection as IUpSetDumpRef)
+      : undefined,
     queries: dump.queries.map((query) => {
       if (query.set) {
         return {
@@ -80,7 +84,7 @@ export interface IUpSetDump {
     elems: UpSetCompressedIndices;
   }>;
   combinationOptions?: Omit<GenerateSetCombinationsOptions, 'elems'>;
-  selection?: IUpSetDumpRef;
+  selection?: IUpSetDumpRef | UpSetCompressedIndices;
   queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; elems?: UpSetCompressedIndices }>;
 }
 
@@ -89,7 +93,7 @@ export interface IUpSetDumpData<T> {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
   combinationOptions?: GenerateSetCombinationsOptions<T>;
-  selection?: ISetLike<T>;
+  selection?: ISetLike<T> | ReadonlyArray<T>;
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 }
 
@@ -103,12 +107,24 @@ export function toDump<T>(data: IUpSetDumpData<T>, config: IUpSetToDumpConfig<T>
   const toKey = config.toKey ?? toDefaultKey;
   const bySetKey = new Map(data.sets.map((s, i) => [toKey(s), i]));
   const byCombinationKey = new Map(data.combinations.map((s, i) => [toKey(s), i]));
-  const toSetRef = (s: ISetLike<T>): IUpSetDumpRef => {
+
+  const toSetRef = (s: ISetLike<T>): IUpSetDumpRef | UpSetCompressedIndices => {
+    if (s.type === 'set') {
+      return {
+        type: s.type,
+        index: bySetKey.get(toKey(s))!,
+      };
+    }
+    const index = byCombinationKey.get(toKey(s));
+    if (index == null || index < 0) {
+      return toIndicesArray(s.elems, data.toElemIndex, indicesOptions);
+    }
     return {
       type: s.type,
-      index: s.type === 'set' ? bySetKey.get(toKey(s))! : byCombinationKey.get(toKey(s))!,
+      index,
     };
   };
+
   const setLookup = data.sets.map((s, i) => ({
     key: toKey(s),
     i,
@@ -134,12 +150,21 @@ export function toDump<T>(data: IUpSetDumpData<T>, config: IUpSetToDumpConfig<T>
           })
         : undefined,
     combinationOptions: data.combinationOptions,
-    selection: data.selection ? toSetRef(data.selection) : undefined,
-    queries: data.queries.map((query) => ({
-      name: query.name,
-      color: query.color,
-      set: isSetQuery(query) ? toSetRef(query.set) : undefined,
-      elems: isElemQuery(query) ? toIndicesArray(Array.from(query.elems), data.toElemIndex, indicesOptions) : undefined,
-    })),
+    selection: data.selection
+      ? Array.isArray(data.selection)
+        ? toIndicesArray(data.selection, data.toElemIndex, indicesOptions)
+        : toSetRef(data.selection as ISetLike<T>)
+      : undefined,
+    queries: data.queries.map((query) => {
+      const elems = isSetQuery(query)
+        ? toSetRef(query.set)
+        : toIndicesArray(Array.from(query.elems), data.toElemIndex, indicesOptions);
+      return {
+        name: query.name,
+        color: query.color,
+        set: typeof elems === 'string' || Array.isArray(elems) ? undefined : (elems as IUpSetDumpRef),
+        elems: typeof elems === 'string' || Array.isArray(elems) ? (elems as UpSetCompressedIndices) : undefined,
+      };
+    }),
   };
 }

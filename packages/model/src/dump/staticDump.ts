@@ -18,6 +18,7 @@ import {
 } from '../model';
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery, UpSetCalcQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
+import { isSetLike } from '../validators';
 
 declare type UpSetFromStaticDumpFullCombination = {
   name: string;
@@ -39,7 +40,7 @@ declare type UpSetFromStaticDumpCompressedCombination = {
 export interface IUpSetStaticDump {
   sets: ReadonlyArray<{ name: string; cardinality: number } | { n: string; c: number }>;
   combinations: ReadonlyArray<UpSetFromStaticDumpFullCombination | UpSetFromStaticDumpCompressedCombination>;
-  selection?: IUpSetDumpRef;
+  selection?: IUpSetDumpRef | ReadonlyArray<number>;
   queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: ReadonlyArray<number> }>;
   overlaps: ReadonlyArray<ReadonlyArray<number>> | string;
 }
@@ -47,7 +48,7 @@ export interface IUpSetStaticDump {
 export interface IUpSetStaticDumpData<T> {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
-  selection?: ISetLike<T>;
+  selection?: ISetLike<T> | ReadonlyArray<T>;
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 }
 
@@ -71,11 +72,26 @@ export function toStaticDump<T>(
   const toKey = config.toKey ?? toDefaultKey;
   const bySetKey = new Map(data.sets.map((s, i) => [toKey(s), i]));
   const byCombinationKey = new Map(data.combinations.map((s, i) => [toKey(s), i]));
-  const toSetRef = (s: ISetLike<T>): IUpSetDumpRef => {
-    return {
-      type: s.type,
-      index: s.type === 'set' ? bySetKey.get(toKey(s))! : byCombinationKey.get(toKey(s))!,
-    };
+  const toSelectionSetRef = (s: ISetLike<T> | ReadonlyArray<T>) => {
+    if (isSetLike(s)) {
+      if (s.type === 'set') {
+        return {
+          type: s.type,
+          index: bySetKey.get(toKey(s))!,
+        };
+      }
+      const index = byCombinationKey.get(toKey(s));
+      if (index != null && index >= 0) {
+        return {
+          type: s.type,
+          index,
+        };
+      }
+    }
+    const overlapF = setOverlapFactory(isSetLike(s) ? s.elems : s);
+    return data.sets
+      .map((set) => overlapF(set.elems).intersection)
+      .concat(data.combinations.map((set) => overlapF(set.elems).intersection));
   };
   const setIndex = new Map(data.sets.map((set, i) => [toKey(set), i]));
 
@@ -126,13 +142,21 @@ export function toStaticDump<T>(
             .sort((a, b) => a - b),
         })),
     overlaps,
-    selection: data.selection ? toSetRef(data.selection) : undefined,
+    selection: data.selection ? toSelectionSetRef(data.selection) : undefined,
     queries: data.queries.map((query) => {
       if (isSetQuery(query)) {
+        const ref = toSelectionSetRef(query.set);
+        if (Array.isArray(ref)) {
+          return {
+            name: query.name,
+            color: query.color,
+            overlaps: ref,
+          };
+        }
         return {
           name: query.name,
           color: query.color,
-          set: toSetRef(query.set),
+          set: ref,
         };
       }
       const overlapF = setOverlapFactory(query.elems);
@@ -169,7 +193,7 @@ export function fromStaticDump(
 ): {
   sets: ISets<never>;
   combinations: ISetCombinations<never>;
-  selection?: ISetLike<never>;
+  selection?: ISetLike<never> | ((v: ISetLike<never>) => number);
   queries: ReadonlyArray<UpSetCalcQuery<never> | UpSetSetQuery<never>>;
 } {
   const toKey = config.toKey ?? toDefaultKey;
@@ -227,10 +251,23 @@ export function fromStaticDump(
     }
     return combinations[ref.index];
   }
+
+  function generateOverlap(lookup: ReadonlyArray<number>) {
+    return (v: ISetLike<never>) => {
+      const key = toKey(v);
+      const index = setIndex.has(key) ? setIndex.get(key)! : combinationIndex.get(key)!;
+      return index == null || index < 0 || index >= lookup.length ? 0 : lookup[index];
+    };
+  }
+
   return {
     sets,
     combinations,
-    selection: dump.selection ? fromSetRef(dump.selection) : undefined,
+    selection: dump.selection
+      ? Array.isArray(dump.selection)
+        ? generateOverlap(dump.selection)
+        : fromSetRef(dump.selection as IUpSetDumpRef)
+      : undefined,
     queries: dump.queries.map((query) => {
       if (query.set) {
         return {
@@ -239,16 +276,10 @@ export function fromStaticDump(
           set: fromSetRef(query.set),
         } as UpSetSetQuery<never>;
       }
-      const lookup = query.overlaps!;
-      const queryOverlap = (v: ISetLike<never>) => {
-        const key = toKey(v);
-        const index = setIndex.has(key) ? setIndex.get(key)! : combinationIndex.get(key)!;
-        return index == null || index < 0 || index >= lookup.length ? 0 : lookup[index];
-      };
       return {
         name: query.name,
         color: query.color,
-        overlap: queryOverlap,
+        overlap: generateOverlap(query.overlaps!),
       } as UpSetCalcQuery<never>;
     }),
   };
