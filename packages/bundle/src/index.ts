@@ -19,21 +19,22 @@ import UpSetElement, {
   IUpSetStaticDump,
   IUpSetJSDump,
   IUpSetJSStaticDump,
+  UpSetMultiStyle,
 } from '@upsetjs/react';
-import { UpSetCSSStyles, UpSetReactElement } from './react';
+import { UpSetReactElement } from './react';
 
 export * from './addons';
 export * from '@upsetjs/model';
 export { propValidators, IUpSetJSDump, IUpSetJSStaticDump, UpSetJSDumpProps } from '@upsetjs/react';
 
-export declare type UpSetProps<T = any> = UpSetPropsG<T, UpSetCSSStyles, UpSetReactElement, string>;
-export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, UpSetCSSStyles, UpSetReactElement, string>;
+export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
 
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
  */
 export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
-  const p: UpSetReactProps<T> = props;
+  const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   return fillDefaultsImpl(p) as UpSetFullProps<T>;
 }
 
@@ -43,7 +44,7 @@ export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
  * @param props the properties of the component
  */
 export function render<T = any>(node: HTMLElement, props: UpSetProps<T>) {
-  const p: UpSetReactProps<T> = props;
+  const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   renderPreact(h(UpSetElement as any, p), node);
 }
 /**
@@ -59,7 +60,7 @@ export const renderUpSet = render;
  * @param props the properties of the component
  */
 export function hydrate<T = any>(node: HTMLElement, props: UpSetProps<T>) {
-  const p: UpSetReactProps<T> = props;
+  const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   hydratePreact(h(UpSetElement as any, p), node);
 }
 
@@ -98,7 +99,12 @@ export function toUpSetJSDump(
   props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSDump {
-  return toUpSetJSDumpImpl(dump, elements, props, author);
+  return toUpSetJSDumpImpl(
+    dump,
+    elements,
+    props as Partial<UpSetProps<any> & { style: any; styles: UpSetMultiStyle<any> }>,
+    author
+  );
 }
 
 export function toUpSetJSStaticDump(
@@ -106,5 +112,9 @@ export function toUpSetJSStaticDump(
   props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSStaticDump {
-  return toUpSetJSStaticDumpImpl(dump, props, author);
+  return toUpSetJSStaticDumpImpl(
+    dump,
+    props as Partial<UpSetProps<any> & { style: any; styles: UpSetMultiStyle<any> }>,
+    author
+  );
 }
