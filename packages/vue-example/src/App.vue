@@ -17,6 +17,7 @@ export default Vue.extend<
   { elems: Elem[]; width: number; height: number; selection: ISet<Elem> | null },
   { hover(s: ISet<Elem> | null): void },
   { sets: ISets<Elem> },
+  // eslint-disable-next-line @typescript-eslint/ban-types
   {}
 >({
   name: 'App',
