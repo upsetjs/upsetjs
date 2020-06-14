@@ -27,7 +27,7 @@
     "fix": "npm run prettier:write && yarn workspaces foreach -v --topological-dev run fix",
     "test": "yarn workspaces foreach -v -p --topological-dev run test",
     "build": "yarn workspaces foreach -v -p --topological-dev run build",
-    "build:preapp": "yarn workspaces foreach -v -p --topological-dev --include @upsetjs/model --include @upsetjs/math --include @upsetjs/bundle --include @upsetjs/react --include @upsetjs/addons run build",
+    "build:preapp": "yarn workspaces foreach -v -p --topological-dev --include @upsetjs/model --include @upsetjs/math --include @upsetjs/bundle --include @upsetjs/react --include @upsetjs/addons --include @upsetjs/plots run build",
     "docs": "yarn workspaces foreach -v -p run docs",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",

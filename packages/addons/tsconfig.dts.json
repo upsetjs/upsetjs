@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./.tmp",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "importsNotUsedAsValues": "preserve"
-  }
-}

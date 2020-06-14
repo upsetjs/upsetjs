@@ -29,10 +29,10 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json --noEmit",
     "start": "tsdx watch --tsconfig tsconfig.build.json --noClean",
-    "clean": "rimraf .tmp dist",
-    "build": "npm run clean && npm run build:impl && npm run typings",
+    "clean": "rimraf dist",
+    "build": "npm run build:impl && npm run typings",
     "build:impl": "tsdx build --tsconfig tsconfig.build.json",
-    "typings": "tsc -p tsconfig.dts.json && rollup -c rollup.dts.config.js",
+    "typings": "rollup -c rollup.dts.config.js",
     "test": "tsdx test --passWithNoTests",
     "test:watch": "tsdx test --passWithNoTests --watch",
     "test:coverage": "tsdx test --passWithNoTests --coverage",
