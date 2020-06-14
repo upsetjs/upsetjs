@@ -10,7 +10,10 @@ import {
   getDefaultTheme as getReactDefaultTheme,
   UpSetThemeProps,
   ISetLike,
+  UpSetThemes,
 } from '@upsetjs/react';
+
+export { UpSetThemes } from '@upsetjs/react';
 
 export interface UpSetPlotThemeProps {
   selectionColor?: string;
@@ -34,7 +37,7 @@ export interface UpSetPlotSelectionProps<T> {
 }
 
 export interface UpSetPlotStyleProps {
-  theme?: 'light' | 'dark';
+  theme?: UpSetThemes;
 
   title?: string;
   description?: string;

@@ -19,6 +19,7 @@ import UpSetElement, {
   IUpSetStaticDump,
   IUpSetJSDump,
   IUpSetJSStaticDump,
+  UpSetThemes,
 } from '@upsetjs/react';
 import { UpSetCSSStyles, UpSetReactElement } from './react';
 
@@ -77,7 +78,7 @@ export const hydrateUpSet = hydrate;
  */
 export function exportSVG(
   node: SVGSVGElement,
-  options: { type?: 'png' | 'svg'; title?: string; theme?: 'light' | 'dark'; toRemove?: string }
+  options: { type?: 'png' | 'svg'; title?: string; toRemove?: string }
 ): Promise<void> {
   return exportSVGImpl(node, options);
 }

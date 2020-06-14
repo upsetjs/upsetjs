@@ -5,13 +5,13 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { DARK_BACKGROUND_COLOR } from '../defaults';
 import { extractStyleId, extractTitle } from './utils';
+import { getDefaultTheme } from '../fillDefaults';
+import { UpSetThemes } from '../interfaces';
 
 export function createSVG(node: SVGSVGElement, toRemove?: string) {
-  const theme = node.dataset.theme;
   const clone = node.cloneNode(true) as SVGSVGElement;
-  clone.style.backgroundColor = theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white';
+  clone.style.backgroundColor = getDefaultTheme(node.dataset.theme as UpSetThemes).backgroundColor;
 
   if (toRemove) {
     Array.from(clone.querySelectorAll(toRemove)).forEach((d) => d.remove());
@@ -77,7 +77,7 @@ export function downloadUrl(url: string, title: string, doc: Document) {
   a.style.left = '-10000px';
   a.style.top = '-10000px';
   a.download = title;
-  document.body.appendChild(a);
+  doc.body.appendChild(a);
   a.click();
   a.remove();
 }

@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import { UpSetAddon, ISetLike } from '@upsetjs/react';
+import { UpSetAddon, ISetLike, UpSetThemes } from '@upsetjs/react';
 import { normalize, denormalize } from '@upsetjs/math';
 
 export interface ICategoricalStyleProps {
-  theme?: 'light' | 'dark';
+  theme?: UpSetThemes;
   /**
    * orientation of the box plot
    * @default horizontal
@@ -60,12 +60,12 @@ interface IBin extends Required<ICategory> {
   acc: number;
 }
 
-function colorGen(theme: 'light' | 'dark') {
+function colorGen(theme: UpSetThemes) {
   // from ColorBrewer
   const schemeDark2 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d'];
   const schemeSet2 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494'];
 
-  const set = theme === 'light' ? schemeSet2.concat(schemeDark2) : schemeDark2.concat(schemeSet2);
+  const set = theme === 'dark' ? schemeDark2.concat(schemeSet2) : schemeSet2.concat(schemeDark2);
   let acc = 0;
   return () => {
     return set[acc++ % set.length];
@@ -91,7 +91,7 @@ function generateBins(
   values: ReadonlyArray<string>,
   categories: ReadonlyArray<string | ICategory>,
   base: ReadonlyArray<string> | undefined,
-  theme: 'light' | 'dark'
+  theme: UpSetThemes
 ) {
   const nextColor = colorGen(theme);
   const generateCat = (value: string) => {

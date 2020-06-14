@@ -19,7 +19,7 @@ import {
   isSetLike,
   isUpSetQuery,
 } from '@upsetjs/model';
-import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions } from './interfaces';
+import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions, UpSetThemes } from './interfaces';
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
 export function widthRatios(value?: [number, number, number]) {
@@ -58,8 +58,8 @@ export function stringOrFalse(value?: string | false) {
   return value == null || typeof value === 'string' || value === false;
 }
 
-export function theme(value?: 'light' | 'dark') {
-  return value == null || value === 'light' || value === 'dark';
+export function theme(value?: UpSetThemes) {
+  return value == null || value === 'light' || value === 'dark' || value === 'vega';
 }
 
 export function classNames(value?: UpSetStyleClassNames) {

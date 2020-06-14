@@ -6,10 +6,10 @@
  */
 
 import { CSSProperties, ReactNode } from 'react';
-import { VennDiagramMultiStyle } from '../../interfaces';
+import { VennDiagramMultiStyle, UpSetThemes } from '../../interfaces';
 
 export default function deriveVennStyleDependent(
-  theme: 'dark' | 'light',
+  theme: UpSetThemes,
   styles: VennDiagramMultiStyle<CSSProperties>,
   classNames: VennDiagramMultiStyle<string>,
   styleId: string,

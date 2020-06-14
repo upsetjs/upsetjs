@@ -25,31 +25,55 @@ import {
   UpSetPropsG,
   VennDiagramPropsG,
   VennDiagramThemeProps,
+  UpSetThemes,
 } from './interfaces';
 
-const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
+export declare type UpSetExtraTheme = {
+  backgroundColor: string;
+};
+
+const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme> = {
   selectionColor: '#ffa500',
   color: '#000000',
+  hasSelectionColor: '',
   textColor: '#000000',
   hoverHintColor: '#cccccc',
   notMemberColor: '#d3d3d3',
   alternatingBackgroundColor: '#0000000d',
   valueTextColor: '#000000',
   strokeColor: '#000000',
+  backgroundColor: '#ffffff',
 };
-const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps> = {
+const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme> = {
   selectionColor: '#ffa500',
   color: '#cccccc',
+  hasSelectionColor: '',
   textColor: '#ffffff',
   hoverHintColor: '#d9d9d9',
   notMemberColor: '#666666',
   alternatingBackgroundColor: '#ffffff33',
   valueTextColor: '#ffffff',
   strokeColor: '#ffffff',
+  backgroundColor: '#303030',
 };
 
-export function getDefaultTheme(theme?: 'light' | 'dark'): Readonly<Required<UpSetThemeProps>> {
-  return theme === 'dark' ? darkTheme : lightTheme;
+const vegaTheme: Readonly<Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme>> = {
+  selectionColor: 'rgb(76,120,168)',
+  color: 'rgb(76,120,168)',
+  hasSelectionColor: 'rgba(76,120,168,0.3)',
+  textColor: '#000000',
+  hoverHintColor: '#cccccc',
+  notMemberColor: '#d3d3d3',
+  alternatingBackgroundColor: 'rgba(0,0,0,0.05)',
+  valueTextColor: '#000000',
+  strokeColor: '#000000',
+  backgroundColor: '#ffffff',
+};
+
+export function getDefaultTheme(
+  theme?: UpSetThemes
+): Readonly<Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme>> {
+  return theme === 'vega' ? vegaTheme : theme === 'dark' ? darkTheme : lightTheme;
 }
 function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions

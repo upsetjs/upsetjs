@@ -38,6 +38,7 @@ import {
   exportSVG,
   exportVegaLite,
   downloadUrl,
+  UpSetThemes,
 } from '@upsetjs/react';
 import { boxplotAddon } from '@upsetjs/addons';
 import { stableSort } from './utils';
@@ -66,6 +67,7 @@ const themeKeys: (keyof UpSetThemeProps)[] = [
   'hoverHintColor',
   'notMemberColor',
   'alternatingBackgroundColor',
+  'hasSelectionColor',
 ];
 const otherOptionKeys: string[] = [
   'padding',
@@ -87,7 +89,7 @@ const otherOptionKeys: string[] = [
   '',
 ];
 
-function extractTheme(theme: 'light' | 'dark') {
+function extractTheme(theme: UpSetThemes) {
   const defaults: any = fillDefaults({
     theme,
     width: 100,
@@ -101,7 +103,7 @@ function extractTheme(theme: 'light' | 'dark') {
   return r as Required<UpSetThemeProps>;
 }
 
-function extractDefaults(keys: any[], theme: 'dark' | 'light') {
+function extractDefaults(keys: any[], theme: UpSetThemes) {
   const defaults: any = fillDefaults({
     theme,
     width: 100,
@@ -115,7 +117,7 @@ function extractDefaults(keys: any[], theme: 'dark' | 'light') {
   return r;
 }
 
-export function stripDefaults(props: Required<ICustomizeOptions>, theme: 'dark' | 'light') {
+export function stripDefaults(props: Required<ICustomizeOptions>, theme: UpSetThemes) {
   const defaults = extractDefaults((themeKeys as string[]).concat(otherOptionKeys), theme);
   const stripDefaultsImpl = (a: any, defaults: any) => {
     const r: any = {};

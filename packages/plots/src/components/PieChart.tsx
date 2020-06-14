@@ -7,7 +7,7 @@
 
 import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
-import { UpSetPlotProps, fillDefaults } from '../interfaces';
+import { UpSetPlotProps, fillDefaults, UpSetThemes } from '../interfaces';
 import { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks, countQueryExpression, countSelectedExpression } from './functions';
 import { useVegaAggregatedGroupSelection } from '../selections';
@@ -29,7 +29,7 @@ function generateLayer(
   expr: string,
   color: string,
   secondary: boolean,
-  theme?: 'light' | 'dark',
+  theme?: UpSetThemes,
   innerRadius?: number
 ): LayerSpec | UnitSpec {
   return {

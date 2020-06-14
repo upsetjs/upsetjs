@@ -6,13 +6,13 @@
  */
 
 import { downloadUrl } from './exportSVG';
-import { DARK_BACKGROUND_COLOR } from '../defaults';
 import { extractDescription, extractTitle, extractStyleId } from './utils';
+import { UpSetThemes } from '../interfaces';
+import { getDefaultTheme } from '../fillDefaults';
 
 export function createVegaSpec(svg: SVGSVGElement, title?: string) {
   const resolveStyle =
     (svg.getComputedStyle || svg.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
-  const theme = svg.dataset.theme;
   const styleId = extractStyleId(svg);
 
   const chartTitle = title ?? extractTitle(svg, styleId);
@@ -343,7 +343,7 @@ export function createVegaSpec(svg: SVGSVGElement, title?: string) {
     ],
     config: {
       padding,
-      background: theme === 'dark' ? DARK_BACKGROUND_COLOR : 'white',
+      background: getDefaultTheme(svg.dataset.theme as UpSetThemes).backgroundColor,
       concat: {
         spacing: 0,
       },

@@ -6,12 +6,12 @@
  */
 
 import React from 'react';
-import { UpSetAddon, ISetLike } from '@upsetjs/react';
+import { UpSetAddon, ISetLike, UpSetThemes, getDefaultTheme } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';
 import { round2 } from './utils';
 
 export interface IBoxplotStylePlainProps extends BoxplotStatsOptions {
-  theme?: 'light' | 'dark';
+  theme?: UpSetThemes;
   /**
    * the render mode and level of detail to render
    * @default normal
@@ -125,7 +125,7 @@ export const Boxplot = ({
       b.q3
     )}, Max: ${nf(b.max)}`}</title>
   );
-  const inner = theme === 'light' ? '#d3d3d3' : '#666666';
+  const inner = getDefaultTheme(theme).notMemberColor;
   const styles = {
     box: Object.assign({ fill: inner }, boxStyle),
     line: Object.assign({ fill: 'none', stroke: theme === 'light' ? 'black' : '#cccccc' }, lineStyle),

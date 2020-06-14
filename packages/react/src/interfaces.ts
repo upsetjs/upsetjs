@@ -34,7 +34,7 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   /**
    * the theme of the UpSetJS plot
    */
-  theme: 'dark' | 'light';
+  theme: 'dark' | 'light' | 'vega';
 }
 
 export declare type UpSetSelection<T> = ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
@@ -321,6 +321,11 @@ export interface UpSetThemeProps {
    */
   color?: string;
   /**
+   * main color used when a selection is present
+   * @default undefined
+   */
+  hasSelectionColor?: string;
+  /**
    * main color to render text
    * @default black
    */
@@ -346,6 +351,11 @@ export interface VennDiagramThemeProps {
    * @default black
    */
   color?: string;
+  /**
+   * main color used when a selection is present
+   * @default undefined
+   */
+  hasSelectionColor?: string;
   /**
    * main color to render text
    * @default black
@@ -428,12 +438,14 @@ export interface UpSetExportOptions {
   share?: boolean;
 }
 
+export declare type UpSetThemes = 'light' | 'dark' | 'vega';
+
 export interface UpSetBaseStyleProps<L> {
   /**
    * basic theme of the plot either 'light' or 'dark'
    * @default light
    */
-  theme?: 'light' | 'dark';
+  theme?: UpSetThemes;
   /**
    * show a legend of queries
    * enabled by default when queries are set
