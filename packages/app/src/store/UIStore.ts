@@ -63,6 +63,11 @@ export default class UIStore {
   @observable
   toast: IToast | null = null;
 
+  @observable
+  visXAttr: string | null = null;
+  @observable
+  visYAttr: string | null = null;
+
   constructor() {
     autorun(() => {
       localStorage.setItem('zen', this.zen ? 'T' : 'F');
@@ -124,5 +129,15 @@ export default class UIStore {
   @action.bound
   toggleZen() {
     this.zen = !this.zen;
+  }
+
+  @action
+  setVisXAttr(attr: string | null) {
+    this.visXAttr = attr ? attr : null;
+  }
+
+  @action
+  setVisYAttr(attr: string | null) {
+    this.visYAttr = attr ? attr : null;
   }
 }

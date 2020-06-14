@@ -15,13 +15,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import RemoveCircle from 'mdi-material-ui/MinusCircle';
 import AddBox from 'mdi-material-ui/PlusBox';
-import { UpSetSetQuery } from '@upsetjs/model';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { useStore, TEMP_QUERY_COLOR } from '../store';
+import { useStore, TEMP_QUERY_COLOR, UpSetDataQuery } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
+import { isSetLike, isSetQuery } from '@upsetjs/model';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -39,12 +39,14 @@ const SelectionLine = observer(() => {
           </IconButton>
         </Tooltip>
       </ListItemIcon>
-      <ListItemText primary={`${selection.name}: ${selection.cardinality}`} />
+      <ListItemText
+        primary={isSetLike(selection) ? `${selection.name}: ${selection.cardinality}` : `Array: ${selection.length}`}
+      />
     </ListItem>
   );
 });
 
-const QueryLine = observer(({ query, visible }: { query: UpSetSetQuery<any>; visible: boolean }) => {
+const QueryLine = observer(({ query, visible }: { query: UpSetDataQuery; visible: boolean }) => {
   const store = useStore();
   return (
     <ListItem>
@@ -59,7 +61,15 @@ const QueryLine = observer(({ query, visible }: { query: UpSetSetQuery<any>; vis
           }}
         />
       </ListItemIcon>
-      <ListItemText primary={`${query.name}: ${query.set.cardinality}`} />
+      <ListItemText
+        primary={`${query.name}: ${
+          isSetQuery(query)
+            ? query.set.cardinality
+            : Array.isArray(query.elems)
+            ? query.elems.length
+            : (query.elems as Set<any>).size
+        }`}
+      />
       <ListItemSecondaryAction>
         <Tooltip title="Remove Query">
           <IconButton

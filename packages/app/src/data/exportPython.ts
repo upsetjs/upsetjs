@@ -5,9 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import Store, { stripDefaults } from '../store/Store';
-import { ISetLike } from '@upsetjs/model';
-import { ICustomizeOptions } from './interfaces';
+import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
+import { ISetLike, isElemQuery, UpSetSetQuery } from '@upsetjs/model';
+import { ICustomizeOptions, IElem } from './interfaces';
 
 function toSnakeCase(v: string) {
   return v.replace(/([A-Z])/gm, (v) => `_${v.toLowerCase()}`);
@@ -80,16 +80,44 @@ export default function exportPython(store: Store) {
   // support addons
   const data = store.selectedAttrs.size > 0 ? generateAddonData(store) : generateSimpleData(store);
 
-  const toRef = (s: ISetLike<any>) => {
-    return `next(s for s in w.${s.type === 'set' ? 'sets' : 'combinations'} if s.name == "${s.name}")`;
+  const toSelectionRef = (s: ISetLike<IElem> | ReadonlyArray<IElem>) => {
+    if (Array.isArray(s)) {
+      return `[${s.map((e) => `"${e.name}"`).join(', ')}]`;
+    }
+    const set = s as ISetLike<IElem>;
+    if (set.type === 'set') {
+      return `next(s for s in w.sets if s.name == "${set.name}")`;
+    }
+    const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+    if (index < 0) {
+      return `[${set.elems.map((e) => `"${e.name}"`).join(', ')}]`;
+    }
+    return `next(s for s in w.combinations if s.name == "${set.name}")`;
+  };
+
+  const toQueryRef = (q: UpSetDataQuery) => {
+    if (isElemQuery(q)) {
+      return `elems=[${Array.from(q.elems)
+        .map((e) => `"${e.name}"`)
+        .join(', ')}]`;
+    }
+    const set = (q as UpSetSetQuery<IElem>).set;
+    if (set.type === 'set') {
+      return `upset=next(s for s in w.sets if s.name == "${set.name}")`;
+    }
+    const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+    if (index < 0) {
+      return `elems=[${set.elems.map((e) => `"${e.name}"`).join(', ')}]`;
+    }
+    return `upset=next(s for s in w.combinations if s.name == "${set.name}")`;
   };
 
   const c = store.combinationsOptions;
   const generate = `w.generate_${c.type}s(min_degree=${c.min}, max_degree=${c.max}, empty=${
     c.empty ? 'True' : 'False'
   }, limit=${c.limit})\n`;
-  const selection = store.selection ? `w.selection = ${toRef(store.selection)}\n` : null;
-  const queries = store.visibleQueries.map((q) => `w.append_query("${q.name}", "${q.color}", upset=${toRef(q.set)})\n`);
+  const selection = store.selection ? `w.selection = ${toSelectionRef(store.selection)}\n` : null;
+  const queries = store.visibleQueries.map((q) => `w.append_query("${q.name}", "${q.color}", ${toQueryRef(q)})\n`);
   const props = generateProps(store);
 
   const nb = {

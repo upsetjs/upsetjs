@@ -5,9 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import Store, { stripDefaults } from '../store/Store';
-import { ISetLike } from '@upsetjs/model';
-import { ICustomizeOptions } from './interfaces';
+import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
+import { ISetLike, isElemQuery, UpSetSetQuery } from '@upsetjs/model';
+import { ICustomizeOptions, IElem } from './interfaces';
 
 declare const __VERSION__: string;
 
@@ -22,13 +22,42 @@ function str(v: string | ReadonlyArray<string>): string {
   return `c(${v.map(str).join(', ')})`;
 }
 
-function toRef(s: ISetLike<any>) {
-  if (s.type === 'set') {
-    return s.name;
+function toSelectionRef(store: Store, s: ISetLike<IElem> | ReadonlyArray<IElem>) {
+  if (Array.isArray(s)) {
+    return `elems=${str(s.map((e) => e.name))}`;
   }
-  return Array.from(s.sets)
-    .map((s) => s.name)
-    .sort();
+  const set = s as ISetLike<IElem>;
+  if (set.type === 'set') {
+    return str(set.name);
+  }
+  const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+  if (index < 0) {
+    return `elems=${str(set.elems.map((e) => e.name))}`;
+  }
+  return str(
+    Array.from(set.sets)
+      .map((d) => d.name)
+      .sort()
+  );
+}
+
+function toQueryRef(store: Store, q: UpSetDataQuery) {
+  if (isElemQuery(q)) {
+    return `elems=${str(Array.from(q.elems).map((e) => e.name))}`;
+  }
+  const set = (q as UpSetSetQuery<IElem>).set;
+  if (set.type === 'set') {
+    return `set=${str(set.name)}`;
+  }
+  const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+  if (index < 0) {
+    return `elems=[${str(set.elems.map((e) => e.name))}`;
+  }
+  return `set=${str(
+    Array.from(set.sets)
+      .map((d) => d.name)
+      .sort()
+  )}`;
 }
 
 function generateProps(props: ICustomizeOptions) {
@@ -83,7 +112,7 @@ upsetjs() %>% fromDataFrame(df, attributes=df.attributes)`;
 
 export default function exportR(store: Store) {
   const input = store.selectedAttrs.size > 0 ? generateAddonData(store) : generateSimpleData(store);
-  const selection = store.selection ? `%>% setSelection(${str(toRef(store.selection))})` : '';
+  const selection = store.selection ? `%>% setSelection(${toSelectionRef(store, store.selection)})` : '';
 
   const c = store.combinationsOptions;
   const generate = ` %>% generate${c.type[0].toUpperCase()}${c.type.slice(1)}s(min=${c.min}, max=${c.max}, empty=${
@@ -91,7 +120,7 @@ export default function exportR(store: Store) {
   }, limit=${c.limit}, order.by=${str(c.order!)})`;
 
   const queries = store.visibleQueries
-    .map((q) => `%>% addQuery(${str(q.name)}, ${str(q.color)}, set=${str(toRef(q.set))})`)
+    .map((q) => `%>% addQuery(${str(q.name)}, ${str(q.color)}, ${toQueryRef(store, q)})`)
     .join('');
 
   const rProps = generateProps(stripDefaults(store.props, store.ui.theme));

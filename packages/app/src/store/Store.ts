@@ -29,6 +29,7 @@ import {
   ISetCombination,
   isSetLike,
   SetCombinationType,
+  UpSetElemQuery,
 } from '@upsetjs/model';
 import {
   fillDefaults,
@@ -56,6 +57,8 @@ export interface ISetTableOptions {
   page: number;
   rowsPerPage: number;
 }
+
+export declare type UpSetDataQuery = UpSetSetQuery<IElem> | UpSetElemQuery<IElem>;
 
 const colors = [schemeCategory10[0], ...schemeCategory10.slice(2)]; // no orange
 export const TEMP_QUERY_COLOR = colors.shift()!;
@@ -151,11 +154,11 @@ export function stripDefaults(props: Required<ICustomizeOptions>, theme: UpSetTh
 
 class StoreQuery {
   @observable.ref
-  q: UpSetSetQuery<IElem>;
+  q: UpSetDataQuery;
   @observable
   visible: boolean;
 
-  constructor(q: UpSetSetQuery<IElem>, visible: boolean) {
+  constructor(q: UpSetDataQuery, visible: boolean) {
     this.q = q;
     this.visible = visible;
   }
@@ -184,9 +187,9 @@ export default class Store {
   );
 
   @observable.ref
-  hover: ISetLike<IElem> | null = null;
+  hover: ISetLike<IElem> | ReadonlyArray<IElem> | null = null;
   @observable.ref
-  selection: ISetLike<IElem> | null = null;
+  selection: ISetLike<IElem> | ReadonlyArray<IElem> | null = null;
 
   @observable
   readonly queries: StoreQuery[] = [];
@@ -351,6 +354,8 @@ export default class Store {
     this.selectedSets = new Set();
     // select first by default
     this.selectedAttrs = new Set(dataset ? dataset.attrs.slice(0, 1) : []);
+    this.ui.visXAttr = null;
+    this.ui.visYAttr = null;
     this.hover = null;
     this.selection = null;
     this.queries.splice(0, this.queries.length);
@@ -373,8 +378,8 @@ export default class Store {
   }
 
   @action.bound
-  setHover(set: ISetLike<IElem> | null, evt: MouseEvent) {
-    if (!set || !this.selection || !evt.ctrlKey) {
+  setHover(set: ISetLike<IElem> | ReadonlyArray<IElem> | null, evt?: MouseEvent) {
+    if (!set || !this.selection || !evt || !evt.ctrlKey || !isSetLike(set) || !isSetLike(this.selection)) {
       this.hover = set;
       return;
     }
@@ -406,7 +411,7 @@ export default class Store {
   }
 
   @action.bound
-  setSelection(set: ISetLike<IElem> | null) {
+  setSelection(set: ISetLike<IElem> | ReadonlyArray<IElem> | null) {
     this.selection = set;
   }
 
@@ -447,7 +452,7 @@ export default class Store {
     }
     const o = this.ui.elemTable.orderBy;
     return stableSort<IElem>(
-      this.selection.elems,
+      isSetLike(this.selection) ? this.selection.elems : this.selection,
       o.startsWith('attrs') ? (v) => v.attrs[o.slice(6)] : (o as keyof IElem),
       this.ui.elemTable.order
     );
@@ -500,27 +505,33 @@ export default class Store {
   }
 
   @computed
-  get visibleQueries(): UpSetSetQuery<IElem>[] {
+  get visibleQueries(): (UpSetSetQuery<IElem> | UpSetElemQuery<IElem>)[] {
     return this.queries.filter((d) => d.visible).map((d) => d.q);
   }
 
   @computed
-  get queriesAndSelection(): UpSetSetQuery<IElem>[] {
+  get queriesAndSelection(): UpSetDataQuery[] {
     const qs = this.visibleQueries;
     if (!this.selection) {
       return qs;
     }
     return [
-      {
-        name: this.selection.name,
-        color: TEMP_QUERY_COLOR,
-        set: this.selection,
-      },
+      isSetLike(this.selection)
+        ? ({
+            name: this.selection.name,
+            color: TEMP_QUERY_COLOR,
+            set: this.selection,
+          } as UpSetDataQuery)
+        : ({
+            name: 'Array',
+            color: TEMP_QUERY_COLOR,
+            elems: this.selection,
+          } as UpSetDataQuery),
     ].concat(qs);
   }
 
   @action
-  deleteQuery(query: UpSetSetQuery<IElem>) {
+  deleteQuery(query: UpSetDataQuery) {
     const i = this.queries.findIndex((d) => d.q === query);
     if (i >= 0) {
       this.queries.splice(i, 1);
@@ -534,11 +545,17 @@ export default class Store {
     }
     this.queries.push(
       new StoreQuery(
-        {
-          name: this.selection.name,
-          set: this.selection,
-          color: colors.length > 0 ? colors.shift()! : 'grey',
-        },
+        isSetLike(this.selection)
+          ? ({
+              name: this.selection.name,
+              color: colors.length > 0 ? colors.shift()! : 'grey',
+              set: this.selection,
+            } as UpSetDataQuery)
+          : ({
+              name: 'Array',
+              color: colors.length > 0 ? colors.shift()! : 'grey',
+              elems: this.selection,
+            } as UpSetDataQuery),
         true
       )
     );
@@ -546,7 +563,7 @@ export default class Store {
   }
 
   @action
-  toggleQueryVisibility(query: UpSetSetQuery<IElem>) {
+  toggleQueryVisibility(query: UpSetDataQuery) {
     const q = this.queries.find((d) => d.q === query);
     if (!q) {
       return;

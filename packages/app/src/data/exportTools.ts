@@ -5,12 +5,13 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import Store, { stripDefaults } from '../store/Store';
+import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
 
-import { toIndicesArray, ISetLike } from '@upsetjs/model';
+import { toIndicesArray, ISetLike, isSetQuery, isSetLike, isElemQuery, UpSetSetQuery } from '@upsetjs/model';
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
+import { IElem } from './interfaces';
 
 declare const __VERSION__: string;
 
@@ -22,18 +23,71 @@ const CSS_CODE = `#app {
 
 function toJSCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
-  const setElems = store.visibleSets.map((s) => toIndicesArray(s.elems, helper.toElemIndex, { sortAble: true }));
+
+  function toIndices(arr: ReadonlyArray<IElem> | Set<IElem>) {
+    return `${prefix}fromIndicesArray(${JSON.stringify(
+      toIndicesArray(Array.from(arr), helper.toElemIndex, { sortAble: true })
+    ).replace(/"/gm, "'")}, elems)`;
+  }
+
+  const setElems = store.visibleSets.map((s) => toIndices(s.elems));
   const sets = store.visibleSets.map((s, i) => ({
     name: s.name,
     elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,
   }));
 
-  const needSetRef = store.visibleQueries.length > 0 || store.selection != null;
+  const needSetRef = store.visibleQueries.some(isSetQuery) || isSetLike(store.selection);
 
   const toSetRef = (v: ISetLike<any>) => {
     const ref = helper.toSetRef(v);
-    return `{ type: '${ref.type}', index: ${ref.index} }`;
+    return `fromSetRef({ type: '${ref.type}', index: ${ref.index} })`;
   };
+
+  function toSelectionRef(s: ISetLike<IElem> | ReadonlyArray<IElem>) {
+    if (Array.isArray(s)) {
+      return toIndices(s);
+    }
+    const set = s as ISetLike<IElem>;
+    if (set.type === 'set') {
+      return toSetRef(set);
+    }
+    const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+    if (index < 0) {
+      return toIndices(set.elems);
+    }
+    return toSetRef(set);
+  }
+
+  function toQueryRef(q: UpSetDataQuery) {
+    if (isElemQuery(q)) {
+      return {
+        name: q.name,
+        color: q.color,
+        elems: `CC${toIndices(q.elems)}CC`,
+      };
+    }
+    const set = (q as UpSetSetQuery<IElem>).set;
+    if (set.type === 'set') {
+      return {
+        name: q.name,
+        color: q.color,
+        set: `CC${toSetRef(set)}CC`,
+      };
+    }
+    const index = store.visibleCombinations.findIndex((d) => d.name === set.name && d.type === set.type);
+    if (index < 0) {
+      return {
+        name: q.name,
+        color: q.color,
+        elems: `CC${toIndices(set.elems)}CC`,
+      };
+    }
+    return {
+      name: q.name,
+      color: q.color,
+      set: `CC${toSetRef(set)}CC`,
+    };
+  }
 
   const addons =
     helper.attrs.length > 0
@@ -71,16 +125,8 @@ ${
     : ''
 }
 
-let selection = ${store.selection ? `fromSetRef(${toSetRef(store.selection)})` : null};
-const queries = ${JSON.stringify(
-    store.visibleQueries.map((q) => ({
-      name: q.name,
-      color: q.color,
-      set: `CCfromSetRef(${toSetRef(q.set)})CC`,
-    })),
-    null,
-    2
-  )};
+let selection = ${store.selection ? toSelectionRef(store.selection) : null};
+const queries = ${JSON.stringify(store.visibleQueries.map(toQueryRef), null, 2)};
 
 const props = Object.assign({
   width: root.clientWidth,

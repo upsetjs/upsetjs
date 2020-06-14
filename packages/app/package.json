@@ -21,6 +21,7 @@
     "dist"
   ],
   "scripts": {
+    "compile": "tsc -p tsconfig.json --noEmit",
     "lint": "npm run eslint && npm run prettier:check",
     "fix": "npm run eslint:fix && npm run prettier:write",
     "prettier": "prettier \"*.{md,json,js}\" \"src/**\"",
