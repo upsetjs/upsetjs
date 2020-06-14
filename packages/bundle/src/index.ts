@@ -19,7 +19,6 @@ import UpSetElement, {
   IUpSetStaticDump,
   IUpSetJSDump,
   IUpSetJSStaticDump,
-  UpSetThemes,
 } from '@upsetjs/react';
 import { UpSetCSSStyles, UpSetReactElement } from './react';
 
