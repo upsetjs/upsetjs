@@ -100,9 +100,9 @@ export function fromIndicesArray<T>(
           const [start, length] = s.split('+').map((si) => Number.parseInt(si, 10));
           return elements.slice(start, start + length + 1);
         }
-        return elements[Number.parseInt(s, 10)];
+        return elements[Number.parseInt(s, 10)]!;
       })
-      .flat();
+      .flat() as T[];
   }
   return indices.map((i) => elements[i]);
 }
