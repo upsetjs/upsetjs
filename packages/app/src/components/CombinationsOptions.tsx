@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { SetCombinationType } from '@upsetjs/model';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
@@ -22,10 +22,15 @@ export default observer(() => {
 
   const order = Array.isArray(c.order) ? c.order.join(',') : c.order ?? '';
 
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.changeCombinations({ [e.target.name]: Number.parseInt(e.target.value, 10) });
-  const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.changeCombinations({ [e.target.name]: e.target.checked });
+  const handleNumberChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      store.changeCombinations({ [e.target.name]: Number.parseInt(e.target.value, 10) }),
+    [store]
+  );
+  const handleSwitchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => store.changeCombinations({ [e.target.name]: e.target.checked }),
+    [store]
+  );
 
   return (
     <SidePanelEntry id="options" title="Set Combinations">
@@ -62,7 +67,7 @@ export default observer(() => {
         <MenuItem value="union">Set Unions</MenuItem>
       </TextField>
       <TextField
-        label="Mininum Set Members"
+        label="Minimum Set Members"
         value={c.min}
         name="min"
         type="number"

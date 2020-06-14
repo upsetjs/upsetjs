@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
 
@@ -93,29 +93,35 @@ export default observer(({ className }: { className?: string }) => {
   const classes = useStyles();
   const ref = React.useRef<HTMLInputElement>(null);
 
-  const dragOver = (evt: React.DragEvent) => {
+  const dragOver = useCallback((evt: React.DragEvent) => {
     evt.preventDefault();
     evt.stopPropagation();
-  };
-  const drop = (evt: React.DragEvent) => {
-    if (evt.dataTransfer.files.length !== 1) {
-      return;
-    }
-    evt.preventDefault();
-    store.importFile(evt.dataTransfer.files[0]);
-  };
+  }, []);
+  const drop = useCallback(
+    (evt: React.DragEvent) => {
+      if (evt.dataTransfer.files.length !== 1) {
+        return;
+      }
+      evt.preventDefault();
+      store.importFile(evt.dataTransfer.files[0]);
+    },
+    [store]
+  );
 
-  const clickFile = () => {
+  const clickFile = useCallback(() => {
     if (ref.current) {
       ref.current.click();
     }
-  };
+  }, []);
 
-  const onFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const file = evt.target.files![0];
-    evt.target.value = '';
-    store.importFile(file);
-  };
+  const onFile = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const file = evt.target.files![0];
+      evt.target.value = '';
+      store.importFile(file);
+    },
+    [store]
+  );
 
   return (
     <AppBar position="fixed" className={className}>
@@ -134,9 +140,12 @@ export default observer(({ className }: { className?: string }) => {
             {'UpSet.js: '}
             <Select
               className={classes.select}
-              onChange={(v) => {
-                store.selectDataSet(v.target.value as string);
-              }}
+              onChange={useCallback(
+                (v) => {
+                  store.selectDataSet(v.target.value as string);
+                },
+                [store]
+              )}
               value={store.dataset?.id || ''}
               renderValue={() => toTitle(store.dataset)}
             >
@@ -174,8 +183,8 @@ export default observer(({ className }: { className?: string }) => {
           direction="left"
           hidden={store.dataset == null}
           className={classes.speeddial}
-          onClose={() => store.ui.setSpeedDial(false)}
-          onOpen={() => store.ui.setSpeedDial(true)}
+          onClose={useCallback(() => store.ui.setSpeedDial(false), [store])}
+          onOpen={useCallback(() => store.ui.setSpeedDial(true), [store])}
           open={store.ui.speedDial}
         >
           <SpeedDialAction

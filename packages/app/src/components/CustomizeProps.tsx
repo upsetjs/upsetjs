@@ -8,7 +8,7 @@
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import Divider from '@material-ui/core/Divider';
@@ -19,20 +19,33 @@ import Button from '@material-ui/core/Button';
 function EditFontSize({
   label,
   value,
+  name,
   onChange,
-}: React.PropsWithChildren<{ label: string; value: string; onChange: (v: string) => void }>) {
+}: React.PropsWithChildren<{
+  label: string;
+  value: string;
+  name: string;
+  onChange: (name: string, v: string) => void;
+}>) {
   const numeric = Number.parseFloat(value);
   const unit = value.slice(numeric.toString().length);
-  const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(`${event.target.value}${unit}`);
-  };
-  const handleUnitChange = (event: React.ChangeEvent<any>) => {
-    onChange(`${numeric}${event.target.value}`);
-  };
+  const handleValueChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(name, `${event.target.value}${unit}`);
+    },
+    [onChange, name, unit]
+  );
+  const handleUnitChange = useCallback(
+    (event: React.ChangeEvent<any>) => {
+      onChange(name, `${numeric}${event.target.value}`);
+    },
+    [onChange, name, numeric]
+  );
   return (
     <TextField
       label={label}
       value={numeric}
+      name={name}
       type="number"
       inputProps={{
         min: 0,
@@ -59,10 +72,18 @@ export default observer(() => {
 
   const p = store.props;
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.changeProps({ [e.target.name]: e.target.value });
-  const handleNumericChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.changeProps({ [e.target.name]: Number.parseFloat(e.target.value) });
+  const handleTextChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => store.changeProps({ [e.target.name]: e.target.value }),
+    [store]
+  );
+  const handleNumericChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      store.changeProps({ [e.target.name]: Number.parseFloat(e.target.value) }),
+    [store]
+  );
+  const handleFontChange = useCallback((name: string, value: string) => store.changeFontSize({ [name]: value }), [
+    store,
+  ]);
 
   return (
     <SidePanelEntry id="customize" title="Customize">
@@ -95,12 +116,14 @@ export default observer(() => {
       <EditFontSize
         label="Chart Font Size"
         value={p.fontSizes.chartLabel!}
-        onChange={(v) => store.changeFontSize({ chartLabel: v })}
+        name="chartLabel"
+        onChange={handleFontChange}
       />
       <EditFontSize
         label="Set Label Font Size"
         value={p.fontSizes.setLabel!}
-        onChange={(v) => store.changeFontSize({ setLabel: v })}
+        name="setLabel"
+        onChange={handleFontChange}
       />
 
       <Divider />

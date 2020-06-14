@@ -13,7 +13,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 
@@ -38,27 +38,34 @@ export default observer(() => {
     return null;
   }
 
-  const isSelected = (name: string) => selected.has(name);
+  const isSelected = useCallback((name: string) => selected.has(name), [selected]);
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows;
-      store.setSelectedAttrs(new Set(newSelecteds));
-      return;
-    }
-    store.setSelectedAttrs(new Set<string>([]));
-  };
+  const handleSelectAllClick = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        const newSelectedIds = rows;
+        store.setSelectedAttrs(new Set(newSelectedIds));
+        return;
+      }
+      store.setSelectedAttrs(new Set<string>([]));
+    },
+    [rows, store]
+  );
 
-  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
-    const copy = new Set(selected);
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      const copy = new Set(selected);
+      const name = event.currentTarget.dataset.name!;
 
-    if (!copy.has(name)) {
-      copy.add(name);
-    } else {
-      copy.delete(name);
-    }
-    store.setSelectedAttrs(copy);
-  };
+      if (!copy.has(name)) {
+        copy.add(name);
+      } else {
+        copy.delete(name);
+      }
+      store.setSelectedAttrs(copy);
+    },
+    [selected, store]
+  );
 
   return (
     <SidePanelEntry id="attrs" title="Attribute Chooser">
@@ -84,7 +91,8 @@ export default observer(() => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row)}
+                    data-name={row}
+                    onClick={handleClick}
                     role="checkbox"
                     tabIndex={-1}
                     key={row}

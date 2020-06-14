@@ -13,7 +13,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 
@@ -27,18 +27,28 @@ export default observer(() => {
   const store = useStore();
   const classes = useStyles();
 
+  const rows = store.sortedSelectedElems;
+  const attrs = store.dataset?.attrs ?? [];
   const o = store.ui.elemTable;
-  const handleRequestSort = (property: string) => {
-    return () => {
+
+  const handleRequestNameSort = useCallback(() => {
+    const isAsc = o.orderBy === 'name' && o.order === 'asc';
+    store.ui.changeElemTableOptions({
+      order: isAsc ? 'desc' : 'asc',
+      orderBy: 'name',
+    });
+  }, [store, o]);
+
+  const handleRequestAttrsSort = useMemo(() => {
+    return attrs.map((attr) => () => {
+      const property = `attrs.${attr}`;
       const isAsc = o.orderBy === property && o.order === 'asc';
       store.ui.changeElemTableOptions({
         order: isAsc ? 'desc' : 'asc',
         orderBy: property,
       });
-    };
-  };
-  const rows = store.sortedSelectedElems;
-  const attrs = store.dataset?.attrs ?? [];
+    });
+  }, [store, o, attrs]);
 
   return (
     <SidePanelEntry id="elems" title={`Selected ${rows.length.toLocaleString()} Items`}>
@@ -50,17 +60,17 @@ export default observer(() => {
                 <TableSortLabel
                   active={o.orderBy === 'name'}
                   direction={o.orderBy === 'name' ? o.order : 'asc'}
-                  onClick={handleRequestSort('name')}
+                  onClick={handleRequestNameSort}
                 >
                   Name
                 </TableSortLabel>
               </TableCell>
-              {attrs.map((attr) => (
+              {attrs.map((attr, i) => (
                 <TableCell key={attr} sortDirection={o.orderBy === `attrs.${attr}` ? o.order : false}>
                   <TableSortLabel
                     active={o.orderBy === `attrs.${attr}`}
                     direction={o.orderBy === `attrs.${attr}` ? o.order : 'asc'}
-                    onClick={handleRequestSort(`attrs.${attr}`)}
+                    onClick={handleRequestAttrsSort[i]}
                   >
                     {attr}
                   </TableSortLabel>

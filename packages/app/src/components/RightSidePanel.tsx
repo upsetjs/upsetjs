@@ -12,6 +12,7 @@ import CustomizeTheme from './CustomizeTheme';
 import Queries from './Queries';
 import CustomizeProps from './CustomizeProps';
 import ElementInfo from './ElementInfo';
+import Visualizations from './Visualizations';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +41,7 @@ export default observer(() => {
         <ElementInfo />
         <CustomizeTheme />
         <CustomizeProps />
+        <Visualizations />
       </div>
     </Paper>
   );

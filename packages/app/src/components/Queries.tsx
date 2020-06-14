@@ -17,7 +17,7 @@ import RemoveCircle from 'mdi-material-ui/MinusCircle';
 import AddBox from 'mdi-material-ui/PlusBox';
 import { UpSetSetQuery } from '@upsetjs/model';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore, TEMP_QUERY_COLOR } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import Divider from '@material-ui/core/Divider';
@@ -32,7 +32,7 @@ const SelectionLine = observer(() => {
   const selection = store.selection!;
   return (
     <ListItem>
-      <ListItemIcon onClick={() => store.persistSelection()}>
+      <ListItemIcon onClick={useCallback(() => store.persistSelection(), [store])}>
         <Tooltip title="Persist Selection">
           <IconButton edge="start" aria-label="persist">
             <AddBox style={{ color: TEMP_QUERY_COLOR }} />
@@ -48,7 +48,7 @@ const QueryLine = observer(({ query, visible }: { query: UpSetSetQuery<any>; vis
   const store = useStore();
   return (
     <ListItem>
-      <ListItemIcon onClick={() => store.toggleQueryVisibility(query)}>
+      <ListItemIcon onClick={useCallback(() => store.toggleQueryVisibility(query), [store, query])}>
         <Checkbox
           edge="start"
           checked={visible}
@@ -62,7 +62,11 @@ const QueryLine = observer(({ query, visible }: { query: UpSetSetQuery<any>; vis
       <ListItemText primary={`${query.name}: ${query.set.cardinality}`} />
       <ListItemSecondaryAction>
         <Tooltip title="Remove Query">
-          <IconButton edge="end" aria-label="delete" onClick={() => store.deleteQuery(query)}>
+          <IconButton
+            edge="end"
+            aria-label="delete"
+            onClick={useCallback(() => store.deleteQuery(query), [store, query])}
+          >
             <RemoveCircle />
           </IconButton>
         </Tooltip>

@@ -8,18 +8,45 @@
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore } from '../store';
 import { UpSetThemes } from '@upsetjs/react';
 import SidePanelEntry from './SidePanelEntry';
+// import CP from '@taufik-nurrohman/color-picker';
+
+function ColorTextField({
+  label,
+  name,
+  value,
+  required,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  required?: boolean;
+  onChange: (e: { target: { name: string; value: string } }) => void;
+}) {
+  return <TextField label={label} name={name} value={value} required={required} onChange={onChange} />;
+}
+// let picker = new CP(document.querySelector('input'));
+//     picker.on('change', function(r, g, b, a) {
+//         if (1 === a) {
+//             this.source.value = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+//         } else {
+//             this.source.value = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
+//         }
+//     });
 
 export default observer(() => {
   const store = useStore();
 
   const p = store.props;
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.changeProps({ [e.target.name]: e.target.value });
+  const handleTextChange = useCallback(
+    (e: { target: { name: string; value: string } }) => store.changeProps({ [e.target.name]: e.target.value }),
+    [store]
+  );
 
   return (
     <SidePanelEntry id="theme" title="Customize Theme">
@@ -34,44 +61,33 @@ export default observer(() => {
         <MenuItem value="light">Light Theme</MenuItem>
         <MenuItem value="vega">Vega Theme</MenuItem>
       </TextField>
-      <TextField label="Bar Color" required name="color" value={p.color} type="color" onChange={handleTextChange} />
-      <TextField
-        label="Text Color"
-        required
-        name="textColor"
-        value={p.textColor}
-        type="color"
-        onChange={handleTextChange}
-      />
-      <TextField
+      <ColorTextField label="Bar Color" required name="color" value={p.color} onChange={handleTextChange} />
+      <ColorTextField label="Text Color" required name="textColor" value={p.textColor} onChange={handleTextChange} />
+      <ColorTextField
         label="Selection Color"
         name="selectionColor"
         value={p.selectionColor}
-        type="color"
         required
         onChange={handleTextChange}
       />
-      <TextField
+      <ColorTextField
         label="Hover Hint Color"
         name="hoverHintColor"
         value={p.hoverHintColor}
-        type="color"
         required
         onChange={handleTextChange}
       />
-      <TextField
+      <ColorTextField
         label="Not Member Dot Color"
         name="notMemberColor"
         value={p.notMemberColor}
-        type="color"
         required
         onChange={handleTextChange}
       />
-      <TextField
+      <ColorTextField
         label="Alternating Background Color"
         name="alternatingBackgroundColor"
-        value={p.alternatingBackgroundColor}
-        type="color"
+        value={p.alternatingBackgroundColor || ''}
         onChange={handleTextChange}
       />
     </SidePanelEntry>

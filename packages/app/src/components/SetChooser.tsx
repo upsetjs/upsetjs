@@ -14,7 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 
@@ -49,35 +49,48 @@ export default observer(() => {
 
   const isSelected = (name: string) => selected.has(name);
 
-  const handleRequestSort = (property: 'name' | 'cardinality') => {
-    return () => {
-      const isAsc = o.orderBy === property && o.order === 'asc';
-      store.ui.changeSetTableOptions({
-        order: isAsc ? 'desc' : 'asc',
-        orderBy: property,
-      });
-    };
-  };
+  const handleRequestNameSort = useCallback(() => {
+    const isAsc = o.orderBy === 'name' && o.order === 'asc';
+    store.ui.changeSetTableOptions({
+      order: isAsc ? 'desc' : 'asc',
+      orderBy: 'name',
+    });
+  }, [store, o]);
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      store.setSelectedSets(new Set(newSelecteds));
-      return;
-    }
-    store.setSelectedSets(new Set<string>([]));
-  };
+  const handleRequestCardinalitySort = useCallback(() => {
+    const isAsc = o.orderBy === 'cardinality' && o.order === 'asc';
+    store.ui.changeSetTableOptions({
+      order: isAsc ? 'desc' : 'asc',
+      orderBy: 'cardinality',
+    });
+  }, [store, o]);
 
-  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
-    const copy = new Set(selected);
+  const handleSelectAllClick = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        const newSelectedIds = rows.map((n) => n.name);
+        store.setSelectedSets(new Set(newSelectedIds));
+        return;
+      }
+      store.setSelectedSets(new Set<string>([]));
+    },
+    [rows, store]
+  );
 
-    if (!copy.has(name)) {
-      copy.add(name);
-    } else {
-      copy.delete(name);
-    }
-    store.setSelectedSets(copy);
-  };
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      const copy = new Set(selected);
+      const name = event.currentTarget.dataset.name!;
+
+      if (!copy.has(name)) {
+        copy.add(name);
+      } else {
+        copy.delete(name);
+      }
+      store.setSelectedSets(copy);
+    },
+    [store, selected]
+  );
 
   const maxCardinality = store.sortedSets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
   const c2w = (v: number) => `${Math.round((100 * v) / maxCardinality)}%`;
@@ -100,7 +113,7 @@ export default observer(() => {
                 <TableSortLabel
                   active={o.orderBy === 'name'}
                   direction={o.orderBy === 'name' ? o.order : 'asc'}
-                  onClick={handleRequestSort('name')}
+                  onClick={handleRequestNameSort}
                 >
                   Name
                 </TableSortLabel>
@@ -109,7 +122,7 @@ export default observer(() => {
                 <TableSortLabel
                   active={o.orderBy === 'cardinality'}
                   direction={o.orderBy === 'cardinality' ? o.order : 'asc'}
-                  onClick={handleRequestSort('cardinality')}
+                  onClick={handleRequestCardinalitySort}
                 >
                   Cardinality
                 </TableSortLabel>
@@ -123,7 +136,8 @@ export default observer(() => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    data-name={row.name}
+                    onClick={handleClick}
                     role="checkbox"
                     tabIndex={-1}
                     key={row.name}
