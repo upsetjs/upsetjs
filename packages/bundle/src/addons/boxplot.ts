@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetCSSStyles, UpSetReactElement } from '../react';
+import { UpSetReactElement } from '../react';
 import { UpSetAddon } from '@upsetjs/react';
 import { boxplotAddon as boxplotAddonImpl, IBoxplotStylePlainProps } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
@@ -14,15 +14,15 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
   /**
    * custom styles applied to the box element
    */
-  boxStyle?: UpSetCSSStyles;
+  boxStyle?: CSSStyleDeclaration;
   /**
    * custom styles applied to the whisker element
    */
-  lineStyle?: UpSetCSSStyles;
+  lineStyle?: CSSStyleDeclaration;
   /**
    * custom styles applied to the outlier elements
    */
-  outlierStyle?: UpSetCSSStyles;
+  outlierStyle?: CSSStyleDeclaration;
 }
 
 /**
@@ -37,5 +37,10 @@ export function boxplotAddon<T>(
   options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
     IBoxplotStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
-  return boxplotAddonImpl(prop, elems, options);
+  return boxplotAddonImpl(
+    prop,
+    elems,
+    options as Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+  );
 }
