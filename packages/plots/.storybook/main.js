@@ -1,3 +1,7 @@
+const path = require('path');
+
+process.env.BROWSERSLIST_CONFIG = path.resolve(path.join(__dirname, '.browserslistrc'));
+
 module.exports = {
   stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: [require.resolve('@storybook/addon-docs/preset')],
