@@ -33,11 +33,6 @@ export default observer(() => {
   const selected = store.selectedAttrs;
   const numSelected = selected.size;
   const rowCount = rows.length;
-
-  if (rowCount === 0) {
-    return null;
-  }
-
   const isSelected = useCallback((name: string) => selected.has(name), [selected]);
 
   const handleSelectAllClick = useCallback(
@@ -66,6 +61,10 @@ export default observer(() => {
     },
     [selected, store]
   );
+
+  if (rowCount === 0) {
+    return null;
+  }
 
   return (
     <SidePanelEntry id="attrs" title="Attribute Chooser">
