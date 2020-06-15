@@ -3819,6 +3819,7 @@ __metadata:
     "@upsetjs/math": ~1.0.0
     "@upsetjs/react": ~1.0.0
     babel-loader: ^8.1.0
+    core-js: ^3.6.5
     eslint: ^7.2.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -3908,7 +3909,6 @@ __metadata:
     tslib: ^2.0.0
     typescript: ^3.9.5
     url-loader: ^4.1.0
-    vega-typings: ^0.18.0
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
     webpack-dev-server: ^3.11.0
@@ -3990,6 +3990,7 @@ __metadata:
     "@types/jest": ^26.0.0
     "@typescript-eslint/eslint-plugin": ^3.2.0
     "@typescript-eslint/parser": ^3.2.0
+    core-js: ^3.6.5
     eslint: ^7.2.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -4030,6 +4031,7 @@ __metadata:
     "@typescript-eslint/parser": ^3.2.0
     "@upsetjs/react": ~1.0.0
     babel-loader: ^8.1.0
+    core-js: ^3.6.5
     eslint: ^7.2.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -4083,6 +4085,7 @@ __metadata:
     "@typescript-eslint/parser": ^2.30.0
     "@upsetjs/model": ~1.0.0
     babel-loader: ^8.1.0
+    core-js: ^3.6.5
     eslint: ^6.8.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
