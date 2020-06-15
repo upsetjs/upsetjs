@@ -103,6 +103,7 @@ export function useVegaIntervalSelection<T>(
   selection: UpSetSelection<T> | undefined,
   xName: string,
   yName: string,
+  toElemKey?: (v: any) => string,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   { selectionName = 'select', transformedData = 'data_0', xField = 'x', yField = 'y', elemField = 'e' } = {}
@@ -145,7 +146,14 @@ export function useVegaIntervalSelection<T>(
       }, 200);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generateListener(viewRef, selectionRef, onHover, transformedData, elemField);
+      r[`${selectionName}_hover`] = generateListener(
+        viewRef,
+        selectionRef,
+        toElemKey,
+        onHover,
+        transformedData,
+        elemField
+      );
     }
     return r;
   }, [

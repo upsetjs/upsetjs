@@ -531,12 +531,15 @@ export interface UpSetPropsG<T, C, N, L>
 export declare type UpSetProps<T = any> = UpSetPropsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>;
 
 export interface UpSetFullPropsG<T, C, N, L>
-  extends Required<UpSetDataProps<T, N>>,
+  extends Required<Omit<UpSetDataProps<T, N>, 'toElemKey'>>,
     Required<UpSetLayoutProps>,
     Required<UpSetStyleProps<L>>,
     Required<UpSetThemeProps>,
     Required<UpSetElementProps<T, C, N>>,
-    UpSetSelectionProps<T> {}
+    UpSetSelectionProps<T> {
+  children?: N;
+  toElemKey?: (elem: T) => string;
+}
 
 export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, React.CSSProperties, React.ReactNode, React.ReactNode>;
 
@@ -558,12 +561,13 @@ export declare type VennDiagramProps<T = any> = VennDiagramPropsG<
 >;
 
 export interface VennDiagramFullPropsG<T, C, N, L>
-  extends Required<VennDiagramDataProps<T>>,
+  extends Required<Omit<VennDiagramDataProps<T>, 'toElemKey'>>,
     Required<VennDiagramLayoutProps>,
     Required<VennDiagramStyleProps<L>>,
     Required<VennDiagramThemeProps>,
     Required<VennDiagramElementProps<C>>,
     UpSetSelectionProps<T> {
+  toElemKey?: (elem: T) => string;
   children?: N;
 }
 

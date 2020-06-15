@@ -23,6 +23,8 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
   orientation?: 'horizontal' | 'vertical';
 
   elems: ReadonlyArray<T>;
+  toElemKey?: (elem: T) => string;
+
   iLabel?: string;
   iAttr: keyof T | ((v: T) => string);
   vLabel?: string;
@@ -31,7 +33,7 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
 
 export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { vAttr, iAttr, elems, width, height, orientation = 'vertical', actions } = props;
+  const { vAttr, iAttr, elems, width, height, orientation = 'vertical', actions, toElemKey } = props;
   const iAxis = orientation === 'horizontal' ? 'y' : 'x';
   const vAxis = orientation === 'horizontal' ? 'x' : 'y';
   const vName = props.vLabel ?? typeof vAttr === 'function' ? 'v' : vAttr.toString();
@@ -40,14 +42,15 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
   const data = useMemo(() => {
     const vAcc = typeof vAttr === 'function' ? vAttr : (v: T) => (v[vAttr] as unknown) as number;
     const iAcc = typeof iAttr === 'function' ? iAttr : (v: T) => (v[iAttr] as unknown) as string;
-    return { table: elems.map((e) => ({ e, v: vAcc(e), i: iAcc(e) })) };
-  }, [elems, vAttr, iAttr]);
+    return { table: elems.map((e) => ({ e, v: vAcc(e), i: iAcc(e), k: toElemKey ? toElemKey(e) : e })) };
+  }, [elems, vAttr, iAttr, toElemKey]);
 
-  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
+  const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
   const { signalListeners, selection, selectionName, hoverName } = useVegaMultiSelection(
     'multi',
     viewRef,
+    toElemKey,
     props.selection,
     props.onClick,
     props.onHover

@@ -18,25 +18,32 @@ import {
 import { useCallback, MutableRefObject, useRef, useLayoutEffect, RefObject } from 'react';
 import { VegaProps } from 'react-vega/lib/Vega';
 
-function generateQueryChecker<T>(query: UpSetQuery<T>) {
+function generateQueryChecker<T>(query: UpSetQuery<T>, toElemKey?: (v: any) => string) {
   if (isCalcQuery(query)) {
     return (v: T) => query.overlap([v]) > 0;
   } else if (isSetQuery(query)) {
     const ov = query.set.overlap;
     if (ov) {
       return (v: T) => ov([v]) > 0;
+    } else if (toElemKey) {
+      const lookup = new Set(query.set.elems.map(toElemKey));
+      return (v: string) => lookup.has(v);
     } else {
       const lookup = new Set(query.set.elems);
       return (v: T) => lookup.has(v);
     }
   } else if (isElemQuery(query)) {
+    if (toElemKey) {
+      const lookup = new Set(Array.from(query.elems).map(toElemKey));
+      return (v: string) => lookup.has(v);
+    }
     const lookup = new Set(query.elems);
     return (v: T) => lookup.has(v);
   }
   return false;
 }
 
-function generateSelectionChecker<T>(selection?: UpSetSelection<T>) {
+function generateSelectionChecker<T>(selection?: UpSetSelection<T>, toElemKey?: (v: T) => string) {
   if (!selection) {
     return false;
   }
@@ -46,11 +53,18 @@ function generateSelectionChecker<T>(selection?: UpSetSelection<T>) {
     const ov = selection.overlap;
     if (ov) {
       return (v: T) => ov([v]) > 0;
+    } else if (toElemKey) {
+      const lookup = new Set(selection.elems.map(toElemKey));
+      return (v: string) => lookup.has(v);
     } else {
       const lookup = new Set(selection.elems);
       return (v: T) => lookup.has(v);
     }
   } else if (Array.isArray(selection)) {
+    if (toElemKey) {
+      const lookup = new Set(selection.map(toElemKey));
+      return (v: string) => lookup.has(v);
+    }
     const lookup = new Set(selection);
     return (v: T) => lookup.has(v);
   }
@@ -84,7 +98,7 @@ expressionFunction('countInSetStore', countInSetStore);
  * @param color the selection color
  * @param elemField the property in the datum which hold the raw element
  */
-export function isSelectedTest(color: string, elemField = 'e') {
+export function isSelectedTest(color: string, elemField = 'k') {
   return { test: `inSetStore(upset_signal, datum.${elemField})`, value: color };
 }
 
@@ -93,7 +107,7 @@ export function isSelectedTest(color: string, elemField = 'e') {
  * @param valuesField the property in the aggregated datum which holds the raw values elements
  * @param elemField the property in the datum which holds the raw element
  */
-export function countSelectedExpression(valuesField = 'values', elemField = 'e') {
+export function countSelectedExpression(valuesField = 'values', elemField = 'k') {
   return `countInSetStore(upset_signal, datum.${valuesField}, '${elemField}')`;
 }
 
@@ -103,7 +117,7 @@ export function countSelectedExpression(valuesField = 'values', elemField = 'e')
  * @param valuesField the property in the aggregated datum which holds the raw values elements
  * @param elemField the property in the datum which holds the raw element
  */
-export function countQueryExpression(queryIndex: number, valuesField = 'values', elemField = 'e') {
+export function countQueryExpression(queryIndex: number, valuesField = 'values', elemField = 'k') {
   return `countInSetStore(upset_q${queryIndex}_signal, datum.${valuesField}, '${elemField}')`;
 }
 
@@ -112,7 +126,7 @@ export function countQueryExpression(queryIndex: number, valuesField = 'values',
  * @param queries the queries to check
  * @param elemField the property in the datum which hold the raw element
  */
-export function areQueriesTests(queries?: UpSetQueries<any>, elemField = 'e') {
+export function areQueriesTests(queries?: UpSetQueries<any>, elemField = 'k') {
   return (queries ?? []).map((query, i) => ({
     test: `inSetStore(upset_q${i}_signal, datum.${elemField})`,
     value: query.color,
@@ -127,6 +141,7 @@ export function areQueriesTests(queries?: UpSetQueries<any>, elemField = 'e') {
  * @param trigger whether to trigger an "update" after the signal has been changed (needed sometimes)
  */
 export function useVegaHooks(
+  toElemKey?: (v: any) => string,
   queries?: UpSetQueries,
   selection?: UpSetSelection<any>,
   trigger = false
@@ -139,14 +154,14 @@ export function useVegaHooks(
       spec.signals = spec.signals || [];
       spec.signals!.push({
         name: 'upset_signal',
-        value: wrap(generateSelectionChecker(selectionRef.current)),
+        value: wrap(generateSelectionChecker(selectionRef.current, toElemKey)),
       });
       (queries ?? []).forEach((query, i) =>
-        spec.signals!.push({ name: `upset_q${i}_signal`, value: wrap(generateQueryChecker(query)) })
+        spec.signals!.push({ name: `upset_q${i}_signal`, value: wrap(generateQueryChecker(query, toElemKey)) })
       );
       return spec;
     },
-    [selectionRef, queries]
+    [selectionRef, queries, toElemKey]
   );
 
   useLayoutEffect(() => {
@@ -154,12 +169,14 @@ export function useVegaHooks(
     if (!viewRef.current) {
       return;
     }
-    viewRef.current.signal('upset_signal', generateSelectionChecker(selection));
-    (queries ?? []).forEach((query, i) => viewRef.current!.signal(`upset_q${i}_signal`, generateQueryChecker(query)));
+    viewRef.current.signal('upset_signal', generateSelectionChecker(selection, toElemKey));
+    (queries ?? []).forEach((query, i) =>
+      viewRef.current!.signal(`upset_q${i}_signal`, generateQueryChecker(query, toElemKey))
+    );
     if (trigger && !(viewRef.current as any)._running) {
       viewRef.current.resize().run();
     }
-  }, [viewRef, selection, queries, trigger]);
+  }, [viewRef, selection, queries, trigger, toElemKey]);
 
   const onNewView = useCallback(
     (view: View) => {

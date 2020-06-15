@@ -18,6 +18,7 @@ export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
   actions?: boolean;
 
   elems: ReadonlyArray<T>;
+  toElemKey?: (elem: T) => string;
   xLabel?: string;
   xAttr: keyof T | ((v: T) => number);
   yLabel?: string;
@@ -26,23 +27,24 @@ export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
 
 export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { xAttr, yAttr, elems, width, height, actions } = props;
+  const { xAttr, yAttr, elems, width, height, actions, toElemKey } = props;
   const xName = props.xLabel ?? typeof xAttr === 'function' ? 'x' : xAttr.toString();
   const yName = props.yLabel ?? typeof yAttr === 'function' ? 'y' : yAttr.toString();
 
   const data = useMemo(() => {
     const xAcc = typeof xAttr === 'function' ? xAttr : (v: T) => (v[xAttr] as unknown) as number;
     const yAcc = typeof yAttr === 'function' ? yAttr : (v: T) => (v[yAttr] as unknown) as number;
-    return { table: elems.map((e) => ({ e, x: xAcc(e), y: yAcc(e) })) };
-  }, [elems, xAttr, yAttr]);
+    return { table: elems.map((e) => ({ e, x: xAcc(e), y: yAcc(e), k: toElemKey ? toElemKey(e) : e })) };
+  }, [elems, xAttr, yAttr, toElemKey]);
 
-  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection);
+  const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection);
 
   const { signalListeners, selection, selectionName, hoverName } = useVegaIntervalSelection(
     viewRef,
     props.selection,
     xName,
     yName,
+    toElemKey,
     props.onClick,
     props.onHover
   );

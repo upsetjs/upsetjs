@@ -99,7 +99,7 @@ export default observer(() => {
           </MenuItem>
         ))}
       </TextField>
-      <ReactResizeDetector handleWidth render={renderChart} />
+      {store.ui.sidePanelExpanded.has('vis') && <ReactResizeDetector handleWidth render={renderChart} />}
     </SidePanelEntry>
   );
 });

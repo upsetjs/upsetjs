@@ -48,7 +48,7 @@ export function updateMulti<T>(
 /** @internal */
 export function clearMulti(selection: string, view: View) {
   const v = view.signal(`${selection}_tuple`) as { values: number[] };
-  if (!v || v.values.length === 0) {
+  if (!v || !Array.isArray(v.values) || v.values.length === 0) {
     return;
   }
   view.signal(`${selection}_tuple`, null);
@@ -58,6 +58,7 @@ export function clearMulti(selection: string, view: View) {
 export function generateListener<T>(
   viewRef: RefObject<View>,
   selectionRef: RefObject<UpSetSelection<T> | undefined>,
+  toElemKey: undefined | ((v: any) => string),
   listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   transformedData: string,
   elemField: string
@@ -82,7 +83,7 @@ export function generateListener<T>(
     if (
       selectionRef.current &&
       isSetCombination(selectionRef.current) &&
-      sameArray(selectionRef.current.elems, elems)
+      sameArray(selectionRef.current.elems, elems, toElemKey)
     ) {
       return;
     }
@@ -94,6 +95,7 @@ export function generateListener<T>(
 export function useVegaMultiSelection<T>(
   mode: 'single' | 'multi',
   viewRef: RefObject<View>,
+  toElemKey: undefined | ((v: any) => string),
   selection: UpSetSelection<T> | undefined,
   onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
   onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
@@ -106,13 +108,20 @@ export function useVegaMultiSelection<T>(
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
     if (onClick) {
-      r[selectionName] = generateListener(viewRef, selectionRef, onClick, transformedData, elemField);
+      r[selectionName] = generateListener(viewRef, selectionRef, toElemKey, onClick, transformedData, elemField);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generateListener(viewRef, selectionRef, onHover, transformedData, elemField);
+      r[`${selectionName}_hover`] = generateListener(
+        viewRef,
+        selectionRef,
+        toElemKey,
+        onHover,
+        transformedData,
+        elemField
+      );
     }
     return r;
-  }, [onClick, onHover, viewRef, selectionRef, selectionName, transformedData, elemField]);
+  }, [onClick, onHover, viewRef, selectionRef, selectionName, transformedData, elemField, toElemKey]);
 
   // update bin selection with selection
   useLayoutEffect(() => {

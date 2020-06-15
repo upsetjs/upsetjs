@@ -19,6 +19,7 @@ export interface HistogramProps<T> extends UpSetPlotProps<T> {
   actions?: boolean;
 
   elems: ReadonlyArray<T>;
+  toElemKey?: (elem: T) => string;
   attr: keyof T | ((v: T) => number);
   label?: string;
 }
@@ -105,15 +106,15 @@ function generateSecondaryLayer(expr: string, color: string): UnitSpec | LayerSp
 
 export default function Histogram<T>(props: HistogramProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, color, theme } = fillDefaults(props);
-  const { attr, elems, width, height, actions } = props;
+  const { attr, elems, width, height, actions, toElemKey } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
     const acc = typeof attr === 'function' ? attr : (v: T) => (v[attr] as unknown) as number;
-    return { table: elems.map((e) => ({ e, i: 1, v: acc(e) })) };
-  }, [elems, attr]);
+    return { table: elems.map((e) => ({ e, i: 1, v: acc(e), k: toElemKey ? toElemKey(e) : e })) };
+  }, [elems, attr, toElemKey]);
 
-  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
+  const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
   const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
     viewRef,
@@ -130,13 +131,6 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
       data: {
         name: 'table',
       },
-      transform: [
-        // { calculate: 'inSetStore(upset_signal, datum.e) ? 1 : 0', as: 's' },
-        ...(props.queries ?? []).map((_, i) => ({
-          calculate: `inSetStore(upset_q${i}_signal, datum.e) ? 1 : 0`,
-          as: `q${i}`,
-        })),
-      ],
       layer: [
         {
           selection,

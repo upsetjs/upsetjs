@@ -67,13 +67,13 @@ function updateGroups(
   const allGroups: IAggregateStructure[] = view.data(aggregateData);
   const values = allGroups.filter((b) => s.groups.includes(b[aggregateField])).map((d) => d._vgsid_);
 
-  const current = v ? v.values : [];
+  const current = v && v.values ? v.values : [];
   if (sameArray(current, values)) {
     return;
   }
   const entry = v
     ? Object.assign({}, v, { values })
-    : { unit: unitData, fields: view.signal(`${selection}_tuple_fields`, values) };
+    : { unit: unitData, fields: view.signal(`${selection}_tuple_fields`), values };
   view.signal(`${selection}_tuple`, entry);
 }
 

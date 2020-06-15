@@ -5,9 +5,13 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export function sameArray<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>) {
+export function sameArray<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>, toKey?: (v: T) => string) {
   if (a.length !== b.length) {
     return false;
+  }
+  if (toKey) {
+    const bs = new Set(b.map(toKey));
+    return a.every((ai) => bs.has(toKey(ai)));
   }
   const bs = new Set(b);
   return a.every((ai) => bs.has(ai));

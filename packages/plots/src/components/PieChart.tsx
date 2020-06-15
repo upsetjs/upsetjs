@@ -21,6 +21,7 @@ export interface PieChartProps<T> extends UpSetPlotProps<T> {
   innerRadius?: number;
 
   elems: ReadonlyArray<T>;
+  toElemKey?: (elem: T) => string;
   attr: keyof T | ((v: T) => string);
   label?: string;
 }
@@ -77,15 +78,15 @@ function generateLayer(
 
 export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement<any, any> | null {
   const { title, description, selectionColor, theme } = fillDefaults(props);
-  const { attr, elems, width, height, innerRadius, actions } = props;
+  const { attr, elems, width, height, innerRadius, actions, toElemKey } = props;
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
     const acc = typeof attr === 'function' ? attr : (v: T) => (v[attr] as unknown) as number;
-    return { table: elems.map((e) => ({ e, i: 1, v: acc(e) })) };
-  }, [elems, attr]);
+    return { table: elems.map((e) => ({ e, i: 1, v: acc(e), k: toElemKey ? toElemKey(e) : e })) };
+  }, [elems, attr, toElemKey]);
 
-  const { viewRef, vegaProps } = useVegaHooks(props.queries, props.selection, true);
+  const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
   const { selection, signalListeners, selectionName, hoverName } = useVegaAggregatedGroupSelection(
     viewRef,
