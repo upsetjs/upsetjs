@@ -105,7 +105,7 @@ function findNameAttr(fields: string[]) {
   return fields[0]; // first one
 }
 
-function safeName(name: string | undefined, i: number) {
+function safeName(name: string | undefined | number, i: number) {
   if (name != null) {
     return name.toString();
   }
@@ -115,7 +115,7 @@ function safeName(name: string | undefined, i: number) {
 export function importCSV(file: File | string): Promise<IDataSet> {
   const name = deriveDataSetName(file);
   return new Promise<IDataSet>((resolve) => {
-    parse(file, {
+    parse<{ [key: string]: string | number }>(file, {
       download: typeof file === 'string',
       dynamicTyping: true,
       header: true,

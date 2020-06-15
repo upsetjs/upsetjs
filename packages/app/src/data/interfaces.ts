@@ -7,7 +7,7 @@
 
 import { ISets, ISetCombinations, GenerateSetCombinationsOptions, UpSetJSDumpProps } from '@upsetjs/react';
 
-export declare type ICustomizeOptions = UpSetJSDumpProps;
+export interface ICustomizeOptions extends Omit<UpSetJSDumpProps, 'width' | 'height'> {}
 
 export interface IAttrs {
   [key: string]: number;

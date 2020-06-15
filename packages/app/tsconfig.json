@@ -9,6 +9,7 @@
     "assumeChangesOnlyAffectDirectDependencies": false,
     "declaration": false,
     "sourceMap": true,
+    "skipLibCheck": true,
     "paths": {
       "@": ["./"],
       "*": ["src/*", "node_modules/*"]

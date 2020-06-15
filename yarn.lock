@@ -3908,6 +3908,7 @@ __metadata:
     tslib: ^2.0.0
     typescript: ^3.9.5
     url-loader: ^4.1.0
+    vega-typings: ^0.18.0
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
     webpack-dev-server: ^3.11.0
