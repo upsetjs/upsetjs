@@ -43,7 +43,7 @@ export function createIntervalSetComposite<T>(
   y: [number, number]
 ): IIntervalSetComposite<T> {
   return {
-    name: `Vega Brush (${xAttr}: ${x}, ${yAttr}: ${y})`,
+    name: `Vega Brush (${xAttr}: ${Math.round(x * 100) / 100}, ${yAttr}: ${Math.round(y * 100) / 100})`,
     type: 'composite',
     subType: 'interval',
     cardinality: elems.length,
