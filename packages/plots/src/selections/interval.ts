@@ -35,6 +35,10 @@ export function isIntervalSetComposite<T>(
   );
 }
 
+function formatArray(v: [number, number]) {
+  return `[${Math.round(v[0] * 100) / 100},${Math.round(v[1] * 100) / 100}]`;
+}
+
 export function createIntervalSetComposite<T>(
   xAttr: string,
   yAttr: string,
@@ -43,7 +47,7 @@ export function createIntervalSetComposite<T>(
   y: [number, number]
 ): IIntervalSetComposite<T> {
   return {
-    name: `Vega Brush (${xAttr}: ${Math.round(x * 100) / 100}, ${yAttr}: ${Math.round(y * 100) / 100})`,
+    name: `Vega Brush (${xAttr}: ${formatArray(x)}, ${yAttr}: ${formatArray(y)}`,
     type: 'composite',
     subType: 'interval',
     cardinality: elems.length,
