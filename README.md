@@ -61,7 +61,7 @@ npm install @upsetjs/react react react-dom
 
 ```ts
 import React from 'react';
-import UpSetJS, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
+import UpSetJS, { extractSets, generateCombinations, ISetLike } from '@upsetjs/react';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -71,7 +71,7 @@ const elems = [
 ];
 
 const sets = extractSets(elems);
-const combinations = generateIntersections(sets);
+const combinations = generateCombinations(sets);
 
 <UpSetJS sets={sets} combinations={combinations} width={500} height={300} />;
 ```
@@ -85,12 +85,12 @@ const UpSetJSSelection = (props: any) => {
   return <UpSetJS {...props} selection={selection} onHover={setSelection} />;
 };
 
-<UpSetJSSelection sets={sets} combinations={combinations} />;
+<UpSetJSSelection sets={sets} combinations={combinations} width={500} height={300} />;
 ```
 
 ![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
 
-see also [Storybook Documentation](https://upset.js.org/api/?path=/docs/upset--default)
+see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-sample-cq5do) and [Storybook Documentation](https://upset.js.org/api/?path=/docs/upset--default)
 
 ### Bundled version
 
@@ -99,7 +99,7 @@ npm install @upsetjs/bundle
 ```
 
 ```js
-import { extractSets, generateIntersections, render } from '@upsetjs/bundle';
+import { extractSets, generateCombinations, render } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -109,7 +109,7 @@ const elems = [
 ];
 
 const sets = extractSets(elems);
-const combinations = generateIntersections(sets);
+const combinations = generateCombinations(sets);
 
 render(document.body, { sets, combinations, width: 500, height: 300 });
 ```
@@ -436,6 +436,7 @@ In case of a commercial use, please get in touch regarding a commercial license.
 [github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/ci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/upsetjs/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
+[codesandbox]: https://img.shields.io/badge/CodeSandbox-open-blue?logo=codesandbox
 [nbviewer]: https://img.shields.io/badge/NBViewer-open-blue?logo=jupyter
 [nbviewer-url]: https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb
 [binder]: https://mybinder.org/badge_logo.svg

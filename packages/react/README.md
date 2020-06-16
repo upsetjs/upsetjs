@@ -14,7 +14,7 @@ npm install @upsetjs/react react react-dom
 
 ```ts
 import React from 'react';
-import UpSetJS, { extractSets, generateIntersections, ISetLike } from '@upsetjs/react';
+import UpSetJS, { extractSets, generateCombinations, ISetLike } from '@upsetjs/react';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -24,7 +24,7 @@ const elems = [
 ];
 
 const sets = extractSets(elems);
-const combinations = generateIntersections(sets);
+const combinations = generateCombinations(sets);
 
 <UpSetJS sets={sets} combinations={combinations} width={500} height={300} />;
 ```
@@ -38,7 +38,7 @@ const UpSetSelection = (props: any) => {
   return <UpSetJS {...props} selection={selection} onHover={setSelection} />;
 };
 
-<UpSetSelection sets={sets} combinations={combinations} />;
+<UpSetSelection sets={sets} combinations={combinations} width={500} height={300} />;
 ```
 
 ## Privacy Policy
