@@ -138,13 +138,49 @@ see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/GRpoMZY)
 
 ## More features
 
-**Interactivity**
+### Venn Diagrams
+
+For comparison and convenience reasons UpSet.js also has a Venn Diagram component for rendering two or three sets.
+
+```ts
+import React from 'react';
+import { VennDiagram, extractSets, ISetLike } from '@upsetjs/react';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+
+<VennDiagram sets={sets} width={500} height={300} />;
+```
+
+with stored selection
+
+```ts
+const VennDiagramSelection = (props: any) => {
+  [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+
+  return <VennDiagram {...props} selection={selection} onHover={setSelection} />;
+};
+
+<VennDiagramSelection sets={sets} width={500} height={300} />;
+```
+
+![venn diagram](https://user-images.githubusercontent.com/4129778/84775176-2580fe80-afdf-11ea-80b6-7b7a45a32b72.png)
+
+see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-venndiagram-dhsj5) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/venndiagram--default)
+
+### Interactivity
 
 By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
 
 ![interactions](https://user-images.githubusercontent.com/4129778/80863076-f0f8f380-8c79-11ea-8790-f6ad86738b28.png)
 
-**Queries**
+### Queries
 
 Similar to the original UpSetR, UpSet.js allows to specify queries by a set of elements which are then highlighted in the plot.
 The first query is shown in full detail while others are shown using small indicators.
@@ -162,7 +198,7 @@ render(document.body, { sets, width: 1000, height: 500, queries });
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
-**Addons**
+### Addons
 
 Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
 
@@ -196,6 +232,16 @@ render(document.body, {
 ```
 
 ![addons](https://user-images.githubusercontent.com/4129778/79564225-85762a00-80ae-11ea-80ae-1d01a43ec45a.png)
+
+### Plots
+
+Similar to the original UpSet and UpSetR, support plots showing histograms, scatterplots, bar charts, or pie charts of attributes of the elements can be created and linked.
+
+The [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/master/packages/plots) package contains wrappers around VEGA plots which support selection and queries, to be easily linked with UpSet.js plots.
+
+![plots](https://user-images.githubusercontent.com/4129778/84775584-b0fa8f80-afdf-11ea-9875-f4ae8b9baccb.png)
+
+see also [Storybook Documentation](https://upset.js.org/api/plots/?path=/story/upsetjs-plot-addons--up-set-scatterplot)
 
 ## UpSet.js App
 
