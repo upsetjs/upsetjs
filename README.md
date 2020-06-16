@@ -47,8 +47,6 @@ In addition, there are the following sibling repositories and projects
 - [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
   [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
-- [upsetjs_powerbi_visuals](https://github.com/upsetjs/upsetjs_powerbi_visuals) PowerBI Custom Visuals around UpSet.js
-- [upsetjs_tableau_extension](https://github.com/upsetjs/upsetjs_tableau_extension) Tableau extension around UpSet.js
 - [upset-js](https://observablehq.com/@sgratzl/upset-js) Observable HQ wrapper around UpSet.js [![Open Example][example]][example-o-url]
 
 ## Usage and Installation
@@ -125,7 +123,7 @@ function onHover(set) {
 }
 
 function rerender() {
-  const props = { sets, combinations, width: 1000, height: 300, selection, onHover };
+  const props = { sets, combinations, width: 500, height: 300, selection, onHover };
   render(document.body, props);
 }
 
@@ -136,9 +134,7 @@ rerender();
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/GRpoMZY)
 
-## More features
-
-### Venn Diagrams
+## Venn Diagrams
 
 For comparison and convenience reasons UpSet.js also has a Venn Diagram component for rendering two or three sets.
 
@@ -174,13 +170,46 @@ const VennDiagramSelection = (props: any) => {
 
 see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-venndiagram-dhsj5) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/venndiagram--default)
 
-### Interactivity
+```js
+import { extractSets, renderVennDiagram } from '@upsetjs/bundle';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+
+renderVennDiagram(document.body, { sets, width: 500, height: 300 });
+```
+
+with stored selection
+
+```js
+let selection = null;
+
+function onHover(set) {
+  selection = set;
+  rerender();
+}
+
+function rerender() {
+  const props = { sets, width: 500, height: 300, selection, onHover };
+  renderVennDiagram(document.body, props);
+}
+
+rerender();
+```
+
+## Interactivity
 
 By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
 
 ![interactions](https://user-images.githubusercontent.com/4129778/80863076-f0f8f380-8c79-11ea-8790-f6ad86738b28.png)
 
-### Queries
+## Queries
 
 Similar to the original UpSetR, UpSet.js allows to specify queries by a set of elements which are then highlighted in the plot.
 The first query is shown in full detail while others are shown using small indicators.
@@ -198,7 +227,7 @@ render(document.body, { sets, width: 1000, height: 500, queries });
 
 see also [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/BaNmpJq)
 
-### Addons
+## Addons
 
 Similar to the original UpSet and UpSetR, `UpSet` allows to render boxplot for showing numerical aggregates of sets and set combinations.
 
@@ -233,7 +262,7 @@ render(document.body, {
 
 ![addons](https://user-images.githubusercontent.com/4129778/79564225-85762a00-80ae-11ea-80ae-1d01a43ec45a.png)
 
-### Plots
+## Plots
 
 Similar to the original UpSet and UpSetR, support plots showing histograms, scatterplots, bar charts, or pie charts of attributes of the elements can be created and linked.
 
@@ -263,12 +292,12 @@ The most relevant and required properties of the `UpSetJS` component are:
   height: number;
 
   sets: ISet<T>[];
-  combinations?: ISetCombination<T>[] | GenerateCombinations<T>;
+  combinations?: ISetCombination<T>[] | GenerateCombinationOptions<T>;
 
-  selection?: ISetLike<T> | null;
+  selection?: ISetLike<T> | ReadonlyArray<T> | null;
 
   onHover?(selection: ISetLike<T> | null): void;
-  onClick?(selection: ISetLike<T>): void;
+  onClick?(selection: ISetLike<T> | null): void;
 
   queries?: UpSetQuery<T>[];
 }
@@ -282,10 +311,8 @@ The most relevant and required properties of the `UpSetJS` component are:
   given an array of elements where each is having a property called `.sets` containing a list of set names in which this element is part of. e.g. `{ sets: ['Blue Hair', 'Female']}`. The return value is a list of sets in the required data structures and having a `.elems` with an array of the input elements.
 - `asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(sets: ReadonlyArray<S>): (S & ISet<T>)[]`
   extends the given basic set objects (`name` and `elems`) with the required attributes for `UpSetJS`
-- `generateIntersections<T>(sets: ISets<T>, { min = 0, max = Infinity, empty = false } = {}): ISetIntersection<T>[]`
-  one needs to generate the list of the intersections to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set intersections (aka. power set). The options allow to limit the generation to skip `empty` set intersections or enforce a minimum/maximum amount of sets in the intersection.
-- `generateUnions<T>(sets: ISets<T>, { min = 2, max = Infinity } = {}): ISetUnion<T>[]`
-  one needs to generate the list of the unions to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set unions (aka. power set). The options allow to enforce a minimum/maximum amount of sets in the union.
+- `generateCombinations<T>(sets: ISets<T>, { type = 'intersection', min = 0, max = Infinity, empty = false } = {}): ISetCombination<T>[]`
+  one needs to generate the list of the combinations to show in case of customized sorting or filtering. This function takes the array of sets as input and computed all possible set intersections (aka. power set). The options allow to limit the generation to skip `empty` set combinations or enforce a minimum/maximum amount of sets in the set combinations. There are three types: `intersection` to generate set intersections, `union` for set unions, and `distinctIntersection` for set intersections that do not appear in any other set
 
 ## Integration
 
@@ -350,11 +377,11 @@ upsetjs() %>% fromList(listInput) %>% interactiveChart()
 
 see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic.Rmd)
 
-### Juptyer Widget
+### Jupyter Widget
 
 [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
-A Juptyer Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
+A Jupyter Widget wrapper is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
 
 ```bash
 pip install upsetjs_jupyter_widget
@@ -375,15 +402,13 @@ w
 
 ### PowerBI
 
-A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-visualization/?cdn=disable) is located at [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget).
-
-Download the latest package from [https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz](https://github.com/upsetjs/upsetjs_powerbi_visuals/releases/latest/download/upsetjs.pbiviz) and install into your PowerBI environment.
+A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-visualization/?cdn=disable) is also available.
 
 ![UpSet.js Report](https://user-images.githubusercontent.com/4129778/80864985-9b771380-8c86-11ea-809c-a4473b32ed3b.png)
 
 ### Tableau
 
-A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extension](https://github.com/upsetjs/upsetjs_tableau_extension).
+A [Tableau](https://tableau.com) extension is also available.
 
 1. Download the extension description file at [upsetjs.trex](https://upset.js.org/integrations/tableau/upsetjs.trex)
 1. Create a new dashboard and show at least one sheet in the dashboard
