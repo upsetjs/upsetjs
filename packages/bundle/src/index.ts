@@ -8,9 +8,13 @@
 import { render as renderPreact, h, hydrate as hydratePreact } from 'preact';
 import UpSetElement, {
   UpSetPropsG,
+  VennDiagramPropsG,
   UpSetFullPropsG,
+  VennDiagramFullPropsG,
   UpSetProps as UpSetReactProps,
+  VennDiagramProps as VennDiagramReactProps,
   fillDefaults as fillDefaultsImpl,
+  fillVennDiagramDefaults as fillVennDiagramDefaultsImpl,
   exportSVG as exportSVGImpl,
   downloadUrl as downloadUrlImpl,
   toUpSetJSDump as toUpSetJSDumpImpl,
@@ -20,15 +24,40 @@ import UpSetElement, {
   IUpSetJSDump,
   IUpSetJSStaticDump,
   UpSetMultiStyle,
+  VennDiagram as VennDiagramElement,
+  VennDiagramMultiStyle,
 } from '@upsetjs/react';
 import { UpSetReactElement } from './react';
 
 export * from './addons';
 export * from '@upsetjs/model';
-export { propValidators, IUpSetJSDump, IUpSetJSStaticDump, UpSetJSDumpProps } from '@upsetjs/react';
+export {
+  propValidators,
+  IUpSetJSDump,
+  IUpSetJSStaticDump,
+  UpSetJSDumpProps,
+  UpSetThemeProps,
+  UpSetThemes,
+  UpSetStyleProps,
+  UpSetFontSizes,
+  VennDiagramFontSizes,
+  UpSetLayoutProps,
+  VennDiagramLayoutProps,
+  UpSetSelectionProps,
+  VennDiagramThemeProps,
+  UpSetStyleClassNames,
+  UpSetExportOptions,
+} from '@upsetjs/react';
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
 export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export declare type VennDiagramProps<T = any> = VennDiagramPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
+  T,
+  CSSStyleDeclaration,
+  UpSetReactElement,
+  string
+>;
 
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
@@ -39,6 +68,14 @@ export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
 }
 
 /**
+ * helper methods to fill up partial UpSet.js properties with their default values
+ */
+export function fillVennDiagramDefaults<T = any>(props: VennDiagramProps<T>): VennDiagramFullProps<T> {
+  const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
+  return fillVennDiagramDefaultsImpl(p) as VennDiagramFullProps<T>;
+}
+
+/**
  * renders the UpSetJS component
  * @param node the DOM node to render the component into
  * @param props the properties of the component
@@ -46,6 +83,16 @@ export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
 export function render<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   renderPreact(h(UpSetElement as any, p), node);
+}
+
+/**
+ * renders the VennDiagram component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderVennDiagram<T = any>(node: HTMLElement, props: VennDiagramProps<T>) {
+  const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
+  renderPreact(h(VennDiagramElement as any, p), node);
 }
 /**
  * renders the UpSetJS component
@@ -62,6 +109,15 @@ export const renderUpSet = render;
 export function hydrate<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   hydratePreact(h(UpSetElement as any, p), node);
+}
+/**
+ * hydrates the VennDiagram component when applied on a server rendered version
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function hydrateVennDiagram<T = any>(node: HTMLElement, props: VennDiagramProps<T>) {
+  const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
+  hydratePreact(h(VennDiagramElement as any, p), node);
 }
 
 /**
