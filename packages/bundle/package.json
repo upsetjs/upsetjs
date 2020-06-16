@@ -32,7 +32,7 @@
   "sideEffects": false,
   "scripts": {
     "start": "tsdx watch  --noClean --name UpSetJS --format esm,umd",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist docs",
     "build": "npm run build:impl && npm run typings",
     "build:impl": "tsdx build --name UpSetJS --format esm,umd",
     "typings": "rollup -c rollup.dts.config.js",

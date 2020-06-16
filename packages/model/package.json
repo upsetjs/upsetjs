@@ -30,7 +30,7 @@
   "scripts": {
     "compile": "tsc -p tsconfig.json --noEmit",
     "start": "tsdx watch --noClean",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist docs",
     "build": "npm run build:impl && npm run typings",
     "build:impl": "tsdx build",
     "typings": "rollup -c rollup.dts.config.js",

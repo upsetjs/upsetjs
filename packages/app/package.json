@@ -29,7 +29,7 @@
     "prettier:check": "npm run prettier -- --check",
     "eslint": "eslint src --ext .ts,.tsx",
     "eslint:fix": "npm run eslint -- --fix",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist docs",
     "build": "npm run clean && webpack-cli -p",
     "build:stats": "webpack-cli -p --json > dist/stats.json",
     "build:dev": "webpack-cli -d --devtool none",
