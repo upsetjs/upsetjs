@@ -13,7 +13,6 @@ import {
   DEFAULT_FONT_SIZES,
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
-  DEFAULT_VENN_COMBINATIONS,
 } from './defaults';
 import {
   UpSetThemeProps,
@@ -154,7 +153,6 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
     {
       theme: 'light',
       padding: 20,
-      combinations: DEFAULT_VENN_COMBINATIONS,
       selection: null,
       title: '',
       description: '',
