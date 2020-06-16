@@ -6,7 +6,7 @@
  */
 
 import { observer } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import React, { useCallback, RefObject } from 'react';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import { Histogram, Scatterplot } from '@upsetjs/plots';
@@ -55,9 +55,9 @@ const RenderPlot = observer(({ width }: { width: number }) => {
   );
 });
 
-function renderChart({ width }: { width: number }) {
+function renderChart({ width, targetRef }: { width: number; targetRef?: RefObject<HTMLDivElement> }) {
   return (
-    <div>
+    <div ref={targetRef}>
       <RenderPlot width={width} />
     </div>
   );

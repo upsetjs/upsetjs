@@ -13,6 +13,7 @@ import Queries from './Queries';
 import CustomizeProps from './CustomizeProps';
 import ElementInfo from './ElementInfo';
 import Visualizations from './Visualizations';
+import VennDiagramPanel from './VennDiagramPanel';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,7 @@ export default observer(() => {
         <ElementInfo />
         <CustomizeTheme />
         <CustomizeProps />
+        <VennDiagramPanel />
         <Visualizations />
       </div>
     </Paper>

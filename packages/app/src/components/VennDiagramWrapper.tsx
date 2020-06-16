@@ -12,14 +12,14 @@ import { IElem } from '../data/interfaces';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
-import UpSetImpl from '@upsetjs/react';
+import { VennDiagram as VennDiagramImpl } from '@upsetjs/react';
 import Skeleton from './Skeleton';
 
 const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     padding: '1rem',
-    flexGrow: 1,
+    height: 200,
     '& > *': {
       flexGrow: 1,
     },
@@ -29,30 +29,29 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UpSetJS = lazy(() => import('@upsetjs/react')) as typeof UpSetImpl;
+const VennDiagram = lazy(() =>
+  import('@upsetjs/react').then((m) => ({ default: m.VennDiagram }))
+) as typeof VennDiagramImpl;
 
-const UpSetRenderer = observer(
-  ({ width, height, targetRef }: { width: number; height: number; targetRef?: RefObject<HTMLDivElement> }) => {
+const VennDiagramRenderer = observer(
+  ({ width, targetRef }: { width: number; targetRef?: RefObject<HTMLDivElement> }) => {
     const store = useStore();
     const classes = useStyles();
     return (
       <div ref={targetRef}>
         <Suspense fallback={<Skeleton />}>
-          {width > 0 && height > 0 && (
-            <UpSetJS<IElem>
+          {width > 0 && (
+            <VennDiagram<IElem>
               width={width}
-              height={height}
+              height={200}
               className={classes.wrapper}
               {...store.props}
-              sets={store.visibleSets}
+              sets={store.visibleVennSets}
               queries={store.queriesAndSelection}
-              combinations={store.visibleCombinations}
               selection={store.hover}
               onHover={store.setHover}
               onClick={store.setSelection}
               exportButtons={false}
-              setAddons={store.visibleSetAddons}
-              combinationAddons={store.visibleCombinationAddons}
               ref={store.ui.ref}
             />
           )}
@@ -62,16 +61,8 @@ const UpSetRenderer = observer(
   }
 );
 
-function renderUpSetJS({
-  width,
-  height,
-  targetRef,
-}: {
-  width: number;
-  height: number;
-  targetRef?: RefObject<HTMLDivElement>;
-}) {
-  return <UpSetRenderer width={width} height={height} targetRef={targetRef} />;
+function renderVennDiagram({ width, targetRef }: { width: number; targetRef?: RefObject<HTMLDivElement> }) {
+  return <VennDiagramRenderer width={width} targetRef={targetRef} />;
 }
 
 export default observer(() => {
@@ -79,9 +70,7 @@ export default observer(() => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {store.sets.length > 0 && store.dataset && (
-        <ReactResizeDetector handleWidth handleHeight render={renderUpSetJS} />
-      )}
+      {store.sets.length > 0 && store.dataset && <ReactResizeDetector handleWidth render={renderVennDiagram} />}
       {!store.dataset && <Loading>Choose Dataset</Loading>}
       {store.sets.length === 0 && store.dataset && <Loading />}
     </div>
