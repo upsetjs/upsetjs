@@ -257,6 +257,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               d={l.v}
               i={i}
               slice={l.l}
+              size={sizeInfo}
               style={styleInfo}
               data={dataInfo}
               onClick={onClickImpl}

@@ -13,6 +13,7 @@ import { ITextArcSlice } from '../layout/interfaces';
 import { UpSetSelection } from '../../components/interfaces';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
+import { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
 
 function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: string; v: number; rotate?: number }) {
   if (v >= 1 || v <= 0) {
@@ -34,8 +35,14 @@ function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: s
   );
 }
 
-function sliceRotate(slice: ITextArcSlice) {
-  return slice.text.x === slice.x1 ? 0 : slice.text.x < slice.x1 ? 60 : -60;
+function sliceRotate(slice: ITextArcSlice, center: { cx: number; cy: number }) {
+  if (slice.text.x === center.cx) {
+    return 0;
+  }
+  if (slice.text.x > center.cx) {
+    return slice.text.y <= center.cy ? 60 : -60;
+  }
+  return slice.text.y <= center.cy ? -60 : 60;
 }
 
 function generateTitle(
@@ -132,6 +139,7 @@ export default function VennArcSliceSelection<T>({
   onMouseLeave,
   onContextMenu,
   queries,
+  size,
   qs,
 }: PropsWithChildren<
   {
@@ -143,12 +151,13 @@ export default function VennArcSliceSelection<T>({
     selectionName?: string;
     style: VennDiagramStyleInfo;
     data: VennDiagramDataInfo<T>;
+    size: VennDiagramSizeInfo;
     queries: UpSetQueries<T>;
     qs: ReadonlyArray<(s: ISetLike<T>) => number>;
   } & UpSetSelection
 >) {
   const p = generateArcSlicePath(slice);
-  const rotate = sliceRotate(slice);
+  const rotate = sliceRotate(slice, size.area);
 
   const o = elemOverlap ? elemOverlap(d) : 0;
   const className = clsx(
@@ -164,7 +173,7 @@ export default function VennArcSliceSelection<T>({
 
   return (
     <g>
-      <SelectionPattern id={id} v={o / d.cardinality} suffix={`Selection-${style.id}`} rotate={rotate} />
+      <SelectionPattern id={id} v={o === 0 ? 0 : o / d.cardinality} suffix={`Selection-${style.id}`} rotate={rotate} />
       <path
         onMouseEnter={onMouseEnter(d)}
         onMouseLeave={onMouseLeave}
