@@ -69,7 +69,7 @@ export declare type UpSetDataInfo<T> = {
   toElemKey?(e: T): string;
 };
 
-function areCombinations<T>(
+export function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
 ): combinations is ISetCombinations<T> {
   return Array.isArray(combinations);
@@ -91,7 +91,9 @@ export default function deriveDataDependent<T>(
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
-  const cs = areCombinations(combinations) ? combinations : generateCombinations(sets, combinations);
+  const cs = areCombinations(combinations)
+    ? combinations
+    : generateCombinations(sets, Object.assign({ toElemKey }, combinations));
 
   const csKeys = cs.map(toKey);
   const combinationX = bandScaleFactory(csKeys, sizes.cs.w, sizes.padding);

@@ -214,6 +214,11 @@ export interface VennDiagramDataProps<T> {
    */
   sets: ISets<T>;
   /**
+   * the set combinations to visualize or the generation options to generate the distinct set combinations
+   * by default all set distinct intersections are computed
+   */
+  combinations?: ISetCombinations<T>;
+  /**
    * optional function to identify the same sets
    * @param set the set to generate a key for
    */

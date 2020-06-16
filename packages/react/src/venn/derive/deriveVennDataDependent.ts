@@ -5,11 +5,20 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { generateCombinations, ISetCombinations, ISetLike, ISets, ISet, ISetCombination } from '@upsetjs/model';
+import {
+  generateCombinations,
+  ISetCombinations,
+  ISetLike,
+  ISets,
+  ISet,
+  ISetCombination,
+  GenerateSetCombinationsOptions,
+} from '@upsetjs/model';
 import { generateId } from '../../utils';
 import { ITextCircle, ITextArcSlice } from '../layout/interfaces';
 import vennDiagramLayout from '../layout/vennDiagramLayout';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
+import { areCombinations } from '../../derive/deriveDataDependent';
 
 export declare type VennDiagramDataInfo<T> = {
   id: string;
@@ -30,30 +39,68 @@ export declare type VennDiagramDataInfo<T> = {
 
 export default function deriveVennDataDependent<T>(
   sets: ISets<T>,
+  combinations: ISetCombinations<T> | GenerateSetCombinationsOptions,
   size: VennDiagramSizeInfo,
   valueFormat: (v: number) => string,
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
   id?: string
 ): VennDiagramDataInfo<T> {
-  const cs = generateCombinations(sets, {
-    type: 'distinctIntersection',
-    min: 1,
-    empty: true,
-    order: ['degree:asc', 'group:asc'],
-    toElemKey,
-  });
+  const ss = sets.length > 3 ? sets.slice(0, 3) : sets;
+  const setKeys = ss.map(toKey);
+
+  let cs: ISetCombinations<T> = [];
+  if (areCombinations(combinations)) {
+    const given = new Map(combinations.map((c) => [Array.from(c.sets).map(toKey).sort().join('#'), c]));
+    const helperSets = ss.map((s) => ({
+      type: 'set' as 'set',
+      cardinality: 0,
+      elems: [],
+      name: s.name,
+      s,
+    }));
+    // generate dummy ones and map to given data
+    cs = generateCombinations(helperSets, {
+      type: 'distinctIntersection',
+      min: 1,
+      empty: true,
+      order: ['degree:asc', 'group:asc'],
+    }).map((c) => {
+      const key = Array.from(c.sets)
+        .map((s) => toKey(((s as unknown) as { s: ISet<T> }).s))
+        .sort()
+        .join('#');
+      if (given.has(key)) {
+        return given.get(key)!;
+      }
+      // generate a dummy one
+      return {
+        name: c.name,
+        cardinality: 0,
+        degree: c.degree,
+        elems: [],
+        sets: new Set(Array.from(c.sets).map((s) => ((s as unknown) as { s: ISet<T> }).s)),
+        type: 'distinctIntersection',
+      } as ISetCombination<T>;
+    });
+  } else {
+    cs = generateCombinations(ss, {
+      type: 'distinctIntersection',
+      min: 1,
+      empty: true,
+      order: ['degree:asc', 'group:asc'],
+    });
+  }
 
   const csKeys = cs.map(toKey);
-  const setKeys = sets.map(toKey);
 
-  const layout = vennDiagramLayout(sets.length, size.area);
+  const layout = vennDiagramLayout(ss.length, size.area);
 
   return {
     id: id ? id : generateId(),
     sets: {
-      d: layout.sets.map((l, i) => ({ v: sets[i], l, key: setKeys[i] })),
-      v: sets,
+      d: layout.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
+      v: ss,
       format: valueFormat,
     },
     format: valueFormat,

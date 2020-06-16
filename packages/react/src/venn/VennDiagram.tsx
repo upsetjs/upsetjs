@@ -30,6 +30,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     height,
     padding: margin,
     sets,
+    combinations,
     toKey,
     toElemKey,
     selection = null,
@@ -109,14 +110,10 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
 
   const sizeInfo = useMemo(() => deriveVennSizeDependent(width, height, margin, id), [width, height, margin, id]);
 
-  const dataInfo = useMemo(() => deriveVennDataDependent(sets, sizeInfo, valueFormat, toKey, toElemKey, id), [
-    sets,
-    sizeInfo,
-    valueFormat,
-    toKey,
-    toElemKey,
-    id,
-  ]);
+  const dataInfo = useMemo(
+    () => deriveVennDataDependent(sets, combinations, sizeInfo, valueFormat, toKey, toElemKey, id),
+    [sets, combinations, sizeInfo, valueFormat, toKey, toElemKey, id]
+  );
 
   const rulesHelper = baseRules(
     styleId,
