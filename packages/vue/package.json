@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/vue",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
@@ -69,6 +69,6 @@
     "vue": "^2.6.11"
   },
   "dependencies": {
-    "@upsetjs/bundle": "~1.1.0"
+    "@upsetjs/bundle": "~1.2.0"
   }
 }
