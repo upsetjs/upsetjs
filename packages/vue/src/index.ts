@@ -6,7 +6,15 @@
  */
 
 import Vue from 'vue';
-import { render, UpSetProps as UpSetBundleProps, propValidators } from '@upsetjs/bundle';
+import {
+  render,
+  UpSetProps as UpSetBundleProps,
+  propValidators,
+  renderVennDiagram,
+  VennDiagramProps as VennDiagramBundleProps,
+  UpSetSelectionProps,
+} from '@upsetjs/bundle';
+import { RecordPropsDefinition } from 'vue/types/options';
 export {
   asCombination,
   asCombinations,
@@ -40,7 +48,71 @@ export {
   NumericScaleLike,
 } from '@upsetjs/bundle';
 
-const upsetSizeProps = {
+const upsetDataProps = {
+  /**
+   * the sets to visualize
+   */
+  sets: {
+    type: Array,
+    required: true,
+    validator: propValidators.sets,
+  },
+  /**
+   * the combinations to visualize by default all combinations
+   */
+  combinations: {
+    type: [Array, Object],
+    validator: propValidators.combinations,
+    default: () => ({}),
+  },
+
+  toKey: {
+    type: Function,
+    required: false,
+  },
+
+  toElemKey: {
+    type: Function,
+    required: false,
+  },
+
+  numericScale: {
+    type: [String, Function],
+    validator: propValidators.numericScale,
+  },
+  bandScale: {
+    type: [String, Function],
+    validator: propValidators.bandScale,
+  },
+};
+
+const vennDiagramDataProps = {
+  /**
+   * the sets to visualize
+   */
+  sets: {
+    type: Array,
+    required: true,
+    validator: propValidators.sets,
+  },
+
+  toKey: {
+    type: Function,
+    required: false,
+  },
+
+  toElemKey: {
+    type: Function,
+    required: false,
+  },
+
+  valueFormat: {
+    type: Function,
+    required: false,
+  },
+};
+
+const upsetLayoutProps = {
   /**
    * width of the chart
    */
@@ -90,23 +162,26 @@ const upsetSizeProps = {
   },
 };
 
-const upsetDataProps = {
+const vennDiagramLayoutProps = {
   /**
-   * the sets to visualize
+   * width of the chart
    */
-  sets: {
-    type: Array,
+  width: {
+    type: Number,
     required: true,
-    validator: propValidators.sets,
   },
   /**
-   * the combinations to visualize by default all combinations
+   * height of the chart
    */
-  combinations: {
-    type: [Array, Object],
-    validator: propValidators.combinations,
-    default: () => ({}),
+  height: {
+    type: Number,
+    required: true,
   },
+  /**
+   * padding within the svg
+   * @default 20
+   */
+  padding: Number,
 };
 
 const upsetSelectionProps = {
@@ -130,24 +205,43 @@ const upsetThemeProps = {
     validator: propValidators.stringOrFalse,
   },
   color: String,
+  hasSelectionColor: String,
   textColor: String,
   hoverHintColor: String,
   notMemberColor: String,
 };
 
-const upsetStyleProps = Object.assign({}, upsetThemeProps, {
-  theme: {
-    type: String,
-    validator: propValidators.theme,
-  },
+const vennDiagramThemeProps = {
+  selectionColor: String,
+  color: String,
+  hasSelectionColor: String,
+  textColor: String,
+  valueTextColor: String,
+  strokeColor: String,
+};
+
+const upsetElementProps = {
+  id: String,
   className: String,
   classNames: {
     type: Object,
     validator: propValidators.classNames,
   },
-  barLabelOffset: Number,
-  setNameAxisOffset: Number,
-  combinationNameAxisOffset: Number,
+  extraStyle: {
+    type: Object,
+    validator: propValidators.style,
+  },
+  styles: {
+    type: Object,
+    validator: propValidators.styles,
+  },
+};
+
+const upsetBaseStyleProps = {
+  theme: {
+    type: String,
+    validator: propValidators.theme,
+  },
   /**
    * show a legend of queries
    * enabled by default when queries are set
@@ -170,41 +264,46 @@ const upsetStyleProps = Object.assign({}, upsetThemeProps, {
     type: [String, Boolean],
     validator: propValidators.stringOrFalse,
   },
+
+  title: String,
+  description: String,
+};
+
+const upsetStyleProps = Object.assign({}, upsetBaseStyleProps, {
+  barLabelOffset: Number,
+  setNameAxisOffset: {
+    type: [String, Number],
+    validator: propValidators.axisOffset,
+  },
+  combinationNameAxisOffset: {
+    type: [String, Number],
+    validator: propValidators.axisOffset,
+  },
   fontSizes: {
     type: Object,
     validator: propValidators.fontSizes,
   },
 
-  numericScale: {
-    type: [String, Function],
-    validator: propValidators.numericScale,
-  },
-  bandScale: {
-    type: [String, Function],
-    validator: propValidators.bandScale,
-  },
   setName: String,
   combinationName: String,
-  title: String,
-  description: String,
 });
 
-const upsetPlainStyleProps = {
-  extraStyle: {
+const vennDiagramStyleProps = Object.assign({}, upsetBaseStyleProps, {
+  fontSizes: {
     type: Object,
-    validator: propValidators.style,
+    validator: propValidators.fontSizes,
   },
-  styles: {
-    type: Object,
-    validator: propValidators.styles,
-  },
-};
+});
 
 export interface UpSetProps extends Omit<UpSetBundleProps, 'style'> {
   extraStyle?: CSSStyleDeclaration;
 }
 
-function stripUndefined(props: UpSetBundleProps) {
+export interface VennDiagramProps extends Omit<VennDiagramBundleProps, 'style'> {
+  extraStyle?: CSSStyleDeclaration;
+}
+
+function stripUndefined<P>(props: P) {
   const p: any = props;
   Object.keys(props).forEach((key) => {
     if (typeof p[key] === 'undefined') {
@@ -214,61 +313,96 @@ function stripUndefined(props: UpSetBundleProps) {
   return props;
 }
 
-export default Vue.extend<{}, { renderImpl(): void }, {}, UpSetProps>({
-  name: 'UpSet',
-  props: Object.assign({}, upsetDataProps, upsetSizeProps, upsetStyleProps, upsetPlainStyleProps, upsetSelectionProps),
-  render(createElement) {
-    return createElement('div', {
-      ref: 'react',
-      style: 'display: flex; align-items: center; justify-content: center',
-    });
-  },
-  inheritAttrs: false,
-  watch: {
-    $attrs: {
-      deep: true,
-      handler() {
-        if (this.$refs.react) {
-          this.renderImpl();
-        }
+function create<P>(name: string, props: RecordPropsDefinition<P>, render: (node: HTMLElement, props: P) => void) {
+  return Vue.extend<{}, { renderImpl(): void; createListenerProps(): UpSetSelectionProps<any> }, {}, P>({
+    name,
+    props,
+    render(createElement) {
+      return createElement('div', {
+        ref: 'react',
+        style: 'display: flex; align-items: center; justify-content: center',
+      });
+    },
+    inheritAttrs: false,
+    watch: {
+      $attrs: {
+        deep: true,
+        handler() {
+          if (this.$refs.react) {
+            this.renderImpl();
+          }
+        },
+      },
+      $listeners: {
+        deep: true,
+        handler() {
+          if (this.$refs.react) {
+            this.renderImpl();
+          }
+        },
       },
     },
-    $listeners: {
-      deep: true,
-      handler() {
-        if (this.$refs.react) {
-          this.renderImpl();
+    mounted() {
+      this.renderImpl();
+    },
+    methods: {
+      createListenerProps() {
+        const listeners: UpSetSelectionProps<any> = {};
+        if (this.$listeners.hover) {
+          listeners.onHover = (s) => this.$emit('hover', s);
         }
+        if (this.$listeners.click) {
+          listeners.onClick = (s) => this.$emit('click', s);
+        }
+        if (this.$listeners.contextMenu) {
+          listeners.onContextMenu = (s) => this.$emit('contextMenu', s);
+        }
+        return listeners;
+      },
+      renderImpl() {
+        render(
+          this.$refs.react as HTMLElement,
+          stripUndefined<P>(
+            (Object.assign(
+              {},
+              this.$props,
+              {
+                style: this.$props.extraStyle,
+              },
+              this.$attrs,
+              this.createListenerProps()
+            ) as unknown) as P
+          )
+        );
       },
     },
-  },
-  mounted() {
-    this.renderImpl();
-  },
-  methods: {
-    renderImpl() {
-      const listeners: Partial<UpSetBundleProps<any>> = {};
-      if (this.$listeners.hover) {
-        listeners.onHover = (s) => this.$emit('hover', s);
-      }
-      if (this.$listeners.click) {
-        listeners.onClick = (s) => this.$emit('click', s);
-      }
+  });
+}
 
-      render(
-        this.$refs.react as HTMLElement,
-        stripUndefined(
-          (Object.assign(
-            {},
-            this.$props,
-            {
-              style: this.$props.extraStyle,
-            },
-            this.$attrs,
-            listeners
-          ) as unknown) as UpSetProps
-        )
-      );
-    },
-  },
-});
+export default create<UpSetProps>(
+  'UpSetJS',
+  Object.assign(
+    {},
+    upsetDataProps,
+    upsetLayoutProps,
+    upsetStyleProps,
+    upsetThemeProps,
+    upsetElementProps,
+    upsetSelectionProps
+  ),
+  render
+);
+
+export const VennDiagram = create<VennDiagramProps>(
+  'VennDiagram',
+  Object.assign(
+    {},
+    vennDiagramDataProps,
+    vennDiagramLayoutProps,
+    vennDiagramStyleProps,
+    vennDiagramThemeProps,
+    upsetElementProps,
+    upsetSelectionProps
+  ),
+  renderVennDiagram
+);

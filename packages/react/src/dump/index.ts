@@ -4,7 +4,14 @@
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
-import { UpSetLayoutProps, UpSetStyleProps, UpSetThemeProps, UpSetProps, UpSetFontSizes } from '../interfaces';
+import {
+  UpSetLayoutProps,
+  UpSetStyleProps,
+  UpSetThemeProps,
+  UpSetProps,
+  UpSetFontSizes,
+  VennDiagramFontSizes,
+} from '../interfaces';
 import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 import { fillDefaults } from '../fillDefaults';
 import { FONT_SIZES_KEYS } from '../defaults';
@@ -81,10 +88,10 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
     if (key === 'fontSizes') {
       // nested check
       let empty = true;
-      const sub: UpSetFontSizes = {};
+      const sub: UpSetFontSizes | VennDiagramFontSizes = {};
       FONT_SIZES_KEYS.forEach((fKey) => {
-        const fValue = (value as UpSetFontSizes)[fKey];
-        const fDefaultValue = (defaultValue as UpSetFontSizes)[fKey];
+        const fValue = (value as UpSetFontSizes | VennDiagramFontSizes)[fKey];
+        const fDefaultValue = (defaultValue as UpSetFontSizes | VennDiagramFontSizes)[fKey];
         if (fValue !== fDefaultValue) {
           sub[fKey] = fValue;
           empty = false;

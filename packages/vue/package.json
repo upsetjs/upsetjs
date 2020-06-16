@@ -39,8 +39,7 @@
     "prettier:check": "npm run prettier -- --check",
     "eslint": "tsdx lint src --ext .ts,.tsx",
     "eslint:fix": "npm run eslint -- --fix",
-    "prepare": "tsdx build",
-    "format": "prettier --write *.yml *.md *.json *.js \"src/**\""
+    "prepare": "tsdx build"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

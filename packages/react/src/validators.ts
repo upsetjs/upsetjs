@@ -19,7 +19,15 @@ import {
   isSetLike,
   isUpSetQuery,
 } from '@upsetjs/model';
-import { UpSetStyleClassNames, UpSetFontSizes, UpSetMultiStyle, UpSetExportOptions, UpSetThemes } from './interfaces';
+import {
+  UpSetStyleClassNames,
+  UpSetFontSizes,
+  UpSetMultiStyle,
+  UpSetExportOptions,
+  UpSetThemes,
+  VennDiagramMultiStyle,
+  VennDiagramFontSizes,
+} from './interfaces';
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
 export function widthRatios(value?: [number, number, number]) {
@@ -62,19 +70,19 @@ export function theme(value?: UpSetThemes) {
   return value == null || value === 'light' || value === 'dark' || value === 'vega';
 }
 
-export function classNames(value?: UpSetStyleClassNames) {
+export function classNames(value?: UpSetStyleClassNames | VennDiagramMultiStyle<string>) {
   return (
     value == null ||
-    (Object.keys(value) as (keyof UpSetStyleClassNames)[]).every(
+    (Object.keys(value) as (keyof (UpSetStyleClassNames | VennDiagramMultiStyle<string>))[]).every(
       (k) => MULTI_STYLE_KEYS.includes(k) && typeof value[k] === 'string'
     )
   );
 }
 
-export function fontSizes(value?: UpSetFontSizes) {
+export function fontSizes(value?: UpSetFontSizes | VennDiagramFontSizes) {
   return (
     value == null ||
-    (Object.keys(value) as (keyof UpSetFontSizes)[]).every(
+    (Object.keys(value) as (keyof (UpSetFontSizes | VennDiagramFontSizes))[]).every(
       (k) => FONT_SIZES_KEYS.includes(k) && typeof value[k] === 'string'
     )
   );
@@ -88,12 +96,21 @@ export function bandScale(value?: 'band' | BandScaleFactory) {
   return value == null || value === 'band' || typeof value === 'function';
 }
 
+export function axisOffset(value?: 'auto' | number) {
+  return value == null || value === 'auto' || typeof value === 'number';
+}
+
 export function style(value?: any) {
   return value == null || typeof value === 'object';
 }
 
-export function styles(value?: UpSetMultiStyle<any>) {
-  return value == null || Object.keys(value).every((k) => MULTI_STYLE_KEYS.includes(k as keyof UpSetStyleClassNames));
+export function styles(value?: UpSetMultiStyle<any> | VennDiagramMultiStyle<any>) {
+  return (
+    value == null ||
+    Object.keys(value).every((k) =>
+      MULTI_STYLE_KEYS.includes(k as keyof (UpSetMultiStyle<any> | VennDiagramMultiStyle<any>))
+    )
+  );
 }
 
 export function exportButtons(value?: boolean | UpSetExportOptions) {
