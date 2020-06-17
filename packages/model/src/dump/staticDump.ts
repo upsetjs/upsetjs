@@ -19,6 +19,7 @@ import {
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery, UpSetCalcQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
 import { isSetLike } from '../validators';
+import { withColor } from './utils';
 
 declare type UpSetFromStaticDumpFullCombination = {
   name: string;
@@ -30,6 +31,8 @@ declare type UpSetFromStaticDumpFullCombination = {
 declare type UpSetFromStaticDumpCompressedCombination = {
   // if missing can be derived
   n?: string;
+  // cc ... color
+  cc?: string;
   c: number;
   // default: i
   type?: 'c' | 'i' | 'u' | 'd';
@@ -38,7 +41,7 @@ declare type UpSetFromStaticDumpCompressedCombination = {
 };
 
 export interface IUpSetStaticDump {
-  sets: ReadonlyArray<{ name: string; cardinality: number } | { n: string; c: number }>;
+  sets: ReadonlyArray<{ name: string; color?: string; cardinality: number } | { n: string; cc?: string; c: number }>;
   combinations: ReadonlyArray<UpSetFromStaticDumpFullCombination | UpSetFromStaticDumpCompressedCombination>;
   selection?: IUpSetDumpRef | ReadonlyArray<number>;
   queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: ReadonlyArray<number> }>;
@@ -105,6 +108,7 @@ export function toStaticDump<T>(
       .sort((a, b) => a - b);
     const r: {
       n?: string;
+      cc?: string;
       c: number;
       s: number;
       type?: 'c' | 'i' | 'u' | 'd';
@@ -124,23 +128,31 @@ export function toStaticDump<T>(
     if (set.type !== 'intersection') {
       r.type = set.type[0] as 'i' | 'c' | 'u' | 'd';
     }
+    if (set.color) {
+      r.cc = set.color;
+    }
     return r;
   };
 
   return {
     sets: shortNames
-      ? data.sets.map((set) => ({ n: set.name, c: set.cardinality }))
-      : data.sets.map((set) => ({ name: set.name, cardinality: set.cardinality })),
+      ? data.sets.map((set) => ({ n: set.name, cc: set.color, c: set.cardinality }))
+      : data.sets.map((set) => withColor({ name: set.name, cardinality: set.cardinality }, set)),
     combinations: shortNames
       ? data.combinations.map(compressCombination)
-      : data.combinations.map((set) => ({
-          name: set.name,
-          cardinality: set.cardinality,
-          type: set.type,
-          sets: Array.from(set.sets)
-            .map((s) => setIndex.get(toKey(s))!)
-            .sort((a, b) => a - b),
-        })),
+      : data.combinations.map((set) =>
+          withColor(
+            {
+              name: set.name,
+              cardinality: set.cardinality,
+              type: set.type,
+              sets: Array.from(set.sets)
+                .map((s) => setIndex.get(toKey(s))!)
+                .sort((a, b) => a - b),
+            },
+            set
+          )
+        ),
     overlaps,
     selection: data.selection ? toSelectionSetRef(data.selection) : undefined,
     queries: data.queries.map((query) => {

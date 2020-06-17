@@ -39,6 +39,9 @@
           "name": {
             "type": "string"
           },
+          "color": {
+            "type": "string"
+          },
           "cardinality": {
             "type": "integer"
           },

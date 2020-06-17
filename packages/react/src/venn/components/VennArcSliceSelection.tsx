@@ -14,8 +14,21 @@ import { UpSetSelection } from '../../components/interfaces';
 import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
 import { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
+import { mergeColor } from '../../components/utils';
 
-function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: string; v: number; rotate?: number }) {
+function SelectionPattern({
+  id,
+  suffix,
+  v,
+  rotate = 0,
+  fill,
+}: {
+  id: string;
+  suffix: string;
+  v: number;
+  rotate?: number;
+  fill?: string;
+}) {
   if (v >= 1 || v <= 0) {
     return null;
   }
@@ -29,6 +42,7 @@ function SelectionPattern({ id, suffix, v, rotate = 0 }: { id: string; suffix: s
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${rotate})`}
       >
+        {fill && <rect x="0" y="0" width="1" height="0.1" fill={fill} />}
         <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
       </pattern>
     </defs>
@@ -160,9 +174,10 @@ export default function VennArcSliceSelection<T>({
   const rotate = sliceRotate(slice, size.area);
 
   const o = elemOverlap ? elemOverlap(d) : 0;
+  const fillFullSelection = (o === d.cardinality && d.cardinality > 0) || selected;
   const className = clsx(
     o === 0 && !selected && `fillTransparent-${style.id}`,
-    ((o === d.cardinality && d.cardinality > 0) || selected) && `fillSelection-${style.id}`,
+    fillFullSelection && `fillSelection-${style.id}`,
     style.classNames.set
   );
   const id = `upset-${style.id}-${i}`;
@@ -173,16 +188,24 @@ export default function VennArcSliceSelection<T>({
 
   return (
     <g>
-      <SelectionPattern id={id} v={o === 0 ? 0 : o / d.cardinality} suffix={`Selection-${style.id}`} rotate={rotate} />
+      <SelectionPattern
+        id={id}
+        v={o === 0 ? 0 : o / d.cardinality}
+        suffix={`Selection-${style.id}`}
+        rotate={rotate}
+        fill={d.color}
+      />
       <path
         onMouseEnter={onMouseEnter(d)}
         onMouseLeave={onMouseLeave}
         onClick={onClick(d)}
         onContextMenu={onContextMenu(d)}
         d={p}
-        fill={o > 0 && o < d.cardinality ? `url(#${id})` : undefined}
         className={className}
-        style={style.styles.set}
+        style={mergeColor(
+          style.styles.set,
+          o > 0 && o < d.cardinality ? `url(#${id})` : !fillFullSelection ? d.color : undefined
+        )}
       >
         <title>{tooltip}</title>
       </path>

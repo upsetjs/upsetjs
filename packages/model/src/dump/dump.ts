@@ -10,6 +10,7 @@ import { GenerateSetCombinationsOptions, generateCombinations, asSet, asCombinat
 import { ISetCombinations, ISetLike, ISets, toKey as toDefaultKey, SetCombinationType } from '../model';
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery } from '../queries';
 import { IUpSetDumpRef } from './interfaces';
+import { withColor } from './utils';
 
 export interface IUpSetFromDumpConfig<T> {
   toElemKey?(set: T): string;
@@ -74,9 +75,10 @@ export function fromDump<T>(
 export declare type UpSetCompressedIndices = ReadonlyArray<number> | string;
 
 export interface IUpSetDump {
-  sets: ReadonlyArray<{ name: string; cardinality: number; elems: UpSetCompressedIndices }>;
+  sets: ReadonlyArray<{ name: string; color?: string; cardinality: number; elems: UpSetCompressedIndices }>;
   combinations?: ReadonlyArray<{
     name: string;
+    color?: string;
     type: SetCombinationType;
     sets: ReadonlyArray<number>;
     degree: number;
@@ -130,23 +132,31 @@ export function toDump<T>(data: IUpSetDumpData<T>, config: IUpSetToDumpConfig<T>
     i,
   }));
   return {
-    sets: data.sets.map((set) => ({
-      name: set.name,
-      cardinality: set.cardinality,
-      elems: toIndicesArray(set.elems, data.toElemIndex, indicesOptions),
-    })),
+    sets: data.sets.map((set) =>
+      withColor(
+        {
+          name: set.name,
+          cardinality: set.cardinality,
+          elems: toIndicesArray(set.elems, data.toElemIndex, indicesOptions),
+        },
+        set
+      )
+    ),
     combinations:
       config.compress === 'no'
         ? data.combinations.map((c) => {
             const setKeys = new Set(Array.from(c.sets).map(toKey));
-            return {
-              name: c.name,
-              type: c.type,
-              cardinality: c.cardinality,
-              degree: c.degree,
-              sets: setLookup.filter(({ key }) => setKeys.has(key)).map(({ i }) => i),
-              elems: toIndicesArray(c.elems, data.toElemIndex, indicesOptions),
-            };
+            return withColor(
+              {
+                name: c.name,
+                type: c.type,
+                cardinality: c.cardinality,
+                degree: c.degree,
+                sets: setLookup.filter(({ key }) => setKeys.has(key)).map(({ i }) => i),
+                elems: toIndicesArray(c.elems, data.toElemIndex, indicesOptions),
+              },
+              c
+            );
           })
         : undefined,
     combinationOptions: data.combinationOptions,

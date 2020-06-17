@@ -37,3 +37,13 @@ export function addonPositionGenerator(total: number) {
     return x;
   };
 }
+
+export function mergeColor(style?: React.CSSProperties, color?: string, prop = 'fill') {
+  if (!color) {
+    return style;
+  }
+  if (!style) {
+    return !color ? undefined : { [prop]: color };
+  }
+  return Object.assign({ [prop]: color }, style);
+}

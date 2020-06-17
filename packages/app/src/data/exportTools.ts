@@ -21,6 +21,13 @@ const CSS_CODE = `#app {
   height: 100vh;
 }`;
 
+export function withColor<T>(v: T, s: { color?: string }): T & { color?: string } {
+  if (s.color) {
+    (v as T & { color?: string }).color = s.color;
+  }
+  return v;
+}
+
 function toJSCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
 
@@ -31,10 +38,15 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
   }
 
   const setElems = store.visibleSets.map((s) => toIndices(s.elems));
-  const sets = store.visibleSets.map((s, i) => ({
-    name: s.name,
-    elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,
-  }));
+  const sets = store.visibleSets.map((s, i) =>
+    withColor(
+      {
+        name: s.name,
+        elems: `CC${prefix}fromIndicesArray(${JSON.stringify(setElems[i]).replace(/"/gm, "'")}, elems)CC`,
+      },
+      s
+    )
+  );
 
   const needSetRef = store.visibleQueries.some(isSetQuery) || isSetLike(store.selection);
 

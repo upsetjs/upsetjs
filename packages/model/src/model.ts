@@ -11,6 +11,10 @@ export interface IBaseSet<T = any> {
    */
   readonly name: string;
   /**
+   * optional set color
+   */
+  readonly color?: string;
+  /**
    * elements in this set
    */
   readonly elems: ReadonlyArray<T>;
@@ -32,64 +36,43 @@ export interface ISet<T = any> extends IBaseSet<T> {
   readonly type: 'set';
 }
 
-export interface ISetIntersection<T = any> extends IBaseSet<T> {
+export interface IBaseSetCombination<T> extends IBaseSet<T> {
+  /**
+   * sets this set intersection is composed of
+   */
+  readonly sets: ReadonlySet<ISet<T>>;
+  /**
+   * number of set in this set intersection
+   */
+  readonly degree: number;
+}
+
+export interface ISetIntersection<T = any> extends IBaseSetCombination<T> {
   /**
    * whether it is a set or an intersection
    */
   readonly type: 'intersection';
-  /**
-   * sets this set intersection is composed of
-   */
-  readonly sets: ReadonlySet<ISet<T>>;
-  /**
-   * number of set in this set intersection
-   */
-  readonly degree: number;
 }
 
-export interface IDistinctSetIntersection<T = any> extends IBaseSet<T> {
+export interface IDistinctSetIntersection<T = any> extends IBaseSetCombination<T> {
   /**
    * whether it is a set or an intersection
    */
   readonly type: 'distinctIntersection';
-  /**
-   * sets this set intersection is composed of
-   */
-  readonly sets: ReadonlySet<ISet<T>>;
-  /**
-   * number of set in this set intersection
-   */
-  readonly degree: number;
 }
 
-export interface ISetUnion<T = any> extends IBaseSet<T> {
+export interface ISetUnion<T = any> extends IBaseSetCombination<T> {
   /**
    * whether it is a set or an intersection
    */
   readonly type: 'union';
-  /**
-   * sets this set intersection is composed of
-   */
-  readonly sets: ReadonlySet<ISet<T>>;
-  /**
-   * number of set in this set intersection
-   */
-  readonly degree: number;
 }
 
-export interface ISetComposite<T = any> extends IBaseSet<T> {
+export interface ISetComposite<T = any> extends IBaseSetCombination<T> {
   /**
    * whether it is a set or an intersection
    */
   readonly type: 'composite';
-  /**
-   * sets this set intersection is composed of
-   */
-  readonly sets: ReadonlySet<ISet<T>>;
-  /**
-   * number of set in this set intersection
-   */
-  readonly degree: number;
 }
 
 /**

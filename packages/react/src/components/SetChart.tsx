@@ -11,7 +11,7 @@ import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { UpSetSelection } from './interfaces';
-import { addonPositionGenerator } from './utils';
+import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 
 const SetChart = React.memo(function SetChart<T>({
@@ -70,7 +70,7 @@ const SetChart = React.memo(function SetChart<T>({
         width={size.sets.w - x}
         height={data.sets.bandWidth}
         className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
-        style={style.styles.bar}
+        style={mergeColor(style.styles.bar, d.color)}
       />
       <text
         x={x}

@@ -6,6 +6,7 @@
  */
 
 import React, { PropsWithChildren } from 'react';
+import { mergeColor } from './utils';
 
 const UpSetDot = React.memo(function UpSetDot({
   cx,
@@ -14,16 +15,18 @@ const UpSetDot = React.memo(function UpSetDot({
   name,
   className,
   style,
+  fill,
 }: PropsWithChildren<{
   r: number;
   cx: number;
   cy: number;
   className: string;
+  fill?: string;
   name: string;
   style?: React.CSSProperties;
 }>) {
   return (
-    <circle r={r} cx={cx} cy={cy} className={className} style={style}>
+    <circle r={r} cx={cx} cy={cy} className={className} style={mergeColor(style, fill)}>
       <title>{name}</title>
     </circle>
   );

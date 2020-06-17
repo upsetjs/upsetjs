@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>UpSet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+    <script src="./upset.js"></script>
+    <input id="value" type="number" min="1" max="3" value="2" />
+    <script>
+      function mergeColors(colors) {
+        if (colors.length === 0) {
+          return undefined;
+        }
+        if (colors.length === 1) {
+          return colors[0];
+        }
+        const cc = colors.reduce(
+          (acc, d) => {
+            const c = d3.lab(d);
+            return {
+              l: acc.l + c.l,
+              a: acc.a + c.a,
+              b: acc.b + c.b,
+            };
+          },
+          { l: 0, a: 0, b: 0 }
+        );
+        return d3.lab(cc.l / colors.length, cc.a / colors.length, cc.b / colors.length).toString();
+      }
+      loadUpSetJS().then(({ UpSetJS, render, elems }) => {
+        const sets = UpSetJS.extractSets(elems);
+        sets[0].color = 'red';
+        sets[1].color = 'steelblue';
+        sets[2].color = 'green';
+        let clicked = null;
+        const props = {
+          sets: sets.slice(0, document.getElementById('value').valueAsNumber),
+          width: 1200,
+          height: 500,
+          selection: elems.slice(10, 15),
+          // onHover: (s) => {
+          //   props.selection = s || clicked;
+          //   rerender();
+          // },
+          onClick: (s) => {
+            clicked = clicked === s ? null : s;
+            props.selection = clicked;
+            rerender();
+          },
+          combinations: {
+            mergeColors,
+          },
+        };
+        function rerender() {
+          render(props, UpSetJS.VennDiagram);
+        }
+        rerender();
+        function update() {
+          props.sets = sets.slice(0, document.getElementById('value').valueAsNumber);
+          rerender();
+        }
+        document.getElementById('value').onchange = update;
+      });
+    </script>
+  </body>
+</html>

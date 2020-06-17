@@ -84,12 +84,15 @@ export default function deriveVennDataDependent<T>(
       } as ISetCombination<T>;
     });
   } else {
-    cs = generateCombinations(ss, {
-      type: 'distinctIntersection',
-      min: 1,
-      empty: true,
-      order: ['degree:asc', 'group:asc'],
-    });
+    cs = generateCombinations(
+      ss,
+      Object.assign({}, combinations ?? {}, {
+        type: 'distinctIntersection',
+        min: 1,
+        empty: true,
+        order: ['degree:asc', 'group:asc'],
+      } as GenerateSetCombinationsOptions)
+    );
   }
 
   const csKeys = cs.map(toKey);

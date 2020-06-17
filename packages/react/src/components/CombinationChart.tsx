@@ -12,7 +12,7 @@ import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
-import { addonPositionGenerator } from './utils';
+import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
@@ -61,7 +61,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
         height={size.cs.h - y}
         width={data.cs.bandWidth}
         className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
-        style={style.styles.bar}
+        style={mergeColor(style.styles.bar, d.color)}
       />
       <text
         y={y - style.barLabelOffset}
@@ -79,26 +79,28 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       >
         {d.name}
       </text>
-      {data.sets.v.map((s, i) => (
-        <UpSetDot
-          key={data.sets.keys[i]}
-          r={data.r}
-          cx={data.cs.cx}
-          cy={data.sets.y(s)! + data.sets.cy}
-          name={data.cs.has(d, s) ? s.name : d.name}
-          style={style.styles.dot}
-          className={clsx(
-            d.sets.has(s) ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`,
-            style.classNames.dot
-          )}
-        />
-      ))}
+      {data.sets.v.map((s, i) => {
+        const has = data.cs.has(d, s);
+        return (
+          <UpSetDot
+            key={data.sets.keys[i]}
+            r={data.r}
+            cx={data.cs.cx}
+            cy={data.sets.y(s)! + data.sets.cy}
+            name={has ? s.name : d.name}
+            style={style.styles.dot}
+            fill={has ? d.color : undefined}
+            className={clsx(has ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`, style.classNames.dot)}
+          />
+        );
+      })}
       {d.sets.size > 1 && (
         <line
           x1={data.cs.cx}
           y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
           x2={data.cs.cx}
           y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
+          style={d.color ? { stroke: d.color } : undefined}
           className={`upsetLine-${data.id}`}
         />
       )}

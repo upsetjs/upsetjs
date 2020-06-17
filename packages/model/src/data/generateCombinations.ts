@@ -45,6 +45,11 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
    * @param v
    */
   toElemKey?(v: T): string;
+
+  /**
+   * optional color merger
+   **/
+  mergeColors?: (colors: ReadonlyArray<string | undefined>) => string | undefined;
 } & PostprocessCombinationsOptions;
 
 /**
@@ -62,11 +67,13 @@ export function generateSet<T>(
   type: SetCombinationType,
   name: string,
   combo: ReadonlySet<ISet<T>>,
-  elems: ReadonlyArray<T>
+  elems: ReadonlyArray<T>,
+  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
 ) {
   return {
     type: combo.size === 0 ? 'composite' : type,
     elems,
+    color: mergeColors(Array.from(combo).map((s) => s.color)),
     sets: combo,
     name,
     cardinality: elems.length,
@@ -83,14 +90,15 @@ export function mergeIntersection<T, B>(
   lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B,
   setIndex: ReadonlyMap<ISet<T>, number>,
-  type: SetCombinationType
+  type: SetCombinationType,
+  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
   const name = generateName(merged, setIndex, SET_JOINERS[type]);
 
   if (a.cardinality === 0 || b.cardinality === 0) {
-    return generateSet(type, name, merged, []);
+    return generateSet(type, name, merged, [], mergeColors);
   }
   let small = a;
   let big = b;
@@ -112,7 +120,7 @@ export function mergeIntersection<T, B>(
     keySet.add(key);
     elems.push(e);
   }
-  const r = generateSet(type, name, merged, elems);
+  const r = generateSet(type, name, merged, elems, mergeColors);
   lookup.set(r, keySet);
   return r;
 }
@@ -126,19 +134,20 @@ export function mergeUnion<T, B>(
   lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B,
   setIndex: ReadonlyMap<ISet<T>, number>,
-  type: SetCombinationType
+  type: SetCombinationType,
+  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
   const name = generateName(merged, setIndex, SET_JOINERS[type]);
 
   if (a.cardinality === 0) {
-    const r = generateSet(type, name, merged, b.elems);
+    const r = generateSet(type, name, merged, b.elems, mergeColors);
     lookup.set(r, lookup.get(b)!);
     return r;
   }
   if (b.cardinality === 0) {
-    const r = generateSet(type, name, merged, a.elems);
+    const r = generateSet(type, name, merged, a.elems, mergeColors);
     lookup.set(r, lookup.get(a)!);
     return r;
   }
@@ -161,7 +170,7 @@ export function mergeUnion<T, B>(
     keySet.add(key);
     elems.push(e);
   });
-  const r = generateSet(type, name, merged, elems);
+  const r = generateSet(type, name, merged, elems, mergeColors);
   lookup.set(r, keySet);
   return r;
 }
@@ -171,12 +180,14 @@ export function generateEmptySet<T, B>(
   notPartOfAnySet: ReadonlyArray<T> | number | undefined,
   allElements: ReadonlyArray<T>,
   lookup: Map<ISetLike<T>, ReadonlySet<B>>,
-  toKey: (v: T) => B
+  toKey: (v: T) => B,
+  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
 ): ISetCombination<T> {
   if (typeof notPartOfAnySet === 'number') {
     return {
       type: 'composite',
       elems: [],
+      color: mergeColors ? mergeColors([]) : undefined,
       sets: new Set(),
       name: '()',
       cardinality: notPartOfAnySet,
@@ -189,14 +200,21 @@ export function generateEmptySet<T, B>(
     };
   }
   if (Array.isArray(notPartOfAnySet)) {
-    return generateSet(type, '()', new Set(), notPartOfAnySet);
+    return generateSet(type, '()', new Set(), notPartOfAnySet, mergeColors);
   }
   const lookupArr = Array.from(lookup!.values());
   const elems = allElements.filter((e) => {
     const k = toKey(e);
     return lookupArr.every((s) => !s.has(k));
   });
-  return generateSet(type, '()', new Set(), elems);
+  return generateSet(type, '()', new Set(), elems, mergeColors);
+}
+
+function defaultMergeColor(colors: ReadonlyArray<string | undefined>) {
+  if (colors.length === 1) {
+    return colors[0];
+  }
+  return undefined;
 }
 
 /**
@@ -214,6 +232,7 @@ export default function generateCombinations<T = any>(
     elems: allElements = [],
     notPartOfAnySet,
     toElemKey,
+    mergeColors = defaultMergeColor,
     ...postprocess
   }: GenerateSetCombinationsOptions<T> = {}
 ): ISetCombinations<T> {
@@ -249,7 +268,7 @@ export default function generateCombinations<T = any>(
       combinations.push(s);
       return;
     }
-    const sDistinct = generateSet(type, s.name, s.sets, elems);
+    const sDistinct = generateSet(type, s.name, s.sets, elems, mergeColors);
 
     if (sDistinct.cardinality === 0 && !empty) {
       return;
@@ -272,7 +291,7 @@ export default function generateCombinations<T = any>(
       const sub: ISetCombination<T>[] = [];
       for (let j = i + 1; j < l; j++) {
         const b = arr[j];
-        const ab = calc(a, b, lookup, toKey, setIndex, type);
+        const ab = calc(a, b, lookup, toKey, setIndex, type, mergeColors);
         push(ab);
         if (type === 'union' || ab.cardinality > 0 || empty) {
           sub.push(ab);
@@ -286,14 +305,14 @@ export default function generateCombinations<T = any>(
 
   if (min <= 0) {
     if (toElemKey) {
-      push(generateEmptySet(type, notPartOfAnySet, allElements, setKeyElems!, toElemKey));
+      push(generateEmptySet(type, notPartOfAnySet, allElements, setKeyElems!, toElemKey, mergeColors));
     } else {
-      push(generateEmptySet(type, notPartOfAnySet, allElements, setDirectElems!, (v) => v));
+      push(generateEmptySet(type, notPartOfAnySet, allElements, setDirectElems!, (v) => v, mergeColors));
     }
   }
 
   const degree1 = sets.map((s) => {
-    const r = generateSet(type, s.name, new Set([s]), s.elems);
+    const r = generateSet(type, s.name, new Set([s]), s.elems, mergeColors);
     setElems.set(r, setElems.get(s)!);
     push(r);
     return r;
