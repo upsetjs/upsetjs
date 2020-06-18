@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export function sameArray<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>, toKey?: (v: T) => string) {
+export function sameArray<T>(a: readonly T[], b: readonly T[], toKey?: (v: T) => string) {
   if (a.length !== b.length) {
     return false;
   }

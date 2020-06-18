@@ -32,7 +32,7 @@ export interface IArc {
 export interface IArcSlice {
   x1: number;
   y1: number;
-  arcs: ReadonlyArray<IArc>;
+  arcs: readonly IArc[];
 }
 
 export interface ITextArcSlice extends IArcSlice, ITextLocation {}

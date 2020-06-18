@@ -59,8 +59,8 @@ export interface IUpSetJSDump extends IUpSetDump {
   description: string;
   author?: string;
 
-  elements: ReadonlyArray<number | string | any>;
-  attrs: ReadonlyArray<string>;
+  elements: readonly (number | string | any)[];
+  attrs: readonly string[];
   props: UpSetJSDumpProps;
 }
 
@@ -109,7 +109,7 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
 
 export function toUpSetJSDump(
   dump: IUpSetDump,
-  elements: ReadonlyArray<number | string | any>,
+  elements: readonly (number | string | any)[],
   props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSDump {

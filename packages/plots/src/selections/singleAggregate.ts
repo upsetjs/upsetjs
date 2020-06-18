@@ -15,7 +15,7 @@ import { clearMulti } from './single';
 export interface IAggregatedGroupSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'aggregate';
   readonly attr: string;
-  readonly groups: ReadonlyArray<string | number>;
+  readonly groups: readonly (string | number)[];
 }
 
 export function isAggregatedGroupSetComposite<T>(
@@ -33,8 +33,8 @@ export function isAggregatedGroupSetComposite<T>(
 
 export function createAggregatedGroupSetComposite<T>(
   attr: string,
-  elems: ReadonlyArray<T>,
-  groups: ReadonlyArray<string | number>,
+  elems: readonly T[],
+  groups: readonly (string | number)[],
   name?: string
 ): IAggregatedGroupSetComposite<T> {
   return {
@@ -81,8 +81,8 @@ export function useVegaAggregatedGroupSelection<T>(
   viewRef: RefObject<View>,
   selection: UpSetSelection<T> | undefined,
   name: string,
-  onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
+  onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   {
     selectionName = 'select',
     aggregatedData = 'data_0',
@@ -107,7 +107,7 @@ export function useVegaAggregatedGroupSelection<T>(
       return undefined;
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
-    const generate = (listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void) =>
+    const generate = (listener: (v: ISetLike<T> | readonly T[] | null) => void) =>
       // throttle((_type: string, item: unknown) => {
       (_type: string, item: unknown) => {
         if (!viewRef.current) {

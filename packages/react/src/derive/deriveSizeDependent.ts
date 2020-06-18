@@ -16,8 +16,8 @@ export default function deriveSizeDependent(
   barPadding: number,
   widthRatios: [number, number, number],
   heightRatios: [number, number],
-  setAddons: ReadonlyArray<UpSetAddon<any, any, ReactNode>>,
-  combinationAddons: ReadonlyArray<UpSetAddon<any, any, ReactNode>>,
+  setAddons: readonly UpSetAddon<any, any, ReactNode>[],
+  combinationAddons: readonly UpSetAddon<any, any, ReactNode>[],
   id: string
 ) {
   const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);

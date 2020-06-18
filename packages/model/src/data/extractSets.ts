@@ -15,7 +15,7 @@ import { PostprocessSetOptions, postprocessSets } from './asSets';
  * @param options postprocess options
  */
 export default function extractSets<T>(
-  elements: ReadonlyArray<T>,
+  elements: readonly T[],
   acc: (elem: T) => string[],
   options?: PostprocessSetOptions
 ): ISets<T>;
@@ -25,12 +25,12 @@ export default function extractSets<T>(
  * @param options postprocess options
  */
 export default function extractSets<T extends { sets: string[] }>(
-  elements: ReadonlyArray<T>,
+  elements: readonly T[],
   options?: PostprocessSetOptions
 ): ISets<T>;
 
 export default function extractSets<T>(
-  elements: ReadonlyArray<T>,
+  elements: readonly T[],
   accOrOptions?: PostprocessSetOptions | ((elem: T) => string[]),
   o: PostprocessSetOptions = {}
 ): ISets<T> {

@@ -20,7 +20,7 @@ export interface PieChartProps<T> extends UpSetPlotProps<T> {
 
   innerRadius?: number;
 
-  elems: ReadonlyArray<T>;
+  elems: readonly T[];
   toElemKey?: (elem: T) => string;
   attr: keyof T | ((v: T) => string);
   label?: string;

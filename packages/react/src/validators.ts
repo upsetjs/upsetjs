@@ -46,7 +46,7 @@ export function combinations(value?: ISetCombinations<any> | GenerateSetCombinat
   );
 }
 
-export function selection(value?: ISetLike<any> | ReadonlyArray<any>) {
+export function selection(value?: ISetLike<any> | readonly any[]) {
   return value == null || Array.isArray(value) || isSetLike(value);
 }
 

@@ -24,12 +24,12 @@ export declare type VennDiagramDataInfo<T> = {
   id: string;
   format(v: number): string;
   sets: {
-    d: ReadonlyArray<{ v: ISet<T>; l: ITextCircle; key: string }>;
+    d: readonly { v: ISet<T>; l: ITextCircle; key: string }[];
     v: ISets<T>;
     format(v: number): string;
   };
   cs: {
-    d: ReadonlyArray<{ v: ISetCombination<T>; l: ITextArcSlice; key: string }>;
+    d: readonly { v: ISetCombination<T>; l: ITextArcSlice; key: string }[];
     v: ISetCombinations<T>;
     has(v: ISetCombination<T>, s: ISet<T>): boolean;
   };

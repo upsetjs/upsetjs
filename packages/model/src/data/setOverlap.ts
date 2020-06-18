@@ -13,17 +13,17 @@ export declare type SetOverlap = {
 };
 
 export declare type SetElemOverlap<T> = {
-  setA: ReadonlyArray<T>;
-  setB: ReadonlyArray<T>;
-  union: ReadonlyArray<T>;
-  intersection: ReadonlyArray<T>;
+  setA: readonly T[];
+  setB: readonly T[];
+  union: readonly T[];
+  intersection: readonly T[];
 };
 
-function len<T>(a: Set<T> | ReadonlyArray<T>) {
+function len<T>(a: Set<T> | readonly T[]) {
   return a instanceof Set ? a.size : a.length;
 }
 
-export function setOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+export function setOverlapFactory<T>(a: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   const elems = !toElemKey
     ? a instanceof Set
       ? a
@@ -37,7 +37,7 @@ export function setOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (
     intersection: setA,
   };
 
-  return (b: Set<T> | ReadonlyArray<T>): SetOverlap => {
+  return (b: Set<T> | readonly T[]): SetOverlap => {
     if (b === a) {
       return same;
     }
@@ -58,8 +58,8 @@ export function setOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (
 }
 
 export default function setOverlap<T>(
-  a: Set<T> | ReadonlyArray<T>,
-  b: Set<T> | ReadonlyArray<T>,
+  a: Set<T> | readonly T[],
+  b: Set<T> | readonly T[],
   toElemKey?: (e: T) => string
 ) {
   if (len(a) < len(b) || a instanceof Set) {
@@ -73,13 +73,13 @@ export default function setOverlap<T>(
   });
 }
 
-export function setElemOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+export function setElemOverlapFactory<T>(a: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   const elems = !toElemKey
     ? a instanceof Set
       ? a
       : new Set(a)
     : new Set((a instanceof Set ? Array.from(a) : a).map(toElemKey));
-  const setA: ReadonlyArray<T> = Array.isArray(a) ? a : Array.from(a);
+  const setA: readonly T[] = Array.isArray(a) ? a : Array.from(a);
   const same: SetElemOverlap<T> = {
     setA,
     setB: setA,
@@ -87,7 +87,7 @@ export function setElemOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey
     intersection: setA,
   };
 
-  return (b: Set<T> | ReadonlyArray<T>): SetElemOverlap<T> => {
+  return (b: Set<T> | readonly T[]): SetElemOverlap<T> => {
     if (b === a) {
       return same;
     }
@@ -109,11 +109,7 @@ export function setElemOverlapFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey
   };
 }
 
-export function setElemOverlap<T>(
-  a: Set<T> | ReadonlyArray<T>,
-  b: Set<T> | ReadonlyArray<T>,
-  toElemKey?: (e: T) => string
-) {
+export function setElemOverlap<T>(a: Set<T> | readonly T[], b: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   if (len(a) < len(b) || a instanceof Set) {
     return setElemOverlapFactory(a, toElemKey)(b);
   }
@@ -125,10 +121,10 @@ export function setElemOverlap<T>(
   });
 }
 
-export function setElemIntersectionFactory<T>(a: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+export function setElemIntersectionFactory<T>(a: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   const arr = a instanceof Set ? Array.from(a) : a;
   const elems = !toElemKey ? (a instanceof Set ? a : new Set(a)) : new Set(arr.map(toElemKey));
-  return (b: Set<T> | ReadonlyArray<T>): ReadonlyArray<T> => {
+  return (b: Set<T> | readonly T[]): readonly T[] => {
     if (b === a) {
       return arr;
     }

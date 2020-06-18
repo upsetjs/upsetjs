@@ -81,7 +81,7 @@ function inSetStore<T>(signal: (v: T) => boolean, elem: T) {
 
 function countInSetStore<T, E extends { [key: string]: T }>(
   signal: (v: T) => boolean,
-  values: ReadonlyArray<E>,
+  values: readonly E[],
   key: keyof E
 ) {
   if (typeof signal !== 'function' || !Array.isArray(values)) {

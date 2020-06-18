@@ -12,7 +12,7 @@ import { byCardinality, byName, byComposite, negate } from './utils';
  * helper method to create proper UpSet.js structures by adding extra properties
  * @param set the set to complete
  */
-export function asSet<T, S extends { name: string; elems: ReadonlyArray<T> }>(set: S): S & ISet<T> {
+export function asSet<T, S extends { name: string; elems: readonly T[] }>(set: S): S & ISet<T> {
   return Object.assign(
     {
       type: 'set' as 'set',
@@ -64,7 +64,7 @@ function toOrder<T, S extends ISet<T>>(order?: SortSetOrder): (a: S, b: S) => nu
 /**
  * @internal
  */
-export function postprocessSets<T, S extends ISet<T>>(sets: ReadonlyArray<S>, options: PostprocessSetOptions = {}) {
+export function postprocessSets<T, S extends ISet<T>>(sets: readonly S[], options: PostprocessSetOptions = {}) {
   let r = sets as S[];
   if (options.order) {
     const order = toOrder(options.order);
@@ -81,8 +81,8 @@ export function postprocessSets<T, S extends ISet<T>>(sets: ReadonlyArray<S>, op
  * @param sets set like structures
  * @param options additional postprocessing options
  */
-export default function asSets<T, S extends { name: string; elems: ReadonlyArray<T> }>(
-  sets: ReadonlyArray<S>,
+export default function asSets<T, S extends { name: string; elems: readonly T[] }>(
+  sets: readonly S[],
   options: PostprocessSetOptions = {}
 ): (S & ISet<T>)[] {
   return postprocessSets(sets.map(asSet), options);

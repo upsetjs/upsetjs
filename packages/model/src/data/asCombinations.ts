@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISet, ISetCombination, SetCombinationType } from '../model';
+import { ISetCombination, SetCombinationType, ISets } from '../model';
 import { byCardinality, byComposite, byDegree, byGroup, byName, negate } from './utils';
 import { SortSetOrder } from './asSets';
 
@@ -14,7 +14,7 @@ import { SortSetOrder } from './asSets';
  * @param sets the list of possible sets
  * @param symbol the regex to split a name
  */
-export function fromSetName<T>(sets: ReadonlyArray<ISet<T>>, symbol = /[∩∪&|]/) {
+export function fromSetName<T>(sets: ISets<T>, symbol = /[∩∪&|]/) {
   const byName = new Map(sets.map((s) => [s.name, s]));
   return (s: { name: string }) => {
     return s.name.split(symbol).map((setName) => byName.get(setName.trim())!);
@@ -33,11 +33,13 @@ export declare type SortCombinationOrder =
   | 'degree:asc'
   | 'degree:desc';
 
+export declare type SortCombinationOrders = readonly SortCombinationOrder[];
+
 export declare type PostprocessCombinationsOptions = {
   /**
    * order the sets combinations by the given criteria
    */
-  order?: SortCombinationOrder | ReadonlyArray<SortCombinationOrder>;
+  order?: SortCombinationOrder | SortCombinationOrders;
   /**
    * limit to the top N after sorting
    */
@@ -45,13 +47,13 @@ export declare type PostprocessCombinationsOptions = {
 };
 
 function toOrder<T, S extends ISetCombination<T>>(
-  sets: ReadonlyArray<ISet<T>>,
-  order?: SortCombinationOrder | ReadonlyArray<SortCombinationOrder>
+  sets: ISets<T>,
+  order?: SortCombinationOrder | SortCombinationOrders
 ): (a: S, b: S) => number {
   if (!order) {
     return byName;
   }
-  const arr: ReadonlyArray<SortCombinationOrder> = Array.isArray(order) ? order : [order];
+  const arr: SortCombinationOrders = Array.isArray(order) ? order : [order];
   if (arr.length === 0) {
     return byName;
   }
@@ -86,7 +88,7 @@ function toOrder<T, S extends ISetCombination<T>>(
  * @internal
  */
 export function postprocessCombinations<T, S extends ISetCombination<T>>(
-  sets: ReadonlyArray<ISet<T>>,
+  sets: ISets<T>,
   combinations: S[],
   options: PostprocessCombinationsOptions = {}
 ) {
@@ -104,10 +106,10 @@ export function postprocessCombinations<T, S extends ISetCombination<T>>(
  * helper to create a proper data structures for UpSet.js sets by adding extra properties
  * @param sets set like structures
  */
-export function asCombination<T, S extends { name: string; elems: ReadonlyArray<T> }>(
+export function asCombination<T, S extends { name: string; elems: readonly T[] }>(
   set: S,
   type: SetCombinationType,
-  toSets: (s: S) => ReadonlyArray<ISet<T>>
+  toSets: (s: S) => ISets<T>
 ): S & ISetCombination<T> {
   const sets = toSets(set);
   return Object.assign(
@@ -127,10 +129,10 @@ export function asCombination<T, S extends { name: string; elems: ReadonlyArray<
  * @param type hint for the type of combinations
  * @param toSets resolver of the contained sets
  */
-export default function asCombinations<T, S extends { name: string; elems: ReadonlyArray<T> }>(
-  sets: ReadonlyArray<S>,
+export default function asCombinations<T, S extends { name: string; elems: readonly T[] }>(
+  sets: readonly S[],
   type: SetCombinationType,
-  toSets: (s: S) => ReadonlyArray<ISet<T>>
+  toSets: (s: S) => ISets<T>
 ): (S & ISetCombination<T>)[] {
   return sets.map((set) => asCombination(set, type, toSets));
 }

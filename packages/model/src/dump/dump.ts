@@ -18,12 +18,12 @@ export interface IUpSetFromDumpConfig<T> {
 
 export function fromDump<T>(
   dump: IUpSetDump,
-  elems: ReadonlyArray<T>,
+  elems: readonly T[],
   options: IUpSetFromDumpConfig<T> = {}
 ): {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
-  selection?: ISetLike<T> | ReadonlyArray<T>;
+  selection?: ISetLike<T> | readonly T[];
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 } {
   const sets: ISets<T> = dump.sets.map((set) => asSet({ ...set, elems: fromIndicesArray(set.elems, elems) }));
@@ -72,7 +72,7 @@ export function fromDump<T>(
   };
 }
 
-export declare type UpSetCompressedIndices = ReadonlyArray<number> | string;
+export declare type UpSetCompressedIndices = readonly number[] | string;
 
 export interface IUpSetDump {
   sets: ReadonlyArray<{ name: string; color?: string; cardinality: number; elems: UpSetCompressedIndices }>;
@@ -80,7 +80,7 @@ export interface IUpSetDump {
     name: string;
     color?: string;
     type: SetCombinationType;
-    sets: ReadonlyArray<number>;
+    sets: readonly number[];
     degree: number;
     cardinality: number;
     elems: UpSetCompressedIndices;
@@ -95,7 +95,7 @@ export interface IUpSetDumpData<T> {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
   combinationOptions?: GenerateSetCombinationsOptions<T>;
-  selection?: ISetLike<T> | ReadonlyArray<T>;
+  selection?: ISetLike<T> | readonly T[];
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 }
 

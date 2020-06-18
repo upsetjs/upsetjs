@@ -167,7 +167,7 @@ export default function VennArcSliceSelection<T>({
     data: VennDiagramDataInfo<T>;
     size: VennDiagramSizeInfo;
     queries: UpSetQueries<T>;
-    qs: ReadonlyArray<(s: ISetLike<T>) => number>;
+    qs: readonly ((s: ISetLike<T>) => number)[];
   } & UpSetSelection
 >) {
   const p = generateArcSlicePath(slice);

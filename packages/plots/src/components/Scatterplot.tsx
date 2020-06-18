@@ -17,7 +17,7 @@ export interface ScatterplotProps<T> extends UpSetPlotProps<T> {
   height: number;
   actions?: boolean;
 
-  elems: ReadonlyArray<T>;
+  elems: readonly T[];
   toElemKey?: (elem: T) => string;
   xLabel?: string;
   xAttr: keyof T | ((v: T) => number);

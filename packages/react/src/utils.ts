@@ -19,7 +19,7 @@ export function isSetLike<T>(s?: UpSetSelection<T>): s is ISetLike<T> {
   return s != null && !Array.isArray(s);
 }
 
-function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+function elemOverlapOf<T>(query: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   const f = setOverlapFactory(query, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems).intersection;
@@ -27,7 +27,7 @@ function elemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) =
 }
 
 export function generateSelectionOverlap<T>(
-  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number) | undefined,
+  selection: ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number) | undefined,
   toElemKey?: (e: T) => string
 ): (s: ISetLike<T>) => number {
   if (!selection) {
@@ -57,7 +57,7 @@ export function generateSelectionName<T>(selection?: UpSetSelection<T>) {
     : (selection as ISetLike<T>)?.name;
 }
 
-export function elemElemOverlapOf<T>(query: Set<T> | ReadonlyArray<T>, toElemKey?: (e: T) => string) {
+export function elemElemOverlapOf<T>(query: Set<T> | readonly T[], toElemKey?: (e: T) => string) {
   const f = setElemOverlapFactory(query, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems).intersection;

@@ -168,7 +168,7 @@ function determineStatsOptions(options: Partial<BoxplotStatsOptions> = {}) {
   };
 }
 
-export default function boxplot(data: ReadonlyArray<number>, options: BoxplotStatsOptions = {}): IBoxPlot {
+export default function boxplot(data: readonly number[], options: BoxplotStatsOptions = {}): IBoxPlot {
   let min = Number.POSITIVE_INFINITY;
   let max = Number.NEGATIVE_INFINITY;
   let sum = 0;

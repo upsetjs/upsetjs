@@ -11,7 +11,7 @@ import { View } from 'vega';
 import { SingleSelection, MultiSelection } from 'vega-lite/build/src/selection';
 import { sameArray } from './utils';
 
-export function createSetComposite<T>(elems: ReadonlyArray<T>): ISetComposite<T> {
+export function createSetComposite<T>(elems: readonly T[]): ISetComposite<T> {
   return {
     name: 'Vega Selection',
     type: 'composite',
@@ -59,7 +59,7 @@ export function generateListener<T>(
   viewRef: RefObject<View>,
   selectionRef: RefObject<UpSetSelection<T> | undefined>,
   toElemKey: undefined | ((v: any) => string),
-  listener: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  listener: (v: ISetLike<T> | readonly T[] | null) => void,
   transformedData: string,
   elemField: string
 ) {
@@ -97,8 +97,8 @@ export function useVegaMultiSelection<T>(
   viewRef: RefObject<View>,
   toElemKey: undefined | ((v: any) => string),
   selection: UpSetSelection<T> | undefined,
-  onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
+  onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   { selectionName = 'select', transformedData = 'data_0', unitData = '', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);

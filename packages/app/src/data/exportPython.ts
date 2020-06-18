@@ -7,7 +7,7 @@
 
 import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
 import { ISetLike, isElemQuery, UpSetSetQuery } from '@upsetjs/model';
-import { ICustomizeOptions, IElem } from './interfaces';
+import { ICustomizeOptions, IElem, IElems } from './interfaces';
 
 function toSnakeCase(v: string) {
   return v.replace(/([A-Z])/gm, (v) => `_${v.toLowerCase()}`);
@@ -80,7 +80,7 @@ export default function exportPython(store: Store) {
   // support addons
   const data = store.selectedAttrs.size > 0 ? generateAddonData(store) : generateSimpleData(store);
 
-  const toSelectionRef = (s: ISetLike<IElem> | ReadonlyArray<IElem>) => {
+  const toSelectionRef = (s: ISetLike<IElem> | IElems) => {
     if (Array.isArray(s)) {
       return `[${s.map((e) => `"${e.name}"`).join(', ')}]`;
     }

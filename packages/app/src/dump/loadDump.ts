@@ -12,7 +12,7 @@ interface IElem {
   attrs: { [key: string]: number };
 }
 
-export function compressElems(elems: ReadonlyArray<IElem>, attrs: ReadonlyArray<string>, max = false) {
+export function compressElems(elems: readonly IElem[], attrs: readonly string[], max = false) {
   return elems.map((elem) => {
     if (attrs.length === 0) {
       return elem.name;
@@ -26,7 +26,7 @@ export function compressElems(elems: ReadonlyArray<IElem>, attrs: ReadonlyArray<
   });
 }
 
-export function decompressElems(elems: ReadonlyArray<any>, attrNames: ReadonlyArray<string>): IElem[] {
+export function decompressElems(elems: readonly any[], attrNames: readonly string[]): IElem[] {
   return elems.map(
     (elem): IElem => {
       if (typeof elem === 'string' || typeof elem === 'number') {

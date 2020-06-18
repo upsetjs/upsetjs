@@ -9,7 +9,7 @@ import { ISetLike, IUpSetDumpRef } from '@upsetjs/model';
 import { compressElems } from '../dump';
 import Store from '../store/Store';
 
-function toIndex<T>(arr: ReadonlyArray<T>) {
+function toIndex<T>(arr: readonly T[]) {
   const r = new Map(arr.map((v, i) => [v, i]));
   return (v: T) => r.get(v)!;
 }

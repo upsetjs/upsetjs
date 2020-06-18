@@ -11,7 +11,7 @@ import { toIndicesArray, ISetLike, isSetQuery, isSetLike, isElemQuery, UpSetSetQ
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
-import { IElem } from './interfaces';
+import { IElem, IElems } from './interfaces';
 
 declare const __VERSION__: string;
 
@@ -31,7 +31,7 @@ export function withColor<T>(v: T, s: { color?: string }): T & { color?: string 
 function toJSCode(store: Store, prefix = 'UpSetJS.') {
   const helper = exportHelper(store);
 
-  function toIndices(arr: ReadonlyArray<IElem> | Set<IElem>) {
+  function toIndices(arr: IElems | ReadonlySet<IElem>) {
     return `${prefix}fromIndicesArray(${JSON.stringify(
       toIndicesArray(Array.from(arr), helper.toElemIndex, { sortAble: true })
     ).replace(/"/gm, "'")}, elems)`;
@@ -55,7 +55,7 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
     return `fromSetRef({ type: '${ref.type}', index: ${ref.index} })`;
   };
 
-  function toSelectionRef(s: ISetLike<IElem> | ReadonlyArray<IElem>) {
+  function toSelectionRef(s: ISetLike<IElem> | IElems) {
     if (Array.isArray(s)) {
       return toIndices(s);
     }

@@ -37,7 +37,7 @@ export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   theme: 'dark' | 'light' | 'vega';
 }
 
-export declare type UpSetSelection<T> = ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+export declare type UpSetSelection<T> = ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number);
 
 export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
   /**
@@ -51,7 +51,7 @@ export interface UpSetSelectionAddonProps<S extends ISetLike<T>, T> extends UpSe
   /**
    * the optional overlap of the selection with the current set
    */
-  overlap: ReadonlyArray<T> | null;
+  overlap: readonly T[] | null;
 }
 
 export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAddonProps<S, T> {
@@ -66,7 +66,7 @@ export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAdd
   /**
    * the optional overlap of the query with the current set
    */
-  overlap: ReadonlyArray<T> | null;
+  overlap: readonly T[] | null;
   /**
    * whether to render the query in secondary mode
    */
@@ -101,7 +101,7 @@ export interface UpSetAddon<S extends ISetLike<T>, T, N> {
   renderQuery?: (props: UpSetQueryAddonProps<S, T>) => N;
 }
 
-export declare type UpSetAddons<S extends ISetLike<T>, T, N> = ReadonlyArray<UpSetAddon<S, T, N>>;
+export declare type UpSetAddons<S extends ISetLike<T>, T, N> = readonly UpSetAddon<S, T, N>[];
 
 export interface UpSetBaseFontSizes {
   /**
@@ -223,7 +223,7 @@ export interface VennDiagramDataProps<T> {
         /**
          * optional color merger
          **/
-        mergeColors?: (colors: ReadonlyArray<string | undefined>) => string | undefined;
+        mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
       };
   /**
    * optional function to identify the same sets

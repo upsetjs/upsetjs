@@ -63,7 +63,7 @@ declare type BoxplotProps = {
   /**
    * the values to render as a box plot
    */
-  values: ReadonlyArray<number>;
+  values: readonly number[];
   /**
    * width of the box plot
    */
@@ -199,7 +199,7 @@ export default Boxplot;
  */
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
-  elems: ReadonlyArray<T> | { min: number; max: number },
+  elems: readonly T[] | { min: number; max: number },
   {
     size = 100,
     position,

@@ -22,7 +22,7 @@ export interface BarChartProps<T> extends UpSetPlotProps<T> {
    */
   orientation?: 'horizontal' | 'vertical';
 
-  elems: ReadonlyArray<T>;
+  elems: readonly T[];
   toElemKey?: (elem: T) => string;
 
   iLabel?: string;
