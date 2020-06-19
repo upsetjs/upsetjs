@@ -17,6 +17,8 @@ import {
   ISets,
   UpSetQueries,
 } from '@upsetjs/model';
+import { IVennDiagramLayoutGenerator } from './venn/layout/interfaces';
+export * from './venn/layout/interfaces';
 
 export interface UpSetAddonProps<S extends ISetLike<T>, T> {
   /**
@@ -291,6 +293,11 @@ export interface VennDiagramLayoutProps {
    * @default 5
    */
   padding?: number;
+
+  /**
+   * function used to perform the venn diagram layout
+   */
+  layout?: IVennDiagramLayoutGenerator;
 }
 
 export interface UpSetSelectionProps<T = any> {

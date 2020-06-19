@@ -15,6 +15,8 @@ export * from './UpSetJS';
 export * from './fillDefaults';
 export * from '@upsetjs/model';
 export * from './dump';
+export { createVennDiagramLayoutFunction } from './venn/layout/vennDiagramLayout';
+export { createVennJSAdapter } from './venn/layout/vennjsAdapter';
 
 export * as propValidators from './validators';
 

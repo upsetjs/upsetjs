@@ -80,8 +80,9 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   ]);
 
   const dataInfo = useMemo(
-    () => deriveVennDataDependent(p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id),
-    [p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id]
+    () =>
+      deriveVennDataDependent(p.sets, p.combinations, sizeInfo, p.layout, p.valueFormat, p.toKey, p.toElemKey, p.id),
+    [p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id, p.layout]
   );
 
   const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);

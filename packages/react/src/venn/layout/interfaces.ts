@@ -5,6 +5,8 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import { ISets, ISetCombinations } from '../../../../model/dist';
+
 export interface ITextLocation {
   text: { x: number; y: number };
 }
@@ -44,3 +46,14 @@ export interface IUniverseSet extends IArcSlice {
 }
 
 export interface ITextUniverseSet extends IUniverseSet, ITextLocation {}
+
+export interface IVennDiagramLayoutGenerator {
+  readonly maxSets: number;
+  compute<T>(sets: ISets<T>, combinations: ISetCombinations<T>, width: number, height: number): IVennDiagramLayout;
+}
+
+export interface IVennDiagramLayout {
+  sets: ITextCircle[];
+  universe?: ITextUniverseSet;
+  intersections: ITextArcSlice[];
+}

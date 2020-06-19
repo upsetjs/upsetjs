@@ -13,6 +13,7 @@ import {
   DEFAULT_FONT_SIZES,
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
+  DEFAULT_VENN_LAYOUT,
 } from './defaults';
 import {
   UpSetThemeProps,
@@ -167,6 +168,7 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
       queryLegend: props.queries != null && props.queries.length > 0,
       exportButtons: true,
       valueFormat,
+      layout: DEFAULT_VENN_LAYOUT,
       className: '',
       fontSizes: DEFAULT_FONT_SIZES,
       classNames: EMPTY_OBJECT,

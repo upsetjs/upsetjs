@@ -12,7 +12,8 @@ import {
   VennDiagramFontSizes,
   VennDiagramMultiStyle,
 } from './interfaces';
-import { GenerateSetCombinationsOptions } from '../../model/dist';
+import { GenerateSetCombinationsOptions } from '@upsetjs/model';
+import { createVennDiagramLayoutFunction } from './venn/layout/vennDiagramLayout';
 
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
@@ -49,3 +50,5 @@ export const MULTI_STYLE_KEYS: (keyof UpSetMultiStyle<any> | keyof VennDiagramMu
   'valueLabel',
 ];
 export const EXPORT_OPTION_KEYS: (keyof UpSetExportOptions)[] = ['dump', 'png', 'share', 'svg', 'vega'];
+
+export const DEFAULT_VENN_LAYOUT = createVennDiagramLayoutFunction();
