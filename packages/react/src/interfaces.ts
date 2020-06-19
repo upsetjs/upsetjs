@@ -316,32 +316,45 @@ export interface UpSetSelectionProps<T = any> {
   queries?: UpSetQueries<T>;
 }
 
-export interface UpSetThemeProps {
+export interface UpSetBaseThemeProps {
   /**
    * color used to highlight the selection
    * @default orange
    */
   selectionColor?: string;
   /**
-   * color used to highlight alternating background in the sets for easier comparison
-   * set to false to disable alternating pattern
-   */
-  alternatingBackgroundColor?: string | false;
-  /**
    * main color to render bars and dark dots
    * @default black
    */
   color?: string;
+  /**
+   * main opacity
+   * @default undefined
+   */
+  opacity?: number;
   /**
    * main color used when a selection is present
    * @default undefined
    */
   hasSelectionColor?: string;
   /**
+   * main opacity used when a selection is present
+   * @default undefined
+   */
+  hasSelectionOpacity?: number;
+  /**
    * main color to render text
    * @default black
    */
   textColor?: string;
+}
+
+export interface UpSetThemeProps extends UpSetBaseThemeProps {
+  /**
+   * color used to highlight alternating background in the sets for easier comparison
+   * set to false to disable alternating pattern
+   */
+  alternatingBackgroundColor?: string | false;
   /**
    * color for the hover hint rects for set combinations
    */
@@ -352,27 +365,7 @@ export interface UpSetThemeProps {
   notMemberColor?: string;
 }
 
-export interface VennDiagramThemeProps {
-  /**
-   * color used to highlight the selection
-   * @default orange
-   */
-  selectionColor?: string;
-  /**
-   * main color to render bars and dark dots
-   * @default black
-   */
-  color?: string;
-  /**
-   * main color used when a selection is present
-   * @default undefined
-   */
-  hasSelectionColor?: string;
-  /**
-   * main color to render text
-   * @default black
-   */
-  textColor?: string;
+export interface VennDiagramThemeProps extends UpSetBaseThemeProps {
   /**
    * main color to render text
    * @default black

@@ -1,49 +1,59 @@
+import { UpSetBaseFontSizes, UpSetBaseThemeProps } from './interfaces';
+
+function propRule(value: string | number | undefined | false, prop = 'font-size') {
+  return value ? `${prop}: ${value};` : '';
+}
+
 export function baseRules(
   styleId: string,
-  textColor: string,
-  color: string,
-  selectionColor: string,
-  hasSelectionColor: string,
-  fontFamily?: string | false,
-  fontTitle?: string,
-  fontDescription?: string,
-  fontLegend?: string,
-  fontExportLabel?: string
+  theme: Required<UpSetBaseThemeProps>,
+  fontFamily: string | false,
+  fontSizes: UpSetBaseFontSizes
 ) {
+  const hasS: string[] = [];
+  if (theme.hasSelectionColor) {
+    hasS.push(`fill: ${theme.hasSelectionColor};`);
+  }
+  if (theme.hasSelectionOpacity != null && theme.hasSelectionOpacity >= 0) {
+    hasS.push(`fill-opacity: ${theme.hasSelectionOpacity};`);
+  }
   return {
+    p: propRule,
     root: `
   .root-${styleId} {
-    ${fontFamily ? `font-family: ${fontFamily};` : ''}
+    ${propRule(fontFamily, 'font-family')}
   }
   `,
     text: `
   .titleTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontTitle ? `font-size: ${fontTitle};` : ''}
+    fill: ${theme.textColor};
+    ${propRule(fontSizes.title)}
   }
   .descTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontDescription ? `font-size: ${fontDescription};` : ''}
+    fill: ${theme.textColor};
+    ${propRule(fontSizes.description)}
   }
 
   .legendTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontLegend ? `font-size: ${fontLegend};` : ''}
+    fill: ${theme.textColor};
+    ${propRule(fontSizes.legend)}
     text-anchor: middle;
     dominant-baseline: hanging;
     pointer-events: none;
   }
   `,
+    hasSFill: hasS.join(' '),
+    hasSStroke: hasS.join(' ').replace('fill:', 'stroke:').replace('fill-', 'stroke-'),
     fill: `
-  .fillPrimary-${styleId} { fill: ${color}; }
-  ${hasSelectionColor ? `.root-${styleId}[data-selection] .fillPrimary-${styleId} { fill: ${hasSelectionColor}; }` : ''}
-  .fillSelection-${styleId} { fill: ${selectionColor}; }
+  .fillPrimary-${styleId} { fill: ${theme.color}; fill-opacity: ${theme.opacity}; }
+  ${hasS.length > 0 ? `.root-${styleId}[data-selection] .fillPrimary-${styleId} { ${hasS.join(' ')} }` : ''}
+  .fillSelection-${styleId} { fill: ${theme.selectionColor}; }
   .fillTransparent-${styleId} { fill: transparent; }
 
   .selectionHint-${styleId} {
     fill: transparent;
     pointer-events: none;
-    stroke: ${selectionColor};
+    stroke: ${theme.selectionColor};
   }
   .clickAble-${styleId} {
     cursor: pointer;
@@ -60,8 +70,8 @@ export function baseRules(
   }`,
     export: `
   .exportTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontExportLabel ? `font-size: ${fontExportLabel};` : ''}
+    fill: ${theme.textColor};
+    ${propRule(fontSizes.exportLabel)}
   }
   .exportButtons-${styleId} {
     text-anchor: middle;
@@ -75,7 +85,7 @@ export function baseRules(
   }
   .exportButton-${styleId} > rect {
     fill: none;
-    stroke: ${textColor};
+    stroke: ${theme.textColor};
   }
   `,
   };

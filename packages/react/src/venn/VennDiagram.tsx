@@ -22,132 +22,90 @@ import deriveVennSizeDependent from './derive/deriveVennSizeDependent';
 import deriveVennStyleDependent from './derive/deriveVennStyleDependent';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
-  const {
-    id,
-    className,
-    style,
-    width,
-    height,
-    padding: margin,
-    sets,
-    combinations,
-    toKey,
-    toElemKey,
-    selection = null,
-    onClick,
-    onContextMenu,
-    onHover,
-    theme,
-    queries = [],
-    exportButtons,
-    fontFamily,
-    fontSizes,
-    queryLegend,
-    selectionColor,
-    textColor,
-    title,
-    description,
-    classNames,
-    color,
-    hasSelectionColor,
-    strokeColor,
-    valueTextColor,
-    styles,
-    valueFormat,
-  } = fillVennDiagramDefaults<T>(props);
+  const p = fillVennDiagramDefaults<T>(props);
+  const { selection = null, queries = [], fontSizes } = p;
 
   // generate a "random" but attribute stable id to avoid styling conflicts
-  const {
-    valueLabel: fontValueLabel,
-    legend: fontLegend,
-    setLabel: fontSetLabel,
-    description: fontDescription,
-    title: fontTitle,
-    exportLabel: fontExportLabel,
-  } = fontSizes;
-
   const styleId = useMemo(
     () =>
-      id
-        ? id
+      p.id
+        ? p.id
         : generateId([
-            fontFamily,
-            fontValueLabel,
-            fontLegend,
-            fontSetLabel,
-            fontTitle,
-            fontExportLabel,
-            fontDescription,
-            textColor,
-            color,
-            hasSelectionColor,
-            strokeColor,
-            valueTextColor,
-            selectionColor,
+            p.fontFamily,
+            fontSizes.valueLabel,
+            fontSizes.legend,
+            fontSizes.setLabel,
+            fontSizes.title,
+            fontSizes.exportLabel,
+            fontSizes.description,
+            p.textColor,
+            p.color,
+            p.hasSelectionColor,
+            p.strokeColor,
+            p.valueTextColor,
+            p.selectionColor,
+            p.opacity,
+            p.hasSelectionOpacity,
           ]),
     [
-      id,
-      fontFamily,
-      fontValueLabel,
-      fontLegend,
-      fontSetLabel,
-      fontTitle,
-      fontExportLabel,
-      fontDescription,
-      textColor,
-      color,
-      hasSelectionColor,
-      strokeColor,
-      valueTextColor,
-      selectionColor,
+      p.id,
+      p.fontFamily,
+      fontSizes.valueLabel,
+      fontSizes.legend,
+      fontSizes.setLabel,
+      fontSizes.title,
+      fontSizes.exportLabel,
+      fontSizes.description,
+      p.textColor,
+      p.color,
+      p.hasSelectionColor,
+      p.strokeColor,
+      p.valueTextColor,
+      p.selectionColor,
+      p.opacity,
+      p.hasSelectionOpacity,
     ]
   );
 
   const styleInfo = useMemo(
-    () => deriveVennStyleDependent(theme, styles, classNames, styleId, selectionColor, title, description),
-    [theme, styles, classNames, styleId, selectionColor, title, description]
+    () => deriveVennStyleDependent(p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description),
+    [p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description]
   );
 
-  const sizeInfo = useMemo(() => deriveVennSizeDependent(width, height, margin, id), [width, height, margin, id]);
+  const sizeInfo = useMemo(() => deriveVennSizeDependent(p.width, p.height, p.padding, p.id), [
+    p.width,
+    p.height,
+    p.padding,
+    p.id,
+  ]);
 
   const dataInfo = useMemo(
-    () => deriveVennDataDependent(sets, combinations, sizeInfo, valueFormat, toKey, toElemKey, id),
-    [sets, combinations, sizeInfo, valueFormat, toKey, toElemKey, id]
+    () => deriveVennDataDependent(p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id),
+    [p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id]
   );
 
-  const rulesHelper = baseRules(
-    styleId,
-    textColor,
-    color,
-    selectionColor,
-    hasSelectionColor,
-    fontFamily,
-    fontTitle,
-    fontDescription,
-    fontLegend,
-    fontExportLabel
-  );
+  const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
 
   const rules = `
   ${rulesHelper.root}
   ${rulesHelper.text}
 
   .valueTextStyle-${styleId} {
-    fill: ${valueTextColor};
-    ${fontValueLabel ? `font-size: ${fontValueLabel};` : ''}
+    fill: ${p.valueTextColor};
+    ${rulesHelper.p(fontSizes.valueLabel)}
     text-anchor: middle;
     dominant-baseline: central;
   }
   .setTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontSetLabel ? `font-size: ${fontSetLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.setLabel)}
     text-anchor: middle;
     dominant-baseline: central;
   }
 
   .stroke-circle-${styleId} {
     fill: none;
-    stroke: ${strokeColor};
+    stroke: ${p.strokeColor};
   }
   ${rulesHelper.fill}
   ${rulesHelper.export}
@@ -184,50 +142,51 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   );
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
     () => [
-      wrap(onClick),
-      wrap(onHover),
-      wrap(onContextMenu),
-      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
+      wrap(p.onClick),
+      wrap(p.onHover),
+      wrap(p.onContextMenu),
+      p.onHover ? (evt: React.MouseEvent) => p.onHover!(null, evt.nativeEvent) : undefined,
     ],
-    [onClick, onHover, onContextMenu]
+    [p.onClick, p.onHover, p.onContextMenu]
   );
 
   const selectionKey = selection != null && isSetLike(selection) ? dataInfo.toKey(selection) : null;
-  const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, dataInfo.toElemKey);
+  const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, p.toElemKey);
   const selectionName = generateSelectionName(selection);
-  const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', dataInfo.toElemKey)), [
+  const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', p.toElemKey)), [
     queries,
-    dataInfo.toElemKey,
+    p.toElemKey,
   ]);
 
   const exportButtonsPatch = useMemo(
-    () => (!exportButtons ? false : Object.assign({}, exportButtons === true ? {} : exportButtons, { vega: false })),
-    [exportButtons]
+    () =>
+      !p.exportButtons ? false : Object.assign({}, p.exportButtons === true ? {} : p.exportButtons, { vega: false }),
+    [p.exportButtons]
   );
 
   return (
     <svg
-      id={id}
-      className={clsx(`root-${styleId}`, className)}
-      style={style}
-      width={width}
-      height={height}
+      id={p.id}
+      className={clsx(`root-${styleId}`, p.className)}
+      style={p.style}
+      width={p.width}
+      height={p.height}
       ref={ref}
-      viewBox={`0 0 ${width} ${height}`}
-      data-theme={theme ?? 'light'}
+      viewBox={`0 0 ${p.width} ${p.height}`}
+      data-theme={p.theme ?? 'light'}
       data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
-      {queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
+      {p.queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
         exportButtons={exportButtonsPatch}
         exportChart={exportChart}
       />
-      <g transform={`translate(${margin},${margin})`} data-upset="base">
+      <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
-        <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
+        <g className={clsx(p.onClick && `clickAble-${styleInfo.id}`)}>
           {dataInfo.sets.d.map((d, i) => (
             <text
               key={d.key}
@@ -247,7 +206,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             </text>
           ))}
         </g>
-        <g className={clsx(onClick && `clickAble-${styleInfo.id}`)}>
+        <g className={clsx(p.onClick && `clickAble-${styleInfo.id}`)}>
           {dataInfo.cs.d.map((l, i) => (
             <VennArcSliceSelection
               key={l.key}
