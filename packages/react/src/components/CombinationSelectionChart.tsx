@@ -11,7 +11,7 @@ import { UpSetAddons } from '../interfaces';
 import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { addonPositionGenerator } from './utils';
+import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 
 function CombinationSelectionChart<T>({
@@ -48,7 +48,15 @@ function CombinationSelectionChart<T>({
         const key = data.cs.keys[i];
         if (empty && !secondary) {
           return (
-            <rect key={key} x={x} y={height} height={0} width={width} className={className} style={style.styles.bar}>
+            <rect
+              key={key}
+              x={x}
+              y={height}
+              height={0}
+              width={width}
+              className={className}
+              style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
+            >
               {tooltip && <title></title>}
             </rect>
           );
@@ -70,6 +78,7 @@ function CombinationSelectionChart<T>({
             className={className}
             data-i={i}
             data-cardinality={o}
+            style={mergeColor(undefined, !style.selectionColor ? d.color : undefined)}
           >
             {title}
           </path>
@@ -83,7 +92,7 @@ function CombinationSelectionChart<T>({
             data-cardinality={o}
             width={width}
             className={className}
-            style={style.styles.bar}
+            style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
           >
             {title}
           </rect>

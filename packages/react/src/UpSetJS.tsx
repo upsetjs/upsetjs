@@ -247,7 +247,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   .upsetSelectionLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6 * 1.1};
-    stroke: ${p.selectionColor};
+    ${rulesHelper.p(p.selectionColor, 'stroke')}
     pointer-events: none;
   }
 

@@ -50,7 +50,12 @@ export default function UpSetSelection<T>({
       render: (props: UpSetAddonProps<S, T>) => {
         const overlap = selectionElemOverlap ? selectionElemOverlap(props.set) : null;
         return addon.renderSelection
-          ? addon.renderSelection({ selection, selectionColor: style.selectionColor, overlap, ...props })
+          ? addon.renderSelection({
+              selection,
+              selectionColor: style.selectionColor || props.set.color || 'orange',
+              overlap,
+              ...props,
+            })
           : null;
       },
     };

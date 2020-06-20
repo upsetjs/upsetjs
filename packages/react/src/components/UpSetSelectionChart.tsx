@@ -12,6 +12,7 @@ import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import UpSetDot from './UpSetDot';
 import { clsx } from '../utils';
+import { mergeColor } from './utils';
 
 function UpSetSelectionChart<T>({
   data,
@@ -52,7 +53,7 @@ function UpSetSelectionChart<T>({
             cy={data.sets.y(s)! + cy}
             name={s.name}
             className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
-            style={style.styles.dot}
+            style={mergeColor(style.styles.dot, !style.selectionColor ? d.color : undefined)}
           />
         ))}
       {d.sets.size > 1 && (
@@ -62,6 +63,7 @@ function UpSetSelectionChart<T>({
           x2={cx}
           y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + cy}
           className={`upsetSelectionLine-${data.id}`}
+          style={mergeColor(undefined, !style.selectionColor ? d.color : undefined, 'stroke')}
         />
       )}
     </g>

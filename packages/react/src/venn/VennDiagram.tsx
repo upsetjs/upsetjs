@@ -111,9 +111,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
 
   .arc-${styleId} {
     fill-rule: evenodd;
+    opacity: ${p.opacity};
   }
   ${rulesHelper.fill}
   ${rulesHelper.export}
+
+  ${rulesHelper.hasSStroke ? `.root-${styleId}[data-selection] .arc-${styleId} { ${rulesHelper.hasSStroke} }` : ''}
 
   ${queries
     .map(

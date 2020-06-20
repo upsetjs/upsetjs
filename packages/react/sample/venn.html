@@ -9,6 +9,7 @@
   <body>
     <script src="./upset.js"></script>
     <input id="value" type="number" min="1" max="3" value="2" />
+    <div id="t"></div>
     <script>
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
         const sets = UpSetJS.asSets([
@@ -40,6 +41,17 @@
           rerender();
         }
         document.getElementById('value').onchange = update;
+
+        const t = document.getElementById('t');
+        for (let i = 0; i <= 30; i++) {
+          t.insertAdjacentHTML('beforeend', `<label><input type="checkbox" name="s" value="${i}">${i}</label>`);
+        }
+        Array.from(t.querySelectorAll('input')).forEach((i) =>
+          i.addEventListener('change', () => {
+            props.selection = Array.from(t.querySelectorAll('input:checked')).map((d) => Number.parseInt(d.value, 10));
+            rerender();
+          })
+        );
       });
     </script>
   </body>

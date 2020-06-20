@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/d3"></script>
     <script src="./upset.js"></script>
     <input id="value" type="number" min="1" max="3" value="2" />
+    <div id="t"></div>
     <script>
       function mergeColors(colors) {
         if (colors.length === 0) {
@@ -38,13 +39,15 @@
           { name: 'C', elems: [1, 11, 12, 4, 5, 24, 25, 26, 27, 28, 29, 30] },
         ]);
         sets[0].color = 'red';
-        sets[1].color = 'steelblue';
+        sets[1].color = 'blue';
         sets[2].color = 'green';
         let clicked = null;
         const props = {
           sets: sets.slice(0, document.getElementById('value').valueAsNumber),
           width: 1200,
           height: 500,
+          selectionColor: '',
+          hasSelectionOpacity: 0.5,
           // onHover: (s) => {
           //   props.selection = s || clicked;
           //   rerender();
@@ -67,6 +70,17 @@
           rerender();
         }
         document.getElementById('value').onchange = update;
+
+        const t = document.getElementById('t');
+        for (let i = 0; i <= 30; i++) {
+          t.insertAdjacentHTML('beforeend', `<label><input type="checkbox" name="s" value="${i}">${i}</label>`);
+        }
+        Array.from(t.querySelectorAll('input')).forEach((i) =>
+          i.addEventListener('change', () => {
+            props.selection = Array.from(t.querySelectorAll('input:checked')).map((d) => Number.parseInt(d.value, 10));
+            rerender();
+          })
+        );
       });
     </script>
   </body>

@@ -21,13 +21,17 @@ function SelectionPattern({
   suffix,
   v,
   rotate = 0,
+  bgFill,
+  styleId,
   fill,
 }: {
   id: string;
   suffix: string;
   v: number;
   rotate?: number;
+  bgFill?: string;
   fill?: string;
+  styleId: string;
 }) {
   if (v >= 1 || v <= 0) {
     return null;
@@ -42,8 +46,10 @@ function SelectionPattern({
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${rotate})`}
       >
-        {fill && <rect x="0" y="0" width="1" height="0.1" fill={fill} />}
-        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} />
+        {bgFill && (
+          <rect x="0" y="0" width="1" height="0.1" style={{ fill: bgFill }} className={`fillPrimary-${styleId}`} />
+        )}
+        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} style={fill ? { fill } : undefined} />
       </pattern>
     </defs>
   );
@@ -194,7 +200,9 @@ export default function VennArcSliceSelection<T>({
         v={o === 0 ? 0 : o / d.cardinality}
         suffix={`Selection-${style.id}`}
         rotate={rotate}
-        fill={d.color}
+        bgFill={d.color}
+        fill={!style.selectionColor ? d.color : undefined}
+        styleId={style.id}
       />
       <path
         onMouseEnter={onMouseEnter(d)}
@@ -205,7 +213,7 @@ export default function VennArcSliceSelection<T>({
         className={className}
         style={mergeColor(
           style.styles.set,
-          o > 0 && o < d.cardinality ? `url(#${id})` : !fillFullSelection ? d.color : undefined
+          o > 0 && o < d.cardinality ? `url(#${id})` : !fillFullSelection || !style.selectionColor ? d.color : undefined
         )}
       >
         <title>{tooltip}</title>

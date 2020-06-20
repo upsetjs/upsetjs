@@ -47,13 +47,13 @@ export function baseRules(
     fill: `
   .fillPrimary-${styleId} { fill: ${theme.color}; fill-opacity: ${theme.opacity}; }
   ${hasS.length > 0 ? `.root-${styleId}[data-selection] .fillPrimary-${styleId} { ${hasS.join(' ')} }` : ''}
-  .fillSelection-${styleId} { fill: ${theme.selectionColor}; }
+  ${theme.selectionColor ? `.fillSelection-${styleId} { fill: ${theme.selectionColor}; }` : ''}
   .fillTransparent-${styleId} { fill: transparent; }
 
   .selectionHint-${styleId} {
     fill: transparent;
     pointer-events: none;
-    stroke: ${theme.selectionColor};
+    ${propRule(theme.selectionColor, 'stroke')}
   }
   .clickAble-${styleId} {
     cursor: pointer;
