@@ -65,20 +65,15 @@ function renderChart({ width, targetRef }: { width: number; targetRef?: RefObjec
 
 export default observer(() => {
   const store = useStore();
+  const x = useCallback((e: React.ChangeEvent<{ value: string }>) => store.ui.setVisXAttr(e.target.value), [store]);
+  const y = useCallback((e: React.ChangeEvent<{ value: string }>) => store.ui.setVisYAttr(e.target.value), [store]);
 
   if (!store.dataset || store.dataset.attrs.length === 0) {
     return null;
   }
   return (
     <SidePanelEntry id="vis" title="Attribute Vis">
-      <TextField
-        margin="dense"
-        label="X Attr"
-        value={store.ui.visXAttr || ''}
-        select
-        required
-        onChange={useCallback((e) => store.ui.setVisXAttr(e.target.value), [store])}
-      >
+      <TextField margin="dense" label="X Attr" value={store.ui.visXAttr || ''} select required onChange={x}>
         <MenuItem value="">Choose ...</MenuItem>
         {store.dataset.attrs.map((attr) => (
           <MenuItem key={attr} value={attr}>
@@ -86,14 +81,7 @@ export default observer(() => {
           </MenuItem>
         ))}
       </TextField>
-      <TextField
-        margin="dense"
-        label="Y Attr"
-        value={store.ui.visYAttr || ''}
-        select
-        required
-        onChange={useCallback((e) => store.ui.setVisYAttr(e.target.value), [store])}
-      >
+      <TextField margin="dense" label="Y Attr" value={store.ui.visYAttr || ''} select required onChange={y}>
         <MenuItem value="">Choose ...</MenuItem>
         {store.dataset.attrs.map((attr) => (
           <MenuItem key={attr} value={attr}>

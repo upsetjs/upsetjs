@@ -5,12 +5,13 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { loadFile, loadDump } from '../dump';
+import { loadFile } from '../dump';
 import Store from '../store/Store';
 import { toEmbeddedDump, toEmbeddedStaticDump } from './shareEmbedded';
 import { IDataSet, IElem } from './interfaces';
 import { loadJSON, decompressElems } from '../dump';
 import { IUpSetJSDump, extractSets } from '@upsetjs/react';
+import { asSet, fromIndicesArray } from '@upsetjs/model';
 
 export function exportJSON(store: Store) {
   const r = toEmbeddedDump(store, { compress: 'no' });
@@ -33,10 +34,10 @@ export function fromDump(dump: IUpSetJSDump, id: string): IDataSet {
     setCount: dump.sets.length,
     load: () => {
       const elems = decompressElems(dump.elements, dump.attrs);
-      const infos = loadDump(dump, elems, {});
+      const sets = dump.sets.map((set) => asSet({ ...set, elems: fromIndicesArray(set.elems, elems) }));
       return Promise.resolve({
         elems: elems,
-        sets: infos.sets,
+        sets: sets,
         props: dump.props,
         combinations: dump.combinationOptions,
         queries: dump.queries,
