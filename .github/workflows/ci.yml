@@ -23,6 +23,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn2-
       - run: yarn install
+      - run: yarn clean
       - run: yarn build
       - run: yarn lint
       - run: yarn test --ci --coverage --maxWorkers=2
