@@ -467,6 +467,7 @@ git commit -am 'release vX.X.X'
 git push
 git tag vX.X.X
 git push --tags
+yarn clean
 yarn build
 yarn workspaces foreach --verbose npm publish --access public
 ```
