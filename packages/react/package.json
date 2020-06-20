@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/react",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
@@ -98,7 +98,7 @@
   "dependencies": {
     "@types/lz-string": "^1.3.34",
     "@types/react": "^16.9.38",
-    "@upsetjs/model": "~1.2.0",
+    "@upsetjs/model": "~1.3.0",
     "lz-string": "^1.4.4"
   }
 }
