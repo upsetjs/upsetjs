@@ -11,6 +11,9 @@ import {
   UpSetProps,
   UpSetFontSizes,
   VennDiagramFontSizes,
+  VennDiagramThemeProps,
+  VennDiagramLayoutProps,
+  VennDiagramStyleProps,
 } from '../interfaces';
 import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 import { fillDefaults } from '../fillDefaults';
@@ -24,16 +27,27 @@ export interface UpSetJSDumpProps
   bandScale?: 'band';
 }
 
-const THEME_KEYS: (keyof UpSetThemeProps)[] = [
+const THEME_KEYS: (keyof (UpSetThemeProps & VennDiagramThemeProps))[] = [
   'selectionColor',
   'color',
   'textColor',
   'hoverHintColor',
   'notMemberColor',
   'alternatingBackgroundColor',
+  'hasSelectionColor',
+  'hasSelectionOpacity',
+  'opacity',
+  'strokeColor',
+  'valueTextColor',
 ];
-const LAYOUT_KEYS: (keyof UpSetLayoutProps)[] = ['padding', 'barPadding', 'dotPadding', 'widthRatios', 'heightRatios'];
-const STYLE_KEYS: (keyof UpSetStyleProps<any>)[] = [
+const LAYOUT_KEYS: (keyof (UpSetLayoutProps & VennDiagramLayoutProps))[] = [
+  'padding',
+  'barPadding',
+  'dotPadding',
+  'widthRatios',
+  'heightRatios',
+];
+const STYLE_KEYS: (keyof (UpSetStyleProps<any> & VennDiagramStyleProps<any>))[] = [
   'fontSizes',
   'combinationName',
   'setName',
@@ -77,7 +91,7 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
   DUMP_KEYS.forEach((key) => {
     const value = props[key];
     const defaultValue = full[key];
-    if (key === 'theme' && value === 'dark') {
+    if (key === 'theme' && value !== 'light') {
       // keep dark theme flag
       r[key] = value;
       return;
