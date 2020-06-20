@@ -302,7 +302,15 @@ export function createVegaSpec(svg: SVGSVGElement, title?: string) {
                       range: [fillNotMember, color].concat(highlightedCombination >= 0 ? [selectionColor] : []),
                     },
                   },
-                  y: { field: 'set', type: 'ordinal', axis: null, sort: null },
+                  y: {
+                    field: 'set',
+                    type: 'ordinal',
+                    axis: null,
+                    sort: null,
+                    scale: {
+                      domain: sets.map((s) => s.name),
+                    },
+                  },
                 },
               },
               {
