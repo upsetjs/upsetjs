@@ -182,6 +182,11 @@ const vennDiagramLayoutProps = {
    * @default 20
    */
   padding: Number,
+
+  /**
+   * function used to perform the venn diagram layout
+   */
+  layout: Function,
 };
 
 const upsetSelectionProps = {
@@ -200,21 +205,25 @@ const upsetSelectionProps = {
 
 const upsetThemeProps = {
   selectionColor: String,
+  color: String,
+  hasSelectionColor: String,
+  opacity: Number,
+  hasSelectionOpacity: Number,
+  textColor: String,
+  hoverHintColor: String,
+  notMemberColor: String,
   alternatingBackgroundColor: {
     type: [String, Boolean],
     validator: propValidators.stringOrFalse,
   },
-  color: String,
-  hasSelectionColor: String,
-  textColor: String,
-  hoverHintColor: String,
-  notMemberColor: String,
 };
 
 const vennDiagramThemeProps = {
   selectionColor: String,
   color: String,
   hasSelectionColor: String,
+  opacity: Number,
+  hasSelectionOpacity: Number,
   textColor: String,
   valueTextColor: String,
   strokeColor: String,
