@@ -183,7 +183,7 @@ export default function VennArcSliceSelection<T>({
   const fillFullSelection = (o === d.cardinality && d.cardinality > 0) || selected;
   const className = clsx(
     `arc-${style.id}`,
-    o === 0 && !selected && `fillTransparent-${style.id}`,
+    o === 0 && !selected && `arcP-${style.id}`,
     fillFullSelection && `fillSelection-${style.id}`,
     style.classNames.set
   );
