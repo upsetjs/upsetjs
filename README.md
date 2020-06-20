@@ -426,7 +426,7 @@ yarn plugin import version
 yarn plugin import workspace-tools
 cat .yarnrc_patch.yml >> .yarnrc.yml
 yarn install
-yarn pnpify --sdk
+yarn pnpify --sdk vscode
 ```
 
 ### Commands
