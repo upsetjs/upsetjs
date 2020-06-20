@@ -285,7 +285,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     [dataInfo, props]
   );
 
-  const selectionName = generateSelectionName(p.selection);
+  const selectionName = generateSelectionName(selection);
 
   const reset = useCallback((evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent) : null), [
     onClick,
