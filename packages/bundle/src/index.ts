@@ -47,6 +47,8 @@ export {
   VennDiagramThemeProps,
   UpSetStyleClassNames,
   UpSetExportOptions,
+  createVennDiagramLayoutFunction,
+  createVennJSAdapter,
 } from '@upsetjs/react';
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;

@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISets, ISetCombinations } from '../../../../model/dist';
+import { ISets, ISetCombinations } from '@upsetjs/model';
 
 export interface ITextLocation {
   text: { x: number; y: number };
