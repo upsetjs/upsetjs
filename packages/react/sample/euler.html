@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>UpSet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.jsdelivr.net/npm/@upsetjs/venn.js@1.3"></script>
   </head>
   <body>
     <script src="./upset.js"></script>
@@ -18,6 +19,7 @@
         ]);
         let clicked = null;
         const props = {
+          layout: UpSetJS.createVennJSAdapter(venn.layout),
           sets: sets.slice(0, document.getElementById('value').valueAsNumber),
           width: 1200,
           height: 500,

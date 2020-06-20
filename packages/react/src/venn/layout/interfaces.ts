@@ -35,6 +35,7 @@ export interface IArcSlice {
   x1: number;
   y1: number;
   arcs: readonly IArc[];
+  path?: string;
 }
 
 export interface ITextArcSlice extends IArcSlice, ITextLocation {}

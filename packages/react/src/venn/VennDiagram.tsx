@@ -108,6 +108,10 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     fill: none;
     stroke: ${p.strokeColor};
   }
+
+  .arc-${styleId} {
+    fill-rule: evenodd;
+  }
   ${rulesHelper.fill}
   ${rulesHelper.export}
 

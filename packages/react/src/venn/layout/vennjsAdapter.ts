@@ -15,19 +15,23 @@ export interface IVennJSSetOverlap {
   weight?: number;
 }
 
+export interface IVennJSArc {
+  circle: { x: number; y: number; radius: number };
+  width: number;
+  p1: { x: number; y: number };
+  p2: { x: number; y: number };
+}
+
 export interface IVennJSVennLayout {
   data: IVennJSSetOverlap;
   text: { x: number; y: number };
   circles: readonly { x: number; y: number; radius: number; set: string }[];
-  arcs: readonly {
-    circle: { x: number; y: number; radius: number };
-    width: number;
-    p1: { x: number; y: number };
-    p2: { x: number; y: number };
-  }[];
+  arcs: readonly IVennJSArc[];
+  path?: string;
+  distinctPath?: string;
 }
 
-export interface IVennJSLayoutFunction<O extends { width?: number; height?: number }> {
+export interface IVennJSLayoutFunction<O extends { width?: number; height?: number; distinct?: boolean }> {
   (data: readonly IVennJSSetOverlap[], options: O): readonly IVennJSVennLayout[];
 }
 
@@ -61,6 +65,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
           {
             width,
             height,
+            distinct: true,
           },
           options ?? {}
         )
@@ -68,6 +73,19 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
 
       const singleSets = r.filter((d) => d.data.sets.length === 1);
       const eulerCenter = center(singleSets.map((d) => d.circles[0]));
+
+      const asArc = (a: IVennJSArc) => ({
+        rx: a.circle.radius,
+        ry: a.circle.radius,
+        rotation: 0,
+        x2: a.p1.x,
+        y2: a.p1.y,
+        cx: a.circle.x,
+        cy: a.circle.y,
+        sweepFlag: true,
+        largeArcFlag: a.width > a.circle.radius,
+        mode: 'inside',
+      });
 
       return {
         sets: singleSets.map((d) => {
@@ -96,55 +114,21 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
             };
           }
           if (arcs.length === 1) {
-            const c = arcs[0].circle;
+            const c = d.arcs[0].circle;
             return {
               text,
-              x1: c.x,
+              x1: d.arcs[0].p2.x,
               y1: c.y - c.radius,
-              arcs: [
-                {
-                  cx: c.x,
-                  cy: c.y,
-                  rx: c.radius,
-                  ry: c.radius,
-                  rotation: 0,
-                  x2: c.x,
-                  y2: c.y + c.radius,
-                  largeArcFlag: false,
-                  sweepFlag: false,
-                  mode: 'inside',
-                },
-                {
-                  cx: c.x,
-                  cy: c.y,
-                  rx: c.radius,
-                  ry: c.radius,
-                  rotation: 0,
-                  x2: c.x,
-                  y2: c.y - c.radius,
-                  largeArcFlag: false,
-                  sweepFlag: false,
-                  mode: 'inside',
-                },
-              ],
+              arcs: [asArc(d.arcs[0]), Object.assign(asArc(d.arcs[0]), { y2: c.y - c.radius })],
+              path: d.distinctPath || d.path,
             };
           }
           return {
             text,
             x1: d.arcs[0].p2.x,
             y1: d.arcs[0].p2.y,
-            arcs: d.arcs.map((a) => ({
-              rx: a.circle.radius,
-              ry: a.circle.radius,
-              rotation: 0,
-              x2: a.p1.x,
-              y2: a.p1.y,
-              cx: a.circle.x,
-              cy: a.circle.y,
-              sweepFlag: true,
-              largeArcFlag: a.width > a.circle.radius,
-              mode: 'inside',
-            })),
+            arcs: d.arcs.map((e) => asArc(e)),
+            path: d.distinctPath || d.path,
           };
         }),
       };
