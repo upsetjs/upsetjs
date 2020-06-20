@@ -71,6 +71,8 @@ const themeKeys: (keyof UpSetThemeProps)[] = [
   'notMemberColor',
   'alternatingBackgroundColor',
   'hasSelectionColor',
+  'opacity',
+  'hasSelectionColor',
 ];
 const otherOptionKeys: string[] = [
   'padding',

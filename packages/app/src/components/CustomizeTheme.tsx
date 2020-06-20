@@ -97,6 +97,8 @@ function ColorTextField({
   return (
     <TextField
       label={label}
+      size="small"
+      margin="dense"
       name={name}
       value={value}
       required={required}
@@ -130,7 +132,13 @@ export default observer(() => {
   const p = store.props;
 
   const handleTextChange = useCallback(
-    (e: { target: { name: string; value: string } }) => store.changeProps({ [e.target.name]: e.target.value }),
+    (e: { target: { name: string; value: string } }) =>
+      store.changeProps({ [e.target.name]: e.target.value === '' ? undefined : e.target.value }),
+    [store]
+  );
+  const handleNumberChange = useCallback(
+    (e: { target: { name: string; value: string } }) =>
+      store.changeProps({ [e.target.name]: e.target.value === '' ? undefined : Number.parseFloat(e.target.value) }),
     [store]
   );
 
@@ -138,6 +146,7 @@ export default observer(() => {
     <SidePanelEntry id="theme" title="Customize Theme">
       <TextField
         label="Theme"
+        margin="dense"
         value={p.theme}
         select
         required
@@ -153,7 +162,6 @@ export default observer(() => {
         label="Selection Color"
         name="selectionColor"
         value={p.selectionColor}
-        required
         onChange={handleTextChange}
       />
       <ColorTextField
@@ -175,6 +183,40 @@ export default observer(() => {
         name="alternatingBackgroundColor"
         value={p.alternatingBackgroundColor || ''}
         onChange={handleTextChange}
+      />
+      <ColorTextField
+        label="Has Selection Color"
+        name="hasSelectionColor"
+        value={p.hasSelectionColor || ''}
+        onChange={handleTextChange}
+      />
+      <TextField
+        label="Opacity"
+        size="small"
+        margin="dense"
+        name="opacity"
+        value={p.opacity}
+        type="number"
+        inputProps={{
+          min: 0,
+          max: 1,
+          step: 0.1,
+        }}
+        onChange={handleNumberChange}
+      />
+      <TextField
+        label="Has Selection Opacity"
+        size="small"
+        margin="dense"
+        name="hasSelectionOpacity"
+        value={p.hasSelectionOpacity == null || p.hasSelectionOpacity < 0 ? '' : p.hasSelectionOpacity}
+        type="number"
+        inputProps={{
+          min: 0,
+          max: 1,
+          step: 0.1,
+        }}
+        onChange={handleNumberChange}
       />
     </SidePanelEntry>
   );

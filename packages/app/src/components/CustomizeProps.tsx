@@ -43,6 +43,7 @@ function EditFontSize({
   );
   return (
     <TextField
+      margin="dense"
       label={label}
       value={numeric}
       name={name}
@@ -81,22 +82,36 @@ export default observer(() => {
       store.changeProps({ [e.target.name]: Number.parseFloat(e.target.value) }),
     [store]
   );
+  const handleOffsetNumericChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      store.changeProps({ [e.target.name]: e.target.value === '' ? 'auto' : Number.parseFloat(e.target.value) }),
+    [store]
+  );
   const handleFontChange = useCallback((name: string, value: string) => store.changeFontSize({ [name]: value }), [
     store,
   ]);
 
   return (
     <SidePanelEntry id="customize" title="Customize">
-      <TextField label="Set Name" name="setName" value={p.setName} required onChange={handleTextChange} />
       <TextField
-        label="Set Axis Offset"
-        name="setNameAxisOffset"
-        value={p.setNameAxisOffset}
-        type="number"
+        margin="dense"
+        label="Set Name"
+        name="setName"
+        value={p.setName}
         required
-        onChange={handleNumericChange}
+        onChange={handleTextChange}
       />
       <TextField
+        size="small"
+        margin="none"
+        label="Set Axis Offset"
+        name="setNameAxisOffset"
+        value={p.setNameAxisOffset === 'auto' ? '' : p.setNameAxisOffset}
+        type="number"
+        onChange={handleOffsetNumericChange}
+      />
+      <TextField
+        margin="dense"
         label="Combination Name"
         name="combinationName"
         value={p.combinationName}
@@ -104,14 +119,22 @@ export default observer(() => {
         onChange={handleTextChange}
       />
       <TextField
+        size="small"
+        margin="none"
         label="Combination Axis Offset"
         name="combinationNameAxisOffset"
-        value={p.combinationNameAxisOffset}
+        value={p.combinationNameAxisOffset === 'auto' ? '' : p.combinationNameAxisOffset}
         type="number"
-        required
-        onChange={handleNumericChange}
+        onChange={handleOffsetNumericChange}
       />
-      <TextField label="Font Family" name="fontFamily" value={p.fontFamily} required onChange={handleTextChange} />
+      <TextField
+        margin="dense"
+        label="Font Family"
+        name="fontFamily"
+        value={p.fontFamily}
+        required
+        onChange={handleTextChange}
+      />
 
       <EditFontSize
         label="Chart Font Size"
@@ -128,6 +151,7 @@ export default observer(() => {
 
       <Divider />
       <TextField
+        margin="dense"
         label="Axis Scale"
         value={p.numericScale === 'linear' ? 'linear' : 'log'}
         select
@@ -138,6 +162,7 @@ export default observer(() => {
         <MenuItem value="log">Log Scale</MenuItem>
       </TextField>
       <TextField
+        margin="dense"
         label="Bar Padding"
         name="barPadding"
         value={p.barPadding}
@@ -151,6 +176,7 @@ export default observer(() => {
         onChange={handleNumericChange}
       />
       <TextField
+        margin="dense"
         label="Dot Padding"
         name="dotPadding"
         value={p.dotPadding}
@@ -164,6 +190,7 @@ export default observer(() => {
         onChange={handleNumericChange}
       />
       <TextField
+        margin="dense"
         label="Chart Padding"
         name="padding"
         value={p.padding}
@@ -172,6 +199,7 @@ export default observer(() => {
         onChange={handleNumericChange}
       />
       <TextField
+        margin="dense"
         label="Combination to Set Height Ratio"
         value={p.heightRatios[0]}
         type="number"
@@ -189,6 +217,7 @@ export default observer(() => {
         }}
       />
       <TextField
+        margin="dense"
         label="Combination to Set Width Ratio"
         value={p.widthRatios[2]}
         type="number"
@@ -209,6 +238,7 @@ export default observer(() => {
         }}
       />
       <TextField
+        margin="dense"
         label="Set to Label Width Ratio"
         value={p.widthRatios[0] / (p.widthRatios[0] + p.widthRatios[1])}
         type="number"

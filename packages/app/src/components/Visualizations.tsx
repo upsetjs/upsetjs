@@ -72,6 +72,7 @@ export default observer(() => {
   return (
     <SidePanelEntry id="vis" title="Attribute Vis">
       <TextField
+        margin="dense"
         label="X Attr"
         value={store.ui.visXAttr || ''}
         select
@@ -86,6 +87,7 @@ export default observer(() => {
         ))}
       </TextField>
       <TextField
+        margin="dense"
         label="Y Attr"
         value={store.ui.visYAttr || ''}
         select

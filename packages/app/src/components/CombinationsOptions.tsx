@@ -35,6 +35,7 @@ export default observer(() => {
   return (
     <SidePanelEntry id="options" title="Set Combinations">
       <TextField
+        margin="dense"
         label="Ordering"
         value={order}
         select
@@ -56,6 +57,7 @@ export default observer(() => {
         <MenuItem value="group,degree,cardinality,name">1. Set Group 2. Degree 3. Cardinality 4. Name</MenuItem>
       </TextField>
       <TextField
+        margin="dense"
         label="Mode"
         value={c.type}
         select
@@ -67,6 +69,7 @@ export default observer(() => {
         <MenuItem value="union">Set Unions</MenuItem>
       </TextField>
       <TextField
+        margin="dense"
         label="Minimum Set Members"
         value={c.min}
         name="min"
@@ -79,6 +82,7 @@ export default observer(() => {
         onChange={handleNumberChange}
       />
       <TextField
+        margin="dense"
         label="Maximum Set Members"
         name="max"
         value={c.max}
@@ -91,6 +95,7 @@ export default observer(() => {
         onChange={handleNumberChange}
       />
       <TextField
+        margin="dense"
         label="Max # Combinations"
         name="limit"
         value={c.limit}
