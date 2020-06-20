@@ -22,7 +22,7 @@ function getComparator<T>(orderBy: keyof T | ((v: T) => number | string), order:
 }
 
 export function stableSort<T>(
-  arr: ReadonlyArray<T>,
+  arr: readonly T[],
   orderBy: keyof T | ((v: T) => number | string),
   order: 'asc' | 'desc'
 ) {

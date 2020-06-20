@@ -25,11 +25,11 @@ export interface UpSetPlotSelectionProps<T> {
   /**
    * mouse hover listener, triggered when the user is over a set (combination)
    */
-  onHover?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
+  onHover?: (selection: ISetLike<T> | readonly T[] | null) => void;
   /**
    * mouse click listener, triggered when the user is clicking on a set (combination)
    */
-  onClick?: (selection: ISetLike<T> | ReadonlyArray<T> | null) => void;
+  onClick?: (selection: ISetLike<T> | readonly T[] | null) => void;
   /**
    * list of queries as an alternative to provide a single selection
    */

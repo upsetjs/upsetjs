@@ -34,12 +34,12 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
   /**
    * list of all elements used to compute the elements which aren't part of any given set
    */
-  elems?: ReadonlyArray<T>;
+  elems?: readonly T[];
   /**
    * alternative to `.elems` by directly specifying the elements that are not part of any set
    * just makes sense with min=0
    */
-  notPartOfAnySet?: ReadonlyArray<T> | number;
+  notPartOfAnySet?: readonly T[] | number;
   /**
    * optional elem key function
    * @param v
@@ -49,7 +49,7 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
   /**
    * optional color merger
    **/
-  mergeColors?: (colors: ReadonlyArray<string | undefined>) => string | undefined;
+  mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
 } & PostprocessCombinationsOptions;
 
 /**
@@ -67,8 +67,8 @@ export function generateSet<T>(
   type: SetCombinationType,
   name: string,
   combo: ReadonlySet<ISet<T>>,
-  elems: ReadonlyArray<T>,
-  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
+  elems: readonly T[],
+  mergeColors: (colors: readonly (string | undefined)[]) => string | undefined
 ) {
   return {
     type: combo.size === 0 ? 'composite' : type,
@@ -91,7 +91,7 @@ export function mergeIntersection<T, B>(
   toKey: (v: T) => B,
   setIndex: ReadonlyMap<ISet<T>, number>,
   type: SetCombinationType,
-  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
+  mergeColors: (colors: readonly (string | undefined)[]) => string | undefined
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
@@ -135,7 +135,7 @@ export function mergeUnion<T, B>(
   toKey: (v: T) => B,
   setIndex: ReadonlyMap<ISet<T>, number>,
   type: SetCombinationType,
-  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
+  mergeColors: (colors: readonly (string | undefined)[]) => string | undefined
 ) {
   const merged = new Set<ISet<T>>(a.sets);
   b.sets.forEach((s) => merged.add(s));
@@ -177,11 +177,11 @@ export function mergeUnion<T, B>(
 
 export function generateEmptySet<T, B>(
   type: SetCombinationType,
-  notPartOfAnySet: ReadonlyArray<T> | number | undefined,
-  allElements: ReadonlyArray<T>,
+  notPartOfAnySet: readonly T[] | number | undefined,
+  allElements: readonly T[],
   lookup: Map<ISetLike<T>, ReadonlySet<B>>,
   toKey: (v: T) => B,
-  mergeColors: (colors: ReadonlyArray<string | undefined>) => string | undefined
+  mergeColors: (colors: readonly (string | undefined)[]) => string | undefined
 ): ISetCombination<T> {
   if (typeof notPartOfAnySet === 'number') {
     return {
@@ -210,7 +210,7 @@ export function generateEmptySet<T, B>(
   return generateSet(type, '()', new Set(), elems, mergeColors);
 }
 
-function defaultMergeColor(colors: ReadonlyArray<string | undefined>) {
+function defaultMergeColor(colors: readonly (string | undefined)[]) {
   if (colors.length === 1) {
     return colors[0];
   }

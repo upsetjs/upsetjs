@@ -47,6 +47,8 @@ export {
   VennDiagramThemeProps,
   UpSetStyleClassNames,
   UpSetExportOptions,
+  createVennDiagramLayoutFunction,
+  createVennJSAdapter,
 } from '@upsetjs/react';
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
@@ -151,7 +153,7 @@ export function downloadUrl(url: string, title: string, doc: Document) {
 
 export function toUpSetJSDump(
   dump: IUpSetDump,
-  elements: ReadonlyArray<number | string | any>,
+  elements: readonly (number | string | any)[],
   props: Partial<UpSetProps<any>>,
   author?: string
 ): IUpSetJSDump {

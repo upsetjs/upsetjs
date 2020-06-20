@@ -32,7 +32,11 @@
         return d3.lab(cc.l / colors.length, cc.a / colors.length, cc.b / colors.length).toString();
       }
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
-        const sets = UpSetJS.extractSets(elems);
+        const sets = UpSetJS.asSets([
+          { name: 'A', elems: [1, 2, 3, 4, 11, 12, 13, 14, 15, 16, 17, 18] },
+          { name: 'B', elems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 19, 20, 21, 22, 23] },
+          { name: 'C', elems: [1, 11, 12, 4, 5, 24, 25, 26, 27, 28, 29, 30] },
+        ]);
         sets[0].color = 'red';
         sets[1].color = 'steelblue';
         sets[2].color = 'green';
@@ -41,7 +45,6 @@
           sets: sets.slice(0, document.getElementById('value').valueAsNumber),
           width: 1200,
           height: 500,
-          selection: elems.slice(10, 15),
           // onHover: (s) => {
           //   props.selection = s || clicked;
           //   rerender();

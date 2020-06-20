@@ -15,7 +15,7 @@ export declare type NumericScaleTick = { value: number; label?: string };
 export declare type NumericScaleLike = {
   (v: number): number;
   // api to be compatible with d3-scale
-  ticks(count?: number): ReadonlyArray<NumericScaleTick | number>;
+  ticks(count?: number): readonly (NumericScaleTick | number)[];
   tickFormat(): (v: number) => string;
 };
 

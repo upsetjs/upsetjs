@@ -7,7 +7,7 @@
 
 import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
 import { ISetLike, isElemQuery, UpSetSetQuery } from '@upsetjs/model';
-import { ICustomizeOptions, IElem } from './interfaces';
+import { ICustomizeOptions, IElem, IElems } from './interfaces';
 
 declare const __VERSION__: string;
 
@@ -15,14 +15,14 @@ function toRCase(v: string) {
   return v.replace(/([A-Z])/gm, (v) => `.${v.toLowerCase()}`);
 }
 
-function str(v: string | ReadonlyArray<string>): string {
+function str(v: string | readonly string[]): string {
   if (typeof v === 'string') {
     return `"${v}"`;
   }
   return `c(${v.map(str).join(', ')})`;
 }
 
-function toSelectionRef(store: Store, s: ISetLike<IElem> | ReadonlyArray<IElem>) {
+function toSelectionRef(store: Store, s: ISetLike<IElem> | IElems) {
   if (Array.isArray(s)) {
     return `elems=${str(s.map((e) => e.name))}`;
   }

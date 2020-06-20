@@ -14,7 +14,7 @@ function expectSet<T>(
   s: ISetCombination<T>,
   type: SetCombinationType,
   name: string,
-  elems: ReadonlyArray<T>,
+  elems: readonly T[],
   sets: ISets<T>
 ) {
   expect(s.type).toBe(type);

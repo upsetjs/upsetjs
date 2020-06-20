@@ -18,7 +18,7 @@ export interface IElem {
   attrs: IAttrs;
 }
 
-export declare type IElems = ReadonlyArray<IElem>;
+export declare type IElems = readonly IElem[];
 
 export interface ILoadedDataSet {
   sets: ISets<IElem>;
@@ -34,7 +34,7 @@ export interface IDataSet {
   name: string;
   description: string;
   author: string;
-  attrs: ReadonlyArray<string>;
+  attrs: readonly string[];
   setCount?: number;
 
   creationDate?: Date;
@@ -44,6 +44,6 @@ export interface IDataSet {
 export interface IDumpInfo {
   ds: IDataSet;
   sets: ISets<IElem>;
-  elems: ReadonlyArray<IElem>;
+  elems: IElems;
   combinations: ISetCombinations<IElem>;
 }

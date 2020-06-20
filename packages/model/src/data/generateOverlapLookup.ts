@@ -18,7 +18,7 @@ export declare type GenerateOverlapLookupOptions<T> = {
  * compresses a given line, the idea is to reduce elements with the same value,
  * e.g., 1,2,2,2,2,2,3 is compressed to 1,2=4,3
  */
-function compressLine(line: ReadonlyArray<number>) {
+function compressLine(line: readonly number[]) {
   if (line.length === 0) {
     return '';
   }
@@ -52,7 +52,7 @@ function compressLine(line: ReadonlyArray<number>) {
   return r.join(',');
 }
 
-function decompressLine(line: string): ReadonlyArray<number> {
+function decompressLine(line: string): readonly number[] {
   if (line.length === 0) {
     return [];
   }
@@ -71,7 +71,7 @@ function decompressLine(line: string): ReadonlyArray<number> {
     .flat();
 }
 
-function compressMatrix(matrix: ReadonlyArray<ReadonlyArray<number>>) {
+function compressMatrix(matrix: readonly (readonly number[])[]) {
   if (matrix.length === 0) {
     return '';
   }
@@ -80,7 +80,7 @@ function compressMatrix(matrix: ReadonlyArray<ReadonlyArray<number>>) {
   return `${rows};${compressLine(flat)}`;
 }
 
-function decompressMatrix(matrix: string): ReadonlyArray<ReadonlyArray<number>> {
+function decompressMatrix(matrix: string): readonly (readonly number[])[] {
   if (matrix.length === 0) {
     return [];
   }
@@ -106,7 +106,7 @@ export function generateOverlapLookup<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T>,
   { toElemKey, what = 'intersection', compress = 'auto' }: GenerateOverlapLookupOptions<T> = {}
-): ReadonlyArray<ReadonlyArray<number>> | string {
+): readonly (readonly number[])[] | string {
   // generate a distnace matrix of all combinations
   const data = (sets as ISetLike<T>[]).concat(combinations);
 
@@ -153,7 +153,7 @@ export function generateOverlapLookup<T>(
  * @param toKey
  */
 export function generateOverlapLookupFunction<T>(
-  matrix: ReadonlyArray<ReadonlyArray<number>> | string,
+  matrix: readonly (readonly number[])[] | string,
   sets: ISets<T>,
   combinations: ISetCombinations<T>,
   toKey: (v: ISetLike<T>) => string = toKeyImpl

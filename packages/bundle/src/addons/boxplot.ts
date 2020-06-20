@@ -33,7 +33,7 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
  */
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
-  elems: ReadonlyArray<T> | { min: number; max: number },
+  elems: readonly T[] | { min: number; max: number },
   options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
     IBoxplotStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {

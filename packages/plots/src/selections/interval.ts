@@ -42,7 +42,7 @@ function formatArray(v: [number, number]) {
 export function createIntervalSetComposite<T>(
   xAttr: string,
   yAttr: string,
-  elems: ReadonlyArray<T>,
+  elems: readonly T[],
   x: [number, number],
   y: [number, number]
 ): IIntervalSetComposite<T> {
@@ -104,8 +104,8 @@ export function useVegaIntervalSelection<T>(
   xName: string,
   yName: string,
   toElemKey?: (v: any) => string,
-  onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
+  onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   { selectionName = 'select', transformedData = 'data_0', xField = 'x', yField = 'y', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);

@@ -105,7 +105,7 @@ export default function D3Axis({
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
   const D3Tick = orient === 'left' || orient === 'right' ? D3HorizontalTick : D3VerticalTick;
 
-  const values: ReadonlyArray<{ value: number; label?: string }> = scale
+  const values: readonly { value: number; label?: string }[] = scale
     .ticks()
     .map((d) => (typeof d === 'number' ? { value: d, label: String(d) } : d));
 

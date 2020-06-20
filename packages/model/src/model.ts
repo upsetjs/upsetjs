@@ -17,7 +17,7 @@ export interface IBaseSet<T = any> {
   /**
    * elements in this set
    */
-  readonly elems: ReadonlyArray<T>;
+  readonly elems: readonly T[];
   /**
    * number of elements in the set
    */
@@ -26,7 +26,7 @@ export interface IBaseSet<T = any> {
    * custom overlap computation function
    * @param o to compare with
    */
-  overlap?(o: ISetLike<T> | ReadonlyArray<T>): number;
+  overlap?(o: ISetLike<T> | readonly T[]): number;
 }
 
 export interface ISet<T = any> extends IBaseSet<T> {
@@ -93,15 +93,15 @@ export declare type ISetLike<T = any> = ISet<T> | ISetCombination<T>;
 /**
  * readonly array of sets
  */
-export declare type ISets<T = any> = ReadonlyArray<ISet<T>>;
+export declare type ISets<T = any> = readonly ISet<T>[];
 /**
  * readonly array of set combinations
  */
-export declare type ISetCombinations<T = any> = ReadonlyArray<ISetCombination<T>>;
+export declare type ISetCombinations<T = any> = readonly ISetCombination<T>[];
 /**
  * readonly array of set like objects
  */
-export declare type ISetLikes<T = any> = ReadonlyArray<ISetLike<T>>;
+export declare type ISetLikes<T = any> = readonly ISetLike<T>[];
 
 /**
  * helper method to generate a key for a given set

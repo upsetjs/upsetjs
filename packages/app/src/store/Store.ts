@@ -187,9 +187,9 @@ export default class Store {
   );
 
   @observable.ref
-  hover: ISetLike<IElem> | ReadonlyArray<IElem> | null = null;
+  hover: ISetLike<IElem> | IElems | null = null;
   @observable.ref
-  selection: ISetLike<IElem> | ReadonlyArray<IElem> | null = null;
+  selection: ISetLike<IElem> | IElems | null = null;
 
   @observable
   readonly queries: StoreQuery[] = [];
@@ -378,7 +378,7 @@ export default class Store {
   }
 
   @action.bound
-  setHover(set: ISetLike<IElem> | ReadonlyArray<IElem> | null, evt?: MouseEvent) {
+  setHover(set: ISetLike<IElem> | IElems | null, evt?: MouseEvent) {
     if (!set || !this.selection || !evt || !evt.ctrlKey || !isSetLike(set) || !isSetLike(this.selection)) {
       this.hover = set;
       return;
@@ -411,7 +411,7 @@ export default class Store {
   }
 
   @action.bound
-  setSelection(set: ISetLike<IElem> | ReadonlyArray<IElem> | null) {
+  setSelection(set: ISetLike<IElem> | IElems | null) {
     this.selection = set;
   }
 
@@ -426,7 +426,7 @@ export default class Store {
   }
 
   @computed
-  get visibleSetAddons(): ReadonlyArray<UpSetAddon<ISet<IElem>, IElem, React.ReactNode>> {
+  get visibleSetAddons(): readonly UpSetAddon<ISet<IElem>, IElem, React.ReactNode>[] {
     if (!this.dataset) {
       return [];
     }
@@ -436,7 +436,7 @@ export default class Store {
   }
 
   @computed
-  get visibleCombinationAddons(): ReadonlyArray<UpSetAddon<ISetCombination<IElem>, IElem, React.ReactNode>> {
+  get visibleCombinationAddons(): readonly UpSetAddon<ISetCombination<IElem>, IElem, React.ReactNode>[] {
     if (!this.dataset) {
       return [];
     }

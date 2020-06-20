@@ -14,8 +14,8 @@ export function useVegaBinSelection<T>(
   viewRef: RefObject<View>,
   selection: UpSetSelection<T> | undefined,
   name: string,
-  onClick?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
-  onHover?: (v: ISetLike<T> | ReadonlyArray<T> | null) => void,
+  onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
+  onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   {
     selectionName = 'select',
     aggregatedData = 'data_1',

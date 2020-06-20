@@ -28,15 +28,15 @@ declare type CategoricalProps = {
   /**
    * the values to render
    */
-  values: ReadonlyArray<string>;
+  values: readonly string[];
   /**
    * possible categories
    */
-  categories: ReadonlyArray<string | ICategory>;
+  categories: readonly (string | ICategory)[];
   /**
    *
    */
-  base?: ReadonlyArray<string>;
+  base?: readonly string[];
   /**
    * margin offset
    */
@@ -72,7 +72,7 @@ function colorGen(theme: UpSetThemes) {
   };
 }
 
-function bin(hist: IBin[], values: ReadonlyArray<string>) {
+function bin(hist: IBin[], values: readonly string[]) {
   const map = new Map(hist.map((bin) => [bin.value, 0]));
   values.forEach((value) => {
     if (value == null) {
@@ -88,9 +88,9 @@ function bin(hist: IBin[], values: ReadonlyArray<string>) {
 }
 
 function generateBins(
-  values: ReadonlyArray<string>,
-  categories: ReadonlyArray<string | ICategory>,
-  base: ReadonlyArray<string> | undefined,
+  values: readonly string[],
+  categories: readonly (string | ICategory)[],
+  base: readonly string[] | undefined,
   theme: UpSetThemes
 ) {
   const nextColor = colorGen(theme);
@@ -189,7 +189,7 @@ const darkOverlap = 'rgba(0,0,0,0.1)';
  */
 export function categoricalAddon<T>(
   prop: keyof T | ((v: T) => string),
-  elems: ReadonlyArray<T> | { categories: ReadonlyArray<string | ICategory> },
+  elems: readonly T[] | { categories: readonly (string | ICategory)[] },
   {
     size = 100,
     position,
@@ -199,7 +199,7 @@ export function categoricalAddon<T>(
     ICategoricalStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T, React.ReactNode> {
   const acc = typeof prop === 'function' ? prop : (v: T) => (v[prop as keyof T] as unknown) as string;
-  let categories: ReadonlyArray<string | ICategory> = [];
+  let categories: readonly (string | ICategory)[] = [];
   if (Array.isArray(elems)) {
     const cats = new Set<string>();
     elems.forEach((elem) => {
@@ -211,7 +211,7 @@ export function categoricalAddon<T>(
     });
     categories = Array.from(cats).sort();
   } else {
-    categories = (elems as { categories: ReadonlyArray<string | ICategory> }).categories;
+    categories = (elems as { categories: readonly (string | ICategory)[] }).categories;
   }
   return {
     name,

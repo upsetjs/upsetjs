@@ -43,7 +43,7 @@ export declare type UpSetDataInfo<T> = {
   triangleSize: number;
   sets: {
     v: ISets<T>;
-    keys: ReadonlyArray<string>;
+    keys: readonly string[];
     rv: ISets<T>;
     x: NumericScaleLike;
     xAxisWidth: number;
@@ -55,7 +55,7 @@ export declare type UpSetDataInfo<T> = {
   };
   cs: {
     v: ISetCombinations<T>;
-    keys: ReadonlyArray<string>;
+    keys: readonly string[];
     x(s: ISetCombination<T>): number;
     y: NumericScaleLike;
     yAxisWidth: number;

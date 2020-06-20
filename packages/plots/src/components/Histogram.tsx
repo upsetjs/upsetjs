@@ -18,7 +18,7 @@ export interface HistogramProps<T> extends UpSetPlotProps<T> {
   height: number;
   actions?: boolean;
 
-  elems: ReadonlyArray<T>;
+  elems: readonly T[];
   toElemKey?: (elem: T) => string;
   attr: keyof T | ((v: T) => number);
   label?: string;

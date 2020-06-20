@@ -30,7 +30,7 @@ export default function UpSetSelection<T>({
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
   onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
-  selection: ISetLike<T> | null | ReadonlyArray<T> | ((s: ISetLike<T>) => number);
+  selection: ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number);
 }>) {
   const empty = style.emptySelection;
 

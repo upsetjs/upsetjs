@@ -41,7 +41,7 @@ export default observer(() => {
         required
         onChange={(e) =>
           store.changeCombinations({
-            order: e.target.value.split(',') as ReadonlyArray<'group' | 'cardinality' | 'name' | 'degree'>,
+            order: e.target.value.split(',') as readonly ('group' | 'cardinality' | 'name' | 'degree')[],
           })
         }
       >

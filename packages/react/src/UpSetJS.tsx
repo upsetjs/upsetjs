@@ -30,266 +30,202 @@ export * from './interfaces';
  * with React.forwardRef support to specify a reference to the SVG element
  */
 const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
-  const {
-    id,
-    className,
-    style,
-    width,
-    height,
-    padding: margin,
-    barPadding,
-    sets,
-    toKey,
-    toElemKey,
-    combinations,
-    selection = null,
-    onClick,
-    onContextMenu,
-    onHover,
-    theme,
-    dotPadding,
-    setChildrenFactory,
-    combinationChildrenFactory,
-    widthRatios,
-    heightRatios,
-    queries = [],
-    setAddons,
-    combinationAddons,
-    alternatingBackgroundColor,
-    bandScale,
-    barLabelOffset,
-    classNames,
-    color,
-    combinationName,
-    combinationNameAxisOffset,
-    exportButtons,
-    fontFamily,
-    fontSizes,
-    hoverHintColor,
-    notMemberColor,
-    numericScale,
-    queryLegend,
-    selectionColor,
-    hasSelectionColor,
-    setName,
-    setNameAxisOffset,
-    styles: cStyles,
-    textColor,
-    emptySelection,
-    title,
-    description,
-  } = fillDefaults<T>(props);
+  const p = fillDefaults<T>(props);
+  const { selection = null, onClick, queries = [], fontSizes } = p;
 
   // generate a "random" but attribute stable id to avoid styling conflicts
-  const {
-    axisTick: fontAxisTick,
-    barLabel: fontBarLabel,
-    chartLabel: fontChartLabel,
-    legend: fontLegend,
-    setLabel: fontSetLabel,
-    description: fontDescription,
-    title: fontTitle,
-    exportLabel: fontExportLabel,
-  } = fontSizes;
   const styleId = useMemo(
     () =>
-      id
-        ? id
+      p.id
+        ? p.id
         : generateId([
-            fontFamily,
-            fontAxisTick,
-            fontBarLabel,
-            fontChartLabel,
-            fontLegend,
-            fontSetLabel,
-            fontTitle,
-            fontExportLabel,
-            fontDescription,
-            textColor,
-            hoverHintColor,
-            color,
-            hasSelectionColor,
-            selectionColor,
-            notMemberColor,
-            alternatingBackgroundColor,
+            p.fontFamily,
+            fontSizes.axisTick,
+            fontSizes.barLabel,
+            fontSizes.chartLabel,
+            fontSizes.legend,
+            fontSizes.setLabel,
+            fontSizes.title,
+            fontSizes.exportLabel,
+            fontSizes.description,
+            p.textColor,
+            p.hoverHintColor,
+            p.color,
+            p.hasSelectionColor,
+            p.selectionColor,
+            p.notMemberColor,
+            p.alternatingBackgroundColor,
+            p.opacity,
+            p.hasSelectionOpacity,
           ]),
     [
-      id,
-      fontFamily,
-      fontAxisTick,
-      fontBarLabel,
-      fontChartLabel,
-      fontLegend,
-      fontSetLabel,
-      fontTitle,
-      fontExportLabel,
-      fontDescription,
-      textColor,
-      hoverHintColor,
-      color,
-      hasSelectionColor,
-      selectionColor,
-      notMemberColor,
-      alternatingBackgroundColor,
+      p.id,
+      p.fontFamily,
+      fontSizes.axisTick,
+      fontSizes.barLabel,
+      fontSizes.chartLabel,
+      fontSizes.legend,
+      fontSizes.setLabel,
+      fontSizes.title,
+      fontSizes.exportLabel,
+      fontSizes.description,
+      p.textColor,
+      p.hoverHintColor,
+      p.color,
+      p.hasSelectionColor,
+      p.selectionColor,
+      p.notMemberColor,
+      p.alternatingBackgroundColor,
+      p.opacity,
+      p.hasSelectionOpacity,
     ]
   );
   const styleInfo = useMemo(
     () =>
       deriveStyleDependent(
-        theme,
-        cStyles,
-        classNames,
-        combinationName,
-        combinationNameAxisOffset,
-        setName,
-        setNameAxisOffset,
+        p.theme,
+        p.styles,
+        p.classNames,
+        p.combinationName,
+        p.combinationNameAxisOffset,
+        p.setName,
+        p.setNameAxisOffset,
         styleId,
-        barLabelOffset,
-        selectionColor,
-        emptySelection,
-        title,
-        description
+        p.barLabelOffset,
+        p.selectionColor,
+        p.emptySelection,
+        p.title,
+        p.description
       ),
     [
-      theme,
-      cStyles,
-      classNames,
-      barLabelOffset,
-      combinationName,
-      combinationNameAxisOffset,
-      setName,
-      setNameAxisOffset,
+      p.theme,
+      p.styles,
+      p.classNames,
+      p.barLabelOffset,
+      p.combinationName,
+      p.combinationNameAxisOffset,
+      p.setName,
+      p.setNameAxisOffset,
       styleId,
-      selectionColor,
-      emptySelection,
-      title,
-      description,
+      p.selectionColor,
+      p.emptySelection,
+      p.title,
+      p.description,
     ]
   );
 
   const sizeInfo = useMemo(
     () =>
       deriveSizeDependent(
-        width,
-        height,
-        margin,
-        barPadding,
-        widthRatios,
-        heightRatios,
-        setAddons,
-        combinationAddons,
-        id
+        p.width,
+        p.height,
+        p.padding,
+        p.barPadding,
+        p.widthRatios,
+        p.heightRatios,
+        p.setAddons,
+        p.combinationAddons,
+        p.id
       ),
-    [width, height, margin, barPadding, widthRatios, heightRatios, setAddons, combinationAddons, id]
+    [p.width, p.height, p.padding, p.barPadding, p.widthRatios, p.heightRatios, p.setAddons, p.combinationAddons, p.id]
   );
 
   const dataInfo = useMemo(
     () =>
       deriveDataDependent(
-        sets,
-        combinations,
+        p.sets,
+        p.combinations,
         sizeInfo,
-        numericScale,
-        bandScale,
-        barLabelOffset + Number.parseInt(fontBarLabel ?? '10'),
-        dotPadding,
-        barPadding,
-        Number.parseInt(fontAxisTick ?? '10'),
-        toKey,
-        toElemKey,
-        id
+        p.numericScale,
+        p.bandScale,
+        p.barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10'),
+        p.dotPadding,
+        p.barPadding,
+        Number.parseInt(fontSizes.axisTick ?? '10'),
+        p.toKey,
+        p.toElemKey,
+        p.id
       ),
     [
-      sets,
-      combinations,
+      p.sets,
+      p.combinations,
       sizeInfo,
-      numericScale,
-      bandScale,
-      barLabelOffset,
-      fontBarLabel,
-      dotPadding,
-      barPadding,
-      fontAxisTick,
-      toKey,
-      toElemKey,
-      id,
+      p.numericScale,
+      p.bandScale,
+      p.barLabelOffset,
+      fontSizes.barLabel,
+      p.dotPadding,
+      p.barPadding,
+      fontSizes.axisTick,
+      p.toKey,
+      p.toElemKey,
+      p.id,
     ]
   );
 
-  const rulesHelper = baseRules(
-    styleId,
-    textColor,
-    color,
-    selectionColor,
-    hasSelectionColor,
-    fontFamily,
-    fontTitle,
-    fontDescription,
-    fontLegend,
-    fontExportLabel
-  );
+  const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
   const rules = `
   ${rulesHelper.root}
   ${rulesHelper.text}
 
   .axisTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontAxisTick ? `font-size: ${fontAxisTick};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.axisTick)}
     text-anchor: middle;
   }
   .barTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.barLabel)}
   }
   .cBarTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.barLabel)}
     text-anchor: middle;
   }
   .sBarTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.barLabel)}
     text-anchor: end;
     dominant-baseline: central;
   }
   .hoverBarTextStyle-${styleId} {
-    ${fontBarLabel ? `font-size: ${fontBarLabel};` : ''}
-    fill: ${hoverHintColor};
+    ${rulesHelper.p(fontSizes.barLabel)}
+    fill: ${p.hoverHintColor};
     display: none;
     text-anchor: middle;
   }
   .setTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontSetLabel ? `font-size: ${fontSetLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.setLabel)}
     text-anchor: middle;
     dominant-baseline: central;
   }
   .cChartTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontChartLabel ? `font-size: ${fontChartLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.chartLabel)}
     text-anchor: middle;
   }
   .sChartTextStyle-${styleId} {
-    fill: ${textColor};
-    ${fontChartLabel ? `font-size: ${fontChartLabel};` : ''}
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.chartLabel)}
     text-anchor: middle;
     dominant-baseline: hanging;
   }
 
   ${rulesHelper.fill}
-  .fillNotMember-${styleId} { fill: ${notMemberColor}; }
-  .fillAlternating-${styleId} { fill: ${alternatingBackgroundColor || 'transparent'}; }
+  .fillNotMember-${styleId} { fill: ${p.notMemberColor}; }
+  .fillAlternating-${styleId} { fill: ${p.alternatingBackgroundColor || 'transparent'}; }
 
   .axisLine-${styleId} {
     fill: none;
-    stroke: ${textColor};
+    stroke: ${p.textColor};
   }
   .hoverBar-${styleId} {
     fill: transparent;
   }
 
   .interactive-${styleId}:hover > .hoverBar-${styleId} {
-    stroke: ${hoverHintColor};
+    stroke: ${p.hoverHintColor};
   }
   .interactive-${styleId}:hover > .hoverBarTextStyle-${styleId} {
     display: unset;
@@ -298,18 +234,20 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   ${rulesHelper.export}
 
   .upsetLine-${dataInfo.id} {
+    stroke-linecap: round;
     stroke-width: ${dataInfo.r * 0.6};
-    stroke: ${color};
+    stroke: ${p.color};
+    stroke-opacity: ${p.opacity};
   }
   ${
-    hasSelectionColor
-      ? `.root-${styleId}[data-selection] .upsetLine-${dataInfo.id} { stroke: ${hasSelectionColor}; }`
+    rulesHelper.hasSStroke
+      ? `.root-${styleId}[data-selection] .upsetLine-${dataInfo.id} { ${rulesHelper.hasSStroke} }`
       : ''
   }
 
   .upsetSelectionLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6 * 1.1};
-    stroke: ${selectionColor};
+    stroke: ${p.selectionColor};
     pointer-events: none;
   }
 
@@ -347,18 +285,22 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
     [dataInfo, props]
   );
 
-  const selectionName = generateSelectionName(selection);
+  const selectionName = generateSelectionName(p.selection);
+
+  const reset = useCallback((evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent) : null), [
+    onClick,
+  ]);
 
   return (
     <svg
-      id={id}
-      className={clsx(`root-${styleId}`, className)}
-      style={style}
-      width={width}
-      height={height}
+      id={p.id}
+      className={clsx(`root-${styleId}`, p.className)}
+      style={p.style}
+      width={p.width}
+      height={p.height}
       ref={ref}
-      viewBox={`0 0 ${width} ${height}`}
-      data-theme={theme ?? 'light'}
+      viewBox={`0 0 ${p.width} ${p.height}`}
+      data-theme={p.theme ?? 'light'}
       data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
@@ -367,19 +309,19 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect x={sizeInfo.sets.w} y={0} width={sizeInfo.labels.w} height={sizeInfo.sets.h} />
         </clipPath>
       </defs>
-      {queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
+      {p.queryLegend && <QueryLegend queries={queries} x={sizeInfo.legend.x} style={styleInfo} data={dataInfo} />}
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
-        exportButtons={exportButtons}
+        exportButtons={p.exportButtons}
         exportChart={exportChart}
       />
-      <g transform={`translate(${margin},${margin})`} data-upset="base">
-        {onClick && (
+      <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
+        {p.onClick && (
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={(evt) => onClick(null, evt.nativeEvent)}
+            onClick={reset}
             className={`fillTransparent-${styleId}`}
           />
         )}
@@ -388,20 +330,20 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onClick={onClick}
-          onHover={onHover}
-          onContextMenu={onContextMenu}
-          setChildrenFactory={setChildrenFactory}
-          combinationChildrenFactory={combinationChildrenFactory}
+          onClick={p.onClick}
+          onHover={p.onHover}
+          onContextMenu={p.onContextMenu}
+          setChildrenFactory={p.setChildrenFactory}
+          combinationChildrenFactory={p.combinationChildrenFactory}
         />
-        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={onHover} selection={selection} />
+        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={p.onHover} selection={selection} />
         <UpSetQueries
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onHover={onHover}
+          onHover={p.onHover}
           queries={queries}
-          secondary={onHover != null || selection != null}
+          secondary={p.onHover != null || selection != null}
         />
       </g>
       {props.children}

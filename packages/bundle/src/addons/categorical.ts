@@ -20,7 +20,7 @@ export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
  */
 export function categoricalAddon<T>(
   prop: keyof T | ((v: T) => string),
-  elems: ReadonlyArray<T> | { categories: ReadonlyArray<string | ICategory> },
+  elems: readonly T[] | { categories: readonly (string | ICategory)[] },
   options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
     ICategoricalStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {

@@ -6,15 +6,10 @@
  */
 
 import { circleIntersectionPoints, DEG2RAD, pointAtCircle } from './math';
-import { IArc, ITextArcSlice, ITextCircle, ITextUniverseSet } from './interfaces';
+import { IArc, ITextArcSlice, ITextCircle, IVennDiagramLayout, IVennDiagramLayoutGenerator } from './interfaces';
+import { ISets, ISetCombinations } from '@upsetjs/model';
 
 // could be slice of three
-
-export interface IVennDiagramLayout {
-  sets: ITextCircle[];
-  universe: ITextUniverseSet;
-  intersections: ITextArcSlice[];
-}
 
 interface IChartArea {
   cx: number;
@@ -274,7 +269,7 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   };
 }
 
-export default function vennDiagramLayout(sets: number, size: IChartArea, radiOverlap = 0.25): IVennDiagramLayout {
+function vennDiagramLayout(sets: number, size: IChartArea, radiOverlap = 0.25): IVennDiagramLayout {
   switch (sets) {
     case 0:
       return {
@@ -300,4 +295,20 @@ export default function vennDiagramLayout(sets: number, size: IChartArea, radiOv
     default:
       return three(size, radiOverlap);
   }
+}
+
+export function createVennDiagramLayoutFunction(radiOverlap = 0.25): IVennDiagramLayoutGenerator {
+  return {
+    maxSets: 3,
+    compute<T>(sets: ISets<T>, _combinations: ISetCombinations<T>, width: number, height: number) {
+      const size: IChartArea = {
+        w: width,
+        h: height,
+        cx: width / 2,
+        cy: height / 2,
+        r: Math.min(width, height) / 2,
+      };
+      return vennDiagramLayout(sets.length, size, radiOverlap);
+    },
+  };
 }

@@ -15,8 +15,7 @@ import {
   GenerateSetCombinationsOptions,
 } from '@upsetjs/model';
 import { generateId } from '../../utils';
-import { ITextCircle, ITextArcSlice } from '../layout/interfaces';
-import vennDiagramLayout from '../layout/vennDiagramLayout';
+import { ITextCircle, ITextArcSlice, IVennDiagramLayoutGenerator } from '../layout/interfaces';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
 import { areCombinations } from '../../derive/deriveDataDependent';
 
@@ -24,12 +23,12 @@ export declare type VennDiagramDataInfo<T> = {
   id: string;
   format(v: number): string;
   sets: {
-    d: ReadonlyArray<{ v: ISet<T>; l: ITextCircle; key: string }>;
+    d: readonly { v: ISet<T>; l: ITextCircle; key: string }[];
     v: ISets<T>;
     format(v: number): string;
   };
   cs: {
-    d: ReadonlyArray<{ v: ISetCombination<T>; l: ITextArcSlice; key: string }>;
+    d: readonly { v: ISetCombination<T>; l: ITextArcSlice; key: string }[];
     v: ISetCombinations<T>;
     has(v: ISetCombination<T>, s: ISet<T>): boolean;
   };
@@ -41,12 +40,13 @@ export default function deriveVennDataDependent<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions,
   size: VennDiagramSizeInfo,
+  layout: IVennDiagramLayoutGenerator,
   valueFormat: (v: number) => string,
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
   id?: string
 ): VennDiagramDataInfo<T> {
-  const ss = sets.length > 3 ? sets.slice(0, 3) : sets;
+  const ss = sets.length > layout.maxSets ? sets.slice(0, layout.maxSets) : sets;
   const setKeys = ss.map(toKey);
 
   let cs: ISetCombinations<T> = [];
@@ -97,18 +97,18 @@ export default function deriveVennDataDependent<T>(
 
   const csKeys = cs.map(toKey);
 
-  const layout = vennDiagramLayout(ss.length, size.area);
+  const l = layout.compute(ss, cs, size.area.w, size.area.h);
 
   return {
     id: id ? id : generateId(),
     sets: {
-      d: layout.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
+      d: l.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
       v: ss,
       format: valueFormat,
     },
     format: valueFormat,
     cs: {
-      d: layout.intersections.map((l, i) => ({ v: cs[i], l, key: csKeys[i] })),
+      d: l.intersections.map((l, i) => ({ v: cs[i], l, key: csKeys[i] })),
       v: cs,
       has: (v, s) => {
         const sk = toKey(s);

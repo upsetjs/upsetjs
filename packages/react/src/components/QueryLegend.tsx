@@ -15,7 +15,7 @@ const QueryLegend = React.memo(function QueryLegend<T>({
   style,
   data,
 }: PropsWithChildren<{
-  queries: ReadonlyArray<UpSetQuery<T>>;
+  queries: readonly UpSetQuery<T>[];
   x: number;
   style: { id: string; styles: { legend?: React.CSSProperties }; classNames: { legend?: string } };
   data: { id: string; sets: { format(v: number): string } };

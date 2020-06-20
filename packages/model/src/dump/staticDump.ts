@@ -24,7 +24,7 @@ import { withColor } from './utils';
 declare type UpSetFromStaticDumpFullCombination = {
   name: string;
   type: SetCombinationType;
-  sets: ReadonlyArray<number>;
+  sets: readonly number[];
   cardinality: number;
 };
 
@@ -43,15 +43,15 @@ declare type UpSetFromStaticDumpCompressedCombination = {
 export interface IUpSetStaticDump {
   sets: ReadonlyArray<{ name: string; color?: string; cardinality: number } | { n: string; cc?: string; c: number }>;
   combinations: ReadonlyArray<UpSetFromStaticDumpFullCombination | UpSetFromStaticDumpCompressedCombination>;
-  selection?: IUpSetDumpRef | ReadonlyArray<number>;
-  queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: ReadonlyArray<number> }>;
-  overlaps: ReadonlyArray<ReadonlyArray<number>> | string;
+  selection?: IUpSetDumpRef | readonly number[];
+  queries: ReadonlyArray<{ name: string; color: string; set?: IUpSetDumpRef; overlaps?: readonly number[] }>;
+  overlaps: readonly (readonly number[])[] | string;
 }
 
 export interface IUpSetStaticDumpData<T> {
   sets: ISets<T>;
   combinations: ISetCombinations<T>;
-  selection?: ISetLike<T> | ReadonlyArray<T>;
+  selection?: ISetLike<T> | readonly T[];
   queries: ReadonlyArray<UpSetElemQuery<T> | UpSetSetQuery<T>>;
 }
 
@@ -75,7 +75,7 @@ export function toStaticDump<T>(
   const toKey = config.toKey ?? toDefaultKey;
   const bySetKey = new Map(data.sets.map((s, i) => [toKey(s), i]));
   const byCombinationKey = new Map(data.combinations.map((s, i) => [toKey(s), i]));
-  const toSelectionSetRef = (s: ISetLike<T> | ReadonlyArray<T>) => {
+  const toSelectionSetRef = (s: ISetLike<T> | readonly T[]) => {
     if (isSetLike(s)) {
       if (s.type === 'set') {
         return {
@@ -264,7 +264,7 @@ export function fromStaticDump(
     return combinations[ref.index];
   }
 
-  function generateOverlap(lookup: ReadonlyArray<number>) {
+  function generateOverlap(lookup: readonly number[]) {
     return (v: ISetLike<never>) => {
       const key = toKey(v);
       const index = setIndex.has(key) ? setIndex.get(key)! : combinationIndex.get(key)!;

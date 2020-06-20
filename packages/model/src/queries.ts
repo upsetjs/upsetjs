@@ -26,7 +26,7 @@ export type UpSetElemQuery<T = any> = {
   /**
    * elements within this query
    */
-  elems: ReadonlyArray<T> | Set<T>;
+  elems: readonly T[] | Set<T>;
 };
 
 export type UpSetSetQuery<T = any> = {
@@ -58,11 +58,11 @@ export type UpSetCalcQuery<T = any> = {
    * @param s the current set to evaluate
    * @return at most `s.cardinality`
    */
-  overlap(s: ISetLike<T> | ReadonlyArray<T>): number;
+  overlap(s: ISetLike<T> | readonly T[]): number;
 };
 
 export type UpSetQuery<T = any> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
-export type UpSetQueries<T = any> = ReadonlyArray<UpSetQuery<T>>;
+export type UpSetQueries<T = any> = readonly UpSetQuery<T>[];
 
 export function isElemQuery<T>(q: UpSetQuery<T>): q is UpSetElemQuery<T> {
   return Array.isArray((q as UpSetElemQuery<T>).elems);
@@ -111,7 +111,7 @@ export function queryElemOverlap<T>(
   q: UpSetQuery<T>,
   what: keyof SetElemOverlap<T>,
   toElemKey?: (e: T) => string
-): (s: ISetLike<T>) => ReadonlyArray<T> | null {
+): (s: ISetLike<T>) => readonly T[] | null {
   if (isCalcQuery(q)) {
     return () => null;
   }

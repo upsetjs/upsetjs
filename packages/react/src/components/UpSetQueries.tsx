@@ -29,7 +29,7 @@ export default React.memo(function UpSetQueries<T>({
   data: UpSetDataInfo<T>;
   onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   secondary: boolean;
-  queries: ReadonlyArray<UpSetQuery<T>>;
+  queries: readonly UpSetQuery<T>[];
 }>) {
   const someAddon =
     size.sets.addons.some((s) => s.renderQuery != null) || size.cs.addons.some((s) => s.renderQuery != null);
@@ -45,7 +45,7 @@ export default React.memo(function UpSetQueries<T>({
 
   function wrapAddon<
     S extends ISetLike<T>
-  >(addon: UpSetAddon<S, T, React.ReactNode>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => ReadonlyArray<T> | null, secondary: boolean) {
+  >(addon: UpSetAddon<S, T, React.ReactNode>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => readonly T[] | null, secondary: boolean) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {

@@ -21,6 +21,9 @@ export function generateUniverseSetPath(l: IUniverseSet) {
 }
 
 export function generateArcSlicePath(s: IArcSlice, p = 0) {
+  if (s.path) {
+    return s.path;
+  }
   return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
     .map(
       (arc) =>
