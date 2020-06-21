@@ -358,13 +358,16 @@ function create<P>(name: string, props: RecordPropsDefinition<P>, render: (node:
       createListenerProps() {
         const listeners: UpSetSelectionProps<any> = {};
         if (this.$listeners.hover) {
-          listeners.onHover = (s) => this.$emit('hover', s);
+          listeners.onHover = (s, evt, infos) => this.$emit('hover', s, evt, infos);
         }
         if (this.$listeners.click) {
-          listeners.onClick = (s) => this.$emit('click', s);
+          listeners.onClick = (s, evt, infos) => this.$emit('click', s, evt, infos);
         }
         if (this.$listeners.contextMenu) {
-          listeners.onContextMenu = (s) => this.$emit('contextMenu', s);
+          listeners.onContextMenu = (s, evt, infos) => this.$emit('contextMenu', s, evt, infos);
+        }
+        if (this.$listeners.mouseMove) {
+          listeners.onMouseMove = (s, evt, infos) => this.$emit('mouseMove', s, evt, infos);
         }
         return listeners;
       },
