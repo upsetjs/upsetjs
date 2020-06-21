@@ -6,7 +6,7 @@
  */
 
 import { ISetLike } from '@upsetjs/model';
-import { UpSetAddonHandlerInfos, UpSetAddon, UpSetAddons } from '../interfaces';
+import { UpSetAddonHandlerInfos, UpSetAddons } from '../interfaces';
 
 function noop() {
   return undefined;
