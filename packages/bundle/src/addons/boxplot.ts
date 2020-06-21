@@ -10,6 +10,8 @@ import { UpSetAddon } from '@upsetjs/react';
 import { boxplotAddon as boxplotAddonImpl, IBoxplotStylePlainProps } from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
 
+export { boxplot, BoxplotStatsOptions, IBoxPlot, QuantilesMethod } from '@upsetjs/math';
+
 export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
   /**
    * custom styles applied to the box element

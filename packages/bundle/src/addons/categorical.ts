@@ -11,6 +11,7 @@ import { ISetLike } from '@upsetjs/model';
 import { UpSetReactElement } from '../react';
 
 export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
+export { categoricalHistogram, ICategoryBin } from '@upsetjs/math';
 
 /**
  * generates a categorical addon to render categorical distribution as UpSet.js addon for aggregated set data

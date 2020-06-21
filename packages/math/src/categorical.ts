@@ -6,7 +6,11 @@ export declare interface ICategory {
 
 export interface ICategoryBin extends Required<ICategory> {
   count: number;
+  /**
+   * accumulated count
+   */
   acc: number;
+  percentage: number;
 }
 
 function colorGen(dark?: boolean) {
@@ -39,8 +43,8 @@ function bin(hist: ICategoryBin[], values: readonly string[]) {
 export function categoricalHistogram(
   values: readonly string[],
   categories: readonly (string | ICategory)[],
-  base: readonly string[] | undefined,
-  dark: boolean
+  base?: readonly string[],
+  dark: boolean = false
 ): readonly ICategoryBin[] {
   const nextColor = colorGen(dark);
   const generateCat = (value: string) => {
@@ -52,19 +56,21 @@ export function categoricalHistogram(
   };
   const hist: ICategoryBin[] = categories.map((cat) => {
     return Object.assign(
-      { count: 0, acc: 0 },
+      { count: 0, acc: 0, percentage: 0 },
       generateCat(typeof cat === 'string' ? cat : cat.value),
       typeof cat === 'string' ? {} : cat
     );
   });
   const map = bin(hist, values);
   const baseMap = base ? bin(hist, base) : null;
+  const total = Array.from(map.values()).reduce((acc, v) => acc + v, 0);
 
   let acc = 0;
   hist.forEach((bin) => {
     bin.acc = acc;
     bin.count = map.get(bin.value)!;
-    acc += baseMap ? baseMap.get(bin.value)! : map.get(bin.value)!;
+    bin.percentage = bin.count / total;
+    acc += baseMap ? baseMap.get(bin.value)! : bin.count;
   });
   return hist;
 }
