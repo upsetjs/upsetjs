@@ -160,18 +160,13 @@ export function categoricalAddon<T>(
     size,
     createOnHandlerData: (set) => {
       const b = categoricalHistogram(set.elems.map(acc), categories, undefined, extras.theme === 'dark');
+      b.toString = function (this: ICategoryBins) {
+        return toString(this);
+      };
       return {
         id: 'categorical',
         name,
-        value: Object.assign(
-          {
-            ...b,
-            toString(): string {
-              return toString(this as ICategoryBins);
-            },
-          },
-          b
-        ),
+        value: b,
       };
     },
     render: ({ width, height, set, theme }) => {

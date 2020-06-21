@@ -331,18 +331,13 @@ export function boxplotAggregatedAddon<T>(
     size,
     createOnHandlerData: (set) => {
       const b = acc(set.elems);
+      b.toString = function (this: IBoxPlot) {
+        return toString(this, extras.numberFormat ?? defaultFormatter);
+      };
       return {
         id: 'boxplot',
         name,
-        value: Object.assign(
-          {
-            ...b,
-            toString(): string {
-              return toString(this as IBoxPlot, extras.numberFormat ?? defaultFormatter);
-            },
-          },
-          b
-        ),
+        value: b,
       };
     },
     render: ({ width, height, set, theme }) => {
