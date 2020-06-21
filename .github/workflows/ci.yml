@@ -14,6 +14,7 @@ jobs:
       - run: yarn set version berry
       - run: yarn plugin import workspace-tools
       - run: yarn config set checksumBehavior ignore
+      - run: yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
       - run: cat .yarnrc_patch.yml >> .yarnrc.yml
       - name: Cache Node.js modules
         uses: actions/cache@v1
@@ -81,5 +82,3 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
         run: |
           yarn workspaces foreach --verbose npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
