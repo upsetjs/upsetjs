@@ -7,19 +7,33 @@
 
 import React, { forwardRef, Ref, memo } from 'react';
 
-export interface UpSetJSSkeletonProps {
-  width?: string | number;
-  height?: string | number;
+export interface UpSetJSSkeletonProps extends React.SVGAttributes<SVGSVGElement> {
   background?: string;
   color?: string;
   secondaryColor?: string;
 }
 
-export const defaults = {
+const defaults = {
   background: '#F4F4F4',
   color: '#A6A8AB',
   secondaryColor: '#E1E2E3',
 };
+
+export function prepare(props: UpSetJSSkeletonProps) {
+  const color = props.color ?? defaults.color;
+  const secondary = props.secondaryColor ?? defaults.secondaryColor;
+  const rest = Object.assign({}, props);
+  const background = props.background ?? defaults.background;
+  delete rest.color;
+  delete rest.secondaryColor;
+  delete rest.background;
+
+  if (background) {
+    rest.style = Object.assign({ background }, rest.style ?? {});
+  }
+  return { color, secondary, rest };
+}
+
 /**
  * UpSetJS Skeleton a simple UpSetJS skeleton
  *
@@ -27,14 +41,8 @@ export const defaults = {
  */
 const UpSetJSSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>> = memo(
   forwardRef(function UpSetJSSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
-    const c = props.color ?? defaults.color;
-    const s = props.secondaryColor ?? defaults.secondaryColor;
-    const renderRect = (key: number, x: number, y: number, w: number, h: number, bg = c) => {
-      return <rect key={key} x={x} y={y} width={w} height={h} fill={bg} />;
-    };
-    const renderCircle = (key: number | string, x: number, y: number, d: number, filled: boolean) => {
-      return <circle key={key} cx={x + d / 2} cy={y + d / 2} r={d / 2} fill={filled ? c : s} />;
-    };
+    const { color, secondary, rest } = prepare(props);
+
     const wi = 20;
     const padding = 10;
 
@@ -47,23 +55,33 @@ const UpSetJSSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSV
     const cOffsets = [10, 20, 35, 60, 65, 80, 90];
     const sOffsets = [50, 30, 15];
 
-    const lw = 6;
-
     return (
-      <svg viewBox="0 0 300 200" ref={ref} width={props.width} height={props.height}>
-        {renderRect(-1, 0, 0, 300, 200, props.background ?? defaults.background)}
-        {cOffsets.map((offset, i) => renderRect(i, csX + i * (wi + padding), offset, wi, cHeight - offset))}
-        {sOffsets.map((offset, j) => renderRect(j, offset, sY + j * (wi + padding), sWidth - offset, wi))}
+      <svg viewBox="0 0 300 200" ref={ref} {...rest}>
+        {cOffsets.map((offset, i) => (
+          <rect key={i} x={csX + i * (wi + padding)} y={offset} width={wi} height={cHeight - offset} fill={color} />
+        ))}
+        {sOffsets.map((offset, i) => (
+          <rect key={i} x={offset} y={sY + i * (wi + padding)} width={sWidth - offset} height={wi} fill={color} />
+        ))}
+
         {cOffsets.map((_, i) =>
           sOffsets.map((_, j) => {
             const filled = j === 2 - i || (i === 3 && j > 0) || (i === 4 && j !== 1) || (i === 5 && j < 2) || i === 6;
-            return renderCircle(`${i}-${j}`, csX + i * (wi + padding), sY + j * (wi + padding), wi, filled);
+            return (
+              <circle
+                key={`${i}x${j}`}
+                cx={csX + i * (wi + padding) + wi / 2}
+                cy={sY + j * (wi + padding) + wi / 2}
+                r={wi / 2}
+                fill={filled ? color : secondary}
+              />
+            );
           })
         )}
-        {renderRect(1, csX + (wi - lw) / 2 + 3 * (wi + padding), sY + 10 + 1 * (wi + padding), lw, 30)}
-        {renderRect(2, csX + (wi - lw) / 2 + 4 * (wi + padding), sY + 10, lw, 60)}
-        {renderRect(3, csX + (wi - lw) / 2 + 5 * (wi + padding), sY + 10, lw, 30)}
-        {renderRect(4, csX + (wi - lw) / 2 + 6 * (wi + padding), sY + 10, lw, 60)}
+        <rect x="182" y="150" width="6" height="30" fill={color} />
+        <rect x="212" y="120" width="6" height="60" fill={color} />
+        <rect x="242" y="120" width="6" height="30" fill={color} />
+        <rect x="272" y="120" width="6" height="60" fill={color} />
       </svg>
     );
   })

@@ -26,7 +26,7 @@ import UpSetElement, {
   UpSetMultiStyle,
   VennDiagram as VennDiagramElement,
   VennDiagramMultiStyle,
-  UpSetJSSkeletonProps,
+  UpSetJSSkeletonProps as UpSetJSSkeletonPropsImpl,
   VennDiagramSkeleton,
   UpSetJSSkeleton,
 } from '@upsetjs/react';
@@ -52,8 +52,15 @@ export {
   UpSetExportOptions,
   createVennDiagramLayoutFunction,
   createVennJSAdapter,
-  UpSetJSSkeletonProps,
 } from '@upsetjs/react';
+
+export declare type UpSetJSSkeletonProps = {
+  background?: string;
+  color?: string;
+  secondaryColor?: string;
+  // any other property will be forwarded to the SVG element
+  [key: string]: any;
+};
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
 export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
@@ -107,7 +114,8 @@ export function renderVennDiagram<T = any>(node: HTMLElement, props: VennDiagram
  * @param props the properties of the component
  */
 export function renderSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
-  renderPreact(h(UpSetJSSkeleton as any, props), node);
+  const p: UpSetJSSkeletonPropsImpl = props;
+  renderPreact(h(UpSetJSSkeleton as any, p), node);
 }
 
 /**
@@ -116,7 +124,8 @@ export function renderSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
  * @param props the properties of the component
  */
 export function renderVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
-  renderPreact(h(VennDiagramSkeleton as any, props), node);
+  const p: UpSetJSSkeletonPropsImpl = props;
+  renderPreact(h(VennDiagramSkeleton as any, p), node);
 }
 
 /**
@@ -152,7 +161,8 @@ export function hydrateVennDiagram<T = any>(node: HTMLElement, props: VennDiagra
  * @param props the properties of the component
  */
 export function hydrateSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
-  hydratePreact(h(UpSetJSSkeleton as any, props), node);
+  const p: UpSetJSSkeletonPropsImpl = props;
+  hydratePreact(h(UpSetJSSkeleton as any, p), node);
 }
 
 /**
@@ -161,7 +171,8 @@ export function hydrateSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) 
  * @param props the properties of the component
  */
 export function hydrateVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
-  hydratePreact(h(VennDiagramSkeleton as any, props), node);
+  const p: UpSetJSSkeletonPropsImpl = props;
+  hydratePreact(h(VennDiagramSkeleton as any, p), node);
 }
 
 /**

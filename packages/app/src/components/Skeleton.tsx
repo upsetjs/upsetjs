@@ -1,5 +1,7 @@
 import React from 'react';
 
+// duplicate skeleton for better bundling
+
 export default function Skeleton() {
   const BG = '#A6A8AB';
   const EMPTY = '#E1E2E3';

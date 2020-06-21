@@ -6,7 +6,7 @@
  */
 
 import React, { forwardRef, Ref, memo } from 'react';
-import { UpSetJSSkeletonProps, defaults } from '../UpSetJSSkeleton';
+import { UpSetJSSkeletonProps, prepare } from '../UpSetJSSkeleton';
 import { vennDiagramLayout } from './layout/vennDiagramLayout';
 
 /**
@@ -16,8 +16,7 @@ import { vennDiagramLayout } from './layout/vennDiagramLayout';
  */
 const VennDiagramSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>> = memo(
   forwardRef(function VennDiagramSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
-    const c = props.color ?? defaults.color;
-    const s = props.secondaryColor ?? defaults.secondaryColor;
+    const { color, secondary, rest } = prepare(props);
 
     const padding = 10;
     const l = vennDiagramLayout(
@@ -32,13 +31,12 @@ const VennDiagramSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<S
       0.25
     );
     return (
-      <svg viewBox="0 0 300 200" ref={ref} width={props.width} height={props.height}>
-        <rect width={300} height={300} fill={props.background ?? defaults.background} />
+      <svg viewBox="0 0 300 200" ref={ref} {...rest}>
         {l.sets.map((set, i) => (
-          <circle key={i} cx={set.cx} cy={set.cy + padding} r={set.r} fill={s} />
+          <circle key={i} cx={set.cx} cy={set.cy + padding} r={set.r} fill={secondary} />
         ))}
         {l.sets.map((set, i) => (
-          <circle key={i} cx={set.cx} cy={set.cy + padding} r={set.r} stroke={c} fill="none" />
+          <circle key={i} cx={set.cx} cy={set.cy + padding} r={set.r} stroke={color} fill="none" />
         ))}
       </svg>
     );
