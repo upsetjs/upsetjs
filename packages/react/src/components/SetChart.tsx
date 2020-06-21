@@ -21,6 +21,7 @@ const SetChart = React.memo(function SetChart<T>({
   onMouseLeave,
   onClick,
   onContextMenu,
+  onMouseMove,
   className,
   size,
   data,
@@ -45,6 +46,7 @@ const SetChart = React.memo(function SetChart<T>({
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
       onContextMenu={onContextMenu(d)}
+      onMouseMove={onMouseMove(d)}
       className={className}
       data-cardinality={d.cardinality}
     >

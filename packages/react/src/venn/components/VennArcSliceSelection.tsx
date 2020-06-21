@@ -158,6 +158,7 @@ export default function VennArcSliceSelection<T>({
   onMouseEnter,
   onMouseLeave,
   onContextMenu,
+  onMouseMove,
   queries,
   size,
   qs,
@@ -209,6 +210,7 @@ export default function VennArcSliceSelection<T>({
         onMouseLeave={onMouseLeave}
         onClick={onClick(d)}
         onContextMenu={onContextMenu(d)}
+        onMouseMove={onMouseMove(d)}
         d={p}
         className={className}
         style={mergeColor(

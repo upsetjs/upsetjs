@@ -21,6 +21,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   onMouseEnter,
   onMouseLeave,
   onContextMenu,
+  onMouseMove,
   className,
   data,
   size,
@@ -44,6 +45,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       onMouseLeave={onMouseLeave}
       onClick={onClick(d)}
       onContextMenu={onContextMenu(d)}
+      onMouseMove={onMouseMove(d)}
       className={className}
       data-cardinality={d.cardinality}
     >

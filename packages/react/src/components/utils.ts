@@ -11,7 +11,7 @@ function noop() {
   return undefined;
 }
 
-export function wrap<T>(f?: (set: ISetLike<T> | null, evt: MouseEvent) => void) {
+export function wrap<T>(f?: (set: ISetLike<T>, evt: MouseEvent) => void) {
   if (!f) {
     return noop;
   }

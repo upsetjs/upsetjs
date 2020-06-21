@@ -21,6 +21,7 @@ declare type Props<T> = {
   onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
   onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onMouseMove?(selection: ISetLike<T>, evt: MouseEvent): void;
   setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
   combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
 };
@@ -32,17 +33,19 @@ const UpSetChart = React.memo(function UpSetChart<T>({
   onHover,
   onClick,
   onContextMenu,
+  onMouseMove,
   setChildrenFactory,
   combinationChildrenFactory,
 }: PropsWithChildren<Props<T>>) {
-  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
+  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl, onMouseMoveImpl] = React.useMemo(
     () => [
       wrap(onClick),
       wrap(onHover),
       wrap(onContextMenu),
       onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
+      wrap(onMouseMove),
     ],
-    [onClick, onHover, onContextMenu]
+    [onClick, onHover, onContextMenu, onMouseMove]
   );
 
   return (
@@ -57,6 +60,7 @@ const UpSetChart = React.memo(function UpSetChart<T>({
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             onContextMenu={onContextMenuImpl}
+            onMouseMove={onMouseMoveImpl}
             className={onClick || onHover ? `interactive-${style.id}` : undefined}
             data={data}
             style={style}
@@ -76,6 +80,7 @@ const UpSetChart = React.memo(function UpSetChart<T>({
             onMouseEnter={onMouseEnterImpl}
             onMouseLeave={onMouseLeaveImpl}
             onContextMenu={onContextMenuImpl}
+            onMouseMove={onMouseMoveImpl}
             className={onClick || onHover ? `interactive-${style.id}` : undefined}
             data={data}
             style={style}

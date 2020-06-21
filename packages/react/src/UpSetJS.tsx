@@ -333,6 +333,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           onClick={p.onClick}
           onHover={p.onHover}
           onContextMenu={p.onContextMenu}
+          onMouseMove={p.onMouseMove}
           setChildrenFactory={p.setChildrenFactory}
           combinationChildrenFactory={p.combinationChildrenFactory}
         />

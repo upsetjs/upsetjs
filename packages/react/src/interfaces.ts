@@ -307,8 +307,13 @@ export interface UpSetSelectionProps<T = any> {
   selection?: UpSetSelection<T>;
   /**
    * mouse hover listener, triggered when the user is over a set (combination)
+   * a combination of mouseEnter and mouseLeave
    */
   onHover?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  /**
+   * mouse move over set listener, triggered when the user is over a set (combination)
+   */
+  onMouseMove?: (selection: ISetLike<T>, evt: MouseEvent) => void;
   /**
    * mouse click listener, triggered when the user is clicking on a set (combination)
    */

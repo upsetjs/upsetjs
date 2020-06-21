@@ -151,14 +151,15 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     },
     [dataInfo, props]
   );
-  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl] = React.useMemo(
+  const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl, onMouseMoveImpl] = React.useMemo(
     () => [
       wrap(p.onClick),
       wrap(p.onHover),
       wrap(p.onContextMenu),
       p.onHover ? (evt: React.MouseEvent) => p.onHover!(null, evt.nativeEvent) : undefined,
+      wrap(p.onMouseMove),
     ],
-    [p.onClick, p.onHover, p.onContextMenu]
+    [p.onClick, p.onHover, p.onContextMenu, p.onMouseMove]
   );
 
   const selectionKey = selection != null && isSetLike(selection) ? dataInfo.toKey(selection) : null;
@@ -207,6 +208,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               onMouseEnter={onMouseEnterImpl(dataInfo.sets.v[i])}
               onMouseLeave={onMouseLeaveImpl}
               onContextMenu={onContextMenuImpl(dataInfo.sets.v[i])}
+              onMouseMove={onMouseMoveImpl(dataInfo.sets.v[i])}
               className={clsx(
                 `setTextStyle-${styleInfo.id}`,
                 d.l.angle > 200 && `endText-${styleInfo.id}`,
@@ -231,6 +233,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               onMouseEnter={onMouseEnterImpl}
               onMouseLeave={onMouseLeaveImpl}
               onContextMenu={onContextMenuImpl}
+              onMouseMove={onMouseMoveImpl}
               selectionName={selectionName}
               selected={selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}
               elemOverlap={selectionOverlap}
