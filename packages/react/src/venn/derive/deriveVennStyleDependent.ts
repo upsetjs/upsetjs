@@ -15,7 +15,8 @@ export default function deriveVennStyleDependent(
   styleId: string,
   selectionColor: string,
   title: string | ReactNode,
-  description: string | ReactNode
+  description: string | ReactNode,
+  tooltips: boolean
 ) {
   return {
     theme,
@@ -25,6 +26,7 @@ export default function deriveVennStyleDependent(
     selectionColor,
     title,
     description,
+    tooltips,
   };
 }
 

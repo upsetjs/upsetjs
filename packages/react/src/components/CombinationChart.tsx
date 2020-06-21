@@ -49,9 +49,11 @@ const CombinationChart = React.memo(function CombinationChart<T>({
       className={className}
       data-cardinality={d.cardinality}
     >
-      <title>
-        {d.name}: {data.cs.format(d.cardinality)}
-      </title>
+      {style.tooltips && (
+        <title>
+          {d.name}: {data.cs.format(d.cardinality)}
+        </title>
+      )}
       <rect
         y={-size.cs.before}
         width={data.cs.bandWidth}
@@ -89,7 +91,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
             r={data.r}
             cx={data.cs.cx}
             cy={data.sets.y(s)! + data.sets.cy}
-            name={has ? s.name : d.name}
+            name={style.tooltips ? (has ? s.name : d.name) : ''}
             style={style.styles.dot}
             fill={has ? d.color : undefined}
             className={clsx(has ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`, style.classNames.dot)}

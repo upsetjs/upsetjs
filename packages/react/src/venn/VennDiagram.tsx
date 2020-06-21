@@ -68,8 +68,18 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   );
 
   const styleInfo = useMemo(
-    () => deriveVennStyleDependent(p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description),
-    [p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description]
+    () =>
+      deriveVennStyleDependent(
+        p.theme,
+        p.styles,
+        p.classNames,
+        styleId,
+        p.selectionColor,
+        p.title,
+        p.description,
+        p.tooltips
+      ),
+    [p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description, p.tooltips]
   );
 
   const sizeInfo = useMemo(() => deriveVennSizeDependent(p.width, p.height, p.padding, p.id), [

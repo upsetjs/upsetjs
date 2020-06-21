@@ -95,7 +95,8 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         p.selectionColor,
         p.emptySelection,
         p.title,
-        p.description
+        p.description,
+        p.tooltips
       ),
     [
       p.theme,
@@ -111,6 +112,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
       p.emptySelection,
       p.title,
       p.description,
+      p.tooltips,
     ]
   );
 

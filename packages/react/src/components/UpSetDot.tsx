@@ -27,7 +27,7 @@ const UpSetDot = React.memo(function UpSetDot({
 }>) {
   return (
     <circle r={r} cx={cx} cy={cy} className={className} style={mergeColor(style, fill)}>
-      <title>{name}</title>
+      {name && <title>{name}</title>}
     </circle>
   );
 });

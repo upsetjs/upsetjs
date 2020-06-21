@@ -21,7 +21,8 @@ export default function deriveStyleDependent(
   selectionColor: string,
   emptySelection: boolean,
   title: string | ReactNode,
-  description: string | ReactNode
+  description: string | ReactNode,
+  tooltips: boolean
 ) {
   return {
     theme,
@@ -41,6 +42,7 @@ export default function deriveStyleDependent(
     selectionColor,
     title,
     description,
+    tooltips,
   };
 }
 

@@ -50,9 +50,11 @@ const SetChart = React.memo(function SetChart<T>({
       className={className}
       data-cardinality={d.cardinality}
     >
-      <title>
-        {d.name}: {data.sets.format(d.cardinality)}
-      </title>
+      {style.tooltips && (
+        <title>
+          {d.name}: {data.sets.format(d.cardinality)}
+        </title>
+      )}
       <rect
         x={-size.sets.before}
         width={size.sets.w + size.labels.w + size.cs.w + size.sets.after}

@@ -57,7 +57,7 @@ function SetSelectionChart<T>({
               className={className}
               style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
             >
-              {tooltip && <title></title>}
+              {style.tooltips && tooltip && <title></title>}
             </rect>
           );
         }
@@ -66,7 +66,7 @@ function SetSelectionChart<T>({
           return null;
         }
         const x = data.sets.x(o);
-        const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
+        const title = style.tooltips && tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
 
         const content = secondary ? (
           <path

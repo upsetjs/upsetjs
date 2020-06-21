@@ -218,7 +218,7 @@ export default function VennArcSliceSelection<T>({
           o > 0 && o < d.cardinality ? `url(#${id})` : !fillFullSelection || !style.selectionColor ? d.color : undefined
         )}
       >
-        <title>{tooltip}</title>
+        {style.tooltips && <title>{tooltip}</title>}
       </path>
       <text
         x={slice.text.x}

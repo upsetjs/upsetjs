@@ -51,7 +51,7 @@ function UpSetSelectionChart<T>({
             r={r * 1.1}
             cx={cx}
             cy={data.sets.y(s)! + cy}
-            name={s.name}
+            name={style.tooltips ? s.name : ''}
             className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
             style={mergeColor(style.styles.dot, !style.selectionColor ? d.color : undefined)}
           />

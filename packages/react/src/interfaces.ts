@@ -486,6 +486,12 @@ export interface UpSetBaseStyleProps<L> {
    * optional description text for the plot
    */
   description?: L;
+
+  /**
+   * whether to render tooltips aka title attributes
+   * @default true
+   */
+  tooltips?: boolean;
 }
 
 export interface UpSetStyleProps<L> extends UpSetBaseStyleProps<L> {
