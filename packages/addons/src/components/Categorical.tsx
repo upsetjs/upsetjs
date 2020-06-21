@@ -7,9 +7,9 @@
 
 import React from 'react';
 import { UpSetAddon, ISetLike, UpSetThemes } from '@upsetjs/react';
-import { normalize, denormalize, ICategory, categoricalHistogram } from '@upsetjs/math';
+import { normalize, denormalize, ICategory, categoricalHistogram, ICategoryBin, ICategoryBins } from '@upsetjs/math';
 
-export { ICategory } from '@upsetjs/math';
+export { ICategory, ICategoryBins } from '@upsetjs/math';
 
 export interface ICategoricalStyleProps {
   theme?: UpSetThemes;
@@ -20,19 +20,25 @@ export interface ICategoricalStyleProps {
   orient?: 'horizontal' | 'vertical';
 }
 
-declare type CategoricalProps = {
-  /**
-   * the values to render
-   */
-  values: readonly string[];
-  /**
-   * possible categories
-   */
-  categories: readonly (string | ICategory)[];
-  /**
-   *
-   */
-  base?: readonly string[];
+declare type CategoricalProps = (
+  | {
+      /**
+       * the values to render
+       */
+      values: readonly string[];
+      /**
+       * possible categories
+       */
+      categories: readonly (string | ICategory)[];
+      /**
+       *
+       */
+      base?: readonly string[];
+    }
+  | {
+      bins: readonly ICategoryBin[];
+    }
+) & {
   /**
    * margin offset
    */
@@ -49,23 +55,23 @@ declare type CategoricalProps = {
    * height of the box plot
    */
   height: number;
+
+  tooltips?: boolean;
 } & ICategoricalStyleProps;
 
-export const Categorical = ({
-  theme = 'light',
-  orient = 'horizontal',
-  width: w,
-  height: h,
-  values,
-  categories,
-  base,
-  margin = 0,
-  rectStyle = {},
-}: CategoricalProps) => {
-  const bins = categoricalHistogram(values, categories, base, theme === 'dark');
-  const hor = orient === 'horizontal';
-  const n = normalize([0, base?.length ?? values.length]);
-  const dn = denormalize([0, hor ? w : h]);
+function isGiven(p: any): p is { bins: readonly ICategoryBin[] } {
+  return Array.isArray((p as { bins: readonly ICategoryBin[] }).bins);
+}
+
+export const Categorical = (p: CategoricalProps) => {
+  const { margin = 0, rectStyle = {} } = p;
+  const bins = isGiven(p) ? p.bins : categoricalHistogram(p.values, p.categories, p.base, p.theme === 'dark');
+  const n = normalize([
+    0,
+    isGiven(p) ? p.bins.reduce((acc, v) => acc + v.count, 0) : p.base?.length ?? p.values.length,
+  ]);
+  const hor = p.orient !== 'vertical';
+  const dn = denormalize([0, hor ? p.width : p.height]);
   const scale = (v: number) => dn(n(v));
 
   if (hor) {
@@ -77,10 +83,10 @@ export const Categorical = ({
             x={scale(bin.acc)}
             width={scale(bin.count)}
             y={margin}
-            height={h - 2 * margin}
+            height={p.height - 2 * margin}
             style={Object.assign({ fill: bin.color }, rectStyle)}
           >
-            <title>{`${bin.label}: ${bin.count}`}</title>
+            {p.tooltips !== false && <title>{`${bin.label}: ${bin.count}`}</title>}
           </rect>
         ))}
       </g>
@@ -95,10 +101,10 @@ export const Categorical = ({
           y={scale(bin.acc)}
           height={scale(bin.count)}
           x={margin}
-          width={w - 2 * margin}
+          width={p.width - 2 * margin}
           style={Object.assign({ fill: bin.color }, rectStyle)}
         >
-          <title>{`${bin.label}: ${bin.count}`}</title>
+          {p.tooltips !== false && <title>{`${bin.label}: ${bin.count}`}</title>}
         </rect>
       ))}
     </g>
@@ -191,6 +197,66 @@ export function categoricalAddon<T>(
           values={values}
           base={base}
           categories={categories}
+          width={width}
+          height={height}
+          margin={secondary ? index + 2 : 0}
+          rectStyle={{ stroke: query.color, fill: theme === 'light' ? darkOverlap : lightOverlap }}
+          theme={theme}
+          {...extras}
+        />
+      );
+    },
+  };
+}
+
+/**
+ * generates a categorical addon to render distributions as UpSet.js addon for aggregated set data
+ * @param prop accessor or name of the property within the element
+ * @param elems list of elements or their categories
+ * @param options additional options
+ */
+export function categoricalAggregatedAddon<T>(
+  acc: (v: readonly T[]) => ICategoryBins,
+  {
+    size = 100,
+    position,
+    name = 'Histogram',
+    ...extras
+  }: Partial<Pick<UpSetAddon<ISetLike<T>, T, React.ReactNode>, 'size' | 'position' | 'name'>> &
+    ICategoricalStyleProps = {}
+): UpSetAddon<ISetLike<T>, T, React.ReactNode> {
+  return {
+    name,
+    position,
+    size,
+    render: ({ width, height, set, theme }) => {
+      const values = acc(set.elems);
+      return <CategoricalMemo bins={values} width={width} height={height} theme={theme} {...extras} />;
+    },
+    renderSelection: ({ width, height, theme, overlap, selectionColor }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = acc(overlap);
+      return (
+        <CategoricalMemo
+          bins={values}
+          width={width}
+          height={height}
+          theme={theme}
+          rectStyle={{ stroke: selectionColor, strokeWidth: 2, fill: theme === 'light' ? darkOverlap : lightOverlap }}
+          {...extras}
+        />
+      );
+    },
+    renderQuery: ({ width, height, overlap, query, secondary, index, theme }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = acc(overlap);
+      return (
+        <CategoricalMemo
+          bins={values}
           width={width}
           height={height}
           margin={secondary ? index + 2 : 0}

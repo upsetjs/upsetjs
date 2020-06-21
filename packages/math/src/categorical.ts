@@ -3,6 +3,7 @@ export declare interface ICategory {
   color?: string;
   label?: string;
 }
+export declare type ICategories = readonly ICategory[];
 
 export interface ICategoryBin extends Required<ICategory> {
   count: number;
@@ -12,6 +13,8 @@ export interface ICategoryBin extends Required<ICategory> {
   acc: number;
   percentage: number;
 }
+
+export declare type ICategoryBins = readonly ICategoryBin[];
 
 function colorGen(dark?: boolean) {
   // from ColorBrewer

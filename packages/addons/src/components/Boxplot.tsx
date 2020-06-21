@@ -7,8 +7,10 @@
 
 import React from 'react';
 import { UpSetAddon, ISetLike, UpSetThemes, getDefaultTheme } from '@upsetjs/react';
-import { boxplot, BoxplotStatsOptions, normalize, denormalize } from '@upsetjs/math';
+import { boxplot, BoxplotStatsOptions, normalize, denormalize, IBoxPlot } from '@upsetjs/math';
 import { round2 } from './utils';
+
+export { IBoxPlot } from '@upsetjs/math';
 
 export interface IBoxplotStylePlainProps extends BoxplotStatsOptions {
   theme?: UpSetThemes;
@@ -69,7 +71,7 @@ declare type BoxplotProps = {
   /**
    * the values to render as a box plot
    */
-  values: readonly number[];
+  values: IBoxPlot | readonly number[];
   /**
    * width of the box plot
    */
@@ -88,32 +90,26 @@ declare type BoxplotProps = {
   max: number;
 };
 
-export const Boxplot = ({
-  theme = 'light',
-  mode = 'normal',
-  values,
-  orient = 'horizontal',
-  width: w,
-  height: h,
-  min,
-  max,
-  boxStyle,
-  lineStyle,
-  outlierStyle,
-  margin = 0,
-  boxPadding: bpp = 0.1,
-  outlierRadius = 3,
-  numberFormat: nf = (v) => v.toFixed(2),
-  tooltips = true,
-  ...options
-}: React.PropsWithChildren<BoxplotProps & IBoxplotStyleProps>) => {
-  const b = boxplot(values, options);
+export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleProps>) => {
+  const {
+    theme = 'light',
+    mode = 'normal',
+    boxStyle,
+    lineStyle,
+    outlierStyle,
+    margin = 0,
+    boxPadding: bpp = 0.1,
+    outlierRadius = 3,
+    numberFormat: nf = (v) => v.toFixed(2),
+    ...options
+  } = p;
+  const b = Array.isArray(p.values) ? boxplot(p.values, options) : (p.values as IBoxPlot);
   if (Number.isNaN(b.median)) {
     return <g></g>;
   }
-  const hor = orient === 'horizontal';
-  const n = normalize([min, max]);
-  const dn = denormalize([0, hor ? w : h]);
+  const hor = p.orient !== 'vertical';
+  const n = normalize([p.min, p.max]);
+  const dn = denormalize([0, hor ? p.width : p.height]);
   const scale = (v: number) => round2(dn(n(v)));
 
   const s = {
@@ -127,7 +123,7 @@ export const Boxplot = ({
     wl: scale(b.whiskerLow),
   };
 
-  const title = tooltips && (
+  const title = p.tooltips !== false && (
     <title>{`Min: ${nf(b.min)}, 25% Quantile: ${nf(b.q1)}, Median: ${nf(b.median)}, 75% Quantile: ${nf(
       b.q3
     )}, Max: ${nf(b.max)}`}</title>
@@ -140,23 +136,25 @@ export const Boxplot = ({
   };
 
   if (hor) {
-    const c = h / 2;
-    const bp = round2(h * bpp) + margin;
-    const hp = h - bp;
-    const w1 = `M${s.wl},${margin} l0,${h - margin * 2} M${s.wl},${c} L${s.q1},${c}`;
-    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${margin} L${s.wh},${h - margin}`;
+    const c = p.height / 2;
+    const bp = round2(p.height * bpp) + margin;
+    const hp = p.height - bp;
+    const w1 = `M${s.wl},${margin} l0,${p.height - margin * 2} M${s.wl},${c} L${s.q1},${c}`;
+    const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${margin} L${s.wh},${p.height - margin}`;
     const box = `M${s.q1},${bp} L${s.q3},${bp} L${s.q3},${hp} L${s.q1},${hp} L${s.q1},${bp} M${s.med},${bp} l0,${
       hp - bp
     }`;
-    const p = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
+    const path = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
     if (mode === 'indicator') {
-      return p;
+      return path;
     }
     return (
       <g>
         {title}
-        {mode === 'normal' && <rect x={s.q1} y={bp} width={s.q3 - s.q1} height={h - 2 * bp} style={styles.box} />}
-        {p};
+        {mode === 'normal' && (
+          <rect x={s.q1} y={bp} width={s.q3 - s.q1} height={p.height - 2 * bp} style={styles.box} />
+        )}
+        {path}
         {b.outlier.map((o) => (
           <circle key={o} r={outlierRadius} cy={c} cx={scale(o)} style={styles.outlier}>
             <title>${nf(o)}</title>
@@ -166,24 +164,24 @@ export const Boxplot = ({
     );
   }
   {
-    const c = w / 2;
-    const bp = round2(w * bpp) + margin;
-    const wp = w - bp;
-    const w1 = `M${margin},${s.wl} l${w - 2 * margin},0 M${c},${s.wl} L${c},${s.q1}`;
-    const w2 = `M${c},${s.q3} L${c},${s.wh} M${margin},${s.wh} L${w - margin},${s.wh}`;
+    const c = p.width / 2;
+    const bp = round2(p.width * bpp) + margin;
+    const wp = p.width - bp;
+    const w1 = `M${margin},${s.wl} l${p.width - 2 * margin},0 M${c},${s.wl} L${c},${s.q1}`;
+    const w2 = `M${c},${s.q3} L${c},${s.wh} M${margin},${s.wh} L${p.width - margin},${s.wh}`;
     const box = `M${bp},${s.q1} L${bp},${s.q3} l${wp - bp},0 L${wp},${s.q1} L${bp},${s.q1} M${bp},${s.med} l${
       wp - bp
     },0`;
-    const p = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
+    const path = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
 
     if (mode === 'indicator') {
-      return p;
+      return path;
     }
     return (
       <g>
         {title}
-        {mode === 'normal' && <rect y={s.q1} x={bp} height={s.q3 - s.q1} width={w - 2 * bp} style={styles.box} />}
-        {p}
+        {mode === 'normal' && <rect y={s.q1} x={bp} height={s.q3 - s.q1} width={p.width - 2 * bp} style={styles.box} />}
+        {path}
         {b.outlier.map((o) => (
           <circle key={o} r={outlierRadius} cx={c} cy={scale(o)} style={styles.outlier}>
             <title>${nf(o)}</title>
@@ -270,6 +268,78 @@ export function boxplotAddon<T>(
         return null;
       }
       const values = overlap.map(acc);
+      return (
+        <BoxplotMemo
+          values={values}
+          width={width}
+          height={height}
+          min={min}
+          max={max}
+          mode={secondary ? 'indicator' : 'box'}
+          margin={secondary ? index + 2 : 0}
+          lineStyle={{ stroke: query.color, strokeWidth: secondary ? 1 : 2 }}
+          outlierStyle={{ fill: query.color }}
+          theme={theme}
+          {...extras}
+        />
+      );
+    },
+  };
+}
+
+/**
+ * generates a boxplot addon to render box plots as UpSet.js addon for aggregated set data
+ * @param acc accessor
+ * @param elems list of elements or their minimum / maximum value for specifying the data domain
+ * @param options additional options
+ */
+export function boxplotAggregatedAddon<T>(
+  acc: (v: readonly T[]) => IBoxPlot,
+  domain: { min: number; max: number },
+  {
+    size = 100,
+    position,
+    name = 'BoxPlot',
+    ...extras
+  }: Partial<Pick<UpSetAddon<ISetLike<T>, T, React.ReactNode>, 'size' | 'position' | 'name'>> & IBoxplotStyleProps = {}
+): UpSetAddon<ISetLike<T>, T, React.ReactNode> {
+  const min = domain.min;
+  const max = domain.max;
+  return {
+    name,
+    position,
+    size,
+    render: ({ width, height, set, theme }) => {
+      const values = acc(set.elems);
+      return (
+        <BoxplotMemo values={values} width={width} height={height} min={min} max={max} theme={theme} {...extras} />
+      );
+    },
+    renderSelection: ({ width, height, overlap, selectionColor, theme }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = acc(overlap);
+      return (
+        <BoxplotMemo
+          values={values}
+          width={width}
+          height={height}
+          min={min}
+          max={max}
+          mode="box"
+          lineStyle={{ stroke: selectionColor, strokeWidth: 2 }}
+          outlierStyle={{ fill: selectionColor }}
+          theme={theme}
+          {...extras}
+        />
+      );
+    },
+    renderQuery: ({ width, height, overlap, query, secondary, index, theme }) => {
+      if (overlap == null || overlap.length === 0) {
+        return null;
+      }
+      const values = acc(overlap);
       return (
         <BoxplotMemo
           values={values}

@@ -7,8 +7,13 @@
 
 import { UpSetReactElement } from '../react';
 import { UpSetAddon } from '@upsetjs/react';
-import { boxplotAddon as boxplotAddonImpl, IBoxplotStylePlainProps } from '@upsetjs/addons';
+import {
+  boxplotAddon as boxplotAddonImpl,
+  IBoxplotStylePlainProps,
+  boxplotAggregatedAddon as boxplotAggregatedAddonImpl,
+} from '@upsetjs/addons';
 import { ISetLike } from '@upsetjs/model';
+import { IBoxPlot } from '@upsetjs/math';
 
 export { boxplot, BoxplotStatsOptions, IBoxPlot, QuantilesMethod } from '@upsetjs/math';
 
@@ -42,6 +47,26 @@ export function boxplotAddon<T>(
   return boxplotAddonImpl(
     prop,
     elems,
+    options as Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+  );
+}
+
+/**
+ * generates a boxplot addon to render box plots as UpSet.js addon for aggregated set data
+ * @param acc accessor
+ * @param elems list of elements or their minimum / maximum value for specifying the data domain
+ * @param options additional options
+ */
+export function boxplotAggregatedAddon<T>(
+  acc: (v: readonly T[]) => IBoxPlot,
+  domain: { min: number; max: number },
+  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+    IBoxplotStyleProps = {}
+): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
+  return boxplotAggregatedAddonImpl(
+    acc,
+    domain,
     options as Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
       IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
