@@ -26,6 +26,9 @@ import UpSetElement, {
   UpSetMultiStyle,
   VennDiagram as VennDiagramElement,
   VennDiagramMultiStyle,
+  UpSetJSSkeletonProps,
+  VennDiagramSkeleton,
+  UpSetJSSkeleton,
 } from '@upsetjs/react';
 import { UpSetReactElement } from './react';
 
@@ -49,6 +52,7 @@ export {
   UpSetExportOptions,
   createVennDiagramLayoutFunction,
   createVennJSAdapter,
+  UpSetJSSkeletonProps,
 } from '@upsetjs/react';
 
 export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
@@ -96,6 +100,25 @@ export function renderVennDiagram<T = any>(node: HTMLElement, props: VennDiagram
   const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
   renderPreact(h(VennDiagramElement as any, p), node);
 }
+
+/**
+ * renders the UpSetJS skeleton component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  renderPreact(h(UpSetJSSkeleton as any, props), node);
+}
+
+/**
+ * renders the VennDiagram skeleton component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  renderPreact(h(VennDiagramSkeleton as any, props), node);
+}
+
 /**
  * renders the UpSetJS component
  * @param node the DOM node to render the component into
@@ -112,6 +135,7 @@ export function hydrate<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   hydratePreact(h(UpSetElement as any, p), node);
 }
+
 /**
  * hydrates the VennDiagram component when applied on a server rendered version
  * @param node the DOM node to render the component into
@@ -120,6 +144,24 @@ export function hydrate<T = any>(node: HTMLElement, props: UpSetProps<T>) {
 export function hydrateVennDiagram<T = any>(node: HTMLElement, props: VennDiagramProps<T>) {
   const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
   hydratePreact(h(VennDiagramElement as any, p), node);
+}
+
+/**
+ * hydrates the UpSetJS Skeleton component when applied on a server rendered version
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function hydrateSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  hydratePreact(h(UpSetJSSkeleton as any, props), node);
+}
+
+/**
+ * hydrates the UpSetJS Skeleton component when applied on a server rendered version
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function hydrateVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  hydratePreact(h(VennDiagramSkeleton as any, props), node);
 }
 
 /**

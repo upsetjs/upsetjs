@@ -269,7 +269,7 @@ function three(size: IChartArea, radiOverlap: number): IVennDiagramLayout {
   };
 }
 
-function vennDiagramLayout(sets: number, size: IChartArea, radiOverlap = 0.25): IVennDiagramLayout {
+export function vennDiagramLayout(sets: number, size: IChartArea, radiOverlap = 0.25): IVennDiagramLayout {
   switch (sets) {
     case 0:
       return {

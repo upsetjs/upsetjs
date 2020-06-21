@@ -1,5 +1,5 @@
 async function loadUpSetJS() {
-  document.body.insertAdjacentHTML('beforeend', '<div id="app"></div>');
+  document.body.insertAdjacentHTML('afterbegin', '<div id="app"></div>');
 
   function loadScript(url) {
     const s = document.createElement('script');
@@ -44,11 +44,11 @@ async function loadUpSetJS() {
     new URLSearchParams(window.location.search).get('theme') ||
     (window.matchMedia('prefers-color-scheme: dark').matches ? 'dark' : 'light');
 
-  function render(props, elem) {
+  function render(props, elem, root) {
     props.theme = theme;
     window.ReactDOM.render(
       window.React.createElement(elem || window.exports.default, props),
-      document.getElementById('app')
+      root || document.getElementById('app')
     );
   }
   document.body.style.backgroundColor = window.exports.getDefaultTheme(theme).backgroundColor;
