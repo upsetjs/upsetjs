@@ -7,7 +7,9 @@
 
 import React from 'react';
 import { UpSetAddon, ISetLike, UpSetThemes } from '@upsetjs/react';
-import { normalize, denormalize } from '@upsetjs/math';
+import { normalize, denormalize, ICategory, categoricalHistogram } from '@upsetjs/math';
+
+export { ICategory } from '@upsetjs/math';
 
 export interface ICategoricalStyleProps {
   theme?: UpSetThemes;
@@ -16,12 +18,6 @@ export interface ICategoricalStyleProps {
    * @default horizontal
    */
   orient?: 'horizontal' | 'vertical';
-}
-
-export declare interface ICategory {
-  value: string;
-  color?: string;
-  label?: string;
 }
 
 declare type CategoricalProps = {
@@ -55,71 +51,6 @@ declare type CategoricalProps = {
   height: number;
 } & ICategoricalStyleProps;
 
-interface IBin extends Required<ICategory> {
-  count: number;
-  acc: number;
-}
-
-function colorGen(theme: UpSetThemes) {
-  // from ColorBrewer
-  const schemeDark2 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d'];
-  const schemeSet2 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494'];
-
-  const set = theme === 'dark' ? schemeDark2.concat(schemeSet2) : schemeSet2.concat(schemeDark2);
-  let acc = 0;
-  return () => {
-    return set[acc++ % set.length];
-  };
-}
-
-function bin(hist: IBin[], values: readonly string[]) {
-  const map = new Map(hist.map((bin) => [bin.value, 0]));
-  values.forEach((value) => {
-    if (value == null) {
-      return;
-    }
-    const key = value.toString();
-    if (!map.has(key)) {
-      return;
-    }
-    map.set(key, map.get(key)! + 1);
-  });
-  return map;
-}
-
-function generateBins(
-  values: readonly string[],
-  categories: readonly (string | ICategory)[],
-  base: readonly string[] | undefined,
-  theme: UpSetThemes
-) {
-  const nextColor = colorGen(theme);
-  const generateCat = (value: string) => {
-    return {
-      value,
-      label: value.length > 0 ? `${value[0].toUpperCase()}${value.slice(1)}` : value,
-      color: nextColor(),
-    };
-  };
-  const hist: IBin[] = categories.map((cat) => {
-    return Object.assign(
-      { count: 0, acc: 0 },
-      generateCat(typeof cat === 'string' ? cat : cat.value),
-      typeof cat === 'string' ? {} : cat
-    );
-  });
-  const map = bin(hist, values);
-  const baseMap = base ? bin(hist, base) : null;
-
-  let acc = 0;
-  hist.forEach((bin) => {
-    bin.acc = acc;
-    bin.count = map.get(bin.value)!;
-    acc += baseMap ? baseMap.get(bin.value)! : map.get(bin.value)!;
-  });
-  return hist;
-}
-
 export const Categorical = ({
   theme = 'light',
   orient = 'horizontal',
@@ -131,7 +62,7 @@ export const Categorical = ({
   margin = 0,
   rectStyle = {},
 }: CategoricalProps) => {
-  const bins = generateBins(values, categories, base, theme);
+  const bins = categoricalHistogram(values, categories, base, theme === 'dark');
   const hor = orient === 'horizontal';
   const n = normalize([0, base?.length ?? values.length]);
   const dn = denormalize([0, hor ? w : h]);

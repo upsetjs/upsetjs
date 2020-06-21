@@ -42,6 +42,12 @@ export interface IBoxplotStylePlainProps extends BoxplotStatsOptions {
    * @default .toFixed(2)
    */
   numberFormat?(v: number): string;
+
+  /**
+   * whether to render tooltips
+   * @default true
+   */
+  tooltips?: boolean;
 }
 
 export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
@@ -98,6 +104,7 @@ export const Boxplot = ({
   boxPadding: bpp = 0.1,
   outlierRadius = 3,
   numberFormat: nf = (v) => v.toFixed(2),
+  tooltips = true,
   ...options
 }: React.PropsWithChildren<BoxplotProps & IBoxplotStyleProps>) => {
   const b = boxplot(values, options);
@@ -120,7 +127,7 @@ export const Boxplot = ({
     wl: scale(b.whiskerLow),
   };
 
-  const title = (
+  const title = tooltips && (
     <title>{`Min: ${nf(b.min)}, 25% Quantile: ${nf(b.q1)}, Median: ${nf(b.median)}, 75% Quantile: ${nf(
       b.q3
     )}, Max: ${nf(b.max)}`}</title>
