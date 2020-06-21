@@ -81,3 +81,5 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
         run: |
           yarn workspaces foreach --verbose npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
