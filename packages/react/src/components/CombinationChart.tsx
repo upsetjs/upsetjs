@@ -41,11 +41,11 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   return (
     <g
       transform={`translate(${data.cs.x(d)}, 0)`}
-      onMouseEnter={onMouseEnter(d)}
+      onMouseEnter={onMouseEnter(d, size.cs.addons)}
       onMouseLeave={onMouseLeave}
-      onClick={onClick(d)}
-      onContextMenu={onContextMenu(d)}
-      onMouseMove={onMouseMove(d)}
+      onClick={onClick(d, size.cs.addons)}
+      onContextMenu={onContextMenu(d, size.cs.addons)}
+      onMouseMove={onMouseMove(d, size.cs.addons)}
       className={className}
       data-cardinality={d.cardinality}
     >

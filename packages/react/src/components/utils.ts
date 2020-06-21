@@ -6,18 +6,24 @@
  */
 
 import { ISetLike } from '@upsetjs/model';
+import { UpSetAddonHandlerInfos, UpSetAddon, UpSetAddons } from '../interfaces';
 
 function noop() {
   return undefined;
 }
 
-export function wrap<T>(f?: (set: ISetLike<T>, evt: MouseEvent) => void) {
+export function wrap<T>(f?: (set: ISetLike<T>, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos) => void) {
   if (!f) {
     return noop;
   }
-  return (set: ISetLike<T>) => {
+  return (set: ISetLike<T>, addons: UpSetAddons<ISetLike<T>, T, any>) => {
     return function (this: any, evt: React.MouseEvent) {
-      return f.call(this, set, evt.nativeEvent);
+      return f.call(
+        this,
+        set,
+        evt.nativeEvent,
+        addons.map((a) => (a.createOnHandlerData ? a.createOnHandlerData(set) : null))
+      );
     };
   };
 }

@@ -63,6 +63,10 @@ function isGiven(p: any): p is { bins: readonly ICategoryBin[] } {
   return Array.isArray((p as { bins: readonly ICategoryBin[] }).bins);
 }
 
+function toString(cat: ICategoryBins) {
+  return cat.map((bin) => `${bin.label}: ${bin.count}`).join(', ');
+}
+
 export const Categorical = (p: CategoricalProps) => {
   const { margin = 0, rectStyle = {} } = p;
   const bins = isGiven(p) ? p.bins : categoricalHistogram(p.values, p.categories, p.base, p.theme === 'dark');
@@ -154,6 +158,22 @@ export function categoricalAddon<T>(
     name,
     position,
     size,
+    createOnHandlerData: (set) => {
+      const b = categoricalHistogram(set.elems.map(acc), categories, undefined, extras.theme === 'dark');
+      return {
+        id: 'categorical',
+        name,
+        value: Object.assign(
+          {
+            ...b,
+            toString(): string {
+              return toString(this as ICategoryBins);
+            },
+          },
+          b
+        ),
+      };
+    },
     render: ({ width, height, set, theme }) => {
       const values = set.elems.map(acc);
       return (
@@ -229,6 +249,22 @@ export function categoricalAggregatedAddon<T>(
     name,
     position,
     size,
+    createOnHandlerData: (set) => {
+      const b = acc(set.elems);
+      return {
+        id: 'categorical',
+        name,
+        value: Object.assign(
+          {
+            ...b,
+            toString(): string {
+              return toString(this as ICategoryBins);
+            },
+          },
+          b
+        ),
+      };
+    },
     render: ({ width, height, set, theme }) => {
       const values = acc(set.elems);
       return <CategoricalMemo bins={values} width={width} height={height} theme={theme} {...extras} />;

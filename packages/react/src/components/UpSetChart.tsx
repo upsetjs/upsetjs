@@ -13,15 +13,16 @@ import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import SetChart from './SetChart';
 import { wrap } from './utils';
+import { UpSetAddonHandlerInfos } from '../interfaces';
 
 declare type Props<T> = {
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
-  onClick?(selection: ISetLike<T> | null, evt: MouseEvent): void;
-  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent): void;
-  onMouseMove?(selection: ISetLike<T>, evt: MouseEvent): void;
+  onHover?(selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos): void;
+  onClick?(selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos): void;
+  onContextMenu?(selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos): void;
+  onMouseMove?(selection: ISetLike<T>, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos): void;
   setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
   combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
 };
@@ -39,11 +40,11 @@ const UpSetChart = React.memo(function UpSetChart<T>({
 }: PropsWithChildren<Props<T>>) {
   const [onClickImpl, onMouseEnterImpl, onContextMenuImpl, onMouseLeaveImpl, onMouseMoveImpl] = React.useMemo(
     () => [
-      wrap(onClick),
-      wrap(onHover),
-      wrap(onContextMenu),
-      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent) : undefined,
-      wrap(onMouseMove),
+      wrap<T>(onClick),
+      wrap<T>(onHover),
+      wrap<T>(onContextMenu),
+      onHover ? (evt: React.MouseEvent) => onHover(null, evt.nativeEvent, []) : undefined,
+      wrap<T>(onMouseMove),
     ],
     [onClick, onHover, onContextMenu, onMouseMove]
   );

@@ -53,6 +53,8 @@ export {
   createVennDiagramLayoutFunction,
   createVennJSAdapter,
   getDefaultTheme,
+  UpSetAddonHandlerInfo,
+  UpSetAddonHandlerInfos,
 } from '@upsetjs/react';
 
 export declare type UpSetJSSkeletonProps = {

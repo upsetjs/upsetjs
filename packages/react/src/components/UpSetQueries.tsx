@@ -27,7 +27,7 @@ export default React.memo(function UpSetQueries<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onHover?: unknown;
   secondary: boolean;
   queries: readonly UpSetQuery<T>[];
 }>) {

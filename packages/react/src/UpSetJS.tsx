@@ -289,9 +289,10 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   const selectionName = generateSelectionName(selection);
 
-  const reset = useCallback((evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent) : null), [
-    onClick,
-  ]);
+  const reset = useCallback(
+    (evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent, []) : null),
+    [onClick]
+  );
 
   return (
     <svg

@@ -166,7 +166,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       wrap(p.onClick),
       wrap(p.onHover),
       wrap(p.onContextMenu),
-      p.onHover ? (evt: React.MouseEvent) => p.onHover!(null, evt.nativeEvent) : undefined,
+      p.onHover ? (evt: React.MouseEvent) => p.onHover!(null, evt.nativeEvent, []) : undefined,
       wrap(p.onMouseMove),
     ],
     [p.onClick, p.onHover, p.onContextMenu, p.onMouseMove]
@@ -214,11 +214,11 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               key={d.key}
               x={d.l.text.x}
               y={d.l.text.y}
-              onClick={onClickImpl(dataInfo.sets.v[i])}
-              onMouseEnter={onMouseEnterImpl(dataInfo.sets.v[i])}
+              onClick={onClickImpl(dataInfo.sets.v[i], [])}
+              onMouseEnter={onMouseEnterImpl(dataInfo.sets.v[i], [])}
               onMouseLeave={onMouseLeaveImpl}
-              onContextMenu={onContextMenuImpl(dataInfo.sets.v[i])}
-              onMouseMove={onMouseMoveImpl(dataInfo.sets.v[i])}
+              onContextMenu={onContextMenuImpl(dataInfo.sets.v[i], [])}
+              onMouseMove={onMouseMoveImpl(dataInfo.sets.v[i], [])}
               className={clsx(
                 `setTextStyle-${styleInfo.id}`,
                 d.l.angle > 200 && `endText-${styleInfo.id}`,

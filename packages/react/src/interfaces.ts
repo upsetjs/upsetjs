@@ -75,6 +75,14 @@ export interface UpSetQueryAddonProps<S extends ISetLike<T>, T> extends UpSetAdd
   secondary: boolean;
 }
 
+export interface UpSetAddonHandlerInfo {
+  readonly id: string;
+  readonly name: string;
+  readonly value: { toString(): void };
+}
+
+export declare type UpSetAddonHandlerInfos = readonly (UpSetAddonHandlerInfo | null)[];
+
 export interface UpSetAddon<S extends ISetLike<T>, T, N> {
   /**
    * addon name
@@ -101,6 +109,8 @@ export interface UpSetAddon<S extends ISetLike<T>, T, N> {
    * optional react component to render a query
    */
   renderQuery?: (props: UpSetQueryAddonProps<S, T>) => N;
+
+  createOnHandlerData?: (s: S) => UpSetAddonHandlerInfo;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T, N> = readonly UpSetAddon<S, T, N>[];
@@ -309,19 +319,19 @@ export interface UpSetSelectionProps<T = any> {
    * mouse hover listener, triggered when the user is over a set (combination)
    * a combination of mouseEnter and mouseLeave
    */
-  onHover?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  onHover?: (selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos) => void;
   /**
    * mouse move over set listener, triggered when the user is over a set (combination)
    */
-  onMouseMove?: (selection: ISetLike<T>, evt: MouseEvent) => void;
+  onMouseMove?: (selection: ISetLike<T>, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos) => void;
   /**
    * mouse click listener, triggered when the user is clicking on a set (combination)
    */
-  onClick?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  onClick?: (selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos) => void;
   /**
    * mouse context menu listener, triggered when the user right clicks on a set (combination)
    */
-  onContextMenu?: (selection: ISetLike<T> | null, evt: MouseEvent) => void;
+  onContextMenu?: (selection: ISetLike<T> | null, evt: MouseEvent, addonInfos: UpSetAddonHandlerInfos) => void;
   /**
    * list of queries as an alternative to provide a single selection
    */

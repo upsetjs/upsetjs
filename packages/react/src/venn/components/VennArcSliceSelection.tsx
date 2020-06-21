@@ -206,11 +206,11 @@ export default function VennArcSliceSelection<T>({
         styleId={style.id}
       />
       <path
-        onMouseEnter={onMouseEnter(d)}
+        onMouseEnter={onMouseEnter(d, [])}
         onMouseLeave={onMouseLeave}
-        onClick={onClick(d)}
-        onContextMenu={onContextMenu(d)}
-        onMouseMove={onMouseMove(d)}
+        onClick={onClick(d, [])}
+        onContextMenu={onContextMenu(d, [])}
+        onMouseMove={onMouseMove(d, [])}
         d={p}
         className={className}
         style={mergeColor(

@@ -90,6 +90,14 @@ declare type BoxplotProps = {
   max: number;
 };
 
+const defaultFormatter = (v: number) => v.toFixed(2);
+
+function toString(b: IBoxPlot, nf: (v: number) => string) {
+  return `Min: ${nf(b.min)}, 25% Quantile: ${nf(b.q1)}, Median: ${nf(b.median)}, 75% Quantile: ${nf(b.q3)}, Max: ${nf(
+    b.max
+  )}`;
+}
+
 export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleProps>) => {
   const {
     theme = 'light',
@@ -100,7 +108,7 @@ export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleP
     margin = 0,
     boxPadding: bpp = 0.1,
     outlierRadius = 3,
-    numberFormat: nf = (v) => v.toFixed(2),
+    numberFormat: nf = defaultFormatter,
     ...options
   } = p;
   const b = Array.isArray(p.values) ? boxplot(p.values, options) : (p.values as IBoxPlot);
@@ -123,11 +131,7 @@ export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleP
     wl: scale(b.whiskerLow),
   };
 
-  const title = p.tooltips !== false && (
-    <title>{`Min: ${nf(b.min)}, 25% Quantile: ${nf(b.q1)}, Median: ${nf(b.median)}, 75% Quantile: ${nf(
-      b.q3
-    )}, Max: ${nf(b.max)}`}</title>
-  );
+  const title = p.tooltips !== false && <title>{toString(b, nf)}</title>;
   const inner = getDefaultTheme(theme).notMemberColor;
   const styles = {
     box: Object.assign({ fill: inner }, boxStyle),
@@ -237,6 +241,22 @@ export function boxplotAddon<T>(
     name,
     position,
     size,
+    createOnHandlerData: (set) => {
+      const b = boxplot(set.elems.map(acc), extras);
+      return {
+        id: 'boxplot',
+        name,
+        value: Object.assign(
+          {
+            ...b,
+            toString(): string {
+              return toString(this as IBoxPlot, extras.numberFormat ?? defaultFormatter);
+            },
+          },
+          b
+        ),
+      };
+    },
     render: ({ width, height, set, theme }) => {
       const values = set.elems.map(acc);
       return (
@@ -309,6 +329,22 @@ export function boxplotAggregatedAddon<T>(
     name,
     position,
     size,
+    createOnHandlerData: (set) => {
+      const b = acc(set.elems);
+      return {
+        id: 'boxplot',
+        name,
+        value: Object.assign(
+          {
+            ...b,
+            toString(): string {
+              return toString(this as IBoxPlot, extras.numberFormat ?? defaultFormatter);
+            },
+          },
+          b
+        ),
+      };
+    },
     render: ({ width, height, set, theme }) => {
       const values = acc(set.elems);
       return (

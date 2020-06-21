@@ -42,11 +42,11 @@ const SetChart = React.memo(function SetChart<T>({
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}
-      onMouseEnter={onMouseEnter(d)}
+      onMouseEnter={onMouseEnter(d, size.sets.addons)}
       onMouseLeave={onMouseLeave}
-      onClick={onClick(d)}
-      onContextMenu={onContextMenu(d)}
-      onMouseMove={onMouseMove(d)}
+      onClick={onClick(d, size.sets.addons)}
+      onContextMenu={onContextMenu(d, size.sets.addons)}
+      onMouseMove={onMouseMove(d, size.sets.addons)}
       className={className}
       data-cardinality={d.cardinality}
     >

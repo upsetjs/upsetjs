@@ -29,7 +29,7 @@ export default function UpSetSelection<T>({
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?(selection: ISetLike<T> | null, evt: MouseEvent): void;
+  onHover?: unknown;
   selection: ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number);
 }>) {
   const empty = style.emptySelection;
