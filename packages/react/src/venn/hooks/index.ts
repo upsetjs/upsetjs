@@ -6,12 +6,18 @@
  */
 import { ISetCombinations, ISetLike, queryOverlap } from '@upsetjs/model';
 import React, { useCallback, useMemo } from 'react';
-import deriveVennSizeDependent from '../derive/deriveVennSizeDependent';
-import deriveVennStyleDependent from '../derive/deriveVennStyleDependent';
+import deriveVennSizeDependent, { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
+import deriveVennStyleDependent, { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { exportSVG } from '../../exporter';
 import { exportDump, exportSharedLink } from '../../exporter/exportDump';
-import useHandler from '../../hooks/useHandler';
-import { UpSetBaseDataProps, UpSetProps, VennDiagramDataProps, VennDiagramFullProps } from '../../interfaces';
+import useHandler, { Handlers } from '../../hooks/useHandler';
+import {
+  UpSetBaseDataProps,
+  UpSetProps,
+  VennDiagramDataProps,
+  VennDiagramFullProps,
+  UpSetExportOptions,
+} from '../../interfaces';
 import { baseRules } from '../../rules';
 import { generateId, generateSelectionName, generateSelectionOverlap, isSetLike } from '../../utils';
 
@@ -93,7 +99,7 @@ export function useCreateCommon<T>(
     p.toElemKey,
   ]);
 
-  const exportButtonsPatch = useMemo(
+  const exportButtons = useMemo(
     () =>
       !p.exportButtons ? false : Object.assign({}, p.exportButtons === true ? {} : p.exportButtons, { vega: false }),
     [p.exportButtons]
@@ -103,10 +109,10 @@ export function useCreateCommon<T>(
 
   return {
     styleId,
-    sizeInfo,
-    styleInfo,
+    size: sizeInfo,
+    style: styleInfo,
     h,
-    exportButtonsPatch,
+    exportButtons,
     selectionKey,
     selectionName,
     selectionOverlap,
@@ -114,6 +120,15 @@ export function useCreateCommon<T>(
     rulesHelper,
   };
 }
+
+export declare type CreateCommon = {
+  selectionName?: string;
+  styleId: string;
+  size: VennDiagramSizeInfo;
+  style: VennDiagramStyleInfo;
+  h: Handlers;
+  exportButtons: UpSetExportOptions | boolean;
+};
 
 export function useExportChart(dataInfo: { cs: { v: ISetCombinations<any> } }, props: UpSetProps<any>) {
   return useCallback(

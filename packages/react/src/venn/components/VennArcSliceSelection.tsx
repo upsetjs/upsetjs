@@ -15,45 +15,7 @@ import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
 import { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
 import { mergeColor } from '../../components/utils';
-
-function SelectionPattern({
-  id,
-  suffix,
-  v,
-  rotate = 0,
-  bgFill,
-  styleId,
-  fill,
-}: {
-  id: string;
-  suffix: string;
-  v: number;
-  rotate?: number;
-  bgFill?: string;
-  fill?: string;
-  styleId: string;
-}) {
-  if (v >= 1 || v <= 0) {
-    return null;
-  }
-  const ratio = Math.round(v * 10.0) / 100;
-  return (
-    <defs>
-      <pattern
-        id={id}
-        width="1"
-        height="0.1"
-        patternContentUnits="objectBoundingBox"
-        patternTransform={`rotate(${rotate})`}
-      >
-        {bgFill && (
-          <rect x="0" y="0" width="1" height="0.1" style={{ fill: bgFill }} className={`fillPrimary-${styleId}`} />
-        )}
-        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} style={fill ? { fill } : undefined} />
-      </pattern>
-    </defs>
-  );
-}
+import SelectionPattern from './SelectionPattern';
 
 function sliceRotate(slice: ITextArcSlice, center: { cx: number; cy: number }) {
   if (slice.text.x === center.cx) {

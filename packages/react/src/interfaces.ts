@@ -646,7 +646,7 @@ export interface KarnaughMapPropsG<T, C, N, L>
   children?: N;
 }
 
-export declare type KarnaughMapProps<T = any> = VennDiagramPropsG<
+export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<
   T,
   React.CSSProperties,
   React.ReactNode,

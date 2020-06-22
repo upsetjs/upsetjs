@@ -32,7 +32,7 @@ export * from './interfaces';
  */
 const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
   const p = fillDefaults<T>(props);
-  const { selection = null, onClick, queries = [], fontSizes } = p;
+  const { selection = null, queries = [], fontSizes } = p;
 
   // generate a "random" but attribute stable id to avoid styling conflicts
   const styleId = useMemo(
@@ -337,7 +337,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={p.reset}
+            onClick={h.reset}
             className={`fillTransparent-${styleId}`}
           />
         )}
@@ -355,7 +355,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onHover={h.hasHover}
+          hasHover={h.hasHover}
           queries={queries}
           secondary={p.onHover != null || selection != null}
         />
