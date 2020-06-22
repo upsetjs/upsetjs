@@ -5,7 +5,6 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetAddon } from '@upsetjs/react';
 import {
   categoricalAddon as categoricalAddonImpl,
   ICategory,
@@ -13,8 +12,7 @@ import {
   ICategoryBins,
   categoricalAggregatedAddon as categoricalAggregatedAddonImpl,
 } from '@upsetjs/addons';
-import { ISetLike } from '@upsetjs/model';
-import { UpSetReactElement } from '../react';
+import { UpSetAddon } from '../react';
 
 export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
 export { categoricalHistogram, ICategoryBin, ICategories, ICategoryBins } from '@upsetjs/math';
@@ -28,9 +26,8 @@ export { categoricalHistogram, ICategoryBin, ICategories, ICategoryBins } from '
 export function categoricalAddon<T>(
   prop: keyof T | ((v: T) => string),
   elems: readonly T[] | { categories: readonly (string | ICategory)[] },
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
-    ICategoricalStyleProps = {}
-): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
+  options: Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> & ICategoricalStyleProps = {}
+): UpSetAddon<T> {
   return categoricalAddonImpl(prop, elems, options);
 }
 
@@ -42,8 +39,7 @@ export function categoricalAddon<T>(
  */
 export function categoricalAggregatedAddon<T>(
   acc: (v: readonly T[]) => ICategoryBins,
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
-    ICategoricalStyleProps = {}
-): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
+  options: Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> & ICategoricalStyleProps = {}
+): UpSetAddon<T> {
   return categoricalAggregatedAddonImpl(acc, options);
 }

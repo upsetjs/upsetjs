@@ -57,6 +57,8 @@ export {
   UpSetAddonHandlerInfos,
 } from '@upsetjs/react';
 
+export * from './react';
+
 export declare type UpSetJSSkeletonProps = {
   background?: string;
   color?: string;

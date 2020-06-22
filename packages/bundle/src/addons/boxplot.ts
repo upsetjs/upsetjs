@@ -5,14 +5,12 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetReactElement } from '../react';
-import { UpSetAddon } from '@upsetjs/react';
+import { UpSetAddon } from '../react';
 import {
   boxplotAddon as boxplotAddonImpl,
   IBoxplotStylePlainProps,
   boxplotAggregatedAddon as boxplotAggregatedAddonImpl,
 } from '@upsetjs/addons';
-import { ISetLike } from '@upsetjs/model';
 import { IBoxPlot } from '@upsetjs/math';
 
 export { boxplot, BoxplotStatsOptions, IBoxPlot, QuantilesMethod } from '@upsetjs/math';
@@ -41,13 +39,12 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
 export function boxplotAddon<T>(
   prop: keyof T | ((v: T) => number),
   elems: readonly T[] | { min: number; max: number },
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
-    IBoxplotStyleProps = {}
-): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
+  options: Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> & IBoxplotStyleProps = {}
+): UpSetAddon<T> {
   return boxplotAddonImpl(
     prop,
     elems,
-    options as Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+    options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
       IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }
@@ -61,13 +58,12 @@ export function boxplotAddon<T>(
 export function boxplotAggregatedAddon<T>(
   acc: (v: readonly T[]) => IBoxPlot,
   domain: { min: number; max: number },
-  options: Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
-    IBoxplotStyleProps = {}
-): UpSetAddon<ISetLike<T>, T, UpSetReactElement> {
+  options: Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> & IBoxplotStyleProps = {}
+): UpSetAddon<T> {
   return boxplotAggregatedAddonImpl(
     acc,
     domain,
-    options as Partial<Pick<UpSetAddon<ISetLike<T>, T, UpSetReactElement>, 'size' | 'position' | 'name'>> &
+    options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
       IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }
