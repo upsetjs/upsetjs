@@ -23,8 +23,6 @@ import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
 import useHandler from './hooks/useHandler';
 
-export * from './interfaces';
-
 /**
  * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
  *
