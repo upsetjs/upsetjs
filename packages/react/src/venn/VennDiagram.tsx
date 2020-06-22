@@ -186,6 +186,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     [p.exportButtons]
   );
 
+  const onClick = p.onClick;
+  const reset = useCallback(
+    (evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent, []) : null),
+    [onClick]
+  );
+
   return (
     <svg
       id={p.id}
@@ -207,6 +213,9 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
         exportChart={exportChart}
       />
       <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
+        {p.onClick && (
+          <rect width={sizeInfo.w} height={sizeInfo.h} onClick={reset} className={`fillTransparent-${styleId}`} />
+        )}
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
         <g className={clsx(p.onClick && `clickAble-${styleInfo.id}`)}>
           {dataInfo.sets.d.map((d, i) => (
