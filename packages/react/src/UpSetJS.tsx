@@ -21,6 +21,7 @@ import UpSetSelection from './components/UpSetSelection';
 import { generateId, clsx, generateSelectionName } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
+import useHandler from './hooks/useHandler';
 
 export * from './interfaces';
 
@@ -180,6 +181,9 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   );
 
   const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
+
+  const h = useHandler(p);
+
   const rules = `
   ${rulesHelper.root}
   ${rulesHelper.text}
@@ -303,11 +307,6 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   const selectionName = generateSelectionName(selection);
 
-  const reset = useCallback(
-    (evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent, []) : null),
-    [onClick]
-  );
-
   return (
     <svg
       id={p.id}
@@ -338,7 +337,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={reset}
+            onClick={p.reset}
             className={`fillTransparent-${styleId}`}
           />
         )}
@@ -347,19 +346,16 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onClick={p.onClick}
-          onHover={p.onHover}
-          onContextMenu={p.onContextMenu}
-          onMouseMove={p.onMouseMove}
+          h={h}
           setChildrenFactory={p.setChildrenFactory}
           combinationChildrenFactory={p.combinationChildrenFactory}
         />
-        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={p.onHover} selection={selection} />
+        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} hasHover={h.hasHover} selection={selection} />
         <UpSetQueries
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onHover={p.onHover}
+          onHover={h.hasHover}
           queries={queries}
           secondary={p.onHover != null || selection != null}
         />

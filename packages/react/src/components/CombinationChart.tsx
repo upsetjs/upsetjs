@@ -17,35 +17,30 @@ import { clsx } from '../utils';
 
 const CombinationChart = React.memo(function CombinationChart<T>({
   d,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  onContextMenu,
-  onMouseMove,
+  h,
   className,
   data,
   size,
   style,
   children,
-}: PropsWithChildren<
-  {
-    d: ISetCombination<T>;
-    size: UpSetSizeInfo;
-    style: UpSetStyleInfo;
-    data: UpSetDataInfo<T>;
-    className?: string;
-  } & UpSetSelection
->) {
+}: PropsWithChildren<{
+  d: ISetCombination<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
+  className?: string;
+  h: UpSetSelection;
+}>) {
   const y = data.cs.y(d.cardinality);
   const genPosition = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
   return (
     <g
       transform={`translate(${data.cs.x(d)}, 0)`}
-      onMouseEnter={onMouseEnter(d, size.cs.addons)}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick(d, size.cs.addons)}
-      onContextMenu={onContextMenu(d, size.cs.addons)}
-      onMouseMove={onMouseMove(d, size.cs.addons)}
+      onMouseEnter={h.onMouseEnter(d, size.cs.addons)}
+      onMouseLeave={h.onMouseLeave}
+      onClick={h.onClick(d, size.cs.addons)}
+      onContextMenu={h.onContextMenu(d, size.cs.addons)}
+      onMouseMove={h.onMouseMove(d, size.cs.addons)}
       className={className}
       data-cardinality={d.cardinality}
     >

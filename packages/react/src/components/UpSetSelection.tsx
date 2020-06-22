@@ -24,12 +24,12 @@ export default function UpSetSelection<T>({
   data,
   style,
   selection,
-  onHover,
+  hasHover,
 }: PropsWithChildren<{
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?: unknown;
+  hasHover?: boolean;
   selection: ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number);
 }>) {
   const empty = style.emptySelection;
@@ -62,7 +62,7 @@ export default function UpSetSelection<T>({
   }
 
   return (
-    <g className={onHover ? `pnone-${style.id}` : undefined}>
+    <g className={hasHover ? `pnone-${style.id}` : undefined}>
       {(selection || empty) && (
         <CombinationSelectionChart
           data={data}
@@ -72,7 +72,7 @@ export default function UpSetSelection<T>({
           empty={empty && !selection}
           elemOverlap={selectionOverlap}
           suffix={`Selection-${style.id}`}
-          tooltip={onHover ? undefined : selectionName}
+          tooltip={hasHover ? undefined : selectionName}
           combinationAddons={size.cs.addons.length === 0 ? EMPTY_ARRAY : size.cs.addons.map(wrapAddon)}
         />
       )}
@@ -85,7 +85,7 @@ export default function UpSetSelection<T>({
           empty={empty && !selection}
           elemOverlap={selectionOverlap}
           suffix={`Selection-${style.id}`}
-          tooltip={onHover ? undefined : selectionName}
+          tooltip={hasHover ? undefined : selectionName}
           setAddons={size.sets.addons.length === 0 ? EMPTY_ARRAY : size.sets.addons.map(wrapAddon)}
         />
       )}

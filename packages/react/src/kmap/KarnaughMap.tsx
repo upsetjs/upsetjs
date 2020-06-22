@@ -9,25 +9,36 @@ import React, { forwardRef, Ref, useMemo } from 'react';
 import ExportButtons from '../components/ExportButtons';
 import QueryLegend from '../components/QueryLegend';
 import UpSetTitle from '../components/UpSetTitle';
-import { fillVennDiagramDefaults } from '../fillDefaults';
-import { VennDiagramProps } from '../interfaces';
+import { fillKarnaughMapDefaults } from '../fillDefaults';
+import { KarnaughMapProps } from '../interfaces';
 import { clsx } from '../utils';
-import VennArcSliceSelection from './components/VennArcSliceSelection';
+import { useCreateCommon, useExportChart } from '../venn/hooks';
+import VennArcSliceSelection from './components/KMapCell';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
-import { useCreateCommon, useExportChart } from './hooks';
 
-const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
-  const p = fillVennDiagramDefaults<T>(props);
+const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapProps<T>, ref: Ref<SVGSVGElement>) {
+  const p = fillKarnaughMapDefaults<T>(props);
   const { selection = null, queries = [], fontSizes } = p;
-
-  const v = useCreateCommon(p);
-  const { styleId, sizeInfo, styleInfo, selectionKey, selectionName, selectionOverlap, qs, rulesHelper } = v;
+  const {
+    styleId,
+    sizeInfo,
+    styleInfo,
+    h,
+    selectionKey,
+    selectionName,
+    selectionOverlap,
+    exportButtonsPatch,
+    qs,
+    rulesHelper,
+  } = useCreateCommon(p);
 
   const dataInfo = useMemo(
     () =>
       deriveVennDataDependent(p.sets, p.combinations, sizeInfo, p.layout, p.valueFormat, p.toKey, p.toElemKey, p.id),
     [p.sets, p.combinations, sizeInfo, p.valueFormat, p.toKey, p.toElemKey, p.id, p.layout]
   );
+
+  const exportChart = useExportChart(dataInfo, p);
 
   const rules = `
   ${rulesHelper.root}
@@ -72,8 +83,6 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     .join('\n')}
   `;
 
-  const exportChart = useExportChart(dataInfo, props);
-
   return (
     <svg
       id={p.id}
@@ -91,12 +100,12 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
       <ExportButtons
         transform={`translate(${sizeInfo.w - 2},${sizeInfo.h - 3})`}
         styleId={styleId}
-        exportButtons={v.exportButtonsPatch}
+        exportButtons={exportButtonsPatch}
         exportChart={exportChart}
       />
       <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
         {p.onClick && (
-          <rect width={sizeInfo.w} height={sizeInfo.h} onClick={v.h.reset} className={`fillTransparent-${styleId}`} />
+          <rect width={sizeInfo.w} height={sizeInfo.h} onClick={h.reset} className={`fillTransparent-${styleId}`} />
         )}
         <UpSetTitle style={styleInfo} width={sizeInfo.area.w} />
         <g className={clsx(p.onClick && `clickAble-${styleInfo.id}`)}>
@@ -105,11 +114,11 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               key={d.key}
               x={d.l.text.x}
               y={d.l.text.y}
-              onClick={v.h.onClick(dataInfo.sets.v[i], [])}
-              onMouseEnter={v.h.onMouseEnter(dataInfo.sets.v[i], [])}
-              onMouseLeave={v.h.onMouseLeave}
-              onContextMenu={v.h.onContextMenu(dataInfo.sets.v[i], [])}
-              onMouseMove={v.h.onMouseMove(dataInfo.sets.v[i], [])}
+              onClick={h.onClick(dataInfo.sets.v[i], [])}
+              onMouseEnter={h.onMouseEnter(dataInfo.sets.v[i], [])}
+              onMouseLeave={h.onMouseLeave}
+              onContextMenu={h.onContextMenu(dataInfo.sets.v[i], [])}
+              onMouseMove={h.onMouseMove(dataInfo.sets.v[i], [])}
               className={clsx(
                 `setTextStyle-${styleInfo.id}`,
                 d.l.angle > 200 && `endText-${styleInfo.id}`,
@@ -130,7 +139,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
               size={sizeInfo}
               style={styleInfo}
               data={dataInfo}
-              h={v.h}
+              h={h}
               selectionName={selectionName}
               selected={selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}
               elemOverlap={selectionOverlap}
@@ -157,4 +166,4 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   );
 });
 
-export { VennDiagram };
+export { KarnaughMap };
