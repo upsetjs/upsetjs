@@ -209,6 +209,16 @@ export interface UpSetDataProps<T, N> {
    */
   combinationAddons?: UpSetAddons<ISetCombination<T>, T, N>;
   /**
+   * padding between combination addons
+   * @default 1
+   */
+  setAddonPadding?: number;
+  /**
+   * padding between combination addons
+   * @default 1
+   */
+  combinationAddonPadding?: number;
+  /**
    * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
    * @default linear
    */

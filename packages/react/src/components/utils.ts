@@ -28,17 +28,17 @@ export function wrap<T>(f?: (set: ISetLike<T>, evt: MouseEvent, addonInfos: UpSe
   };
 }
 
-export function addonPositionGenerator(total: number) {
+export function addonPositionGenerator(total: number, padding: number) {
   let beforeAcc = 0;
   let afterAcc = 0;
   return (addon: { position?: 'before' | 'after'; size: number }) => {
     let x = 0;
     if (addon.position === 'before') {
-      beforeAcc += addon.size;
+      beforeAcc += addon.size + padding;
       x = -beforeAcc;
     } else {
-      x = total + afterAcc;
-      afterAcc += addon.size;
+      x = total + afterAcc + padding;
+      afterAcc += addon.size + padding;
     }
     return x;
   };

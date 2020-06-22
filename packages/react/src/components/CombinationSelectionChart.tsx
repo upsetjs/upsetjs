@@ -98,7 +98,7 @@ function CombinationSelectionChart<T>({
           </rect>
         );
 
-        const genPosition = addonPositionGenerator(totalHeight);
+        const genPosition = addonPositionGenerator(totalHeight, size.cs.addonPadding);
         const addons = combinationAddons
           .map((addon) => {
             const v = genPosition(addon);

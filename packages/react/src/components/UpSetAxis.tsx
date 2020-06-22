@@ -23,8 +23,8 @@ export default React.memo(function UpSetAxis<T>({
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
 }>) {
-  const setPosGen = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w);
-  const combinationPosGen = addonPositionGenerator(size.cs.h + size.sets.h);
+  const setPosGen = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
+  const combinationPosGen = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
   const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
   const setNameOffset = style.sets.offset === 'auto' ? data.sets.labelOffset : style.sets.offset;
   return (

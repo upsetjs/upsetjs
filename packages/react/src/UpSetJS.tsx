@@ -127,9 +127,23 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         p.heightRatios,
         p.setAddons,
         p.combinationAddons,
-        p.id
+        p.id,
+        p.setAddonPadding,
+        p.combinationAddonPadding
       ),
-    [p.width, p.height, p.padding, p.barPadding, p.widthRatios, p.heightRatios, p.setAddons, p.combinationAddons, p.id]
+    [
+      p.width,
+      p.height,
+      p.padding,
+      p.barPadding,
+      p.widthRatios,
+      p.heightRatios,
+      p.setAddons,
+      p.combinationAddons,
+      p.id,
+      p.setAddonPadding,
+      p.combinationAddonPadding,
+    ]
   );
 
   const dataInfo = useMemo(

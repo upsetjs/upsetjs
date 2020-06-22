@@ -37,7 +37,7 @@ const CombinationChart = React.memo(function CombinationChart<T>({
   } & UpSetSelection
 >) {
   const y = data.cs.y(d.cardinality);
-  const genPosition = addonPositionGenerator(size.cs.h + size.sets.h);
+  const genPosition = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
   return (
     <g
       transform={`translate(${data.cs.x(d)}, 0)`}

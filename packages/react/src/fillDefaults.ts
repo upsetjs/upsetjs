@@ -128,6 +128,8 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetPropsG<T, C, N, L>): U
       childrenFactories: EMPTY_OBJECT,
       setAddons: EMPTY_ARRAY,
       combinationAddons: EMPTY_ARRAY,
+      setAddonPadding: 1,
+      combinationAddonPadding: 1,
       emptySelection: true,
       toKey,
       tooltips: true,

@@ -38,7 +38,7 @@ const SetChart = React.memo(function SetChart<T>({
   } & UpSetSelection
 >) {
   const x = data.sets.x(d.cardinality);
-  const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w);
+  const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}

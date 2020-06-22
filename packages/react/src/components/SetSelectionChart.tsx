@@ -98,7 +98,7 @@ function SetSelectionChart<T>({
           </rect>
         );
 
-        const genPosition = addonPositionGenerator(totalWidth);
+        const genPosition = addonPositionGenerator(totalWidth, size.sets.addonPadding);
         const addons = setAddons
           .map((addon) => {
             const v = genPosition(addon);

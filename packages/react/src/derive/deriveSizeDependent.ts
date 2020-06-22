@@ -18,12 +18,26 @@ export default function deriveSizeDependent(
   heightRatios: [number, number],
   setAddons: readonly UpSetAddon<any, any, ReactNode>[],
   combinationAddons: readonly UpSetAddon<any, any, ReactNode>[],
-  id: string
+  id: string,
+  setAddonPadding: number,
+  combinationAddonPadding: number
 ) {
-  const setAddonsBefore = setAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
-  const setAddonsAfter = setAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
-  const combinationAddonsBefore = combinationAddons.reduce((acc, a) => acc + (a.position === 'before' ? a.size : 0), 0);
-  const combinationAddonsAfter = combinationAddons.reduce((acc, a) => acc + (a.position !== 'before' ? a.size : 0), 0);
+  const setAddonsBefore = setAddons.reduce(
+    (acc, a) => acc + (a.position === 'before' ? a.size + setAddonPadding : 0),
+    0
+  );
+  const setAddonsAfter = setAddons.reduce(
+    (acc, a) => acc + (a.position !== 'before' ? a.size + setAddonPadding : 0),
+    0
+  );
+  const combinationAddonsBefore = combinationAddons.reduce(
+    (acc, a) => acc + (a.position === 'before' ? a.size + setAddonPadding : 0),
+    0
+  );
+  const combinationAddonsAfter = combinationAddons.reduce(
+    (acc, a) => acc + (a.position !== 'before' ? a.size + setAddonPadding : 0),
+    0
+  );
   const h = height - 2 * margin - 20 - combinationAddonsAfter - combinationAddonsBefore;
   const w = width - 2 * margin - setAddonsBefore - setAddonsAfter;
 
@@ -40,6 +54,7 @@ export default function deriveSizeDependent(
       w: w - setWidth - labelsWidth,
       h: combinationHeight,
       addons: combinationAddons,
+      addonPadding: combinationAddonPadding,
     },
     labels: {
       x: setAddonsBefore + setWidth,
@@ -55,6 +70,7 @@ export default function deriveSizeDependent(
       w: setWidth,
       h: h - combinationHeight,
       addons: setAddons,
+      addonPadding: setAddonPadding,
     },
     padding: barPadding,
     legend: {
