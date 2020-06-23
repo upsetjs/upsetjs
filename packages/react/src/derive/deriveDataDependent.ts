@@ -23,7 +23,7 @@ import {
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from '../utils';
 
-function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
+export function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
   if (factory === 'linear') {
     return linearScale;
   }

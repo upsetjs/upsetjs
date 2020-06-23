@@ -4,7 +4,7 @@ export interface IGenerateOptions {
   labelHeight: number;
 }
 
-function range<U>(count: number, cb: (i: number) => U) {
+export function range<U>(count: number, cb: (i: number) => U) {
   return Array(count)
     .fill(0)
     .map((_, i) => cb(i));
@@ -16,7 +16,7 @@ export function generate<S, C>(
   has: (cs: C, s: S) => boolean,
   options: IGenerateOptions
 ) {
-  const { xBefore, yBefore, cell } = bounds(sets.length, options);
+  const { xBefore, yBefore, cell, hCells, vCells } = bounds(sets.length, options);
 
   const s = setLabels(sets.length, options);
 
@@ -42,7 +42,17 @@ export function generate<S, C>(
     };
   });
 
-  return { s, c, cell };
+  return {
+    s,
+    c,
+    cell,
+    grid: {
+      x: xBefore,
+      y: yBefore,
+      hCells,
+      vCells,
+    },
+  };
 }
 
 export function setLabels(sets: number, options: IGenerateOptions) {
@@ -104,5 +114,5 @@ export function bounds(sets: number, options: IGenerateOptions) {
   const xBefore = xOffset + Math.ceil(verticalSets / 2) * options.labelHeight;
   const yBefore = yOffset + Math.ceil(horizontalSets / 2) * options.labelHeight;
 
-  return { xOffset, horizontalSets, yOffset, verticalSets, cell, xBefore, yBefore };
+  return { xOffset, horizontalSets, yOffset, verticalSets, cell, xBefore, yBefore, hCells, vCells };
 }

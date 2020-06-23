@@ -256,8 +256,11 @@ export interface KarnaughMapDataProps<T> extends UpSetBaseDataProps<T> {
    * by default all set distinct intersections are computed
    */
   combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
-
-  valueFormat?: (cardinality: number) => string;
+  /**
+   * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
+   * @default linear
+   */
+  numericScale?: NumericScaleFactory | 'linear' | 'log';
 }
 
 export interface UpSetLayoutProps {

@@ -195,7 +195,7 @@ export function fillKarnaughMapDefaultsG<T, C, N, L = N>(
 ): KarnaughMapFullPropsG<T, C, N, L> {
   return fillGeneric(
     {
-      valueFormat,
+      numericScale: 'linear',
     },
     props
   );

@@ -29,7 +29,7 @@ export default function SVGWrapper({
 }: React.PropsWithChildren<{
   rules: string;
   v: CreateCommon;
-  p: Omit<VennDiagramFullProps, ''>;
+  p: Omit<VennDiagramFullProps, 'valueFormat'>;
   data: SVGWrapperData;
   tRef: Ref<SVGSVGElement>;
 }>) {
