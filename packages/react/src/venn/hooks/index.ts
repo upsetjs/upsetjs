@@ -99,12 +99,6 @@ export function useCreateCommon<T>(
     p.toElemKey,
   ]);
 
-  const exportButtons = useMemo(
-    () =>
-      !p.exportButtons ? false : Object.assign({}, p.exportButtons === true ? {} : p.exportButtons, { vega: false }),
-    [p.exportButtons]
-  );
-
   const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
 
   return {
@@ -112,7 +106,6 @@ export function useCreateCommon<T>(
     size: sizeInfo,
     style: styleInfo,
     h,
-    exportButtons,
     selectionKey,
     selectionName,
     selectionOverlap,

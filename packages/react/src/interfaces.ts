@@ -160,6 +160,17 @@ export interface VennDiagramFontSizes extends UpSetBaseFontSizes {
   valueLabel?: string;
 }
 
+export interface KarnaughMapFontSizes extends UpSetBaseFontSizes {
+  /**
+   * @default 10px
+   */
+  axisTick?: string;
+  /**
+   * @default 10px
+   */
+  barLabel?: string;
+}
+
 export interface UpSetBaseMultiStyle<C> {
   setLabel?: C;
   legend?: C;
@@ -177,6 +188,13 @@ export interface UpSetMultiStyle<C> extends UpSetBaseMultiStyle<C> {
 
 export interface VennDiagramMultiStyle<C> extends UpSetBaseMultiStyle<C> {
   valueLabel?: C;
+  set?: C;
+}
+
+export interface KarnaughMapMultiStyle<C> extends UpSetBaseMultiStyle<C> {
+  axisTick?: C;
+  barLabel?: C;
+  bar?: C;
   set?: C;
 }
 
@@ -263,7 +281,7 @@ export interface KarnaughMapDataProps<T> extends UpSetBaseDataProps<T> {
   numericScale?: NumericScaleFactory | 'linear' | 'log';
 }
 
-export interface UpSetLayoutProps {
+export interface UpSetBaseLayoutProps {
   /**
    * width of the chart
    */
@@ -277,6 +295,9 @@ export interface UpSetLayoutProps {
    * @default 5
    */
   padding?: number;
+}
+
+export interface UpSetLayoutProps extends UpSetBaseLayoutProps {
   /**
    * padding argument for scaleBand
    * @default 0.1
@@ -301,41 +322,19 @@ export interface UpSetLayoutProps {
   heightRatios?: [number, number];
 }
 
-export interface VennDiagramLayoutProps {
-  /**
-   * width of the chart
-   */
-  width: number;
-  /**
-   * height of the chart
-   */
-  height: number;
-  /**
-   * padding within the svg
-   * @default 5
-   */
-  padding?: number;
-
+export interface VennDiagramLayoutProps extends UpSetBaseLayoutProps {
   /**
    * function used to perform the venn diagram layout
    */
   layout?: IVennDiagramLayoutGenerator;
 }
 
-export interface KarnaughMapLayoutProps {
+export interface KarnaughMapLayoutProps extends UpSetBaseLayoutProps {
   /**
-   * width of the chart
+   * padding argument for scaleBand
+   * @default 0.1
    */
-  width: number;
-  /**
-   * height of the chart
-   */
-  height: number;
-  /**
-   * padding within the svg
-   * @default 5
-   */
-  padding?: number;
+  barPadding?: number;
 }
 
 export interface UpSetSelectionProps<T = any> {
@@ -429,9 +428,17 @@ export interface VennDiagramThemeProps extends UpSetBaseThemeProps {
   strokeColor?: string;
 }
 
+export interface KarnaughMapThemeProps extends UpSetBaseThemeProps {
+  /**
+   * stroke color to render around sets or cells
+   * @default black
+   */
+  strokeColor?: string;
+}
+
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
 
-export interface UpSetElementProps<T, C, N> {
+export interface UpSetBaseElementProps<C> {
   /**
    * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
    */
@@ -441,13 +448,16 @@ export interface UpSetElementProps<T, C, N> {
    */
   className?: string;
   /**
-   * object of classnames for certain sub elements
-   */
-  classNames?: UpSetStyleClassNames;
-  /**
    * style object applied to the SVG element
    */
   style?: C;
+}
+
+export interface UpSetElementProps<T, C, N> extends UpSetBaseElementProps<C> {
+  /**
+   * object of classnames for certain sub elements
+   */
+  classNames?: UpSetStyleClassNames;
   /**
    * object for applying styles to certain sub elements
    */
@@ -462,27 +472,25 @@ export interface UpSetElementProps<T, C, N> {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
 }
 
-export interface VennDiagramElementProps<C> {
-  /**
-   * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
-   */
-  id?: string;
-  /**
-   * optional class name for the SVG element
-   */
-  className?: string;
+export interface VennDiagramElementProps<C> extends UpSetBaseElementProps<C> {
   /**
    * object of classnames for certain sub elements
    */
   classNames?: VennDiagramMultiStyle<string>;
   /**
-   * style object applied to the SVG element
-   */
-  style?: C;
-  /**
    * object for applying styles to certain sub elements
    */
   styles?: VennDiagramMultiStyle<C>;
+}
+export interface KarnaughMapElementProps<C> extends UpSetBaseElementProps<C> {
+  /**
+   * object of classnames for certain sub elements
+   */
+  classNames?: KarnaughMapMultiStyle<string>;
+  /**
+   * object for applying styles to certain sub elements
+   */
+  styles?: KarnaughMapMultiStyle<C>;
 }
 
 export interface UpSetExportOptions {
@@ -576,6 +584,23 @@ export interface VennDiagramStyleProps<L> extends UpSetBaseStyleProps<L> {
   fontSizes?: VennDiagramFontSizes;
 }
 
+export interface KarnaughMapStyleProps<L> extends UpSetBaseStyleProps<L> {
+  /**
+   * specify font sizes for different sub elements
+   */
+  fontSizes?: KarnaughMapFontSizes;
+  /**
+   * render empty selection for better performance
+   * @default true
+   */
+  emptySelection?: boolean;
+  /**
+   * offset of the label on top or left of a bar
+   * @default 2
+   */
+  barLabelOffset?: number;
+}
+
 /**
  * the UpSetJS component properties, separated in multiple semantic sub interfaces
  */
@@ -641,10 +666,10 @@ export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
 
 export interface KarnaughMapPropsG<T, C, N, L>
   extends KarnaughMapDataProps<T>,
-    VennDiagramLayoutProps,
-    VennDiagramStyleProps<L>,
-    VennDiagramThemeProps,
-    VennDiagramElementProps<C>,
+    KarnaughMapLayoutProps,
+    KarnaughMapStyleProps<L>,
+    KarnaughMapThemeProps,
+    KarnaughMapElementProps<C>,
     UpSetSelectionProps<T> {
   children?: N;
 }
@@ -658,10 +683,10 @@ export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<
 
 export interface KarnaughMapFullPropsG<T, C, N, L>
   extends Required<Omit<KarnaughMapDataProps<T>, 'toElemKey'>>,
-    Required<VennDiagramLayoutProps>,
-    Required<VennDiagramStyleProps<L>>,
-    Required<VennDiagramThemeProps>,
-    Required<VennDiagramElementProps<C>>,
+    Required<KarnaughMapLayoutProps>,
+    Required<KarnaughMapStyleProps<L>>,
+    Required<KarnaughMapThemeProps>,
+    Required<KarnaughMapElementProps<C>>,
     UpSetSelectionProps<T> {
   toElemKey?: (elem: T) => string;
   children?: N;

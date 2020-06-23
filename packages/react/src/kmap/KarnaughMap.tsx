@@ -8,12 +8,17 @@ import React, { forwardRef, Ref, useMemo } from 'react';
 import { fillKarnaughMapDefaults } from '../fillDefaults';
 import { KarnaughMapProps } from '../interfaces';
 import SVGWrapper from '../venn/components/SVGWrapper';
-import { useCreateCommon } from '../venn/hooks';
-import deriveKarnaughDataDependent, { KarnaughMapDataInfo } from './derive/deriveKarnaughDataDependent';
-import { clsx } from '../utils';
+import D3Axis from '../components/D3Axis';
+import deriveKarnaughDataDependent, { KMapDataInfo } from './derive/deriveDataDependent';
+import deriveKarnaughStyleDependent, { KMapStyleInfo } from './derive/deriveStyleDependent';
+import { clsx, generateId, isSetLike, generateSelectionOverlap, generateSelectionName, parseFontSize } from '../utils';
 import useHandler from '../hooks/useHandler';
+import deriveVennSizeDependent from '../venn/derive/deriveVennSizeDependent';
+import { queryOverlap } from '../../../model/dist';
+import { baseRules } from '../rules';
+import { useExportChart } from '../venn/hooks';
 
-function generateGridPath<T>(data: KarnaughMapDataInfo<T>) {
+function generateGridPath<T>(data: KMapDataInfo<T>) {
   const x = data.grid.x;
   const y = data.grid.y;
   const x2 = x + data.cell * data.grid.hCells;
@@ -31,25 +36,145 @@ function generateGridPath<T>(data: KarnaughMapDataInfo<T>) {
 
 const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapProps<T>, ref: Ref<SVGSVGElement>) {
   const p = fillKarnaughMapDefaults<T>(props);
-  const { queries = [], fontSizes } = p;
-  // selection = null,
-  const v = useCreateCommon(p);
-  const { size, style, rulesHelper } = v;
+  const { queries = [], fontSizes, selection = null } = p;
+  // generate a "random" but attribute stable id to avoid styling conflicts
+  const styleId = useMemo(
+    () =>
+      p.id
+        ? p.id
+        : generateId([
+            p.fontFamily,
+            fontSizes.axisTick,
+            fontSizes.barLabel,
+            fontSizes.legend,
+            fontSizes.setLabel,
+            fontSizes.title,
+            fontSizes.exportLabel,
+            fontSizes.description,
+            p.textColor,
+            p.color,
+            p.hasSelectionColor,
+            p.strokeColor,
+            p.selectionColor,
+            p.opacity,
+            p.hasSelectionOpacity,
+          ]),
+    [
+      p.id,
+      p.fontFamily,
+      fontSizes.axisTick,
+      fontSizes.barLabel,
+      fontSizes.legend,
+      fontSizes.setLabel,
+      fontSizes.title,
+      fontSizes.exportLabel,
+      fontSizes.description,
+      p.textColor,
+      p.color,
+      p.hasSelectionColor,
+      p.strokeColor,
+      p.selectionColor,
+      p.opacity,
+      p.hasSelectionOpacity,
+    ]
+  );
+
+  const style = useMemo(
+    () =>
+      deriveKarnaughStyleDependent(
+        p.theme,
+        p.styles,
+        p.classNames,
+        styleId,
+        p.barLabelOffset,
+        p.selectionColor,
+        p.emptySelection,
+        p.title,
+        p.description,
+        p.tooltips
+      ),
+    [
+      p.theme,
+      p.styles,
+      p.classNames,
+      styleId,
+      p.barLabelOffset,
+      p.selectionColor,
+      p.emptySelection,
+      p.title,
+      p.description,
+      p.tooltips,
+    ]
+  );
+
+  const size = useMemo(() => deriveVennSizeDependent(p.width, p.height, p.padding, p.id), [
+    p.width,
+    p.height,
+    p.padding,
+    p.id,
+  ]);
 
   const data = useMemo(
-    () => deriveKarnaughDataDependent(p.sets, p.combinations, size, p.numericScale, p.toKey, p.toElemKey, p.id),
-    [p.sets, p.combinations, size, p.numericScale, p.toKey, p.toElemKey, p.id]
+    () =>
+      deriveKarnaughDataDependent(
+        p.sets,
+        p.combinations,
+        size,
+        p.numericScale,
+        p.barLabelOffset + parseFontSize(fontSizes.barLabel),
+        p.barPadding,
+        parseFontSize(fontSizes.setLabel),
+        parseFontSize(fontSizes.axisTick),
+        p.toKey,
+        p.toElemKey,
+        p.id
+      ),
+    [
+      p.sets,
+      p.combinations,
+      size,
+      p.numericScale,
+      p.barLabelOffset,
+      fontSizes.barLabel,
+      p.barPadding,
+      fontSizes.axisTick,
+      fontSizes.setLabel,
+      p.toKey,
+      p.toElemKey,
+      p.id,
+    ]
   );
+
+  const h = useHandler(p);
+  const selectionKey = selection != null && isSetLike(selection) ? p.toKey(selection) : null;
+  const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, p.toElemKey);
+  const selectionName = generateSelectionName(selection);
+  const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', p.toElemKey)), [
+    queries,
+    p.toElemKey,
+  ]);
+
+  const exportButtons = useMemo(
+    () =>
+      !p.exportButtons ? false : Object.assign({}, p.exportButtons === true ? {} : p.exportButtons, { vega: false }),
+    [p.exportButtons]
+  );
+
+  const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
 
   const rules = `
   ${rulesHelper.root}
   ${rulesHelper.text}
 
-  .valueTextStyle-${style.id} {
-    fill: ${p.valueTextColor};
-    ${rulesHelper.p(fontSizes.valueLabel)}
+  .axisTextStyle-${styleId} {
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.axisTick)}
     text-anchor: middle;
-    dominant-baseline: central;
+  }
+  .barTextStyle-${styleId} {
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.barLabel)}
+    text-anchor: middle;
   }
   .setTextStyle-${style.id} {
     fill: ${p.textColor};
@@ -61,8 +186,12 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
     transform: rotate(-90)
   }
 
-  .not {
+  .not-${style.id} {
     font-weight: bold;
+  }
+  .axisLine-${styleId} {
+    fill: none;
+    stroke: ${p.textColor};
   }
 
   .gridStyle-${style.id} {
@@ -83,11 +212,21 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
   `;
 
   const grid = generateGridPath(data);
-
-  const h = useHandler(p);
+  const exportChart = useExportChart(data, p);
 
   return (
-    <SVGWrapper p={p} v={v} data={data} rules={rules} tRef={ref}>
+    <SVGWrapper
+      rules={rules}
+      style={style}
+      size={size}
+      p={p}
+      data={data}
+      tRef={ref}
+      selectionName={selectionName}
+      h={h}
+      exportChart={exportChart}
+    >
+      <D3Axis scale={data.cs.scale} orient="left" size={data.cell} shift={0} style={style} />
       {data.sets.l.map((l, i) => {
         const s = data.sets.v[i];
         const name = s.name;
@@ -132,7 +271,7 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
       <g className={clsx(p.onClick && `clickAble-${style.id}`)}>
         {data.cs.l.map((l, i) => {
           const c = data.cs.v[i];
-          const hi = data.cs.scale(c);
+          const hi = data.cs.scale(c.cardinality);
           return (
             <g
               key={c.name}

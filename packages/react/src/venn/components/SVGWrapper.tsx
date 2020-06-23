@@ -9,9 +9,24 @@ import React, { Ref } from 'react';
 import ExportButtons from '../../components/ExportButtons';
 import QueryLegend from '../../components/QueryLegend';
 import UpSetTitle from '../../components/UpSetTitle';
-import { VennDiagramFullProps } from '../../interfaces';
-import { useExportChart, CreateCommon } from '../hooks';
+import { Handlers } from '../../hooks/useHandler';
+import {
+  UpSetBaseElementProps,
+  UpSetBaseLayoutProps,
+  UpSetBaseMultiStyle,
+  UpSetBaseStyleProps,
+  UpSetBaseThemeProps,
+  UpSetSelectionProps,
+} from '../../interfaces';
 import { clsx } from '../../utils';
+
+export interface SVGWrapperStyle {
+  id: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  styles: UpSetBaseMultiStyle<React.CSSProperties>;
+  classNames: UpSetBaseMultiStyle<string>;
+}
 
 export interface SVGWrapperData {
   id: string;
@@ -19,47 +34,60 @@ export interface SVGWrapperData {
   sets: { format(v: number): string };
 }
 
-export default function SVGWrapper({
+export default function SVGWrapper<T>({
   rules,
+  style,
+  size,
   p,
   data,
   tRef,
   children,
-  v,
+  exportChart,
+  selectionName,
+  h,
 }: React.PropsWithChildren<{
   rules: string;
-  v: CreateCommon;
-  p: Omit<VennDiagramFullProps, 'valueFormat'>;
+  style: SVGWrapperStyle;
+  selectionName?: string;
+  size: { w: number; h: number; legend: { x: number }; area: { w: number } };
+  p: UpSetBaseElementProps<React.CSSProperties> &
+    UpSetBaseLayoutProps &
+    UpSetBaseThemeProps &
+    UpSetBaseStyleProps<React.ReactNode> &
+    UpSetSelectionProps<T> &
+    UpSetBaseLayoutProps & {
+      children?: React.ReactNode;
+    };
   data: SVGWrapperData;
   tRef: Ref<SVGSVGElement>;
+  h: Handlers;
+  exportChart: (evt: React.MouseEvent<SVGElement>) => void;
 }>) {
-  const exportChart = useExportChart(data, p);
-
   return (
     <svg
       id={p.id}
-      className={clsx(`root-${v.style.id}`, p.className)}
+      className={clsx(`root-${style.id}`, p.className)}
       style={p.style}
       width={p.width}
       height={p.height}
       ref={tRef}
       viewBox={`0 0 ${p.width} ${p.height}`}
       data-theme={p.theme ?? 'light'}
-      data-selection={v.selectionName ? v.selectionName : undefined}
+      data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
-      {p.queryLegend && <QueryLegend queries={p.queries ?? []} x={v.size.legend.x} style={v.style} data={data} />}
+      {p.queryLegend && <QueryLegend queries={p.queries ?? []} x={size.legend.x} style={style} data={data} />}
       <ExportButtons
-        transform={`translate(${v.size.w - 2},${v.size.h - 3})`}
-        styleId={v.style.id}
-        exportButtons={v.exportButtons}
+        transform={`translate(${size.w - 2},${size.h - 3})`}
+        styleId={style.id}
+        exportButtons={p.exportButtons}
         exportChart={exportChart}
       />
       <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
         {p.onClick && (
-          <rect width={v.size.w} height={v.size.h} onClick={v.h.reset} className={`fillTransparent-${v.style.id}`} />
+          <rect width={size.w} height={size.h} onClick={h.reset} className={`fillTransparent-${style.id}`} />
         )}
-        <UpSetTitle style={v.style} width={v.size.area.w} />
+        <UpSetTitle style={style} width={size.area.w} />
         {children}
       </g>
       {p.children}

@@ -95,7 +95,8 @@ function areCombinations<T>(
 
 function fillGeneric<T extends {}>(
   base: T,
-  props: { theme?: UpSetThemes; fontSizes?: {}; queries?: readonly unknown[] }
+  props: { theme?: UpSetThemes; fontSizes?: {}; queries?: readonly unknown[] },
+  others = {}
 ) {
   const theme = getDefaultTheme(props.theme);
   return Object.assign(
@@ -120,6 +121,7 @@ function fillGeneric<T extends {}>(
     },
     theme,
     props,
+    others,
     props.fontSizes
       ? {
           fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
@@ -179,7 +181,12 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
       valueFormat,
       layout: DEFAULT_VENN_LAYOUT,
     },
-    props
+    props,
+    {
+      exportButtons: !props.exportButtons
+        ? false
+        : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
+    }
   );
 }
 
@@ -197,7 +204,12 @@ export function fillKarnaughMapDefaultsG<T, C, N, L = N>(
     {
       numericScale: 'linear',
     },
-    props
+    props,
+    {
+      exportButtons: !props.exportButtons
+        ? false
+        : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
+    }
   );
 }
 

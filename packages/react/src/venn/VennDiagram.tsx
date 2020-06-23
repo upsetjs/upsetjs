@@ -12,7 +12,7 @@ import { clsx } from '../utils';
 import SVGWrapper from './components/SVGWrapper';
 import VennArcSliceSelection from './components/VennArcSliceSelection';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
-import { useCreateCommon } from './hooks';
+import { useCreateCommon, useExportChart } from './hooks';
 
 const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
   const p = fillVennDiagramDefaults<T>(props);
@@ -68,8 +68,20 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     .join('\n')}
   `;
 
+  const exportChart = useExportChart(dataInfo, p);
+
   return (
-    <SVGWrapper p={p} v={v} data={dataInfo} rules={rules} tRef={ref}>
+    <SVGWrapper
+      rules={rules}
+      style={style}
+      selectionName={v.selectionName}
+      size={size}
+      p={p}
+      data={dataInfo}
+      tRef={ref}
+      h={v.h}
+      exportChart={exportChart}
+    >
       <g className={clsx(p.onClick && `clickAble-${style.id}`)}>
         {dataInfo.sets.d.map((d, i) => (
           <text

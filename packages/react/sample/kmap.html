@@ -18,10 +18,10 @@
           sets: sets.slice(0, document.getElementById('value').valueAsNumber),
           width: 1200,
           height: 500,
-          // onHover: (s) => {
-          //   props.selection = s || clicked;
-          //   rerender();
-          // },
+          onHover: (s) => {
+            props.selection = s || clicked;
+            rerender();
+          },
           onClick: (s) => {
             clicked = clicked === s ? null : s;
             props.selection = clicked;

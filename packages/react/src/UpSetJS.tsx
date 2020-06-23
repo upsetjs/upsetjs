@@ -18,7 +18,7 @@ import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { generateId, clsx, generateSelectionName } from './utils';
+import { generateId, clsx, generateSelectionName, parseFontSize } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
 import useHandler from './hooks/useHandler';
@@ -153,10 +153,10 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         sizeInfo,
         p.numericScale,
         p.bandScale,
-        p.barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10'),
+        p.barLabelOffset + parseFontSize(fontSizes.barLabel),
         p.dotPadding,
         p.barPadding,
-        Number.parseInt(fontSizes.axisTick ?? '10'),
+        parseFontSize(fontSizes.axisTick),
         p.toKey,
         p.toElemKey,
         p.id

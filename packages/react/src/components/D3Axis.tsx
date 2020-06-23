@@ -6,8 +6,7 @@
  */
 
 import { NumericScaleLike } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import React, { PropsWithChildren, CSSProperties } from 'react';
 import { clsx } from '../utils';
 
 export type D3AxisProps = {
@@ -18,8 +17,14 @@ export type D3AxisProps = {
   tickPadding?: number;
   size: number;
   shift: number;
-  style: UpSetStyleInfo;
+  style: AxisStyle;
   transform?: string;
+};
+
+export type AxisStyle = {
+  id: string;
+  classNames: { axisTick?: string };
+  styles: { axisTick?: CSSProperties };
 };
 
 declare type TickProps = {
@@ -28,7 +33,7 @@ declare type TickProps = {
   tickSizeInner: number;
   orient: 'top' | 'bottom' | 'left' | 'right';
   name?: string;
-  style: UpSetStyleInfo;
+  style: AxisStyle;
 };
 
 const D3HorizontalTick = React.memo(function D3HorizontalTick({
