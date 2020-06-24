@@ -35,7 +35,8 @@ export declare type KMapDataInfo<T> = {
   cell: number;
   sets: {
     keys: string[];
-    l: readonly { hor: boolean; text: IPoints; notText: IPoints }[];
+    labelHeight: number;
+    l: readonly { hor: boolean; span: number; text: IPoints; notText: IPoints }[];
     v: ISets<T>;
     format(v: number): string;
   };
@@ -73,10 +74,11 @@ export default function deriveKarnaughDataDependent<T>(
     const sk = toKey(s);
     return Array.from(v.sets).some((ss) => toKey(ss) === sk);
   };
+  const labelHeight = Math.ceil(setLabelFontSize * 1.2);
   const l = generate(sets, cs, has, {
     width: size.area.w,
     height: size.area.h,
-    labelHeight: setLabelFontSize * 1.2,
+    labelHeight,
   });
 
   const maxCSCardinality = cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
@@ -85,7 +87,7 @@ export default function deriveKarnaughDataDependent<T>(
     fontSizeHint: tickFontSize,
   });
   const bandWidth = Math.round(l.cell * (1 - barPadding));
-  const triangleSize = Math.max(2, (bandWidth / 2) * barPadding);
+  const triangleSize = Math.min(Math.max(2, (bandWidth / 2) * barPadding), 5);
   const guessLabelWidth = (v: number) => Math.floor((barLabelFontSize / 1.4) * 0.7 * scale.tickFormat()(v).length);
 
   const largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
@@ -97,6 +99,7 @@ export default function deriveKarnaughDataDependent<T>(
       keys: setKeys,
       l: l.s,
       v: sets,
+      labelHeight,
       format: scale.tickFormat(),
     },
     triangleSize,

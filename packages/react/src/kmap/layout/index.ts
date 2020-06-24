@@ -56,7 +56,10 @@ export function generate<S, C>(
 }
 
 export function setLabels(sets: number, options: IGenerateOptions) {
-  const { xOffset, horizontalSets, yOffset, verticalSets, cell, xBefore, yBefore } = bounds(sets, options);
+  const { xOffset, horizontalSets, yOffset, verticalSets, cell, xBefore, yBefore, hCells, vCells } = bounds(
+    sets,
+    options
+  );
 
   const xAfterEnd = options.width - xOffset;
   const yAfterEnd = options.height - yOffset;
@@ -80,15 +83,18 @@ export function setLabels(sets: number, options: IGenerateOptions) {
       const start = hor ? yOffset : xOffset;
       yPos = start + options.labelHeight * (0.5 + withinGroupIndex);
     }
+    const span = (hor ? hCells : vCells) / numLabels / 2;
     if (hor) {
       return {
         hor: true,
+        span,
         text: text.map((x) => ({ x, y: yPos })),
         notText: notText.map((x) => ({ x, y: yPos })),
       };
     }
     return {
       hor: false,
+      span,
       text: text.map((y) => ({ x: yPos, y })),
       notText: notText.map((y) => ({ x: yPos, y })),
     };

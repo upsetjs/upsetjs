@@ -165,8 +165,9 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
   }
 
   .not-${style.id} {
-    font-weight: bold;
+    text-decoration: overline;
   }
+
   .axisLine-${styleId} {
     fill: none;
     stroke: ${p.textColor};

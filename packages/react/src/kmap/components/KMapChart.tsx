@@ -55,47 +55,49 @@ export default React.memo(function KMapChart<T>({
           {style.cs.name}
         </text>
       </g>
-      {data.sets.l.map((l, i) => {
-        const s = data.sets.v[i];
-        const name = s.name;
-        return (
-          <g
-            key={name}
-            onClick={h.onClick(s, [])}
-            onMouseEnter={h.onMouseEnter(s, [])}
-            onMouseLeave={h.onMouseLeave}
-            onContextMenu={h.onContextMenu(s, [])}
-            onMouseMove={h.onMouseMove(s, [])}
-            className={clsx(h.hasClick && `clickAble-${style.id}`)}
-          >
-            {l.text.map((p, i) => (
-              <text
-                key={i}
-                transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
-                className={clsx(`setTextStyle-${style.id}`)}
-              >
-                {name}
-              </text>
-            ))}
-          </g>
-        );
-      })}
-      {data.sets.l.map((l, i) => {
-        const name = data.sets.v[i].name;
-        return (
-          <g key={name}>
-            {l.notText.map((p, i) => (
-              <text
-                key={i}
-                transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
-                className={clsx(`setTextStyle-${style.id}`, `not-${style.id}`)}
-              >
-                {name}
-              </text>
-            ))}
-          </g>
-        );
-      })}
+      <g>
+        {data.sets.l.map((l, i) => {
+          const s = data.sets.v[i];
+          const name = s.name;
+          return (
+            <g
+              key={name}
+              onClick={h.onClick(s, [])}
+              onMouseEnter={h.onMouseEnter(s, [])}
+              onMouseLeave={h.onMouseLeave}
+              onContextMenu={h.onContextMenu(s, [])}
+              onMouseMove={h.onMouseMove(s, [])}
+              className={clsx(h.hasClick && `clickAble-${style.id}`)}
+            >
+              {l.text.map((p, i) => (
+                <text
+                  key={i}
+                  transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
+                  className={clsx(`setTextStyle-${style.id}`)}
+                >
+                  {name}
+                </text>
+              ))}
+            </g>
+          );
+        })}
+        {data.sets.l.map((l, i) => {
+          const name = data.sets.v[i].name;
+          return (
+            <React.Fragment key={name}>
+              {l.notText.map((p, i) => (
+                <text
+                  key={i}
+                  transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
+                  className={clsx(`setTextStyle-${style.id}`, `not-${style.id}`)}
+                >
+                  {name}
+                </text>
+              ))}
+            </React.Fragment>
+          );
+        })}
+      </g>
       <g className={clsx(h.hasClick && `clickAble-${style.id}`)}>
         {data.cs.v.map((c, i) => {
           return <KMapCell key={data.cs.keys[i]} d={c} i={i} h={h} style={style} data={data} />;
