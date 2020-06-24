@@ -20,22 +20,10 @@ export function generate<S, C>(
 
   const s = setLabels(sets.length, options);
 
-  const c = cs.map((c) => {
-    let i = 0;
-    let j = 0;
-    sets.forEach((s, k) => {
-      if (has(c, s)) {
-        return; // no shift
-      }
-      const inverseK = sets.length - 1 - k;
-      const index = Math.pow(2, Math.floor(inverseK / 2));
-      if (k % 2 === 0) {
-        i += index;
-      } else {
-        j += index;
-      }
-    });
+  const shifts = generateShiftLookup<S, C>(sets, hCells, vCells, has);
 
+  const c = cs.map((c) => {
+    const [i, j] = shifts.reduceRight((acc, s) => s(c, acc), [0, 0]);
     return {
       x: xBefore + i * cell,
       y: yBefore + j * cell,
@@ -55,11 +43,40 @@ export function generate<S, C>(
   };
 }
 
+export function generateShiftLookup<S, C>(
+  sets: readonly S[],
+  hCells: number,
+  vCells: number,
+  has: (cs: C, s: S) => boolean
+) {
+  return sets.map((s, k) => {
+    const index = Math.floor(k / 2);
+    const hor = k % 2 === 0;
+    const numLabels = Math.pow(2, index);
+    const span = (hor ? hCells : vCells) / numLabels / 2;
+
+    return (cs: C, [i, j]: [number, number]): [number, number] => {
+      if (has(cs, s)) {
+        return [i, j];
+      }
+      if (span > 1) {
+        // flip previous and shift
+        if (hor) {
+          return [span - 1 - i + span, j];
+        }
+        return [i, span - 1 - j + span];
+      }
+      // shift only
+      if (hor) {
+        return [i + span, j];
+      }
+      return [i, j + span];
+    };
+  });
+}
+
 export function setLabels(sets: number, options: IGenerateOptions) {
-  const { xOffset, horizontalSets, yOffset, verticalSets, cell, xBefore, yBefore, hCells, vCells } = bounds(
-    sets,
-    options
-  );
+  const { xOffset, yOffset, cell, xBefore, yBefore, hCells, vCells } = bounds(sets, options);
 
   const xAfterEnd = options.width - xOffset;
   const yAfterEnd = options.height - yOffset;
@@ -68,35 +85,54 @@ export function setLabels(sets: number, options: IGenerateOptions) {
     const index = Math.floor(k / 2);
     const hor = k % 2 === 0;
     const numLabels = Math.pow(2, index);
-    const offset = cell * Math.pow(2, (hor ? horizontalSets : verticalSets) - index);
+    const span = (hor ? hCells : vCells) / numLabels / 2;
     const xPos = hor ? xBefore : yBefore;
-    const text = ranged(numLabels, (i) => xPos + (i + 0.25) * offset);
-    const notText = ranged(numLabels, (i) => xPos + (i + 0.75) * offset);
+
+    const labels = [
+      {
+        v: true,
+        x: xPos + span * cell * 0.5,
+      },
+      {
+        v: false, // value
+        x: xPos + span * cell * 1.5,
+      },
+    ];
+    for (let i = 1; i <= index; i++) {
+      // duplicate and mirror
+      const offset = span * Math.pow(2, i) * cell;
+      const l = labels.length - 1;
+      labels.push(
+        ...labels.map((li, i) => ({
+          v: labels[l - i].v,
+          x: li.x + offset,
+        }))
+      );
+    }
+    const inAfterGroup = index % 2 === 1;
+    const withinGroupIndex = Math.floor(index / 2);
 
     let yPos = 0;
-    const after = index % 2 === 1;
-    const withinGroupIndex = Math.floor(index / 2);
-    if (after) {
+    if (inAfterGroup) {
       const end = hor ? yAfterEnd : xAfterEnd;
       yPos = end - options.labelHeight * (0.5 + withinGroupIndex);
     } else {
       const start = hor ? yOffset : xOffset;
       yPos = start + options.labelHeight * (0.5 + withinGroupIndex);
     }
-    const span = (hor ? hCells : vCells) / numLabels / 2;
     if (hor) {
       return {
         hor: true,
         span,
-        text: text.map((x) => ({ x, y: yPos })),
-        notText: notText.map((x) => ({ x, y: yPos })),
+        text: labels.filter((d) => d.v).map((l) => ({ x: l.x, y: yPos })),
+        notText: labels.filter((d) => !d.v).map((l) => ({ x: l.x, y: yPos })),
       };
     }
     return {
       hor: false,
       span,
-      text: text.map((y) => ({ x: yPos, y })),
-      notText: notText.map((y) => ({ x: yPos, y })),
+      text: labels.filter((d) => d.v).map((l) => ({ x: yPos, y: l.x })),
+      notText: labels.filter((d) => !d.v).map((l) => ({ x: yPos, y: l.x })),
     };
   });
 }
