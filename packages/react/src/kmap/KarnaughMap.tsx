@@ -176,6 +176,13 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
   .gridStyle-${style.id} {
     fill: none;
     stroke: ${p.strokeColor};
+    stroke-linecap: round;
+  }
+  .gridStyle-${style.id}-1 {
+    stroke-width: 2;
+  }
+  .gridStyle-${style.id}-2 {
+    stroke-width: 3;
   }
 
   ${rulesHelper.fill}

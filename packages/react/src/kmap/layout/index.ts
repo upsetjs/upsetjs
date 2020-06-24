@@ -10,13 +10,34 @@ export function ranged<U>(count: number, cb: (i: number) => U) {
     .map((_, i) => cb(i));
 }
 
+export function generateLevels(numSets: number) {
+  // all lines and the value is the thickness
+  const lines = Array(Math.pow(2, numSets)).fill(0);
+  ranged(numSets, (i) => {
+    const shift = Math.pow(2, i);
+    for (let i = 0; i < lines.length; i += shift) {
+      lines[i]++;
+    }
+  });
+
+  const levels: number[][] = ranged(numSets, () => []);
+  lines.forEach((l, i) => {
+    const level = l - 1;
+    // l -1 cause l is at least 1
+    levels[level].push(i);
+  });
+  // push the last index to the last level
+  levels[levels.length - 1].push(lines.length);
+  return levels;
+}
+
 export function generate<S, C>(
   sets: readonly S[],
   cs: readonly C[],
   has: (cs: C, s: S) => boolean,
   options: IGenerateOptions
 ) {
-  const { xBefore, yBefore, cell, hCells, vCells } = bounds(sets.length, options);
+  const { xBefore, yBefore, cell, hCells, vCells, horizontalSets, verticalSets } = bounds(sets.length, options);
 
   const s = setLabels(sets.length, options);
 
@@ -30,6 +51,9 @@ export function generate<S, C>(
     };
   });
 
+  const hLevels = generateLevels(horizontalSets);
+  const vLevels = generateLevels(verticalSets);
+
   return {
     s,
     c,
@@ -39,6 +63,10 @@ export function generate<S, C>(
       y: yBefore,
       hCells,
       vCells,
+      levels: hLevels.map((l, i) => ({
+        x: l,
+        y: i < vLevels.length ? vLevels[i] : [],
+      })),
     },
   };
 }

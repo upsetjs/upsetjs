@@ -14,20 +14,12 @@ import { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import KMapCell from './KMapCell';
 import { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
 
-function generateGridPath<T>(data: KMapDataInfo<T>) {
-  const x = data.grid.x;
-  const y = data.grid.y;
-  const x2 = x + data.cell * data.grid.hCells;
-  const y2 = y + data.cell * data.grid.vCells;
-  let p = `M${x},${y} L${x2},${y} L${x2},${y2} L${x},${y2} L${x},${y}`;
-  // generate grid lines
-  for (let i = 1; i < data.grid.hCells; i++) {
-    p += ` M${x + data.cell * i},${y} l0,${y2 - y}`;
-  }
-  for (let i = 1; i < data.grid.vCells; i++) {
-    p += ` M${x},${y + data.cell * i} l${x2 - x},0`;
-  }
-  return p;
+function generateGridPath<T>(data: KMapDataInfo<T>, level: { x: number[]; y: number[] }) {
+  const h = data.cell * data.grid.vCells;
+  const w = data.cell * data.grid.hCells;
+  return [level.x.map((x) => `M ${x * data.cell},0 l0,${h}`), level.y.map((y) => `M 0,${y * data.cell} l${w},0`)]
+    .flat()
+    .join(' ');
 }
 
 export default React.memo(function KMapChart<T>({
@@ -41,7 +33,6 @@ export default React.memo(function KMapChart<T>({
   size: VennDiagramSizeInfo;
   h: Handlers;
 }) {
-  const grid = generateGridPath(data);
   const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
   return (
     <>
@@ -103,7 +94,11 @@ export default React.memo(function KMapChart<T>({
           return <KMapCell key={data.cs.keys[i]} d={c} i={i} h={h} style={style} data={data} />;
         })}
       </g>
-      <path d={grid} className={`gridStyle-${style.id}`} />
+      <g transform={`translate(${data.grid.x}, ${data.grid.y})`}>
+        {data.grid.levels.map((l, i) => (
+          <path key={i} d={generateGridPath(data, l)} className={`gridStyle-${style.id} gridStyle-${style.id}-${i}`} />
+        ))}
+      </g>
     </>
   );
 });

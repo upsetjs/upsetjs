@@ -30,6 +30,7 @@ export declare type KMapDataInfo<T> = {
     y: number;
     hCells: number;
     vCells: number;
+    levels: { x: number[]; y: number[] }[];
   };
   triangleSize: number;
   cell: number;
