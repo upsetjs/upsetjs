@@ -148,27 +148,27 @@ describe('setLabels', () => {
       y: 25 + 20,
     });
     expect(b[1].notText[0]).toEqual({
-      y: 75 + 20,
       x: c,
+      y: 75 + 20,
     });
     expect(b[2].hor).toBe(true);
     expect(b[2].text).toHaveLength(2);
     expect(b[2].notText).toHaveLength(2);
     expect(b[2].text[0]).toEqual({
       x: 25 + 20,
-      y: 20 + 100,
+      y: c + 20 + 100,
     });
     expect(b[2].text[1]).toEqual({
       x: 125 + 20,
-      y: 20 + 100,
+      y: c + 20 + 100,
     });
     expect(b[2].notText[0]).toEqual({
       x: 75 + 20,
-      y: 20 + 100,
+      y: c + 20 + 100,
     });
     expect(b[2].notText[1]).toEqual({
       x: 175 + 20,
-      y: 20 + 100,
+      y: c + 20 + 100,
     });
   });
   test('4', () => {
@@ -208,45 +208,45 @@ describe('setLabels', () => {
       y: 50 + 20,
     });
     expect(b[1].notText[0]).toEqual({
-      y: 150 + 20,
       x: c,
+      y: 150 + 20,
     });
     expect(b[2].hor).toBe(true);
     expect(b[2].text).toHaveLength(2);
     expect(b[2].notText).toHaveLength(2);
     expect(b[2].text[0]).toEqual({
       x: 25 + 20,
-      y: 20 + 200,
+      y: c + 20 + 200,
     });
     expect(b[2].text[1]).toEqual({
       x: 125 + 20,
-      y: 20 + 200,
+      y: c + 20 + 200,
     });
     expect(b[2].notText[0]).toEqual({
       x: 75 + 20,
-      y: 20 + 200,
+      y: c + 20 + 200,
     });
     expect(b[2].notText[1]).toEqual({
       x: 175 + 20,
-      y: 20 + 200,
+      y: c + 20 + 200,
     });
     expect(b[3].hor).toBe(false);
     expect(b[3].text).toHaveLength(2);
     expect(b[3].notText).toHaveLength(2);
     expect(b[3].text[0]).toEqual({
-      x: 20 + 200,
+      x: c + 20 + 200,
       y: 25 + 20,
     });
     expect(b[3].text[1]).toEqual({
-      x: 20 + 200,
+      x: c + 20 + 200,
       y: 25 + 100 + 20,
     });
     expect(b[3].notText[0]).toEqual({
-      x: 20 + 200,
+      x: c + 20 + 200,
       y: 75 + 20,
     });
     expect(b[3].notText[1]).toEqual({
-      x: 20 + 200,
+      x: c + 20 + 200,
       y: 75 + 100 + 20,
     });
   });
