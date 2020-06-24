@@ -64,7 +64,7 @@ function customizeFromParams(interactive: boolean) {
   if (p.has('mode')) {
     mode = p.get('mode') as 'venn' | 'upset' | 'kmap';
   }
-  return [r, interactive, mode];
+  return [r, interactive, mode] as [Partial<UpSetProps<any>>, boolean, 'venn' | 'upset' | 'kmap' | undefined];
 }
 
 function isStaticDump(dump: IUpSetJSDump | IUpSetJSStaticDump): dump is IUpSetJSStaticDump {
