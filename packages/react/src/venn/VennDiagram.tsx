@@ -68,7 +68,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
     .join('\n')}
   `;
 
-  const exportChart = useExportChart(dataInfo, p);
+  const exportChart = useExportChart(dataInfo, p, 'venn');
 
   return (
     <SVGWrapper
