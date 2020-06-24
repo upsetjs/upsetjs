@@ -204,7 +204,7 @@ function enableUpload(root: HTMLElement, onDump: (dump: IUpSetJSDump | IUpSetJSS
 }
 
 window.onload = () => {
-  // cases 1. stored in gobal data object
+  // cases 1. stored in global data object
 
   const urlDump = fromURLParam();
   if (urlDump) {
