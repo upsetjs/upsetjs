@@ -9,12 +9,16 @@ import { render as renderPreact, h, hydrate as hydratePreact } from 'preact';
 import UpSetElement, {
   UpSetPropsG,
   VennDiagramPropsG,
+  KarnaughMapPropsG,
   UpSetFullPropsG,
   VennDiagramFullPropsG,
+  KarnaughMapFullPropsG,
   UpSetProps as UpSetReactProps,
   VennDiagramProps as VennDiagramReactProps,
+  KarnaughMapProps as KarnaughMapReactProps,
   fillDefaults as fillDefaultsImpl,
   fillVennDiagramDefaults as fillVennDiagramDefaultsImpl,
+  fillKarnaughMapDefaults as fillKarnaughMapDefaultsImpl,
   exportSVG as exportSVGImpl,
   downloadUrl as downloadUrlImpl,
   toUpSetJSDump as toUpSetJSDumpImpl,
@@ -26,8 +30,11 @@ import UpSetElement, {
   UpSetMultiStyle,
   VennDiagram as VennDiagramElement,
   VennDiagramMultiStyle,
+  KarnaughMap as KarnaughMapElement,
+  KarnaughMapMultiStyle,
   UpSetJSSkeletonProps as UpSetJSSkeletonPropsImpl,
   VennDiagramSkeleton,
+  KarnaughMapSkeleton,
   UpSetJSSkeleton,
 } from '@upsetjs/react';
 import { UpSetReactElement } from './react';
@@ -44,10 +51,13 @@ export {
   UpSetStyleProps,
   UpSetFontSizes,
   VennDiagramFontSizes,
+  KarnaughMapFontSizes,
   UpSetLayoutProps,
   VennDiagramLayoutProps,
+  KarnaughMapLayoutProps,
   UpSetSelectionProps,
   VennDiagramThemeProps,
+  KarnaughMapThemeProps,
   UpSetStyleClassNames,
   UpSetExportOptions,
   createVennDiagramLayoutFunction,
@@ -76,6 +86,13 @@ export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
   UpSetReactElement,
   string
 >;
+export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export declare type KarnaughMapFullProps<T = any> = KarnaughMapFullPropsG<
+  T,
+  CSSStyleDeclaration,
+  UpSetReactElement,
+  string
+>;
 
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
@@ -91,6 +108,13 @@ export function fillDefaults<T = any>(props: UpSetProps<T>): UpSetFullProps<T> {
 export function fillVennDiagramDefaults<T = any>(props: VennDiagramProps<T>): VennDiagramFullProps<T> {
   const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
   return fillVennDiagramDefaultsImpl(p) as VennDiagramFullProps<T>;
+}
+/**
+ * helper methods to fill up partial UpSet.js properties with their default values
+ */
+export function fillKarnaughMapDefaults<T = any>(props: KarnaughMapProps<T>): KarnaughMapFullProps<T> {
+  const p: KarnaughMapReactProps<T> = props as KarnaughMapProps<T> & { style: any; styles: KarnaughMapMultiStyle<any> };
+  return fillKarnaughMapDefaultsImpl(p) as KarnaughMapFullProps<T>;
 }
 
 /**
@@ -112,6 +136,15 @@ export function renderVennDiagram<T = any>(node: HTMLElement, props: VennDiagram
   const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
   renderPreact(h(VennDiagramElement as any, p), node);
 }
+/**
+ * renders the KarnaughMap component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderKarnaughMap<T = any>(node: HTMLElement, props: KarnaughMapProps<T>) {
+  const p: KarnaughMapReactProps<T> = props as KarnaughMapProps<T> & { style: any; styles: KarnaughMapMultiStyle<any> };
+  renderPreact(h(KarnaughMapElement as any, p), node);
+}
 
 /**
  * renders the UpSetJS skeleton component
@@ -131,6 +164,15 @@ export function renderSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
 export function renderVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
   const p: UpSetJSSkeletonPropsImpl = props;
   renderPreact(h(VennDiagramSkeleton as any, p), node);
+}
+/**
+ * renders the KarnaughMap skeleton component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderKarnaughMapSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  const p: UpSetJSSkeletonPropsImpl = props;
+  renderPreact(h(KarnaughMapSkeleton as any, p), node);
 }
 
 /**
@@ -159,6 +201,15 @@ export function hydrateVennDiagram<T = any>(node: HTMLElement, props: VennDiagra
   const p: VennDiagramReactProps<T> = props as VennDiagramProps<T> & { style: any; styles: VennDiagramMultiStyle<any> };
   hydratePreact(h(VennDiagramElement as any, p), node);
 }
+/**
+ * hydrates the KarnaughMap component when applied on a server rendered version
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function hydrateKarnaughMap<T = any>(node: HTMLElement, props: KarnaughMapProps<T>) {
+  const p: KarnaughMapReactProps<T> = props as KarnaughMapProps<T> & { style: any; styles: KarnaughMapMultiStyle<any> };
+  hydratePreact(h(KarnaughMapElement as any, p), node);
+}
 
 /**
  * hydrates the UpSetJS Skeleton component when applied on a server rendered version
@@ -171,13 +222,23 @@ export function hydrateSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) 
 }
 
 /**
- * hydrates the UpSetJS Skeleton component when applied on a server rendered version
+ * hydrates the VennDiagram Skeleton component when applied on a server rendered version
  * @param node the DOM node to render the component into
  * @param props the properties of the component
  */
 export function hydrateVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
   const p: UpSetJSSkeletonPropsImpl = props;
   hydratePreact(h(VennDiagramSkeleton as any, p), node);
+}
+
+/**
+ * hydrates the KarnaughMap Skeleton component when applied on a server rendered version
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function hydrateKarnaughMapSkeleton(node: HTMLElement, props: UpSetJSSkeletonProps) {
+  const p: UpSetJSSkeletonPropsImpl = props;
+  hydratePreact(h(KarnaughMapSkeleton as any, p), node);
 }
 
 /**
@@ -213,24 +274,28 @@ export function toUpSetJSDump(
   dump: IUpSetDump,
   elements: readonly (number | string | any)[],
   props: Partial<UpSetProps<any>>,
-  author?: string
+  author?: string,
+  mode?: 'upset' | 'venn' | 'kmap'
 ): IUpSetJSDump {
   return toUpSetJSDumpImpl(
     dump,
     elements,
     props as Partial<UpSetProps<any> & { style: any; styles: UpSetMultiStyle<any> }>,
-    author
+    author,
+    mode
   );
 }
 
 export function toUpSetJSStaticDump(
   dump: IUpSetStaticDump,
   props: Partial<UpSetProps<any>>,
-  author?: string
+  author?: string,
+  mode?: 'upset' | 'venn' | 'kmap'
 ): IUpSetJSStaticDump {
   return toUpSetJSStaticDumpImpl(
     dump,
     props as Partial<UpSetProps<any> & { style: any; styles: UpSetMultiStyle<any> }>,
-    author
+    author,
+    mode
   );
 }

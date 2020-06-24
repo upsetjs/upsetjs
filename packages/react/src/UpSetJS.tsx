@@ -18,11 +18,10 @@ import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { generateId, clsx, generateSelectionName } from './utils';
+import { generateId, clsx, generateSelectionName, parseFontSize } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
-
-export * from './interfaces';
+import useHandler from './hooks/useHandler';
 
 /**
  * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
@@ -31,7 +30,7 @@ export * from './interfaces';
  */
 const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
   const p = fillDefaults<T>(props);
-  const { selection = null, onClick, queries = [], fontSizes } = p;
+  const { selection = null, queries = [], fontSizes } = p;
 
   // generate a "random" but attribute stable id to avoid styling conflicts
   const styleId = useMemo(
@@ -154,10 +153,10 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
         sizeInfo,
         p.numericScale,
         p.bandScale,
-        p.barLabelOffset + Number.parseInt(fontSizes.barLabel ?? '10'),
+        p.barLabelOffset + parseFontSize(fontSizes.barLabel),
         p.dotPadding,
         p.barPadding,
-        Number.parseInt(fontSizes.axisTick ?? '10'),
+        parseFontSize(fontSizes.axisTick),
         p.toKey,
         p.toElemKey,
         p.id
@@ -180,6 +179,9 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   );
 
   const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
+
+  const h = useHandler(p);
+
   const rules = `
   ${rulesHelper.root}
   ${rulesHelper.text}
@@ -303,11 +305,6 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
 
   const selectionName = generateSelectionName(selection);
 
-  const reset = useCallback(
-    (evt: React.MouseEvent<SVGElement>) => (onClick ? onClick(null, evt.nativeEvent, []) : null),
-    [onClick]
-  );
-
   return (
     <svg
       id={p.id}
@@ -338,7 +335,7 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           <rect
             width={sizeInfo.cs.x}
             height={sizeInfo.sets.y}
-            onClick={reset}
+            onClick={h.reset}
             className={`fillTransparent-${styleId}`}
           />
         )}
@@ -347,19 +344,16 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onClick={p.onClick}
-          onHover={p.onHover}
-          onContextMenu={p.onContextMenu}
-          onMouseMove={p.onMouseMove}
+          h={h}
           setChildrenFactory={p.setChildrenFactory}
           combinationChildrenFactory={p.combinationChildrenFactory}
         />
-        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} onHover={p.onHover} selection={selection} />
+        <UpSetSelection size={sizeInfo} style={styleInfo} data={dataInfo} hasHover={h.hasHover} selection={selection} />
         <UpSetQueries
           size={sizeInfo}
           style={styleInfo}
           data={dataInfo}
-          onHover={p.onHover}
+          hasHover={h.hasHover}
           queries={queries}
           secondary={p.onHover != null || selection != null}
         />

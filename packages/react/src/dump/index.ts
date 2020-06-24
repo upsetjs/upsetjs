@@ -14,20 +14,27 @@ import {
   VennDiagramThemeProps,
   VennDiagramLayoutProps,
   VennDiagramStyleProps,
+  VennDiagramProps,
+  KarnaughMapProps,
+  KarnaughMapThemeProps,
+  KarnaughMapLayoutProps,
+  KarnaughMapStyleProps,
 } from '../interfaces';
 import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 import { fillDefaults } from '../fillDefaults';
 import { FONT_SIZES_KEYS } from '../defaults';
 
 export interface UpSetJSDumpProps
-  extends Partial<UpSetLayoutProps>,
+  extends Partial<UpSetLayoutProps & KarnaughMapLayoutProps>,
     UpSetThemeProps,
+    VennDiagramThemeProps,
+    KarnaughMapThemeProps,
     Omit<UpSetStyleProps<string>, 'title' | 'description'> {
   numericScale?: 'linear' | 'log';
   bandScale?: 'band';
 }
 
-const THEME_KEYS: (keyof (UpSetThemeProps & VennDiagramThemeProps))[] = [
+const THEME_KEYS: (keyof (UpSetThemeProps & VennDiagramThemeProps & KarnaughMapThemeProps))[] = [
   'selectionColor',
   'color',
   'textColor',
@@ -40,14 +47,14 @@ const THEME_KEYS: (keyof (UpSetThemeProps & VennDiagramThemeProps))[] = [
   'strokeColor',
   'valueTextColor',
 ];
-const LAYOUT_KEYS: (keyof (UpSetLayoutProps & VennDiagramLayoutProps))[] = [
+const LAYOUT_KEYS: (keyof (UpSetLayoutProps & VennDiagramLayoutProps & KarnaughMapLayoutProps))[] = [
   'padding',
   'barPadding',
   'dotPadding',
   'widthRatios',
   'heightRatios',
 ];
-const STYLE_KEYS: (keyof (UpSetStyleProps<any> & VennDiagramStyleProps<any>))[] = [
+const STYLE_KEYS: (keyof (UpSetStyleProps<any> & VennDiagramStyleProps<any> & KarnaughMapStyleProps<any>))[] = [
   'fontSizes',
   'combinationName',
   'setName',
@@ -72,13 +79,16 @@ export interface IUpSetJSDump extends IUpSetDump {
   name: string;
   description: string;
   author?: string;
+  mode?: 'upset' | 'venn' | 'kmap';
 
   elements: readonly (number | string | any)[];
   attrs: readonly string[];
   props: UpSetJSDumpProps;
 }
 
-function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
+function toDumpProps(
+  props: Partial<UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any>>
+): UpSetJSDumpProps {
   const full = fillDefaults({
     width: 0,
     height: 0,
@@ -90,7 +100,7 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
   const r: any = {};
   DUMP_KEYS.forEach((key) => {
     const value = props[key];
-    const defaultValue = full[key];
+    const defaultValue = (full as any)[key];
     if (key === 'theme' && value !== 'light') {
       // keep dark theme flag
       r[key] = value;
@@ -124,14 +134,16 @@ function toDumpProps(props: Partial<UpSetProps<any>>): UpSetJSDumpProps {
 export function toUpSetJSDump(
   dump: IUpSetDump,
   elements: readonly (number | string | any)[],
-  props: Partial<UpSetProps<any>>,
-  author?: string
+  props: Partial<UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any>>,
+  author?: string,
+  mode?: 'venn' | 'kmap' | 'upset'
 ): IUpSetJSDump {
   return Object.assign(
     {
       $schema: 'https://upset.js.org/schema.1.0.0.json',
       name: typeof props.title === 'string' ? props.title : 'UpSetJS',
       description: typeof props.description === 'string' ? props.description : '',
+      mode,
       author,
       elements,
       attrs: [],
@@ -147,18 +159,21 @@ export interface IUpSetJSStaticDump extends IUpSetStaticDump {
   description: string;
   author?: string;
   props: UpSetJSDumpProps;
+  mode?: 'upset' | 'venn' | 'kmap';
 }
 
 export function toUpSetJSStaticDump(
   dump: IUpSetStaticDump,
-  props: Partial<UpSetProps<any>>,
-  author?: string
+  props: Partial<UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any>>,
+  author?: string,
+  mode?: 'venn' | 'kmap' | 'upset'
 ): IUpSetJSStaticDump {
   return Object.assign(
     {
       $schema: 'https://upset.js.org/schema-static.1.0.0.json',
       name: typeof props.title === 'string' ? props.title : 'UpSetJS',
       description: typeof props.description === 'string' ? props.description : '',
+      mode,
       author,
       props: toDumpProps(props),
     },

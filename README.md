@@ -203,6 +203,75 @@ function rerender() {
 rerender();
 ```
 
+## Karnaugh Maps
+
+UpSet.js also has a variant of a Karnaugh Map for rendering set intersections in a dense matrix way.
+
+```ts
+import React from 'react';
+import { KarnaughMap, extractSets, ISetLike } from '@upsetjs/react';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+
+<KarnaughMap sets={sets} width={550} height={300} />;
+```
+
+with stored selection
+
+```ts
+const KarnaughMapSelection = (props: any) => {
+  [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+
+  return <KarnaughMap {...props} selection={selection} onHover={setSelection} />;
+};
+
+<KarnaughMapSelection sets={sets} width={550} height={300} />;
+```
+
+```js
+import { extractSets, renderKarnaughMap } from '@upsetjs/bundle';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+
+const sets = extractSets(elems);
+
+renderKarnaughMap(document.body, { sets, width: 550, height: 300 });
+```
+
+with stored selection
+
+```js
+let selection = null;
+
+function onHover(set) {
+  selection = set;
+  rerender();
+}
+
+function rerender() {
+  const props = { sets, width: 550, height: 300, selection, onHover };
+  renderKarnaughMap(document.body, props);
+}
+
+rerender();
+```
+
+![Karnaugh Map](https://user-images.githubusercontent.com/4129778/85573750-75db0a80-b636-11ea-819c-8ee1525edab0.png)
+
+see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/TODO) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/karnaughmap--default)
+
 ## Interactivity
 
 By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.

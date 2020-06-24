@@ -15,45 +15,7 @@ import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
 import { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
 import { mergeColor } from '../../components/utils';
-
-function SelectionPattern({
-  id,
-  suffix,
-  v,
-  rotate = 0,
-  bgFill,
-  styleId,
-  fill,
-}: {
-  id: string;
-  suffix: string;
-  v: number;
-  rotate?: number;
-  bgFill?: string;
-  fill?: string;
-  styleId: string;
-}) {
-  if (v >= 1 || v <= 0) {
-    return null;
-  }
-  const ratio = Math.round(v * 10.0) / 100;
-  return (
-    <defs>
-      <pattern
-        id={id}
-        width="1"
-        height="0.1"
-        patternContentUnits="objectBoundingBox"
-        patternTransform={`rotate(${rotate})`}
-      >
-        {bgFill && (
-          <rect x="0" y="0" width="1" height="0.1" style={{ fill: bgFill }} className={`fillPrimary-${styleId}`} />
-        )}
-        <rect x="0" y="0" width="1" height={ratio} className={`fill${suffix}`} style={fill ? { fill } : undefined} />
-      </pattern>
-    </defs>
-  );
-}
+import SelectionPattern from './SelectionPattern';
 
 function sliceRotate(slice: ITextArcSlice, center: { cx: number; cy: number }) {
   if (slice.text.x === center.cx) {
@@ -154,29 +116,24 @@ export default function VennArcSliceSelection<T>({
   elemOverlap,
   selected,
   selectionName,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  onContextMenu,
-  onMouseMove,
+  h,
   queries,
   size,
   qs,
-}: PropsWithChildren<
-  {
-    slice: ITextArcSlice;
-    i: number;
-    d: ISetLike<T>;
-    selected: boolean;
-    elemOverlap: null | ((s: ISetLike<T>) => number);
-    selectionName?: string;
-    style: VennDiagramStyleInfo;
-    data: VennDiagramDataInfo<T>;
-    size: VennDiagramSizeInfo;
-    queries: UpSetQueries<T>;
-    qs: readonly ((s: ISetLike<T>) => number)[];
-  } & UpSetSelection
->) {
+}: PropsWithChildren<{
+  slice: ITextArcSlice;
+  i: number;
+  d: ISetLike<T>;
+  selected: boolean;
+  elemOverlap: null | ((s: ISetLike<T>) => number);
+  selectionName?: string;
+  style: VennDiagramStyleInfo;
+  data: VennDiagramDataInfo<T>;
+  size: VennDiagramSizeInfo;
+  queries: UpSetQueries<T>;
+  qs: readonly ((s: ISetLike<T>) => number)[];
+  h: UpSetSelection;
+}>) {
   const p = generateArcSlicePath(slice);
   const rotate = sliceRotate(slice, size.area);
 
@@ -189,7 +146,7 @@ export default function VennArcSliceSelection<T>({
     style.classNames.set
   );
   const id = `upset-${style.id}-${i}`;
-  const secondary = elemOverlap != null || onMouseLeave != null;
+  const secondary = elemOverlap != null || h.onMouseLeave != null;
   const qsOverlaps = qs.map((q) => q(d));
 
   const { title, tooltip } = generateTitle(d, o, selectionName, secondary, qsOverlaps, queries, data, slice.text.x);
@@ -206,11 +163,11 @@ export default function VennArcSliceSelection<T>({
         styleId={style.id}
       />
       <path
-        onMouseEnter={onMouseEnter(d, [])}
-        onMouseLeave={onMouseLeave}
-        onClick={onClick(d, [])}
-        onContextMenu={onContextMenu(d, [])}
-        onMouseMove={onMouseMove(d, [])}
+        onMouseEnter={h.onMouseEnter(d, [])}
+        onMouseLeave={h.onMouseLeave}
+        onClick={h.onClick(d, [])}
+        onContextMenu={h.onContextMenu(d, [])}
+        onMouseMove={h.onMouseMove(d, [])}
         d={p}
         className={className}
         style={mergeColor(

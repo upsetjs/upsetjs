@@ -12,6 +12,8 @@ import {
   propValidators,
   renderVennDiagram,
   VennDiagramProps as VennDiagramBundleProps,
+  KarnaughMapProps as KarnaughMapBundleProps,
+  renderKarnaughMap,
   UpSetSelectionProps,
 } from '@upsetjs/bundle';
 import { RecordPropsDefinition } from 'vue/types/options';
@@ -48,7 +50,7 @@ export {
   NumericScaleLike,
 } from '@upsetjs/bundle';
 
-const upsetDataProps = {
+const baseDataProps = {
   /**
    * the sets to visualize
    */
@@ -57,15 +59,6 @@ const upsetDataProps = {
     required: true,
     validator: propValidators.sets,
   },
-  /**
-   * the combinations to visualize by default all combinations
-   */
-  combinations: {
-    type: [Array, Object],
-    validator: propValidators.combinations,
-    default: () => ({}),
-  },
-
   toKey: {
     type: Function,
     required: false,
@@ -74,6 +67,17 @@ const upsetDataProps = {
   toElemKey: {
     type: Function,
     required: false,
+  },
+};
+
+const upsetDataProps = {
+  /**
+   * the combinations to visualize by default all combinations
+   */
+  combinations: {
+    type: [Array, Object],
+    validator: propValidators.combinations,
+    default: () => ({}),
   },
 
   numericScale: {
@@ -87,32 +91,28 @@ const upsetDataProps = {
 };
 
 const vennDiagramDataProps = {
-  /**
-   * the sets to visualize
-   */
-  sets: {
-    type: Array,
-    required: true,
-    validator: propValidators.sets,
-  },
-
-  toKey: {
-    type: Function,
-    required: false,
-  },
-
-  toElemKey: {
-    type: Function,
-    required: false,
-  },
-
   valueFormat: {
     type: Function,
     required: false,
   },
 };
+const kMapDataProps = {
+  /**
+   * the combinations to visualize by default all combinations
+   */
+  combinations: {
+    type: [Array, Object],
+    validator: propValidators.combinations,
+    default: () => ({}),
+  },
 
-const upsetLayoutProps = {
+  numericScale: {
+    type: [String, Function],
+    validator: propValidators.numericScale,
+  },
+};
+
+const baseLayoutProps = {
   /**
    * width of the chart
    */
@@ -132,6 +132,9 @@ const upsetLayoutProps = {
    * @default 20
    */
   padding: Number,
+};
+
+const upsetLayoutProps = {
   /**
    * padding argument for scaleBand
    * @default 0.1
@@ -164,29 +167,17 @@ const upsetLayoutProps = {
 
 const vennDiagramLayoutProps = {
   /**
-   * width of the chart
-   */
-  width: {
-    type: Number,
-    required: true,
-  },
-  /**
-   * height of the chart
-   */
-  height: {
-    type: Number,
-    required: true,
-  },
-  /**
-   * padding within the svg
-   * @default 20
-   */
-  padding: Number,
-
-  /**
    * function used to perform the venn diagram layout
    */
   layout: Function,
+};
+
+const kMapLayoutProps = {
+  /**
+   * padding argument for scaleBand
+   * @default 0.1
+   */
+  barPadding: Number,
 };
 
 const upsetSelectionProps = {
@@ -203,13 +194,16 @@ const upsetSelectionProps = {
   },
 };
 
-const upsetThemeProps = {
+const baseThemeProps = {
   selectionColor: String,
   color: String,
   hasSelectionColor: String,
   opacity: Number,
   hasSelectionOpacity: Number,
   textColor: String,
+};
+
+const upsetThemeProps = {
   hoverHintColor: String,
   notMemberColor: String,
   alternatingBackgroundColor: {
@@ -219,17 +213,15 @@ const upsetThemeProps = {
 };
 
 const vennDiagramThemeProps = {
-  selectionColor: String,
-  color: String,
-  hasSelectionColor: String,
-  opacity: Number,
-  hasSelectionOpacity: Number,
-  textColor: String,
   valueTextColor: String,
   strokeColor: String,
 };
 
-const upsetElementProps = {
+const kMapThemeProps = {
+  strokeColor: String,
+};
+
+const baseElementProps = {
   id: String,
   className: String,
   classNames: {
@@ -246,7 +238,7 @@ const upsetElementProps = {
   },
 };
 
-const upsetBaseStyleProps = {
+const baseStyleProps = {
   theme: {
     type: String,
     validator: propValidators.theme,
@@ -276,9 +268,14 @@ const upsetBaseStyleProps = {
 
   title: String,
   description: String,
+
+  fontSizes: {
+    type: Object,
+    validator: propValidators.fontSizes,
+  },
 };
 
-const upsetStyleProps = Object.assign({}, upsetBaseStyleProps, {
+const upsetStyleProps = {
   barLabelOffset: Number,
   setNameAxisOffset: {
     type: [String, Number],
@@ -288,27 +285,20 @@ const upsetStyleProps = Object.assign({}, upsetBaseStyleProps, {
     type: [String, Number],
     validator: propValidators.axisOffset,
   },
-  fontSizes: {
-    type: Object,
-    validator: propValidators.fontSizes,
-  },
 
   setName: String,
   combinationName: String,
-});
-
-const vennDiagramStyleProps = Object.assign({}, upsetBaseStyleProps, {
-  fontSizes: {
-    type: Object,
-    validator: propValidators.fontSizes,
-  },
-});
+};
 
 export interface UpSetProps extends Omit<UpSetBundleProps, 'style'> {
   extraStyle?: CSSStyleDeclaration;
 }
 
 export interface VennDiagramProps extends Omit<VennDiagramBundleProps, 'style'> {
+  extraStyle?: CSSStyleDeclaration;
+}
+
+export interface KarnaughMapProps extends Omit<KarnaughMapBundleProps, 'style'> {
   extraStyle?: CSSStyleDeclaration;
 }
 
@@ -395,11 +385,15 @@ export default create<UpSetProps>(
   'UpSetJS',
   Object.assign(
     {},
+    baseDataProps,
     upsetDataProps,
+    baseLayoutProps,
     upsetLayoutProps,
+    baseStyleProps,
     upsetStyleProps,
+    baseThemeProps,
     upsetThemeProps,
-    upsetElementProps,
+    baseElementProps,
     upsetSelectionProps
   ),
   render
@@ -409,12 +403,32 @@ export const VennDiagram = create<VennDiagramProps>(
   'VennDiagram',
   Object.assign(
     {},
+    baseDataProps,
     vennDiagramDataProps,
+    baseLayoutProps,
     vennDiagramLayoutProps,
-    vennDiagramStyleProps,
+    baseStyleProps,
+    baseThemeProps,
     vennDiagramThemeProps,
-    upsetElementProps,
+    baseElementProps,
     upsetSelectionProps
   ),
   renderVennDiagram
+);
+
+export const KarnaughMap = create<KarnaughMapProps>(
+  'KarnaughMap',
+  Object.assign(
+    {},
+    baseDataProps,
+    kMapDataProps,
+    baseLayoutProps,
+    kMapLayoutProps,
+    baseStyleProps,
+    baseThemeProps,
+    kMapThemeProps,
+    baseElementProps,
+    upsetSelectionProps
+  ),
+  renderKarnaughMap
 );

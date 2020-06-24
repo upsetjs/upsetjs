@@ -9,6 +9,7 @@
   <body>
     <script src="./upset.js"></script>
     <div id="app2"></div>
+    <div id="app3"></div>
     <script>
       loadUpSetJS().then(({ UpSetJS, render }) => {
         render(
@@ -25,6 +26,14 @@
           },
           UpSetJS.VennDiagramSkeleton,
           document.getElementById('app2')
+        );
+        render(
+          {
+            width: '50vw',
+            height: '50vh',
+          },
+          UpSetJS.KarnaughMapSkeleton,
+          document.getElementById('app3')
         );
       });
     </script>

@@ -17,36 +17,31 @@ import { clsx } from '../utils';
 const SetChart = React.memo(function SetChart<T>({
   d,
   i,
-  onMouseEnter,
-  onMouseLeave,
-  onClick,
-  onContextMenu,
-  onMouseMove,
+  h,
   className,
   size,
   data,
   style,
   children,
-}: PropsWithChildren<
-  {
-    d: ISet<T>;
-    i: number;
-    className?: string;
-    size: UpSetSizeInfo;
-    style: UpSetStyleInfo;
-    data: UpSetDataInfo<T>;
-  } & UpSetSelection
->) {
+}: PropsWithChildren<{
+  d: ISet<T>;
+  i: number;
+  className?: string;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
+  h: UpSetSelection;
+}>) {
   const x = data.sets.x(d.cardinality);
   const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}
-      onMouseEnter={onMouseEnter(d, size.sets.addons)}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick(d, size.sets.addons)}
-      onContextMenu={onContextMenu(d, size.sets.addons)}
-      onMouseMove={onMouseMove(d, size.sets.addons)}
+      onMouseEnter={h.onMouseEnter(d, size.sets.addons)}
+      onMouseLeave={h.onMouseLeave}
+      onClick={h.onClick(d, size.sets.addons)}
+      onContextMenu={h.onContextMenu(d, size.sets.addons)}
+      onMouseMove={h.onMouseMove(d, size.sets.addons)}
       className={className}
       data-cardinality={d.cardinality}
     >

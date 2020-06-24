@@ -51,8 +51,15 @@ async function loadUpSetJS() {
       root || document.getElementById('app')
     );
   }
+  function renderInteractive(props, elem, root) {
+    props.onHover = (s) => {
+      props.selection = s;
+      render(props, elem, root);
+    };
+    render(props, elem, root);
+  }
   document.body.style.backgroundColor = window.exports.getDefaultTheme(theme).backgroundColor;
 
   const elems = await fetch('../src/data/got.json').then((r) => r.json());
-  return { UpSetJS: window.exports, render, elems, theme };
+  return { UpSetJS: window.exports, render, elems, theme, renderInteractive };
 }

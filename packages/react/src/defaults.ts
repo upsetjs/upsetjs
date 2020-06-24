@@ -11,13 +11,15 @@ import {
   UpSetExportOptions,
   VennDiagramFontSizes,
   VennDiagramMultiStyle,
+  KarnaughMapMultiStyle,
+  KarnaughMapFontSizes,
 } from './interfaces';
 import { GenerateSetCombinationsOptions } from '@upsetjs/model';
 import { createVennDiagramLayoutFunction } from './venn/layout/vennDiagramLayout';
 
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
-export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes & VennDiagramFontSizes> = {
+export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes & VennDiagramFontSizes & KarnaughMapFontSizes> = {
   setLabel: '16px',
   axisTick: '10px',
   chartLabel: '16px',
@@ -35,8 +37,13 @@ export const DEFAULT_COMBINATIONS: GenerateSetCombinationsOptions = { type: 'int
 export const FONT_SIZES_KEYS = /* #__PURE__ */ Object.keys(DEFAULT_FONT_SIZES) as (keyof (
   | UpSetFontSizes
   | VennDiagramFontSizes
+  | KarnaughMapFontSizes
 ))[];
-export const MULTI_STYLE_KEYS: (keyof UpSetMultiStyle<any> | keyof VennDiagramMultiStyle<any>)[] = [
+export const MULTI_STYLE_KEYS: (
+  | keyof UpSetMultiStyle<any>
+  | keyof VennDiagramMultiStyle<any>
+  | keyof KarnaughMapMultiStyle<any>
+)[] = [
   'axisTick',
   'bar',
   'barLabel',

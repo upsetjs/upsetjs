@@ -20,14 +20,14 @@ export default React.memo(function UpSetQueries<T>({
   size,
   data,
   style,
-  onHover,
+  hasHover,
   secondary,
   queries,
 }: PropsWithChildren<{
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-  onHover?: unknown;
+  hasHover?: boolean;
   secondary: boolean;
   queries: readonly UpSetQuery<T>[];
 }>) {
@@ -56,7 +56,7 @@ export default React.memo(function UpSetQueries<T>({
   }
 
   return (
-    <g className={onHover && !secondary ? `pnone-${style.id}` : undefined}>
+    <g className={hasHover && !secondary ? `pnone-${style.id}` : undefined}>
       <g transform={`translate(${size.sets.x},${size.sets.y})`}>
         {qs.map((q, i) => (
           <SetSelectionChart
@@ -67,7 +67,7 @@ export default React.memo(function UpSetQueries<T>({
             elemOverlap={q.overlap}
             suffix={`Q${i}-${data.id}`}
             secondary={secondary || i > 0}
-            tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
+            tooltip={hasHover && !(secondary || i > 0) ? undefined : q.name}
             setAddons={
               size.sets.addons.length === 0
                 ? EMPTY_ARRAY
@@ -86,7 +86,7 @@ export default React.memo(function UpSetQueries<T>({
             elemOverlap={q.overlap}
             suffix={`Q${i}-${data.id}`}
             secondary={secondary || i > 0}
-            tooltip={onHover && !(secondary || i > 0) ? undefined : q.name}
+            tooltip={hasHover && !(secondary || i > 0) ? undefined : q.name}
             combinationAddons={
               size.cs.addons.length === 0
                 ? EMPTY_ARRAY

@@ -41,12 +41,43 @@ export default function deriveVennDataDependent<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions,
   size: VennDiagramSizeInfo,
   layout: IVennDiagramLayoutGenerator,
-  valueFormat: (v: number) => string,
+  format: (v: number) => string,
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
   id?: string
 ): VennDiagramDataInfo<T> {
   const ss = sets.length > layout.maxSets ? sets.slice(0, layout.maxSets) : sets;
+  const { cs, setKeys, csKeys } = calculateCombinations<T>(ss, toKey, combinations);
+
+  const l = layout.compute(ss, cs, size.area.w, size.area.h);
+
+  return {
+    id: id ? id : generateId(),
+    sets: {
+      d: l.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
+      v: ss,
+      format,
+    },
+    format,
+    cs: {
+      d: l.intersections.map((l, i) => ({ v: cs[i], l, key: csKeys[i] })),
+      v: cs,
+      has: (v, s) => {
+        const sk = toKey(s);
+        return Array.from(v.sets).some((ss) => toKey(ss) === sk);
+      },
+    },
+    toKey,
+    toElemKey,
+  };
+}
+
+export function calculateCombinations<T>(
+  ss: ISets<T>,
+  toKey: (s: ISetLike<T>) => string,
+  combinations: GenerateSetCombinationsOptions<any> | ISetCombinations<T>,
+  options: GenerateSetCombinationsOptions<any> = { min: 1 }
+) {
   const setKeys = ss.map(toKey);
 
   let cs: ISetCombinations<T> = [];
@@ -60,12 +91,17 @@ export default function deriveVennDataDependent<T>(
       s,
     }));
     // generate dummy ones and map to given data
-    cs = generateCombinations(helperSets, {
-      type: 'distinctIntersection',
-      min: 1,
-      empty: true,
-      order: ['degree:asc', 'group:asc'],
-    }).map((c) => {
+    cs = generateCombinations(
+      helperSets,
+      Object.assign(
+        {
+          type: 'distinctIntersection',
+          empty: true,
+          order: ['degree:asc', 'group:asc'],
+        },
+        options
+      )
+    ).map((c) => {
       const key = Array.from(c.sets)
         .map((s) => toKey(((s as unknown) as { s: ISet<T> }).s))
         .sort()
@@ -86,36 +122,18 @@ export default function deriveVennDataDependent<T>(
   } else {
     cs = generateCombinations(
       ss,
-      Object.assign({}, combinations ?? {}, {
-        type: 'distinctIntersection',
-        min: 1,
-        empty: true,
-        order: ['degree:asc', 'group:asc'],
-      } as GenerateSetCombinationsOptions)
+      Object.assign(
+        {
+          type: 'distinctIntersection',
+          empty: true,
+          order: ['degree:asc', 'group:asc'],
+        },
+        options,
+        combinations ?? {}
+      )
     );
   }
 
   const csKeys = cs.map(toKey);
-
-  const l = layout.compute(ss, cs, size.area.w, size.area.h);
-
-  return {
-    id: id ? id : generateId(),
-    sets: {
-      d: l.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
-      v: ss,
-      format: valueFormat,
-    },
-    format: valueFormat,
-    cs: {
-      d: l.intersections.map((l, i) => ({ v: cs[i], l, key: csKeys[i] })),
-      v: cs,
-      has: (v, s) => {
-        const sk = toKey(s);
-        return Array.from(v.sets).some((ss) => toKey(ss) === sk);
-      },
-    },
-    toKey,
-    toElemKey,
-  };
+  return { cs, setKeys, csKeys };
 }

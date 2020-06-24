@@ -67,3 +67,13 @@ export function elemElemOverlapOf<T>(query: Set<T> | readonly T[], toElemKey?: (
 export function noOverlap() {
   return 0;
 }
+
+export function parseFontSize(v?: string) {
+  if (v == null) {
+    return 10;
+  }
+  if (v.endsWith('pt')) {
+    return Math.floor((4 / 3) * Number.parseInt(v, 10));
+  }
+  return Number.parseInt(v, 10);
+}

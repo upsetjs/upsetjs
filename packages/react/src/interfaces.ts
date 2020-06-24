@@ -160,6 +160,21 @@ export interface VennDiagramFontSizes extends UpSetBaseFontSizes {
   valueLabel?: string;
 }
 
+export interface KarnaughMapFontSizes extends UpSetBaseFontSizes {
+  /**
+   * @default 10px
+   */
+  axisTick?: string;
+  /**
+   * @default 10px
+   */
+  barLabel?: string;
+  /**
+   * @default 16px
+   */
+  chartLabel?: string;
+}
+
 export interface UpSetBaseMultiStyle<C> {
   setLabel?: C;
   legend?: C;
@@ -180,16 +195,19 @@ export interface VennDiagramMultiStyle<C> extends UpSetBaseMultiStyle<C> {
   set?: C;
 }
 
-export interface UpSetDataProps<T, N> {
+export interface KarnaughMapMultiStyle<C> extends UpSetBaseMultiStyle<C> {
+  chartLabel?: C;
+  axisTick?: C;
+  barLabel?: C;
+  bar?: C;
+  set?: C;
+}
+
+export interface UpSetBaseDataProps<T> {
   /**
    * the sets to visualize
    */
   sets: ISets<T>;
-  /**
-   * the set combinations to visualize or the generation options to generate the set combinations
-   * by default all set intersections are computed
-   */
-  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
   /**
    * optional function to identify the same sets
    * @param set the set to generate a key for
@@ -200,6 +218,14 @@ export interface UpSetDataProps<T, N> {
    * @param elem the element the key for
    */
   toElemKey?: (elem: T) => string;
+}
+
+export interface UpSetDataProps<T, N> extends UpSetBaseDataProps<T> {
+  /**
+   * the set combinations to visualize or the generation options to generate the set combinations
+   * by default all set intersections are computed
+   */
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
   /**
    * list of addons that should be rendered along the horizontal sets
    */
@@ -230,11 +256,7 @@ export interface UpSetDataProps<T, N> {
   bandScale?: BandScaleFactory | 'band';
 }
 
-export interface VennDiagramDataProps<T> {
-  /**
-   * the sets to visualize
-   */
-  sets: ISets<T>;
+export interface VennDiagramDataProps<T> extends UpSetBaseDataProps<T> {
   /**
    * the set combinations to visualize or the generation options to generate the distinct set combinations
    * by default all set distinct intersections are computed
@@ -247,21 +269,24 @@ export interface VennDiagramDataProps<T> {
          **/
         mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
       };
-  /**
-   * optional function to identify the same sets
-   * @param set the set to generate a key for
-   */
-  toKey?: (set: ISetLike<T>) => string;
-  /**
-   * optional function to identify the same element
-   * @param elem the element the key for
-   */
-  toElemKey?: (elem: T) => string;
 
   valueFormat?: (cardinality: number) => string;
 }
 
-export interface UpSetLayoutProps {
+export interface KarnaughMapDataProps<T> extends UpSetBaseDataProps<T> {
+  /**
+   * the set combinations to visualize or the generation options to generate the distinct set combinations
+   * by default all set distinct intersections are computed
+   */
+  combinations?: ISetCombinations<T> | GenerateSetCombinationsOptions<T>;
+  /**
+   * numeric scale to use, either constants 'linear' or 'log' or a custom factory function
+   * @default linear
+   */
+  numericScale?: NumericScaleFactory | 'linear' | 'log';
+}
+
+export interface UpSetBaseLayoutProps {
   /**
    * width of the chart
    */
@@ -275,6 +300,9 @@ export interface UpSetLayoutProps {
    * @default 5
    */
   padding?: number;
+}
+
+export interface UpSetLayoutProps extends UpSetBaseLayoutProps {
   /**
    * padding argument for scaleBand
    * @default 0.1
@@ -299,25 +327,19 @@ export interface UpSetLayoutProps {
   heightRatios?: [number, number];
 }
 
-export interface VennDiagramLayoutProps {
-  /**
-   * width of the chart
-   */
-  width: number;
-  /**
-   * height of the chart
-   */
-  height: number;
-  /**
-   * padding within the svg
-   * @default 5
-   */
-  padding?: number;
-
+export interface VennDiagramLayoutProps extends UpSetBaseLayoutProps {
   /**
    * function used to perform the venn diagram layout
    */
   layout?: IVennDiagramLayoutGenerator;
+}
+
+export interface KarnaughMapLayoutProps extends UpSetBaseLayoutProps {
+  /**
+   * padding argument for scaleBand
+   * @default 0.1
+   */
+  barPadding?: number;
 }
 
 export interface UpSetSelectionProps<T = any> {
@@ -405,7 +427,15 @@ export interface VennDiagramThemeProps extends UpSetBaseThemeProps {
   valueTextColor?: string;
 
   /**
-   * stroke color to render around sets
+   * stroke color to render around sets or cells
+   * @default black
+   */
+  strokeColor?: string;
+}
+
+export interface KarnaughMapThemeProps extends UpSetBaseThemeProps {
+  /**
+   * stroke color to render around sets or cells
    * @default black
    */
   strokeColor?: string;
@@ -413,7 +443,7 @@ export interface VennDiagramThemeProps extends UpSetBaseThemeProps {
 
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
 
-export interface UpSetElementProps<T, C, N> {
+export interface UpSetBaseElementProps<C> {
   /**
    * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
    */
@@ -423,13 +453,16 @@ export interface UpSetElementProps<T, C, N> {
    */
   className?: string;
   /**
-   * object of classnames for certain sub elements
-   */
-  classNames?: UpSetStyleClassNames;
-  /**
    * style object applied to the SVG element
    */
   style?: C;
+}
+
+export interface UpSetElementProps<T, C, N> extends UpSetBaseElementProps<C> {
+  /**
+   * object of classnames for certain sub elements
+   */
+  classNames?: UpSetStyleClassNames;
   /**
    * object for applying styles to certain sub elements
    */
@@ -444,27 +477,25 @@ export interface UpSetElementProps<T, C, N> {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
 }
 
-export interface VennDiagramElementProps<C> {
-  /**
-   * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
-   */
-  id?: string;
-  /**
-   * optional class name for the SVG element
-   */
-  className?: string;
+export interface VennDiagramElementProps<C> extends UpSetBaseElementProps<C> {
   /**
    * object of classnames for certain sub elements
    */
   classNames?: VennDiagramMultiStyle<string>;
   /**
-   * style object applied to the SVG element
-   */
-  style?: C;
-  /**
    * object for applying styles to certain sub elements
    */
   styles?: VennDiagramMultiStyle<C>;
+}
+export interface KarnaughMapElementProps<C> extends UpSetBaseElementProps<C> {
+  /**
+   * object of classnames for certain sub elements
+   */
+  classNames?: KarnaughMapMultiStyle<string>;
+  /**
+   * object for applying styles to certain sub elements
+   */
+  styles?: KarnaughMapMultiStyle<C>;
 }
 
 export interface UpSetExportOptions {
@@ -558,6 +589,33 @@ export interface VennDiagramStyleProps<L> extends UpSetBaseStyleProps<L> {
   fontSizes?: VennDiagramFontSizes;
 }
 
+export interface KarnaughMapStyleProps<L> extends UpSetBaseStyleProps<L> {
+  /**
+   * specify font sizes for different sub elements
+   */
+  fontSizes?: KarnaughMapFontSizes;
+  /**
+   * render empty selection for better performance
+   * @default true
+   */
+  emptySelection?: boolean;
+  /**
+   * offset of the label on top or left of a bar
+   * @default 2
+   */
+  barLabelOffset?: number;
+  /**
+   * combination axis label
+   * @default Intersection Size
+   */
+  combinationName?: L;
+  /**
+   * offset of the combination name from the combination y axis. 'auto' means that it will be guessed according to the current values
+   * @default auto
+   */
+  combinationNameAxisOffset?: number | 'auto';
+}
+
 /**
  * the UpSetJS component properties, separated in multiple semantic sub interfaces
  */
@@ -615,6 +673,41 @@ export interface VennDiagramFullPropsG<T, C, N, L>
 }
 
 export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
+  T,
+  React.CSSProperties,
+  React.ReactNode,
+  React.ReactNode
+>;
+
+export interface KarnaughMapPropsG<T, C, N, L>
+  extends KarnaughMapDataProps<T>,
+    KarnaughMapLayoutProps,
+    KarnaughMapStyleProps<L>,
+    KarnaughMapThemeProps,
+    KarnaughMapElementProps<C>,
+    UpSetSelectionProps<T> {
+  children?: N;
+}
+
+export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<
+  T,
+  React.CSSProperties,
+  React.ReactNode,
+  React.ReactNode
+>;
+
+export interface KarnaughMapFullPropsG<T, C, N, L>
+  extends Required<Omit<KarnaughMapDataProps<T>, 'toElemKey'>>,
+    Required<KarnaughMapLayoutProps>,
+    Required<KarnaughMapStyleProps<L>>,
+    Required<KarnaughMapThemeProps>,
+    Required<KarnaughMapElementProps<C>>,
+    UpSetSelectionProps<T> {
+  toElemKey?: (elem: T) => string;
+  children?: N;
+}
+
+export declare type KarnaughMapFullProps<T = any> = KarnaughMapFullPropsG<
   T,
   React.CSSProperties,
   React.ReactNode,
