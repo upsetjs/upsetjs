@@ -4,7 +4,7 @@ export interface IGenerateOptions {
   labelHeight: number;
 }
 
-export function range<U>(count: number, cb: (i: number) => U) {
+export function ranged<U>(count: number, cb: (i: number) => U) {
   return Array(count)
     .fill(0)
     .map((_, i) => cb(i));
@@ -37,8 +37,8 @@ export function generate<S, C>(
     });
 
     return {
-      x: xBefore + i * cell + cell / 2,
-      y: yBefore + j * cell + cell / 2,
+      x: xBefore + i * cell,
+      y: yBefore + j * cell,
     };
   });
 
@@ -61,14 +61,14 @@ export function setLabels(sets: number, options: IGenerateOptions) {
   const xAfterEnd = options.width - xOffset;
   const yAfterEnd = options.height - yOffset;
 
-  return range(sets, (k) => {
+  return ranged(sets, (k) => {
     const index = Math.floor(k / 2);
     const hor = k % 2 === 0;
     const numLabels = Math.pow(2, index);
     const offset = cell * Math.pow(2, (hor ? horizontalSets : verticalSets) - index);
     const xPos = hor ? xBefore : yBefore;
-    const text = range(numLabels, (i) => xPos + (i + 0.25) * offset);
-    const notText = range(numLabels, (i) => xPos + (i + 0.75) * offset);
+    const text = ranged(numLabels, (i) => xPos + (i + 0.25) * offset);
+    const notText = ranged(numLabels, (i) => xPos + (i + 0.75) * offset);
 
     let yPos = 0;
     const after = index % 2 === 1;

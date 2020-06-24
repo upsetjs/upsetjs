@@ -8,7 +8,7 @@
 import { queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
 import KMapSelectionChart from './KMapSelectionChart';
-import { KhMapDataInfo } from '../derive/deriveDataDependent';
+import { KMapDataInfo } from '../derive/deriveDataDependent';
 import { KMapStyleInfo } from '../derive/deriveStyleDependent';
 
 export default React.memo(function KMapQueries<T>({
@@ -19,7 +19,7 @@ export default React.memo(function KMapQueries<T>({
   queries,
 }: PropsWithChildren<{
   style: KMapStyleInfo;
-  data: KhMapDataInfo<T>;
+  data: KMapDataInfo<T>;
   hasHover?: boolean;
   secondary: boolean;
   queries: readonly UpSetQuery<T>[];

@@ -203,6 +203,8 @@ export function fillKarnaughMapDefaultsG<T, C, N, L = N>(
   return fillGeneric(
     {
       numericScale: 'linear',
+      barPadding: 0.3,
+      barLabelOffset: 2,
     },
     props,
     {

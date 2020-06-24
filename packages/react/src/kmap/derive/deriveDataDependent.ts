@@ -40,6 +40,7 @@ export declare type KMapDataInfo<T> = {
     format(v: number): string;
   };
   cs: {
+    barLabelFontSize: number;
     keys: string[];
     l: { x: number; y: number }[];
     v: ISetCombinations<T>;
@@ -100,6 +101,7 @@ export default function deriveKarnaughDataDependent<T>(
       keys: csKeys,
       l: l.c,
       v: cs,
+      barLabelFontSize,
       has,
       scale,
       bandWidth,

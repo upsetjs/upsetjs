@@ -156,19 +156,19 @@ describe('setLabels', () => {
     expect(b[2].notText).toHaveLength(2);
     expect(b[2].text[0]).toEqual({
       x: 25 + 20,
-      y: 20 + 100 + c,
+      y: 20 + 100,
     });
     expect(b[2].text[1]).toEqual({
       x: 125 + 20,
-      y: 20 + 100 + c,
+      y: 20 + 100,
     });
     expect(b[2].notText[0]).toEqual({
       x: 75 + 20,
-      y: 20 + 100 + c,
+      y: 20 + 100,
     });
     expect(b[2].notText[1]).toEqual({
       x: 175 + 20,
-      y: 20 + 100 + c,
+      y: 20 + 100,
     });
   });
   test('4', () => {
@@ -216,37 +216,37 @@ describe('setLabels', () => {
     expect(b[2].notText).toHaveLength(2);
     expect(b[2].text[0]).toEqual({
       x: 25 + 20,
-      y: 20 + 200 + c,
+      y: 20 + 200,
     });
     expect(b[2].text[1]).toEqual({
       x: 125 + 20,
-      y: 20 + 200 + c,
+      y: 20 + 200,
     });
     expect(b[2].notText[0]).toEqual({
       x: 75 + 20,
-      y: 20 + 200 + c,
+      y: 20 + 200,
     });
     expect(b[2].notText[1]).toEqual({
       x: 175 + 20,
-      y: 20 + 200 + c,
+      y: 20 + 200,
     });
     expect(b[3].hor).toBe(false);
     expect(b[3].text).toHaveLength(2);
     expect(b[3].notText).toHaveLength(2);
     expect(b[3].text[0]).toEqual({
-      x: 20 + 200 + c,
+      x: 20 + 200,
       y: 25 + 20,
     });
     expect(b[3].text[1]).toEqual({
-      x: 20 + 200 + c,
+      x: 20 + 200,
       y: 25 + 100 + 20,
     });
     expect(b[3].notText[0]).toEqual({
-      x: 20 + 200 + c,
+      x: 20 + 200,
       y: 75 + 20,
     });
     expect(b[3].notText[1]).toEqual({
-      x: 20 + 200 + c,
+      x: 20 + 200,
       y: 75 + 100 + 20,
     });
   });
@@ -260,15 +260,14 @@ describe('generate', () => {
       labelHeight: 20,
     });
     expect(b.cell).toBe(50);
-    const c = 50 / 2;
     expect(b.c).toHaveLength(2);
     expect(b.c[0]).toEqual({
-      x: c,
-      y: 20 + c,
+      x: 0,
+      y: 20,
     });
     expect(b.c[1]).toEqual({
-      x: c + 50,
-      y: 20 + c,
+      x: 0 + 50,
+      y: 20,
     });
   });
   test('2', () => {
@@ -281,23 +280,22 @@ describe('generate', () => {
       labelHeight: 20,
     });
     expect(b.cell).toBe(50);
-    const c = 50 / 2;
     expect(b.c).toHaveLength(4);
     expect(b.c[0]).toEqual({
-      x: 20 + c,
-      y: 20 + c,
+      x: 20,
+      y: 20,
     });
     expect(b.c[1]).toEqual({
-      x: 20 + c + 50,
-      y: 20 + c,
+      x: 20 + 50,
+      y: 20,
     });
     expect(b.c[2]).toEqual({
-      x: 20 + c,
-      y: 20 + c + 50,
+      x: 20,
+      y: 20 + 50,
     });
     expect(b.c[3]).toEqual({
-      x: 20 + c + 50,
-      y: 20 + c + 50,
+      x: 20 + 50,
+      y: 20 + 50,
     });
   });
   test('3', () => {
@@ -315,39 +313,38 @@ describe('generate', () => {
       }
     );
     expect(b.cell).toBe(50);
-    const c = 50 / 2;
     expect(b.c).toHaveLength(8);
     expect(b.c[0]).toEqual({
-      x: 20 + c,
-      y: 20 + c,
+      x: 20,
+      y: 20,
     });
     expect(b.c[1]).toEqual({
-      x: 20 + c + 50,
-      y: 20 + c,
+      x: 20 + 50,
+      y: 20,
     });
     expect(b.c[2]).toEqual({
-      x: 20 + c + 100,
-      y: 20 + c,
+      x: 20 + 100,
+      y: 20,
     });
     expect(b.c[3]).toEqual({
-      x: 20 + c + 150,
-      y: 20 + c,
+      x: 20 + 150,
+      y: 20,
     });
     expect(b.c[4]).toEqual({
-      x: 20 + c,
-      y: 20 + c + 50,
+      x: 20,
+      y: 20 + 50,
     });
     expect(b.c[5]).toEqual({
-      x: 20 + c + 50,
-      y: 20 + c + 50,
+      x: 20 + 50,
+      y: 20 + 50,
     });
     expect(b.c[6]).toEqual({
-      x: 20 + c + 100,
-      y: 20 + c + 50,
+      x: 20 + 100,
+      y: 20 + 50,
     });
     expect(b.c[7]).toEqual({
-      x: 20 + c + 150,
-      y: 20 + c + 50,
+      x: 20 + 150,
+      y: 20 + 50,
     });
   });
 });

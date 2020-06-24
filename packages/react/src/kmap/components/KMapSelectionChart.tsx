@@ -30,7 +30,7 @@ function KMapQueries<T>({
   tooltip?: string;
 }>) {
   const width = data.cs.bandWidth;
-  const height = data.cell;
+  const offset = (data.cell - width) / 2;
   const className = clsx(`fill${suffix}`, !tooltip && `pnone-${style.id}`, style.classNames.bar);
   return (
     <g data-upset={secondary ? 'cs-q' : 'cs-s'}>
@@ -41,7 +41,7 @@ function KMapQueries<T>({
           return (
             <rect
               key={key}
-              x={l.x}
+              x={l.x + offset}
               y={l.y + data.cell}
               height={0}
               width={width}
@@ -62,7 +62,7 @@ function KMapQueries<T>({
         return secondary ? (
           <path
             key={key}
-            transform={`translate(${l.x}, ${y})`}
+            transform={`translate(${l.x + offset}, ${l.y + y})`}
             d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
               data.triangleSize
             },${data.triangleSize} Z`}
@@ -76,9 +76,9 @@ function KMapQueries<T>({
         ) : (
           <rect
             key={key}
-            x={l.x}
-            y={y}
-            height={height - y}
+            x={l.x + offset}
+            y={l.y + y}
+            height={data.cell - y}
             data-i={i}
             data-cardinality={o}
             width={width}

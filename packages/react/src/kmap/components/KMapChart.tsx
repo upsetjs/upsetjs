@@ -5,67 +5,90 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
-import { mergeColor } from '../../components/utils';
+import React from 'react';
+import D3Axis from '../../components/D3Axis';
+import { Handlers } from '../../hooks/useHandler';
 import { clsx } from '../../utils';
 import { KMapDataInfo } from '../derive/deriveDataDependent';
 import { KMapStyleInfo } from '../derive/deriveStyleDependent';
-import { UpSetSelection } from '../../components/interfaces';
+import KMapCell from './KMapCell';
 
-const KMapChart = React.memo(function KMapChart<T>({
-  d,
-  i,
-  h,
-  className,
+function generateGridPath<T>(data: KMapDataInfo<T>) {
+  const x = data.grid.x;
+  const y = data.grid.y;
+  const x2 = x + data.cell * data.grid.hCells;
+  const y2 = y + data.cell * data.grid.vCells;
+  let p = `M${x},${y} L${x2},${y} L${x2},${y2} L${x},${y2} L${x},${y}`;
+  // generate grid lines
+  for (let i = 1; i < data.grid.hCells; i++) {
+    p += ` M${x + data.cell * i},${y} l0,${y2 - y}`;
+  }
+  for (let i = 1; i < data.grid.vCells; i++) {
+    p += ` M${x},${y + data.cell * i} l${x2 - x},0`;
+  }
+  return p;
+}
+
+export default React.memo(function KMapChart<T>({
   data,
   style,
-}: PropsWithChildren<{
-  d: ISetCombination<T>;
-  i: number;
+  h,
+}: {
   style: KMapStyleInfo;
   data: KMapDataInfo<T>;
-  className?: string;
-  h: UpSetSelection;
-}>) {
-  const l = data.cs.l[i];
-  const y = data.cs.scale(d.cardinality);
-  const x = data.cell - data.cs.bandWidth;
+  h: Handlers;
+}) {
+  const grid = generateGridPath(data);
   return (
-    <g
-      transform={`translate(${l.x}, ${l.y})`}
-      onMouseEnter={h.onMouseEnter(d, [])}
-      onMouseLeave={h.onMouseLeave}
-      onClick={h.onClick(d, [])}
-      onContextMenu={h.onContextMenu(d, [])}
-      onMouseMove={h.onMouseMove(d, [])}
-      className={className}
-      data-cardinality={d.cardinality}
-    >
-      {style.tooltips && (
-        <title>
-          {d.name}: {data.sets.format(d.cardinality)}
-        </title>
-      )}
-      <rect width={data.cell} height={data.cell} className={`fillTransparent-${style.id}`} />
-      <rect
-        x={x}
-        y={y}
-        height={data.cell - y}
-        width={data.cs.bandWidth}
-        className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
-        style={mergeColor(style.styles.bar, d.color)}
-      />
-      <text
-        y={y - style.barLabelOffset}
-        x={data.cell / 2}
-        style={style.styles.barLabel}
-        className={clsx(`barTextStyle-${style.id}`, style.classNames.barLabel)}
-      >
-        {data.sets.format(d.cardinality)}
-      </text>
-    </g>
+    <>
+      <D3Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
+      {data.sets.l.map((l, i) => {
+        const s = data.sets.v[i];
+        const name = s.name;
+        return (
+          <g
+            key={name}
+            onClick={h.onClick(s, [])}
+            onMouseEnter={h.onMouseEnter(s, [])}
+            onMouseLeave={h.onMouseLeave}
+            onContextMenu={h.onContextMenu(s, [])}
+            onMouseMove={h.onMouseMove(s, [])}
+            className={clsx(h.hasClick && `clickAble-${style.id}`)}
+          >
+            {l.text.map((p, i) => (
+              <text
+                key={i}
+                transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
+                className={clsx(`setTextStyle-${style.id}`)}
+              >
+                {name}
+              </text>
+            ))}
+          </g>
+        );
+      })}
+      {data.sets.l.map((l, i) => {
+        const name = data.sets.v[i].name;
+        return (
+          <g key={name}>
+            {l.notText.map((p, i) => (
+              <text
+                key={i}
+                transform={`translate(${p.x},${p.y})${!l.hor ? 'rotate(-90)' : ''}`}
+                className={clsx(`setTextStyle-${style.id}`, `not-${style.id}`)}
+              >
+                {name}
+              </text>
+            ))}
+          </g>
+        );
+      })}
+      <g className={clsx(h.hasClick && `clickAble-${style.id}`)}>
+        {data.cs.v.map((c, i) => {
+          return <KMapCell key={data.cs.keys[i]} d={c} i={i} h={h} style={style} data={data} />;
+        })}
+      </g>
+      <path d={grid} className={`gridStyle-${style.id}`} />
+    </>
   );
 });
-
-export default KMapChart;
