@@ -183,9 +183,10 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
     },
     props,
     {
-      exportButtons: !props.exportButtons
-        ? false
-        : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
+      exportButtons:
+        props.exportButtons === false
+          ? false
+          : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
     }
   );
 }
@@ -205,12 +206,15 @@ export function fillKarnaughMapDefaultsG<T, C, N, L = N>(
       numericScale: 'linear',
       barPadding: 0.3,
       barLabelOffset: 2,
+      combinationName: 'Intersection Size',
+      combinationNameAxisOffset: 'auto',
     },
     props,
     {
-      exportButtons: !props.exportButtons
-        ? false
-        : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
+      exportButtons:
+        props.exportButtons === false
+          ? false
+          : Object.assign({}, props.exportButtons === true ? {} : props.exportButtons, { vega: false }),
     }
   );
 }

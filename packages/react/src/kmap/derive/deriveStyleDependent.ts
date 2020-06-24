@@ -12,6 +12,8 @@ export default function deriveStyleDependent(
   theme: UpSetThemes,
   styles: KarnaughMapMultiStyle<CSSProperties>,
   classNames: KarnaughMapMultiStyle<string>,
+  combinationName: string | ReactNode,
+  combinationNameAxisOffset: number | 'auto',
   styleId: string,
   barLabelOffset: number,
   selectionColor: string,
@@ -31,6 +33,10 @@ export default function deriveStyleDependent(
     title,
     description,
     tooltips,
+    cs: {
+      name: combinationName,
+      offset: combinationNameAxisOffset,
+    },
   };
 }
 

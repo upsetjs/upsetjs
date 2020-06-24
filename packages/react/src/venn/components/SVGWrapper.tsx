@@ -76,6 +76,7 @@ export default function SVGWrapper<T>({
       data-selection={selectionName ? selectionName : undefined}
     >
       <style>{rules}</style>
+      {p.onClick && <rect width={size.w} height={size.h} onClick={h.reset} className={`fillTransparent-${style.id}`} />}
       {p.queryLegend && <QueryLegend queries={p.queries ?? []} x={size.legend.x} style={style} data={data} />}
       <ExportButtons
         transform={`translate(${size.w - 2},${size.h - 3})`}
@@ -84,9 +85,6 @@ export default function SVGWrapper<T>({
         exportChart={exportChart}
       />
       <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
-        {p.onClick && (
-          <rect width={size.w} height={size.h} onClick={h.reset} className={`fillTransparent-${style.id}`} />
-        )}
         <UpSetTitle style={style} width={size.area.w} />
         {children}
       </g>

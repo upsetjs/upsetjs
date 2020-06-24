@@ -169,6 +169,10 @@ export interface KarnaughMapFontSizes extends UpSetBaseFontSizes {
    * @default 10px
    */
   barLabel?: string;
+  /**
+   * @default 16px
+   */
+  chartLabel?: string;
 }
 
 export interface UpSetBaseMultiStyle<C> {
@@ -192,6 +196,7 @@ export interface VennDiagramMultiStyle<C> extends UpSetBaseMultiStyle<C> {
 }
 
 export interface KarnaughMapMultiStyle<C> extends UpSetBaseMultiStyle<C> {
+  chartLabel?: C;
   axisTick?: C;
   barLabel?: C;
   bar?: C;
@@ -599,6 +604,16 @@ export interface KarnaughMapStyleProps<L> extends UpSetBaseStyleProps<L> {
    * @default 2
    */
   barLabelOffset?: number;
+  /**
+   * combination axis label
+   * @default Intersection Size
+   */
+  combinationName?: L;
+  /**
+   * offset of the combination name from the combination y axis. 'auto' means that it will be guessed according to the current values
+   * @default auto
+   */
+  combinationNameAxisOffset?: number | 'auto';
 }
 
 /**

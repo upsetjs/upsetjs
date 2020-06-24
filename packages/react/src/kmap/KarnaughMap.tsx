@@ -70,6 +70,8 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
         p.theme,
         p.styles,
         p.classNames,
+        p.combinationName,
+        p.combinationNameAxisOffset,
         styleId,
         p.barLabelOffset,
         p.selectionColor,
@@ -82,6 +84,8 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
       p.theme,
       p.styles,
       p.classNames,
+      p.combinationName,
+      p.combinationNameAxisOffset,
       styleId,
       p.barLabelOffset,
       p.selectionColor,
@@ -142,7 +146,7 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
   .axisTextStyle-${styleId} {
     fill: ${p.textColor};
     ${rulesHelper.p(fontSizes.axisTick)}
-    text-anchor: middle;
+    text-anchor: end;
   }
   .barTextStyle-${styleId} {
     fill: ${p.textColor};
@@ -154,6 +158,10 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
     ${rulesHelper.p(fontSizes.setLabel)}
     text-anchor: middle;
     dominant-baseline: central;
+  }
+  .cChartTextStyle-${styleId} {
+    fill: ${p.textColor};
+    ${rulesHelper.p(fontSizes.chartLabel)}
   }
 
   .not-${style.id} {
@@ -195,7 +203,7 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
       h={h}
       exportChart={exportChart}
     >
-      <KMapChart style={style} data={data} h={h} />
+      <KMapChart style={style} data={data} h={h} size={size} />
       <KMapSelection style={style} data={data} hasHover={h.hasHover} selection={selection} />
       <KMapQueries
         style={style}

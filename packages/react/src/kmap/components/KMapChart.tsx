@@ -12,6 +12,7 @@ import { clsx } from '../../utils';
 import { KMapDataInfo } from '../derive/deriveDataDependent';
 import { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import KMapCell from './KMapCell';
+import { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
 
 function generateGridPath<T>(data: KMapDataInfo<T>) {
   const x = data.grid.x;
@@ -32,16 +33,28 @@ function generateGridPath<T>(data: KMapDataInfo<T>) {
 export default React.memo(function KMapChart<T>({
   data,
   style,
+  size,
   h,
 }: {
   style: KMapStyleInfo;
   data: KMapDataInfo<T>;
+  size: VennDiagramSizeInfo;
   h: Handlers;
 }) {
   const grid = generateGridPath(data);
+  const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
   return (
     <>
-      <D3Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
+      <g transform={`translate(${size.w - csNameOffset - 2}, ${size.h - data.cell - 50})`}>
+        <D3Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
+        <text
+          className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+          style={style.styles.chartLabel}
+          transform={`translate(${-csNameOffset}, ${data.cell})rotate(-90)`}
+        >
+          {style.cs.name}
+        </text>
+      </g>
       {data.sets.l.map((l, i) => {
         const s = data.sets.v[i];
         const name = s.name;

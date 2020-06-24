@@ -47,6 +47,7 @@ export declare type KMapDataInfo<T> = {
     has(v: ISetCombination<T>, s: ISet<T>): boolean;
     scale: NumericScaleLike;
     bandWidth: number;
+    labelOffset: number;
   };
   toKey(s: ISetLike<T>): string;
   toElemKey?(e: T): string;
@@ -75,7 +76,7 @@ export default function deriveKarnaughDataDependent<T>(
   const l = generate(sets, cs, has, {
     width: size.area.w,
     height: size.area.h,
-    labelHeight: setLabelFontSize,
+    labelHeight: setLabelFontSize * 1.2,
   });
 
   const maxCSCardinality = cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
@@ -85,6 +86,9 @@ export default function deriveKarnaughDataDependent<T>(
   });
   const bandWidth = Math.round(l.cell * (1 - barPadding));
   const triangleSize = Math.max(2, (bandWidth / 2) * barPadding);
+  const guessLabelWidth = (v: number) => Math.floor((barLabelFontSize / 1.4) * 0.7 * scale.tickFormat()(v).length);
+
+  const largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
 
   return {
     id: id ? id : generateId(),
@@ -105,6 +109,7 @@ export default function deriveKarnaughDataDependent<T>(
       has,
       scale,
       bandWidth,
+      labelOffset: largestCSLabelWidth + 9 + 6,
     },
     toKey,
     toElemKey,
