@@ -71,9 +71,26 @@ function isStaticDump(dump: IUpSetJSDump | IUpSetJSStaticDump): dump is IUpSetJS
   return typeof (dump as IUpSetJSStaticDump).overlaps !== 'undefined';
 }
 
+function renderImpl(
+  root: HTMLElement,
+  props: UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any>,
+  mode?: 'venn' | 'kmap' | 'upset'
+) {
+  if (mode === 'venn') {
+    renderVennDiagram(root, props);
+  } else if (mode === 'kmap') {
+    renderKarnaughMap(root, props);
+  } else {
+    render(root, props);
+  }
+}
+
 function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false) {
   const [custom, enforceInteractive, enforceMode] = customizeFromParams(true);
   const elems = isStaticDump(dump) ? [] : decompressElems(dump!.elements, dump.attrs);
+
+  const mode = enforceMode ?? dump.mode;
+
   const props: UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any> = Object.assign(
     {
       id: 'upset',
@@ -90,7 +107,7 @@ function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false)
       ? {
           onHover: (s: ISetLike<any>) => {
             props.selection = s;
-            render(root, props);
+            renderImpl(root, props, mode);
           },
         }
       : {},
@@ -113,18 +130,10 @@ function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false)
   document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
   document.querySelector('meta[name=author]')!.setAttribute('content', dump.author ?? 'Unknown');
 
-  const mode = enforceMode ?? dump.mode;
-
   window.addEventListener('resize', () => {
     props.width = root.clientWidth;
     props.height = root.clientHeight;
-    if (mode === 'venn') {
-      renderVennDiagram(root, props);
-    } else if (mode === 'kmap') {
-      renderKarnaughMap(root, props);
-    } else {
-      render(root, props);
-    }
+    renderImpl(root, props, mode);
   });
 
   if (hydrateFirst) {
@@ -137,13 +146,7 @@ function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false)
     }
   } else {
     root.innerHTML = '';
-    if (mode === 'venn') {
-      renderVennDiagram(root, props);
-    } else if (mode === 'kmap') {
-      renderKarnaughMap(root, props);
-    } else {
-      render(root, props);
-    }
+    renderImpl(root, props, mode);
   }
 }
 
