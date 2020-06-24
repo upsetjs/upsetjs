@@ -12,6 +12,10 @@
     "description": {
       "type": "string"
     },
+    "mode": {
+      "type": "string",
+      "enum": ["venn", "kmap", "upset"]
+    },
     "elements": {
       "type": "array",
       "items": {

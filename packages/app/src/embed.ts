@@ -17,6 +17,13 @@ import {
   fromStaticDump,
   IUpSetJSDump,
   IUpSetJSStaticDump,
+  getDefaultTheme,
+  VennDiagramProps,
+  renderVennDiagram,
+  renderKarnaughMap,
+  hydrateVennDiagram,
+  hydrateKarnaughMap,
+  KarnaughMapProps,
 } from '@upsetjs/bundle';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { loadFile, decompressElems } from './dump';
@@ -32,7 +39,7 @@ Object.assign(root.style, {
 } as CSSStyleDeclaration);
 
 function makeDark() {
-  root.style.backgroundColor = '#303030';
+  root.style.backgroundColor = getDefaultTheme('dark').backgroundColor;
 }
 
 function customizeFromParams(interactive: boolean) {
@@ -53,7 +60,11 @@ function customizeFromParams(interactive: boolean) {
   if (p.has('height')) {
     r.height = Number.parseInt(p.get('height')!, 10);
   }
-  return [r, interactive];
+  let mode: 'venn' | 'upset' | 'kmap' | undefined = undefined;
+  if (p.has('mode')) {
+    mode = p.get('mode') as 'venn' | 'upset' | 'kmap';
+  }
+  return [r, interactive, mode];
 }
 
 function isStaticDump(dump: IUpSetJSDump | IUpSetJSStaticDump): dump is IUpSetJSStaticDump {
@@ -61,9 +72,9 @@ function isStaticDump(dump: IUpSetJSDump | IUpSetJSStaticDump): dump is IUpSetJS
 }
 
 function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false) {
-  const [custom, enforceInteractive] = customizeFromParams(true);
+  const [custom, enforceInteractive, enforceMode] = customizeFromParams(true);
   const elems = isStaticDump(dump) ? [] : decompressElems(dump!.elements, dump.attrs);
-  const props: UpSetProps<any> = Object.assign(
+  const props: UpSetProps<any> & VennDiagramProps<any> & KarnaughMapProps<any> = Object.assign(
     {
       id: 'upset',
       sets: [],
@@ -102,17 +113,37 @@ function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false)
   document.querySelector('meta[name=description]')!.setAttribute('content', dump.description);
   document.querySelector('meta[name=author]')!.setAttribute('content', dump.author ?? 'Unknown');
 
+  const mode = enforceMode ?? dump.mode;
+
   window.addEventListener('resize', () => {
     props.width = root.clientWidth;
     props.height = root.clientHeight;
-    render(root, props);
+    if (mode === 'venn') {
+      renderVennDiagram(root, props);
+    } else if (mode === 'kmap') {
+      renderKarnaughMap(root, props);
+    } else {
+      render(root, props);
+    }
   });
 
   if (hydrateFirst) {
-    hydrate(root, props);
+    if (mode === 'venn') {
+      hydrateVennDiagram(root, props);
+    } else if (mode === 'kmap') {
+      hydrateKarnaughMap(root, props);
+    } else {
+      hydrate(root, props);
+    }
   } else {
     root.innerHTML = '';
-    render(root, props);
+    if (mode === 'venn') {
+      renderVennDiagram(root, props);
+    } else if (mode === 'kmap') {
+      renderKarnaughMap(root, props);
+    } else {
+      render(root, props);
+    }
   }
 }
 

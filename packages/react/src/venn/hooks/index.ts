@@ -123,17 +123,21 @@ export declare type CreateCommon = {
   exportButtons: UpSetExportOptions | boolean;
 };
 
-export function useExportChart(dataInfo: { cs: { v: ISetCombinations<any> } }, props: UpSetProps<any>) {
+export function useExportChart(
+  dataInfo: { cs: { v: ISetCombinations<any> } },
+  props: UpSetProps<any>,
+  mode: 'kmap' | 'venn'
+) {
   return useCallback(
     (evt: React.MouseEvent<SVGElement>) => {
       const svg = evt.currentTarget.closest('svg') as SVGSVGElement;
       const type = (evt.currentTarget.dataset.type || 'png') as 'svg' | 'png' | 'dump' | 'share';
       switch (type) {
         case 'dump':
-          exportDump(svg, props, dataInfo);
+          exportDump(svg, props, dataInfo, mode);
           break;
         case 'share':
-          exportSharedLink(props, dataInfo);
+          exportSharedLink(props, dataInfo, mode);
           break;
         case 'svg':
         case 'png':
@@ -143,6 +147,6 @@ export function useExportChart(dataInfo: { cs: { v: ISetCombinations<any> } }, p
           });
       }
     },
-    [dataInfo, props]
+    [dataInfo, props, mode]
   );
 }

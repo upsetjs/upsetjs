@@ -197,7 +197,7 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
     .join('\n')}
   `;
 
-  const exportChart = useExportChart(data, p);
+  const exportChart = useExportChart(data, p, 'kmap');
 
   return (
     <SVGWrapper

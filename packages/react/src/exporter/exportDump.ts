@@ -23,7 +23,12 @@ import { downloadUrl } from './exportSVG';
 
 declare type IDumpDataInfo = { cs: { v: ISetCombinations<any> } };
 
-export function exportDumpData(props: UpSetProps<any>, data: IDumpDataInfo, compress = false) {
+export function exportDumpData(
+  props: UpSetProps<any>,
+  data: IDumpDataInfo,
+  compress = false,
+  mode?: 'kmap' | 'venn' | 'upset'
+) {
   const elems: any[] = [];
   const lookup = new Map<any, number>();
   const toElemIndex = (elem: any) => {
@@ -50,10 +55,15 @@ export function exportDumpData(props: UpSetProps<any>, data: IDumpDataInfo, comp
     }
   );
 
-  return toUpSetJSDump(dump, elems, props);
+  return toUpSetJSDump(dump, elems, props, undefined, mode);
 }
 
-export function exportStaticDumpData(props: UpSetProps<any>, data: IDumpDataInfo, compress = false) {
+export function exportStaticDumpData(
+  props: UpSetProps<any>,
+  data: IDumpDataInfo,
+  compress = false,
+  mode?: 'kmap' | 'venn' | 'upset'
+) {
   const dump = toStaticDump(
     {
       sets: props.sets,
@@ -66,11 +76,16 @@ export function exportStaticDumpData(props: UpSetProps<any>, data: IDumpDataInfo
     }
   );
 
-  return toUpSetJSStaticDump(dump, props);
+  return toUpSetJSStaticDump(dump, props, undefined, mode);
 }
 
-export function exportDump(svg: SVGSVGElement, props: UpSetProps<any>, data: IDumpDataInfo) {
-  const dump = exportDumpData(props, data);
+export function exportDump(
+  svg: SVGSVGElement,
+  props: UpSetProps<any>,
+  data: IDumpDataInfo,
+  mode?: 'kmap' | 'venn' | 'upset'
+) {
+  const dump = exportDumpData(props, data, false, mode);
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(dump, null, 2)], {
       type: 'application/json',
@@ -82,8 +97,8 @@ export function exportDump(svg: SVGSVGElement, props: UpSetProps<any>, data: IDu
 
 export const MAX_URL_LENGTH = 2048 * 2;
 
-export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo) {
-  const r = exportDumpData(props, data, true);
+export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo, mode?: 'kmap' | 'venn' | 'upset') {
+  const r = exportDumpData(props, data, true, mode);
   delete r.$schema;
   const arg = LZString.compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL('https://upset.js.org/app/embed.html');
@@ -95,7 +110,7 @@ export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo) {
   }
 
   // try other compression
-  const r2 = exportStaticDumpData(props, data, true);
+  const r2 = exportStaticDumpData(props, data, true, mode);
   delete r2.$schema;
   const arg2 = LZString.compressToEncodedURIComponent(JSON.stringify(r2));
   url.searchParams.set('p', arg2);
