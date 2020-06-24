@@ -20,9 +20,9 @@ export function generateLevels(numSets: number) {
     }
   });
 
-  const levels: number[][] = ranged(numSets, () => []);
+  const levels: number[][] = ranged(Math.max(numSets, 1), () => []);
   lines.forEach((l, i) => {
-    const level = l - 1;
+    const level = Math.max(0, l - 1);
     // l -1 cause l is at least 1
     levels[level].push(i);
   });
