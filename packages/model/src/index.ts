@@ -28,3 +28,4 @@ export * from './queries';
 export * from './scales';
 export { fromIndicesArray, toIndicesArray } from './array';
 export * from './dump';
+export * from './colors';
