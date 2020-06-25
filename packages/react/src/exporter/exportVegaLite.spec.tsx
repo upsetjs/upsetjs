@@ -11,7 +11,7 @@ import { createVegaSpec } from './exportVegaLite';
 import { render } from '@testing-library/react';
 import { UpSetJS } from '../UpSetJS';
 import { extractSets, generateCombinations } from '@upsetjs/model';
-import got from '../data/got.json';
+import got from '../__stories__/data/got.json';
 
 describe('createVegaSpec', () => {
   const sets = extractSets(got);
