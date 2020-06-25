@@ -18,41 +18,41 @@ export type UpSetElemQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
-  name: string;
+  readonly name: string;
   /**
    * color for highlighting
    */
-  color: string;
+  readonly color: string;
   /**
    * elements within this query
    */
-  elems: readonly T[] | Set<T>;
+  readonly elems: readonly T[] | Set<T>;
 };
 
 export type UpSetSetQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
-  name: string;
+  readonly name: string;
   /**
    * color for highlighting
    */
-  color: string;
+  readonly color: string;
   /**
    * set to highlight
    */
-  set: ISetLike<T>;
+  readonly set: ISetLike<T>;
 };
 
 export type UpSetCalcQuery<T = any> = {
   /**
    * name of this query for the tooltip
    */
-  name: string;
+  readonly name: string;
   /**
    * color for highlighting
    */
-  color: string;
+  readonly color: string;
   /**
    * computes the overlap of the given set to this query
    * @param s the current set to evaluate
@@ -78,24 +78,24 @@ export function isSetQuery<T>(q: UpSetQuery<T>): q is UpSetSetQuery<T> {
 
 /**
  * helper method to create an overlap function for a given query
- * @param q the query
+ * @param query the query
  * @param what type of overlap
  * @param toElemKey optional key function
  */
-export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap, toElemKey?: (e: T) => string) {
-  if (isCalcQuery(q)) {
-    return q.overlap;
+export function queryOverlap<T>(query: UpSetQuery<T>, what: keyof SetOverlap, toElemKey?: (e: T) => string) {
+  if (isCalcQuery(query)) {
+    return query.overlap;
   }
-  if (isSetQuery(q) && q.set.overlap) {
-    return q.set.overlap;
+  if (isSetQuery(query) && query.set.overlap) {
+    return query.set.overlap;
   }
-  const f = setOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems, toElemKey);
+  const f = setOverlapFactory(isElemQuery(query) ? query.elems : query.set.elems, toElemKey);
   return (s: ISetLike<T>) => {
-    if (s.overlap && isElemQuery(q) && Array.isArray(q.elems)) {
-      return s.overlap(q.elems);
+    if (s.overlap && isElemQuery(query) && Array.isArray(query.elems)) {
+      return s.overlap(query.elems);
     }
-    if (s.overlap && isSetQuery(q)) {
-      return s.overlap(q.set);
+    if (s.overlap && isSetQuery(query)) {
+      return s.overlap(query.set);
     }
     return f(s.elems)[what];
   };
@@ -103,23 +103,23 @@ export function queryOverlap<T>(q: UpSetQuery<T>, what: keyof SetOverlap, toElem
 
 /**
  * helper method to create an overlap function of elements for a given query
- * @param q the query
+ * @param query the query
  * @param what type of overlap
  * @param toElemKey optional key function
  */
 export function queryElemOverlap<T>(
-  q: UpSetQuery<T>,
+  query: UpSetQuery<T>,
   what: keyof SetElemOverlap<T>,
   toElemKey?: (e: T) => string
 ): (s: ISetLike<T>) => readonly T[] | null {
-  if (isCalcQuery(q)) {
+  if (isCalcQuery(query)) {
     return () => null;
   }
   if (what === 'intersection') {
-    const f = setElemIntersectionFactory(isElemQuery(q) ? q.elems : q.set.elems, toElemKey);
+    const f = setElemIntersectionFactory(isElemQuery(query) ? query.elems : query.set.elems, toElemKey);
     return (s: ISetLike<T>) => f(s.elems);
   }
-  const f = setElemOverlapFactory(isElemQuery(q) ? q.elems : q.set.elems, toElemKey);
+  const f = setElemOverlapFactory(isElemQuery(query) ? query.elems : query.set.elems, toElemKey);
   return (s: ISetLike<T>) => {
     return f(s.elems)[what];
   };
