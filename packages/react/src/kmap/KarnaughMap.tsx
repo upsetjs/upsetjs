@@ -18,6 +18,7 @@ import KMapQueries from './components/KMapQueries';
 import KMapSelection from './components/KMapSelection';
 import deriveKarnaughDataDependent from './derive/deriveDataDependent';
 import deriveKarnaughStyleDependent from './derive/deriveStyleDependent';
+import UpSetTitle from '../components/UpSetTitle';
 
 export const KarnaughMap = forwardRef(function KarnaughMap<T = any>(
   props: KarnaughMapProps<T>,
@@ -201,6 +202,7 @@ export const KarnaughMap = forwardRef(function KarnaughMap<T = any>(
   `;
 
   const exportChart = useExportChart(data, p, 'kmap');
+  const maxWidth = data.sets.l.reduce((acc, d) => Math.min(acc, d.text[0].x - data.sets.labelHeight), size.area.w);
 
   return (
     <SVGWrapper
@@ -214,6 +216,7 @@ export const KarnaughMap = forwardRef(function KarnaughMap<T = any>(
       h={h}
       exportChart={exportChart}
     >
+      <UpSetTitle style={style} width={maxWidth} />
       <KMapChart style={style} data={data} h={h} size={size} />
       <KMapSelection style={style} data={data} hasHover={h.hasHover} selection={selection} />
       <KMapQueries

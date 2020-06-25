@@ -8,7 +8,6 @@ import { ISetCombinations } from '@upsetjs/model';
 import React, { Ref } from 'react';
 import ExportButtons from '../../components/ExportButtons';
 import QueryLegend from '../../components/QueryLegend';
-import UpSetTitle from '../../components/UpSetTitle';
 import { Handlers } from '../../hooks/useHandler';
 import {
   UpSetBaseElementProps,
@@ -85,7 +84,6 @@ export default function SVGWrapper<T>({
         exportChart={exportChart}
       />
       <g transform={`translate(${p.padding},${p.padding})`} data-upset="base">
-        <UpSetTitle style={style} width={size.area.w} />
         {children}
       </g>
       {p.children}

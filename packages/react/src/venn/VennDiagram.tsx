@@ -13,6 +13,7 @@ import SVGWrapper from './components/SVGWrapper';
 import VennArcSliceSelection from './components/VennArcSliceSelection';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
 import { useCreateCommon, useExportChart } from './hooks';
+import UpSetTitle from '../components/UpSetTitle';
 
 export const VennDiagram = forwardRef(function VennDiagram<T = any>(
   props: VennDiagramProps<T>,
@@ -73,6 +74,8 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
 
   const exportChart = useExportChart(dataInfo, p, 'venn');
 
+  const maxWidth = dataInfo.sets.d.reduce((acc, d) => Math.min(acc, d.l.cx - d.l.r), size.area.w);
+
   return (
     <SVGWrapper
       rules={rules}
@@ -85,6 +88,7 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
       h={v.h}
       exportChart={exportChart}
     >
+      <UpSetTitle style={style} width={maxWidth} />
       <g className={clsx(p.onClick && `clickAble-${style.id}`)}>
         {dataInfo.sets.d.map((d, i) => (
           <text

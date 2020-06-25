@@ -81,9 +81,11 @@ const MultilineText = React.memo(function MultilineText({
 
 export default React.memo(function UpSetTitle({
   width,
+  descriptionWidth = width,
   style,
 }: PropsWithChildren<{
   width: number;
+  descriptionWidth?: number;
   style: {
     id: string;
     title?: React.ReactNode;
@@ -106,7 +108,7 @@ export default React.memo(function UpSetTitle({
       />
       <MultilineText
         x={0}
-        width={width}
+        width={descriptionWidth}
         dy={style.title ? '2em' : '10px'}
         text={style.description}
         className={clsx(`descTextStyle-${style.id}`, style.classNames.description)}
