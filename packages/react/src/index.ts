@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export { default as UpSetJS } from './UpSetJS';
+export { default as UpSetJS, default } from './UpSetJS';
 export { default as VennDiagram } from './venn/VennDiagram';
 export { default as KarnaughMap } from './kmap/KarnaughMap';
 export * from './interfaces';
