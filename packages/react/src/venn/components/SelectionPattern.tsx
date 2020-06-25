@@ -6,6 +6,7 @@ export default function SelectionPattern(p: {
   v: number;
   rotate?: number;
   bgFill?: string;
+  bgFilled?: boolean;
   fill?: string;
   styleId: string;
 }) {
@@ -22,7 +23,7 @@ export default function SelectionPattern(p: {
         patternContentUnits="objectBoundingBox"
         patternTransform={`rotate(${p.rotate ?? 0})`}
       >
-        {p.bgFill && (
+        {p.bgFilled && (
           <rect x="0" y="0" width="1" height="0.1" style={{ fill: p.bgFill }} className={`fillPrimary-${p.styleId}`} />
         )}
         <rect

@@ -431,6 +431,11 @@ export interface VennDiagramThemeProps extends UpSetBaseThemeProps {
    * @default black
    */
   strokeColor?: string;
+  /**
+   * whether to fill the circles
+   * @default false
+   */
+  filled?: boolean;
 }
 
 export interface KarnaughMapThemeProps extends UpSetBaseThemeProps {

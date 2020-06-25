@@ -50,6 +50,7 @@ const lightTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraT
   valueTextColor: '#000000',
   strokeColor: '#000000',
   backgroundColor: '#ffffff',
+  filled: false,
 };
 
 const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme> = {
@@ -65,6 +66,7 @@ const darkTheme: Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTh
   valueTextColor: '#ffffff',
   strokeColor: '#ffffff',
   backgroundColor: '#303030',
+  filled: false,
 };
 
 const vegaTheme: Readonly<Required<UpSetThemeProps & VennDiagramThemeProps & UpSetExtraTheme>> = {
@@ -80,6 +82,7 @@ const vegaTheme: Readonly<Required<UpSetThemeProps & VennDiagramThemeProps & UpS
   valueTextColor: '#000000',
   strokeColor: '#000000',
   backgroundColor: '#ffffff',
+  filled: true,
 };
 
 export function getDefaultTheme(

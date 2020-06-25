@@ -113,6 +113,7 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
             size={size}
             style={style}
             data={dataInfo}
+            fill={p.filled}
             h={v.h}
             selectionName={v.selectionName}
             selected={v.selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}

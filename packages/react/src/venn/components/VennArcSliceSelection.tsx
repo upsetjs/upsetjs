@@ -119,6 +119,7 @@ export default function VennArcSliceSelection<T>({
   h,
   queries,
   size,
+  fill,
   qs,
 }: PropsWithChildren<{
   slice: ITextArcSlice;
@@ -130,6 +131,7 @@ export default function VennArcSliceSelection<T>({
   style: VennDiagramStyleInfo;
   data: VennDiagramDataInfo<T>;
   size: VennDiagramSizeInfo;
+  fill: boolean;
   queries: UpSetQueries<T>;
   qs: readonly ((s: ISetLike<T>) => number)[];
   h: UpSetSelection;
@@ -141,7 +143,7 @@ export default function VennArcSliceSelection<T>({
   const fillFullSelection = (o === d.cardinality && d.cardinality > 0) || selected;
   const className = clsx(
     `arc-${style.id}`,
-    o === 0 && !selected && `arcP-${style.id}`,
+    o === 0 && !selected && `${fill ? 'fillPrimary' : 'arcP'}-${style.id}`,
     fillFullSelection && `fillSelection-${style.id}`,
     style.classNames.set
   );
@@ -159,6 +161,7 @@ export default function VennArcSliceSelection<T>({
         suffix={`Selection-${style.id}`}
         rotate={rotate}
         bgFill={d.color}
+        bgFilled={d.color != null || fill}
         fill={!style.selectionColor ? d.color : undefined}
         styleId={style.id}
       />

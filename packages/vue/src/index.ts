@@ -170,6 +170,8 @@ const vennDiagramLayoutProps = {
    * function used to perform the venn diagram layout
    */
   layout: Function,
+
+  filled: Boolean,
 };
 
 const kMapLayoutProps = {
