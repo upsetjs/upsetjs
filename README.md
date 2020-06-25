@@ -47,6 +47,8 @@ In addition, there are the following sibling repositories and projects
 - [upsetjs_jupyter_widget](https://github.com/upsetjs/upsetjs_jupyter_widget) Jupyter Widget wrapper around UpSet.js
   [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]
 
+- [upsetjs_powerbi_visuals](https://upset.js.org/integrations/powerbi/) PowerBI Custom Visuals around UpSet.js
+- [upsetjs_tableau_extension](https://upset.js.org/integrations/tableau/) Tableau extension around UpSet.js
 - [upset-js](https://observablehq.com/@sgratzl/upset-js) Observable HQ wrapper around UpSet.js [![Open Example][example]][example-o-url]
 
 ## Usage and Installation
@@ -471,13 +473,19 @@ w
 
 ### PowerBI
 
-A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-visualization/?cdn=disable) is also available.
+A [PowerBI Custom Visual](https://powerbi.microsoft.com/en-us/developers/custom-visualization/?cdn=disable) is located at [upsetjs_powerbi_visuals](https://upset.js.org/integrations/powerbi).
+
+Download the latest package from [https://upset.js.org/integrations/powerbi/upsetjs.pbiviz](https://upset.js.org/integrations/powerbi/upsetjs.pbiviz) and install into your PowerBI environment.
 
 ![UpSet.js Report](https://user-images.githubusercontent.com/4129778/80864985-9b771380-8c86-11ea-809c-a4473b32ed3b.png)
 
+Another PowerBI Custom Visual for rendering Venn Diagrams can be downloaded from [https://upset.js.org/integrations/powerbi/upsetjs_venn.pbiviz](https://upset.js.org/integrations/powerbi/upsetjs_venn.pbiviz).
+
+![UpSet.js Report](https://user-images.githubusercontent.com/4129778/85765896-d6417900-b716-11ea-8b89-8ae01f6456a0.png)
+
 ### Tableau
 
-A [Tableau](https://tableau.com) extension is also available.
+A [Tableau](https://tableau.com) extension is located at [upsetjs_tableau_extension](https://upset.js.org/integrations/tableau).
 
 1. Download the extension description file at [upsetjs.trex](https://upset.js.org/integrations/tableau/upsetjs.trex)
 1. Create a new dashboard and show at least one sheet in the dashboard
