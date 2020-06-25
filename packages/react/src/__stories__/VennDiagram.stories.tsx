@@ -12,7 +12,7 @@ import { common, sets, queries } from './data';
 
 export default {
   component: VennDiagram,
-  title: 'VennDiagram',
+  title: 'Venn Diagram',
 };
 
 export const Default = () => {

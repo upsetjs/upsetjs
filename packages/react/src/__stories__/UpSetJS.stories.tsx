@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { asSets, generateCombinations, ISetLike } from '@upsetjs/model';
+import { asSets, ISetLike } from '@upsetjs/model';
 import React from 'react';
 import { UpSetAddonProps } from '../interfaces';
 import UpSetJS from '../UpSetJS';
@@ -28,22 +28,6 @@ export const Title = () => {
       height={500}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
-    />
-  );
-};
-
-export const Unions = () => {
-  return (
-    <UpSetJS {...common} combinations={generateCombinations(sets, { type: 'union' })} combinationName="Union Size" />
-  );
-};
-
-export const DistinctIntersections = () => {
-  return (
-    <UpSetJS
-      {...common}
-      combinations={generateCombinations(sets, { type: 'distinctIntersection' })}
-      combinationName="Distinct Intersection Size"
     />
   );
 };

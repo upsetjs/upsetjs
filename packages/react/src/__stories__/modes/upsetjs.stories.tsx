@@ -6,10 +6,9 @@
  */
 
 import React from 'react';
-import { common, sets } from '../data';
+import { common } from '../data';
 import UpSetJS from '../../UpSetJS';
 import { InteractiveUpSetJS } from '../Interactive';
-import { generateCombinations } from '@upsetjs/model';
 
 export default {
   component: UpSetJS,
@@ -20,10 +19,9 @@ export const Default = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         type: 'intersection',
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
     />
   );
 };
@@ -32,10 +30,9 @@ export const SetUnion = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         type: 'union',
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
       combinationName="Union Size"
     />
   );
@@ -45,10 +42,9 @@ export const DistinctSetIntersection = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         type: 'distinctIntersection',
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
       combinationName="Distinct Intersection Size"
     />
   );
@@ -58,10 +54,9 @@ export const ShowEmpty = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         empty: true,
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
     />
   );
 };
@@ -70,10 +65,9 @@ export const TwoSetsIntersections = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         min: 2,
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
     />
   );
 };
@@ -82,10 +76,9 @@ export const LimitTop10 = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         limit: 10,
-        order: ['cardinality:desc', 'name:asc'],
-      })}
+      }}
     />
   );
 };
@@ -94,9 +87,9 @@ export const SortByDegree = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         order: 'degree:desc',
-      })}
+      }}
     />
   );
 };
@@ -105,9 +98,9 @@ export const SortBySetGroup = () => {
   return (
     <InteractiveUpSetJS
       {...common}
-      combinations={generateCombinations(sets, {
+      combinations={{
         order: ['group:asc', 'degree:desc'],
-      })}
+      }}
     />
   );
 };

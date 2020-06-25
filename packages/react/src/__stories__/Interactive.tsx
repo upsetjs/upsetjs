@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetProps } from '../interfaces';
+import { UpSetProps, VennDiagramProps, KarnaughMapProps } from '../interfaces';
 import React from 'react';
 import { ISetLike } from '@upsetjs/model';
 import UpSetJS from '../UpSetJS';
@@ -17,12 +17,12 @@ export function InteractiveUpSetJS<T>(props: UpSetProps<T>) {
   return <UpSetJS selection={selection} onHover={setSelection} {...props} />;
 }
 
-export function InteractiveVennDiagram<T>(props: UpSetProps<T>) {
+export function InteractiveVennDiagram<T>(props: VennDiagramProps<T>) {
   const [selection, setSelection] = React.useState(null as ISetLike<T> | null);
   return <VennDiagram selection={selection} onHover={setSelection} {...props} />;
 }
 
-export function InteractiveKarnaughMap<T>(props: UpSetProps<T>) {
+export function InteractiveKarnaughMap<T>(props: KarnaughMapProps<T>) {
   const [selection, setSelection] = React.useState(null as ISetLike<T> | null);
   return <KarnaughMap selection={selection} onHover={setSelection} {...props} />;
 }

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { common, darkBackgroundColor } from '../data';
+import { common, darkBackgroundColor, colors, sets, mergeColors } from '../data';
 import { InteractiveKarnaughMap } from '../Interactive';
 import KarnaughMap from '../../kmap/KarnaughMap';
 
@@ -30,5 +30,19 @@ export const VegaTheme = () => {
 export const CustomTheming = () => {
   return (
     <InteractiveKarnaughMap {...common} color="darkorchid" selectionColor="darkorchid" hasSelectionOpacity={0.6} />
+  );
+};
+
+export const SetColors = () => {
+  return (
+    <InteractiveKarnaughMap
+      {...common}
+      sets={sets.map((s, i) => ({ ...s, color: colors[i] }))}
+      combinations={{
+        mergeColors,
+      }}
+      hasSelectionOpacity={0.6}
+      selectionColor=""
+    />
   );
 };

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { common, darkBackgroundColor } from '../data';
+import { common, darkBackgroundColor, sets, colors, mergeColors } from '../data';
 import UpSetJS from '../../UpSetJS';
 import { InteractiveUpSetJS } from '../Interactive';
 
@@ -35,6 +35,20 @@ export const CustomTheming = () => {
       selectionColor="darkorchid"
       hasSelectionOpacity={0.6}
       alternatingBackgroundColor={false}
+    />
+  );
+};
+
+export const SetColors = () => {
+  return (
+    <InteractiveUpSetJS
+      {...common}
+      sets={sets.map((s, i) => ({ ...s, color: colors[i] }))}
+      combinations={{
+        mergeColors,
+      }}
+      hasSelectionOpacity={0.6}
+      selectionColor=""
     />
   );
 };

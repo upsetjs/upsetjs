@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import { common, darkBackgroundColor } from '../data';
+import { common, darkBackgroundColor, sets, colors, mergeColors } from '../data';
 import { InteractiveVennDiagram } from '../Interactive';
 import VennDiagram from '../../venn/VennDiagram';
 
 export default {
   component: VennDiagram,
-  title: 'VennDiagram/Themes+Colors',
+  title: 'Venn Diagram/Themes+Colors',
 };
 
 export const Default = () => {
@@ -29,6 +29,26 @@ export const VegaTheme = () => {
 
 export const CustomTheming = () => {
   return (
-    <InteractiveVennDiagram {...common} color="darkorchid" selectionColor="darkorchid" hasSelectionOpacity={0.6} />
+    <InteractiveVennDiagram
+      {...common}
+      color="darkorchid"
+      selectionColor="darkorchid"
+      hasSelectionOpacity={0.6}
+      filled
+    />
+  );
+};
+
+export const SetColors = () => {
+  return (
+    <InteractiveVennDiagram
+      {...common}
+      sets={sets.map((s, i) => ({ ...s, color: colors[i] }))}
+      combinations={{
+        mergeColors,
+      }}
+      hasSelectionOpacity={0.6}
+      selectionColor=""
+    />
   );
 };
