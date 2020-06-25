@@ -363,4 +363,9 @@ const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: 
   );
 });
 
-export { UpSetJS };
+/**
+ * UpSetJS main pure functional stateless React component, the generic argument T refers to the type of the elements
+ *
+ * with React.forwardRef support to specify a reference to the SVG element
+ */
+export default UpSetJS as <T>(p: UpSetProps<T> & React.RefAttributes<SVGSVGElement>) => React.ReactElement;

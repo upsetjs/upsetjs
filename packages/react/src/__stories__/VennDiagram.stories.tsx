@@ -6,25 +6,14 @@
  */
 
 import React from 'react';
-import { VennDiagram } from './VennDiagram';
-import { extractSets, ISetLike, asSets } from '@upsetjs/model';
-import got from '../data/got.json';
+import VennDiagram from '../venn/VennDiagram';
+import { ISetLike, asSets } from '@upsetjs/model';
+import { common, sets, queries } from './data';
 
 export default {
   component: VennDiagram,
   title: 'VennDiagram',
 };
-
-const style = {};
-const elems = got;
-const sets = extractSets(elems).slice(0, 3);
-
-const queries = [
-  { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
-  { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
-];
-
-const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <VennDiagram sets={sets} width={1200} height={500} />;
@@ -33,9 +22,7 @@ export const Default = () => {
 export const Title = () => {
   return (
     <VennDiagram
-      sets={sets}
-      width={1200}
-      height={500}
+      {...common}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
     />
@@ -45,19 +32,6 @@ export const Title = () => {
 export const Interactivity = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return <VennDiagram {...common} selection={selection} onHover={setSelection} />;
-};
-
-export const DarkTheme = () => {
-  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-  return (
-    <VennDiagram
-      {...common}
-      selection={selection}
-      onHover={setSelection}
-      theme="dark"
-      style={{ backgroundColor: '#303030' }}
-    />
-  );
 };
 
 export const Click = () => {

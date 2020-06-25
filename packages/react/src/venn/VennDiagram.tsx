@@ -138,4 +138,9 @@ const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramP
   );
 });
 
-export { VennDiagram };
+/**
+ * VennDiagram main pure functional stateless React component, the generic argument T refers to the type of the elements
+ *
+ * with React.forwardRef support to specify a reference to the SVG element
+ */
+export default VennDiagram as <T>(p: VennDiagramProps<T> & React.RefAttributes<SVGSVGElement>) => React.ReactElement;

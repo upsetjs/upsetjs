@@ -224,4 +224,9 @@ const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapP
   );
 });
 
-export { KarnaughMap };
+/**
+ * KarnaughMap main pure functional stateless React component, the generic argument T refers to the type of the elements
+ *
+ * with React.forwardRef support to specify a reference to the SVG element
+ */
+export default KarnaughMap as <T>(p: KarnaughMapProps<T> & React.RefAttributes<SVGSVGElement>) => React.ReactElement;

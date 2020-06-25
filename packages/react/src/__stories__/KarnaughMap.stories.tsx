@@ -5,26 +5,15 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import { asSets, ISetLike } from '@upsetjs/model';
 import React from 'react';
-import { KarnaughMap } from './KarnaughMap';
-import { extractSets, ISetLike, asSets } from '@upsetjs/model';
-import got from '../data/got.json';
+import KarnaughMap from '../kmap/KarnaughMap';
+import { common, queries, sets } from './data';
 
 export default {
   component: KarnaughMap,
   title: 'Karnaugh Map',
 };
-
-const style = {};
-const elems = got;
-const sets = extractSets(elems).slice(0, 3);
-
-const queries = [
-  { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
-  { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
-];
-
-const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <KarnaughMap sets={sets} width={1200} height={500} />;
@@ -33,9 +22,7 @@ export const Default = () => {
 export const Title = () => {
   return (
     <KarnaughMap
-      sets={sets}
-      width={1200}
-      height={500}
+      {...common}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
     />
@@ -45,19 +32,6 @@ export const Title = () => {
 export const Interactivity = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
   return <KarnaughMap {...common} selection={selection} onHover={setSelection} />;
-};
-
-export const DarkTheme = () => {
-  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-  return (
-    <KarnaughMap
-      {...common}
-      selection={selection}
-      onHover={setSelection}
-      theme="dark"
-      style={{ backgroundColor: '#303030' }}
-    />
-  );
 };
 
 export const Click = () => {

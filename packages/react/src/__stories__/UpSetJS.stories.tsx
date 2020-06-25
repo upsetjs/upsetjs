@@ -5,27 +5,16 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import { asSets, generateCombinations, ISetLike } from '@upsetjs/model';
 import React from 'react';
-import { UpSetJS } from './UpSetJS';
-import { extractSets, ISetLike, generateCombinations, asSets } from '@upsetjs/model';
-import { UpSetAddonProps } from './interfaces';
-import got from './data/got.json';
+import { UpSetAddonProps } from '../interfaces';
+import UpSetJS from '../UpSetJS';
+import { common, queries, sets } from './data';
 
 export default {
   component: UpSetJS,
   title: 'UpSetJS',
 };
-
-const style = {};
-const elems = got;
-const sets = extractSets(elems);
-
-const queries = [
-  { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
-  { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
-];
-
-const common = { sets, width: 1200, height: 500, style };
 
 export const Default = () => {
   return <UpSetJS sets={sets} width={1200} height={500} />;
@@ -49,22 +38,19 @@ export const Unions = () => {
   );
 };
 
-export const Interactivity = () => {
-  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
-  return <UpSetJS {...common} selection={selection} onHover={setSelection} />;
-};
-
-export const DarkTheme = () => {
-  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+export const DistinctIntersections = () => {
   return (
     <UpSetJS
       {...common}
-      selection={selection}
-      onHover={setSelection}
-      theme="dark"
-      style={{ backgroundColor: '#303030' }}
+      combinations={generateCombinations(sets, { type: 'distinctIntersection' })}
+      combinationName="Distinct Intersection Size"
     />
   );
+};
+
+export const Interactivity = () => {
+  const [selection, setSelection] = React.useState(null as ISetLike<any> | null);
+  return <UpSetJS {...common} selection={selection} onHover={setSelection} />;
 };
 
 export const Click = () => {

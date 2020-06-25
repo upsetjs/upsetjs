@@ -32,7 +32,10 @@ export const DEFAULT_FONT_SIZES: Required<UpSetFontSizes & VennDiagramFontSizes 
 };
 export const DEFAULT_WIDTH_RATIO = [0.18, 0.12, 0.7];
 export const DEFAULT_HEIGHT_RATIO = [0.6, 0.4];
-export const DEFAULT_COMBINATIONS: GenerateSetCombinationsOptions = { type: 'intersection' };
+export const DEFAULT_COMBINATIONS: GenerateSetCombinationsOptions = {
+  type: 'intersection',
+  order: ['cardinality:desc', 'name:asc'],
+};
 
 export const FONT_SIZES_KEYS = /* #__PURE__ */ Object.keys(DEFAULT_FONT_SIZES) as (keyof (
   | UpSetFontSizes
