@@ -22,6 +22,7 @@ import {
 } from '@upsetjs/model';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from '../utils';
+import { DEFAULT_COMBINATIONS } from '../defaults';
 
 export function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
   if (factory === 'linear') {
@@ -93,7 +94,7 @@ export default function deriveDataDependent<T>(
   const bandScaleFactory = resolveBandScale(bandScale);
   const cs = areCombinations(combinations)
     ? combinations
-    : generateCombinations(sets, Object.assign({ toElemKey }, combinations));
+    : generateCombinations(sets, Object.assign({ toElemKey }, DEFAULT_COMBINATIONS, combinations));
 
   const csKeys = cs.map(toKey);
   const combinationX = bandScaleFactory(csKeys, sizes.cs.w, sizes.padding);
