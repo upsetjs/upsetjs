@@ -8,7 +8,7 @@
 import React from 'react';
 import { common, darkBackgroundColor, sets, colors, mergeColors } from '../data';
 import { InteractiveVennDiagram } from '../Interactive';
-import VennDiagram from '../../venn/VennDiagram';
+import { VennDiagram } from '../../venn/VennDiagram';
 
 export default {
   component: VennDiagram,

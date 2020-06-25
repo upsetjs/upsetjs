@@ -28,7 +28,7 @@ import useHandler from './hooks/useHandler';
  *
  * with React.forwardRef support to specify a reference to the SVG element
  */
-const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
+export const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
   const p = fillDefaults<T>(props);
   const { selection = null, queries = [], fontSizes } = p;
 

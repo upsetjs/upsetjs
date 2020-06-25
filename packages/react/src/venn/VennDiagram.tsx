@@ -14,7 +14,10 @@ import VennArcSliceSelection from './components/VennArcSliceSelection';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
 import { useCreateCommon, useExportChart } from './hooks';
 
-const VennDiagram = forwardRef(function VennDiagram<T = any>(props: VennDiagramProps<T>, ref: Ref<SVGSVGElement>) {
+export const VennDiagram = forwardRef(function VennDiagram<T = any>(
+  props: VennDiagramProps<T>,
+  ref: Ref<SVGSVGElement>
+) {
   const p = fillVennDiagramDefaults<T>(props);
   const { selection = null, queries = [], fontSizes } = p;
   const v = useCreateCommon(p);

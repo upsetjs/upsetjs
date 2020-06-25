@@ -19,7 +19,10 @@ import KMapSelection from './components/KMapSelection';
 import deriveKarnaughDataDependent from './derive/deriveDataDependent';
 import deriveKarnaughStyleDependent from './derive/deriveStyleDependent';
 
-const KarnaughMap = forwardRef(function KarnaughMap<T = any>(props: KarnaughMapProps<T>, ref: Ref<SVGSVGElement>) {
+export const KarnaughMap = forwardRef(function KarnaughMap<T = any>(
+  props: KarnaughMapProps<T>,
+  ref: Ref<SVGSVGElement>
+) {
   const p = fillKarnaughMapDefaults<T>(props);
   const { queries = [], fontSizes, selection = null } = p;
   // generate a "random" but attribute stable id to avoid styling conflicts

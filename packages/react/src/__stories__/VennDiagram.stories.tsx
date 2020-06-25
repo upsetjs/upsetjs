@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import VennDiagram from '../venn/VennDiagram';
+import { VennDiagram } from '../venn/VennDiagram';
 import { ISetLike, asSets } from '@upsetjs/model';
 import { common, sets, queries } from './data';
+import { VennDiagramSkeleton } from '../venn/VennDiagramSkeleton';
 
 export default {
   component: VennDiagram,
@@ -17,6 +18,10 @@ export default {
 
 export const Default = () => {
   return <VennDiagram sets={sets} width={1200} height={500} />;
+};
+
+export const Skeleton = () => {
+  return <VennDiagramSkeleton width={1200} height={500} />;
 };
 
 export const Title = () => {

@@ -5,10 +5,10 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 import React from 'react';
-import UpSetJS from '../UpSetJS';
+import { UpSetJS } from '../UpSetJS';
 import { sets } from './data';
-import VennDiagram from '../venn/VennDiagram';
-import KarnaughMap from '../kmap/KarnaughMap';
+import { VennDiagram } from '../venn/VennDiagram';
+import { KarnaughMap } from '../kmap/KarnaughMap';
 import { ISetLike } from '@upsetjs/model';
 
 export default {

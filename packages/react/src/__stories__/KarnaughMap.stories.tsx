@@ -7,8 +7,9 @@
 
 import { asSets, ISetLike } from '@upsetjs/model';
 import React from 'react';
-import KarnaughMap from '../kmap/KarnaughMap';
+import { KarnaughMap } from '../kmap/KarnaughMap';
 import { common, queries, sets } from './data';
+import { KarnaughMapSkeleton } from '../kmap/KarnaughMapSkeleton';
 
 export default {
   component: KarnaughMap,
@@ -17,6 +18,10 @@ export default {
 
 export const Default = () => {
   return <KarnaughMap sets={sets} width={1200} height={500} />;
+};
+
+export const Skeleton = () => {
+  return <KarnaughMapSkeleton width={1200} height={500} />;
 };
 
 export const Title = () => {

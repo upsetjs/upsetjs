@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { common, darkBackgroundColor, sets, colors, mergeColors } from '../data';
-import UpSetJS from '../../UpSetJS';
+import { UpSetJS } from '../../UpSetJS';
 import { InteractiveUpSetJS } from '../Interactive';
 
 export default {

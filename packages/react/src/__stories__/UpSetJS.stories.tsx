@@ -8,8 +8,9 @@
 import { asSets, ISetLike } from '@upsetjs/model';
 import React from 'react';
 import { UpSetAddonProps } from '../interfaces';
-import UpSetJS from '../UpSetJS';
+import { UpSetJS } from '../UpSetJS';
 import { common, queries, sets } from './data';
+import { UpSetJSSkeleton } from '../UpSetJSSkeleton';
 
 export default {
   component: UpSetJS,
@@ -18,6 +19,10 @@ export default {
 
 export const Default = () => {
   return <UpSetJS sets={sets} width={1200} height={500} />;
+};
+
+export const Skeleton = () => {
+  return <UpSetJSSkeleton width={1200} height={500} />;
 };
 
 export const Title = () => {

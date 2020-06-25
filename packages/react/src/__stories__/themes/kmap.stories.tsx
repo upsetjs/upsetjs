@@ -8,7 +8,7 @@
 import React from 'react';
 import { common, darkBackgroundColor, colors, sets, mergeColors } from '../data';
 import { InteractiveKarnaughMap } from '../Interactive';
-import KarnaughMap from '../../kmap/KarnaughMap';
+import { KarnaughMap } from '../../kmap/KarnaughMap';
 
 export default {
   component: KarnaughMap,
