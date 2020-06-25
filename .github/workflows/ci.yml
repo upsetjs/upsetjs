@@ -58,7 +58,7 @@ jobs:
           publish_branch: master
           publish_dir: ./public
           enable_jekyll: true
-          remove_path_spec: 'api/addons/,app/,api/bundle/,api/math/,api/model/,api/react/,integrations/vue/'
+          remove_path_spec: 'api/addons/,api/plots/,app/,api/bundle/,api/math/,api/model/,api/react/,integrations/vue/'
 
       - if: github.ref == 'refs/heads/develop'
         # move to next directory
@@ -76,7 +76,7 @@ jobs:
           publish_branch: master
           publish_dir: ./public
           enable_jekyll: true
-          remove_path_spec: 'next/api/addons/,next/app/,next/api/bundle/,next/api/math/,next/api/model/,next/api/react/,next/integrations/vue/'
+          remove_path_spec: 'next/api/addons/,next/api/plots/,next/app/,next/api/bundle/,next/api/math/,next/api/model/,next/api/react/,next/integrations/vue/'
 
       - name: Publish
         if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
