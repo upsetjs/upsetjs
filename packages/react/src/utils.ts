@@ -41,7 +41,7 @@ export function generateSelectionOverlap<T>(
   }
   const ss = selection as ISetLike<T>;
   if (ss.overlap) {
-    return ss.overlap;
+    return ss.overlap.bind(ss);
   }
   const f = elemOverlapOf(ss.elems, toElemKey);
   return (s) => {
