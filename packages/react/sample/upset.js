@@ -60,6 +60,6 @@ async function loadUpSetJS() {
   }
   document.body.style.backgroundColor = window.exports.getDefaultTheme(theme).backgroundColor;
 
-  const elems = await fetch('../src/data/got.json').then((r) => r.json());
-  return { UpSetJS: window.exports, render, elems, theme, renderInteractive };
+  const elems = await fetch('../src/__stories__/data/got.json').then((r) => r.json());
+  return { UpSetJS: window.exports, UpSetJSModel: window.UpSetJSModel, render, elems, theme, renderInteractive };
 }

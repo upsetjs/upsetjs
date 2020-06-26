@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>UpSet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="./upset.js"></script>
+    <script>
+      loadUpSetJS().then(({ UpSetJSModel, renderInteractive }) => {
+        const { sets, combinations } = UpSetJSModel.extractFromExpression(
+          [
+            { sets: ['A'], value: 10 },
+            { sets: ['B'], value: 7 },
+            { sets: ['A', 'B'], value: 5 },
+          ],
+          {
+            // type: 'distinctIntersection',
+          }
+        );
+        renderInteractive({
+          sets,
+          combinations,
+          width: 1200,
+          height: 500,
+        });
+      });
+    </script>
+  </body>
+</html>
