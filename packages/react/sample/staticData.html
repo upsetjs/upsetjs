@@ -12,9 +12,9 @@
       loadUpSetJS().then(({ UpSetJSModel, renderInteractive }) => {
         const { sets, combinations } = UpSetJSModel.extractFromExpression(
           [
-            { sets: ['A'], value: 10 },
-            { sets: ['B'], value: 7 },
-            { sets: ['A', 'B'], value: 5 },
+            { sets: ['A'], cardinality: 10 },
+            { sets: ['B'], cardinality: 7 },
+            { sets: ['A', 'B'], cardinality: 5 },
           ],
           {
             // type: 'distinctIntersection',

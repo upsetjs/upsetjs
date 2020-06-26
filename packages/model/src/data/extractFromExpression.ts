@@ -240,7 +240,7 @@ export function generateUnionOverlapFunction<T>(combinations: ISetCombinations<T
  * @param accessor accessor to get the list of sets the combination belong to
  * @param options hints about the given combinations
  */
-export default function extractFromExpression<T extends { value: number }>(
+export default function extractFromExpression<T extends { cardinality: number }>(
   combinations: readonly T[],
   accessor: (elem: T) => string[],
   options?: ExtractFromExpressionOptions
@@ -250,12 +250,12 @@ export default function extractFromExpression<T extends { value: number }>(
  * @param combinations
  * @param options hints about the given combinations
  */
-export default function extractFromExpression<T extends { sets: string[]; value: number }>(
+export default function extractFromExpression<T extends { sets: string[]; cardinality: number }>(
   combinations: readonly T[],
   options?: ExtractFromExpressionOptions
 ): { sets: ISets<unknown>; combinations: readonly (T & ISetCombination<unknown>)[] };
 
-export default function extractFromExpression<T extends { value: number }>(
+export default function extractFromExpression<T extends { cardinality: number }>(
   combinations: readonly T[],
   accOrOptions?: ExtractFromExpressionOptions | ((elem: T) => string[]),
   o: ExtractFromExpressionOptions = {}
@@ -301,26 +301,26 @@ export default function extractFromExpression<T extends { value: number }>(
     if (type === 'distinctIntersection') {
       // we can add the cardinality of a subset to the main set
       for (const s of containedSetsObjects) {
-        (s as { cardinality: number }).cardinality += c.value;
+        (s as { cardinality: number }).cardinality += c.cardinality;
       }
     } else if (containedSets.length === 1) {
       // merge into set
       Object.assign(
         containedSetsObjects[0],
         {
-          cardinality: c.value,
+          cardinality: c.cardinality,
         },
         c
       );
     } else if (type === 'intersection') {
       // we can at least ensure it is at least the intersection
       for (const s of containedSetsObjects) {
-        (s as { cardinality: number }).cardinality = Math.max(s.cardinality, c.value);
+        (s as { cardinality: number }).cardinality = Math.max(s.cardinality, c.cardinality);
       }
     } else if (type === 'union') {
       // we can at least ensure it is at most the intersection
       for (const s of containedSetsObjects) {
-        (s as { cardinality: number }).cardinality = Math.min(s.cardinality, c.value);
+        (s as { cardinality: number }).cardinality = Math.min(s.cardinality, c.cardinality);
       }
     }
 
@@ -334,7 +334,7 @@ export default function extractFromExpression<T extends { value: number }>(
       },
       c,
       {
-        cardinality: c.value,
+        cardinality: c.cardinality,
         degree: containedSets.length,
         sets: new Set(containedSetsObjects),
       }

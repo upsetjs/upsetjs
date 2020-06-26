@@ -225,7 +225,7 @@ describe('extractFromExpression', () => {
   test('single', () => {
     const { sets, combinations } = extractFromExpression([
       {
-        value: 10,
+        cardinality: 10,
         sets: ['A'],
       },
     ]);
@@ -245,7 +245,7 @@ describe('extractFromExpression', () => {
     const { sets, combinations } = extractFromExpression(
       [
         {
-          value: 10,
+          cardinality: 10,
           sets: ['A'],
         },
       ],
@@ -267,15 +267,15 @@ describe('extractFromExpression', () => {
   test('two', () => {
     const { sets, combinations } = extractFromExpression([
       {
-        value: 10,
+        cardinality: 10,
         sets: ['A'],
       },
       {
-        value: 5,
+        cardinality: 5,
         sets: ['B'],
       },
       {
-        value: 2,
+        cardinality: 2,
         sets: ['A', 'B'],
       },
     ]);
@@ -302,15 +302,15 @@ describe('extractFromExpression', () => {
     const { sets, combinations } = extractFromExpression(
       [
         {
-          value: 10,
+          cardinality: 10,
           sets: ['A'],
         },
         {
-          value: 5,
+          cardinality: 5,
           sets: ['B'],
         },
         {
-          value: 2,
+          cardinality: 2,
           sets: ['A', 'B'],
         },
       ],
