@@ -14,6 +14,7 @@ import VennArcSliceSelection from './components/VennArcSliceSelection';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
 import { useCreateCommon, useExportChart } from './hooks';
 import UpSetTitle from '../components/UpSetTitle';
+import { isEllipse } from './layout/interfaces';
 
 export const VennDiagram = forwardRef(function VennDiagram<T = any>(
   props: VennDiagramProps<T>,
@@ -131,16 +132,27 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
         ))}
       </g>
       <g>
-        {dataInfo.sets.d.map((l) => (
-          <circle
-            key={l.key}
-            cx={l.l.cx}
-            cy={l.l.cy}
-            r={l.l.r}
-            className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
-            style={style.styles.set}
-          />
-        ))}
+        {dataInfo.sets.d.map((l) =>
+          isEllipse(l.l) ? (
+            <ellipse
+              key={l.key}
+              rx={l.l.rx}
+              ry={l.l.ry}
+              transform={`transform(${l.l.cx},${l.l.cy})rotate(${l.l.rotation})`}
+              className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
+              style={style.styles.set}
+            />
+          ) : (
+            <circle
+              key={l.key}
+              cx={l.l.cx}
+              cy={l.l.cy}
+              r={l.l.r}
+              className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
+              style={style.styles.set}
+            />
+          )
+        )}
       </g>
     </SVGWrapper>
   );

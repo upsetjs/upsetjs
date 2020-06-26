@@ -17,8 +17,18 @@ export interface ICircle {
   cy: number;
   angle: number;
 }
+export interface IEllipse {
+  rx: number;
+  ry: number;
+  rotation: number;
+  cx: number;
+  cy: number;
+
+  angle: number;
+}
 
 export interface ITextCircle extends ICircle, ITextLocation {}
+export interface ITextEllipse extends IEllipse, ITextLocation {}
 
 // could be slice
 export interface IArc {
@@ -54,7 +64,11 @@ export interface IVennDiagramLayoutGenerator {
 }
 
 export interface IVennDiagramLayout {
-  sets: ITextCircle[];
+  sets: (ITextCircle | ITextEllipse)[];
   universe?: ITextUniverseSet;
   intersections: ITextArcSlice[];
+}
+
+export function isEllipse(d: ICircle | IEllipse): d is ITextEllipse {
+  return typeof (d as ITextEllipse).rx === 'number';
 }
