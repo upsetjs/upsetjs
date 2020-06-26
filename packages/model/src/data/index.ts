@@ -7,6 +7,7 @@
 
 export { default as generateCombinations, GenerateSetCombinationsOptions } from './generateCombinations';
 export { default as asSets, asSet, PostprocessSetOptions } from './asSets';
+export { default as extractFromExpression, ExtractFromExpressionOptions } from './extractFromExpression';
 export {
   default as asCombinations,
   asCombination,
