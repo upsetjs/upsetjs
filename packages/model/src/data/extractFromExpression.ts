@@ -43,6 +43,10 @@ interface CommonInfo {
   toKey: (set: ISetLike<unknown>) => string;
 }
 
+function isUniverse(s: ISetCombination<any>) {
+  return s.sets.size === 0;
+}
+
 /**
  * common compare helper
  * ! when done is set i.e., not null there is no guarantee for any other value
@@ -75,6 +79,12 @@ export function common<T>(a: ISetLike<T>, b: ISetLike<T>, toKey = toDefaultKey) 
   }
   r.aIsSet = isSet(a);
   r.bIsSet = isSet(b);
+
+  if ((!r.aIsSet && isUniverse(a as ISetCombination<T>)) || (!r.bIsSet && isUniverse(b as ISetCombination<T>))) {
+    // no overlap to the universe which is everything besides the elements
+    r.done = 0;
+    return r;
+  }
 
   // cannot decide yet
   return r;
@@ -302,6 +312,16 @@ export default function extractFromExpression<T extends { value: number }>(
         },
         c
       );
+    } else if (type === 'intersection') {
+      // we can at least ensure it is at least the intersection
+      for (const s of containedSetsObjects) {
+        (s as { cardinality: number }).cardinality = Math.max(s.cardinality, c.value);
+      }
+    } else if (type === 'union') {
+      // we can at least ensure it is at most the intersection
+      for (const s of containedSetsObjects) {
+        (s as { cardinality: number }).cardinality = Math.min(s.cardinality, c.value);
+      }
     }
 
     const name = containedSets.join(joiner);
