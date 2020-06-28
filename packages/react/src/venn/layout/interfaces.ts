@@ -15,7 +15,6 @@ export interface ICircle {
   r: number;
   cx: number;
   cy: number;
-  angle: number;
 }
 export interface IEllipse {
   rx: number;
@@ -23,12 +22,16 @@ export interface IEllipse {
   rotation: number;
   cx: number;
   cy: number;
-
-  angle: number;
 }
 
-export interface ITextCircle extends ICircle, ITextLocation {}
-export interface ITextEllipse extends IEllipse, ITextLocation {}
+export interface ITextCircle extends ICircle, ITextLocation {
+  align: 'start' | 'end' | 'middle';
+  verticalAlign: 'top' | 'bottom';
+}
+export interface ITextEllipse extends IEllipse, ITextLocation {
+  align: 'start' | 'end' | 'middle';
+  verticalAlign: 'top' | 'bottom';
+}
 
 // could be slice
 export interface IArc {

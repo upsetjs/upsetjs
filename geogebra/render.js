@@ -24,7 +24,7 @@ function render(circles, intersections, bb) {
         (c) =>
           `<ellipse rx="${c.rx || c.r}" ry="${c.ry || c.r}" stroke="green" fill="none" transform="translate(${c.cx},${
             c.cy
-          })rotate(${c.rotation || 0})"></ellipse>`
+          })rotate(${c.rotation || 0})"  style="vector-effect: non-scaling-stroke"></ellipse>`
       )
       .join('')}
     ${intersections.map((i, j) => `<path d="${path(i)}" fill="hsl(${j * hue},100%,50%)"></path>`).join('')}
