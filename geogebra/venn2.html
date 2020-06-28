@@ -36,19 +36,19 @@
         a.evalCommand('c0c1_i = Intersect(c0, c1, 2)');
         a.evalCommand('c0c1tx = Point({MeanX({c0c1_o, c0c1_i}), MeanY({c0c1_o, c0c1_i})})');
 
-        const circles = [circle('c0p', 's0t', 'start', 'bottom'), circle('c1p', 's1t', 'end', 'top')];
+        const circles = [circle('c1p', 's1t', 'end', 'top'), circle('c0p', 's0t', 'start', 'bottom')];
         const intersections = [
+          arcSliceCircle(['c0c1_i', 'c0c1_o'], 'c1p', [false, true], [true, false]),
           arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0p', [false, true], [true, false]),
-          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c1p', [true, false], [true, false]),
           arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0c1tx', [false, false], [false, false]),
         ];
 
         const bb = {
-          x: circles[1].cx - radius,
-          y: circles[1].cy - radius,
+          x: circles[0].cx - radius,
+          y: circles[0].cy - radius,
         };
-        bb.width = circles[0].cx + radius - bb.x;
-        bb.height = circles[0].cy + radius - bb.y;
+        bb.width = circles[1].cx + radius - bb.x;
+        bb.height = circles[1].cy + radius - bb.y;
 
         dump(circles, intersections, bb);
       }

@@ -24,13 +24,13 @@ function arcSliceCircle(arcs, tx, s = [false, false, false], l = [false, false, 
   return {
     ...p(arcs[0], '1'),
     arcs: [
-      ...arcs.map((a, i) => ({
+      ...arcs.slice(1).map((a, i) => ({
         rx: radius,
         ry: radius,
         rotation: 0,
         ...p(a, 2),
-        sweepFlag: s[i - 1],
-        largeArcFlag: l[i - 1],
+        sweepFlag: s[i],
+        largeArcFlag: l[i],
       })),
       {
         rx: radius,

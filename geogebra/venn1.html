@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Venn 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+  </head>
+  <body>
+    <div id="ggb-element"></div>
+    <script src="render.js"></script>
+    <script src="gg.js"></script>
+    <script>
+      const radius = 5;
+
+      function run(a) {
+        a.evalCommand(`A0 = Point({0, 0})`);
+        a.evalCommand(`B = Point({${radius}, 0})`);
+        a.evalCommand('c = Circle(A0, B)');
+        a.evalCommand('C = Point({0,0})');
+        a.evalCommand('c0 = c');
+        a.evalCommand('c0p = Rotate(A0, 0°, C)');
+        a.evalCommand(`A00 = Point({0, -${radius}})`);
+        a.evalCommand(`A01 = Point({0, ${radius}})`);
+
+        a.evalCommand('s0t = Point({3.5,4})');
+
+        const circles = [circle('c0p', 's0t', 'start', 'bottom')];
+        const intersections = [arcSliceCircle(['A00', 'A01'], 'c0p', [false, false], [false, false])];
+
+        const bb = {
+          x: circles[0].cx - radius,
+          y: circles[0].cy - radius,
+        };
+        bb.width = circles[1].cx + radius - bb.x;
+        bb.height = circles[0].cy + radius - bb.y;
+
+        dump(circles, intersections, bb);
+      }
+    </script>
+  </body>
+</html>

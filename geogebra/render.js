@@ -58,4 +58,12 @@ function dump(circles, intersections, bb) {
   );
 
   document.body.insertAdjacentHTML('beforeend', render(circles, intersections, bb));
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    `<textarea>${JSON.stringify({
+      circles,
+      intersections,
+      bb,
+    })}</textarea>`
+  );
 }
