@@ -1,0 +1,80 @@
+{
+  "circles": [
+    { "cx": 0, "cy": 4, "r": 5, "text": { "x": 4, "y": 8 }, "angle": -120 },
+    { "cx": -3.464, "cy": -2, "r": 5, "text": { "x": -7, "y": -6 }, "angle": 120 },
+    { "cx": 3.464, "cy": -2, "r": 5, "text": { "x": 7, "y": -6 }, "angle": -120 }
+  ],
+  "intersections": [
+    {
+      "x1": -4.855,
+      "y1": 2.803,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": true }
+      ],
+      "text": { "x": 0, "y": 4.869 }
+    },
+    {
+      "x1": -4.855,
+      "y1": 2.803,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": true }
+      ],
+      "text": { "x": -4.216, "y": -2.434 }
+    },
+    {
+      "x1": 0,
+      "y1": -5.606,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": false, "largeArcFlag": true }
+      ],
+      "text": { "x": 4.216, "y": -2.434 }
+    },
+    {
+      "x1": 4.855,
+      "y1": 2.803,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": false }
+      ],
+      "text": { "x": 2.082, "y": 1.202 }
+    },
+    {
+      "x1": 0,
+      "y1": -5.606,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": false, "largeArcFlag": false }
+      ],
+      "text": { "x": 0, "y": -2.404 }
+    },
+    {
+      "x1": -4.855,
+      "y1": 2.803,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": false }
+      ],
+      "text": { "x": -2.082, "y": 1.202 }
+    },
+    {
+      "x1": 1.39,
+      "y1": -0.803,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false }
+      ],
+      "text": { "x": 0, "y": 0 }
+    }
+  ],
+  "bb": { "x": -8.464, "y": -7, "width": 16.928, "height": 16 }
+}
