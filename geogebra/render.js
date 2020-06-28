@@ -17,7 +17,7 @@ function render(circles, intersections, bb) {
   return `
 <svg width="300" height="300">
   <g transform="translate(150,150)scale(10,10)">
-    <rect x="${bb.x}" y="${bb.y}" width="${bb.width}" height="${bb.height}"></rect>
+    <rect x="${bb.x}" y="${bb.y}" width="${bb.width}" height="${bb.height}" fill="none" stroke="black"></rect>
 
     ${circles
       .map(
@@ -31,7 +31,12 @@ function render(circles, intersections, bb) {
   </g>
   <g transform="translate(150,150)">
     ${circles
-      .map((c, i) => `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="${c.align}">${i}</text>`)
+      .map(
+        (c, i) =>
+          `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="${c.align}" ${
+            c.verticalAlign === 'top' ? 'dominant-baseline="hanging"' : ''
+          }>${i}</text>`
+      )
       .join('')}
     ${intersections
       .map(

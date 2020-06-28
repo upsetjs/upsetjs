@@ -1,14 +1,15 @@
 {
   "circles": [
-    { "cx": 0, "cy": 4, "r": 5, "text": { "x": 4, "y": 8 }, "angle": -120 },
-    { "cx": -3.464, "cy": -2, "r": 5, "text": { "x": -7, "y": -6 }, "angle": 120 },
-    { "cx": 3.464, "cy": -2, "r": 5, "text": { "x": 7, "y": -6 }, "angle": -120 }
+    { "cx": 0, "cy": 4, "r": 5, "text": { "x": 4, "y": 7.5 }, "align": "start", "verticalAlign": "top" },
+    { "cx": -3.464, "cy": -2, "r": 5, "text": { "x": -7, "y": -6 }, "align": "end" },
+    { "cx": 3.464, "cy": -2, "r": 5, "text": { "x": 7, "y": -6 }, "align": "start" }
   ],
   "intersections": [
     {
       "x1": -4.855,
       "y1": 2.803,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": false, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": true }
@@ -19,6 +20,7 @@
       "x1": -4.855,
       "y1": 2.803,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": true }
@@ -29,6 +31,7 @@
       "x1": 0,
       "y1": -5.606,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": false, "largeArcFlag": true }
@@ -39,6 +42,7 @@
       "x1": 4.855,
       "y1": 2.803,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": false, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 4.855, "y2": 2.803, "sweepFlag": false, "largeArcFlag": false }
@@ -49,6 +53,7 @@
       "x1": 0,
       "y1": -5.606,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": false, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5.606, "sweepFlag": false, "largeArcFlag": false }
@@ -59,6 +64,7 @@
       "x1": -4.855,
       "y1": 2.803,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": false, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -4.855, "y2": 2.803, "sweepFlag": true, "largeArcFlag": false }
@@ -69,6 +75,7 @@
       "x1": 1.39,
       "y1": -0.803,
       "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803 },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 1.606, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": -1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 5, "ry": 5, "rotation": 0, "x2": 1.39, "y2": -0.803, "sweepFlag": true, "largeArcFlag": false }

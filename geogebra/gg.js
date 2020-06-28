@@ -9,50 +9,43 @@ function p(v, suffix = '') {
   };
 }
 
-function circle(v, tv, align) {
+function circle(v, tv, align, verticalAlign) {
   return {
     cx: round3(a.getXcoord(v)),
     cy: round3(-a.getYcoord(v)),
     r: radius,
     text: p(tv),
     align,
+    verticalAlign,
   };
 }
 
-function arcSliceCircle(c1, c2, c3, tx, s = [false, false, false], l = [false, false, false]) {
+function arcSliceCircle(arcs, tx, s = [false, false, false], l = [false, false, false]) {
   return {
-    ...p(c1, '1'),
+    ...p(arcs[0], '1'),
     arcs: [
+      ...arcs.map((a, i) => ({
+        rx: radius,
+        ry: radius,
+        rotation: 0,
+        ...p(a, 2),
+        sweepFlag: s[i - 1],
+        largeArcFlag: l[i - 1],
+      })),
       {
         rx: radius,
         ry: radius,
         rotation: 0,
-        ...p(c2, 2),
-        sweepFlag: s[0],
-        largeArcFlag: l[0],
-      },
-      {
-        rx: radius,
-        ry: radius,
-        rotation: 0,
-        ...p(c3, 2),
-        sweepFlag: s[1],
-        largeArcFlag: l[1],
-      },
-      {
-        rx: radius,
-        ry: radius,
-        rotation: 0,
-        ...p(c1, 2),
-        sweepFlag: s[2],
-        largeArcFlag: l[2],
+        ...p(arcs[0], 2),
+        sweepFlag: s[arcs.length - 1],
+        largeArcFlag: l[arcs.length - 1],
       },
     ],
     text: p(tx),
   };
 }
 
-function ggbOnInit() {
+function ggbOnInit(m) {
   run(a);
 }
 

@@ -32,7 +32,7 @@
         a.evalCommand(`c2p = Rotate(A0, 120°, C)`);
         a.evalCommand('c2t = Rotate(A00, -120°, C)');
 
-        a.evalCommand('s0t = Point({4,-8})');
+        a.evalCommand('s0t = Point({4,-7.5})');
         a.evalCommand('s1t = Point({-7,6})');
         a.evalCommand('s2t = Point({7,6})');
 
@@ -50,15 +50,19 @@
         a.evalCommand('c1c2tx = Centroid(Polygon(c1c2_o, c0c2_i, c0c1_i))');
         a.evalCommand('c0c1tx = Centroid(Polygon(c0c1_o, c0c2_i, c1c2_i))');
         a.evalCommand('c0c1c2tx = Centroid(Polygon(c0c1_i, c1c2_i, c0c2_i))');
-        const circles = [circle('c0p', 's0t', 'start'), circle('c1p', 's1t', 'end'), circle('c2p', 's2t', 'start')];
+        const circles = [
+          circle('c0p', 's0t', 'start', 'top'),
+          circle('c1p', 's1t', 'end'),
+          circle('c2p', 's2t', 'start'),
+        ];
         const intersections = [
-          arcSliceCircle('c0c1_o', 'c1c2_i', 'c0c2_o', 'c0tx', [false, false, true], [false, false, true]),
-          arcSliceCircle('c0c1_o', 'c0c2_i', 'c1c2_o', 'c1tx', [true, true, false], [false, false, true]),
-          arcSliceCircle('c1c2_o', 'c0c1_i', 'c0c2_o', 'c2tx', [true, true, false], [false, false, true]),
-          arcSliceCircle('c0c2_o', 'c0c1_i', 'c1c2_i', 'c0c2tx', [false, true, false]),
-          arcSliceCircle('c1c2_o', 'c0c2_i', 'c0c1_i', 'c1c2tx', [false, true, false]),
-          arcSliceCircle('c0c1_o', 'c0c2_i', 'c1c2_i', 'c0c1tx', [true, false, true]),
-          arcSliceCircle('c0c1_i', 'c1c2_i', 'c0c2_i', 'c0c1c2tx', [true, true, true]),
+          arcSliceCircle(['c0c1_o', 'c1c2_i', 'c0c2_o'], 'c0tx', [false, false, true], [false, false, true]),
+          arcSliceCircle(['c0c1_o', 'c0c2_i', 'c1c2_o'], 'c1tx', [true, true, false], [false, false, true]),
+          arcSliceCircle(['c1c2_o', 'c0c1_i', 'c0c2_o'], 'c2tx', [true, true, false], [false, false, true]),
+          arcSliceCircle(['c0c2_o', 'c0c1_i', 'c1c2_i'], 'c0c2tx', [false, true, false]),
+          arcSliceCircle(['c1c2_o', 'c0c2_i', 'c0c1_i'], 'c1c2tx', [false, true, false]),
+          arcSliceCircle(['c0c1_o', 'c0c2_i', 'c1c2_i'], 'c0c1tx', [true, false, true]),
+          arcSliceCircle(['c0c1_i', 'c1c2_i', 'c0c2_i'], 'c0c1c2tx', [true, true, true]),
         ];
 
         const bb = {

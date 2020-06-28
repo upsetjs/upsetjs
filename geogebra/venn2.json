@@ -1,0 +1,39 @@
+{
+  "circles": [
+    { "cx": 4, "cy": 0, "r": 5, "text": { "x": 7.5, "y": -4 }, "align": "start", "verticalAlign": "bottom" },
+    { "cx": -4, "cy": 0, "r": 5, "text": { "x": -7.5, "y": 4 }, "align": "end", "verticalAlign": "top" }
+  ],
+  "intersections": [
+    {
+      "x1": 0,
+      "y1": 3,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3 },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": false, "largeArcFlag": true },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": true, "largeArcFlag": false }
+      ],
+      "text": { "x": 4, "y": 0 }
+    },
+    {
+      "x1": 0,
+      "y1": 3,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3 },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": true, "largeArcFlag": true },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": false, "largeArcFlag": false }
+      ],
+      "text": { "x": -4, "y": 0 }
+    },
+    {
+      "x1": 0,
+      "y1": 3,
+      "arcs": [
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3 },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": false, "largeArcFlag": false }
+      ],
+      "text": { "x": 0, "y": 0 }
+    }
+  ],
+  "bb": { "x": -9, "y": -5, "width": 18, "height": 10 }
+}

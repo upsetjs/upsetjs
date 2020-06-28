@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Venn 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+  </head>
+  <body>
+    <div id="ggb-element"></div>
+    <script src="render.js"></script>
+    <script src="gg.js"></script>
+    <script>
+      const radius = 5;
+      const shift = 1;
+
+      function run(a) {
+        a.evalCommand(`A0 = Point({${radius - shift}, 0})`);
+        a.evalCommand(`A00 = Point({${radius - shift + radius}, 0})`);
+        a.evalCommand(`B = Point({-${shift}, 0})`);
+        a.evalCommand('c = Circle(A0, B)');
+        a.evalCommand('C = Point({0,0})');
+        a.evalCommand('c0 = c');
+        a.evalCommand('c0p = Rotate(A0, 0°, C)');
+        a.evalCommand('c0t = Rotate(A00, 0°, C)');
+        a.evalCommand('c1 = Rotate(c, 180°, C)');
+        a.evalCommand(`c1p = Rotate(A0, 180°, C)`);
+        a.evalCommand('c1t = Rotate(A00, 180°, C)');
+
+        a.evalCommand('s0t = Point({7.5,4})');
+        a.evalCommand('s1t = Point({-7.5,-4})');
+
+        a.evalCommand('c0c1_o = Intersect(c0, c1, 1)');
+        a.evalCommand('c0c1_i = Intersect(c0, c1, 2)');
+        a.evalCommand('c0c1tx = Point({MeanX({c0c1_o, c0c1_i}), MeanY({c0c1_o, c0c1_i})})');
+
+        const circles = [circle('c0p', 's0t', 'start', 'bottom'), circle('c1p', 's1t', 'end', 'top')];
+        const intersections = [
+          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0p', [false, true], [true, false]),
+          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c1p', [true, false], [true, false]),
+          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0c1tx', [false, false], [false, false]),
+        ];
+
+        const bb = {
+          x: circles[1].cx - radius,
+          y: circles[1].cy - radius,
+        };
+        bb.width = circles[0].cx + radius - bb.x;
+        bb.height = circles[0].cy + radius - bb.y;
+
+        dump(circles, intersections, bb);
+      }
+    </script>
+  </body>
+</html>
