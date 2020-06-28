@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Page Title</title>
+    <title>Venn 3</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="https://www.geogebra.org/apps/deployggb.js"></script>
@@ -11,11 +11,12 @@
   <body>
     <div id="ggb-element"></div>
     <script src="render.js"></script>
+    <script src="gg.js"></script>
     <script>
       const radius = 5;
       const shift = 1;
 
-      function ggbOnInit(param) {
+      function run(a) {
         a.evalCommand(`A0 = Point({0, -${radius - shift}})`);
         a.evalCommand(`A00 = Point({0, -${radius - shift + radius}})`);
         a.evalCommand(`B = Point({0, ${shift}})`);
@@ -49,63 +50,15 @@
         a.evalCommand('c1c2tx = Centroid(Polygon(c1c2_o, c0c2_i, c0c1_i))');
         a.evalCommand('c0c1tx = Centroid(Polygon(c0c1_o, c0c2_i, c1c2_i))');
         a.evalCommand('c0c1c2tx = Centroid(Polygon(c0c1_i, c1c2_i, c0c2_i))');
-
-        function p(v, suffix = '') {
-          return {
-            [`x${suffix}`]: round3(a.getXcoord(v)),
-            [`y${suffix}`]: round3(-a.getYcoord(v)),
-          };
-        }
-        function circle(v, tv, align) {
-          return {
-            cx: round3(a.getXcoord(v)),
-            cy: round3(-a.getYcoord(v)),
-            r: radius,
-            text: p(tv),
-            angle: align === 'left' ? -120 : 120,
-          };
-        }
-        const circles = [circle('c0p', 's0t', 'left'), circle('c1p', 's1t', 'right'), circle('c2p', 's2t', 'left')];
-        function arcSlice(c1, c2, c3, tx, s = [false, false, false], l = [false, false, false]) {
-          return {
-            ...p(c1, '1'),
-            arcs: [
-              {
-                rx: radius,
-                ry: radius,
-                rotation: 0,
-                ...p(c2, 2),
-                sweepFlag: s[0],
-                largeArcFlag: l[0],
-              },
-              {
-                rx: radius,
-                ry: radius,
-                rotation: 0,
-                ...p(c3, 2),
-                sweepFlag: s[1],
-                largeArcFlag: l[1],
-              },
-              {
-                rx: radius,
-                ry: radius,
-                rotation: 0,
-                ...p(c1, 2),
-                sweepFlag: s[2],
-                largeArcFlag: l[2],
-              },
-            ],
-            text: p(tx),
-          };
-        }
+        const circles = [circle('c0p', 's0t', 'start'), circle('c1p', 's1t', 'end'), circle('c2p', 's2t', 'start')];
         const intersections = [
-          arcSlice('c0c1_o', 'c1c2_i', 'c0c2_o', 'c0tx', [false, false, true], [false, false, true]),
-          arcSlice('c0c1_o', 'c0c2_i', 'c1c2_o', 'c1tx', [true, true, false], [false, false, true]),
-          arcSlice('c1c2_o', 'c0c1_i', 'c0c2_o', 'c2tx', [true, true, false], [false, false, true]),
-          arcSlice('c0c2_o', 'c0c1_i', 'c1c2_i', 'c0c2tx', [false, true, false]),
-          arcSlice('c1c2_o', 'c0c2_i', 'c0c1_i', 'c1c2tx', [false, true, false]),
-          arcSlice('c0c1_o', 'c0c2_i', 'c1c2_i', 'c0c1tx', [true, false, true]),
-          arcSlice('c0c1_i', 'c1c2_i', 'c0c2_i', 'c0c1c2tx', [true, true, true]),
+          arcSliceCircle('c0c1_o', 'c1c2_i', 'c0c2_o', 'c0tx', [false, false, true], [false, false, true]),
+          arcSliceCircle('c0c1_o', 'c0c2_i', 'c1c2_o', 'c1tx', [true, true, false], [false, false, true]),
+          arcSliceCircle('c1c2_o', 'c0c1_i', 'c0c2_o', 'c2tx', [true, true, false], [false, false, true]),
+          arcSliceCircle('c0c2_o', 'c0c1_i', 'c1c2_i', 'c0c2tx', [false, true, false]),
+          arcSliceCircle('c1c2_o', 'c0c2_i', 'c0c1_i', 'c1c2tx', [false, true, false]),
+          arcSliceCircle('c0c1_o', 'c0c2_i', 'c1c2_i', 'c0c1tx', [true, false, true]),
+          arcSliceCircle('c0c1_i', 'c1c2_i', 'c0c2_i', 'c0c1c2tx', [true, true, true]),
         ];
 
         const bb = {
@@ -115,39 +68,8 @@
         bb.width = circles[2].cx + radius - bb.x;
         bb.height = circles[0].cy + radius - bb.y;
 
-        console.log(
-          JSON.stringify({
-            circles,
-            intersections,
-            bb,
-          })
-        );
-
-        document.body.insertAdjacentHTML('beforeend', render(circles, intersections, bb));
+        dump(circles, intersections, bb);
       }
-      var ggbApp = new GGBApplet(
-        {
-          id: 'a',
-          width: 1600,
-          height: 900,
-          showMenuBar: true,
-          showAlgebraInput: true,
-          showToolBar: false,
-          showToolBarHelp: false,
-          showResetIcon: false,
-          enableLabelDrags: false,
-          enableShiftDragZoom: true,
-          enableRightClick: false,
-          errorDialogsActive: false,
-          useBrowserForJS: true,
-          preventFocus: false,
-          language: 'en',
-        },
-        true
-      );
-      window.addEventListener('load', function () {
-        ggbApp.inject('ggb-element');
-      });
     </script>
   </body>
 </html>

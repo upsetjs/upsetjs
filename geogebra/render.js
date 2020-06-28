@@ -1,7 +1,3 @@
-function round3(v) {
-  return Math.round(v * 1000) / 1000;
-}
-
 function path(s, p = 0) {
   if (s.path) {
     return s.path;
@@ -35,10 +31,7 @@ function render(circles, intersections, bb) {
   </g>
   <g transform="translate(150,150)">
     ${circles
-      .map(
-        (c, i) =>
-          `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="${c.angle < 0 ? 'start' : 'end'}">${i}</text>`
-      )
+      .map((c, i) => `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="${c.align}">${i}</text>`)
       .join('')}
     ${intersections
       .map(
@@ -48,4 +41,16 @@ function render(circles, intersections, bb) {
       .join('')}
   </g>
 </svg>`;
+}
+
+function dump(circles, intersections, bb) {
+  console.log(
+    JSON.stringify({
+      circles,
+      intersections,
+      bb,
+    })
+  );
+
+  document.body.insertAdjacentHTML('beforeend', render(circles, intersections, bb));
 }
