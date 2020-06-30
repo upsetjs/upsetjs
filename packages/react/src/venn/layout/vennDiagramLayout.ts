@@ -10,6 +10,7 @@ import venn0 from './data/venn0.json';
 import venn1 from './data/venn1.json';
 import venn2 from './data/venn2.json';
 import venn3 from './data/venn3.json';
+import venn4 from './data/venn4.json';
 import { isEllipse, ITextArcSlice, ITextCircle, ITextEllipse, IVennDiagramLayoutGenerator } from './interfaces';
 
 interface ILayout {
@@ -19,9 +20,9 @@ interface ILayout {
 }
 
 export const vennDiagramLayout: IVennDiagramLayoutGenerator = {
-  maxSets: 3,
+  maxSets: 4,
   compute<T>(sets: ISets<T>, _combinations: ISetCombinations<T>, width: number, height: number) {
-    const lookup = [venn0, venn1, venn2, venn3];
+    const lookup = [venn0, venn1, venn2, venn3, venn4];
     const r = lookup[Math.min(lookup.length - 1, sets.length)] as ILayout;
     const f = Math.min(width / r.bb.width, height / r.bb.height);
     const x = f * r.bb.x + (width - f * r.bb.width);

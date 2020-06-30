@@ -57,9 +57,9 @@
           const j = (i + 1) % count;
           a.evalCommand(`c${i}c${j}c = Intersect(c${i}, c${j}, 3)`);
           a.evalCommand(`c${i}c${j}d = Intersect(c${i}, c${j}, 4)`);
-          const j2 = (i + count - 1) % count;
-          a.evalCommand(`c${i}c${j2}c = Intersect(c${i}, c${j2}, 3)`);
-          a.evalCommand(`c${i}c${j2}d = Intersect(c${i}, c${j2}, 4)`);
+          // const j2 = (i + count - 1) % count;
+          // a.evalCommand(`c${i}c${j2}c = Intersect(c${i}, c${j2}, 3)`);
+          // a.evalCommand(`c${i}c${j2}d = Intersect(c${i}, c${j2}, 4)`);
         }
 
         const intersections = [];
@@ -90,10 +90,31 @@
         // );
 
         // 2 segments
-        a.evalCommand('a0a1 = Polygon(c1c4b,c0c1b,c0c4c)');
-        a.evalCommand('ta0a1 = Centroid(Polygon(c1c4b,c0c1b,c0c4c))');
-        intersections.push(arcSliceEllipse(['c1c4b', 'c0c1b', 'c0c4c'], 'ta0a1', [rot0, rot4, rot1], [true, false, true]));
-
+        // a.evalCommand('a0a1 = Polygon(c1c4b,c0c1b,c0c4c)');
+        // a.evalCommand('ta0a1 = Centroid(Polygon(c1c4b,c0c1b,c0c4c))');
+        // intersections.push(
+        //   arcSliceEllipse(['c1c4b', 'c0c1b', 'c0c4c'], 'ta0a1', [rot0, rot4, rot1], [true, false, true])
+        // );
+        // a.evalCommand('a1a2 = Polygon(c0c2a,c1c2b,c0c1c)');
+        // a.evalCommand('ta1a2 = Centroid(Polygon(c0c2a,c1c2b,c0c1c))');
+        // intersections.push(
+        //   arcSliceEllipse(['c0c2a', 'c1c2b', 'c0c1c'], 'ta1a2', [rot1, rot0, rot2], [true, false, true])
+        // );
+        // a.evalCommand('a2a3 = Polygon(c1c3b,c2c3a,c1c2c)');
+        // a.evalCommand('ta2a3 = Centroid(Polygon(c1c3b,c2c3a,c1c2c))');
+        // intersections.push(
+        //   arcSliceEllipse(['c1c3b', 'c2c3a', 'c1c2c'], 'ta2a3', [rot2, rot1, rot3], [true, false, true])
+        // );
+        // a.evalCommand('a3a4 = Polygon(c2c4b,c3c4a,c2c3d)');
+        // a.evalCommand('ta3a4 = Centroid(Polygon(c2c4b,c3c4a,c2c3d))');
+        // intersections.push(
+        //   arcSliceEllipse(['c2c4b', 'c3c4a', 'c2c3d'], 'ta3a4', [rot3, rot2, rot4], [true, false, true])
+        // );
+        // a.evalCommand('a4a0 = Polygon(c0c3a,c0c4d,c3c4d)');
+        // a.evalCommand('ta4a0 = Centroid(Polygon(c0c3a,c0c4d,c3c4d))');
+        // intersections.push(
+        //   arcSliceEllipse(['c0c3a', 'c0c4d', 'c3c4d'], 'ta4a0', [rot4, rot3, rot0], [true, false, true])
+        // );
         const bb = {};
         const circles = [
           ellipse((0 * 360) / count, `c${0}p`, `c${0}t`, 'start', 'bottom'),

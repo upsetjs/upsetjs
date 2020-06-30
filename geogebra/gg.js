@@ -58,6 +58,7 @@ function arcSliceCircle(arcs, tx, s = [false, false, false], l = [false, false, 
 }
 
 function arcSliceEllipse(arcs, tx, rotations, s = [false, false, false], l = [false, false, false]) {
+  arcs = Array.isArray(arcs) ? arcs : arcs.split(',').map((d) => d.trim());
   return {
     ...p(arcs[0], '1'),
     arcs: [

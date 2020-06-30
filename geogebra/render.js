@@ -15,7 +15,7 @@ function path(s, p = 0) {
 function render(circles, intersections, bb) {
   const hue = 360 / intersections.length;
   return `
-<svg width="300" height="300">
+<svg width="300" height="300" viewBox="0 0 300 300">
   <g transform="translate(150,150)scale(10,10)">
     <rect x="${bb.x}" y="${bb.y}" width="${bb.width}" height="${bb.height}" fill="none" stroke="black"></rect>
 
