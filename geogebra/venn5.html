@@ -14,7 +14,7 @@
     <script>
       const xRadius = 2.5;
       const yRadius = 5;
-      const cx = 1;
+      const cx = 0.5;
       const cy = 1;
       const count = 5;
       const show = 5;
@@ -25,8 +25,8 @@
         a.evalCommand(`c_x = ${cx}`);
         a.evalCommand(`c_y = ${cy}`);
         a.evalCommand('cp = Point({c_x, c_y})');
-        a.evalCommand('a0 = Point({c_x, c_y + ry})');
-        a.evalCommand('b0 = Point({c_x, c_y - ry})');
+        a.evalCommand('a0 = Point({c_x, c_y + ry * 0.8})');
+        a.evalCommand('b0 = Point({c_x, c_y - ry * 0.9})');
         a.evalCommand(`c: ((x-c_x)^2)/(rx^2)+((y-c_y)^2)/(ry^2)=1`);
         const f = 360 / count;
 
@@ -37,10 +37,10 @@
         const rot4 = f * 4;
 
         for (let i = 0; i < show; i++) {
-          a.evalCommand(`c${i}p = Rotate(cp, -${(i * 360) / count}deg)`);
           a.evalCommand(`c${i}: Rotate(c, -${(i * 360) / count}deg)`);
-          a.evalCommand(`ca${i} = Rotate(a0, -${(i * 360) / count}deg)`);
-          a.evalCommand(`cb${i} = Rotate(b0, -${(i * 360) / count}deg)`);
+          a.evalCommand(`c${i}p = Rotate(cp, -${(i * 360) / count}deg)`);
+          a.evalCommand(`c${i}a = Rotate(a0, -${(i * 360) / count}deg)`);
+          a.evalCommand(`c${i}b = Rotate(b0, -${(i * 360) / count}deg)`);
         }
         a.evalCommand(`c0t = Point({2.8, 5})`);
         a.evalCommand(`c1t = Point({5, -1.6})`);
@@ -49,73 +49,93 @@
         a.evalCommand(`c4t = Point({-3.6, 4.2})`);
 
         for (let i = 0; i < show - 1; i++) {
-          for (let jj = i + 1; jj < show + i; jj++) {
-            const j = jj % count;
+          for (let j = i + 1; j < show + i; j++) {
             a.evalCommand(`c${i}c${j}a = Intersect(c${i}, c${j}, 1)`);
             a.evalCommand(`c${i}c${j}b = Intersect(c${i}, c${j}, 2)`);
+            a.evalCommand(`c${i}c${j}c = Intersect(c${i}, c${j}, 3)`);
+            a.evalCommand(`c${i}c${j}d = Intersect(c${i}, c${j}, 4)`);
           }
-          const j = (i + 1) % count;
-          a.evalCommand(`c${i}c${j}c = Intersect(c${i}, c${j}, 3)`);
-          a.evalCommand(`c${i}c${j}d = Intersect(c${i}, c${j}, 4)`);
-          // const j2 = (i + count - 1) % count;
-          // a.evalCommand(`c${i}c${j2}c = Intersect(c${i}, c${j2}, 3)`);
-          // a.evalCommand(`c${i}c${j2}d = Intersect(c${i}, c${j2}, 4)`);
         }
 
         const intersections = [];
-        // a.evalCommand(`cp0 = Polygon(c0c4d, ca0, c0c1b, c1c4b, c3c4c, c3c4d)`);
-        // a.evalCommand(`ct0 = Centroid(Polygon(c3c4d, ca0, cb3))`);
-        // intersections.push(
-        //   arcSliceEllipse(['c0c4d', 'c0c1b', 'c1c4b', 'c3c4c', 'c3c4d'], 'ct0', [rot0, rot1, rot4, rot3, rot4], [true])
-        // );
-        // // a.evalCommand(`cp1 = Polygon(c0c1b, ca1, c1c2b, c0c2a, c0c4b, c0c4c)`);
-        // a.evalCommand(`ct1 = Centroid(Polygon(c0c4c, ca1, cb4))`);
-        // intersections.push(
-        //   arcSliceEllipse(['c0c1b', 'c1c2b', 'c0c2a', 'c0c4b', 'c0c4c'], 'ct1', [rot1, rot2, rot0, rot4, rot0], [true])
-        // );
-        // // a.evalCommand(`cp2 = Polygon(c1c2b, ca2, c2c3a, c1c3b, c0c1d, c0c1c)`);
-        // a.evalCommand(`ct2 = Centroid(Polygon(c0c1c, ca2, cb0))`);
-        // intersections.push(
-        //   arcSliceEllipse(['c1c2b', 'c2c3a', 'c1c3b', 'c0c1d', 'c0c1c'], 'ct2', [rot2, rot3, rot1, rot0, rot1], [true])
-        // );
-        // // a.evalCommand(`cp3 = Polygon(c2c3a, ca3, c3c4a, c2c4b, c1c2d, c1c2c)`);
-        // a.evalCommand(`ct3 = Centroid(Polygon(c1c2c, ca3, cb1))`);
-        // intersections.push(
-        //   arcSliceEllipse(['c2c3a', 'c3c4a', 'c2c4b', 'c1c2d', 'c1c2c'], 'ct3', [rot3, rot4, rot2, rot1, rot2], [true])
-        // );
-        // // a.evalCommand(`cp4 = Polygon(c3c4a, ca4, c0c4d, c0c3a, c2c3c, c2c3d)`);
-        // a.evalCommand(`ct4 = Centroid(Polygon(c2c3d, ca4, cb2))`);
-        // intersections.push(
-        //   arcSliceEllipse(['c3c4a', 'c0c4d', 'c0c3a', 'c2c3c', 'c2c3d'], 'ct4', [rot4, rot0, rot3, rot2, rot3], [true])
-        // );
+        // c0
+        intersections.push(arcSliceEllipse('c0c4d,c0c1b,c1c3b,c3c4d', 'c0a', [rot0, rot1, rot3, rot4], [true]));
+        // c1
+        intersections.push(arcSliceEllipse('c0c1b,c1c2b,c2c4b,c0c4c', 'c1a', [rot1, rot2, rot4, rot0], [true]));
+        // c2
+        intersections.push(arcSliceEllipse('c1c2b,c2c3a,c0c3a,c0c1c', 'c2a', [rot2, rot3, rot0, rot1], [true]));
+        // c3
+        intersections.push(arcSliceEllipse('c2c3a,c3c4a,c1c4b,c1c2c', 'c3a', [rot3, rot4, rot1, rot2], [true]));
+        // c4
+        intersections.push(arcSliceEllipse('c3c4a,c0c4d,c0c2a,c2c3d', 'c4a', [rot4, rot0, rot2, rot3], [true]));
 
-        // 2 segments
-        // a.evalCommand('a0a1 = Polygon(c1c4b,c0c1b,c0c4c)');
-        // a.evalCommand('ta0a1 = Centroid(Polygon(c1c4b,c0c1b,c0c4c))');
-        // intersections.push(
-        //   arcSliceEllipse(['c1c4b', 'c0c1b', 'c0c4c'], 'ta0a1', [rot0, rot4, rot1], [true, false, true])
-        // );
-        // a.evalCommand('a1a2 = Polygon(c0c2a,c1c2b,c0c1c)');
-        // a.evalCommand('ta1a2 = Centroid(Polygon(c0c2a,c1c2b,c0c1c))');
-        // intersections.push(
-        //   arcSliceEllipse(['c0c2a', 'c1c2b', 'c0c1c'], 'ta1a2', [rot1, rot0, rot2], [true, false, true])
-        // );
-        // a.evalCommand('a2a3 = Polygon(c1c3b,c2c3a,c1c2c)');
-        // a.evalCommand('ta2a3 = Centroid(Polygon(c1c3b,c2c3a,c1c2c))');
-        // intersections.push(
-        //   arcSliceEllipse(['c1c3b', 'c2c3a', 'c1c2c'], 'ta2a3', [rot2, rot1, rot3], [true, false, true])
-        // );
-        // a.evalCommand('a3a4 = Polygon(c2c4b,c3c4a,c2c3d)');
-        // a.evalCommand('ta3a4 = Centroid(Polygon(c2c4b,c3c4a,c2c3d))');
-        // intersections.push(
-        //   arcSliceEllipse(['c2c4b', 'c3c4a', 'c2c3d'], 'ta3a4', [rot3, rot2, rot4], [true, false, true])
-        // );
-        // a.evalCommand('a4a0 = Polygon(c0c3a,c0c4d,c3c4d)');
-        // a.evalCommand('ta4a0 = Centroid(Polygon(c0c3a,c0c4d,c3c4d))');
-        // intersections.push(
-        //   arcSliceEllipse(['c0c3a', 'c0c4d', 'c3c4d'], 'ta4a0', [rot4, rot3, rot0], [true, false, true])
-        // );
-        const bb = {};
+        let i = 0;
+        function center(line, rot, sweep, large, line2) {
+          i++;
+          a.evalCommand(`ct${i} = Centroid(Polygon(${line2 || line}))`);
+          intersections.push(arcSliceEllipse(line, `ct${i}`, rot, sweep, large));
+        }
+
+        // c0 c1
+        center('c1c3b,c0c1b,c0c4c,c3c4c', [rot1, rot0, rot4, rot3], [true, true]);
+        // c0 c2
+        intersections.push(arcSliceEllipse('c0c1c,c0c3a,c1c3a', 'c0b', [rot0, rot3, rot1], [true]));
+        // c0 c3
+        intersections.push(arcSliceEllipse('c3c4d,c1c3b,c1c4a', 'c3b', [rot3, rot1, rot4], [true]));
+        // c0 c4
+        center('c0c4d,c3c4d,c2c3c,c0c2a', [rot4, rot3, rot2, rot0], [true]);
+
+        // c1 c2
+        center('c2c4b,c1c2b,c0c1c,c0c4b', [rot2, rot1, rot0, rot4], [true, true]);
+        // c1 c3
+        intersections.push(arcSliceEllipse('c1c2c,c1c4b,c2c4a', 'c1b', [rot1, rot4, rot2], [true]));
+        // c1 c4
+        intersections.push(arcSliceEllipse('c0c4c,c2c4b,c0c2b', 'c4b', [rot4, rot2, rot0], [true]));
+
+        // c2 c3
+        center('c0c3a,c2c3a,c1c2c,c0c1d', [rot3, rot2, rot1, rot0], [true, true]);
+        // c2 c4
+        intersections.push(arcSliceEllipse('c2c3d,c0c2a,c0c3b', 'c2b', [rot2, rot0, rot3], [true], []));
+
+        // // c3 c4
+        center('c1c4b,c3c4a,c2c3d,c1c2d', [rot4, rot3, rot2, rot1], [true, true]);
+
+        // c0 c1 c2
+        center('c0c4b,c0c1c,c1c3a,c3c4b', [rot0, rot1, rot3, rot4], [true, true]);
+        // c0 c1 c3
+        center('c1c4a,c1c3b,c3c4c', [rot1, rot3, rot4], [true, true]);
+        // c0 c1 c4
+        center('c3c4c,c0c4c,c0c2b,c2c3b', [rot4, rot0, rot2, rot3], [true, true]);
+
+        // c0 c2 c3
+        center('c1c3a,c0c3a,c0c1d', [rot3, rot0, rot1], [true, true]);
+        // c0 c2 c4
+        center('c0c2a,c2c3c,c0c3b', [rot2, rot3, rot0], [true, false, true]);
+        // c0 c3 c4
+        center('c3c4d,c1c4a,c1c2a,c2c3c', [rot4, rot1, rot2, rot3], [true]);
+        // c1 c2 c3
+        center('c1c2c,c2c4a,c0c4a,c0c1d', [rot2, rot4, rot0, rot1], [true]);
+        // c1 c2 c4
+        center('c2c4a,c1c4b,c1c2d', [rot4, rot1, rot2], [true, true]);
+        // c1 c3 c4
+        center('c0c2b,c2c4b,c0c4b', [rot2, rot4, rot0], [true, true]);
+
+        // c2 c3 c4
+        center('c2c3d,c0c3b,c0c1a,c1c2d', [rot3, rot0, rot1, rot2], [true]);
+        // c0 c1 c2 c3
+        center('c3c4b,c1c3a,c0c1d,c0c4a', [rot3, rot1, rot0, rot4], [true, true, true]);
+        // c0 c1 c2 c4
+        center('c2c3b,c0c2b,c0c4b,c3c4b', [rot2, rot0, rot4, rot3], [true, true, true]);
+        // c0 c1 c3 c4
+        center('c1c4a,c3c4c,c2c3b,c1c2a', [rot4, rot3, rot2, rot1], [true, true, false, true]);
+        // c0 c2 c3 c4
+        center('c0c1a,c0c3b,c2c3c,c1c2a', [rot0, rot3, rot2, rot1], [true, true, true]);
+        // c1 c2 c3 c4
+        center('c0c4a,c2c4a,c1c2d,c0c1a', [rot4, rot2, rot1, rot0], [true, true, true]);
+
+        // c0 c1 c2 c3 c4
+        center('c1c2a,c2c3b,c3c4b,c0c4a,c0c1a', [rot2, rot3, rot4, rot0, rot1], [true, true, true, true, true]);
+
         const circles = [
           ellipse((0 * 360) / count, `c${0}p`, `c${0}t`, 'start', 'bottom'),
           ellipse((1 * 360) / count, `c${1}p`, `c${1}t`, 'start', 'top'),
@@ -124,12 +144,12 @@
           ellipse((4 * 360) / count, `c${4}p`, `c${4}t`, 'end', 'bottom'),
         ];
 
-        // const bb = {
-        //   x: circles[0].cx - radius,
-        //   y: circles[0].cy - radius,
-        // };
-        // bb.width = circles[1].cx + radius - bb.x;
-        // bb.height = circles[1].cy + radius - bb.y;
+        const bb = {
+          x: -5.5,
+          y: -6,
+          width: 6.1 + 5.5,
+          height: 6 + 5.8,
+        };
 
         dump(circles, intersections, bb);
       }

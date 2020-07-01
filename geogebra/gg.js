@@ -94,7 +94,7 @@ function ggbOnInit(m) {
 const ggbApp = new GGBApplet(
   {
     id: 'a',
-    width: 1600,
+    width: 800,
     height: 900,
     showMenuBar: true,
     showAlgebraInput: true,
