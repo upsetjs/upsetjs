@@ -14,12 +14,12 @@ import {
   ISets,
   NumericScaleFactory,
   NumericScaleLike,
+  generateCombinations,
 } from '@upsetjs/model';
 import { generateId } from '../../utils';
 import { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
-import { calculateCombinations } from '../../venn/derive/deriveVennDataDependent';
 import { generate } from '../layout';
-import { resolveNumericScale } from '../../derive/deriveDataDependent';
+import { resolveNumericScale, areCombinations } from '../../derive/deriveDataDependent';
 
 export declare type IPoints = readonly { x: number; y: number }[];
 
@@ -69,7 +69,19 @@ export default function deriveKarnaughDataDependent<T>(
   id?: string
 ): KMapDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
-  const { cs, csKeys, setKeys } = calculateCombinations<T>(sets, toKey, combinations, { min: 0, empty: false });
+  const setKeys = sets.map(toKey);
+  const cs = areCombinations(combinations)
+    ? combinations
+    : generateCombinations<T>(
+        sets,
+        Object.assign(
+          {
+            type: 'distinctIntersection',
+          },
+          combinations ?? {}
+        )
+      );
+  const csKeys = cs.map(toKey);
 
   const has = (v: ISetCombination<T>, s: ISet<T>) => {
     const sk = toKey(s);
