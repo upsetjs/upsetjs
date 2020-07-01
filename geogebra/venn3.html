@@ -55,20 +55,48 @@
           circle('c0p', 's0t', 'start', 'top'),
         ];
         const intersections = [
-          arcSliceCircle(['c0c1_o', 'c0c2_i', 'c1c2_o'], 'c1tx', [true, true, false], [false, false, true]),
-          arcSliceCircle(['c1c2_o', 'c0c1_i', 'c0c2_o'], 'c2tx', [true, true, false], [false, false, true]),
-          arcSliceCircle(['c0c1_o', 'c1c2_i', 'c0c2_o'], 'c0tx', [false, false, true], [false, false, true]),
-          arcSliceCircle(['c1c2_o', 'c0c2_i', 'c0c1_i'], 'c1c2tx', [false, true, false]),
-          arcSliceCircle(['c0c1_o', 'c0c2_i', 'c1c2_i'], 'c0c1tx', [true, false, true]),
-          arcSliceCircle(['c0c2_o', 'c0c1_i', 'c1c2_i'], 'c0c2tx', [false, true, false]),
-          arcSliceCircle(['c0c1_i', 'c1c2_i', 'c0c2_i'], 'c0c1c2tx', [true, true, true]),
+          arcSliceCircle(
+            [0],
+            ['c0c1_o', 'c0c2_i', 'c1c2_o'],
+            'c1tx',
+            [true, true, false],
+            [false, false, true],
+            'ooi',
+            [2, 1, 0]
+          ),
+          arcSliceCircle(
+            [1],
+            ['c1c2_o', 'c0c1_i', 'c0c2_o'],
+            'c2tx',
+            [true, true, false],
+            [false, false, true],
+            'ooi',
+            [0, 2, 1]
+          ),
+          arcSliceCircle(
+            [2],
+            ['c0c1_o', 'c1c2_i', 'c0c2_o'],
+            'c0tx',
+            [false, false, true],
+            [false, false, true],
+            'ooi',
+            [0, 1, 2]
+          ),
+          arcSliceCircle([0, 1], ['c1c2_o', 'c0c2_i', 'c0c1_i'], 'c1c2tx', [false, true, false], [], 'ioi', [1, 2, 0]),
+          arcSliceCircle([0, 2], ['c0c1_o', 'c0c2_i', 'c1c2_i'], 'c0c1tx', [true, false, true], [], 'ioi', [2, 1, 0]),
+          arcSliceCircle([1, 2], ['c0c2_o', 'c0c1_i', 'c1c2_i'], 'c0c2tx', [false, true, false], [], 'ioi', [2, 0, 1]),
+          arcSliceCircle([0, 1, 2], ['c0c1_i', 'c1c2_i', 'c0c2_i'], 'c0c1c2tx', [true, true, true], [], 'iii', [
+            0,
+            1,
+            2,
+          ]),
         ];
 
         const bb = {
           x: circles[0].cx - radius,
           y: circles[0].cy - radius,
         };
-        bb.width = circles[2].cx + radius - bb.x;
+        bb.width = circles[1].cx + radius - bb.x;
         bb.height = circles[2].cy + radius - bb.y;
 
         dump(circles, intersections, bb);

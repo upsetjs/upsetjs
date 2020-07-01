@@ -84,88 +84,90 @@
         a.evalCommand(`c0c3c = Intersect(c0, c3, 3)`);
         a.evalCommand(`c0c3d = Intersect(c0, c3, 4)`);
 
-        const rot0 = 45;
-        const rot1 = 45;
-        const rot2 = -45;
-        const rot3 = -45;
+        a.evalCommand(`c0t = Point({4.5, 4.5})`);
+        a.evalCommand(`c3t = Point({-4.5, 4.5})`);
+        a.evalCommand(`c1t = Point({4, -3.75})`);
+        a.evalCommand(`c2t = Point({-4, -3.7})`);
+        const circles = [
+          ellipse(45, `c${0}p`, `c${0}t`, 'start', 'bottom'),
+          ellipse(45, `c${1}p`, `c${1}t`, 'start', 'top'),
+          ellipse(-45, `c${2}p`, `c${2}t`, 'end', 'top'),
+          ellipse(-45, `c${3}p`, `c${3}t`, 'end', 'bottom'),
+        ];
+
         const intersections = [];
         // a.evalCommand(`cp0 = Polygon(c0c4d, ca0, c0c1b, c1c4b, c3c4c, c3c4d)`);
-        intersections.push(arcSliceEllipse(['c0c3d', 'c0c1a', 'c1c3a'], 'c0a', [rot0, rot1, rot3], [true]));
+        intersections.push(arcSliceEllipse([0], ['c0c3d', 'c0c1a', 'c1c3a'], 'c0a', [0, 1, 3], [true]));
         intersections.push(
-          arcSliceEllipse(['c0c1a', 'c1c2b', 'c2c3b', 'c0c3c'], 'c1a', [rot1, rot2, rot3, rot0], [true], [true])
+          arcSliceEllipse([1], ['c0c1a', 'c1c2b', 'c2c3b', 'c0c3c'], 'c1a', [1, 2, 3, 0], [true], [true])
         );
         intersections.push(
-          arcSliceEllipse(['c1c2b', 'c2c3a', 'c0c3a', 'c0c1b'], 'c2a', [rot2, rot3, rot0, rot1], [true], [true])
+          arcSliceEllipse([2], ['c1c2b', 'c2c3a', 'c0c3a', 'c0c1b'], 'c2a', [2, 3, 0, 1], [true], [true])
         );
-        intersections.push(arcSliceEllipse(['c2c3a', 'c0c3d', 'c0c2b'], 'c3a', [rot3, rot0, rot2], [true]));
+        intersections.push(arcSliceEllipse([3], ['c2c3a', 'c0c3d', 'c0c2b'], 'c3a', [3, 0, 2], [true]));
 
         // c0 c1
         a.evalCommand(`cc0c1t = Centroid(Polygon(c0c1a, c0c3c, c1c3a))`);
         intersections.push(
-          arcSliceEllipse(['c0c1a', 'c0c3c', 'c1c3a'], 'cc0c1t', [rot1, rot3, rot0], [true, false, true])
+          arcSliceEllipse([0, 1], ['c0c1a', 'c0c3c', 'c1c3a'], 'cc0c1t', [1, 3, 0], [true, false, true])
         );
         // c0 c2
         a.evalCommand(`cc0c2t = Centroid(Polygon(c0b, c0c3a, c1c3b))`);
-        intersections.push(arcSliceEllipse(['c0c1b', 'c0c3a', 'c1c3b'], 'c0b', [rot0, rot3, rot1], [true]));
+        intersections.push(arcSliceEllipse([0, 2], ['c0c1b', 'c0c3a', 'c1c3b'], 'c0b', [0, 3, 1], [true]));
         // c0 c3
         a.evalCommand(`cc0c3t = Centroid(Polygon(c0c3d, c1c3a, c1c2a, c0c2b))`);
         intersections.push(
           arcSliceEllipse(
+            [0, 3],
             ['c0c3d', 'c1c3a', 'c1c2a', 'c0c2b'],
             'cc0c3t',
-            [rot3, rot1, rot2, rot0],
+            [3, 1, 2, 0],
             [true, false, false, true]
           )
         );
         // c1 c2
         a.evalCommand(`cc1c2t = Centroid(Polygon(c2c3b, c1c2b, c0c1b, c0c3b))`);
         intersections.push(
-          arcSliceEllipse(['c2c3b', 'c1c2b', 'c0c1b', 'c0c3b'], 'cc1c2t', [rot2, rot1, rot0, rot3], [true, true])
+          arcSliceEllipse([1, 2], ['c2c3b', 'c1c2b', 'c0c1b', 'c0c3b'], 'cc1c2t', [2, 1, 0, 3], [true, true])
         );
         // c1 c3
         a.evalCommand(`cc1c3t = Centroid(Polygon(c0c3c, c2c3b, c0c2a))`);
-        intersections.push(arcSliceEllipse(['c0c3c', 'c2c3b', 'c0c2a'], 'c3b', [rot3, rot2, rot1], [true]));
+        intersections.push(arcSliceEllipse([1, 3], ['c0c3c', 'c2c3b', 'c0c2a'], 'c3b', [3, 2, 1], [true]));
         // c2 c3
         a.evalCommand(`cc2c3t = Centroid(Polygon(c0c3a, c2c3a, c0c2b))`);
-        intersections.push(arcSliceEllipse(['c0c3a', 'c2c3a', 'c0c2b'], 'cc2c3t', [rot3, rot2, rot0], [true, true]));
+        intersections.push(arcSliceEllipse([2, 3], ['c0c3a', 'c2c3a', 'c0c2b'], 'cc2c3t', [3, 2, 0], [true, true]));
 
         // c0 c1 c2
         a.evalCommand(`cc0c1c2t = Centroid(Polygon(c0c3b, c0c1b, c1c3b))`);
-        intersections.push(arcSliceEllipse(['c0c3b', 'c0c1b', 'c1c3b'], 'cc0c1c2t', [rot0, rot1, rot3], [true, true]));
+        intersections.push(
+          arcSliceEllipse([0, 1, 2], ['c0c3b', 'c0c1b', 'c1c3b'], 'cc0c1c2t', [0, 1, 3], [true, true])
+        );
         // c0 c1 c3
         a.evalCommand(`cc0c1c3t = Centroid(Polygon(c1c3a, c0c3c, c0c2a, c1c2a))`);
         intersections.push(
-          arcSliceEllipse('c1c3a, c0c3c, c0c2a, c1c2a', 'cc0c1c3t', [rot3, rot0, rot2, rot1], [true, true, false, true])
+          arcSliceEllipse([0, 1, 3], 'c1c3a, c0c3c, c0c2a, c1c2a', 'cc0c1c3t', [3, 0, 2, 1], [true, true, false, true])
         );
         // c0 c2 c3
         a.evalCommand(`cc0c2c3t = Centroid(Polygon(c1c3b, c0c3a, c0c2b, c1c2a))`);
         intersections.push(
-          arcSliceEllipse('c1c3b, c0c3a, c0c2b, c1c2a', 'cc0c2c3t', [rot3, rot0, rot2, rot1], [true, true, true])
+          arcSliceEllipse([0, 2, 3], 'c1c3b, c0c3a, c0c2b, c1c2a', 'cc0c2c3t', [3, 0, 2, 1], [true, true, true])
         );
         // c1 c2 c3
         a.evalCommand(`cc1c2c3t = Centroid(Polygon(c2c3b, c0c3b, c0c2a))`);
-        intersections.push(arcSliceEllipse('c2c3b, c0c3b, c0c2a', 'cc1c2c3t', [rot3, rot0, rot2], [true, false, true]));
+        intersections.push(
+          arcSliceEllipse([1, 2, 3], 'c2c3b, c0c3b, c0c2a', 'cc1c2c3t', [3, 0, 2], [true, false, true])
+        );
         // c0 c1 c2 c3
         a.evalCommand(`cc0c1c2c3t = Centroid(Polygon(c1c2a, c0c2a, c0c3b, c1c3b))`);
         intersections.push(
           arcSliceEllipse(
+            [0, 1, 2, 3],
             'c1c2a, c0c2a, c0c3b, c1c3b',
             'cc0c1c2c3t',
-            [rot2, rot0, rot3, rot1],
+            [2, 0, 3, 1],
             [true, true, true, true]
           )
         );
-
-        a.evalCommand(`c0t = Point({4.5, 4.5})`);
-        a.evalCommand(`c3t = Point({-4.5, 4.5})`);
-        a.evalCommand(`c1t = Point({4, -3.75})`);
-        a.evalCommand(`c2t = Point({-4, -3.7})`);
-        const circles = [
-          ellipse(rot0, `c${0}p`, `c${0}t`, 'start', 'bottom'),
-          ellipse(rot1, `c${1}p`, `c${1}t`, 'start', 'top'),
-          ellipse(rot2, `c${2}p`, `c${2}t`, 'end', 'top'),
-          ellipse(rot3, `c${3}p`, `c${3}t`, 'end', 'bottom'),
-        ];
 
         const bb = {
           x: -6.5,

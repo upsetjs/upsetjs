@@ -1,12 +1,12 @@
 {
-  "circles": [{ "cx": 0, "cy": 0, "r": 5, "text": { "x": 3.5, "y": -4 }, "align": "start", "verticalAlign": "bottom" }],
+  "sets": [{ "cx": 0, "cy": 0, "r": 5, "text": { "x": 3.5, "y": -4 }, "align": "start", "verticalAlign": "bottom" }],
   "intersections": [
     {
       "x1": 0,
       "y1": 5,
       "arcs": [
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -5 },
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 5, "sweepFlag": false, "largeArcFlag": false }
+        { "mode": "i", "ref": 0, "x2": 0, "y2": -5, "sweep": false, "large": false },
+        { "mode": "i", "ref": 0, "x2": 0, "y2": 5, "sweep": false, "large": false }
       ],
       "text": { "x": 0, "y": 0 }
     }

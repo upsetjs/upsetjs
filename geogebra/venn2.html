@@ -37,9 +37,9 @@
 
         const circles = [circle('c1p', 's1t', 'end', 'top'), circle('c0p', 's0t', 'start', 'bottom')];
         const intersections = [
-          arcSliceCircle(['c0c1_i', 'c0c1_o'], 'c1p', [false, true], [true, false]),
-          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0p', [false, true], [true, false]),
-          arcSliceCircle(['c0c1_o', 'c0c1_i'], 'c0c1tx', [false, false], [false, false]),
+          arcSliceCircle([0], ['c0c1_i', 'c0c1_o'], 'c1p', [false, true], [true, false], 'io', [0, 1]),
+          arcSliceCircle([1], ['c0c1_o', 'c0c1_i'], 'c0p', [false, true], [true, false], 'io', [1, 0]),
+          arcSliceCircle([0, 1], ['c0c1_o', 'c0c1_i'], 'c0c1tx', [false, false], [false, false], 'ii', [0, 1]),
         ];
 
         const bb = {

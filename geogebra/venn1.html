@@ -27,13 +27,13 @@
         a.evalCommand('s0t = Point({3.5,4})');
 
         const circles = [circle('c0p', 's0t', 'start', 'bottom')];
-        const intersections = [arcSliceCircle(['A00', 'A01'], 'c0p', [false, false], [false, false])];
+        const intersections = [arcSliceCircle([0], ['A00', 'A01'], 'c0p', [], [], 'i', [0])];
 
         const bb = {
           x: circles[0].cx - radius,
           y: circles[0].cy - radius,
         };
-        bb.width = circles[1].cx + radius - bb.x;
+        bb.width = circles[0].cx + radius - bb.x;
         bb.height = circles[0].cy + radius - bb.y;
 
         dump(circles, intersections, bb);

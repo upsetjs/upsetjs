@@ -1,5 +1,5 @@
 {
-  "circles": [
+  "sets": [
     { "cx": -4, "cy": 0, "r": 5, "text": { "x": -7.5, "y": 4 }, "align": "end", "verticalAlign": "top" },
     { "cx": 4, "cy": 0, "r": 5, "text": { "x": 7.5, "y": -4 }, "align": "start", "verticalAlign": "bottom" }
   ],
@@ -8,8 +8,8 @@
       "x1": 0,
       "y1": -3,
       "arcs": [
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": false, "largeArcFlag": true },
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": true, "largeArcFlag": false }
+        { "mode": "i", "ref": 0, "x2": 0, "y2": 3, "sweep": false, "large": true },
+        { "mode": "o", "ref": 1, "x2": 0, "y2": -3, "sweep": true, "large": false }
       ],
       "text": { "x": -4, "y": 0 }
     },
@@ -17,8 +17,8 @@
       "x1": 0,
       "y1": 3,
       "arcs": [
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": false, "largeArcFlag": true },
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": true, "largeArcFlag": false }
+        { "mode": "i", "ref": 1, "x2": 0, "y2": -3, "sweep": false, "large": true },
+        { "mode": "o", "ref": 0, "x2": 0, "y2": 3, "sweep": true, "large": false }
       ],
       "text": { "x": 4, "y": 0 }
     },
@@ -26,8 +26,8 @@
       "x1": 0,
       "y1": 3,
       "arcs": [
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": -3, "sweepFlag": false, "largeArcFlag": false },
-        { "rx": 5, "ry": 5, "rotation": 0, "x2": 0, "y2": 3, "sweepFlag": false, "largeArcFlag": false }
+        { "mode": "i", "ref": 0, "x2": 0, "y2": -3, "sweep": false, "large": false },
+        { "mode": "i", "ref": 1, "x2": 0, "y2": 3, "sweep": false, "large": false }
       ],
       "text": { "x": 0, "y": 0 }
     }

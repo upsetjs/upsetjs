@@ -32,51 +32,49 @@ function ellipse(rotation, v, tv, align, verticalAlign) {
   };
 }
 
-function arcSliceCircle(arcs, tx, s = [false, false, false], l = [false, false, false]) {
+function arcSliceCircle(sets, arcs, tx, s = [], l = [], mode = '', ref = []) {
   return {
+    sets,
     ...p(arcs[0], '1'),
     arcs: [
       ...arcs.slice(1).map((a, i) => ({
-        rx: radius,
-        ry: radius,
-        rotation: 0,
+        mode: mode[i] === 'o' ? 'o' : 'i',
+        ref: ref[i] || 0,
         ...p(a, 2),
-        sweepFlag: s[i],
-        largeArcFlag: l[i],
+        sweep: s[i] === true,
+        large: l[i] === true,
       })),
       {
-        rx: radius,
-        ry: radius,
-        rotation: 0,
+        mode: mode[arcs.length - 1] === 'o' ? 'o' : 'i',
+        ref: ref[arcs.length - 1] || 0,
         ...p(arcs[0], 2),
-        sweepFlag: s[arcs.length - 1],
-        largeArcFlag: l[arcs.length - 1],
+        sweep: s[arcs.length - 1] === true,
+        large: l[arcs.length - 1] === true,
       },
     ],
     text: p(tx),
   };
 }
 
-function arcSliceEllipse(arcs, tx, rotations, s = [false, false, false], l = [false, false, false]) {
+function arcSliceEllipse(sets, arcs, tx, refs, s = [false, false, false], l = [false, false, false]) {
   arcs = Array.isArray(arcs) ? arcs : arcs.split(',').map((d) => d.trim());
   return {
+    sets,
     ...p(arcs[0], '1'),
     arcs: [
       ...arcs.slice(1).map((a, i) => ({
-        rx: xRadius,
-        ry: yRadius,
-        rotation: rotations[i],
+        ref: refs[i],
+        mode: sets.includes(refs[i]) ? 'i' : 'o',
         ...p(a, 2),
-        sweepFlag: s[i],
-        largeArcFlag: l[i],
+        sweep: s[i],
+        large: l[i],
       })),
       {
-        rx: xRadius,
-        ry: yRadius,
-        rotation: rotations[arcs.length - 1],
+        ref: Math.floor(refs[arcs.length - 1]),
+        mode: sets.includes(refs[arcs.length - 1]) ? 'i' : 'o',
         ...p(arcs[0], 2),
-        sweepFlag: s[arcs.length - 1],
-        largeArcFlag: l[arcs.length - 1],
+        sweep: s[arcs.length - 1],
+        large: l[arcs.length - 1],
       },
     ],
     text: p(tx),

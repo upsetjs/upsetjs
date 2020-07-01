@@ -1,13 +1,13 @@
-function path(s, p = 0) {
+function path(s, refs) {
   if (s.path) {
     return s.path;
   }
-  return `M ${s.x1 - p},${s.y1 - p} ${s.arcs
+  return `M ${s.x1},${s.y1} ${s.arcs
     .map(
       (arc) =>
-        `A ${arc.rx - p} ${arc.ry - p} ${arc.rotation} ${arc.largeArcFlag ? 1 : 0} ${arc.sweepFlag ? 1 : 0} ${
-          arc.x2 - p
-        } ${arc.y2 - p}`
+        `A ${refs[arc.ref].rx || refs[arc.ref].r} ${refs[arc.ref].ry || refs[arc.ref].r} ${
+          refs[arc.ref].rotation || 0
+        } ${arc.large ? 1 : 0} ${arc.sweep ? 1 : 0} ${arc.x2} ${arc.y2}`
     )
     .join(' ')}`;
 }
@@ -27,7 +27,7 @@ function render(circles, intersections, bb) {
           })rotate(${c.rotation || 0})"  style="vector-effect: non-scaling-stroke"></ellipse>`
       )
       .join('')}
-    ${intersections.map((i, j) => `<path d="${path(i)}" fill="hsl(${j * hue},100%,50%)"></path>`).join('')}
+    ${intersections.map((i, j) => `<path d="${path(i, circles)}" fill="hsl(${j * hue},100%,50%)"></path>`).join('')}
   </g>
   <g transform="translate(150,150)">
     ${circles
@@ -41,7 +41,9 @@ function render(circles, intersections, bb) {
     ${intersections
       .map(
         (c, i) =>
-          `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="middle" dominant-baseline="central">${i}</text>`
+          `<text x="${c.text.x * 10}" y="${c.text.y * 10}" text-anchor="middle" dominant-baseline="central">${
+            c.sets
+          }</text>`
       )
       .join('')}
   </g>
@@ -51,7 +53,7 @@ function render(circles, intersections, bb) {
 function dump(circles, intersections, bb) {
   console.log(
     JSON.stringify({
-      circles,
+      sets: circles,
       intersections,
       bb,
     })
@@ -61,7 +63,7 @@ function dump(circles, intersections, bb) {
   document.body.insertAdjacentHTML(
     'beforeend',
     `<textarea>${JSON.stringify({
-      circles,
+      sets: circles,
       intersections,
       bb,
     })}</textarea>`
