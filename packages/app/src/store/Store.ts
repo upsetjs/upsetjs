@@ -424,7 +424,7 @@ export default class Store {
 
   @computed
   get visibleVennSets() {
-    return this.visibleSets.slice(0, Math.min(this.visibleSets.length, 3));
+    return this.visibleSets.slice(0, Math.min(this.visibleSets.length, 5));
   }
 
   @computed
