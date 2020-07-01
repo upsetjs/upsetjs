@@ -52,6 +52,7 @@ const VennDiagramRenderer = observer(
               onHover={store.setHover}
               onClick={store.setSelection}
               exportButtons={false}
+              queryLegend={false}
               ref={store.ui.ref}
             />
           )}

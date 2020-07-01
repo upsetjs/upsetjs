@@ -13,8 +13,11 @@ import { useStore } from '../store';
 import { UpSetThemes } from '@upsetjs/react';
 import SidePanelEntry from './SidePanelEntry';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import '@taufik-nurrohman/color-picker';
 import '@taufik-nurrohman/color-picker/color-picker.css';
+import CheckboxBlankCircle from 'mdi-material-ui/CheckboxBlankCircle';
+import CheckboxBlankCircleOutline from 'mdi-material-ui/CheckboxBlankCircleOutline';
 
 declare class CP {
   static HEX(color: string): number[];
@@ -86,14 +89,26 @@ function ColorTextField({
     }
     const cp = new CP(ref.current, { color: 'RGB' });
     cp.on('change', function (this: CP, r, g, b, a) {
-      const color = a === 1 ? this.color(r, g, b, a) : `rgba(${r}, ${g}, ${b}, ${a})`;
-      if (ref.current && ref.current.value === color) {
+      const color = a === 1 ? this.color(r, g, b, a) : `rgba(${r},${g},${b},${a})`;
+      if (
+        ref.current &&
+        (ref.current.value === color || (!required && ref.current.value === '' && color === '#000000'))
+      ) {
         return;
       }
       onChange({ target: { name, value: color } });
     });
     return () => cp.pop();
-  }, [ref, name, onChange]);
+  }, [ref, name, onChange, required]);
+
+  const toggleDisableColor = useCallback(() => {
+    if (value === '') {
+      onChange({ target: { name, value: '#000000' } });
+    } else {
+      onChange({ target: { name, value: '' } });
+    }
+  }, [onChange, value]);
+  const handleMouseDown = useCallback((evt: React.MouseEvent<any>) => evt.preventDefault(), []);
   return (
     <TextField
       label={label}
@@ -108,23 +123,15 @@ function ColorTextField({
       InputProps={{
         startAdornment: (
           <InputAdornment position="start" style={{ color: value }}>
-            <span role="img" aria-label="current color">
-              ⬤
-            </span>
+            <IconButton onClick={toggleDisableColor} onMouseDown={handleMouseDown} size="small" disabled={required}>
+              {value !== '' ? <CheckboxBlankCircle /> : <CheckboxBlankCircleOutline />}
+            </IconButton>
           </InputAdornment>
         ),
       }}
     />
   );
 }
-// let picker = new CP(document.querySelector('input'));
-//     picker.on('change', function(r, g, b, a) {
-//         if (1 === a) {
-//             this.source.value = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-//         } else {
-//             this.source.value = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
-//         }
-//     });
 
 export default observer(() => {
   const store = useStore();
