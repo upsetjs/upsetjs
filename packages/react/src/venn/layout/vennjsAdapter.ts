@@ -6,7 +6,7 @@
  */
 
 import { ISetCombinations, ISets } from '@upsetjs/model';
-import { IVennDiagramLayoutGenerator } from './interfaces';
+import { IVennDiagramLayoutGenerator, ITextCircle } from './interfaces';
 import { DEG2RAD, pointAtCircle } from './math';
 
 export interface IVennJSSetOverlap {
@@ -95,9 +95,10 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
             cx: c.x,
             cy: c.y,
             r: c.radius,
-            angle: angle + 90,
+            align: angle > 90 ? 'end' : 'start',
+            verticalAlign: 'bottom',
             text: pointAtCircle(c.x, c.y, c.radius * 1.1, angle),
-          };
+          } as ITextCircle;
         }),
         intersections: r.map((d) => {
           const arcs = d.arcs;
