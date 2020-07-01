@@ -123,7 +123,12 @@ function ColorTextField({
       InputProps={{
         startAdornment: (
           <InputAdornment position="start" style={{ color: value }}>
-            <IconButton onClick={toggleDisableColor} onMouseDown={handleMouseDown} size="small" disabled={required}>
+            <IconButton
+              onClick={required ? undefined : toggleDisableColor}
+              onMouseDown={handleMouseDown}
+              size="small"
+              color="inherit"
+            >
               {value !== '' ? <CheckboxBlankCircle /> : <CheckboxBlankCircleOutline />}
             </IconButton>
           </InputAdornment>
