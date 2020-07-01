@@ -310,35 +310,35 @@
     },
     {
       "sets": [1, 2, 4],
-      "x1": -2.7,
-      "y1": 1.147,
-      "arcs": [
-        { "ref": 4, "mode": "i", "x2": -3.579, "y2": 0.673, "sweep": true, "large": false },
-        { "ref": 1, "mode": "i", "x2": -3.162, "y2": -0.024, "sweep": true, "large": false },
-        { "ref": 2, "mode": "i", "x2": -2.7, "y2": 1.147, "large": false }
-      ],
-      "text": { "x": -3.147, "y": 0.599 }
-    },
-    {
-      "sets": [1, 3, 4],
       "x1": 2.858,
       "y1": 0.659,
       "arcs": [
-        { "ref": 2, "mode": "o", "x2": 3.291, "y2": 1.559, "sweep": true, "large": false },
+        { "ref": 2, "mode": "i", "x2": 3.291, "y2": 1.559, "sweep": true, "large": false },
         { "ref": 4, "mode": "i", "x2": 2.544, "y2": 1.878, "sweep": true, "large": false },
         { "ref": 0, "mode": "o", "x2": 2.858, "y2": 0.659, "large": false }
       ],
       "text": { "x": 2.898, "y": 1.365 }
     },
     {
-      "sets": [null, 3, 4],
+      "sets": [1, 3, 4],
+      "x1": -2.7,
+      "y1": 1.147,
+      "arcs": [
+        { "ref": 4, "mode": "i", "x2": -3.579, "y2": 0.673, "sweep": true, "large": false },
+        { "ref": 1, "mode": "i", "x2": -3.162, "y2": -0.024, "sweep": true, "large": false },
+        { "ref": 2, "mode": "o", "x2": -2.7, "y2": 1.147, "large": false }
+      ],
+      "text": { "x": -3.147, "y": 0.599 }
+    },
+    {
+      "sets": [2, 3, 4],
       "x1": -3.294,
       "y1": -0.549,
       "arcs": [
         { "ref": 3, "mode": "i", "x2": -1.925, "y2": -2.213, "sweep": true, "large": false },
         { "ref": 0, "mode": "o", "x2": -2, "y2": -1.08, "large": false },
         { "ref": 1, "mode": "o", "x2": -3.162, "y2": -0.024, "large": false },
-        { "ref": 2, "mode": "o", "x2": -3.294, "y2": -0.549 }
+        { "ref": 2, "mode": "i", "x2": -3.294, "y2": -0.549 }
       ],
       "text": { "x": -2.548, "y": -1.029 }
     },
