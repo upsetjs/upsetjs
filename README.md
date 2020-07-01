@@ -272,7 +272,7 @@ rerender();
 
 ![Karnaugh Map](https://user-images.githubusercontent.com/4129778/85573750-75db0a80-b636-11ea-819c-8ee1525edab0.png)
 
-see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/TODO) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/karnaughmap--default)
+see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-karnaughmap-udd15) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/karnaughmap--default)
 
 ## Interactivity
 
@@ -582,8 +582,8 @@ In case of a commercial use, please get in touch regarding a commercial license.
 
 [npm-image]: https://badge.fury.io/js/%40upsetjs%2Freact.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/react
-[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/ci/badge.svg
-[github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[github-actions-image]: https://github.com/upsetjs/upsetjs/workflows/ci/badge.svg
+[github-actions-url]: https://github.com/upsetjs/upsetjs/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
 [codesandbox]: https://img.shields.io/badge/CodeSandbox-open-blue?logo=codesandbox
 [nbviewer]: https://img.shields.io/badge/NBViewer-open-blue?logo=jupyter

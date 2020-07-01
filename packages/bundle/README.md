@@ -57,6 +57,6 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 
 [npm-image]: https://badge.fury.io/js/%40upsetjs%2Fbundle.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/bundle
-[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
-[github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[github-actions-image]: https://github.com/upsetjs/upsetjs/workflows/nodeci/badge.svg
+[github-actions-url]: https://github.com/upsetjs/upsetjs/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen

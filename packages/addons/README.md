@@ -22,5 +22,5 @@ This library is released under the `GNU AGPLv3` version to be used for private a
 
 [npm-image]: https://badge.fury.io/js/%40upsetjs%2Faddons.svg
 [npm-url]: https://npmjs.org/package/@upsetjs/addons
-[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
-[github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[github-actions-image]: https://github.com/upsetjs/upsetjs/workflows/nodeci/badge.svg
+[github-actions-url]: https://github.com/upsetjs/upsetjs/actions

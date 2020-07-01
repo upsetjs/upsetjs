@@ -61,5 +61,5 @@ If you want to use Upset.js for a commercial application the commercial license 
 
 This library is released under the `GNU AGPLv3` version to be used for private and academic purposes. In case of a commercial use, please get in touch regarding a commercial license.
 
-[github-actions-image]: https://github.com/sgratzl/upsetjs/workflows/nodeci/badge.svg
-[github-actions-url]: https://github.com/sgratzl/upsetjs/actions
+[github-actions-image]: https://github.com/upsetjs/upsetjs/workflows/nodeci/badge.svg
+[github-actions-url]: https://github.com/upsetjs/upsetjs/actions
