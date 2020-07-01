@@ -44,7 +44,10 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
     fill: ${p.textColor};
     ${rulesHelper.p(fontSizes.setLabel)}
     text-anchor: middle;
-    dominant-baseline: central;
+  }
+
+  .topText-${style.id} {
+    dominant-baseline: hanging;
   }
 
   .stroke-circle-${style.id} {

@@ -42,12 +42,6 @@
           a.evalCommand(`c${i}a = Rotate(a0, -${(i * 360) / count}deg)`);
           a.evalCommand(`c${i}b = Rotate(b0, -${(i * 360) / count}deg)`);
         }
-        a.evalCommand(`c0t = Point({2.8, 5})`);
-        a.evalCommand(`c1t = Point({5, -1.6})`);
-        a.evalCommand(`c2t = Point({3.5, -4})`);
-        a.evalCommand(`c3t = Point({-4.8, -1})`);
-        a.evalCommand(`c4t = Point({-3.6, 4.2})`);
-
         for (let i = 0; i < show - 1; i++) {
           for (let j = i + 1; j < show + i; j++) {
             a.evalCommand(`c${i}c${j}a = Intersect(c${i}, c${j}, 1)`);
@@ -135,6 +129,12 @@
 
         // c0 c1 c2 c3 c4
         center('c1c2a,c2c3b,c3c4b,c0c4a,c0c1a', [rot2, rot3, rot4, rot0, rot1], [true, true, true, true, true]);
+
+        a.evalCommand(`c0t = Point({2.25, 5})`);
+        a.evalCommand(`c1t = Point({4.5, -1.5})`);
+        a.evalCommand(`c2t = Point({4, -4})`);
+        a.evalCommand(`c3t = Point({-4.7, -2})`);
+        a.evalCommand(`c4t = Point({-4, 3.6})`);
 
         const circles = [
           ellipse((0 * 360) / count, `c${0}p`, `c${0}t`, 'start', 'bottom'),
