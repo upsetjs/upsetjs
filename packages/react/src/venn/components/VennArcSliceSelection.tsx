@@ -136,7 +136,7 @@ export default function VennArcSliceSelection<T>({
   qs: readonly ((s: ISetLike<T>) => number)[];
   h: UpSetSelection;
 }>) {
-  const p = generateArcSlicePath(slice);
+  const p = generateArcSlicePath(slice, data.sets.d);
   const rotate = sliceRotate(slice, size.area);
 
   const o = elemOverlap ? elemOverlap(d) : 0;

@@ -56,7 +56,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
 ): IVennDiagramLayoutGenerator {
   return {
     maxSets: Infinity,
-    compute<T>(_sets: ISets<T>, combinations: ISetCombinations<T>, width: number, height: number) {
+    compute<T>(sets: ISets<T>, combinations: ISetCombinations<T>, width: number, height: number) {
       const overlaps = combinations.map((c) => ({ sets: Array.from(c.sets).map((s) => s.name), size: c.cardinality }));
       const r = layout(
         overlaps,
@@ -72,19 +72,19 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
       );
 
       const singleSets = r.filter((d) => d.data.sets.length === 1);
-      const eulerCenter = center(singleSets.map((d) => d.circles[0]));
+      const setNames = new Map(sets.map((d, i) => [d.name, i]));
+      const setCircles = singleSets.map((d) => d.circles[0]);
+      const eulerCenter = center(setCircles);
 
       const asArc = (a: IVennJSArc) => ({
-        rx: a.circle.radius,
-        ry: a.circle.radius,
-        rotation: 0,
         x2: a.p1.x,
         y2: a.p1.y,
         cx: a.circle.x,
         cy: a.circle.y,
-        sweepFlag: true,
-        largeArcFlag: a.width > a.circle.radius,
-        mode: 'inside',
+        sweep: true,
+        large: a.width > a.circle.radius,
+        ref: setCircles.findIndex((d) => Math.abs(d.x - a.circle.x) < 0.05 && Math.abs(d.y - a.circle.y) < 0.05),
+        mode: 'i' as 'i',
       });
 
       return {
@@ -108,6 +108,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
           };
           if (arcs.length === 0) {
             return {
+              sets: d.data.sets.map((s) => setNames.get(s)!),
               text,
               x1: 0,
               y1: 0,
@@ -117,6 +118,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
           if (arcs.length === 1) {
             const c = d.arcs[0].circle;
             return {
+              sets: d.data.sets.map((s) => setNames.get(s)!),
               text,
               x1: d.arcs[0].p2.x,
               y1: c.y - c.radius,
@@ -125,6 +127,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
             };
           }
           return {
+            sets: d.data.sets.map((s) => setNames.get(s)!),
             text,
             x1: d.arcs[0].p2.x,
             y1: d.arcs[0].p2.y,

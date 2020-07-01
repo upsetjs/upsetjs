@@ -2,6 +2,7 @@
   "sets": [{ "cx": 0, "cy": 0, "r": 5, "text": { "x": 3.5, "y": -4 }, "align": "start", "verticalAlign": "bottom" }],
   "intersections": [
     {
+      "sets": [0],
       "x1": 0,
       "y1": 5,
       "arcs": [

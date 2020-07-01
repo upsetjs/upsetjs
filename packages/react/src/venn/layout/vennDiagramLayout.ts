@@ -15,7 +15,7 @@ import venn5 from './data/venn5.json';
 import { isEllipse, ITextArcSlice, ITextCircle, ITextEllipse, IVennDiagramLayoutGenerator } from './interfaces';
 
 interface ILayout {
-  circles: (ITextCircle | ITextEllipse)[];
+  sets: (ITextCircle | ITextEllipse)[];
   intersections: ITextArcSlice[];
   bb: { x: number; y: number; width: number; height: number };
 }
@@ -38,7 +38,7 @@ export function layoutImpl(sets: number, width: number, height: number) {
   const my = (v: number) => y + f * v;
 
   return {
-    sets: r.circles.map((c) =>
+    sets: r.sets.map((c) =>
       Object.assign(
         {},
         c,
@@ -67,10 +67,9 @@ export function layoutImpl(sets: number, width: number, height: number) {
       },
       x1: mx(c.x1),
       y1: my(c.y1),
+      sets: c.sets,
       arcs: c.arcs.map((a) =>
         Object.assign({}, a, {
-          rx: a.rx * f,
-          ry: a.ry * f,
           x2: mx(a.x2),
           y2: my(a.y2),
         })

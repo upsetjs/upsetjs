@@ -35,16 +35,17 @@ export interface ITextEllipse extends IEllipse, ITextLocation {
 
 // could be slice
 export interface IArc {
-  rx: number;
-  ry: number;
-  rotation: number;
   x2: number;
   y2: number;
-  sweepFlag: boolean;
-  largeArcFlag: boolean;
+  sweep: boolean;
+  large: boolean;
+
+  ref: number;
+  mode: 'i' | 'o';
 }
 
 export interface IArcSlice {
+  sets: readonly number[];
   x1: number;
   y1: number;
   arcs: readonly IArc[];
@@ -56,7 +57,6 @@ export interface ITextArcSlice extends IArcSlice, ITextLocation {}
 export interface IUniverseSet extends IArcSlice {
   width: number;
   height: number;
-  angle: number;
 }
 
 export interface ITextUniverseSet extends IUniverseSet, ITextLocation {}
@@ -72,6 +72,6 @@ export interface IVennDiagramLayout {
   intersections: ITextArcSlice[];
 }
 
-export function isEllipse(d: ICircle | IEllipse): d is ITextEllipse {
+export function isEllipse(d: ICircle | IEllipse): d is IEllipse {
   return typeof (d as ITextEllipse).rx === 'number';
 }
