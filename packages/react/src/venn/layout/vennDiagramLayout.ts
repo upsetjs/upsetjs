@@ -23,7 +23,6 @@ interface ILayout {
 export const vennDiagramLayout: IVennDiagramLayoutGenerator = {
   maxSets: 5,
   compute<T>(sets: ISets<T>, _combinations: ISetCombinations<T>, width: number, height: number) {
-    console.log(_combinations.map((d) => d.name));
     return layoutImpl(sets.length, width, height);
   },
 };
