@@ -37,7 +37,7 @@ export default React.memo(function KMapChart<T>({
   return (
     <>
       <g transform={`translate(${size.w - csNameOffset - 2}, ${size.h - data.cell - 50})`}>
-        <Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
+        <Axis scale={data.cs.scale} orient="left" size={data.cell} start={data.cs.barLabelFontSize} style={style} />
         <text
           className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
           style={style.styles.chartLabel}

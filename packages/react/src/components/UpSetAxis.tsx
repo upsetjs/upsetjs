@@ -31,7 +31,7 @@ export default React.memo(function UpSetAxis<T>({
     <g>
       <UpSetTitle style={style} width={size.cs.x - csNameOffset - 20} />
       <g transform={`translate(${size.cs.x},${size.cs.y})`} data-upset="csaxis">
-        <Axis scale={data.cs.y} orient="left" size={size.cs.h} shift={size.cs.h - data.cs.yAxisWidth} style={style} />
+        <Axis scale={data.cs.y} orient="left" size={size.cs.h} start={size.cs.h - data.cs.yAxisWidth} style={style} />
         <line x1={0} x2={size.cs.w} y1={size.cs.h + 1} y2={size.cs.h + 1} className={`axisLine-${style.id}`} />
         <text
           className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
@@ -56,7 +56,7 @@ export default React.memo(function UpSetAxis<T>({
           scale={data.sets.x}
           orient="bottom"
           size={size.sets.w}
-          shift={size.sets.w - data.sets.xAxisWidth}
+          start={size.sets.w - data.sets.xAxisWidth}
           transform={`translate(0, ${size.sets.h})`}
           style={style}
         />

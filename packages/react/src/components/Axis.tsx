@@ -16,7 +16,7 @@ export type AxisProps = {
   tickSizeOuter?: number;
   tickPadding?: number;
   size: number;
-  shift: number;
+  start: number;
   style: AxisStyle;
   transform?: string;
 };
@@ -99,12 +99,12 @@ export default function Axis({
   tickSizeOuter = 6,
   tickPadding = 3,
   size,
-  shift,
+  start,
   style,
   transform,
 }: PropsWithChildren<AxisProps>) {
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
-  const range0 = shift;
+  const range0 = start;
   const range1 = size;
 
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
