@@ -16,7 +16,6 @@ export * from './dump';
 export { UpSetJSSkeleton, UpSetJSSkeletonProps } from './UpSetJSSkeleton';
 export { VennDiagramSkeleton } from './venn/VennDiagramSkeleton';
 export { KarnaughMapSkeleton } from './kmap/KarnaughMapSkeleton';
-export { createVennDiagramLayoutFunction } from './venn/layout/vennDiagramLayout';
 export { createVennJSAdapter } from './venn/layout/vennjsAdapter';
 
 export * as propValidators from './validators';

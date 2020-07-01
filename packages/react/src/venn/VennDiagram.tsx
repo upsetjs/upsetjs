@@ -75,7 +75,10 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
 
   const exportChart = useExportChart(dataInfo, p, 'venn');
 
-  const maxWidth = dataInfo.sets.d.reduce((acc, d) => Math.min(acc, d.l.cx - d.l.r), size.area.w);
+  const maxWidth = dataInfo.sets.d.reduce(
+    (acc, d) => Math.min(acc, d.l.cx - (isEllipse(d.l) ? d.l.rx : d.l.r)),
+    size.area.w
+  );
 
   return (
     <SVGWrapper
@@ -103,8 +106,8 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
             onMouseMove={v.h.onMouseMove(dataInfo.sets.v[i], [])}
             className={clsx(
               `setTextStyle-${style.id}`,
-              d.l.angle > 200 && `endText-${style.id}`,
-              d.l.angle < 200 && `startText-${style.id}`
+              `${d.l.align}Text-${style.id}`,
+              `${d.l.verticalAlign}Text-${style.id}`
             )}
           >
             {dataInfo.sets.v[i].name}
@@ -138,7 +141,7 @@ export const VennDiagram = forwardRef(function VennDiagram<T = any>(
               key={l.key}
               rx={l.l.rx}
               ry={l.l.ry}
-              transform={`transform(${l.l.cx},${l.l.cy})rotate(${l.l.rotation})`}
+              transform={`translate(${l.l.cx},${l.l.cy})rotate(${l.l.rotation})`}
               className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
               style={style.styles.set}
             />

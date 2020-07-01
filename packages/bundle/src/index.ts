@@ -60,7 +60,6 @@ export {
   KarnaughMapThemeProps,
   UpSetStyleClassNames,
   UpSetExportOptions,
-  createVennDiagramLayoutFunction,
   createVennJSAdapter,
   getDefaultTheme,
   UpSetAddonHandlerInfo,

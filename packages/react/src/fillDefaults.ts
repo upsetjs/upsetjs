@@ -13,7 +13,6 @@ import {
   DEFAULT_FONT_SIZES,
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
-  DEFAULT_VENN_LAYOUT,
 } from './defaults';
 import {
   UpSetThemeProps,
@@ -32,6 +31,7 @@ import {
   KarnaughMapProps,
   KarnaughMapFullProps,
 } from './interfaces';
+import { vennDiagramLayout } from './venn/layout/vennDiagramLayout';
 
 export declare type UpSetExtraTheme = {
   backgroundColor: string;
@@ -182,7 +182,7 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
   return fillGeneric(
     {
       valueFormat,
-      layout: DEFAULT_VENN_LAYOUT,
+      layout: vennDiagramLayout,
     },
     props,
     {

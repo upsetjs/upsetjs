@@ -142,7 +142,7 @@
       "arcs": [
         { "rx": 2.5, "ry": 5, "rotation": -45, "x2": -4.328, "y2": -2.828, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 2.5, "ry": 5, "rotation": -45, "x2": -2.179, "y2": -1.858, "sweepFlag": true, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": -3.108, "y2": -0.328, "sweepFlag": true, "largeArcFlag": false }
+        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": -3.108, "y2": -0.328, "largeArcFlag": false }
       ],
       "text": { "x": -3.205, "y": -1.672 }
     },
@@ -151,7 +151,7 @@
       "y1": 2.346,
       "arcs": [
         { "rx": 2.5, "ry": 5, "rotation": 45, "x2": -1.328, "y2": 2.828, "sweepFlag": true, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": -0.969, "y2": 1.755, "largeArcFlag": false },
+        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": -0.969, "y2": 1.755, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 2.5, "ry": 5, "rotation": -45, "x2": 0, "y2": 2.346, "largeArcFlag": false }
       ],
       "text": { "x": -0.766, "y": 2.31 }
@@ -183,8 +183,8 @@
       "y1": 2.828,
       "arcs": [
         { "rx": 2.5, "ry": 5, "rotation": -45, "x2": 0, "y2": 2.346, "sweepFlag": true, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": 0.969, "y2": 1.755, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": -45, "x2": 1.328, "y2": 2.828, "largeArcFlag": false }
+        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": 0.969, "y2": 1.755, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 2.5, "ry": 5, "rotation": -45, "x2": 1.328, "y2": 2.828, "sweepFlag": true, "largeArcFlag": false }
       ],
       "text": { "x": 0.766, "y": 2.31 }
     },
@@ -193,12 +193,12 @@
       "y1": 0.188,
       "arcs": [
         { "rx": 2.5, "ry": 5, "rotation": -45, "x2": 0.969, "y2": 1.755, "sweepFlag": true, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": 0, "y2": 2.346, "sweepFlag": false, "largeArcFlag": false },
-        { "rx": 2.5, "ry": 5, "rotation": -45, "x2": -0.969, "y2": 1.755, "sweepFlag": false, "largeArcFlag": false },
+        { "rx": 2.5, "ry": 5, "rotation": 45, "x2": 0, "y2": 2.346, "sweepFlag": true, "largeArcFlag": false },
+        { "rx": 2.5, "ry": 5, "rotation": -45, "x2": -0.969, "y2": 1.755, "sweepFlag": true, "largeArcFlag": false },
         { "rx": 2.5, "ry": 5, "rotation": 45, "x2": 0, "y2": 0.188, "sweepFlag": true }
       ],
       "text": { "x": 0, "y": 1.43 }
     }
   ],
-  "bb": {}
+  "bb": { "x": -6.5, "y": -5, "width": 13, "height": 10 }
 }

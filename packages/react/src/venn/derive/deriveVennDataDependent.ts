@@ -15,7 +15,7 @@ import {
   GenerateSetCombinationsOptions,
 } from '@upsetjs/model';
 import { generateId } from '../../utils';
-import { ITextCircle, ITextArcSlice, IVennDiagramLayoutGenerator } from '../layout/interfaces';
+import { ITextCircle, ITextArcSlice, IVennDiagramLayoutGenerator, ITextEllipse } from '../layout/interfaces';
 import { VennDiagramSizeInfo } from './deriveVennSizeDependent';
 import { areCombinations } from '../../derive/deriveDataDependent';
 
@@ -23,7 +23,7 @@ export declare type VennDiagramDataInfo<T> = {
   id: string;
   format(v: number): string;
   sets: {
-    d: readonly { v: ISet<T>; l: ITextCircle; key: string }[];
+    d: readonly { v: ISet<T>; l: ITextCircle | ITextEllipse; key: string }[];
     v: ISets<T>;
     format(v: number): string;
   };

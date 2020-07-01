@@ -7,7 +7,7 @@
 
 import React, { forwardRef, Ref, memo } from 'react';
 import { UpSetJSSkeletonProps, prepare } from '../UpSetJSSkeleton';
-import { vennDiagramLayout } from './layout/vennDiagramLayout';
+import { layoutImpl } from './layout/vennDiagramLayout';
 
 /**
  * VennDiagram Skeleton a simple VennDiagram skeleton
@@ -19,17 +19,7 @@ const VennDiagramSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<S
     const { color, secondary, rest } = prepare(props);
 
     const padding = 10;
-    const l = vennDiagramLayout(
-      3,
-      {
-        w: 300 - padding * 2,
-        h: 200 - padding * 2,
-        cx: 150,
-        cy: 100,
-        r: 100 - padding,
-      },
-      0.25
-    );
+    const l = layoutImpl(3, 300 - padding * 2, 3200 - padding * 2);
     return (
       <svg viewBox="0 0 300 200" ref={ref} {...rest}>
         {l.sets.map((set, i) => (

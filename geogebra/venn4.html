@@ -127,13 +127,11 @@
         intersections.push(arcSliceEllipse(['c0c3c', 'c2c3b', 'c0c2a'], 'c3b', [rot3, rot2, rot1], [true]));
         // c2 c3
         a.evalCommand(`cc2c3t = Centroid(Polygon(c0c3a, c2c3a, c0c2b))`);
-        intersections.push(
-          arcSliceEllipse(['c0c3a', 'c2c3a', 'c0c2b'], 'cc2c3t', [rot3, rot2, rot0], [true, true, true])
-        );
+        intersections.push(arcSliceEllipse(['c0c3a', 'c2c3a', 'c0c2b'], 'cc2c3t', [rot3, rot2, rot0], [true, true]));
 
         // c0 c1 c2
         a.evalCommand(`cc0c1c2t = Centroid(Polygon(c0c3b, c0c1b, c1c3b))`);
-        intersections.push(arcSliceEllipse(['c0c3b', 'c0c1b', 'c1c3b'], 'cc0c1c2t', [rot0, rot1, rot3], [true]));
+        intersections.push(arcSliceEllipse(['c0c3b', 'c0c1b', 'c1c3b'], 'cc0c1c2t', [rot0, rot1, rot3], [true, true]));
         // c0 c1 c3
         a.evalCommand(`cc0c1c3t = Centroid(Polygon(c1c3a, c0c3c, c0c2a, c1c2a))`);
         intersections.push(
@@ -146,7 +144,7 @@
         );
         // c1 c2 c3
         a.evalCommand(`cc1c2c3t = Centroid(Polygon(c2c3b, c0c3b, c0c2a))`);
-        intersections.push(arcSliceEllipse('c2c3b, c0c3b, c0c2a', 'cc1c2c3t', [rot3, rot0, rot2], [true]));
+        intersections.push(arcSliceEllipse('c2c3b, c0c3b, c0c2a', 'cc1c2c3t', [rot3, rot0, rot2], [true, false, true]));
         // c0 c1 c2 c3
         a.evalCommand(`cc0c1c2c3t = Centroid(Polygon(c1c2a, c0c2a, c0c3b, c1c3b))`);
         intersections.push(
@@ -154,11 +152,9 @@
             'c1c2a, c0c2a, c0c3b, c1c3b',
             'cc0c1c2c3t',
             [rot2, rot0, rot3, rot1],
-            [true, false, false, true]
+            [true, true, true, true]
           )
         );
-
-        const bb = {};
 
         a.evalCommand(`c0t = Point({4.5, 4.5})`);
         a.evalCommand(`c3t = Point({-4.5, 4.5})`);
@@ -171,12 +167,12 @@
           ellipse(rot3, `c${3}p`, `c${3}t`, 'end', 'bottom'),
         ];
 
-        // const bb = {
-        //   x: circles[0].cx - radius,
-        //   y: circles[0].cy - radius,
-        // };
-        // bb.width = circles[1].cx + radius - bb.x;
-        // bb.height = circles[1].cy + radius - bb.y;
+        const bb = {
+          x: -6.5,
+          y: -5,
+        };
+        bb.width = 6.5 * 2;
+        bb.height = 10;
 
         dump(circles, intersections, bb);
       }
