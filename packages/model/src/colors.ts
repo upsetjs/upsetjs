@@ -17,6 +17,9 @@ export function mergeColors(colors: readonly (string | undefined)[]): string | u
   if (colors.length === 1) {
     return colors[0];
   }
+  if (colors.every((d) => d == null)) {
+    return undefined;
+  }
   const rgb = colors.map(parseColor);
   const r = Math.floor(rgb.reduce((acc, v) => acc + v[0], 0) / rgb.length);
   const g = Math.floor(rgb.reduce((acc, v) => acc + v[1], 0) / rgb.length);

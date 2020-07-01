@@ -9,6 +9,7 @@ import { ISetCombination, ISetCombinations, ISets, ISet, SetCombinationType, ISe
 import { isSetLike } from '../validators';
 import { postprocessCombinations, PostprocessCombinationsOptions } from './asCombinations';
 import { SET_JOINERS } from './constants';
+import { mergeColors as mergeDefaultColors } from '../colors';
 
 export declare type GenerateSetCombinationsOptions<T = any> = {
   /**
@@ -209,14 +210,6 @@ export function generateEmptySet<T, B>(
   });
   return generateSet(type, '()', new Set(), elems, mergeColors);
 }
-
-function defaultMergeColor(colors: readonly (string | undefined)[]) {
-  if (colors.length === 1) {
-    return colors[0];
-  }
-  return undefined;
-}
-
 /**
  * generate set intersection/unions for a given list of sets
  * @param sets the sets with their elements
@@ -232,7 +225,7 @@ export default function generateCombinations<T = any>(
     elems: allElements = [],
     notPartOfAnySet,
     toElemKey,
-    mergeColors = defaultMergeColor,
+    mergeColors = mergeDefaultColors,
     ...postprocess
   }: GenerateSetCombinationsOptions<T> = {}
 ): ISetCombinations<T> {
