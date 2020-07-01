@@ -6,7 +6,7 @@
  */
 
 import React, { PropsWithChildren } from 'react';
-import D3Axis from './D3Axis';
+import Axis from './Axis';
 import UpSetTitle from './UpSetTitle';
 import { UpSetDataInfo } from '../derive/deriveDataDependent';
 import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
@@ -31,7 +31,7 @@ export default React.memo(function UpSetAxis<T>({
     <g>
       <UpSetTitle style={style} width={size.cs.x - csNameOffset - 20} />
       <g transform={`translate(${size.cs.x},${size.cs.y})`} data-upset="csaxis">
-        <D3Axis scale={data.cs.y} orient="left" size={size.cs.h} shift={size.cs.h - data.cs.yAxisWidth} style={style} />
+        <Axis scale={data.cs.y} orient="left" size={size.cs.h} shift={size.cs.h - data.cs.yAxisWidth} style={style} />
         <line x1={0} x2={size.cs.w} y1={size.cs.h + 1} y2={size.cs.h + 1} className={`axisLine-${style.id}`} />
         <text
           className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
@@ -52,7 +52,7 @@ export default React.memo(function UpSetAxis<T>({
         ))}
       </g>
       <g transform={`translate(${size.sets.x},${size.sets.y})`} data-upset="setaxis">
-        <D3Axis
+        <Axis
           scale={data.sets.x}
           orient="bottom"
           size={size.sets.w}

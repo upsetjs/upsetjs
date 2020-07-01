@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import D3Axis from '../../components/D3Axis';
+import Axis from '../../components/Axis';
 import { Handlers } from '../../hooks/useHandler';
 import { clsx } from '../../utils';
 import { KMapDataInfo } from '../derive/deriveDataDependent';
@@ -37,7 +37,7 @@ export default React.memo(function KMapChart<T>({
   return (
     <>
       <g transform={`translate(${size.w - csNameOffset - 2}, ${size.h - data.cell - 50})`}>
-        <D3Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
+        <Axis scale={data.cs.scale} orient="left" size={data.cell} shift={data.cs.barLabelFontSize} style={style} />
         <text
           className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
           style={style.styles.chartLabel}

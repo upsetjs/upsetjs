@@ -9,7 +9,7 @@ import { NumericScaleLike } from '@upsetjs/model';
 import React, { PropsWithChildren, CSSProperties } from 'react';
 import { clsx } from '../utils';
 
-export type D3AxisProps = {
+export type AxisProps = {
   scale: NumericScaleLike;
   orient: 'top' | 'bottom' | 'left' | 'right';
   tickSizeInner?: number;
@@ -36,7 +36,7 @@ declare type TickProps = {
   style: AxisStyle;
 };
 
-const D3HorizontalTick = React.memo(function D3HorizontalTick({
+const HorizontalTick = React.memo(function HorizontalTick({
   pos,
   spacing,
   tickSizeInner,
@@ -66,7 +66,7 @@ const D3HorizontalTick = React.memo(function D3HorizontalTick({
   );
 });
 
-const D3VerticalTick = React.memo(function D3VerticalTick({
+const VerticalTick = React.memo(function VerticalTick({
   pos,
   name,
   spacing,
@@ -92,7 +92,7 @@ const D3VerticalTick = React.memo(function D3VerticalTick({
   );
 });
 
-export default function D3Axis({
+export default function Axis({
   scale,
   orient,
   tickSizeInner = 6,
@@ -102,13 +102,13 @@ export default function D3Axis({
   shift,
   style,
   transform,
-}: PropsWithChildren<D3AxisProps>) {
+}: PropsWithChildren<AxisProps>) {
   const spacing = Math.max(tickSizeInner, 0) + tickPadding;
   const range0 = shift;
   const range1 = size;
 
   const k = orient === 'top' || orient === 'left' ? -1 : 1;
-  const D3Tick = orient === 'left' || orient === 'right' ? D3HorizontalTick : D3VerticalTick;
+  const Tick = orient === 'left' || orient === 'right' ? HorizontalTick : VerticalTick;
 
   const values: readonly { value: number; label?: string }[] = scale
     .ticks()
@@ -117,7 +117,7 @@ export default function D3Axis({
   return (
     <g transform={transform}>
       {values.map((d) => (
-        <D3Tick
+        <Tick
           key={d.value}
           pos={scale(d.value)}
           name={d.label}
