@@ -35,7 +35,7 @@ export default React.memo(function KMapChart<T>({
 }) {
   const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
   return (
-    <>
+    <g>
       <g transform={`translate(${size.w - csNameOffset - 2}, ${size.h - data.cell - 50})`}>
         <Axis scale={data.cs.scale} orient="left" size={data.cell} start={data.cs.barLabelFontSize} style={style} />
         <text
@@ -103,6 +103,6 @@ export default React.memo(function KMapChart<T>({
           />
         ))}
       </g>
-    </>
+    </g>
   );
 });
