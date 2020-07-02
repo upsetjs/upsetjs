@@ -59,7 +59,7 @@
     "@upsetjs/addons": "~1.6.0",
     "@upsetjs/math": "~1.6.0",
     "@upsetjs/model": "~1.6.0",
-    "@upsetjs/react": "~1.6.0",
+    "@upsetjs/react": "~1.6.1",
     "eslint": "^7.3.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",
