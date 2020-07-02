@@ -34,6 +34,9 @@
         rerender();
         function update() {
           props.sets = sets.slice(0, document.getElementById('value').valueAsNumber);
+          props.combinations = UpSetJS.generateCombinations(props.sets, {
+            type: 'distinctIntersections',
+          });
           rerender();
         }
         document.getElementById('value').onchange = update;
