@@ -94,6 +94,6 @@
   "dependencies": {
     "@types/react": "^16.9.38",
     "@upsetjs/math": "~1.6.1",
-    "@upsetjs/react": "~1.6.1"
+    "@upsetjs/react": "~1.6.2"
   }
 }

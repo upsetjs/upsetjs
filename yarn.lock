@@ -4206,7 +4206,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^3.3.0
     "@typescript-eslint/parser": ^3.3.0
     "@upsetjs/math": ~1.6.1
-    "@upsetjs/react": ~1.6.1
+    "@upsetjs/react": ~1.6.2
     babel-loader: ^8.1.0
     core-js: ^3.6.5
     eslint: ^7.3.0
@@ -4257,11 +4257,11 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^3.3.0
     "@typescript-eslint/parser": ^3.3.0
     "@upsetjs/addons": ~1.6.1
-    "@upsetjs/bundle": ~1.6.1
+    "@upsetjs/bundle": ~1.6.2
     "@upsetjs/math": ~1.6.1
     "@upsetjs/model": ~1.6.1
     "@upsetjs/plots": ~1.6.1
-    "@upsetjs/react": ~1.6.1
+    "@upsetjs/react": ~1.6.2
     babel-eslint: ^10.1.0
     babel-loader: ^8.1.0
     clsx: ^1.1.1
@@ -4305,7 +4305,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.6.1":
+"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.6.2":
   version: 0.0.0-use.local
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
@@ -4318,7 +4318,7 @@ __metadata:
     "@upsetjs/addons": 1.6.1
     "@upsetjs/math": 1.6.1
     "@upsetjs/model": 1.6.1
-    "@upsetjs/react": 1.6.1
+    "@upsetjs/react": 1.6.2
     eslint: ^7.3.0
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -4418,7 +4418,7 @@ __metadata:
     "@types/react-dom": ^16.9.8
     "@typescript-eslint/eslint-plugin": ^3.3.0
     "@typescript-eslint/parser": ^3.3.0
-    "@upsetjs/react": ~1.6.1
+    "@upsetjs/react": ~1.6.2
     babel-loader: ^8.1.0
     core-js: ^3.6.5
     eslint: ^7.3.0
@@ -4454,7 +4454,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@1.6.1, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.6.1":
+"@upsetjs/react@1.6.2, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.6.2":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -4540,7 +4540,7 @@ __metadata:
     "@types/jest": ^26.0.0
     "@typescript-eslint/eslint-plugin": ^3.3.0
     "@typescript-eslint/parser": ^3.3.0
-    "@upsetjs/bundle": ~1.6.1
+    "@upsetjs/bundle": ~1.6.2
     babel-eslint: ^10.1.0
     eslint: ^7.3.0
     eslint-config-prettier: ^6.11.0

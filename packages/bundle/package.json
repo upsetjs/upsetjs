@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/bundle",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
@@ -60,7 +60,7 @@
     "@upsetjs/addons": "1.6.1",
     "@upsetjs/math": "1.6.1",
     "@upsetjs/model": "1.6.1",
-    "@upsetjs/react": "1.6.1",
+    "@upsetjs/react": "1.6.2",
     "eslint": "^7.3.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",

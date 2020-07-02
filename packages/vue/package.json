@@ -70,6 +70,6 @@
     "vue": "^2.6.11"
   },
   "dependencies": {
-    "@upsetjs/bundle": "~1.6.1"
+    "@upsetjs/bundle": "~1.6.2"
   }
 }
