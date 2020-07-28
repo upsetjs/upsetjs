@@ -10,9 +10,9 @@ import boxplotImpl, {
   quantilesType7,
 } from '@sgratzl/boxplots';
 
-export { IBoxPlot } from '@sgratzl/boxplots';
+export { IBoxPlot, QuantileMethod as CustomQuantileMethod } from '@sgratzl/boxplots';
 
-const methodLookup: Record<QuantileMethod, CustomQuantileMethod> = {
+const methodLookup: Record<QuantilesMethod, CustomQuantileMethod> = {
   hinges: quantilesHinges,
   fivenum: quantilesFivenum,
   type7: quantilesType7,
@@ -24,7 +24,7 @@ const methodLookup: Record<QuantileMethod, CustomQuantileMethod> = {
   midpoint: quantilesMidpoint,
 };
 
-export type QuantileMethod =
+export type QuantilesMethod =
   | 'hinges'
   | 'fivenum'
   | 'type7'
@@ -46,7 +46,7 @@ export declare type BoxplotStatsOptions = {
    * specify the quantile method to use
    * @default quantilesType7
    */
-  quantiles?: QuantileMethod | CustomQuantileMethod;
+  quantiles?: QuantilesMethod | CustomQuantileMethod;
   /**
    * defines that it can be assumed that the array is sorted and just contains valid numbers
    * (which will avoid unnecessary checks and sorting)
@@ -66,7 +66,7 @@ export declare type BoxplotStatsOptions = {
   eps?: number;
 };
 
-export function boxplot(data: readonly number[] | Float32Array | Float64Array, options?: BoxplotStatsOptions) {
+export function boxplot(data: readonly number[] | Float32Array | Float64Array, options: BoxplotStatsOptions = {}) {
   return boxplotImpl(
     data,
     Object.assign({}, options as Omit<BoxplotStatsOptions, 'quantiles'>, {
