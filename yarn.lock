@@ -2704,6 +2704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sgratzl/boxplots@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@sgratzl/boxplots@npm:1.2.1"
+  checksum: c01aa25f9b23c3f50ed24491d9c37690bd055a9688c3a9e600f310d2b73e27fc0b1d57c3128fe93bf79355e1a4eb2f7e520c1364edb22442b28c971720e4d412
+  languageName: node
+  linkType: hard
+
 "@sindresorhus/is@npm:^2.1.1":
   version: 2.1.1
   resolution: "@sindresorhus/is@npm:2.1.1"
@@ -4347,6 +4354,7 @@ __metadata:
   resolution: "@upsetjs/math@workspace:packages/math"
   dependencies:
     "@rollup/plugin-commonjs": ^13.0.0
+    "@sgratzl/boxplots": ^1.2.1
     "@types/jest": ^26.0.0
     "@typescript-eslint/eslint-plugin": ^3.3.0
     "@typescript-eslint/parser": ^3.3.0
