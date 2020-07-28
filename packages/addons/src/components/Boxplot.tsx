@@ -6,11 +6,36 @@
  */
 
 import React from 'react';
-import { UpSetAddon, ISetLike, UpSetThemes, getDefaultTheme } from '@upsetjs/react';
+import { UpSetAddon, ISetLike, UpSetThemes, getDefaultTheme, NumericScaleLike } from '@upsetjs/react';
 import { boxplot, BoxplotStatsOptions, normalize, denormalize, IBoxPlot } from '@upsetjs/math';
 import { round2 } from './utils';
 
 export { IBoxPlot } from '@upsetjs/math';
+
+export function simpleScale(
+  domain: [number, number],
+  range: [number, number],
+  orient: 'horizontal' | 'vertical' = 'horizontal'
+) {
+  const n = normalize(domain);
+  const dnDomain = denormalize(domain);
+  const dn = denormalize(range);
+  const f: NumericScaleLike = (v) => dn(n(v));
+  const defaultTicks = orient === 'horizontal' ? 5 : 7;
+
+  f.ticks = (count = defaultTicks) =>
+    Array(count)
+      .fill(0)
+      .map((_, i) => {
+        const v = dnDomain(i / (count - 1));
+        return {
+          value: v,
+          label: v.toFixed(2),
+        };
+      });
+  f.tickFormat = () => (v) => v.toFixed(2);
+  return f;
+}
 
 export interface IBoxplotStylePlainProps extends BoxplotStatsOptions {
   theme?: UpSetThemes;
@@ -237,10 +262,12 @@ export function boxplotAddon<T>(
     min = d.min;
     max = d.max;
   }
+  const scale: NumericScaleLike = simpleScale([min, max], [0, size], extras.orient);
   return {
     name,
     position,
     size,
+    scale,
     createOnHandlerData: (set) => {
       const b = boxplot(set.elems.map(acc), extras);
       return {
@@ -325,10 +352,12 @@ export function boxplotAggregatedAddon<T>(
 ): UpSetAddon<ISetLike<T>, T, React.ReactNode> {
   const min = domain.min;
   const max = domain.max;
+  const scale: NumericScaleLike = simpleScale([min, max], [0, size], extras.orient);
   return {
     name,
     position,
     size,
+    scale,
     createOnHandlerData: (set) => {
       const b = acc(set.elems);
       b.toString = function (this: IBoxPlot) {

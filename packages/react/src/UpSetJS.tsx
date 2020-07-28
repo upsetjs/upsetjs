@@ -157,6 +157,7 @@ export const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>
         p.dotPadding,
         p.barPadding,
         parseFontSize(fontSizes.axisTick),
+        p.combinationAddons,
         p.toKey,
         p.toElemKey,
         p.id
@@ -172,6 +173,7 @@ export const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>
       p.dotPadding,
       p.barPadding,
       fontSizes.axisTick,
+      p.combinationAddons,
       p.toKey,
       p.toElemKey,
       p.id,
