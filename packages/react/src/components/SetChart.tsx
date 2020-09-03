@@ -14,7 +14,7 @@ import { UpSetSelection } from './interfaces';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 
-const SetChart = React.memo(function SetChart<T>({
+const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   d,
   i,
   h,

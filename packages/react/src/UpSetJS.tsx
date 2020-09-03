@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { useMemo, forwardRef, Ref, useCallback } from 'react';
+import React, { useMemo, Ref, useCallback } from 'react';
 import { UpSetProps } from './interfaces';
 import { exportSVG, exportVegaLite } from './exporter';
 import { exportDump, exportSharedLink } from './exporter/exportDump';
@@ -28,7 +28,10 @@ import useHandler from './hooks/useHandler';
  *
  * with React.forwardRef support to specify a reference to the SVG element
  */
-export const UpSetJS = forwardRef(function UpSetJS<T = any>(props: UpSetProps<T>, ref: Ref<SVGSVGElement>) {
+export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>(
+  props: UpSetProps<T>,
+  ref: Ref<SVGSVGElement>
+) {
   const p = fillDefaults<T>(props);
   const { selection = null, queries = [], fontSizes } = p;
 

@@ -36,7 +36,7 @@ declare type TickProps = {
   style: AxisStyle;
 };
 
-const HorizontalTick = React.memo(function HorizontalTick({
+const HorizontalTick = /*!#__PURE__*/ React.memo(function HorizontalTick({
   pos,
   spacing,
   tickSizeInner,
@@ -66,7 +66,7 @@ const HorizontalTick = React.memo(function HorizontalTick({
   );
 });
 
-const VerticalTick = React.memo(function VerticalTick({
+const VerticalTick = /*!#__PURE__*/ React.memo(function VerticalTick({
   pos,
   name,
   spacing,

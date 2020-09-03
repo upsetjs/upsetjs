@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 import { isSet } from '@upsetjs/model';
-import React, { forwardRef, Ref, useMemo } from 'react';
+import React, { Ref, useMemo } from 'react';
 import { fillVennDiagramDefaults } from '../fillDefaults';
 import { VennDiagramProps } from '../interfaces';
 import { clsx } from '../utils';
@@ -16,7 +16,7 @@ import { useCreateCommon, useExportChart } from './hooks';
 import UpSetTitle from '../components/UpSetTitle';
 import { isEllipse } from './layout/interfaces';
 
-export const VennDiagram = forwardRef(function VennDiagram<T = any>(
+export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<T = any>(
   props: VennDiagramProps<T>,
   ref: Ref<SVGSVGElement>
 ) {

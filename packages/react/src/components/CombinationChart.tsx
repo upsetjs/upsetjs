@@ -15,7 +15,7 @@ import UpSetDot from './UpSetDot';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 
-const CombinationChart = React.memo(function CombinationChart<T>({
+const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>({
   d,
   h,
   className,

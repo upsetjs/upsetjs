@@ -8,7 +8,7 @@
 import React, { PropsWithChildren, useRef, useLayoutEffect, useState } from 'react';
 import { clsx } from '../utils';
 
-const MultilineText = React.memo(function MultilineText({
+const MultilineText = /*!#__PURE__*/ React.memo(function MultilineText({
   width,
   text,
   dy,
@@ -79,7 +79,7 @@ const MultilineText = React.memo(function MultilineText({
   );
 });
 
-export default React.memo(function UpSetTitle({
+export default /*!#__PURE__*/ React.memo(function UpSetTitle({
   width,
   descriptionWidth = width,
   style,

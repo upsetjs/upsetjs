@@ -13,7 +13,7 @@ import { KMapDataInfo } from '../derive/deriveDataDependent';
 import { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import { UpSetSelection } from '../../components/interfaces';
 
-const KMapCell = React.memo(function KMapCell<T>({
+const KMapCell = /*!#__PURE__*/ React.memo(function KMapCell<T>({
   d,
   i,
   h,

@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { forwardRef, Ref, memo } from 'react';
+import React, { Ref } from 'react';
 
 export interface UpSetJSSkeletonProps extends React.SVGAttributes<SVGSVGElement> {
   background?: string;
@@ -39,8 +39,8 @@ export function prepare(props: UpSetJSSkeletonProps) {
  *
  * with React.forwardRef support to specify a reference to the SVG element
  */
-const UpSetJSSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>> = memo(
-  forwardRef(function UpSetJSSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
+const UpSetJSSkeleton = /*!#__PURE__*/ React.memo(
+  /*!#__PURE__*/ React.forwardRef(function UpSetJSSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
     const { color, secondary, rest } = prepare(props);
 
     const wi = 20;
@@ -85,6 +85,6 @@ const UpSetJSSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSV
       </svg>
     );
   })
-);
+) as React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>>;
 
 export { UpSetJSSkeleton };
