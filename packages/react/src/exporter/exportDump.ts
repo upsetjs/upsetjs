@@ -98,7 +98,7 @@ export function exportDump(
 export const MAX_URL_LENGTH = 2048 * 2;
 
 export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo, mode?: 'kmap' | 'venn' | 'upset') {
-  const r = exportDumpData(props, data, true, mode);
+  const r: any = exportDumpData(props, data, true, mode);
   delete r.$schema;
   const arg = LZString.compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL('https://upset.js.org/app/embed.html');
@@ -110,7 +110,7 @@ export function exportSharedLink(props: UpSetProps<any>, data: IDumpDataInfo, mo
   }
 
   // try other compression
-  const r2 = exportStaticDumpData(props, data, true, mode);
+  const r2: any = exportStaticDumpData(props, data, true, mode);
   delete r2.$schema;
   const arg2 = LZString.compressToEncodedURIComponent(JSON.stringify(r2));
   url.searchParams.set('p', arg2);

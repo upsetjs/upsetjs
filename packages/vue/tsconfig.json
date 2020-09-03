@@ -4,9 +4,9 @@
   "compilerOptions": {
     "rootDir": "./src",
     "baseUrl": "./",
-    "outDir": "./dist",
-    "declarationDir": "./dist",
-    "declarationMap": true,
+    "declaration": false,
+    "noEmit": true,
+    "removeComments": true,
     "paths": {
       "@": ["./src"],
       "*": ["*", "node_modules/*"]

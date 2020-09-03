@@ -2,10 +2,12 @@
   "extends": "../../tsconfig.json",
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
+    "target": "ES6",
     "rootDir": "./src",
     "baseUrl": "./",
-    "outDir": "./dist",
     "declaration": false,
+    "noEmit": true,
+    "removeComments": true,
     "paths": {
       "@": ["./src"],
       "*": ["*", "node_modules/*"]
