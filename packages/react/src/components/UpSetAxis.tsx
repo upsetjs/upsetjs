@@ -40,16 +40,35 @@ export default React.memo(function UpSetAxis<T>({
         >
           {style.cs.name}
         </text>
-        {size.cs.addons.map((addon) => (
-          <text
-            key={addon.name}
-            className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
-            style={style.styles.chartLabel}
-            transform={`translate(${-csNameOffset}, ${combinationPosGen(addon) + addon.size / 2})rotate(-90)`}
-          >
-            {addon.name}
-          </text>
-        ))}
+        {size.cs.addons.map((addon) => {
+          const pos = combinationPosGen(addon);
+          const title = (
+            <text
+              key={addon.name}
+              className={clsx(`cChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+              style={style.styles.chartLabel}
+              transform={`translate(${-csNameOffset}, ${pos + addon.size / 2})rotate(-90)`}
+            >
+              {addon.name}
+            </text>
+          );
+          if (!addon.scale) {
+            return title;
+          }
+          return (
+            <React.Fragment key={addon.name}>
+              <Axis
+                scale={addon.scale}
+                orient="left"
+                size={addon.size}
+                start={0}
+                style={style}
+                transform={`translate(0,${pos})`}
+              />
+              {title}
+            </React.Fragment>
+          );
+        })}
       </g>
       <g transform={`translate(${size.sets.x},${size.sets.y})`} data-upset="setaxis">
         <Axis
@@ -67,16 +86,35 @@ export default React.memo(function UpSetAxis<T>({
         >
           {style.sets.name}
         </text>
-        {size.sets.addons.map((addon) => (
-          <text
-            key={addon.name}
-            className={clsx(`sChartTextStyle-${style.id}`, style.classNames.chartLabel)}
-            style={style.styles.chartLabel}
-            transform={`translate(${setPosGen(addon) + addon.size / 2}, ${size.sets.h + setNameOffset})`}
-          >
-            {addon.name}
-          </text>
-        ))}
+        {size.sets.addons.map((addon) => {
+          const pos = setPosGen(addon);
+          const title = (
+            <text
+              key={addon.name}
+              className={clsx(`sChartTextStyle-${style.id}`, style.classNames.chartLabel)}
+              style={style.styles.chartLabel}
+              transform={`translate(${pos + addon.size / 2}, ${size.sets.h + setNameOffset})`}
+            >
+              {addon.name}
+            </text>
+          );
+          if (!addon.scale) {
+            return title;
+          }
+          return (
+            <React.Fragment key={addon.name}>
+              <Axis
+                scale={addon.scale}
+                orient="bottom"
+                size={addon.size}
+                start={0}
+                transform={`translate(${pos}, ${size.sets.h})`}
+                style={style}
+              />
+              {title}
+            </React.Fragment>
+          );
+        })}
       </g>
     </g>
   );

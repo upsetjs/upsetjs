@@ -20,9 +20,11 @@ import {
   ISet,
   ISetCombination,
 } from '@upsetjs/model';
+import { ReactNode } from 'react';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from '../utils';
 import { DEFAULT_COMBINATIONS } from '../defaults';
+import { UpSetAddon } from '../interfaces';
 
 export function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
   if (factory === 'linear') {
@@ -86,6 +88,7 @@ export default function deriveDataDependent<T>(
   dotPadding: number,
   barPadding: number,
   tickFontSize: number,
+  combinationAddons: readonly UpSetAddon<any, any, ReactNode>[],
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
   id?: string
@@ -103,12 +106,27 @@ export default function deriveDataDependent<T>(
     orientation: 'vertical',
     fontSizeHint: tickFontSize,
   });
-  const guessLabelWidth = (v: number) =>
-    Math.floor((barLabelFontSize / 1.4) * 0.7 * combinationY.tickFormat()(v).length);
+  const labelSize = (text: string) => Math.floor((barLabelFontSize / 1.4) * 0.7 * text.length);
+  const guessLabelWidth = (v: number) => labelSize(combinationY.tickFormat()(v));
 
   const maxSetCardinality = sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
   const largestSetLabelWidth = guessLabelWidth(maxSetCardinality);
-  const largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
+  let largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
+
+  for (const addon of combinationAddons) {
+    if (!addon.scale) {
+      continue;
+    }
+    const ticks = addon.scale.ticks(3);
+    const f = addon.scale.tickFormat();
+    for (const tick of ticks) {
+      const l = typeof tick === 'number' ? f(tick) : tick.label ?? f(tick.value);
+      const size = labelSize(l);
+      if (size > largestCSLabelWidth) {
+        largestCSLabelWidth = size;
+      }
+    }
+  }
 
   const setX = numericScaleFactory(maxSetCardinality, [sizes.sets.w, largestSetLabelWidth], {
     orientation: 'horizontal',

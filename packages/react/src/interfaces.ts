@@ -16,6 +16,7 @@ import {
   GenerateSetCombinationsOptions,
   ISets,
   UpSetQueries,
+  NumericScaleLike,
 } from '@upsetjs/model';
 import { IVennDiagramLayoutGenerator } from './venn/layout/interfaces';
 export * from './venn/layout/interfaces';
@@ -111,6 +112,8 @@ export interface UpSetAddon<S extends ISetLike<T>, T, N> {
   renderQuery?: (props: UpSetQueryAddonProps<S, T>) => N;
 
   createOnHandlerData?: (s: S) => UpSetAddonHandlerInfo;
+
+  scale?: NumericScaleLike;
 }
 
 export declare type UpSetAddons<S extends ISetLike<T>, T, N> = readonly UpSetAddon<S, T, N>[];

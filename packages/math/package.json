@@ -70,5 +70,8 @@
     "tslib": "^2.0.0",
     "typedoc": "^0.17.7",
     "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "@sgratzl/boxplots": "^1.2.1"
   }
 }
