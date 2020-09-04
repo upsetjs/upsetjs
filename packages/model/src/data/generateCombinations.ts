@@ -217,7 +217,9 @@ export function generateEmptySet<T, B>(
  */
 export default function generateCombinations<T = any>(
   sets: ISets<T>,
-  {
+  options: GenerateSetCombinationsOptions<T> = {}
+): ISetCombinations<T> {
+  const {
     type = 'intersection',
     min = 0,
     max = Infinity,
@@ -226,9 +228,7 @@ export default function generateCombinations<T = any>(
     notPartOfAnySet,
     toElemKey,
     mergeColors = mergeDefaultColors,
-    ...postprocess
-  }: GenerateSetCombinationsOptions<T> = {}
-): ISetCombinations<T> {
+  } = options;
   // const joiner = SET_JOINERS[type] ?? SET_JOINERS.intersection;
   const combinations: ISetCombination<T>[] = [];
 
@@ -315,5 +315,5 @@ export default function generateCombinations<T = any>(
   } else {
     generateLevel(degree1, 2, setDirectElems!, (v) => v);
   }
-  return postprocessCombinations(sets, combinations, postprocess);
+  return postprocessCombinations(sets, combinations, options);
 }

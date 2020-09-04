@@ -9,11 +9,9 @@
     "email": "sam@sgratzl.com",
     "url": "https://wwww.sgratzl.com"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "homepage": "https://github.com/upsetjs/upsetjs",
   "bugs": {
     "url": "https://github.com/upsetjs/upsetjs/issues"
@@ -52,5 +50,10 @@
     "eslint-plugin-react-hooks": "^4.1.0",
     "prettier": "^2.1.1",
     "typescript": "^4.0.2"
+  },
+  "dependenciesMeta": {
+    "@rollup/plugin-node-resolve": {
+      "unplugged": true
+    }
   }
 }
