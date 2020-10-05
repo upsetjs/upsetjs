@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { action, observable, autorun, computed } from 'mobx';
+import { action, observable, autorun, computed, makeObservable } from 'mobx';
 import { createRef } from 'react';
 
 export interface ISetTableOptions {
@@ -69,6 +69,7 @@ export default class UIStore {
   visYAttr: string | null = null;
 
   constructor() {
+    makeObservable(this);
     autorun(() => {
       localStorage.setItem('zen', this.zen ? 'T' : 'F');
     });

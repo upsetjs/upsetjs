@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { observable, action, autorun, runInAction, computed } from 'mobx';
+import { observable, action, autorun, runInAction, computed, makeObservable } from 'mobx';
 import UIStore, { IToastLink } from './UIStore';
 import {
   IDataSet,
@@ -219,6 +219,7 @@ export default class Store {
   selectedSets = new Set<string>();
 
   constructor() {
+    makeObservable(this);
     this.appendDatasets(listStatic());
     this.ui.showToast({
       severity: 'info',

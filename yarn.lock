@@ -4140,7 +4140,7 @@ __metadata:
     lz-string: ^1.4.4
     mdi-material-ui: ^6.19.0
     mobx: ^6.0.0
-    mobx-react-lite: next
+    mobx-react-lite: 3.0.0
     mobx-utils: ^6.0.1
     papaparse: ^5.3.0
     pnp-webpack-plugin: ^1.6.4
@@ -14695,13 +14695,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mobx-react-lite@npm:next":
-  version: 2.0.0-alpha.5
-  resolution: "mobx-react-lite@npm:2.0.0-alpha.5"
+"mobx-react-lite@npm:3.0.0":
+  version: 3.0.0
+  resolution: "mobx-react-lite@npm:3.0.0"
   peerDependencies:
-    mobx: ^4.0.0 || ^5.0.0
+    mobx: ^6.0.0
     react: ^16.8.0
-  checksum: ae6481099d493b5b3bfceecac45042c1c3ec8a4651d9452b140a96e5c28d233e51de70d094ea04f5a692095b1042eb5e80c97cefc1bfaf18bb1239c1e1e84776
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: dea72817e2fe8ead5aa2e7735c9a945473276466f553e45b2d3ee79a62a3ba3802da00c439455d28ea3f73abd6fb828aedae5c5740489a33c889b135c612f39d
   languageName: node
   linkType: hard
 

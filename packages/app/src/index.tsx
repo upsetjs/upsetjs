@@ -10,10 +10,7 @@ import 'regenerator-runtime';
 
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import { optimizeScheduler } from 'mobx-react-lite';
 import Skeleton from './components/Skeleton';
-
-optimizeScheduler(ReactDOM.unstable_batchedUpdates as any);
 
 const App = lazy(() => import('./components/App'));
 

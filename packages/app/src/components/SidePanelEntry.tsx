@@ -5,9 +5,9 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ChevronDown from 'mdi-material-ui/ChevronDown';
@@ -31,18 +31,18 @@ export default observer(
     const store = useStore();
     const classes = useStyles();
     return (
-      <ExpansionPanel
+      <Accordion
         expanded={store.ui.sidePanelExpanded.has(id)}
         onChange={useCallback(() => store.ui.toggleSidePanelExpansion(id), [store, id])}
         className={className}
       >
-        <ExpansionPanelSummary expandIcon={<ChevronDown />} aria-controls={id} id={id}>
+        <AccordionSummary expandIcon={<ChevronDown />} aria-controls={id} id={id}>
           <Typography variant="h6" className={classes.header}>
             {title}
           </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.root}>{children}</ExpansionPanelDetails>
-      </ExpansionPanel>
+        </AccordionSummary>
+        <AccordionDetails className={classes.root}>{children}</AccordionDetails>
+      </Accordion>
     );
   }
 );

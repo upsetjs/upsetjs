@@ -5,15 +5,15 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import { useLocalObservable } from 'mobx-react-lite';
 import React from 'react';
 import Store from './Store';
-import { useLocalStore } from 'mobx-react-lite';
 
 export { TEMP_QUERY_COLOR, UpSetDataQuery } from './Store';
 const storeContext = React.createContext<Store | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const store = useLocalStore(() => new Store());
+  const store = useLocalObservable(() => new Store());
   return <storeContext.Provider value={store}> {children} </storeContext.Provider>;
 };
 

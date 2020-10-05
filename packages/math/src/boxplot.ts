@@ -67,12 +67,13 @@ export declare type BoxplotStatsOptions = {
 };
 
 export function boxplot(data: readonly number[] | Float32Array | Float64Array, options: BoxplotStatsOptions = {}) {
-  return boxplotImpl(
-    data,
-    Object.assign({}, options as Omit<BoxplotStatsOptions, 'quantiles'>, {
-      quantiles: (typeof options.quantiles === 'function' || options.quantiles == null
-        ? options.quantiles
-        : methodLookup[options.quantiles!]!) as CustomQuantileMethod,
-    })
-  );
+  const o = Object.assign({}, options as Omit<BoxplotStatsOptions, 'quantiles'>, {
+    quantiles: (typeof options.quantiles === 'function' || options.quantiles == null
+      ? options.quantiles
+      : methodLookup[options.quantiles!]!) as CustomQuantileMethod,
+  });
+  if (o.quantiles == null) {
+    delete (o as any).quantiles;
+  }
+  return boxplotImpl(data, o);
 }
