@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { forwardRef, Ref, memo } from 'react';
+import React, { Ref } from 'react';
 import { UpSetJSSkeletonProps, prepare } from '../UpSetJSSkeleton';
 import { layoutImpl } from './layout/vennDiagramLayout';
 
@@ -14,8 +14,8 @@ import { layoutImpl } from './layout/vennDiagramLayout';
  *
  * with React.forwardRef support to specify a reference to the SVG element
  */
-const VennDiagramSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>> = memo(
-  forwardRef(function VennDiagramSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
+const VennDiagramSkeleton = /*!#__PURE__*/ React.memo(
+  /*!#__PURE__*/ React.forwardRef(function VennDiagramSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
     const { color, secondary, rest } = prepare(props);
 
     const padding = 10;
@@ -31,6 +31,6 @@ const VennDiagramSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<S
       </svg>
     );
   })
-);
+) as React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>>;
 
 export { VennDiagramSkeleton };

@@ -8,7 +8,7 @@
 import React, { PropsWithChildren } from 'react';
 import { mergeColor } from './utils';
 
-const UpSetDot = React.memo(function UpSetDot({
+const UpSetDot = /*!#__PURE__*/ React.memo(function UpSetDot({
   cx,
   r,
   cy,

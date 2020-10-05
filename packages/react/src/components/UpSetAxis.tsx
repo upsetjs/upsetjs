@@ -14,7 +14,7 @@ import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { addonPositionGenerator } from './utils';
 import { clsx } from '../utils';
 
-export default React.memo(function UpSetAxis<T>({
+export default /*!#__PURE__*/ React.memo(function UpSetAxis<T>({
   size,
   style,
   data,

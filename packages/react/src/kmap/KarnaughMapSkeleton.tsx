@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { forwardRef, Ref, memo } from 'react';
+import React, { Ref } from 'react';
 import { UpSetJSSkeletonProps, prepare } from '../UpSetJSSkeleton';
 import { bounds } from './layout';
 
@@ -14,8 +14,8 @@ import { bounds } from './layout';
  *
  * with React.forwardRef support to specify a reference to the SVG element
  */
-const KarnaughMapSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>> = memo(
-  forwardRef(function KarnaughMapSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
+const KarnaughMapSkeleton = /*!#__PURE__*/ React.memo(
+  /*!#__PURE__*/ React.forwardRef(function KarnaughMapSkeleton(props: UpSetJSSkeletonProps, ref: Ref<SVGSVGElement>) {
     const { rest, color, secondary } = prepare(props);
 
     // const padding = 10;
@@ -68,6 +68,6 @@ const KarnaughMapSkeleton: React.FC<UpSetJSSkeletonProps & React.RefAttributes<S
       </svg>
     );
   })
-);
+) as React.FC<UpSetJSSkeletonProps & React.RefAttributes<SVGSVGElement>>;
 
 export { KarnaughMapSkeleton };

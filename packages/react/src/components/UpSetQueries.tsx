@@ -16,7 +16,7 @@ import SetSelectionChart from './SetSelectionChart';
 
 const EMPTY_ARRAY: any[] = [];
 
-export default React.memo(function UpSetQueries<T>({
+export default /*!#__PURE__*/ React.memo(function UpSetQueries<T>({
   size,
   data,
   style,

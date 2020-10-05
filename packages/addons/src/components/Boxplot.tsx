@@ -221,7 +221,7 @@ export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleP
   }
 };
 
-const BoxplotMemo = React.memo(Boxplot);
+const BoxplotMemo = /*!#__PURE__*/ React.memo(Boxplot);
 
 export default Boxplot;
 

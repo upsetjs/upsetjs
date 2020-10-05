@@ -1,7 +1,4 @@
 packageExtensions:
-  'tsdx@*':
-    dependencies:
-      'babel-jest': '^25.5.1'
   '@storybook/preset-typescript@*':
     dependencies:
       '@babel/core': '^7.9.6'

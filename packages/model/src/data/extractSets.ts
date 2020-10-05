@@ -24,11 +24,13 @@ export default function extractSets<T>(
  * @param elements
  * @param options postprocess options
  */
+// eslint-disable-next-line no-redeclare
 export default function extractSets<T extends { sets: string[] }>(
   elements: readonly T[],
   options?: PostprocessSetOptions
 ): ISets<T>;
 
+// eslint-disable-next-line no-redeclare
 export default function extractSets<T>(
   elements: readonly T[],
   accOrOptions?: PostprocessSetOptions | ((elem: T) => string[]),

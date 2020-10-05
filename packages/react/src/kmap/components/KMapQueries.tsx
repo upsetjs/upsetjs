@@ -11,7 +11,7 @@ import KMapSelectionChart from './KMapSelectionChart';
 import { KMapDataInfo } from '../derive/deriveDataDependent';
 import { KMapStyleInfo } from '../derive/deriveStyleDependent';
 
-export default React.memo(function KMapQueries<T>({
+export default /*!#__PURE__*/ React.memo(function KMapQueries<T>({
   data,
   style,
   hasHover,

@@ -23,7 +23,7 @@ declare type Props<T> = {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
 };
 
-const UpSetChart = React.memo(function UpSetChart<T>({
+const UpSetChart = /*!#__PURE__*/ React.memo(function UpSetChart<T>({
   data,
   size,
   style,

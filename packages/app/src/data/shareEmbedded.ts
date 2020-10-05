@@ -66,7 +66,7 @@ export function toEmbeddedStaticDump(
 export const MAX_URL_LENGTH = 2048 * 2;
 
 export default function shareEmbedded(store: Store) {
-  const r = toEmbeddedDump(store, { compress: 'yes' });
+  const r: any = toEmbeddedDump(store, { compress: 'yes' });
   delete r.$schema;
   const arg = compressToEncodedURIComponent(JSON.stringify(r));
   const url = new URL(window.location.toString());
@@ -87,7 +87,7 @@ export default function shareEmbedded(store: Store) {
   }
   if (store.selectedAttrs.size === 0) {
     // try other compression
-    const r = toEmbeddedStaticDump(store, { compress: 'yes' });
+    const r: any = toEmbeddedStaticDump(store, { compress: 'yes' });
     delete r.$schema;
     const arg = compressToEncodedURIComponent(JSON.stringify(r));
     url.searchParams.set('p', arg);

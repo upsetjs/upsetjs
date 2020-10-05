@@ -115,7 +115,7 @@ export const Categorical = (p: CategoricalProps) => {
   );
 };
 
-const CategoricalMemo = React.memo(Categorical);
+const CategoricalMemo = /*!#__PURE__*/ React.memo(Categorical);
 
 export default Categorical;
 

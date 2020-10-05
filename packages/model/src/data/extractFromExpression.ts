@@ -250,11 +250,12 @@ export default function extractFromExpression<T extends { cardinality: number }>
  * @param combinations
  * @param options hints about the given combinations
  */
+// eslint-disable-next-line no-redeclare
 export default function extractFromExpression<T extends { sets: string[]; cardinality: number }>(
   combinations: readonly T[],
   options?: ExtractFromExpressionOptions
 ): { sets: ISets<unknown>; combinations: readonly (T & ISetCombination<unknown>)[] };
-
+// eslint-disable-next-line no-redeclare
 export default function extractFromExpression<T extends { cardinality: number }>(
   combinations: readonly T[],
   accOrOptions?: ExtractFromExpressionOptions | ((elem: T) => string[]),

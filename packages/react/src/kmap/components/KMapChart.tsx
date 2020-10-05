@@ -22,7 +22,7 @@ export function generateGridPath(cell: number, vCells: number, hCells: number, l
     .join(' ');
 }
 
-export default React.memo(function KMapChart<T>({
+export default /*!#__PURE__*/ React.memo(function KMapChart<T>({
   data,
   style,
   size,

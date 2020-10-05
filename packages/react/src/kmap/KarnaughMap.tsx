@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
-import React, { forwardRef, Ref, useMemo } from 'react';
+import React, { Ref, useMemo } from 'react';
 import { fillKarnaughMapDefaults } from '../fillDefaults';
 import useHandler from '../hooks/useHandler';
 import { KarnaughMapProps } from '../interfaces';
@@ -20,7 +20,7 @@ import deriveKarnaughDataDependent from './derive/deriveDataDependent';
 import deriveKarnaughStyleDependent from './derive/deriveStyleDependent';
 import UpSetTitle from '../components/UpSetTitle';
 
-export const KarnaughMap = forwardRef(function KarnaughMap<T = any>(
+export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<T = any>(
   props: KarnaughMapProps<T>,
   ref: Ref<SVGSVGElement>
 ) {
