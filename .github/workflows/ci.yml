@@ -70,6 +70,8 @@ jobs:
       - name: Deploy Develop
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         uses: upsetjs/actions-gh-pages@sgratzl
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: upsetjs/upsetjs.github.io
