@@ -11,10 +11,11 @@ import { ISetLike, asSets } from '@upsetjs/model';
 import { common, sets, queries } from './data';
 import { VennDiagramSkeleton } from '../venn/VennDiagramSkeleton';
 
-export default {
+const stories = {
   component: VennDiagram,
   title: 'Venn Diagram',
 };
+export default stories;
 
 export const Default = () => {
   return <VennDiagram sets={sets} width={1200} height={500} />;

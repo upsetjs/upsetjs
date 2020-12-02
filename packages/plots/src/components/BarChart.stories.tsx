@@ -9,10 +9,11 @@ import React, { useState } from 'react';
 import BarChart, { BarChartProps } from './BarChart';
 import { UpSetSelection } from '@upsetjs/react';
 
-export default {
+const stories = {
   component: BarChart,
   title: 'Components/BarChart',
 };
+export default stories;
 
 function InteractiveBarChart(props: BarChartProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);

@@ -11,10 +11,11 @@ import { KarnaughMap } from '../kmap/KarnaughMap';
 import { common, queries, sets } from './data';
 import { KarnaughMapSkeleton } from '../kmap/KarnaughMapSkeleton';
 
-export default {
+const stories = {
   component: KarnaughMap,
   title: 'Karnaugh Map',
 };
+export default stories;
 
 export const Default = () => {
   return <KarnaughMap sets={sets} width={1200} height={500} />;

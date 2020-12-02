@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function ({ children }: React.PropsWithChildren<{}>) {
+export default function Loading({ children }: React.PropsWithChildren<{}>) {
   const classes = useStyles();
 
   return <div className={classes.root}>{children ?? <CircularProgress />}</div>;

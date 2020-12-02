@@ -8,10 +8,11 @@
 import React from 'react';
 import Categorical from './Categorical';
 
-export default {
+const stories = {
   component: Categorical,
   title: 'Components/Categorical',
 };
+export default stories;
 
 export const Default = () => {
   const categories = ['c1', 'c2', 'c3'];

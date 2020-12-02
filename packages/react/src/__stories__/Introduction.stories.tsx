@@ -11,9 +11,10 @@ import { VennDiagram } from '../venn/VennDiagram';
 import { KarnaughMap } from '../kmap/KarnaughMap';
 import { ISetLike } from '@upsetjs/model';
 
-export default {
+const stories = {
   title: 'Introduction',
 };
+export default stories;
 
 export const Overview = () => {
   const [selection, setSelection] = React.useState(null as ISetLike<any> | null);

@@ -10,10 +10,11 @@ import { common } from '../data';
 import UpSetJS from '../../UpSetJS';
 import { InteractiveUpSetJS } from '../Interactive';
 
-export default {
+const stories = {
   component: UpSetJS,
   title: 'UpSetJS/Combination Modes',
 };
+export default stories;
 
 export const Default = () => {
   return (

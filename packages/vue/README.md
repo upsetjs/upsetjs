@@ -24,7 +24,7 @@ npm install @upsetjs/vue vue
   import Vue from 'vue';
   import UpSetJS, { extractSets, ISets, ISet } from '@upsetjs/vue';
 
-  export default {
+  const stories = {
     components: {
       UpSetJS,
     },

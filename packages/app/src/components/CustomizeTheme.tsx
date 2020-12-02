@@ -107,7 +107,7 @@ function ColorTextField({
     } else {
       onChange({ target: { name, value: '' } });
     }
-  }, [onChange, value]);
+  }, [onChange, value, name]);
   const handleMouseDown = useCallback((evt: React.MouseEvent<any>) => evt.preventDefault(), []);
   return (
     <TextField

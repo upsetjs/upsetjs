@@ -12,10 +12,11 @@ import { UpSetJS } from '../UpSetJS';
 import { common, queries, sets } from './data';
 import { UpSetJSSkeleton } from '../UpSetJSSkeleton';
 
-export default {
+const stories = {
   component: UpSetJS,
   title: 'UpSetJS',
 };
+export default stories;
 
 export const Default = () => {
   return <UpSetJS sets={sets} width={1200} height={500} />;

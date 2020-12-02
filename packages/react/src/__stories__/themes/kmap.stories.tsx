@@ -10,10 +10,11 @@ import { common, darkBackgroundColor, colors, sets, mergeColors } from '../data'
 import { InteractiveKarnaughMap } from '../Interactive';
 import { KarnaughMap } from '../../kmap/KarnaughMap';
 
-export default {
+const stories = {
   component: KarnaughMap,
   title: 'Karnaugh Map/Themes+Colors',
 };
+export default stories;
 
 export const Default = () => {
   return <InteractiveKarnaughMap {...common} />;

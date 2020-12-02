@@ -5,6 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export default {
+const stories = {
   title: 'Welcome UpSet.js React Box Plot Addon',
 };
+export default stories;

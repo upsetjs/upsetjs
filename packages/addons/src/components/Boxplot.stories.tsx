@@ -8,10 +8,11 @@
 import React from 'react';
 import Boxplot from './Boxplot';
 
-export default {
+const stories = {
   component: Boxplot,
   title: 'Components/Box plot',
 };
+export default stories;
 
 export const Default = () => {
   const values = Array(100)

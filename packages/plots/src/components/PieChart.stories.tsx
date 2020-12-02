@@ -9,10 +9,11 @@ import React, { useState } from 'react';
 import PieChart, { PieChartProps } from './PieChart';
 import { UpSetSelection } from '@upsetjs/react';
 
-export default {
+const stories = {
   component: PieChart,
   title: 'Components/PieChart',
 };
+export default stories;
 
 function InteractivePieChart(props: PieChartProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);

@@ -12,9 +12,10 @@ import Histogram from './Histogram';
 import BarChart from './BarChart';
 import PieChart from './PieChart';
 
-export default {
+const stories = {
   title: 'UpSetJS Plot Addons',
 };
+export default stories;
 
 interface IElem {
   name: string;

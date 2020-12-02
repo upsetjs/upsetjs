@@ -10,10 +10,11 @@ import { common, darkBackgroundColor, sets, colors, mergeColors } from '../data'
 import { InteractiveVennDiagram } from '../Interactive';
 import { VennDiagram } from '../../venn/VennDiagram';
 
-export default {
+const stories = {
   component: VennDiagram,
   title: 'Venn Diagram/Themes+Colors',
 };
+export default stories;
 
 export const Default = () => {
   return <InteractiveVennDiagram {...common} />;

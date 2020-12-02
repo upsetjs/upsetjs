@@ -160,6 +160,7 @@ export function useVegaIntervalSelection<T>(
     selectionName,
     onClick,
     onHover,
+    toElemKey,
     viewRef,
     xName,
     yName,

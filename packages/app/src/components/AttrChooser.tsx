@@ -25,11 +25,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const EMPTY_ARR: string[] = [];
+
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
 
-  const rows = store.dataset?.attrs ?? [];
+  const rows = store.dataset?.attrs ?? EMPTY_ARR;
   const selected = store.selectedAttrs;
   const numSelected = selected.size;
   const rowCount = rows.length;

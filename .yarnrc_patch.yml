@@ -7,7 +7,7 @@ packageExtensions:
       '@vue/cli-plugin-eslint': '*'
       '@vue/cli-plugin-typescript': '*'
   'fork-ts-checker-webpack-plugin@*':
-    optionalDependencies:
+    dependencies:
       'vue-template-compiler': '*'
   'jss-plugin-rule-value-function@*':
     dependencies:
@@ -22,6 +22,6 @@ packageExtensions:
   'vega-tooltip@*':
     dependencies:
       'vega-typings': '*'
-  'semver@*':
-    optionalDependencies:
-      'core-js': '*'
+  # 'semver@*':
+  #   dependencies:
+  #     'core-js': '*'

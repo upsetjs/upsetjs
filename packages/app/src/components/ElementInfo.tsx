@@ -23,12 +23,14 @@ const useStyles = makeStyles(() => ({
   root: {},
 }));
 
+const EMPTY_ARR: string[] = [];
+
 export default observer(() => {
   const store = useStore();
   const classes = useStyles();
 
   const rows = store.sortedSelectedElems;
-  const attrs = store.dataset?.attrs ?? [];
+  const attrs = store.dataset?.attrs ?? EMPTY_ARR;
   const o = store.ui.elemTable;
 
   const handleRequestNameSort = useCallback(() => {

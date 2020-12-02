@@ -9,10 +9,11 @@ import React, { useState } from 'react';
 import Scatterplot, { ScatterplotProps } from './Scatterplot';
 import { UpSetSelection } from '@upsetjs/react';
 
-export default {
+const stories = {
   component: Scatterplot,
   title: 'Components/Scatterplot',
 };
+export default stories;
 
 function InteractiveScatterplot(props: ScatterplotProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);

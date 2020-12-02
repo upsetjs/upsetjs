@@ -9,10 +9,11 @@ import React, { useState } from 'react';
 import Histogram, { HistogramProps } from './Histogram';
 import { UpSetSelection } from '@upsetjs/react';
 
-export default {
+const stories = {
   component: Histogram,
   title: 'Components/Histogram',
 };
+export default stories;
 
 function InteractiveHistogram(props: HistogramProps<any>) {
   const [selection, setSelection] = useState<UpSetSelection<any>>(null);

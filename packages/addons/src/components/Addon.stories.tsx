@@ -10,9 +10,10 @@ import { boxplotAddon } from './Boxplot';
 import { categoricalAddon } from './Categorical';
 import UpSetJS, { extractSets, ISetLike, UpSetProps } from '@upsetjs/react';
 
-export default {
+const stories = {
   title: 'UpSetJS Addons',
 };
+export default stories;
 
 interface IElem {
   name: string;
