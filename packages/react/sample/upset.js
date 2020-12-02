@@ -10,15 +10,16 @@ async function loadUpSetJS() {
   }
 
   await Promise.all([
-    loadScript('https://cdn.jsdelivr.net/npm/react@16/umd/react.development.js'),
-    loadScript('https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.development.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js'),
     loadScript('https://cdn.jsdelivr.net/npm/lz-string'),
   ]);
 
   window.UpSetJSModel = window.exports = {};
 
   let s = document.createElement('script');
-  s.src = '../../model/dist/model.cjs.development.js';
+  s.src = '../../model/dist/index.js';
+  s.type = 'module';
   document.body.appendChild(s);
   await new Promise((resolve) => (s.onload = resolve));
 
@@ -36,7 +37,8 @@ async function loadUpSetJS() {
   window.UpSetJS = window.exports = {};
 
   s = document.createElement('script');
-  s.src = '../dist/react.cjs.development.js';
+  s.src = '../dist/index.js';
+  s.type = 'module';
   document.body.appendChild(s);
   await new Promise((resolve) => (s.onload = resolve));
 
