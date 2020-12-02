@@ -4441,7 +4441,7 @@ __metadata:
     rollup-plugin-terser: ^7.0.2
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.19.2
+    typedoc: ^0.20.0-beta
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4474,7 +4474,7 @@ __metadata:
     rollup-plugin-dts: ^2.0.0
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.19.2
+    typedoc: ^0.20.0-beta
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4506,7 +4506,7 @@ __metadata:
     rollup-plugin-dts: ^2.0.0
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.19.2
+    typedoc: ^0.20.0-beta
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -7741,7 +7741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colors@npm:^1.1.2":
+"colors@npm:^1.1.2, colors@npm:^1.4.0":
   version: 1.4.0
   resolution: "colors@npm:1.4.0"
   checksum: a0f266ac041a9774d92cc9624a984707678d2eeec125d54e8d8231075ce36c24c5352fb5d0f90c6ee420d0f63e354417cec716386ad341309334aad18e32b933
@@ -11833,13 +11833,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.2.0":
-  version: 10.2.1
-  resolution: "highlight.js@npm:10.2.1"
-  checksum: a799dabfbf78ae5f369d113bfedcf0ba6ea4f9aefcc44d4b27a6d77ec0d6b90fc31b01137497c9710c7d87ec8b2613e613c9499d69bfa65282bcbaf8ca7daeaa
-  languageName: node
-  linkType: hard
-
 "highlight.js@npm:^9.6.0":
   version: 9.18.3
   resolution: "highlight.js@npm:9.18.3"
@@ -13941,7 +13934,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"json5@npm:2.x, json5@npm:^2.1.1, json5@npm:^2.1.2":
+"json5@npm:2.x, json5@npm:^2.1.0, json5@npm:^2.1.1, json5@npm:^2.1.2":
   version: 2.1.3
   resolution: "json5@npm:2.1.3"
   dependencies:
@@ -14639,12 +14632,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"marked@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "marked@npm:1.1.1"
+"marked@npm:^1.2.5":
+  version: 1.2.5
+  resolution: "marked@npm:1.2.5"
   bin:
     marked: bin/marked
-  checksum: 4fb077a99ca6a6a4f389bbe2f27620509a332da6fac019560fc25e0e9636226cc86420ddbcfc6e8956920cbca68d64cd11d03954d22123a95ffc63c2e6c4e0ae
+  checksum: f4d370e267ead928530d78ef5e52d79d7f938e419fc71103a8c22626daddadbe8f9cd56e8f745e94b5d1c47b95bf5ccb4d4917497d9bc1cd0c3f2cb3ee2f1398
   languageName: node
   linkType: hard
 
@@ -15795,6 +15788,15 @@ fsevents@^1.2.7:
   dependencies:
     mimic-fn: ^2.1.0
   checksum: e425f6caeb20cf2598ffece94be5663932e34d074f1631b682b13d5f01cc1e0712a7dc711eff1706bb5a5aaab8a52e37bd5edcf560334e3222219d7e8b09c21c
+  languageName: node
+  linkType: hard
+
+"onigasm@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "onigasm@npm:2.2.5"
+  dependencies:
+    lru-cache: ^5.1.1
+  checksum: 9db74810f55bc0b9718991d36ea445e2095f09743f22d5e76bc37a31e34b9b5204b1224ea2fb30253e810fe57222bf86274d5b38073b1c14534fee4c6da300b4
   languageName: node
   linkType: hard
 
@@ -18976,6 +18978,37 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"shiki-languages@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki-languages@npm:0.2.7"
+  dependencies:
+    vscode-textmate: ^5.2.0
+  checksum: 46e91b7cd8c2e2ebffc72243fc813acff1dd7124ff3b78b356bb1bea7b764fbe34fb1865651529f0b27948829c2901cea3672cd38052560f6e0b779a284cae31
+  languageName: node
+  linkType: hard
+
+"shiki-themes@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki-themes@npm:0.2.7"
+  dependencies:
+    json5: ^2.1.0
+    vscode-textmate: ^5.2.0
+  checksum: 5e79726b928f99d8723600662d02b7f3549a06603ee6b7e90a6084c4a0d1c3244b6b96d9d036933f362c8c20737e1a27875433a0b2b4a32f020cc87e78ed7fc8
+  languageName: node
+  linkType: hard
+
+"shiki@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "shiki@npm:0.2.7"
+  dependencies:
+    onigasm: ^2.2.5
+    shiki-languages: ^0.2.7
+    shiki-themes: ^0.2.7
+    vscode-textmate: ^5.2.0
+  checksum: 4075bd1b7ca12c2ee44ab14691388651d7af69172259bd6af083d0841a6460572c0ef1b635fc15633972f4737dd476f4e71e7bbe32dec91100b2260346c8f3eb
+  languageName: node
+  linkType: hard
+
 "side-channel@npm:^1.0.2":
   version: 1.0.3
   resolution: "side-channel@npm:1.0.3"
@@ -20620,33 +20653,33 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:^0.11.4":
-  version: 0.11.4
-  resolution: "typedoc-default-themes@npm:0.11.4"
-  checksum: 1993030e242ae9cd8b25ec706d7fefccd14b6f8de8f766b55b9bfa1b7044e244eccec9e6ed2382f85a6cea23e547bf398125bcd6f359fa0647212802c0830f4f
+"typedoc-default-themes@npm:0.12.0-beta.10":
+  version: 0.12.0-beta.10
+  resolution: "typedoc-default-themes@npm:0.12.0-beta.10"
+  checksum: f10cfa0e6a5e9539bf67d0488ab9abb2c4d10e05e33ca76c54b58f3e3895acf2920699ce9896d5aba1d4046bd12a4cd599cfe42366806f87c115b8a80115e9a2
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.2":
-  version: 0.19.2
-  resolution: "typedoc@npm:0.19.2"
+"typedoc@npm:^0.20.0-beta":
+  version: 0.20.0-beta.24
+  resolution: "typedoc@npm:0.20.0-beta.24"
   dependencies:
+    colors: ^1.4.0
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
-    highlight.js: ^10.2.0
     lodash: ^4.17.20
     lunr: ^2.3.9
-    marked: ^1.1.1
+    marked: ^1.2.5
     minimatch: ^3.0.0
     progress: ^2.0.3
-    semver: ^7.3.2
     shelljs: ^0.8.4
-    typedoc-default-themes: ^0.11.4
+    shiki: ^0.2.7
+    typedoc-default-themes: 0.12.0-beta.10
   peerDependencies:
-    typescript: 3.9.x || 4.0.x
+    typescript: 3.9.x || 4.0.x || 4.1.x
   bin:
     typedoc: bin/typedoc
-  checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
+  checksum: 8f67f9e3c874739638dadf5349de4f50d10eb71f4b6722c1c4243ae6c7441fd5440be21a6473d6bfcdd9d52fc0165fc986f32df496a74db464ca47830f54ef92
   languageName: node
   linkType: hard
 
@@ -21758,6 +21791,13 @@ fsevents@^1.2.7:
   version: 1.1.2
   resolution: "vm-browserify@npm:1.1.2"
   checksum: fc571a62d2cf797ae8773ebb3cb0d2bea50ed02059e128dd9087975929fce4c80a6485ce1aaf7d44ef69db99dfdcde50b6be5d5eb73b296660d761c32fb544fe
+  languageName: node
+  linkType: hard
+
+"vscode-textmate@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "vscode-textmate@npm:5.2.0"
+  checksum: 67ec1fed58690b6d21fb75462694ebfeefe93d9a4091dfbea9db4e1b718d172ac2e60e3944a0dd88c53ff50e7604dfcccde19d8a4d25616c0b2df330052df2b9
   languageName: node
   linkType: hard
 

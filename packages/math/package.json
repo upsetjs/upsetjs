@@ -47,7 +47,7 @@
     "eslint": "eslint src --ext .ts,.tsx",
     "eslint:fix": "npm run eslint -- --fix",
     "prepare": "npm run build",
-    "docs": "typedoc"
+    "docs": "typedoc src/index.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -73,7 +73,7 @@
     "rollup-plugin-dts": "^2.0.0",
     "ts-jest": "^26.4.4",
     "tslib": "^2.0.3",
-    "typedoc": "^0.19.2",
+    "typedoc": "^0.20.0-beta",
     "typescript": "^4.1.2"
   }
 }
