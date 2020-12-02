@@ -22,7 +22,8 @@ export default function deriveStyleDependent(
   emptySelection: boolean,
   title: string | ReactNode,
   description: string | ReactNode,
-  tooltips: boolean
+  tooltips: boolean,
+  setLabelAlignment: 'left' | 'center' | 'right'
 ) {
   return {
     theme,
@@ -43,6 +44,7 @@ export default function deriveStyleDependent(
     title,
     description,
     tooltips,
+    setLabelAlignment,
   };
 }
 

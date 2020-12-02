@@ -77,3 +77,12 @@ export function parseFontSize(v?: string) {
   }
   return Number.parseInt(v, 10);
 }
+
+export function toAnchor(alignment: 'left' | 'center' | 'right') {
+  const alignments = {
+    left: 'start',
+    center: 'middle',
+    right: 'end',
+  };
+  return alignments[alignment] ?? 'middle';
+}

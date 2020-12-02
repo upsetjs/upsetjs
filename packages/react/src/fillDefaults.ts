@@ -152,6 +152,7 @@ export function fillDefaultsG<T, C, N, L = N>(props: UpSetPropsG<T, C, N, L>): U
       setName: 'Set Size',
       widthRatios: DEFAULT_WIDTH_RATIO,
       heightRatios: DEFAULT_HEIGHT_RATIO,
+      setLabelAlignment: 'center',
       numericScale: 'linear',
       bandScale: 'band',
       childrenFactories: EMPTY_OBJECT,

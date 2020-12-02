@@ -163,6 +163,15 @@ const upsetLayoutProps = {
     type: Array,
     validator: propValidators.heightRatios,
   },
+
+  /**
+   * alignment for the set labels
+   * @default 'center'
+   */
+  setLabelAlignment: {
+    type: String,
+    validator: propValidators.setLabelAlignment,
+  },
 };
 
 const vennDiagramLayoutProps = {

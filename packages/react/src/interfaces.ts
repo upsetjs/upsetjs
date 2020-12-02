@@ -328,6 +328,12 @@ export interface UpSetLayoutProps extends UpSetBaseLayoutProps {
    * @default [0.6, 0.4]
    */
   heightRatios?: [number, number];
+
+  /**
+   * alignment for the set labels
+   * @default 'center'
+   */
+  setLabelAlignment?: 'left' | 'center' | 'right';
 }
 
 export interface VennDiagramLayoutProps extends UpSetBaseLayoutProps {

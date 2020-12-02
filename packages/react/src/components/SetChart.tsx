@@ -34,6 +34,12 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
 }>) {
   const x = data.sets.x(d.cardinality);
   const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
+  const anchorOffset =
+    style.setLabelAlignment === 'center'
+      ? size.labels.w / 2
+      : style.setLabelAlignment === 'left'
+      ? 2
+      : size.labels.w - 2;
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}
@@ -81,7 +87,7 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
         {data.sets.format(d.cardinality)}
       </text>
       <text
-        x={size.sets.w + size.labels.w / 2}
+        x={size.sets.w + anchorOffset}
         y={data.sets.bandWidth / 2}
         className={clsx(`setTextStyle-${style.id}`, style.classNames.setLabel)}
         style={style.styles.setLabel}

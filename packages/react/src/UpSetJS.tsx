@@ -18,7 +18,7 @@ import UpSetAxis from './components/UpSetAxis';
 import UpSetChart from './components/UpSetChart';
 import UpSetQueries from './components/UpSetQueries';
 import UpSetSelection from './components/UpSetSelection';
-import { generateId, clsx, generateSelectionName, parseFontSize } from './utils';
+import { generateId, clsx, generateSelectionName, parseFontSize, toAnchor } from './utils';
 import { fillDefaults } from './fillDefaults';
 import { baseRules } from './rules';
 import useHandler from './hooks/useHandler';
@@ -98,7 +98,8 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
         p.emptySelection,
         p.title,
         p.description,
-        p.tooltips
+        p.tooltips,
+        p.setLabelAlignment
       ),
     [
       p.theme,
@@ -115,6 +116,7 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
       p.title,
       p.description,
       p.tooltips,
+      p.setLabelAlignment,
     ]
   );
 
@@ -220,7 +222,7 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
   .setTextStyle-${styleId} {
     fill: ${p.textColor};
     ${rulesHelper.p(fontSizes.setLabel)}
-    text-anchor: middle;
+    text-anchor: ${toAnchor(p.setLabelAlignment)};
     dominant-baseline: central;
   }
   .cChartTextStyle-${styleId} {

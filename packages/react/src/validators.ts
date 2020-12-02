@@ -5,20 +5,7 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import {
-  ISets,
-  ISetCombinations,
-  GenerateSetCombinationsOptions,
-  ISetLike,
-  UpSetQuery,
-  NumericScaleFactory,
-  BandScaleFactory,
-  isSet,
-  isSetCombination,
-  isGenerateSetCombinationOptions,
-  isSetLike,
-  isUpSetQuery,
-} from '@upsetjs/model';
+import { isSet, isSetCombination, isGenerateSetCombinationOptions, isSetLike, isUpSetQuery } from '@upsetjs/model';
 import {
   UpSetStyleClassNames,
   UpSetFontSizes,
@@ -27,38 +14,56 @@ import {
   UpSetThemes,
   VennDiagramMultiStyle,
   VennDiagramFontSizes,
+  UpSetLayoutProps,
+  UpSetBaseDataProps,
+  UpSetDataProps,
+  UpSetSelectionProps,
+  KarnaughMapMultiStyle,
+  UpSetBaseStyleProps,
+  UpSetStyleProps,
+  KarnaughMapFontSizes,
 } from './interfaces';
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
-export function widthRatios(value?: [number, number, number]) {
+export function widthRatios(value?: UpSetLayoutProps['widthRatios']) {
   return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
 }
-export function heightRatios(value?: [number, number]) {
+export function heightRatios(value?: UpSetLayoutProps['heightRatios']) {
   return value == null || (Array.isArray(value) && value.length === 2 && value.every((v) => typeof v === 'number'));
 }
-export function sets(value: ISets<any>) {
+export function setLabelAlignment(value?: UpSetLayoutProps['setLabelAlignment']) {
+  return value == null || value === 'left' || value === 'center' || value === 'right';
+}
+
+export function sets(value: UpSetBaseDataProps<any>['sets']) {
   return Array.isArray(value) && value.every(isSet);
 }
 
-export function combinations(value?: ISetCombinations<any> | GenerateSetCombinationsOptions<any>) {
+export function combinations(value?: UpSetDataProps<any, any>['combinations']) {
   return (
     value == null || (Array.isArray(value) && value.every(isSetCombination)) || isGenerateSetCombinationOptions(value)
   );
 }
 
-export function selection(value?: ISetLike<any> | readonly any[]) {
+export function selection(value?: UpSetSelectionProps<any>['selection']) {
   return value == null || Array.isArray(value) || isSetLike(value);
 }
 
-export function onHover(value?: (selection: ISetLike<any> | null) => void) {
+export function onHover(value?: UpSetSelectionProps<any>['onHover']) {
   return value == null || typeof value === 'function';
 }
 
-export function onClick(value?: (selection: ISetLike<any> | null) => void) {
+export function onClick(value?: UpSetSelectionProps<any>['onClick']) {
+  return value == null || typeof value === 'function';
+}
+export function onContextMenu(value?: UpSetSelectionProps<any>['onContextMenu']) {
+  return value == null || typeof value === 'function';
+}
+export function onMouseMove(value?: UpSetSelectionProps<any>['onMouseMove']) {
   return value == null || typeof value === 'function';
 }
 
-export function queries(value?: UpSetQuery<any>[]) {
+export function queries(value?: UpSetSelectionProps<any>['queries']) {
   return !value || (Array.isArray(value) && value.every(isUpSetQuery));
 }
 
@@ -70,7 +75,9 @@ export function theme(value?: UpSetThemes) {
   return value == null || value === 'light' || value === 'dark' || value === 'vega';
 }
 
-export function classNames(value?: UpSetStyleClassNames | VennDiagramMultiStyle<string>) {
+export function classNames(
+  value?: UpSetStyleClassNames | VennDiagramMultiStyle<string> | KarnaughMapMultiStyle<string>
+) {
   return (
     value == null ||
     (Object.keys(value) as (keyof (UpSetStyleClassNames | VennDiagramMultiStyle<string>))[]).every(
@@ -79,7 +86,7 @@ export function classNames(value?: UpSetStyleClassNames | VennDiagramMultiStyle<
   );
 }
 
-export function fontSizes(value?: UpSetFontSizes | VennDiagramFontSizes) {
+export function fontSizes(value?: UpSetFontSizes | VennDiagramFontSizes | KarnaughMapFontSizes) {
   return (
     value == null ||
     (Object.keys(value) as (keyof (UpSetFontSizes | VennDiagramFontSizes))[]).every(
@@ -88,15 +95,15 @@ export function fontSizes(value?: UpSetFontSizes | VennDiagramFontSizes) {
   );
 }
 
-export function numericScale(value?: 'linear' | 'log' | NumericScaleFactory) {
+export function numericScale(value?: UpSetDataProps<any, any>['numericScale']) {
   return value == null || value === 'linear' || value === 'log' || typeof value === 'function';
 }
 
-export function bandScale(value?: 'band' | BandScaleFactory) {
+export function bandScale(value?: UpSetDataProps<any, any>['bandScale']) {
   return value == null || value === 'band' || typeof value === 'function';
 }
 
-export function axisOffset(value?: 'auto' | number) {
+export function axisOffset(value?: UpSetStyleProps<any>['setNameAxisOffset']) {
   return value == null || value === 'auto' || typeof value === 'number';
 }
 
@@ -104,7 +111,7 @@ export function style(value?: any) {
   return value == null || typeof value === 'object';
 }
 
-export function styles(value?: UpSetMultiStyle<any> | VennDiagramMultiStyle<any>) {
+export function styles(value?: UpSetMultiStyle<any> | VennDiagramMultiStyle<any> | KarnaughMapMultiStyle<any>) {
   return (
     value == null ||
     Object.keys(value).every((k) =>
@@ -113,7 +120,7 @@ export function styles(value?: UpSetMultiStyle<any> | VennDiagramMultiStyle<any>
   );
 }
 
-export function exportButtons(value?: boolean | UpSetExportOptions) {
+export function exportButtons(value?: UpSetBaseStyleProps<any>['exportButtons']) {
   return (
     value == null ||
     typeof value === 'boolean' ||
