@@ -21,7 +21,7 @@ function expectSet<T>(
   expect(s.name).toBe(name);
   expect(s.elems.slice().sort()).toEqual(elems.slice().sort());
   expect(s.cardinality).toBe(elems.length);
-  expect(Array.from(s.sets)).toStrictEqual(sets);
+  expect(Array.from(s.sets) as ISets<T>).toStrictEqual(sets);
   expect(s.degree).toBe(sets.length);
 }
 
