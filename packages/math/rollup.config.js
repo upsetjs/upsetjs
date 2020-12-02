@@ -24,7 +24,7 @@ const watchOnly = ['esm', 'types'];
 const isDependency = (v) => Object.keys(pkg.dependencies || {}).some((e) => e === v || v.startsWith(e + '/'));
 const isPeerDependency = (v) => Object.keys(pkg.peerDependencies || {}).some((e) => e === v || v.startsWith(e + '/'));
 
-export default (options) => {
+export default function Config(options) {
   const buildFormat = (format) => !options.watch || watchOnly.includes(format);
 
   const base = {
@@ -80,4 +80,4 @@ export default (options) => {
       ],
     },
   ].filter(Boolean);
-};
+}
