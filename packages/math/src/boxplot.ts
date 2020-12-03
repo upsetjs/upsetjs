@@ -35,7 +35,7 @@ export type QuantilesMethod =
   | 'nearest'
   | 'midpoint';
 
-export declare type BoxplotStatsOptions = {
+export interface BoxplotStatsOptions {
   /**
    * specify the coefficient for the whiskers, use <=0 for getting min/max instead
    * the coefficient will be multiplied by the IQR
@@ -64,7 +64,7 @@ export declare type BoxplotStatsOptions = {
    * @default 10e-3
    */
   eps?: number;
-};
+}
 
 export function boxplot(data: readonly number[] | Float32Array | Float64Array, options: BoxplotStatsOptions = {}) {
   const o = Object.assign({}, options as Omit<BoxplotStatsOptions, 'quantiles'>, {

@@ -92,7 +92,7 @@ export interface IBoxplotStyleProps extends IBoxplotStylePlainProps {
   outlierStyle?: React.CSSProperties;
 }
 
-declare type BoxplotProps = {
+export interface BoxplotProps {
   /**
    * the values to render as a box plot
    */
@@ -113,7 +113,7 @@ declare type BoxplotProps = {
    * domain maximum value
    */
   max: number;
-};
+}
 
 const defaultFormatter = (v: number) => v.toFixed(2);
 

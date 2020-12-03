@@ -24,7 +24,7 @@ export function fromSetName<T>(sets: ISets<T>, symbol = /[∩∪&|]/) {
 /**
  * sort orders for set combinations
  */
-export declare type SortCombinationOrder =
+export type SortCombinationOrder =
   | SortSetOrder
   | 'group'
   | 'degree'
@@ -33,7 +33,7 @@ export declare type SortCombinationOrder =
   | 'degree:asc'
   | 'degree:desc';
 
-export declare type SortCombinationOrders = readonly SortCombinationOrder[];
+export type SortCombinationOrders = readonly SortCombinationOrder[];
 
 export interface PostprocessCombinationsOptions {
   /**

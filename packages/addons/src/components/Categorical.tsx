@@ -20,7 +20,7 @@ export interface ICategoricalStyleProps {
   orient?: 'horizontal' | 'vertical';
 }
 
-declare type CategoricalProps = (
+export type CategoricalProps = (
   | {
       /**
        * the values to render

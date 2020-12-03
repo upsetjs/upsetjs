@@ -78,30 +78,30 @@ export interface ISetComposite<T = any> extends IBaseSetCombination<T> {
 /**
  * union of all set combination types
  */
-export declare type ISetCombination<T = any> =
+export type ISetCombination<T = any> =
   | ISetIntersection<T>
   | ISetUnion<T>
   | ISetComposite<T>
   | IDistinctSetIntersection<T>;
 
-export declare type SetCombinationType = 'intersection' | 'union' | 'composite' | 'distinctIntersection';
+export type SetCombinationType = 'intersection' | 'union' | 'composite' | 'distinctIntersection';
 /**
  * union of a set or a set combination
  */
-export declare type ISetLike<T = any> = ISet<T> | ISetCombination<T>;
+export type ISetLike<T = any> = ISet<T> | ISetCombination<T>;
 
 /**
  * readonly array of sets
  */
-export declare type ISets<T = any> = readonly ISet<T>[];
+export type ISets<T = any> = readonly ISet<T>[];
 /**
  * readonly array of set combinations
  */
-export declare type ISetCombinations<T = any> = readonly ISetCombination<T>[];
+export type ISetCombinations<T = any> = readonly ISetCombination<T>[];
 /**
  * readonly array of set like objects
  */
-export declare type ISetLikes<T = any> = readonly ISetLike<T>[];
+export type ISetLikes<T = any> = readonly ISetLike<T>[];
 
 /**
  * helper method to generate a key for a given set

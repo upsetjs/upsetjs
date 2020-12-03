@@ -25,13 +25,7 @@ export function asSet<T, S extends { name: string; elems: readonly T[] }>(set: S
 /**
  * possible set sort orders
  */
-export declare type SortSetOrder =
-  | 'cardinality'
-  | 'name'
-  | 'cardinality:desc'
-  | 'name:asc'
-  | 'cardinality:asc'
-  | 'name:desc';
+export type SortSetOrder = 'cardinality' | 'name' | 'cardinality:desc' | 'name:asc' | 'cardinality:asc' | 'name:desc';
 
 export interface PostprocessSetOptions {
   /**

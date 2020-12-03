@@ -1,9 +1,9 @@
-export declare interface ICategory {
+export interface ICategory {
   value: string;
   color?: string;
   label?: string;
 }
-export declare type ICategories = readonly ICategory[];
+export type ICategories = readonly ICategory[];
 
 export interface ICategoryBin extends Required<ICategory> {
   count: number;
@@ -14,7 +14,7 @@ export interface ICategoryBin extends Required<ICategory> {
   percentage: number;
 }
 
-export declare type ICategoryBins = readonly ICategoryBin[];
+export type ICategoryBins = readonly ICategoryBin[];
 
 function colorGen(dark?: boolean) {
   // from ColorBrewer

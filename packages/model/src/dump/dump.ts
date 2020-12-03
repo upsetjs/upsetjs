@@ -72,7 +72,7 @@ export function fromDump<T>(
   };
 }
 
-export declare type UpSetCompressedIndices = readonly number[] | string;
+export type UpSetCompressedIndices = readonly number[] | string;
 
 export interface IUpSetDump {
   sets: ReadonlyArray<{ name: string; color?: string; cardinality: number; elems: UpSetCompressedIndices }>;

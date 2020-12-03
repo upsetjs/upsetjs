@@ -68,30 +68,20 @@ export {
 
 export * from './react';
 
-export declare type UpSetJSSkeletonProps = {
+export interface UpSetJSSkeletonProps {
   background?: string;
   color?: string;
   secondaryColor?: string;
   // any other property will be forwarded to the SVG element
   [key: string]: any;
-};
+}
 
-export declare type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
-export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
-export declare type VennDiagramProps<T = any> = VennDiagramPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
-export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
-  T,
-  CSSStyleDeclaration,
-  UpSetReactElement,
-  string
->;
-export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
-export declare type KarnaughMapFullProps<T = any> = KarnaughMapFullPropsG<
-  T,
-  CSSStyleDeclaration,
-  UpSetReactElement,
-  string
->;
+export type UpSetProps<T = any> = UpSetPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export type UpSetFullProps<T = any> = UpSetFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export type VennDiagramProps<T = any> = VennDiagramPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export type KarnaughMapProps<T = any> = KarnaughMapPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
+export type KarnaughMapFullProps<T = any> = KarnaughMapFullPropsG<T, CSSStyleDeclaration, UpSetReactElement, string>;
 
 /**
  * helper methods to fill up partial UpSet.js properties with their default values
@@ -122,6 +112,16 @@ export function fillKarnaughMapDefaults<T = any>(props: KarnaughMapProps<T>): Ka
  * @param props the properties of the component
  */
 export function render<T = any>(node: HTMLElement, props: UpSetProps<T>) {
+  const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
+  renderPreact(h(UpSetElement as any, p), node);
+}
+
+/**
+ * renders the UpSetJS component
+ * @param node the DOM node to render the component into
+ * @param props the properties of the component
+ */
+export function renderUpSet<T = any>(node: HTMLElement, props: UpSetProps<T>) {
   const p: UpSetReactProps<T> = props as UpSetProps<T> & { style: any; styles: UpSetMultiStyle<any> };
   renderPreact(h(UpSetElement as any, p), node);
 }
@@ -164,6 +164,7 @@ export function renderVennDiagramSkeleton(node: HTMLElement, props: UpSetJSSkele
   const p: UpSetJSSkeletonPropsImpl = props;
   renderPreact(h(VennDiagramSkeleton as any, p), node);
 }
+
 /**
  * renders the KarnaughMap skeleton component
  * @param node the DOM node to render the component into
@@ -173,13 +174,6 @@ export function renderKarnaughMapSkeleton(node: HTMLElement, props: UpSetJSSkele
   const p: UpSetJSSkeletonPropsImpl = props;
   renderPreact(h(KarnaughMapSkeleton as any, p), node);
 }
-
-/**
- * renders the UpSetJS component
- * @param node the DOM node to render the component into
- * @param props the properties of the component
- */
-export const renderUpSet = render;
 
 /**
  * hydrates the UpSetJS component when applied on a server rendered version

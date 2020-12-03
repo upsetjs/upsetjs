@@ -10,7 +10,7 @@ export interface TickOptions {
   fontSizeHint: number;
 }
 
-export declare type NumericScaleTick = { value: number; label?: string };
+export type NumericScaleTick = { value: number; label?: string };
 
 export interface NumericScaleLike {
   (v: number): number;
