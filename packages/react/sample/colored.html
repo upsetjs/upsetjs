@@ -29,6 +29,7 @@
           { l: 0, a: 0, b: 0 }
         );
         return d3.lab(cc.l / colors.length, cc.a / colors.length, cc.b / colors.length).toString();
+        // return null;
       }
       loadUpSetJS().then(({ UpSetJS, render, elems }) => {
         const sets = UpSetJS.extractSets(elems);

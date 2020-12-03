@@ -259,7 +259,6 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
   ${rulesHelper.export}
 
   .upsetLine-${dataInfo.id} {
-    stroke-linecap: round;
     stroke-width: ${dataInfo.r * 0.6};
     stroke: ${p.color};
     stroke-opacity: ${p.opacity};

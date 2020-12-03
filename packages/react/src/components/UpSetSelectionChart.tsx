@@ -46,9 +46,9 @@ function UpSetSelectionChart<T>({
       {d.sets.size > 1 && (
         <line
           x1={cx}
-          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + cy}
+          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + cy - (data.r - 1)}
           x2={cx}
-          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + cy}
+          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + cy + (data.r - 1)}
           className={`upsetSelectionLine-${data.id}`}
           style={mergeColor(undefined, !style.selectionColor ? d.color : undefined, 'stroke')}
         />

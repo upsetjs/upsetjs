@@ -99,9 +99,9 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
       {d.sets.size > 1 && (
         <line
           x1={data.cs.cx}
-          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
+          y1={data.sets.y(data.sets.v.find((p) => data.cs.has(d, p))!)! + data.sets.cy - (data.r - 1)}
           x2={data.cs.cx}
-          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + data.sets.cy}
+          y2={data.sets.y(data.sets.rv.find((p) => data.cs.has(d, p))!)! + data.sets.cy + (data.r - 1)}
           style={d.color ? { stroke: d.color } : undefined}
           className={`upsetLine-${data.id}`}
         />
