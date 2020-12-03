@@ -5,23 +5,23 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export declare type TickOptions = {
+export interface TickOptions {
   orientation: 'horizontal' | 'vertical';
   fontSizeHint: number;
-};
+}
 
 export declare type NumericScaleTick = { value: number; label?: string };
 
-export declare type NumericScaleLike = {
+export interface NumericScaleLike {
   (v: number): number;
   // api to be compatible with d3-scale
   ticks(count?: number): readonly (NumericScaleTick | number)[];
   tickFormat(): (v: number) => string;
-};
+}
 
-export declare type NumericScaleFactory = {
+export interface NumericScaleFactory {
   (max: number, range: [number, number], options: TickOptions): NumericScaleLike;
-};
+}
 
 function hasOverlap(positions: number[], heights: number[], stride = 1) {
   for (let i = 0; i < positions.length - stride; i += stride) {

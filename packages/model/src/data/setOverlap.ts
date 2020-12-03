@@ -5,19 +5,19 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export declare type SetOverlap = {
+export interface SetOverlap {
   setA: number;
   setB: number;
   union: number;
   intersection: number;
-};
+}
 
-export declare type SetElemOverlap<T> = {
+export interface SetElemOverlap<T> {
   setA: readonly T[];
   setB: readonly T[];
   union: readonly T[];
   intersection: readonly T[];
-};
+}
 
 function len<T>(a: Set<T> | readonly T[]) {
   return a instanceof Set ? a.size : a.length;

@@ -33,7 +33,7 @@ export declare type SortSetOrder =
   | 'cardinality:asc'
   | 'name:desc';
 
-export declare type PostprocessSetOptions = {
+export interface PostprocessSetOptions {
   /**
    * order the set by the given criteria
    */
@@ -42,7 +42,7 @@ export declare type PostprocessSetOptions = {
    * limit to the top N sets after sorting
    */
   limit?: number;
-};
+}
 
 function toOrder<T, S extends ISet<T>>(order?: SortSetOrder): (a: S, b: S) => number {
   if (!order) {

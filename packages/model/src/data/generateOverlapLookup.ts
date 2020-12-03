@@ -8,11 +8,11 @@
 import { ISetCombinations, ISetLike, ISets, toKey as toKeyImpl } from '../model';
 import { SetOverlap, setOverlapFactory } from './setOverlap';
 
-export declare type GenerateOverlapLookupOptions<T> = {
+export interface GenerateOverlapLookupOptions<T> {
   toElemKey?(v: T): string;
   what?: keyof SetOverlap;
   compress?: 'no' | 'yes' | 'auto';
-};
+}
 
 /**
  * compresses a given line, the idea is to reduce elements with the same value,

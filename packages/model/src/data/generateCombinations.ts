@@ -11,7 +11,7 @@ import { postprocessCombinations, PostprocessCombinationsOptions } from './asCom
 import { SET_JOINERS } from './constants';
 import { mergeColors as mergeDefaultColors } from '../colors';
 
-export declare type GenerateSetCombinationsOptions<T = any> = {
+export interface GenerateSetCombinationsOptions<T = any> extends PostprocessCombinationsOptions {
   /**
    * type of set combination
    * @default intersection
@@ -51,7 +51,7 @@ export declare type GenerateSetCombinationsOptions<T = any> = {
    * optional color merger
    **/
   mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
-} & PostprocessCombinationsOptions;
+}
 
 /**
  * @internal

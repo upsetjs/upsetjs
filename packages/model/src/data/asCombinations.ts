@@ -35,7 +35,7 @@ export declare type SortCombinationOrder =
 
 export declare type SortCombinationOrders = readonly SortCombinationOrder[];
 
-export declare type PostprocessCombinationsOptions = {
+export interface PostprocessCombinationsOptions {
   /**
    * order the sets combinations by the given criteria
    */
@@ -44,7 +44,7 @@ export declare type PostprocessCombinationsOptions = {
    * limit to the top N after sorting
    */
   limit?: number;
-};
+}
 
 function toOrder<T, S extends ISetCombination<T>>(
   sets: ISets<T>,

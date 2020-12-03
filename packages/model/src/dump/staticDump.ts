@@ -21,14 +21,14 @@ import { IUpSetDumpRef } from './interfaces';
 import { isSetLike } from '../validators';
 import { withColor } from './utils';
 
-declare type UpSetFromStaticDumpFullCombination = {
+export interface UpSetFromStaticDumpFullCombination {
   name: string;
   type: SetCombinationType;
   sets: readonly number[];
   cardinality: number;
-};
+}
 
-declare type UpSetFromStaticDumpCompressedCombination = {
+export interface UpSetFromStaticDumpCompressedCombination {
   // if missing can be derived
   n?: string;
   // cc ... color
@@ -38,7 +38,7 @@ declare type UpSetFromStaticDumpCompressedCombination = {
   type?: 'c' | 'i' | 'u' | 'd';
   // bit index
   s: number;
-};
+}
 
 export interface IUpSetStaticDump {
   sets: ReadonlyArray<{ name: string; color?: string; cardinality: number } | { n: string; cc?: string; c: number }>;

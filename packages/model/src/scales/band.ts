@@ -5,14 +5,14 @@
  * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
  */
 
-export declare type BandScaleLike = {
+export interface BandScaleLike {
   (v: string): number | undefined;
   bandwidth(): number;
-};
+}
 
-export declare type BandScaleFactory = {
+export interface BandScaleFactory {
   (domain: string[], size: number, padding: number): BandScaleLike;
-};
+}
 
 export const bandScale: BandScaleFactory = (domain: string[], size: number, padding: number) => {
   // number of blocks

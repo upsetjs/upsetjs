@@ -14,7 +14,7 @@ import {
   setElemIntersectionFactory,
 } from './data/setOverlap';
 
-export type UpSetElemQuery<T = any> = {
+export interface UpSetElemQuery<T = any> {
   /**
    * name of this query for the tooltip
    */
@@ -27,9 +27,9 @@ export type UpSetElemQuery<T = any> = {
    * elements within this query
    */
   readonly elems: readonly T[] | Set<T>;
-};
+}
 
-export type UpSetSetQuery<T = any> = {
+export interface UpSetSetQuery<T = any> {
   /**
    * name of this query for the tooltip
    */
@@ -42,9 +42,9 @@ export type UpSetSetQuery<T = any> = {
    * set to highlight
    */
   readonly set: ISetLike<T>;
-};
+}
 
-export type UpSetCalcQuery<T = any> = {
+export interface UpSetCalcQuery<T = any> {
   /**
    * name of this query for the tooltip
    */
@@ -59,7 +59,7 @@ export type UpSetCalcQuery<T = any> = {
    * @return at most `s.cardinality`
    */
   overlap(s: ISetLike<T> | readonly T[]): number;
-};
+}
 
 export type UpSetQuery<T = any> = UpSetElemQuery<T> | UpSetCalcQuery<T> | UpSetSetQuery<T>;
 export type UpSetQueries<T = any> = readonly UpSetQuery<T>[];
