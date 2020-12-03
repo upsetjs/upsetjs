@@ -79,17 +79,20 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
         {d.name}
       </text>
       {data.sets.v.map((s, i) => {
-        const has = data.cs.has(d, s);
+        if (data.cs.has(d, s)) {
+          // only not
+          return null;
+        }
         return (
           <UpSetDot
             key={data.sets.keys[i]}
             r={data.r}
             cx={data.cs.cx}
             cy={data.sets.y(s)! + data.sets.cy}
-            name={style.tooltips ? (has ? s.name : d.name) : ''}
+            name={style.tooltips ? d.name : ''}
             style={style.styles.dot}
-            fill={has ? d.color : undefined}
-            className={clsx(has ? `fillPrimary-${style.id}` : `fillNotMember-${style.id}`, style.classNames.dot)}
+            fill={undefined}
+            className={clsx(`fillNotMember-${style.id}`, style.classNames.dot)}
           />
         );
       })}
@@ -103,6 +106,24 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
           className={`upsetLine-${data.id}`}
         />
       )}
+      {data.sets.v.map((s, i) => {
+        if (!data.cs.has(d, s)) {
+          // only has
+          return null;
+        }
+        return (
+          <UpSetDot
+            key={data.sets.keys[i]}
+            r={data.r}
+            cx={data.cs.cx}
+            cy={data.sets.y(s)! + data.sets.cy}
+            name={style.tooltips ? s.name : ''}
+            style={style.styles.dot}
+            fill={s.color ?? d.color}
+            className={clsx(`fillPrimary-${style.id}`, style.classNames.dot)}
+          />
+        );
+      })}
       {size.cs.addons.map((addon) => (
         <g key={addon.name} transform={`translate(0,${genPosition(addon)})`}>
           {addon.render({ set: d, width: data.cs.bandWidth, height: addon.size, theme: style.theme })}

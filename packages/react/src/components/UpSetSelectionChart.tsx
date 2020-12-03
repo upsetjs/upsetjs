@@ -43,19 +43,6 @@ function UpSetSelectionChart<T>({
   return (
     <g transform={`translate(${size.labels.w + data.cs.x(d)!}, 0)`} data-upset="cs-ss" data-i={index}>
       <rect width={width} height={height} className={`selectionHint-${style.id}`} />
-      {data.sets.v
-        .filter((s) => data.cs.has(d, s))
-        .map((s) => (
-          <UpSetDot
-            key={data.toKey(s)}
-            r={r * 1.1}
-            cx={cx}
-            cy={data.sets.y(s)! + cy}
-            name={style.tooltips ? s.name : ''}
-            className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
-            style={mergeColor(style.styles.dot, !style.selectionColor ? d.color : undefined)}
-          />
-        ))}
       {d.sets.size > 1 && (
         <line
           x1={cx}
@@ -66,6 +53,19 @@ function UpSetSelectionChart<T>({
           style={mergeColor(undefined, !style.selectionColor ? d.color : undefined, 'stroke')}
         />
       )}
+      {data.sets.v
+        .filter((s) => data.cs.has(d, s))
+        .map((s) => (
+          <UpSetDot
+            key={data.toKey(s)}
+            r={r * 1.1}
+            cx={cx}
+            cy={data.sets.y(s)! + cy}
+            name={style.tooltips ? s.name : ''}
+            className={clsx(`fillSelection-${style.id}`, `pnone-${style.id}`, style.classNames.dot)}
+            style={mergeColor(style.styles.dot, !style.selectionColor ? s.color : undefined)}
+          />
+        ))}
     </g>
   );
 }
