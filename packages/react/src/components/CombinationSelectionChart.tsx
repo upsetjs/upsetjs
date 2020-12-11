@@ -13,6 +13,8 @@ import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
+import { computeOverflowValues } from './CombinationChart';
+import { OVERFLOW_PADDING_FACTOR } from 'defaults';
 
 function CombinationSelectionChart<T>({
   data,
@@ -65,13 +67,13 @@ function CombinationSelectionChart<T>({
         if (o === 0) {
           return null;
         }
-        const y = data.cs.y(o);
+        const yValues = computeOverflowValues(o, data.cs.max, data.cs.y);
 
         const title = tooltip && <title>{`${d.name} ∩ ${tooltip}: ${o}`}</title>;
         const content = secondary ? (
           <path
             key={key}
-            transform={`translate(${x}, ${y})`}
+            transform={`translate(${x}, ${yValues[0]})`}
             d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
               data.triangleSize
             },${data.triangleSize} Z`}
@@ -83,19 +85,27 @@ function CombinationSelectionChart<T>({
             {title}
           </path>
         ) : (
-          <rect
-            key={key}
-            x={x}
-            y={y}
-            height={height - y}
-            data-i={i}
-            data-cardinality={o}
-            width={width}
-            className={className}
-            style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
-          >
-            {title}
-          </rect>
+          yValues.map((y, j) => {
+            const offset = j > 0 ? Math.floor(data.cs.bandWidth * OVERFLOW_PADDING_FACTOR[j - 1]) : 0;
+            return (
+              <rect
+                key={j}
+                x={x + offset}
+                y={y}
+                height={height - y}
+                width={width - offset * 2}
+                data-i={j > 0 ? null : i}
+                data-cardinality={j > 0 ? null : o}
+                className={clsx(
+                  className,
+                  j < yValues.length - 1 && `fillOverflow${yValues.length - 1 - j}-${style.id}`
+                )}
+                style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
+              >
+                {title}
+              </rect>
+            );
+          })
         );
 
         const genPosition = addonPositionGenerator(totalHeight, size.cs.addonPadding);

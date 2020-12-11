@@ -14,6 +14,16 @@ import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
+import { OVERFLOW_PADDING_FACTOR } from 'defaults';
+
+export function computeOverflowValues(value: number, max: number, scale: (v: number) => number) {
+  const scaled = [scale(value)];
+  for (let i = 0; i < OVERFLOW_PADDING_FACTOR.length && value > max; i++) {
+    value -= max;
+    scaled.push(scale(value));
+  }
+  return scaled;
+}
 
 const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>({
   d,
@@ -31,7 +41,8 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
   className?: string;
   h: UpSetSelection;
 }>) {
-  const y = data.cs.y(d.cardinality);
+  const yValues = computeOverflowValues(d.cardinality, data.cs.max, data.cs.y);
+
   const genPosition = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
   return (
     <g
@@ -55,15 +66,26 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
         height={size.sets.h + size.cs.h + size.cs.before + size.cs.after}
         className={`hoverBar-${style.id}`}
       />
-      <rect
-        y={y}
-        height={size.cs.h - y}
-        width={data.cs.bandWidth}
-        className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
-        style={mergeColor(style.styles.bar, d.color)}
-      />
+      {yValues.map((y, i) => {
+        const offset = i > 0 ? Math.floor(data.cs.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
+        return (
+          <rect
+            key={i}
+            x={offset}
+            y={y}
+            height={size.cs.h - y}
+            width={data.cs.bandWidth - offset * 2}
+            className={clsx(
+              `fillPrimary-${style.id}`,
+              i < yValues.length - 1 && `fillOverflow${yValues.length - 1 - i}-${style.id}`,
+              style.classNames.bar
+            )}
+            style={mergeColor(style.styles.bar, d.color)}
+          />
+        );
+      })}
       <text
-        y={y - style.barLabelOffset}
+        y={yValues[0] - style.barLabelOffset}
         x={data.cs.bandWidth / 2}
         style={style.styles.barLabel}
         className={clsx(`cBarTextStyle-${style.id}`, style.classNames.barLabel)}

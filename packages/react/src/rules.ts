@@ -1,3 +1,4 @@
+import { OVERFLOW_OPACITY_FACTOR } from 'defaults';
 import { UpSetBaseFontSizes, UpSetBaseThemeProps } from './interfaces';
 
 function propRule(value: string | number | undefined | false, prop = 'font-size') {
@@ -14,7 +15,8 @@ export function baseRules(
   if (theme.hasSelectionColor) {
     hasS.push(`fill: ${theme.hasSelectionColor};`);
   }
-  if (theme.hasSelectionOpacity != null && theme.hasSelectionOpacity >= 0) {
+  const hasSelectionOpacity = theme.hasSelectionOpacity != null && theme.hasSelectionOpacity >= 0;
+  if (hasSelectionOpacity) {
     hasS.push(`fill-opacity: ${theme.hasSelectionOpacity};`);
   }
   return {
@@ -46,7 +48,20 @@ export function baseRules(
     hasSStroke: hasS.join(' ').replace('fill:', 'stroke:').replace('fill-', 'stroke-'),
     fill: `
   .fillPrimary-${styleId} { fill: ${theme.color}; fill-opacity: ${theme.opacity}; }
+  .fillOverflow1-${styleId} { fill-opacity: ${theme.opacity * OVERFLOW_OPACITY_FACTOR[0]}; }
+  .fillOverflow2-${styleId} { fill-opacity: ${theme.opacity * OVERFLOW_OPACITY_FACTOR[1]}; }
   ${hasS.length > 0 ? `.root-${styleId}[data-selection] .fillPrimary-${styleId} { ${hasS.join(' ')} }` : ''}
+  ${
+    hasSelectionOpacity
+      ? `
+      .root-${styleId}[data-selection] .fillOverflow1-${styleId} { fill-opacity: ${
+          theme.opacity * OVERFLOW_OPACITY_FACTOR[0]
+        }; }
+      .root-${styleId}[data-selection] .fillOverflow2-${styleId} { fill-opacity: ${
+          theme.opacity * OVERFLOW_OPACITY_FACTOR[1]
+        }; }`
+      : ''
+  }
   ${theme.selectionColor ? `.fillSelection-${styleId} { fill: ${theme.selectionColor}; }` : ''}
   .fillTransparent-${styleId} { fill: transparent; }
 

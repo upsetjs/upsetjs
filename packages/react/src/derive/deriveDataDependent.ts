@@ -53,6 +53,7 @@ export declare type UpSetDataInfo<T> = {
     x: NumericScaleLike;
     xAxisWidth: number;
     y(s: ISet<T>): number;
+    max: number;
     bandWidth: number;
     cy: number;
     format(v: number): string;
@@ -62,6 +63,7 @@ export declare type UpSetDataInfo<T> = {
     v: ISetCombinations<T>;
     keys: readonly string[];
     x(s: ISetCombination<T>): number;
+    max: number;
     y: NumericScaleLike;
     yAxisWidth: number;
     bandWidth: number;
@@ -161,6 +163,7 @@ export default function deriveDataDependent<T>(
       x: setX,
       xAxisWidth: sizes.sets.w - setShift,
       y: (s) => setY(toKey(s))!,
+      max: maxSetCardinality,
       bandWidth: setY.bandwidth(),
       cy: setY.bandwidth() / 2 + sizes.cs.h,
       format: setX.tickFormat(),
@@ -170,6 +173,7 @@ export default function deriveDataDependent<T>(
       v: cs,
       keys: cs.map(toKey),
       x: (s) => combinationX(toKey(s))!,
+      max: maxCSCardinality,
       y: combinationY,
       yAxisWidth: sizes.cs.h - combinationYEnd,
       cx: combinationX.bandwidth() / 2,

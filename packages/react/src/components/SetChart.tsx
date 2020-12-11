@@ -13,6 +13,8 @@ import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { UpSetSelection } from './interfaces';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
+import { OVERFLOW_PADDING_FACTOR } from 'defaults';
+import { computeOverflowValues } from './CombinationChart';
 
 const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   d,
@@ -32,7 +34,7 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   data: UpSetDataInfo<T>;
   h: UpSetSelection;
 }>) {
-  const x = data.sets.x(d.cardinality);
+  const xValues = computeOverflowValues(d.cardinality, data.sets.max, data.sets.x);
   const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
   const anchorOffset =
     style.setLabelAlignment === 'center'
@@ -70,15 +72,26 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
           className={`fillAlternating-${style.id}`}
         />
       )}
-      <rect
-        x={x}
-        width={size.sets.w - x}
-        height={data.sets.bandWidth}
-        className={clsx(`fillPrimary-${style.id}`, style.classNames.bar)}
-        style={mergeColor(style.styles.bar, d.color)}
-      />
+      {xValues.map((x, i) => {
+        const offset = i > 0 ? Math.floor(data.sets.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
+        return (
+          <rect
+            key={i}
+            x={x}
+            y={offset}
+            width={size.sets.w - x}
+            height={data.sets.bandWidth - offset * 2}
+            className={clsx(
+              `fillPrimary-${style.id}`,
+              i < xValues.length - 1 && `fillOverflow${xValues.length - 1 - i}-${style.id}`,
+              style.classNames.bar
+            )}
+            style={mergeColor(style.styles.bar, d.color)}
+          />
+        );
+      })}
       <text
-        x={x}
+        x={xValues[0]}
         dx={-style.barLabelOffset}
         y={data.sets.bandWidth / 2}
         style={style.styles.barLabel}

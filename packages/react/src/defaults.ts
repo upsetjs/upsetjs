@@ -59,3 +59,6 @@ export const MULTI_STYLE_KEYS: (
   'valueLabel',
 ];
 export const EXPORT_OPTION_KEYS: (keyof UpSetExportOptions)[] = ['dump', 'png', 'share', 'svg', 'vega'];
+
+export const OVERFLOW_OPACITY_FACTOR = [0.7, 0.4];
+export const OVERFLOW_PADDING_FACTOR = [0.15, 0.3];
