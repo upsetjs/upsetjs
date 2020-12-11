@@ -14,7 +14,7 @@ import { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
-import { OVERFLOW_PADDING_FACTOR } from 'defaults';
+import { OVERFLOW_PADDING_FACTOR } from '../defaults';
 
 export function computeOverflowValues(value: number, max: number, scale: (v: number) => number) {
   const scaled = [scale(value)];

@@ -14,7 +14,7 @@ import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 import { computeOverflowValues } from './CombinationChart';
-import { OVERFLOW_PADDING_FACTOR } from 'defaults';
+import { OVERFLOW_PADDING_FACTOR } from '../defaults';
 
 function CombinationSelectionChart<T>({
   data,

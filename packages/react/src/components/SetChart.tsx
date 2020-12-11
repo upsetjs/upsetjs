@@ -13,7 +13,7 @@ import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { UpSetSelection } from './interfaces';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
-import { OVERFLOW_PADDING_FACTOR } from 'defaults';
+import { OVERFLOW_PADDING_FACTOR } from '../defaults';
 import { computeOverflowValues } from './CombinationChart';
 
 const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
