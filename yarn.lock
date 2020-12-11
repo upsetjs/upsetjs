@@ -4281,7 +4281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/addons@1.6.1, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.6.1":
+"@upsetjs/addons@1.7.0, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
   dependencies:
@@ -4302,8 +4302,8 @@ __metadata:
     "@types/testing-library__react": ^10.0.1
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/math": ~1.6.1
-    "@upsetjs/react": ~1.6.2
+    "@upsetjs/math": ~1.7.0
+    "@upsetjs/react": ~1.7.0
     babel-loader: ^8.2.2
     core-js: ^3.8.0
     eslint: ^7.14.0
@@ -4354,12 +4354,12 @@ __metadata:
     "@types/react-resize-detector": ^5.0.0
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/addons": ~1.6.1
-    "@upsetjs/bundle": ~1.6.2
-    "@upsetjs/math": ~1.6.1
-    "@upsetjs/model": ~1.6.1
-    "@upsetjs/plots": ~1.6.1
-    "@upsetjs/react": ~1.6.2
+    "@upsetjs/addons": ~1.7.0
+    "@upsetjs/bundle": ~1.7.0
+    "@upsetjs/math": ~1.7.0
+    "@upsetjs/model": ~1.7.0
+    "@upsetjs/plots": ~1.7.0
+    "@upsetjs/react": ~1.7.0
     babel-eslint: ^10.1.0
     babel-loader: ^8.2.2
     clsx: ^1.1.1
@@ -4403,7 +4403,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.6.2":
+"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
@@ -4418,10 +4418,10 @@ __metadata:
     "@types/jest": ^26.0.16
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/addons": 1.6.1
-    "@upsetjs/math": 1.6.1
-    "@upsetjs/model": 1.6.1
-    "@upsetjs/react": 1.6.2
+    "@upsetjs/addons": 1.7.0
+    "@upsetjs/math": 1.7.0
+    "@upsetjs/model": 1.7.0
+    "@upsetjs/react": 1.7.0
     eslint: ^7.14.0
     eslint-config-prettier: ^6.15.0
     eslint-config-react-app: ^6.0.0
@@ -4446,7 +4446,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/math@1.6.1, @upsetjs/math@workspace:packages/math, @upsetjs/math@~1.6.1":
+"@upsetjs/math@1.7.0, @upsetjs/math@workspace:packages/math, @upsetjs/math@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/math@workspace:packages/math"
   dependencies:
@@ -4479,7 +4479,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/model@1.6.1, @upsetjs/model@workspace:packages/model, @upsetjs/model@~1.6.1":
+"@upsetjs/model@1.7.0, @upsetjs/model@workspace:packages/model, @upsetjs/model@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/model@workspace:packages/model"
   dependencies:
@@ -4511,7 +4511,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/plots@workspace:packages/plots, @upsetjs/plots@~1.6.1":
+"@upsetjs/plots@workspace:packages/plots, @upsetjs/plots@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/plots@workspace:packages/plots"
   dependencies:
@@ -4533,7 +4533,7 @@ __metadata:
     "@types/testing-library__react": ^10.0.1
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/react": ~1.6.2
+    "@upsetjs/react": ~1.7.0
     babel-loader: ^8.2.2
     core-js: ^3.8.0
     eslint: ^7.14.0
@@ -4570,7 +4570,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@1.6.2, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.6.2":
+"@upsetjs/react@1.7.0, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -4592,7 +4592,7 @@ __metadata:
     "@types/testing-library__react": ^10.0.1
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/model": ~1.6.1
+    "@upsetjs/model": ~1.7.0
     babel-loader: ^8.2.2
     core-js: ^3.8.0
     eslint: ^7.14.0
@@ -4631,7 +4631,7 @@ __metadata:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/vue": ~1.6.1
+    "@upsetjs/vue": ~1.7.0
     "@vue/cli-plugin-eslint": ~4.5.9
     "@vue/cli-plugin-typescript": ~4.5.9
     "@vue/cli-service": ~4.5.9
@@ -4648,7 +4648,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/vue@workspace:packages/vue, @upsetjs/vue@~1.6.1":
+"@upsetjs/vue@workspace:packages/vue, @upsetjs/vue@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/vue@workspace:packages/vue"
   dependencies:
@@ -4659,7 +4659,7 @@ __metadata:
     "@types/jest": ^26.0.16
     "@typescript-eslint/eslint-plugin": ^4.9.0
     "@typescript-eslint/parser": ^4.9.0
-    "@upsetjs/bundle": ~1.6.2
+    "@upsetjs/bundle": ~1.7.0
     eslint: ^7.14.0
     eslint-config-prettier: ^6.15.0
     eslint-config-react-app: ^6.0.0

@@ -1,6 +1,6 @@
 {
   "name": "@upsetjs/vue-example",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "private": true,
   "author": {
@@ -30,7 +30,7 @@
     "eslint:fix": "npm run eslint -- --fix"
   },
   "dependencies": {
-    "@upsetjs/vue": "~1.6.1",
+    "@upsetjs/vue": "~1.7.0",
     "vue": "^2.6.12"
   },
   "devDependencies": {

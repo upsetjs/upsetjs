@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/plots",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
     "name": "Samuel Gratzl",
@@ -97,7 +97,7 @@
   "dependencies": {
     "@types/lodash.throttle": "^4.1.6",
     "@types/react": "^17.0.0",
-    "@upsetjs/react": "~1.6.2",
+    "@upsetjs/react": "~1.7.0",
     "lodash.throttle": "^4.1.1",
     "react-vega": "^7.4.2",
     "vega": "^5.17.0",
