@@ -67,7 +67,8 @@ export const logScale: NumericScaleFactory = (max: number, range: [number, numbe
   const domain = max < 1 ? 1 : Math.log10(max);
 
   const scale = (v: number) => {
-    const n = v <= 1 ? 0 : Math.log10(v) / domain;
+    const cv = Math.max(0, Math.min(v, domain));
+    const n = cv <= 1 ? 0 : Math.log10(cv) / domain;
     return range[0] + n * size;
   };
   scale.ticks = (count = 10) => {

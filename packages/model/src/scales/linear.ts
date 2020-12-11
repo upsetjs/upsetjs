@@ -64,7 +64,8 @@ export const linearScale: NumericScaleFactory = (max: number, range: [number, nu
   const domain = max;
 
   const scale = (v: number) => {
-    const n = v / domain;
+    const cv = Math.max(0, Math.min(v, domain));
+    const n = cv / domain;
     return range[0] + n * size;
   };
   scale.ticks = (count = 10) => {
