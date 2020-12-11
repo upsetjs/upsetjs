@@ -212,14 +212,14 @@ export default observer(() => {
         onChange={(e) => {
           const v = Number.parseFloat(e.target.value);
           store.changeProps({
-            heightRatios: [v, 1 - v],
+            heightRatios: [v],
           });
         }}
       />
       <TextField
         margin="dense"
         label="Combination to Set Width Ratio"
-        value={p.widthRatios[2]}
+        value={1 - p.widthRatios[0] - p.widthRatios[1]}
         type="number"
         required
         inputProps={{
@@ -233,7 +233,7 @@ export default observer(() => {
           const v0 = ((1 - v) * p.widthRatios[0]) / sum;
           const v1 = ((1 - v) * p.widthRatios[1]) / sum;
           store.changeProps({
-            widthRatios: [v0, v1, v],
+            widthRatios: [v0, v1],
           });
         }}
       />
@@ -254,7 +254,7 @@ export default observer(() => {
           const v0 = v * sum;
           const v1 = (1 - v) * sum;
           store.changeProps({
-            widthRatios: [v0, v1, p.widthRatios[2]],
+            widthRatios: [v0, v1],
           });
         }}
       />
