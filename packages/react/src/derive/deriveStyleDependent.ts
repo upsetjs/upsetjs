@@ -6,7 +6,7 @@
  */
 
 import { CSSProperties, ReactNode } from 'react';
-import { UpSetMultiStyle, UpSetStyleClassNames, UpSetThemes } from '../interfaces';
+import { UpSetLayoutProps, UpSetMultiStyle, UpSetStyleClassNames, UpSetThemes } from '../interfaces';
 
 export default function deriveStyleDependent(
   theme: UpSetThemes,
@@ -23,7 +23,7 @@ export default function deriveStyleDependent(
   title: string | ReactNode,
   description: string | ReactNode,
   tooltips: boolean,
-  setLabelAlignment: 'left' | 'center' | 'right'
+  setLabelAlignment: NonNullable<UpSetLayoutProps['setLabelAlignment']>
 ) {
   return {
     theme,

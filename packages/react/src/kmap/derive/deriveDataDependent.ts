@@ -12,7 +12,6 @@ import {
   ISetCombinations,
   ISetLike,
   ISets,
-  NumericScaleFactory,
   NumericScaleLike,
   generateCombinations,
 } from '@upsetjs/model';
@@ -20,6 +19,7 @@ import { generateId } from '../../utils';
 import { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
 import { generate } from '../layout';
 import { resolveNumericScale, areCombinations } from '../../derive/deriveDataDependent';
+import { KarnaughMapDataProps } from 'interfaces';
 
 export declare type IPoints = readonly { x: number; y: number }[];
 
@@ -59,14 +59,15 @@ export default function deriveKarnaughDataDependent<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions,
   size: VennDiagramSizeInfo,
-  numericScale: NumericScaleFactory | 'linear' | 'log',
+  numericScale: NonNullable<KarnaughMapDataProps<any>['numericScale']>,
   barLabelFontSize: number,
   barPadding: number,
   setLabelFontSize: number,
   tickFontSize: number,
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
-  id?: string
+  id?: string,
+  combinationMaxScale?: number
 ): KMapDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const setKeys = sets.map(toKey);
@@ -94,7 +95,7 @@ export default function deriveKarnaughDataDependent<T>(
     labelHeight,
   });
 
-  const maxCSCardinality = cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const maxCSCardinality = combinationMaxScale ?? cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
   const scale = numericScaleFactory(maxCSCardinality, [l.cell, barLabelFontSize], {
     orientation: 'vertical',
     fontSizeHint: tickFontSize,

@@ -6,7 +6,7 @@
  */
 
 import { ReactNode } from 'react';
-import { UpSetAddon } from '../interfaces';
+import { UpSetAddon, UpSetLayoutProps } from '../interfaces';
 import { generateId } from '../utils';
 
 export default function deriveSizeDependent(
@@ -14,8 +14,8 @@ export default function deriveSizeDependent(
   height: number,
   margin: number,
   barPadding: number,
-  widthRatios: [number, number, number],
-  heightRatios: [number, number],
+  widthRatios: NonNullable<UpSetLayoutProps['widthRatios']>,
+  heightRatios: NonNullable<UpSetLayoutProps['heightRatios']>,
   setAddons: readonly UpSetAddon<any, any, ReactNode>[],
   combinationAddons: readonly UpSetAddon<any, any, ReactNode>[],
   id: string,
@@ -41,9 +41,9 @@ export default function deriveSizeDependent(
   const h = height - 2 * margin - 20 - combinationAddonsAfter - combinationAddonsBefore;
   const w = width - 2 * margin - setAddonsBefore - setAddonsAfter;
 
-  const setWidth = w * widthRatios[0];
-  const labelsWidth = w * widthRatios[1];
-  const combinationHeight = h * heightRatios[0];
+  const setWidth = widthRatios[0] > 1 ? widthRatios[0] : w * widthRatios[0];
+  const labelsWidth = widthRatios[1] > 1 ? widthRatios[1] : w * widthRatios[1];
+  const combinationHeight = heightRatios[0] > 1 ? heightRatios[0] : h * heightRatios[0];
   return {
     id: id ? id : generateId(),
     cs: {

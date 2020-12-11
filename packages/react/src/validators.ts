@@ -26,10 +26,10 @@ import {
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
 export function widthRatios(value?: UpSetLayoutProps['widthRatios']) {
-  return value == null || (Array.isArray(value) && value.length === 3 && value.every((v) => typeof v === 'number'));
+  return value == null || (Array.isArray(value) && value.length >= 2 && value.every((v) => typeof v === 'number'));
 }
 export function heightRatios(value?: UpSetLayoutProps['heightRatios']) {
-  return value == null || (Array.isArray(value) && value.length === 2 && value.every((v) => typeof v === 'number'));
+  return value == null || (Array.isArray(value) && value.length >= 1 && value.every((v) => typeof v === 'number'));
 }
 export function setLabelAlignment(value?: UpSetLayoutProps['setLabelAlignment']) {
   return value == null || value === 'left' || value === 'center' || value === 'right';

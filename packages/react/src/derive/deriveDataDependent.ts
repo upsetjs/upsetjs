@@ -24,9 +24,11 @@ import { ReactNode } from 'react';
 import { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from '../utils';
 import { DEFAULT_COMBINATIONS } from '../defaults';
-import { UpSetAddon } from '../interfaces';
+import { UpSetAddon, UpSetDataProps } from '../interfaces';
 
-export function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'log'): NumericScaleFactory {
+export function resolveNumericScale(
+  factory: NonNullable<UpSetDataProps<any, any>['numericScale']>
+): NumericScaleFactory {
   if (factory === 'linear') {
     return linearScale;
   }
@@ -36,7 +38,7 @@ export function resolveNumericScale(factory: NumericScaleFactory | 'linear' | 'l
   return factory;
 }
 
-function resolveBandScale(factory: BandScaleFactory | 'band'): BandScaleFactory {
+function resolveBandScale(factory: NonNullable<UpSetDataProps<any, any>['bandScale']>): BandScaleFactory {
   return factory === 'band' ? bandScale : factory;
 }
 
@@ -82,8 +84,8 @@ export default function deriveDataDependent<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions,
   sizes: UpSetSizeInfo,
-  numericScale: NumericScaleFactory | 'linear' | 'log',
-  bandScale: BandScaleFactory | 'band',
+  numericScale: NonNullable<UpSetDataProps<any, any>['numericScale']>,
+  bandScale: NonNullable<UpSetDataProps<any, any>['bandScale']>,
   barLabelFontSize: number,
   dotPadding: number,
   barPadding: number,
@@ -91,7 +93,9 @@ export default function deriveDataDependent<T>(
   combinationAddons: readonly UpSetAddon<any, any, ReactNode>[],
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
-  id?: string
+  id?: string,
+  combinationMaxScale?: number,
+  setMaxScale?: number
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
@@ -101,7 +105,7 @@ export default function deriveDataDependent<T>(
 
   const csKeys = cs.map(toKey);
   const combinationX = bandScaleFactory(csKeys, sizes.cs.w, sizes.padding);
-  const maxCSCardinality = cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const maxCSCardinality = combinationMaxScale ?? cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
   const combinationY = numericScaleFactory(maxCSCardinality, [sizes.cs.h, barLabelFontSize], {
     orientation: 'vertical',
     fontSizeHint: tickFontSize,
@@ -109,7 +113,7 @@ export default function deriveDataDependent<T>(
   const labelSize = (text: string) => Math.floor((barLabelFontSize / 1.4) * 0.7 * text.length);
   const guessLabelWidth = (v: number) => labelSize(combinationY.tickFormat()(v));
 
-  const maxSetCardinality = sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const maxSetCardinality = setMaxScale ?? sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
   const largestSetLabelWidth = guessLabelWidth(maxSetCardinality);
   let largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
 

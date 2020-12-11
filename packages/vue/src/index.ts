@@ -88,6 +88,8 @@ const upsetDataProps = {
     type: [String, Function],
     validator: propValidators.bandScale,
   },
+  setMaxScale: Number,
+  combinationMaxScale: Number,
 };
 
 const vennDiagramDataProps = {
@@ -110,6 +112,8 @@ const kMapDataProps = {
     type: [String, Function],
     validator: propValidators.numericScale,
   },
+
+  combinationMaxScale: Number,
 };
 
 const baseLayoutProps = {
@@ -146,18 +150,20 @@ const upsetLayoutProps = {
    */
   dotPadding: Number,
   /**
-   * width ratios for different plots
-   * [set chart, set labels, intersection chart]
-   * @default [0.25, 0.1, 0.65]
+   * width ratios for different plots,
+   * if a number larger than 1 is given, it is interpreted as pixel values
+   * [set chart, set labels, intersection chart = derived]
+   * @default [0.21, 0.19]
    */
   widthRatios: {
     type: Array,
     validator: propValidators.widthRatios,
   },
   /**
-   * height ratios for different plots
-   * [intersection chart, set chart]
-   * @default [0.6, 0.4]
+   * height ratios for different plots,
+   * if a number larger than 1 is given, it is interpreted as pixel values
+   * [intersection chart, set chart = derived]
+   * @default [0.6]
    */
   heightRatios: {
     type: Array,

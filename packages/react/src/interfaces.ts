@@ -257,6 +257,17 @@ export interface UpSetDataProps<T, N> extends UpSetBaseDataProps<T> {
    * @default band
    */
   bandScale?: BandScaleFactory | 'band';
+
+  /**
+   * maximum set scale value
+   * @default derived from the sets
+   */
+  setMaxScale?: number;
+  /**
+   * maximum combination scale value
+   * @default derived from the combinations
+   */
+  combinationMaxScale?: number;
 }
 
 export interface VennDiagramDataProps<T> extends UpSetBaseDataProps<T> {
@@ -287,6 +298,11 @@ export interface KarnaughMapDataProps<T> extends UpSetBaseDataProps<T> {
    * @default linear
    */
   numericScale?: NumericScaleFactory | 'linear' | 'log';
+  /**
+   * maximum combination scale value
+   * @default derived from the combinations
+   */
+  combinationMaxScale?: number;
 }
 
 export interface UpSetBaseLayoutProps {
@@ -317,17 +333,19 @@ export interface UpSetLayoutProps extends UpSetBaseLayoutProps {
    */
   dotPadding?: number;
   /**
-   * width ratios for different plots
-   * [set chart, set labels, intersection chart]
-   * @default [0.21, 0.19, 0.7]
+   * width ratios for different plots,
+   * if a number larger than 1 is given, it is interpreted as pixel values
+   * [set chart, set labels, intersection chart = derived]
+   * @default [0.21, 0.19]
    */
-  widthRatios?: [number, number, number];
+  widthRatios?: [number, number];
   /**
-   * height ratios for different plots
-   * [intersection chart, set chart]
-   * @default [0.6, 0.4]
+   * height ratios for different plots,
+   * if a number larger than 1 is given, it is interpreted as pixel values
+   * [intersection chart, set chart = derived]
+   * @default [0.6]
    */
-  heightRatios?: [number, number];
+  heightRatios?: [number];
 
   /**
    * alignment for the set labels

@@ -165,7 +165,9 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
         p.combinationAddons,
         p.toKey,
         p.toElemKey,
-        p.id
+        p.id,
+        p.setMaxScale,
+        p.combinationMaxScale
       ),
     [
       p.sets,
@@ -182,6 +184,8 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
       p.toKey,
       p.toElemKey,
       p.id,
+      p.setMaxScale,
+      p.combinationMaxScale,
     ]
   );
 

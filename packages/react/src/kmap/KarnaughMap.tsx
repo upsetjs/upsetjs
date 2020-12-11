@@ -120,7 +120,8 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
         parseFontSize(fontSizes.axisTick),
         p.toKey,
         p.toElemKey,
-        p.id
+        p.id,
+        p.combinationMaxScale
       ),
     [
       p.sets,
@@ -135,6 +136,7 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
       p.toKey,
       p.toElemKey,
       p.id,
+      p.combinationMaxScale,
     ]
   );
 

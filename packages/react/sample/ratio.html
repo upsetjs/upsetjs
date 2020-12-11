@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>UpSet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="./upset.js"></script>
+    <script>
+      loadUpSetJS().then(({ UpSetJS, render, elems }) => {
+        const sets = UpSetJS.extractSets(elems);
+
+        render({
+          sets,
+          width: 1200,
+          height: 500,
+          widthRatios: [200, 0.2],
+          heightRatios: [200],
+        });
+      });
+    </script>
+  </body>
+</html>
