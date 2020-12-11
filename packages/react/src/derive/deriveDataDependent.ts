@@ -105,15 +105,18 @@ export default function deriveDataDependent<T>(
 
   const csKeys = cs.map(toKey);
   const combinationX = bandScaleFactory(csKeys, sizes.cs.w, sizes.padding);
-  const maxCSCardinality = combinationMaxScale ?? cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
-  const combinationY = numericScaleFactory(maxCSCardinality, [sizes.cs.h, barLabelFontSize], {
+  const dataCSCardinality = cs.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const maxCSCardinality = combinationMaxScale ?? dataCSCardinality;
+  const combinationYEnd = maxCSCardinality > dataCSCardinality ? 0 : barLabelFontSize;
+  const combinationY = numericScaleFactory(maxCSCardinality, [sizes.cs.h, combinationYEnd], {
     orientation: 'vertical',
     fontSizeHint: tickFontSize,
   });
   const labelSize = (text: string) => Math.floor((barLabelFontSize / 1.4) * 0.7 * text.length);
   const guessLabelWidth = (v: number) => labelSize(combinationY.tickFormat()(v));
 
-  const maxSetCardinality = setMaxScale ?? sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const dataSetCardinality = sets.reduce((acc, d) => Math.max(acc, d.cardinality), 0);
+  const maxSetCardinality = setMaxScale ?? dataSetCardinality;
   const largestSetLabelWidth = guessLabelWidth(maxSetCardinality);
   let largestCSLabelWidth = guessLabelWidth(maxCSCardinality);
 
@@ -132,7 +135,8 @@ export default function deriveDataDependent<T>(
     }
   }
 
-  const setX = numericScaleFactory(maxSetCardinality, [sizes.sets.w, largestSetLabelWidth], {
+  const setShift = maxSetCardinality > dataSetCardinality ? 0 : largestSetLabelWidth;
+  const setX = numericScaleFactory(maxSetCardinality, [sizes.sets.w, setShift], {
     orientation: 'horizontal',
     fontSizeHint: tickFontSize,
   });
@@ -155,7 +159,7 @@ export default function deriveDataDependent<T>(
       keys: setKeys,
       rv: sets.slice().reverse(),
       x: setX,
-      xAxisWidth: sizes.sets.w - largestSetLabelWidth,
+      xAxisWidth: sizes.sets.w - setShift,
       y: (s) => setY(toKey(s))!,
       bandWidth: setY.bandwidth(),
       cy: setY.bandwidth() / 2 + sizes.cs.h,
@@ -167,7 +171,7 @@ export default function deriveDataDependent<T>(
       keys: cs.map(toKey),
       x: (s) => combinationX(toKey(s))!,
       y: combinationY,
-      yAxisWidth: sizes.cs.h - barLabelFontSize,
+      yAxisWidth: sizes.cs.h - combinationYEnd,
       cx: combinationX.bandwidth() / 2,
       bandWidth: combinationX.bandwidth(),
       format: combinationY.tickFormat(),
