@@ -96,8 +96,8 @@ export default function deriveDataDependent<T>(
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
   id?: string,
-  combinationMaxScale?: number,
-  setMaxScale?: number
+  setMaxScale?: number,
+  combinationMaxScale?: number
 ): UpSetDataInfo<T> {
   const numericScaleFactory = resolveNumericScale(numericScale);
   const bandScaleFactory = resolveBandScale(bandScale);
