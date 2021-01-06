@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import { ISetCombinations } from '@upsetjs/model';
 import React, { Ref } from 'react';
@@ -50,13 +50,13 @@ export default function SVGWrapper<T>({
   selectionName?: string;
   size: { w: number; h: number; legend: { x: number }; area: { w: number } };
   p: UpSetBaseElementProps<React.CSSProperties> &
-    UpSetBaseLayoutProps &
-    UpSetBaseThemeProps &
-    UpSetBaseStyleProps<React.ReactNode> &
-    UpSetSelectionProps<T> &
-    UpSetBaseLayoutProps & {
-      children?: React.ReactNode;
-    };
+  UpSetBaseLayoutProps &
+  UpSetBaseThemeProps &
+  UpSetBaseStyleProps<React.ReactNode> &
+  UpSetSelectionProps<T> &
+  UpSetBaseLayoutProps & {
+    children?: React.ReactNode;
+  };
   data: SVGWrapperData;
   tRef: Ref<SVGSVGElement>;
   h: Handlers;

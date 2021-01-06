@@ -2,7 +2,7 @@
  * @upsetjs/bundle
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { UpSetAddon } from '../react';
@@ -45,7 +45,7 @@ export function boxplotAddon<T>(
     prop,
     elems,
     options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
-      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+    IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }
 
@@ -64,6 +64,6 @@ export function boxplotAggregatedAddon<T>(
     acc,
     domain,
     options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
-      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+    IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }

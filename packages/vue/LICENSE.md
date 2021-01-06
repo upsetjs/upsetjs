@@ -8,7 +8,7 @@ If you want to use UpSet.js for a commercial application, theme or plugin the co
 
 ### Open-source license
 
-> Copyright (C) 2020 Samuel Gratzl (sam@sgratzl.com)
+> Copyright (C) 2021 Samuel Gratzl (sam@sgratzl.com)
 
 ### GNU AFFERO GENERAL PUBLIC LICENSE
 
@@ -640,7 +640,7 @@ the exclusion of warranty; and each file should have at least the
 "copyright" line and a pointer to where the full notice is found.
 
         UpSet.js is a JavaScript reimplementation of [UpSetR](https://www.rdocumentation.org/packages/UpSetR/) which itself is based on [UpSet](http://vcg.github.io/upset/about/).
-        Copyright (C) 2020 Samuel Gratzl (sam@sgratzl.com)
+        Copyright (C) 2021 Samuel Gratzl (sam@sgratzl.com)
 
         This program is free software: you can redistribute it and/or modify
         it under the terms of the GNU Affero General Public License as

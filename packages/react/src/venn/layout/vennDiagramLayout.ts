@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetCombinations, ISets } from '@upsetjs/model';
@@ -51,12 +51,12 @@ export function layoutImpl(sets: number, width: number, height: number) {
         },
         isEllipse(c)
           ? {
-              rx: c.rx * f,
-              ry: c.ry * f,
-            }
+            rx: c.rx * f,
+            ry: c.ry * f,
+          }
           : {
-              r: c.r * f,
-            }
+            r: c.r * f,
+          }
       )
     ),
     intersections: r.intersections.map((c) => ({

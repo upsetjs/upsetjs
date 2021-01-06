@@ -2,7 +2,7 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
@@ -37,8 +37,7 @@ function generateSimpleData(store: Store) {
     'dict_input = OrderedDict([\n',
     ...store.visibleSets.map(
       (s, i) =>
-        `   ("${s.name}", ${JSON.stringify(s.elems.map((e) => e.name))})${
-          i < store.visibleSets.length - 1 ? ',' : ''
+        `   ("${s.name}", ${JSON.stringify(s.elems.map((e) => e.name))})${i < store.visibleSets.length - 1 ? ',' : ''
         }\n`
     ),
     '])\n',
@@ -55,16 +54,14 @@ function generateAddonData(store: Store) {
   store.visibleSets.forEach((set, i) => {
     const hasElem = new Set(set.elems);
     r.push(
-      `  "${set.name}": ${JSON.stringify(store.elems.map((elem) => (hasElem.has(elem) ? 1 : 0)))}${
-        i < lastComma ? ',' : ''
+      `  "${set.name}": ${JSON.stringify(store.elems.map((elem) => (hasElem.has(elem) ? 1 : 0)))}${i < lastComma ? ',' : ''
       }\n`
     );
   });
   attrs.forEach((attr, i) => {
     r.push(
-      `  "${attr}": ${JSON.stringify(store.elems.map((elem) => elem.attrs[attr]))}${
-        i < attrs.length - 1 ? ',' : ''
-      }\n`.replace(/null/g, 'None')
+      `  "${attr}": ${JSON.stringify(store.elems.map((elem) => elem.attrs[attr]))}${i < attrs.length - 1 ? ',' : ''
+        }\n`.replace(/null/g, 'None')
     );
   });
   r.push(`}, index=${JSON.stringify(store.elems.map((e) => e.name))}`);
@@ -113,9 +110,8 @@ export default function exportPython(store: Store) {
   };
 
   const c = store.combinationsOptions;
-  const generate = `w.generate_${c.type}s(min_degree=${c.min}, max_degree=${c.max}, empty=${
-    c.empty ? 'True' : 'False'
-  }, limit=${c.limit})\n`;
+  const generate = `w.generate_${c.type}s(min_degree=${c.min}, max_degree=${c.max}, empty=${c.empty ? 'True' : 'False'
+    }, limit=${c.limit})\n`;
   const selection = store.selection ? `w.selection = ${toSelectionRef(store.selection)}\n` : null;
   const queries = store.visibleQueries.map((q) => `w.append_query("${q.name}", "${q.color}", ${toQueryRef(q)})\n`);
   const props = generateProps(store);

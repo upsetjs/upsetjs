@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import {
@@ -74,14 +74,14 @@ export default function deriveKarnaughDataDependent<T>(
   const cs = areCombinations(combinations)
     ? combinations
     : generateCombinations<T>(
-        sets,
-        Object.assign(
-          {
-            type: 'distinctIntersection',
-          },
-          combinations ?? {}
-        )
-      );
+      sets,
+      Object.assign(
+        {
+          type: 'distinctIntersection',
+        },
+        combinations ?? {}
+      )
+    );
   const csKeys = cs.map(toKey);
 
   const has = (v: ISetCombination<T>, s: ISet<T>) => {

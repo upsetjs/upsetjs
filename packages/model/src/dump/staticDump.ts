@@ -2,7 +2,7 @@
  * @upsetjs/model
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { setOverlapFactory } from '../data';
@@ -141,18 +141,18 @@ export function toStaticDump<T>(
     combinations: shortNames
       ? data.combinations.map(compressCombination)
       : data.combinations.map((set) =>
-          withColor(
-            {
-              name: set.name,
-              cardinality: set.cardinality,
-              type: set.type,
-              sets: Array.from(set.sets)
-                .map((s) => setIndex.get(toKey(s))!)
-                .sort((a, b) => a - b),
-            },
-            set
-          )
-        ),
+        withColor(
+          {
+            name: set.name,
+            cardinality: set.cardinality,
+            type: set.type,
+            sets: Array.from(set.sets)
+              .map((s) => setIndex.get(toKey(s))!)
+              .sort((a, b) => a - b),
+          },
+          set
+        )
+      ),
     overlaps,
     selection: data.selection ? toSelectionSetRef(data.selection) : undefined,
     queries: data.queries.map((query) => {

@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import {
@@ -46,18 +46,18 @@ export const MULTI_STYLE_KEYS: (
   | keyof VennDiagramMultiStyle<any>
   | keyof KarnaughMapMultiStyle<any>
 )[] = [
-  'axisTick',
-  'bar',
-  'barLabel',
-  'chartLabel',
-  'dot',
-  'legend',
-  'title',
-  'description',
-  'setLabel',
-  'set',
-  'valueLabel',
-];
+    'axisTick',
+    'bar',
+    'barLabel',
+    'chartLabel',
+    'dot',
+    'legend',
+    'title',
+    'description',
+    'setLabel',
+    'set',
+    'valueLabel',
+  ];
 export const EXPORT_OPTION_KEYS: (keyof UpSetExportOptions)[] = ['dump', 'png', 'share', 'svg', 'vega'];
 
 export const OVERFLOW_OPACITY_FACTOR = [0.7, 0.4];

@@ -2,7 +2,7 @@
  * @upsetjs/plots
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/react';
@@ -177,13 +177,13 @@ export function useVegaAggregatedGroupSelection<T>(
         {},
         onClick
           ? {
-              [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
-            }
+            [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
+          }
           : {},
         onHover
           ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
+            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+          }
           : {}
       ),
     [selectionName, onClick, onHover]

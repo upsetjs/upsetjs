@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { NumericScaleLike } from '@upsetjs/model';
@@ -135,8 +135,8 @@ export default function Axis({
               ? `M${k * tickSizeOuter},${range0}H0.5V${range1}H${k * tickSizeOuter}`
               : `M0.5,${range0}V${range1}`
             : tickSizeOuter
-            ? `M${range0},${k * tickSizeOuter}V0.5H${range1}V${k * tickSizeOuter}`
-            : `M${range0},0.5H${range1}`
+              ? `M${range0},${k * tickSizeOuter}V0.5H${range1}V${k * tickSizeOuter}`
+              : `M${range0},0.5H${range1}`
         }
       />
     </g>

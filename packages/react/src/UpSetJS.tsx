@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import React, { useMemo, Ref, useCallback } from 'react';
@@ -41,25 +41,25 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
       p.id
         ? p.id
         : generateId([
-            p.fontFamily,
-            fontSizes.axisTick,
-            fontSizes.barLabel,
-            fontSizes.chartLabel,
-            fontSizes.legend,
-            fontSizes.setLabel,
-            fontSizes.title,
-            fontSizes.exportLabel,
-            fontSizes.description,
-            p.textColor,
-            p.hoverHintColor,
-            p.color,
-            p.hasSelectionColor,
-            p.selectionColor,
-            p.notMemberColor,
-            p.alternatingBackgroundColor,
-            p.opacity,
-            p.hasSelectionOpacity,
-          ]),
+          p.fontFamily,
+          fontSizes.axisTick,
+          fontSizes.barLabel,
+          fontSizes.chartLabel,
+          fontSizes.legend,
+          fontSizes.setLabel,
+          fontSizes.title,
+          fontSizes.exportLabel,
+          fontSizes.description,
+          p.textColor,
+          p.hoverHintColor,
+          p.color,
+          p.hasSelectionColor,
+          p.selectionColor,
+          p.notMemberColor,
+          p.alternatingBackgroundColor,
+          p.opacity,
+          p.hasSelectionOpacity,
+        ]),
     [
       p.id,
       p.fontFamily,
@@ -267,11 +267,10 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
     stroke: ${p.color};
     stroke-opacity: ${p.opacity};
   }
-  ${
-    rulesHelper.hasSStroke
+  ${rulesHelper.hasSStroke
       ? `.root-${styleId}[data-selection] .upsetLine-${dataInfo.id} { ${rulesHelper.hasSStroke} }`
       : ''
-  }
+    }
 
   .upsetSelectionLine-${dataInfo.id} {
     stroke-width: ${dataInfo.r * 0.6 * 1.1};
@@ -280,12 +279,12 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
   }
 
   ${queries
-    .map(
-      (q, i) => `.fillQ${i}-${dataInfo.id} {
+      .map(
+        (q, i) => `.fillQ${i}-${dataInfo.id} {
     fill: ${q.color};
   }`
-    )
-    .join('\n')}
+      )
+      .join('\n')}
   `;
 
   const exportChart = useCallback(

@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISet } from '@upsetjs/model';
@@ -40,8 +40,8 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
     style.setLabelAlignment === 'center'
       ? size.labels.w / 2
       : style.setLabelAlignment === 'left'
-      ? 2
-      : size.labels.w - 2;
+        ? 2
+        : size.labels.w - 2;
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}

@@ -2,7 +2,7 @@
  * @upsetjs/addons
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import React from 'react';
@@ -22,22 +22,22 @@ export interface ICategoricalStyleProps {
 
 export type CategoricalProps = (
   | {
-      /**
-       * the values to render
-       */
-      values: readonly string[];
-      /**
-       * possible categories
-       */
-      categories: readonly (string | ICategory)[];
-      /**
-       *
-       */
-      base?: readonly string[];
-    }
+    /**
+     * the values to render
+     */
+    values: readonly string[];
+    /**
+     * possible categories
+     */
+    categories: readonly (string | ICategory)[];
+    /**
+     *
+     */
+    base?: readonly string[];
+  }
   | {
-      bins: readonly ICategoryBin[];
-    }
+    bins: readonly ICategoryBin[];
+  }
 ) & {
   /**
    * margin offset

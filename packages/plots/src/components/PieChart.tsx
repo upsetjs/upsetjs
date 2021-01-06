@@ -2,7 +2,7 @@
  * @upsetjs/plots
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import React, { useMemo } from 'react';
@@ -54,24 +54,24 @@ function generateLayer(
       },
       ...(!secondary
         ? {
-            color: { value: color },
-            stroke: {
-              field: 'v',
-              type: 'nominal',
-              title: null,
-              legend: null,
-              scale: {
-                scheme: theme === 'dark' ? 'dark2' : 'set2',
-              },
+          color: { value: color },
+          stroke: {
+            field: 'v',
+            type: 'nominal',
+            title: null,
+            legend: null,
+            scale: {
+              scheme: theme === 'dark' ? 'dark2' : 'set2',
             },
-          }
+          },
+        }
         : {
-            stroke: {
-              value: color,
-            },
-            color: { value: color },
-            fillOpacity: { value: 0.3 },
-          }),
+          stroke: {
+            value: color,
+          },
+          color: { value: color },
+          fillOpacity: { value: 0.3 },
+        }),
     },
   };
 }

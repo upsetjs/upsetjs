@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import React, { Ref, useMemo } from 'react';
 import { fillKarnaughMapDefaults } from '../fillDefaults';
@@ -32,22 +32,22 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
       p.id
         ? p.id
         : generateId([
-            p.fontFamily,
-            fontSizes.axisTick,
-            fontSizes.barLabel,
-            fontSizes.legend,
-            fontSizes.setLabel,
-            fontSizes.title,
-            fontSizes.exportLabel,
-            fontSizes.description,
-            p.textColor,
-            p.color,
-            p.hasSelectionColor,
-            p.strokeColor,
-            p.selectionColor,
-            p.opacity,
-            p.hasSelectionOpacity,
-          ]),
+          p.fontFamily,
+          fontSizes.axisTick,
+          fontSizes.barLabel,
+          fontSizes.legend,
+          fontSizes.setLabel,
+          fontSizes.title,
+          fontSizes.exportLabel,
+          fontSizes.description,
+          p.textColor,
+          p.color,
+          p.hasSelectionColor,
+          p.strokeColor,
+          p.selectionColor,
+          p.opacity,
+          p.hasSelectionOpacity,
+        ]),
     [
       p.id,
       p.fontFamily,
@@ -195,12 +195,12 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
   ${rulesHelper.export}
 
   ${queries
-    .map(
-      (q, i) => `.fillQ${i}-${data.id} {
+      .map(
+        (q, i) => `.fillQ${i}-${data.id} {
     fill: ${q.color};
   }`
-    )
-    .join('\n')}
+      )
+      .join('\n')}
   `;
 
   const exportChart = useExportChart(data, p, 'kmap');

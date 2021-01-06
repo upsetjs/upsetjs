@@ -2,7 +2,7 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import IconButton from '@material-ui/core/IconButton';
@@ -62,13 +62,12 @@ const QueryLine = observer(({ query, visible }: { query: UpSetDataQuery; visible
         />
       </ListItemIcon>
       <ListItemText
-        primary={`${query.name}: ${
-          isSetQuery(query)
+        primary={`${query.name}: ${isSetQuery(query)
             ? query.set.cardinality
             : Array.isArray(query.elems)
-            ? query.elems.length
-            : (query.elems as Set<any>).size
-        }`}
+              ? query.elems.length
+              : (query.elems as Set<any>).size
+          }`}
       />
       <ListItemSecondaryAction>
         <Tooltip title="Remove Query">

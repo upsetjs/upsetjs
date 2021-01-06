@@ -2,12 +2,12 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISets, ISetCombinations, GenerateSetCombinationsOptions, UpSetJSDumpProps } from '@upsetjs/react';
 
-export interface ICustomizeOptions extends Omit<UpSetJSDumpProps, 'width' | 'height'> {}
+export interface ICustomizeOptions extends Omit<UpSetJSDumpProps, 'width' | 'height'> { }
 
 export interface IAttrs {
   [key: string]: number;

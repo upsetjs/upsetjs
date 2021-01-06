@@ -2,7 +2,7 @@
  * @upsetjs/plots
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import {
   UpSetSelection,
@@ -43,12 +43,12 @@ export interface UpSetPlotStyleProps {
   description?: string;
 }
 
-export interface UpSetPlotProps<T> extends UpSetPlotStyleProps, UpSetPlotThemeProps, UpSetPlotSelectionProps<T> {}
+export interface UpSetPlotProps<T> extends UpSetPlotStyleProps, UpSetPlotThemeProps, UpSetPlotSelectionProps<T> { }
 
 export interface UpSetPlotFullProps<T>
   extends Required<UpSetPlotStyleProps>,
-    Required<UpSetThemeProps>,
-    UpSetPlotSelectionProps<T> {}
+  Required<UpSetThemeProps>,
+  UpSetPlotSelectionProps<T> { }
 
 export function fillDefaults<T>(props: UpSetPlotProps<T>): UpSetPlotFullProps<T> {
   return Object.assign(

@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import { ISetCombinations, ISetLike, queryOverlap } from '@upsetjs/model';
 import React, { useCallback, useMemo } from 'react';
@@ -32,22 +32,22 @@ export function useCreateCommon<T>(
       p.id
         ? p.id
         : generateId([
-            p.fontFamily,
-            fontSizes.valueLabel,
-            fontSizes.legend,
-            fontSizes.setLabel,
-            fontSizes.title,
-            fontSizes.exportLabel,
-            fontSizes.description,
-            p.textColor,
-            p.color,
-            p.hasSelectionColor,
-            p.strokeColor,
-            p.valueTextColor,
-            p.selectionColor,
-            p.opacity,
-            p.hasSelectionOpacity,
-          ]),
+          p.fontFamily,
+          fontSizes.valueLabel,
+          fontSizes.legend,
+          fontSizes.setLabel,
+          fontSizes.title,
+          fontSizes.exportLabel,
+          fontSizes.description,
+          p.textColor,
+          p.color,
+          p.hasSelectionColor,
+          p.strokeColor,
+          p.valueTextColor,
+          p.selectionColor,
+          p.opacity,
+          p.hasSelectionOpacity,
+        ]),
     [
       p.id,
       p.fontFamily,

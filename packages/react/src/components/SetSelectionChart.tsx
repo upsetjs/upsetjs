@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetLike, ISet } from '@upsetjs/model';
@@ -74,9 +74,8 @@ function SetSelectionChart<T>({
           <path
             key={key}
             transform={`translate(${xValues[0]}, ${y + height})`}
-            d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${
-              data.triangleSize
-            },${data.triangleSize} Z`}
+            d={`M1,0 l0,${-height} l-2,0 l0,${height} L-${data.triangleSize},${data.triangleSize} L${data.triangleSize
+              },${data.triangleSize} Z`}
             data-i={i}
             data-cardinality={o}
             className={className}
@@ -85,28 +84,28 @@ function SetSelectionChart<T>({
             {title}
           </path>
         ) : (
-          xValues.map((x, j) => {
-            const offset = j > 0 ? Math.floor(data.sets.bandWidth * OVERFLOW_PADDING_FACTOR[j - 1]) : 0;
-            return (
-              <rect
-                key={j}
-                data-i={j > 0 ? null : i}
-                data-cardinality={j > 0 ? null : o}
-                x={x}
-                y={y + offset}
-                width={width - x}
-                height={height - offset * 2}
-                className={clsx(
-                  className,
-                  j < xValues.length - 1 && `fillOverflow${xValues.length - 1 - j}-${style.id}`
-                )}
-                style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
-              >
-                {title}
-              </rect>
-            );
-          })
-        );
+            xValues.map((x, j) => {
+              const offset = j > 0 ? Math.floor(data.sets.bandWidth * OVERFLOW_PADDING_FACTOR[j - 1]) : 0;
+              return (
+                <rect
+                  key={j}
+                  data-i={j > 0 ? null : i}
+                  data-cardinality={j > 0 ? null : o}
+                  x={x}
+                  y={y + offset}
+                  width={width - x}
+                  height={height - offset * 2}
+                  className={clsx(
+                    className,
+                    j < xValues.length - 1 && `fillOverflow${xValues.length - 1 - j}-${style.id}`
+                  )}
+                  style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
+                >
+                  {title}
+                </rect>
+              );
+            })
+          );
 
         const genPosition = addonPositionGenerator(totalWidth, size.sets.addonPadding);
         const addons = setAddons

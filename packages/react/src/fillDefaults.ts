@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetCombinations, GenerateSetCombinationsOptions, toKey } from '@upsetjs/model';
@@ -127,8 +127,8 @@ function fillGeneric<T extends {}>(
     others,
     props.fontSizes
       ? {
-          fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
-        }
+        fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
+      }
       : EMPTY_OBJECT
   );
 }

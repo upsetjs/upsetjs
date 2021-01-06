@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import {
   UpSetLayoutProps,
@@ -26,10 +26,10 @@ import { FONT_SIZES_KEYS } from '../defaults';
 
 export interface UpSetJSDumpProps
   extends Partial<UpSetLayoutProps & KarnaughMapLayoutProps>,
-    UpSetThemeProps,
-    VennDiagramThemeProps,
-    KarnaughMapThemeProps,
-    Omit<UpSetStyleProps<string>, 'title' | 'description'> {
+  UpSetThemeProps,
+  VennDiagramThemeProps,
+  KarnaughMapThemeProps,
+  Omit<UpSetStyleProps<string>, 'title' | 'description'> {
   numericScale?: 'linear' | 'log';
   bandScale?: 'band';
 }

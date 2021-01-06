@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetLike, UpSetQueries } from '@upsetjs/model';
@@ -52,8 +52,8 @@ function generateTitle(
             </tspan>
           </>
         ) : (
-          baseCardinality
-        ),
+            baseCardinality
+          ),
     };
   }
 
@@ -69,8 +69,8 @@ function generateTitle(
             </tspan>
           </>
         ) : (
-          `${data.format(qs[0])}/${dc}`
-        ),
+            `${data.format(qs[0])}/${dc}`
+          ),
     };
   }
 
@@ -99,11 +99,11 @@ function generateTitle(
           {queryLine}
         </>
       ) : (
-        <>
-          <tspan dy="-0.6em">{baseCardinality}</tspan>
-          {queryLine}
-        </>
-      ),
+          <>
+            <tspan dy="-0.6em">{baseCardinality}</tspan>
+            {queryLine}
+          </>
+        ),
   };
 }
 

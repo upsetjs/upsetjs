@@ -2,7 +2,7 @@
  * @upsetjs/plots
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetComposite, isSetLike, UpSetSelection, ISetLike } from '@upsetjs/react';
@@ -190,13 +190,13 @@ export function useVegaIntervalSelection<T>(
         {},
         onClick
           ? {
-              [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
-            }
+            [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
+          }
           : {},
         onHover
           ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
+            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+          }
           : {}
       ),
     [selectionName, onClick, onHover]

@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetLike } from '@upsetjs/model';
@@ -51,11 +51,11 @@ export default function UpSetSelection<T>({
         const overlap = selectionElemOverlap ? selectionElemOverlap(props.set) : null;
         return addon.renderSelection
           ? addon.renderSelection({
-              selection,
-              selectionColor: style.selectionColor || props.set.color || 'orange',
-              overlap,
-              ...props,
-            })
+            selection,
+            selectionColor: style.selectionColor || props.set.color || 'orange',
+            overlap,
+            ...props,
+          })
           : null;
       },
     };

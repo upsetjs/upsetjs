@@ -2,7 +2,7 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import Store, { stripDefaults, UpSetDataQuery } from '../store/Store';
@@ -115,9 +115,8 @@ export default function exportR(store: Store) {
   const selection = store.selection ? `%>% setSelection(${toSelectionRef(store, store.selection)})` : '';
 
   const c = store.combinationsOptions;
-  const generate = ` %>% generate${c.type[0].toUpperCase()}${c.type.slice(1)}s(min=${c.min}, max=${c.max}, empty=${
-    c.empty ? 'T' : 'F'
-  }, limit=${c.limit}, order.by=${str(c.order!)})`;
+  const generate = ` %>% generate${c.type[0].toUpperCase()}${c.type.slice(1)}s(min=${c.min}, max=${c.max}, empty=${c.empty ? 'T' : 'F'
+    }, limit=${c.limit}, order.by=${str(c.order!)})`;
 
   const queries = store.visibleQueries
     .map((q) => `%>% addQuery(${str(q.name)}, ${str(q.color)}, ${toQueryRef(store, q)})`)

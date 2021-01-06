@@ -2,7 +2,7 @@
  * @upsetjs/plots
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetComposite, ISetLike, UpSetSelection, isSetCombination, ISetCombination } from '@upsetjs/react';
@@ -142,13 +142,13 @@ export function useVegaMultiSelection<T>(
         {},
         onClick
           ? {
-              [selectionName]: { type: mode, empty: 'none' } as SingleSelection | MultiSelection,
-            }
+            [selectionName]: { type: mode, empty: 'none' } as SingleSelection | MultiSelection,
+          }
           : {},
         onHover
           ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
+            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+          }
           : {}
       ),
     [mode, selectionName, onClick, onHover]

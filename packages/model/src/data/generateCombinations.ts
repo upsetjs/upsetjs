@@ -2,7 +2,7 @@
  * @upsetjs/model
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetCombination, ISetCombinations, ISets, ISet, SetCombinationType, ISetLike } from '../model';
@@ -253,9 +253,9 @@ export default function generateCombinations<T = any>(
     const others = sets.filter((d) => !s.sets.has(d));
     const elems = toElemKey
       ? s.elems.filter((e) => {
-          const key = toElemKey(e);
-          return others.every((o) => !setKeyElems!.get(o)!.has(key));
-        })
+        const key = toElemKey(e);
+        return others.every((o) => !setKeyElems!.get(o)!.has(key));
+      })
       : s.elems.filter((e) => others.every((o) => !setDirectElems!.get(o)!.has(e)));
     if (elems.length === s.cardinality) {
       combinations.push(s);

@@ -2,7 +2,7 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
 // import 'core-js/stable';
@@ -105,20 +105,20 @@ function showDump(dump: IUpSetJSDump | IUpSetJSStaticDump, hydrateFirst = false)
     custom,
     enforceInteractive
       ? {
-          onHover: (s: ISetLike<any>) => {
-            props.selection = s;
-            renderImpl(root, props, mode);
-          },
-        }
+        onHover: (s: ISetLike<any>) => {
+          props.selection = s;
+          renderImpl(root, props, mode);
+        },
+      }
       : {},
     !isStaticDump(dump) && dump.attrs.length > 0
       ? {
-          combinationAddons: dump.attrs.map((attr) =>
-            boxplotAddon((v) => v.attrs[attr], elems, { orient: 'vertical', name: attr })
-          ),
+        combinationAddons: dump.attrs.map((attr) =>
+          boxplotAddon((v) => v.attrs[attr], elems, { orient: 'vertical', name: attr })
+        ),
 
-          setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v.attrs[attr], elems, { name: attr })),
-        }
+        setAddons: dump.attrs.map((attr) => boxplotAddon((v) => v.attrs[attr], elems, { name: attr })),
+      }
       : {}
   );
 

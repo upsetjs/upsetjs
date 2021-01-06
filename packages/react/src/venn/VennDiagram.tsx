@@ -2,7 +2,7 @@
  * @upsetjs/react
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2020 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import { isSet } from '@upsetjs/model';
 import React, { Ref, useMemo } from 'react';
@@ -68,12 +68,12 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
   ${rulesHelper.hasSFill ? `.root-${style.id}[data-selection] .arcP-${style.id} { ${rulesHelper.hasSFill} }` : ''}
 
   ${queries
-    .map(
-      (q, i) => `.fillQ${i}-${dataInfo.id} {
+      .map(
+        (q, i) => `.fillQ${i}-${dataInfo.id} {
     fill: ${q.color};
   }`
-    )
-    .join('\n')}
+      )
+      .join('\n')}
   `;
 
   const exportChart = useExportChart(dataInfo, p, 'venn');
@@ -149,15 +149,15 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
               style={style.styles.set}
             />
           ) : (
-            <circle
-              key={l.key}
-              cx={l.l.cx}
-              cy={l.l.cy}
-              r={l.l.r}
-              className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
-              style={style.styles.set}
-            />
-          )
+              <circle
+                key={l.key}
+                cx={l.l.cx}
+                cy={l.l.cy}
+                r={l.l.r}
+                className={clsx(`stroke-circle-${style.id}`, style.classNames.set)}
+                style={style.styles.set}
+              />
+            )
         )}
       </g>
     </SVGWrapper>
