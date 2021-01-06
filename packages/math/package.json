@@ -21,7 +21,7 @@
     "url": "https://github.com/upsetjs/upsetjs.git"
   },
   "dependencies": {
-    "@sgratzl/boxplots": "^1.2.1"
+    "@sgratzl/boxplots": "^1.2.2"
   },
   "main": "dist/index.js",
   "module": "dist/math.esm.js",
