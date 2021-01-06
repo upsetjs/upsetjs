@@ -4544,7 +4544,7 @@ __metadata:
     rollup-plugin-terser: ^7.0.2
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.20.0-beta.27
+    typedoc: ^0.20.13
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4577,7 +4577,7 @@ __metadata:
     rollup-plugin-dts: ^2.0.0
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.20.0-beta.27
+    typedoc: ^0.20.13
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4609,7 +4609,7 @@ __metadata:
     rollup-plugin-dts: ^2.0.0
     ts-jest: ^26.4.4
     tslib: ^2.0.3
-    typedoc: ^0.20.0-beta.27
+    typedoc: ^0.20.13
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -20866,7 +20866,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.20.0-beta.27":
+"typedoc@npm:^0.20.13":
   version: 0.20.13
   resolution: "typedoc@npm:0.20.13"
   dependencies:

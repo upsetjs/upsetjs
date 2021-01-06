@@ -16,9 +16,7 @@
   "typedocOptions": {
     "name": "UpSet.js Math",
     "out": "./docs",
-    "mode": "library",
     "theme": "minimal",
-    "excludeNotExported": true,
     "excludeExternals": true,
     "excludePrivate": true,
     "includeVersion": true,
