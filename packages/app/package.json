@@ -33,7 +33,7 @@
     "build": "npm run clean && webpack-cli --mode production",
     "build:stats": "webpack-cli --mode production --json > dist/stats.json",
     "build:dev": "webpack-cli --mode development --devtool none",
-    "start": "webpack-dev-server --devtool cheap-module-eval-source-map"
+    "start": "webpack-cli serve --devtool cheap-module-eval-source-map"
   },
   "browserslist": [
     "last 2 Chrome versions",
@@ -70,7 +70,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^4.9.0",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.1",
     "workbox-webpack-plugin": "^6.0.2"
   },
   "dependencies": {
