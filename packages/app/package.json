@@ -102,7 +102,7 @@
     "papaparse": "^5.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-resize-detector": "^5.2.0",
+    "react-resize-detector": "^6.3.2",
     "regenerator-runtime": "^0.13.7"
   }
 }
