@@ -4379,6 +4379,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@upsetjs/_playground@workspace:packages/_playground":
+  version: 0.0.0-use.local
+  resolution: "@upsetjs/_playground@workspace:packages/_playground"
+  dependencies:
+    "@rescripts/cli": ^0.0.15
+    "@rescripts/utilities": ^0.0.8
+    "@types/jest": ^26.0.20
+    "@types/react": ^17.0.0
+    "@types/react-dom": ^17.0.0
+    "@upsetjs/addons": ~1.7.0
+    "@upsetjs/math": ~1.7.0
+    "@upsetjs/model": ~1.7.0
+    "@upsetjs/plots": ~1.7.0
+    "@upsetjs/react": ~1.7.0
+    react: ^17.0.1
+    react-dom: ^17.0.1
+    react-refresh: ^0.9.0
+    react-scripts: ^4.0.1
+    typescript: ^4.1.3
+  languageName: unknown
+  linkType: soft
+
 "@upsetjs/addons@1.7.0, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
