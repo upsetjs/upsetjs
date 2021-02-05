@@ -4,10 +4,10 @@
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
-    "declaration": true,
     "sourceMap": true,
+    "removeComments": true,
     "strict": true,
-    "importsNotUsedAsValues": "remove",
+    "importsNotUsedAsValues": "error",
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "strictBindCallApply": true,
@@ -20,6 +20,8 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": false,
+    "noEmit": true
   }
 }
