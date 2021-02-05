@@ -35,11 +35,6 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Examples',
-      items: ['examples/_index'],
-    },
-    {
-      type: 'category',
       label: 'Integrations',
       items: [
         'integrations/_index',
@@ -49,6 +44,11 @@ module.exports = {
         'integrations/powerbi',
         'integrations/tableau',
       ],
+    },
+    {
+      type: 'category',
+      label: 'Examples',
+      items: ['examples/_index', 'examples/vue'],
     },
     {
       type: 'category',

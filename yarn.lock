@@ -4609,6 +4609,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@upsetjs/example-vue@workspace:examples/vue":
+  version: 0.0.0-use.local
+  resolution: "@upsetjs/example-vue@workspace:examples/vue"
+  dependencies:
+    "@typescript-eslint/eslint-plugin": ^4.14.2
+    "@typescript-eslint/parser": ^4.14.2
+    "@upsetjs/vue": ~1.7.0
+    "@vue/cli-plugin-eslint": ~4.5.11
+    "@vue/cli-plugin-typescript": ~4.5.11
+    "@vue/cli-service": ~4.5.11
+    "@vue/eslint-config-prettier": ^6.0.0
+    "@vue/eslint-config-typescript": ^7.0.0
+    eslint: ^7.19.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-vue: ^7.5.0
+    prettier: ^2.2.1
+    rimraf: ^3.0.2
+    typescript: ~4.1.3
+    vue: ^2.6.12
+    vue-template-compiler: ^2.6.12
+  languageName: unknown
+  linkType: soft
+
 "@upsetjs/math@1.7.0, @upsetjs/math@workspace:packages/math, @upsetjs/math@~1.7.0":
   version: 0.0.0-use.local
   resolution: "@upsetjs/math@workspace:packages/math"
@@ -4765,29 +4788,6 @@ __metadata:
     typescript: ^4.1.3
   peerDependencies:
     react: ">=17"
-  languageName: unknown
-  linkType: soft
-
-"@upsetjs/vue-example@workspace:packages/vue-example":
-  version: 0.0.0-use.local
-  resolution: "@upsetjs/vue-example@workspace:packages/vue-example"
-  dependencies:
-    "@typescript-eslint/eslint-plugin": ^4.14.2
-    "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/vue": ~1.7.0
-    "@vue/cli-plugin-eslint": ~4.5.11
-    "@vue/cli-plugin-typescript": ~4.5.11
-    "@vue/cli-service": ~4.5.11
-    "@vue/eslint-config-prettier": ^6.0.0
-    "@vue/eslint-config-typescript": ^7.0.0
-    eslint: ^7.19.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-vue: ^7.5.0
-    prettier: ^2.2.1
-    rimraf: ^3.0.2
-    typescript: ~4.1.3
-    vue: ^2.6.12
-    vue-template-compiler: ^2.6.12
   languageName: unknown
   linkType: soft
 

@@ -36,9 +36,6 @@ This monorepo contains following packages:
 
 - [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master/packages/vue) vue wrapper based on the bundled version
 
-- [@upsetjs/vue-example](https://github.com/upsetjs/upsetjs/tree/master/packages/vue-example) vue example using the vue wrapper
-  [![Open Example][example]](https://upset.js.org/integrations/vue)
-
 In addition, there are the following sibling repositories and projects
 
 - [upsetjs_r](https://github.com/upsetjs/upsetjs_r) R HTMLWidget wrapper around UpSet.js
