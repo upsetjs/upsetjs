@@ -5,9 +5,9 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike, UpSetSelection } from '@upsetjs/react';
+import type { ISetLike, UpSetSelection } from '@upsetjs/react';
 import { RefObject, useCallback } from 'react';
-import { View } from 'vega';
+import type { View } from 'vega';
 import { useVegaAggregatedGroupSelection } from './singleAggregate';
 
 export function useVegaBinSelection<T>(

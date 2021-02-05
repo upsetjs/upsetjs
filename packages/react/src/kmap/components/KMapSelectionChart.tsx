@@ -5,12 +5,12 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { mergeColor } from '../../components/utils';
 import { clsx } from '../../utils';
-import { KMapDataInfo } from '../derive/deriveDataDependent';
-import { KMapStyleInfo } from '../derive/deriveStyleDependent';
+import type { KMapDataInfo } from '../derive/deriveDataDependent';
+import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
 
 function KMapQueries<T>({
   data,
@@ -63,8 +63,9 @@ function KMapQueries<T>({
           <path
             key={key}
             transform={`translate(${l.x + offset}, ${l.y + y})`}
-            d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${data.triangleSize
-              },${data.triangleSize} Z`}
+            d={`M0,-1 l${width},0 l0,2 l${-width},0 L-${data.triangleSize},-${data.triangleSize} L-${
+              data.triangleSize
+            },${data.triangleSize} Z`}
             className={className}
             data-i={i}
             data-cardinality={o}
@@ -73,20 +74,20 @@ function KMapQueries<T>({
             {title}
           </path>
         ) : (
-            <rect
-              key={key}
-              x={l.x + offset}
-              y={l.y + y}
-              height={data.cell - y}
-              data-i={i}
-              data-cardinality={o}
-              width={width}
-              className={className}
-              style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
-            >
-              {title}
-            </rect>
-          );
+          <rect
+            key={key}
+            x={l.x + offset}
+            y={l.y + y}
+            height={data.cell - y}
+            data-i={i}
+            data-cardinality={o}
+            width={width}
+            className={className}
+            style={mergeColor(style.styles.bar, !style.selectionColor ? d.color : undefined)}
+          >
+            {title}
+          </rect>
+        );
       })}
     </g>
   );

@@ -7,8 +7,8 @@
 
 import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/react';
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
-import { View } from 'vega';
-import { SingleSelection } from 'vega-lite/build/src/selection';
+import type { View } from 'vega';
+import type { SingleSelection } from 'vega-lite/build/src/selection';
 import { sameArray } from './utils';
 import { clearMulti } from './single';
 
@@ -177,13 +177,13 @@ export function useVegaAggregatedGroupSelection<T>(
         {},
         onClick
           ? {
-            [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
-          }
+              [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
+            }
           : {},
         onHover
           ? {
-            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-          }
+              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+            }
           : {}
       ),
     [selectionName, onClick, onHover]

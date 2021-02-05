@@ -11,7 +11,7 @@ import { toIndicesArray, ISetLike, isSetQuery, isSetLike, isElemQuery, UpSetSetQ
 import { compressToBase64 } from 'lz-string';
 import { toJS } from 'mobx';
 import exportHelper from './exportHelper';
-import { IElem, IElems } from './interfaces';
+import type { IElem, IElems } from './interfaces';
 
 declare const __VERSION__: string;
 
@@ -105,13 +105,13 @@ function toJSCode(store: Store, prefix = 'UpSetJS.') {
     helper.attrs.length > 0
       ? `
   setAddons: ${JSON.stringify(
-        helper.attrs.map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { name: '${attr}' })CC`)
-      )},
+    helper.attrs.map((attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { name: '${attr}' })CC`)
+  )},
   combinationAddons: ${JSON.stringify(
-        helper.attrs.map(
-          (attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`
-        )
-      )}`
+    helper.attrs.map(
+      (attr) => `CC${prefix}boxplotAddon((v) => v['${attr}'], elems, { orient: 'vertical', name: '${attr}' })CC`
+    )
+  )}`
       : '';
   const js = `
 const root = document.getElementById("app");
@@ -126,15 +126,16 @@ const combinations = ${prefix}generateCombinations(sets, ${JSON.stringify(
     2
   )});
 
-${needSetRef
-      ? `function fromSetRef(ref) {
+${
+  needSetRef
+    ? `function fromSetRef(ref) {
   if (ref.type === "set") {
     return sets[ref.index];
   }
   return combinations[ref.index];
 }`
-      : ''
-    }
+    : ''
+}
 
 let selection = ${store.selection ? toSelectionRef(store.selection) : null};
 const queries = ${JSON.stringify(store.visibleQueries.map(toQueryRef), null, 2)};
@@ -247,8 +248,9 @@ ${HTML_CODE}
       },
       'index.js': {
         content: `
-import {render, generateCombinations, ${hasIndices ? 'fromIndicesArray, ' : ''}${hasAddons ? 'boxplotAddon, ' : ''
-          }asSets)} from "@upsetjs/bundle";
+import {render, generateCombinations, ${hasIndices ? 'fromIndicesArray, ' : ''}${
+          hasAddons ? 'boxplotAddon, ' : ''
+        }asSets)} from "@upsetjs/bundle";
 import elems from './data.json';
 import "./main.css";
 

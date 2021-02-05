@@ -8,10 +8,10 @@
 import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
-import { TopLevelSpec } from 'vega-lite';
+import type { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks, countSelectedExpression, countQueryExpression } from './functions';
 import { useVegaBinSelection } from '../selections';
-import { UnitSpec, LayerSpec } from 'vega-lite/build/src/spec';
+import type { UnitSpec, LayerSpec } from 'vega-lite/build/src/spec';
 
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;

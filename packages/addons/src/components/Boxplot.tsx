@@ -170,8 +170,9 @@ export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleP
     const hp = p.height - bp;
     const w1 = `M${s.wl},${margin} l0,${p.height - margin * 2} M${s.wl},${c} L${s.q1},${c}`;
     const w2 = `M${s.q3},${c} L${s.wh},${c} M${s.wh},${margin} L${s.wh},${p.height - margin}`;
-    const box = `M${s.q1},${bp} L${s.q3},${bp} L${s.q3},${hp} L${s.q1},${hp} L${s.q1},${bp} M${s.med},${bp} l0,${hp - bp
-      }`;
+    const box = `M${s.q1},${bp} L${s.q3},${bp} L${s.q3},${hp} L${s.q1},${hp} L${s.q1},${bp} M${s.med},${bp} l0,${
+      hp - bp
+    }`;
     const path = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
     if (mode === 'indicator') {
       return path;
@@ -197,8 +198,9 @@ export const Boxplot = (p: React.PropsWithChildren<BoxplotProps & IBoxplotStyleP
     const wp = p.width - bp;
     const w1 = `M${margin},${s.wl} l${p.width - 2 * margin},0 M${c},${s.wl} L${c},${s.q1}`;
     const w2 = `M${c},${s.q3} L${c},${s.wh} M${margin},${s.wh} L${p.width - margin},${s.wh}`;
-    const box = `M${bp},${s.q1} L${bp},${s.q3} l${wp - bp},0 L${wp},${s.q1} L${bp},${s.q1} M${bp},${s.med} l${wp - bp
-      },0`;
+    const box = `M${bp},${s.q1} L${bp},${s.q3} l${wp - bp},0 L${wp},${s.q1} L${bp},${s.q1} M${bp},${s.med} l${
+      wp - bp
+    },0`;
     const path = <path d={`${w1} ${w2} ${box}`} style={styles.line} />;
 
     if (mode === 'indicator') {

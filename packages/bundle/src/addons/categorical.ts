@@ -12,9 +12,9 @@ import {
   ICategoryBins,
   categoricalAggregatedAddon as categoricalAggregatedAddonImpl,
 } from '@upsetjs/addons';
-import { UpSetAddon } from '../react';
+import type { UpSetAddon } from '../react';
 
-export { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
+export type { ICategoricalStyleProps, ICategory } from '@upsetjs/addons';
 export { categoricalHistogram, ICategoryBin, ICategories, ICategoryBins } from '@upsetjs/math';
 
 /**

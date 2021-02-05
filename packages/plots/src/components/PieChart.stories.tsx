@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import PieChart, { PieChartProps } from './PieChart';
-import { UpSetSelection } from '@upsetjs/react';
+import type { UpSetSelection } from '@upsetjs/react';
 
 const stories = {
   component: PieChart,

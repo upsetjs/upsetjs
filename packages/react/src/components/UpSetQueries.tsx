@@ -7,11 +7,11 @@
 
 import { ISetLike, queryElemOverlap, queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { UpSetAddon, UpSetAddonProps } from '../interfaces';
+import type { UpSetAddon, UpSetAddonProps } from '../interfaces';
 import CombinationSelectionChart from './CombinationSelectionChart';
-import { UpSetDataInfo } from '../derive/deriveDataDependent';
-import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetDataInfo } from '../derive/deriveDataDependent';
+import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import SetSelectionChart from './SetSelectionChart';
 
 const EMPTY_ARRAY: any[] = [];

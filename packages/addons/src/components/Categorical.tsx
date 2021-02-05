@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { UpSetAddon, ISetLike, UpSetThemes } from '@upsetjs/react';
+import type { UpSetAddon, ISetLike, UpSetThemes } from '@upsetjs/react';
 import { normalize, denormalize, ICategory, categoricalHistogram, ICategoryBin, ICategoryBins } from '@upsetjs/math';
 
 export { ICategory, ICategoryBins } from '@upsetjs/math';
@@ -22,22 +22,22 @@ export interface ICategoricalStyleProps {
 
 export type CategoricalProps = (
   | {
-    /**
-     * the values to render
-     */
-    values: readonly string[];
-    /**
-     * possible categories
-     */
-    categories: readonly (string | ICategory)[];
-    /**
-     *
-     */
-    base?: readonly string[];
-  }
+      /**
+       * the values to render
+       */
+      values: readonly string[];
+      /**
+       * possible categories
+       */
+      categories: readonly (string | ICategory)[];
+      /**
+       *
+       */
+      base?: readonly string[];
+    }
   | {
-    bins: readonly ICategoryBin[];
-  }
+      bins: readonly ICategoryBin[];
+    }
 ) & {
   /**
    * margin offset

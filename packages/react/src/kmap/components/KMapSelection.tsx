@@ -5,11 +5,11 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { generateSelectionName, generateSelectionOverlap } from '../../utils';
-import { KMapDataInfo } from '../derive/deriveDataDependent';
-import { KMapStyleInfo } from '../derive/deriveStyleDependent';
+import type { KMapDataInfo } from '../derive/deriveDataDependent';
+import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import KMapSelectionChart from './KMapSelectionChart';
 
 export default function KMapSelection<T>({

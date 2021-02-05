@@ -8,7 +8,7 @@
 import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults } from '../interfaces';
-import { TopLevelSpec } from 'vega-lite';
+import type { TopLevelSpec } from 'vega-lite';
 import { areQueriesTests, isSelectedTest, useVegaHooks } from './functions';
 import { useVegaMultiSelection } from '../selections/single';
 

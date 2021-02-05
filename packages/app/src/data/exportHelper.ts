@@ -5,9 +5,9 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike, IUpSetDumpRef } from '@upsetjs/model';
+import type { ISetLike, IUpSetDumpRef } from '@upsetjs/model';
 import { compressElems } from '../dump';
-import Store from '../store/Store';
+import type Store from '../store/Store';
 
 function toIndex<T>(arr: readonly T[]) {
   const r = new Map(arr.map((v, i) => [v, i]));

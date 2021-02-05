@@ -16,7 +16,7 @@ import extractFromExpression, {
 } from './extractFromExpression';
 import { asSet } from './asSets';
 import { asCombination } from './asCombinations';
-import { ISetLike } from '../model';
+import type { ISetLike } from '../model';
 import generateCombinations from './generateCombinations';
 
 describe('helpers', () => {

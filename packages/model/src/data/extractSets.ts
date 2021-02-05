@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISets, ISet } from '../model';
+import type { ISets, ISet } from '../model';
 import { PostprocessSetOptions, postprocessSets } from './asSets';
 
 /**

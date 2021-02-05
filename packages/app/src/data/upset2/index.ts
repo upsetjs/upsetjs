@@ -6,7 +6,7 @@
  */
 
 import { parse } from 'papaparse';
-import { IDataSet, IElem, IAttrs } from '../interfaces';
+import type { IDataSet, IElem, IAttrs } from '../interfaces';
 import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {

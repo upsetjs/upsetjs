@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination, ISetCombinations, ISets, ISet, SetCombinationType, ISetLike } from '../model';
+import type { ISetCombination, ISetCombinations, ISets, ISet, SetCombinationType, ISetLike } from '../model';
 import { isSetLike } from '../validators';
 import { postprocessCombinations, PostprocessCombinationsOptions } from './asCombinations';
 import { SET_JOINERS } from './constants';
@@ -253,9 +253,9 @@ export default function generateCombinations<T = any>(
     const others = sets.filter((d) => !s.sets.has(d));
     const elems = toElemKey
       ? s.elems.filter((e) => {
-        const key = toElemKey(e);
-        return others.every((o) => !setKeyElems!.get(o)!.has(key));
-      })
+          const key = toElemKey(e);
+          return others.every((o) => !setKeyElems!.get(o)!.has(key));
+        })
       : s.elems.filter((e) => others.every((o) => !setDirectElems!.get(o)!.has(e)));
     if (elems.length === s.cardinality) {
       combinations.push(s);

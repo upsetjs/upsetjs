@@ -18,7 +18,7 @@ import {
 } from '@upsetjs/model';
 import LZString from 'lz-string';
 import { toUpSetJSDump, toUpSetJSStaticDump } from '../dump';
-import { UpSetProps } from '../interfaces';
+import type { UpSetProps } from '../interfaces';
 import { downloadUrl } from './exportSVG';
 
 declare type IDumpDataInfo = { cs: { v: ISetCombinations<any> } };

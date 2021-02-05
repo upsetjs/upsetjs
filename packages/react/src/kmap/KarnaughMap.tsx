@@ -7,7 +7,7 @@
 import React, { Ref, useMemo } from 'react';
 import { fillKarnaughMapDefaults } from '../fillDefaults';
 import useHandler from '../hooks/useHandler';
-import { KarnaughMapProps } from '../interfaces';
+import type { KarnaughMapProps } from '../interfaces';
 import { baseRules } from '../rules';
 import { generateId, generateSelectionName, parseFontSize } from '../utils';
 import SVGWrapper from '../venn/components/SVGWrapper';
@@ -32,22 +32,22 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
       p.id
         ? p.id
         : generateId([
-          p.fontFamily,
-          fontSizes.axisTick,
-          fontSizes.barLabel,
-          fontSizes.legend,
-          fontSizes.setLabel,
-          fontSizes.title,
-          fontSizes.exportLabel,
-          fontSizes.description,
-          p.textColor,
-          p.color,
-          p.hasSelectionColor,
-          p.strokeColor,
-          p.selectionColor,
-          p.opacity,
-          p.hasSelectionOpacity,
-        ]),
+            p.fontFamily,
+            fontSizes.axisTick,
+            fontSizes.barLabel,
+            fontSizes.legend,
+            fontSizes.setLabel,
+            fontSizes.title,
+            fontSizes.exportLabel,
+            fontSizes.description,
+            p.textColor,
+            p.color,
+            p.hasSelectionColor,
+            p.strokeColor,
+            p.selectionColor,
+            p.opacity,
+            p.hasSelectionOpacity,
+          ]),
     [
       p.id,
       p.fontFamily,
@@ -195,12 +195,12 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
   ${rulesHelper.export}
 
   ${queries
-      .map(
-        (q, i) => `.fillQ${i}-${data.id} {
+    .map(
+      (q, i) => `.fillQ${i}-${data.id} {
     fill: ${q.color};
   }`
-      )
-      .join('\n')}
+    )
+    .join('\n')}
   `;
 
   const exportChart = useExportChart(data, p, 'kmap');

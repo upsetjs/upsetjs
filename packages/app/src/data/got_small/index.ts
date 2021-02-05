@@ -6,7 +6,7 @@
  */
 
 import { extractSets } from '@upsetjs/model';
-import { IDataSet, IElem } from '../interfaces';
+import type { IDataSet, IElem } from '../interfaces';
 import data from './data.json';
 
 const elems: (IElem & { sets: string[] })[] = data.map((d) => ({

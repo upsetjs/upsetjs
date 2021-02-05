@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useRef, useEffect } from 'react';
 import { useStore } from '../store';
-import { UpSetThemes } from '@upsetjs/react';
+import type { UpSetThemes } from '@upsetjs/react';
 import SidePanelEntry from './SidePanelEntry';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';

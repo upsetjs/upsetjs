@@ -8,7 +8,7 @@
 /// <reference types="jest" />
 import generateCombinations from './generateCombinations';
 import asSets from './asSets';
-import { SetCombinationType, ISetCombination, ISets } from '../model';
+import type { SetCombinationType, ISetCombination, ISets } from '../model';
 
 function expectSet<T>(
   s: ISetCombination<T>,

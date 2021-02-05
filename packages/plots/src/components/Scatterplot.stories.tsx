@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import Scatterplot, { ScatterplotProps } from './Scatterplot';
-import { UpSetSelection } from '@upsetjs/react';
+import type { UpSetSelection } from '@upsetjs/react';
 
 const stories = {
   component: Scatterplot,

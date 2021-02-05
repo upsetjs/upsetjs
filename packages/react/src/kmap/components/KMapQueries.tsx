@@ -8,8 +8,8 @@
 import { queryOverlap, UpSetQuery } from '@upsetjs/model';
 import React, { PropsWithChildren, useMemo } from 'react';
 import KMapSelectionChart from './KMapSelectionChart';
-import { KMapDataInfo } from '../derive/deriveDataDependent';
-import { KMapStyleInfo } from '../derive/deriveStyleDependent';
+import type { KMapDataInfo } from '../derive/deriveDataDependent';
+import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
 
 export default /*!#__PURE__*/ React.memo(function KMapQueries<T>({
   data,

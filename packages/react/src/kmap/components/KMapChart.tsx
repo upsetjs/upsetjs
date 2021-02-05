@@ -7,12 +7,12 @@
 
 import React from 'react';
 import Axis from '../../components/Axis';
-import { Handlers } from '../../hooks/useHandler';
+import type { Handlers } from '../../hooks/useHandler';
 import { clsx } from '../../utils';
-import { KMapDataInfo } from '../derive/deriveDataDependent';
-import { KMapStyleInfo } from '../derive/deriveStyleDependent';
+import type { KMapDataInfo } from '../derive/deriveDataDependent';
+import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import KMapCell from './KMapCell';
-import { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
+import type { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
 
 export function generateGridPath(cell: number, vCells: number, hCells: number, level: { x: number[]; y: number[] }) {
   const h = cell * vCells;

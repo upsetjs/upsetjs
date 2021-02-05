@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import BarChart, { BarChartProps } from './BarChart';
-import { UpSetSelection } from '@upsetjs/react';
+import type { UpSetSelection } from '@upsetjs/react';
 
 const stories = {
   component: BarChart,

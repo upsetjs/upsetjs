@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ReactNode } from 'react';
-import { UpSetAddon, UpSetLayoutProps } from '../interfaces';
+import type { ReactNode } from 'react';
+import type { UpSetAddon, UpSetLayoutProps } from '../interfaces';
 import { generateId } from '../utils';
 
 export default function deriveSizeDependent(

@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISets, ISetCombinations } from '@upsetjs/model';
+import type { ISets, ISetCombinations } from '@upsetjs/model';
 
 export interface ITextLocation {
   text: { x: number; y: number };
@@ -52,14 +52,14 @@ export interface IArcSlice {
   path?: string;
 }
 
-export interface ITextArcSlice extends IArcSlice, ITextLocation { }
+export interface ITextArcSlice extends IArcSlice, ITextLocation {}
 
 export interface IUniverseSet extends IArcSlice {
   width: number;
   height: number;
 }
 
-export interface ITextUniverseSet extends IUniverseSet, ITextLocation { }
+export interface ITextUniverseSet extends IUniverseSet, ITextLocation {}
 
 export interface IVennDiagramLayoutGenerator {
   readonly maxSets: number;

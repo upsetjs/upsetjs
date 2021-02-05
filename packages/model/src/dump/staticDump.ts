@@ -17,7 +17,7 @@ import {
   SetCombinationType,
 } from '../model';
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery, UpSetCalcQuery } from '../queries';
-import { IUpSetDumpRef } from './interfaces';
+import type { IUpSetDumpRef } from './interfaces';
 import { isSetLike } from '../validators';
 import { withColor } from './utils';
 
@@ -141,18 +141,18 @@ export function toStaticDump<T>(
     combinations: shortNames
       ? data.combinations.map(compressCombination)
       : data.combinations.map((set) =>
-        withColor(
-          {
-            name: set.name,
-            cardinality: set.cardinality,
-            type: set.type,
-            sets: Array.from(set.sets)
-              .map((s) => setIndex.get(toKey(s))!)
-              .sort((a, b) => a - b),
-          },
-          set
-        )
-      ),
+          withColor(
+            {
+              name: set.name,
+              cardinality: set.cardinality,
+              type: set.type,
+              sets: Array.from(set.sets)
+                .map((s) => setIndex.get(toKey(s))!)
+                .sort((a, b) => a - b),
+            },
+            set
+          )
+        ),
     overlaps,
     selection: data.selection ? toSelectionSetRef(data.selection) : undefined,
     queries: data.queries.map((query) => {

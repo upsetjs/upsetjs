@@ -5,12 +5,12 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination } from '@upsetjs/model';
+import type { ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetDataInfo } from '../derive/deriveDataDependent';
-import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { UpSetSelection } from './interfaces';
+import type { UpSetDataInfo } from '../derive/deriveDataDependent';
+import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetSelection } from './interfaces';
 import UpSetDot from './UpSetDot';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';

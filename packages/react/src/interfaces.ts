@@ -4,8 +4,8 @@
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
-import React from 'react';
-import {
+import type React from 'react';
+import type {
   ISetLike,
   BandScaleFactory,
   NumericScaleFactory,
@@ -18,7 +18,7 @@ import {
   UpSetQueries,
   NumericScaleLike,
 } from '@upsetjs/model';
-import { IVennDiagramLayoutGenerator } from './venn/layout/interfaces';
+import type { IVennDiagramLayoutGenerator } from './venn/layout/interfaces';
 export * from './venn/layout/interfaces';
 
 export interface UpSetAddonProps<S extends ISetLike<T>, T> {
@@ -276,13 +276,13 @@ export interface VennDiagramDataProps<T> extends UpSetBaseDataProps<T> {
    * by default all set distinct intersections are computed
    */
   combinations?:
-  | ISetCombinations<T>
-  | {
-    /**
-     * optional color merger
-     **/
-    mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
-  };
+    | ISetCombinations<T>
+    | {
+        /**
+         * optional color merger
+         **/
+        mergeColors?: (colors: readonly (string | undefined)[]) => string | undefined;
+      };
 
   valueFormat?: (cardinality: number) => string;
 }
@@ -653,11 +653,11 @@ export interface KarnaughMapStyleProps<L> extends UpSetBaseStyleProps<L> {
  */
 export interface UpSetPropsG<T, C, N, L>
   extends UpSetDataProps<T, N>,
-  UpSetLayoutProps,
-  UpSetStyleProps<L>,
-  UpSetThemeProps,
-  UpSetElementProps<T, C, N>,
-  UpSetSelectionProps<T> {
+    UpSetLayoutProps,
+    UpSetStyleProps<L>,
+    UpSetThemeProps,
+    UpSetElementProps<T, C, N>,
+    UpSetSelectionProps<T> {
   children?: N;
 }
 
@@ -665,11 +665,11 @@ export declare type UpSetProps<T = any> = UpSetPropsG<T, React.CSSProperties, Re
 
 export interface UpSetFullPropsG<T, C, N, L>
   extends Required<Omit<UpSetDataProps<T, N>, 'toElemKey'>>,
-  Required<UpSetLayoutProps>,
-  Required<UpSetStyleProps<L>>,
-  Required<UpSetThemeProps>,
-  Required<UpSetElementProps<T, C, N>>,
-  UpSetSelectionProps<T> {
+    Required<UpSetLayoutProps>,
+    Required<UpSetStyleProps<L>>,
+    Required<UpSetThemeProps>,
+    Required<UpSetElementProps<T, C, N>>,
+    UpSetSelectionProps<T> {
   children?: N;
   toElemKey?: (elem: T) => string;
 }
@@ -678,11 +678,11 @@ export declare type UpSetFullProps<T = any> = UpSetFullPropsG<T, React.CSSProper
 
 export interface VennDiagramPropsG<T, C, N, L>
   extends VennDiagramDataProps<T>,
-  VennDiagramLayoutProps,
-  VennDiagramStyleProps<L>,
-  VennDiagramThemeProps,
-  VennDiagramElementProps<C>,
-  UpSetSelectionProps<T> {
+    VennDiagramLayoutProps,
+    VennDiagramStyleProps<L>,
+    VennDiagramThemeProps,
+    VennDiagramElementProps<C>,
+    UpSetSelectionProps<T> {
   children?: N;
 }
 
@@ -695,11 +695,11 @@ export declare type VennDiagramProps<T = any> = VennDiagramPropsG<
 
 export interface VennDiagramFullPropsG<T, C, N, L>
   extends Required<Omit<VennDiagramDataProps<T>, 'toElemKey'>>,
-  Required<VennDiagramLayoutProps>,
-  Required<VennDiagramStyleProps<L>>,
-  Required<VennDiagramThemeProps>,
-  Required<VennDiagramElementProps<C>>,
-  UpSetSelectionProps<T> {
+    Required<VennDiagramLayoutProps>,
+    Required<VennDiagramStyleProps<L>>,
+    Required<VennDiagramThemeProps>,
+    Required<VennDiagramElementProps<C>>,
+    UpSetSelectionProps<T> {
   toElemKey?: (elem: T) => string;
   children?: N;
 }
@@ -713,11 +713,11 @@ export declare type VennDiagramFullProps<T = any> = VennDiagramFullPropsG<
 
 export interface KarnaughMapPropsG<T, C, N, L>
   extends KarnaughMapDataProps<T>,
-  KarnaughMapLayoutProps,
-  KarnaughMapStyleProps<L>,
-  KarnaughMapThemeProps,
-  KarnaughMapElementProps<C>,
-  UpSetSelectionProps<T> {
+    KarnaughMapLayoutProps,
+    KarnaughMapStyleProps<L>,
+    KarnaughMapThemeProps,
+    KarnaughMapElementProps<C>,
+    UpSetSelectionProps<T> {
   children?: N;
 }
 
@@ -730,11 +730,11 @@ export declare type KarnaughMapProps<T = any> = KarnaughMapPropsG<
 
 export interface KarnaughMapFullPropsG<T, C, N, L>
   extends Required<Omit<KarnaughMapDataProps<T>, 'toElemKey'>>,
-  Required<KarnaughMapLayoutProps>,
-  Required<KarnaughMapStyleProps<L>>,
-  Required<KarnaughMapThemeProps>,
-  Required<KarnaughMapElementProps<C>>,
-  UpSetSelectionProps<T> {
+    Required<KarnaughMapLayoutProps>,
+    Required<KarnaughMapStyleProps<L>>,
+    Required<KarnaughMapThemeProps>,
+    Required<KarnaughMapElementProps<C>>,
+    UpSetSelectionProps<T> {
   toElemKey?: (elem: T) => string;
   children?: N;
 }

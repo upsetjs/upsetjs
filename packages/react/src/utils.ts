@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
-import { UpSetSelection } from './interfaces';
+import type { UpSetSelection } from './interfaces';
 
 export function clsx(...classNames: (boolean | string | undefined)[]) {
   return classNames.filter(Boolean).join(' ');
@@ -53,8 +53,8 @@ export function generateSelectionName<T>(selection?: UpSetSelection<T>) {
   return Array.isArray(selection)
     ? `Array(${selection.length})`
     : typeof selection === 'function'
-      ? '?'
-      : (selection as ISetLike<T>)?.name;
+    ? '?'
+    : (selection as ISetLike<T>)?.name;
 }
 
 export function elemElemOverlapOf<T>(query: Set<T> | readonly T[], toElemKey?: (e: T) => string) {

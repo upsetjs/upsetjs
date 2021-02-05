@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombinations, ISets } from '@upsetjs/model';
+import type { ISetCombinations, ISets } from '@upsetjs/model';
 import venn0 from './data/venn0.json';
 import venn1 from './data/venn1.json';
 import venn2 from './data/venn2.json';
@@ -51,12 +51,12 @@ export function layoutImpl(sets: number, width: number, height: number) {
         },
         isEllipse(c)
           ? {
-            rx: c.rx * f,
-            ry: c.ry * f,
-          }
+              rx: c.rx * f,
+              ry: c.ry * f,
+            }
           : {
-            r: c.r * f,
-          }
+              r: c.r * f,
+            }
       )
     ),
     intersections: r.intersections.map((c) => ({

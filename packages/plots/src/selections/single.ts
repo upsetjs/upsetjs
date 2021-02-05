@@ -7,8 +7,8 @@
 
 import { ISetComposite, ISetLike, UpSetSelection, isSetCombination, ISetCombination } from '@upsetjs/react';
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
-import { View } from 'vega';
-import { SingleSelection, MultiSelection } from 'vega-lite/build/src/selection';
+import type { View } from 'vega';
+import type { SingleSelection, MultiSelection } from 'vega-lite/build/src/selection';
 import { sameArray } from './utils';
 
 export function createSetComposite<T>(elems: readonly T[]): ISetComposite<T> {
@@ -142,13 +142,13 @@ export function useVegaMultiSelection<T>(
         {},
         onClick
           ? {
-            [selectionName]: { type: mode, empty: 'none' } as SingleSelection | MultiSelection,
-          }
+              [selectionName]: { type: mode, empty: 'none' } as SingleSelection | MultiSelection,
+            }
           : {},
         onHover
           ? {
-            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-          }
+              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+            }
           : {}
       ),
     [mode, selectionName, onClick, onHover]

@@ -5,15 +5,15 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike, UpSetQueries } from '@upsetjs/model';
+import type { ISetLike, UpSetQueries } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { clsx } from '../../utils';
-import { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
-import { ITextArcSlice } from '../layout/interfaces';
-import { UpSetSelection } from '../../components/interfaces';
-import { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
+import type { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
+import type { ITextArcSlice } from '../layout/interfaces';
+import type { UpSetSelection } from '../../components/interfaces';
+import type { VennDiagramDataInfo } from '../derive/deriveVennDataDependent';
 import { generateArcSlicePath } from '../layout/generate';
-import { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
+import type { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
 import { mergeColor } from '../../components/utils';
 import SelectionPattern from './SelectionPattern';
 
@@ -52,8 +52,8 @@ function generateTitle(
             </tspan>
           </>
         ) : (
-            baseCardinality
-          ),
+          baseCardinality
+        ),
     };
   }
 
@@ -69,8 +69,8 @@ function generateTitle(
             </tspan>
           </>
         ) : (
-            `${data.format(qs[0])}/${dc}`
-          ),
+          `${data.format(qs[0])}/${dc}`
+        ),
     };
   }
 
@@ -99,11 +99,11 @@ function generateTitle(
           {queryLine}
         </>
       ) : (
-          <>
-            <tspan dy="-0.6em">{baseCardinality}</tspan>
-            {queryLine}
-          </>
-        ),
+        <>
+          <tspan dy="-0.6em">{baseCardinality}</tspan>
+          {queryLine}
+        </>
+      ),
   };
 }
 

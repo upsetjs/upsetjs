@@ -8,9 +8,9 @@
 import React, { PropsWithChildren } from 'react';
 import Axis from './Axis';
 import UpSetTitle from './UpSetTitle';
-import { UpSetDataInfo } from '../derive/deriveDataDependent';
-import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetDataInfo } from '../derive/deriveDataDependent';
+import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { addonPositionGenerator } from './utils';
 import { clsx } from '../utils';
 

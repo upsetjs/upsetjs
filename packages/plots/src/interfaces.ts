@@ -13,7 +13,7 @@ import {
   UpSetThemes,
 } from '@upsetjs/react';
 
-export { UpSetThemes } from '@upsetjs/react';
+export type { UpSetThemes } from '@upsetjs/react';
 
 export interface UpSetPlotThemeProps {
   selectionColor?: string;
@@ -43,12 +43,12 @@ export interface UpSetPlotStyleProps {
   description?: string;
 }
 
-export interface UpSetPlotProps<T> extends UpSetPlotStyleProps, UpSetPlotThemeProps, UpSetPlotSelectionProps<T> { }
+export interface UpSetPlotProps<T> extends UpSetPlotStyleProps, UpSetPlotThemeProps, UpSetPlotSelectionProps<T> {}
 
 export interface UpSetPlotFullProps<T>
   extends Required<UpSetPlotStyleProps>,
-  Required<UpSetThemeProps>,
-  UpSetPlotSelectionProps<T> { }
+    Required<UpSetThemeProps>,
+    UpSetPlotSelectionProps<T> {}
 
 export function fillDefaults<T>(props: UpSetPlotProps<T>): UpSetPlotFullProps<T> {
   return Object.assign(

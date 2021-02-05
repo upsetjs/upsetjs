@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
-import {
+import type {
   UpSetLayoutProps,
   UpSetStyleProps,
   UpSetThemeProps,
@@ -20,16 +20,16 @@ import {
   KarnaughMapLayoutProps,
   KarnaughMapStyleProps,
 } from '../interfaces';
-import { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
+import type { IUpSetDump, IUpSetStaticDump } from '@upsetjs/model';
 import { fillDefaults } from '../fillDefaults';
 import { FONT_SIZES_KEYS } from '../defaults';
 
 export interface UpSetJSDumpProps
   extends Partial<UpSetLayoutProps & KarnaughMapLayoutProps>,
-  UpSetThemeProps,
-  VennDiagramThemeProps,
-  KarnaughMapThemeProps,
-  Omit<UpSetStyleProps<string>, 'title' | 'description'> {
+    UpSetThemeProps,
+    VennDiagramThemeProps,
+    KarnaughMapThemeProps,
+    Omit<UpSetStyleProps<string>, 'title' | 'description'> {
   numericScale?: 'linear' | 'log';
   bandScale?: 'band';
 }

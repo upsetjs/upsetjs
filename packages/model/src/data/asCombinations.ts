@@ -5,9 +5,9 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination, SetCombinationType, ISets } from '../model';
+import type { ISetCombination, SetCombinationType, ISets } from '../model';
 import { byCardinality, byComposite, byDegree, byGroup, byName, negate } from './utils';
-import { SortSetOrder } from './asSets';
+import type { SortSetOrder } from './asSets';
 
 /**
  * helper method to extract the sets in a set combination from its name, e.g. S1&S2 => S1,S2
@@ -53,7 +53,7 @@ function toOrder<T, S extends ISetCombination<T>>(
   if (!order) {
     return byName;
   }
-  const arr: SortCombinationOrders = Array.isArray(order) ? order : [order];
+  const arr = (Array.isArray(order) ? order : [order]) as SortCombinationOrders;
   if (arr.length === 0) {
     return byName;
   }

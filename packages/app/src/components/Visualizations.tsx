@@ -11,7 +11,7 @@ import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 import { Histogram, Scatterplot } from '@upsetjs/plots';
 import ReactResizeDetector from 'react-resize-detector';
-import { IElem } from '../data';
+import type { IElem } from '../data';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
@@ -55,10 +55,10 @@ const RenderPlot = observer(({ width }: { width: number }) => {
   );
 });
 
-function renderChart({ width, targetRef }: { width: number; targetRef?: RefObject<HTMLDivElement> }) {
+function renderChart({ width, targetRef }: { width?: number; targetRef?: RefObject<HTMLDivElement> }) {
   return (
     <div ref={targetRef}>
-      <RenderPlot width={width} />
+      <RenderPlot width={width ?? 0} />
     </div>
   );
 }

@@ -8,10 +8,10 @@
 import React, { useMemo } from 'react';
 import { VegaLite } from 'react-vega';
 import { UpSetPlotProps, fillDefaults, UpSetThemes } from '../interfaces';
-import { TopLevelSpec } from 'vega-lite';
+import type { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks, countQueryExpression, countSelectedExpression } from './functions';
 import { useVegaAggregatedGroupSelection } from '../selections';
-import { LayerSpec, UnitSpec } from 'vega-lite/build/src/spec';
+import type { LayerSpec, UnitSpec } from 'vega-lite/build/src/spec';
 
 export interface PieChartProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -54,24 +54,24 @@ function generateLayer(
       },
       ...(!secondary
         ? {
-          color: { value: color },
-          stroke: {
-            field: 'v',
-            type: 'nominal',
-            title: null,
-            legend: null,
-            scale: {
-              scheme: theme === 'dark' ? 'dark2' : 'set2',
+            color: { value: color },
+            stroke: {
+              field: 'v',
+              type: 'nominal',
+              title: null,
+              legend: null,
+              scale: {
+                scheme: theme === 'dark' ? 'dark2' : 'set2',
+              },
             },
-          },
-        }
+          }
         : {
-          stroke: {
-            value: color,
-          },
-          color: { value: color },
-          fillOpacity: { value: 0.3 },
-        }),
+            stroke: {
+              value: color,
+            },
+            color: { value: color },
+            fillOpacity: { value: 0.3 },
+          }),
     },
   };
 }

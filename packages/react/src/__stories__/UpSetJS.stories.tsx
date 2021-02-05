@@ -7,7 +7,7 @@
 
 import { asSets, ISetLike } from '@upsetjs/model';
 import React from 'react';
-import { UpSetAddonProps } from '../interfaces';
+import type { UpSetAddonProps } from '../interfaces';
 import { UpSetJS } from '../UpSetJS';
 import { common, queries, sets } from './data';
 import { UpSetJSSkeleton } from '../UpSetJSSkeleton';

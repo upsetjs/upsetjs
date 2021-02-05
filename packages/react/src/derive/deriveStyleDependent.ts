@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { CSSProperties, ReactNode } from 'react';
-import { UpSetLayoutProps, UpSetMultiStyle, UpSetStyleClassNames, UpSetThemes } from '../interfaces';
+import type { CSSProperties, ReactNode } from 'react';
+import type { UpSetLayoutProps, UpSetMultiStyle, UpSetStyleClassNames, UpSetThemes } from '../interfaces';
 
 export default function deriveStyleDependent(
   theme: UpSetThemes,

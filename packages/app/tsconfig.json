@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src", "types", "test", "tsd.d.ts"],
   "compilerOptions": {
     "target": "es6",
     "rootDir": "./",
@@ -15,5 +14,10 @@
       "@": ["./"],
       "*": ["src/*", "node_modules/*"]
     }
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.json"
+  ]
 }

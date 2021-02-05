@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { wrap } from '../components/utils';
-import { UpSetSelectionProps } from '../interfaces';
+import type { UpSetSelectionProps } from '../interfaces';
 
 export default function useHandler(p: UpSetSelectionProps) {
   const onClick = p.onClick;

@@ -8,11 +8,11 @@
 import React, { lazy, Suspense, RefObject } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
-import { IElem } from '../data/interfaces';
+import type { IElem } from '../data/interfaces';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
-import UpSetImpl from '@upsetjs/react';
+import type UpSetImpl from '@upsetjs/react';
 import Skeleton from './Skeleton';
 
 const useStyles = makeStyles(() => ({
@@ -67,11 +67,11 @@ function renderUpSetJS({
   height,
   targetRef,
 }: {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   targetRef?: RefObject<HTMLDivElement>;
 }) {
-  return <UpSetRenderer width={width} height={height} targetRef={targetRef} />;
+  return <UpSetRenderer width={width ?? 0} height={height ?? 0} targetRef={targetRef} />;
 }
 
 export default observer(() => {

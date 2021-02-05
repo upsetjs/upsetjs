@@ -36,7 +36,7 @@
     "src/**/*.tsx"
   ],
   "scripts": {
-    "clean": "rimraf dist docs \"*.tgz\"  \"*.tsbuildinfo\"",
+    "clean": "rimraf dist docs \"*.tgz\" \"*.tsbuildinfo\"",
     "compile": "tsc -b tsconfig.c.json",
     "start": "npm run watch",
     "watch": "rollup -c -w",

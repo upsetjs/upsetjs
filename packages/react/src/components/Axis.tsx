@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { NumericScaleLike } from '@upsetjs/model';
+import type { NumericScaleLike } from '@upsetjs/model';
 import React, { PropsWithChildren, CSSProperties } from 'react';
 import { clsx } from '../utils';
 
@@ -135,8 +135,8 @@ export default function Axis({
               ? `M${k * tickSizeOuter},${range0}H0.5V${range1}H${k * tickSizeOuter}`
               : `M0.5,${range0}V${range1}`
             : tickSizeOuter
-              ? `M${range0},${k * tickSizeOuter}V0.5H${range1}V${k * tickSizeOuter}`
-              : `M${range0},0.5H${range1}`
+            ? `M${range0},${k * tickSizeOuter}V0.5H${range1}V${k * tickSizeOuter}`
+            : `M${range0},0.5H${range1}`
         }
       />
     </g>

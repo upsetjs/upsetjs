@@ -9,6 +9,7 @@
     "noEmit": true,
     "removeComments": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "paths": {
       "@": ["./"],
       "*": ["src/*", "node_modules/*"]

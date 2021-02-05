@@ -5,13 +5,13 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetAddon } from '../react';
+import type { UpSetAddon } from '../react';
 import {
   boxplotAddon as boxplotAddonImpl,
   IBoxplotStylePlainProps,
   boxplotAggregatedAddon as boxplotAggregatedAddonImpl,
 } from '@upsetjs/addons';
-import { IBoxPlot } from '@upsetjs/math';
+import type { IBoxPlot } from '@upsetjs/math';
 
 export { boxplot, BoxplotStatsOptions, IBoxPlot, QuantilesMethod } from '@upsetjs/math';
 
@@ -45,7 +45,7 @@ export function boxplotAddon<T>(
     prop,
     elems,
     options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
-    IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }
 
@@ -64,6 +64,6 @@ export function boxplotAggregatedAddon<T>(
     acc,
     domain,
     options as Partial<Pick<UpSetAddon<T>, 'size' | 'position' | 'name'>> &
-    IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
+      IBoxplotStyleProps & { boxStyle: any; lineStyle: any; outlierStyle: any }
   );
 }

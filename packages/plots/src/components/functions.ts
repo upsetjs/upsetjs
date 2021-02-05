@@ -16,7 +16,7 @@ import {
   UpSetQueries,
 } from '@upsetjs/react';
 import { useCallback, MutableRefObject, useRef, useLayoutEffect, RefObject } from 'react';
-import { VegaProps } from 'react-vega/lib/Vega';
+import type { VegaProps } from 'react-vega/lib/Vega';
 
 function generateQueryChecker<T>(query: UpSetQuery<T>, toElemKey?: (v: any) => string) {
   if (isCalcQuery(query)) {

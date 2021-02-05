@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
-import { UpSetAddonHandlerInfos, UpSetAddons } from '../interfaces';
+import type { ISetLike } from '@upsetjs/model';
+import type { UpSetAddonHandlerInfos, UpSetAddons } from '../interfaces';
 
 function noop() {
   return undefined;

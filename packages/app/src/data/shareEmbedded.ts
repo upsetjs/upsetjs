@@ -6,7 +6,7 @@
  */
 
 import { toJS } from 'mobx';
-import Store from '../store/Store';
+import type Store from '../store/Store';
 import exportHelper from './exportHelper';
 import { toDump, toStaticDump } from '@upsetjs/model';
 import { compressToEncodedURIComponent } from 'lz-string';

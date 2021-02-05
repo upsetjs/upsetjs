@@ -20,11 +20,11 @@ import {
   ISet,
   ISetCombination,
 } from '@upsetjs/model';
-import { ReactNode } from 'react';
-import { UpSetSizeInfo } from './deriveSizeDependent';
+import type { ReactNode } from 'react';
+import type { UpSetSizeInfo } from './deriveSizeDependent';
 import { generateId } from '../utils';
 import { DEFAULT_COMBINATIONS } from '../defaults';
-import { UpSetAddon, UpSetDataProps } from '../interfaces';
+import type { UpSetAddon, UpSetDataProps } from '../interfaces';
 
 export function resolveNumericScale(
   factory: NonNullable<UpSetDataProps<any, any>['numericScale']>

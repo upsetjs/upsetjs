@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { CSSProperties, ReactNode } from 'react';
-import { UpSetThemes, KarnaughMapMultiStyle } from '../../interfaces';
+import type { CSSProperties, ReactNode } from 'react';
+import type { UpSetThemes, KarnaughMapMultiStyle } from '../../interfaces';
 
 export default function deriveStyleDependent(
   theme: UpSetThemes,

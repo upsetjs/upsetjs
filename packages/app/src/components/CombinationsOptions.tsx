@@ -11,7 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import { SetCombinationType } from '@upsetjs/model';
+import type { SetCombinationType } from '@upsetjs/model';
 import { useStore } from '../store';
 import SidePanelEntry from './SidePanelEntry';
 

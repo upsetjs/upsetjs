@@ -6,7 +6,7 @@
  */
 
 import { isSet, isSetCombination, isGenerateSetCombinationOptions, isSetLike, isUpSetQuery } from '@upsetjs/model';
-import {
+import type {
   UpSetStyleClassNames,
   UpSetFontSizes,
   UpSetMultiStyle,

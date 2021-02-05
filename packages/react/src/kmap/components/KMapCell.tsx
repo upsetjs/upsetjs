@@ -5,13 +5,13 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombination } from '@upsetjs/model';
+import type { ISetCombination } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
 import { mergeColor } from '../../components/utils';
 import { clsx } from '../../utils';
-import { KMapDataInfo } from '../derive/deriveDataDependent';
-import { KMapStyleInfo } from '../derive/deriveStyleDependent';
-import { UpSetSelection } from '../../components/interfaces';
+import type { KMapDataInfo } from '../derive/deriveDataDependent';
+import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetSelection } from '../../components/interfaces';
 
 const KMapCell = /*!#__PURE__*/ React.memo(function KMapCell<T>({
   d,

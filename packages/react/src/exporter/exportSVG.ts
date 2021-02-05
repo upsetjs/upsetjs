@@ -7,7 +7,7 @@
 
 import { extractStyleId, extractTitle } from './utils';
 import { getDefaultTheme } from '../fillDefaults';
-import { UpSetThemes } from '../interfaces';
+import type { UpSetThemes } from '../interfaces';
 
 export function createSVG(node: SVGSVGElement, toRemove?: string) {
   const clone = node.cloneNode(true) as SVGSVGElement;

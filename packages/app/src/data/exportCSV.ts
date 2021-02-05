@@ -6,8 +6,8 @@
  */
 
 import { unparse, parse } from 'papaparse';
-import Store from '../store/Store';
-import { IDataSet, IElems, IAttrs } from './interfaces';
+import type Store from '../store/Store';
+import type { IDataSet, IElems, IAttrs } from './interfaces';
 import { extractSets } from '@upsetjs/model';
 import { boxplot } from '@upsetjs/math';
 

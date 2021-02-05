@@ -1,5 +1,5 @@
 import { OVERFLOW_OPACITY_FACTOR } from './defaults';
-import { UpSetBaseFontSizes, UpSetBaseThemeProps } from './interfaces';
+import type { UpSetBaseFontSizes, UpSetBaseThemeProps } from './interfaces';
 
 function propRule(value: string | number | undefined | false, prop = 'font-size') {
   return value ? `${prop}: ${value};` : '';

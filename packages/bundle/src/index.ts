@@ -37,7 +37,7 @@ import UpSetElement, {
   KarnaughMapSkeleton,
   UpSetJSSkeleton,
 } from '@upsetjs/react';
-import { UpSetReactElement } from './react';
+import type { UpSetReactElement } from './react';
 
 export * from './addons';
 export * from '@upsetjs/model';

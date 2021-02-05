@@ -24,6 +24,8 @@
   "scripts": {
     "lint": "npm run prettier:check && yarn workspaces foreach -v -p --topological-dev run lint",
     "fix": "npm run prettier:write && yarn workspaces foreach -v --topological-dev run fix",
+    "compile": "yarn workspaces foreach -v -p --topological-dev run compile",
+    "watch": "yarn workspace @upsetjs/react compile -w",
     "clean": "yarn workspaces foreach -v -p --topological-dev run clean",
     "test": "yarn workspaces foreach -v -p --topological-dev run test",
     "build": "yarn workspaces foreach -v -p --topological-dev run build",

@@ -5,12 +5,12 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISet } from '@upsetjs/model';
+import type { ISet } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetDataInfo } from '../derive/deriveDataDependent';
-import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
-import { UpSetSelection } from './interfaces';
+import type { UpSetDataInfo } from '../derive/deriveDataDependent';
+import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetSelection } from './interfaces';
 import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 import { OVERFLOW_PADDING_FACTOR } from '../defaults';
@@ -40,8 +40,8 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
     style.setLabelAlignment === 'center'
       ? size.labels.w / 2
       : style.setLabelAlignment === 'left'
-        ? 2
-        : size.labels.w - 2;
+      ? 2
+      : size.labels.w - 2;
   return (
     <g
       transform={`translate(0, ${data.sets.y(d)})`}

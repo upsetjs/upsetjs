@@ -1,4 +1,4 @@
-import { SetCombinationType } from '../model';
+import type { SetCombinationType } from '../model';
 
 export interface IUpSetDumpRef {
   type: 'set' | SetCombinationType;

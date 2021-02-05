@@ -70,10 +70,10 @@ const MultilineText = /*!#__PURE__*/ React.memo(function MultilineText({
     <tspan ref={ref} dy={dy} style={style} x={x} className={className}>
       {lines.length > 1
         ? lines.map((l, i) => (
-          <tspan key={l} x={0} dy={i > 0 ? '1.2em' : dy}>
-            {l}
-          </tspan>
-        ))
+            <tspan key={l} x={0} dy={i > 0 ? '1.2em' : dy}>
+              {l}
+            </tspan>
+          ))
         : text}
     </tspan>
   );

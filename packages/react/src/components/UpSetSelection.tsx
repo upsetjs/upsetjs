@@ -5,13 +5,13 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 import React, { PropsWithChildren } from 'react';
-import { UpSetAddon, UpSetAddonProps } from '../interfaces';
+import type { UpSetAddon, UpSetAddonProps } from '../interfaces';
 import CombinationSelectionChart from './CombinationSelectionChart';
-import { UpSetDataInfo } from '../derive/deriveDataDependent';
-import { UpSetSizeInfo } from '../derive/deriveSizeDependent';
-import { UpSetStyleInfo } from '../derive/deriveStyleDependent';
+import type { UpSetDataInfo } from '../derive/deriveDataDependent';
+import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
+import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import LabelsSelection from './LabelsSelection';
 import SetSelectionChart from './SetSelectionChart';
 import UpSetSelectionChart from './UpSetSelectionChart';
@@ -51,11 +51,11 @@ export default function UpSetSelection<T>({
         const overlap = selectionElemOverlap ? selectionElemOverlap(props.set) : null;
         return addon.renderSelection
           ? addon.renderSelection({
-            selection,
-            selectionColor: style.selectionColor || props.set.color || 'orange',
-            overlap,
-            ...props,
-          })
+              selection,
+              selectionColor: style.selectionColor || props.set.color || 'orange',
+              overlap,
+              ...props,
+            })
           : null;
       },
     };

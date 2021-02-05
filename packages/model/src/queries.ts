@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from './model';
+import type { ISetLike } from './model';
 import {
   setOverlapFactory,
   SetOverlap,

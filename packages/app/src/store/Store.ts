@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import type React from 'react';
 import { observable, action, autorun, runInAction, computed, makeObservable } from 'mobx';
 import UIStore, { IToastLink } from './UIStore';
 import {
@@ -207,13 +207,13 @@ export default class Store {
     empty: boolean;
     limit: number;
   } = {
-      type: 'intersection',
-      min: 1,
-      max: 5,
-      empty: false,
-      limit: 100,
-      order: ['cardinality', 'name'],
-    };
+    type: 'intersection',
+    min: 1,
+    max: 5,
+    empty: false,
+    limit: 100,
+    order: ['cardinality', 'name'],
+  };
 
   @observable
   selectedSets = new Set<string>();
@@ -526,15 +526,15 @@ export default class Store {
     return [
       isSetLike(this.selection)
         ? ({
-          name: this.selection.name,
-          color: TEMP_QUERY_COLOR,
-          set: this.selection,
-        } as UpSetDataQuery)
+            name: this.selection.name,
+            color: TEMP_QUERY_COLOR,
+            set: this.selection,
+          } as UpSetDataQuery)
         : ({
-          name: 'Array',
-          color: TEMP_QUERY_COLOR,
-          elems: this.selection,
-        } as UpSetDataQuery),
+            name: 'Array',
+            color: TEMP_QUERY_COLOR,
+            elems: this.selection,
+          } as UpSetDataQuery),
     ].concat(qs);
   }
 
@@ -555,15 +555,15 @@ export default class Store {
       new StoreQuery(
         isSetLike(this.selection)
           ? ({
-            name: this.selection.name,
-            color: colors.length > 0 ? colors.shift()! : 'grey',
-            set: this.selection,
-          } as UpSetDataQuery)
+              name: this.selection.name,
+              color: colors.length > 0 ? colors.shift()! : 'grey',
+              set: this.selection,
+            } as UpSetDataQuery)
           : ({
-            name: 'Array',
-            color: colors.length > 0 ? colors.shift()! : 'grey',
-            elems: this.selection,
-          } as UpSetDataQuery),
+              name: 'Array',
+              color: colors.length > 0 ? colors.shift()! : 'grey',
+              elems: this.selection,
+            } as UpSetDataQuery),
         true
       )
     );

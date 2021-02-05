@@ -11,7 +11,7 @@ import deriveVennStyleDependent, { VennDiagramStyleInfo } from '../derive/derive
 import { exportSVG } from '../../exporter';
 import { exportDump, exportSharedLink } from '../../exporter/exportDump';
 import useHandler, { Handlers } from '../../hooks/useHandler';
-import {
+import type {
   UpSetBaseDataProps,
   UpSetProps,
   VennDiagramDataProps,
@@ -32,22 +32,22 @@ export function useCreateCommon<T>(
       p.id
         ? p.id
         : generateId([
-          p.fontFamily,
-          fontSizes.valueLabel,
-          fontSizes.legend,
-          fontSizes.setLabel,
-          fontSizes.title,
-          fontSizes.exportLabel,
-          fontSizes.description,
-          p.textColor,
-          p.color,
-          p.hasSelectionColor,
-          p.strokeColor,
-          p.valueTextColor,
-          p.selectionColor,
-          p.opacity,
-          p.hasSelectionOpacity,
-        ]),
+            p.fontFamily,
+            fontSizes.valueLabel,
+            fontSizes.legend,
+            fontSizes.setLabel,
+            fontSizes.title,
+            fontSizes.exportLabel,
+            fontSizes.description,
+            p.textColor,
+            p.color,
+            p.hasSelectionColor,
+            p.strokeColor,
+            p.valueTextColor,
+            p.selectionColor,
+            p.opacity,
+            p.hasSelectionOpacity,
+          ]),
     [
       p.id,
       p.fontFamily,

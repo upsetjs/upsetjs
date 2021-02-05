@@ -6,10 +6,10 @@
  */
 
 import { ISetComposite, isSetLike, UpSetSelection, ISetLike } from '@upsetjs/react';
-import { View } from 'vega';
+import type { View } from 'vega';
 import { useLayoutEffect, RefObject, useMemo, useRef, MutableRefObject } from 'react';
 import throttle from 'lodash.throttle';
-import { IntervalSelection, SingleSelection } from 'vega-lite/build/src/selection';
+import type { IntervalSelection, SingleSelection } from 'vega-lite/build/src/selection';
 import { generateListener } from './single';
 
 export interface IIntervalSetComposite<T> extends ISetComposite<T> {
@@ -190,13 +190,13 @@ export function useVegaIntervalSelection<T>(
         {},
         onClick
           ? {
-            [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
-          }
+              [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
+            }
           : {},
         onHover
           ? {
-            [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-          }
+              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
+            }
           : {}
       ),
     [selectionName, onClick, onHover]

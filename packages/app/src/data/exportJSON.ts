@@ -6,9 +6,9 @@
  */
 
 import { loadFile } from '../dump';
-import Store from '../store/Store';
+import type Store from '../store/Store';
 import { toEmbeddedDump, toEmbeddedStaticDump } from './shareEmbedded';
-import { IDataSet, IElem } from './interfaces';
+import type { IDataSet, IElem } from './interfaces';
 import { loadJSON, decompressElems } from '../dump';
 import { IUpSetJSDump, extractSets } from '@upsetjs/react';
 import { asSet, fromIndicesArray } from '@upsetjs/model';

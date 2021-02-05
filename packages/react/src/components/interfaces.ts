@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetLike } from '@upsetjs/model';
-import { UpSetAddons } from '../interfaces';
+import type { ISetLike } from '@upsetjs/model';
+import type { UpSetAddons } from '../interfaces';
 
 export declare type UpSetSelection = {
   onMouseEnter(

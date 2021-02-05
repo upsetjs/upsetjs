@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
-import { UpSetAddon as UpSetAddonImpl, ISetLike } from '@upsetjs/react';
+import type { UpSetAddon as UpSetAddonImpl, ISetLike } from '@upsetjs/react';
 
 export declare type UpSetReactElement = any;
 

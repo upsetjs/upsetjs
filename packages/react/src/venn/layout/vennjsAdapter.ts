@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISetCombinations, ISets } from '@upsetjs/model';
-import { IVennDiagramLayoutGenerator, ITextCircle } from './interfaces';
+import type { ISetCombinations, ISets } from '@upsetjs/model';
+import type { IVennDiagramLayoutGenerator, ITextCircle } from './interfaces';
 import { DEG2RAD, pointAtCircle } from './math';
 
 export interface IVennJSSetOverlap {

@@ -14,7 +14,7 @@ import {
   EMPTY_OBJECT,
   DEFAULT_WIDTH_RATIO,
 } from './defaults';
-import {
+import type {
   UpSetThemeProps,
   UpSetProps,
   UpSetFullProps,
@@ -127,8 +127,8 @@ function fillGeneric<T extends {}>(
     others,
     props.fontSizes
       ? {
-        fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
-      }
+          fontSizes: Object.assign({}, DEFAULT_FONT_SIZES, props.fontSizes),
+        }
       : EMPTY_OBJECT
   );
 }

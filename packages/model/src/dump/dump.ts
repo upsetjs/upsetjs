@@ -9,7 +9,7 @@ import { toIndicesArray, fromIndicesArray } from '../array';
 import { GenerateSetCombinationsOptions, generateCombinations, asSet, asCombination } from '../data';
 import { ISetCombinations, ISetLike, ISets, toKey as toDefaultKey, SetCombinationType } from '../model';
 import { isSetQuery, UpSetElemQuery, UpSetSetQuery } from '../queries';
-import { IUpSetDumpRef } from './interfaces';
+import type { IUpSetDumpRef } from './interfaces';
 import { withColor } from './utils';
 
 export interface IUpSetFromDumpConfig<T> {
@@ -37,8 +37,8 @@ export function fromDump<T>(
     );
   const combinations: ISetCombinations<T> = dump.combinations
     ? dump.combinations.map((c) =>
-      asCombination({ ...c, elems: fromIndicesArray(c.elems, elems) }, c.type, (v) => v.sets.map((i) => sets[i]))
-    )
+        asCombination({ ...c, elems: fromIndicesArray(c.elems, elems) }, c.type, (v) => v.sets.map((i) => sets[i]))
+      )
     : gen();
 
   function fromSetRef(ref: IUpSetDumpRef): ISetLike<T> | undefined {
@@ -145,19 +145,19 @@ export function toDump<T>(data: IUpSetDumpData<T>, config: IUpSetToDumpConfig<T>
     combinations:
       config.compress === 'no'
         ? data.combinations.map((c) => {
-          const setKeys = new Set(Array.from(c.sets).map(toKey));
-          return withColor(
-            {
-              name: c.name,
-              type: c.type,
-              cardinality: c.cardinality,
-              degree: c.degree,
-              sets: setLookup.filter(({ key }) => setKeys.has(key)).map(({ i }) => i),
-              elems: toIndicesArray(c.elems, data.toElemIndex, indicesOptions),
-            },
-            c
-          );
-        })
+            const setKeys = new Set(Array.from(c.sets).map(toKey));
+            return withColor(
+              {
+                name: c.name,
+                type: c.type,
+                cardinality: c.cardinality,
+                degree: c.degree,
+                sets: setLookup.filter(({ key }) => setKeys.has(key)).map(({ i }) => i),
+                elems: toIndicesArray(c.elems, data.toElemIndex, indicesOptions),
+              },
+              c
+            );
+          })
         : undefined,
     combinationOptions: data.combinationOptions,
     selection: data.selection

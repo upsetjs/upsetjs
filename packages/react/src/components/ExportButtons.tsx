@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { UpSetExportOptions } from '../interfaces';
+import type { UpSetExportOptions } from '../interfaces';
 
 export default function ExportButtons({
   transform,

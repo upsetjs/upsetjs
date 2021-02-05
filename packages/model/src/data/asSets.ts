@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISet } from '../model';
+import type { ISet } from '../model';
 import { byCardinality, byName, byComposite, negate } from './utils';
 
 /**

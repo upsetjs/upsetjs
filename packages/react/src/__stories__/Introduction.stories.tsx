@@ -9,7 +9,7 @@ import { UpSetJS } from '../UpSetJS';
 import { sets } from './data';
 import { VennDiagram } from '../venn/VennDiagram';
 import { KarnaughMap } from '../kmap/KarnaughMap';
-import { ISetLike } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 
 const stories = {
   title: 'Introduction',

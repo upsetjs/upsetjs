@@ -5,9 +5,9 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISets, ISetCombinations, GenerateSetCombinationsOptions, UpSetJSDumpProps } from '@upsetjs/react';
+import type { ISets, ISetCombinations, GenerateSetCombinationsOptions, UpSetJSDumpProps } from '@upsetjs/react';
 
-export interface ICustomizeOptions extends Omit<UpSetJSDumpProps, 'width' | 'height'> { }
+export interface ICustomizeOptions extends Omit<UpSetJSDumpProps, 'width' | 'height'> {}
 
 export interface IAttrs {
   [key: string]: number;

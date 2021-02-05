@@ -37,7 +37,7 @@ import RemoveCircle from 'mdi-material-ui/MinusCircle';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import clsx from 'clsx';
-import { IDataSet } from '../data';
+import type { IDataSet } from '../data';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {

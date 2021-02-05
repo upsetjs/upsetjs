@@ -22,6 +22,9 @@ packageExtensions:
   'vega-tooltip@*':
     dependencies:
       'vega-typings': '*'
+  'vega-lite@*':
+    dependencies:
+      'vega-typings': '*'
   # 'semver@*':
   #   dependencies:
   #     'core-js': '*'

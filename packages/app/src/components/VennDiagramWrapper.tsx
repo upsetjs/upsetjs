@@ -8,11 +8,11 @@
 import React, { lazy, Suspense, RefObject } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store';
-import { IElem } from '../data/interfaces';
+import type { IElem } from '../data/interfaces';
 import ReactResizeDetector from 'react-resize-detector';
 import Loading from './Loading';
 import { makeStyles } from '@material-ui/core/styles';
-import { VennDiagram as VennDiagramImpl } from '@upsetjs/react';
+import type { VennDiagram as VennDiagramImpl } from '@upsetjs/react';
 import Skeleton from './Skeleton';
 
 const useStyles = makeStyles(() => ({
@@ -62,8 +62,8 @@ const VennDiagramRenderer = observer(
   }
 );
 
-function renderVennDiagram({ width, targetRef }: { width: number; targetRef?: RefObject<HTMLDivElement> }) {
-  return <VennDiagramRenderer width={width} targetRef={targetRef} />;
+function renderVennDiagram({ width, targetRef }: { width?: number; targetRef?: RefObject<HTMLDivElement> }) {
+  return <VennDiagramRenderer width={width ?? 0} targetRef={targetRef} />;
 }
 
 export default observer(() => {

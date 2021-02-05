@@ -16,7 +16,7 @@ import {
   renderKarnaughMap,
   UpSetSelectionProps,
 } from '@upsetjs/bundle';
-import { RecordPropsDefinition } from 'vue/types/options';
+import type { RecordPropsDefinition } from 'vue/types/options';
 export {
   asCombination,
   asCombinations,

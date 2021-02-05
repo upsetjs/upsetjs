@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import {
+import type {
   UpSetFontSizes,
   UpSetMultiStyle,
   UpSetExportOptions,
@@ -14,7 +14,7 @@ import {
   KarnaughMapMultiStyle,
   KarnaughMapFontSizes,
 } from './interfaces';
-import { GenerateSetCombinationsOptions } from '@upsetjs/model';
+import type { GenerateSetCombinationsOptions } from '@upsetjs/model';
 
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY: any[] = [];
@@ -46,18 +46,18 @@ export const MULTI_STYLE_KEYS: (
   | keyof VennDiagramMultiStyle<any>
   | keyof KarnaughMapMultiStyle<any>
 )[] = [
-    'axisTick',
-    'bar',
-    'barLabel',
-    'chartLabel',
-    'dot',
-    'legend',
-    'title',
-    'description',
-    'setLabel',
-    'set',
-    'valueLabel',
-  ];
+  'axisTick',
+  'bar',
+  'barLabel',
+  'chartLabel',
+  'dot',
+  'legend',
+  'title',
+  'description',
+  'setLabel',
+  'set',
+  'valueLabel',
+];
 export const EXPORT_OPTION_KEYS: (keyof UpSetExportOptions)[] = ['dump', 'png', 'share', 'svg', 'vega'];
 
 export const OVERFLOW_OPACITY_FACTOR = [0.7, 0.4];

@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import Histogram, { HistogramProps } from './Histogram';
-import { UpSetSelection } from '@upsetjs/react';
+import type { UpSetSelection } from '@upsetjs/react';
 
 const stories = {
   component: Histogram,

@@ -7,7 +7,7 @@
 
 import { downloadUrl } from './exportSVG';
 import { extractDescription, extractTitle, extractStyleId } from './utils';
-import { UpSetThemes } from '../interfaces';
+import type { UpSetThemes } from '../interfaces';
 import { getDefaultTheme } from '../fillDefaults';
 
 export function createVegaSpec(svg: SVGSVGElement, title?: string) {
@@ -98,13 +98,13 @@ export function createVegaSpec(svg: SVGSVGElement, title?: string) {
   const filter =
     highlightedCombination >= 0
       ? {
-        field: 'partOf',
-        oneOf: [1, 2],
-      }
+          field: 'partOf',
+          oneOf: [1, 2],
+        }
       : {
-        field: 'partOf',
-        equal: 1,
-      };
+          field: 'partOf',
+          equal: 1,
+        };
 
   // part of: 0 ... negative list, 1 ... positive set list, 2, ... positive and selected
   return {
@@ -330,15 +330,15 @@ export function createVegaSpec(svg: SVGSVGElement, title?: string) {
                   ...(highlightedCombination < 0
                     ? {}
                     : {
-                      color: {
-                        field: 'partOf',
-                        type: 'nominal',
-                        legend: null,
-                        scale: {
-                          range: [color, selectionColor],
+                        color: {
+                          field: 'partOf',
+                          type: 'nominal',
+                          legend: null,
+                          scale: {
+                            range: [color, selectionColor],
+                          },
                         },
-                      },
-                    }),
+                      }),
                 },
               },
             ],

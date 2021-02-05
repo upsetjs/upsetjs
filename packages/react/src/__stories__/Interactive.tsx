@@ -5,9 +5,9 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { UpSetProps, VennDiagramProps, KarnaughMapProps } from '../interfaces';
+import type { UpSetProps, VennDiagramProps, KarnaughMapProps } from '../interfaces';
 import React from 'react';
-import { ISetLike } from '@upsetjs/model';
+import type { ISetLike } from '@upsetjs/model';
 import UpSetJS from '../UpSetJS';
 import VennDiagram from '../venn/VennDiagram';
 import KarnaughMap from '../kmap/KarnaughMap';

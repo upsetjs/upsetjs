@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { CSSProperties, ReactNode } from 'react';
-import { VennDiagramMultiStyle, UpSetThemes } from '../../interfaces';
+import type { CSSProperties, ReactNode } from 'react';
+import type { VennDiagramMultiStyle, UpSetThemes } from '../../interfaces';
 
 export default function deriveVennStyleDependent(
   theme: UpSetThemes,

@@ -5,8 +5,8 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { ISet, ISetCombination, ISetLike, IBaseSet } from './model';
-import { GenerateSetCombinationsOptions } from './data';
+import type { ISet, ISetCombination, ISetLike, IBaseSet } from './model';
+import type { GenerateSetCombinationsOptions } from './data';
 import { UpSetQuery, isElemQuery, isCalcQuery, isSetQuery } from './queries';
 
 function isBaseSet(v: any): v is IBaseSet<any> {
