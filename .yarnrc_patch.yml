@@ -25,6 +25,16 @@ packageExtensions:
   'vega-lite@*':
     dependencies:
       'vega-typings': '*'
-  # 'semver@*':
-  #   dependencies:
-  #     'core-js': '*'
+  'prism-react-renderer@*':
+    dependencies:
+      react: '*'
+  'react-live@*':
+    dependencies:
+      react: '*'
+      '@philpl/buble': '*'
+  'react-simple-code-editor@*':
+    dependencies:
+      react: '*'
+  '@upsetjs/react@*':
+    peerDependencies:
+      'react-refresh': '*'
