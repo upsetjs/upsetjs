@@ -40,6 +40,18 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'Integrations',
+      items: [
+        'integrations/_index',
+        'integrations/vue',
+        'integrations/r',
+        'integrations/jupyter',
+        'integrations/powerbi',
+        'integrations/tableau',
+      ],
+    },
+    {
+      type: 'category',
       label: 'API',
       items: [
         {
@@ -49,8 +61,8 @@ module.exports = {
         },
         {
           type: 'link',
-          label: 'Addons',
-          href: '/api/addons',
+          label: 'React',
+          href: '/api/react',
         },
         {
           type: 'link',
@@ -59,13 +71,13 @@ module.exports = {
         },
         {
           type: 'link',
-          label: 'Jupyter',
-          href: '/api/jupyter',
+          label: 'Math',
+          href: '/api/math',
         },
         {
           type: 'link',
-          label: 'Math',
-          href: '/api/math',
+          label: 'Addons',
+          href: '/api/addons',
         },
         {
           type: 'link',
@@ -74,8 +86,8 @@ module.exports = {
         },
         {
           type: 'link',
-          label: 'React',
-          href: '/api/react',
+          label: 'Jupyter',
+          href: '/api/jupyter',
         },
       ],
     },
