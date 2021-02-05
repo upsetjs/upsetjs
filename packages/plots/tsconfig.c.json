@@ -6,5 +6,8 @@
     "declarationMap": true,
     "noEmit": false,
     "composite": true
-  }
+  },
+  "references": [
+    { "path": "../react/tsconfig.c.json" }
+  ]
 }

@@ -1,6 +1,6 @@
 /**
- * @lineup-lite/example-basic
- * https://github.com/sgratzl/lineup-lite
+ * @upsetjs/example-basic
+ * https://github.com/upsetjs/upsetjs
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */

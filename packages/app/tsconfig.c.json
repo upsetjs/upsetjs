@@ -6,5 +6,12 @@
     "declarationMap": true,
     "noEmit": false,
     "composite": true
-  }
+  },
+  "references": [
+    { "path": "../math/tsconfig.c.json" },
+    { "path": "../addons/tsconfig.c.json" },
+    { "path": "../model/tsconfig.c.json" },
+    { "path": "../react/tsconfig.c.json" },
+    { "path": "../bundle/tsconfig.c.json" }
+  ]
 }

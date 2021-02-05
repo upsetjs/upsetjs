@@ -3,14 +3,16 @@
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "noEmit": false,
-    "composite": true
+    "composite": true,
+    "skipLibCheck": true
   },
   "references": [
     { "path": "../math/tsconfig.c.json" },
     { "path": "../addons/tsconfig.c.json" },
     { "path": "../model/tsconfig.c.json" },
-    { "path": "../react/tsconfig.c.json" }
+    { "path": "../react/tsconfig.c.json" },
+    { "path": "../bundle/tsconfig.c.json" }
   ]
 }
