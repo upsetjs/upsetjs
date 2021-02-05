@@ -1,0 +1,139 @@
+---
+title: Combination Modes
+---
+
+## Default
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    type: 'intersection',
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+## Set Union
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    type: 'union',
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations} combinationName="Union Size"/>
+  );
+}
+```
+
+## Distinct Set Intersection
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    type: 'distinctIntersection',
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations} combinationName="Distinct Intersection Size"/>
+  );
+}
+```
+
+## Show Empty
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    empty: true
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+
+## Two Sets Intersections
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    min: 2
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+
+## Limit Top 10
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    limit: 10
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+
+## Sort By Degree
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    order: 'degree:desc'
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+
+## Sort By Set Group
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  const combinations = useMemo(() => ({
+    order: ['group:asc', 'degree:desc'],
+  }), []);
+  return (
+    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+  );
+}
+```
+

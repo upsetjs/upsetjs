@@ -1,0 +1,21 @@
+---
+id: _index
+title: Components
+slug: /components
+---
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  return (
+    <div>
+      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} />
+      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} />
+      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection} />
+    </div>
+  );
+}
+```

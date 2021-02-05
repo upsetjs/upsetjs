@@ -7,11 +7,10 @@
 
 import got from './got.json';
 import { extractSets, UpSetQueries } from '@upsetjs/model';
-import { getDefaultTheme } from '../../fillDefaults';
+import { getDefaultTheme } from '@upsetjs/react';
 
 export { mergeColors } from '@upsetjs/model';
 
-export const style = {};
 export const elems = got;
 export const sets = extractSets(elems, {
   order: 'cardinality',
@@ -21,8 +20,6 @@ export const queries: UpSetQueries<{ name: string; sets: string[] }> = [
   { name: 'Q1', color: 'steelblue', elems: elems.filter(() => Math.random() > 0.7) },
   { name: 'Q2', color: 'red', elems: elems.filter(() => Math.random() > 0.8) },
 ];
-
-export const common = { sets, width: 1200, height: 500, style };
 
 export const darkBackgroundColor = getDefaultTheme('dark').backgroundColor;
 

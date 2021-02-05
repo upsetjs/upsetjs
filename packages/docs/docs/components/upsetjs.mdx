@@ -1,0 +1,155 @@
+---
+title: UpSet.js Plot
+---
+
+```jsx live
+// import React from 'react';
+
+function Default() {
+  return <UpSetJS sets={GameOfThronesDataSet.sets} width={1200} height={500} />;
+}
+```
+
+## Skeleton
+
+```jsx live
+// import React from 'react';
+
+function Skeleton() {
+  return <UpSetJSSkeleton width={1200} height={500} />;
+}
+```
+
+## Title
+
+```jsx live
+// import React from 'react';
+
+function Title() {
+  return <UpSetJS
+      sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500}
+      title="Game of Thrones"
+      description="Information about the characters of the tv series Game of Thrones"
+    />;
+}
+```
+
+## Interactivity
+
+```jsx live
+// import React from 'react';
+
+function Interactivity() {
+ const [selection, setSelection] = React.useState(null);
+  return <UpSetJS sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} selection={selection} onHover={setSelection} />;
+}
+```
+
+## Click
+
+```jsx live
+// import React from 'react';
+
+function Click() {
+ const [selection, setSelection] = React.useState(null);
+  return <UpSetJS sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} selection={selection} onClick={setSelection} />;
+}
+```
+
+## Queries
+
+```jsx live
+// import React from 'react';
+
+function Queries() {
+  return <UpSetJS sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} queries={GameOfThronesDataSet.queries} queryLegend />;
+}
+```
+
+## Small Sets
+
+```jsx live
+// import React from 'react';
+
+function SmallSets() {
+  return <div>
+      <UpSetJS
+        width={1200}
+      height={500}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
+          { name: 'two', elems: [1, 2, 4, 5, 10] },
+          { name: 'three', elems: [1, 5, 6, 7, 8, 9, 10, 12, 13] },
+        ])}
+      />
+      <UpSetJS
+        width={1200}
+      height={500}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3] },
+          { name: 'two', elems: [1, 2, 4, 5] },
+          { name: 'three', elems: [1, 5] },
+        ])}
+      />
+    </div>;
+}
+```
+
+## Addons
+
+```jsx live
+// import React from 'react';
+
+const SetAddon = ({ width, height }) => {
+  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="red"></rect>;
+};
+
+const SetAddon2 = ({ width, height }) => {
+  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="green"></rect>;
+};
+
+function Addons() {
+  const [selection, setSelection] = React.useState(null);
+  return <UpSetJS
+        width={1200}
+      height={500}
+       sets={GameOfThronesDataSet.sets}
+      selection={selection}
+      onHover={setSelection}
+      setAddons={[
+        {
+          name: 'red',
+          size: 40,
+          render: SetAddon,
+        },
+        {
+          name: 'green',
+          position: 'before',
+          size: 20,
+          render: SetAddon2,
+        },
+      ]}
+      combinationAddons={[
+        {
+          name: 'red',
+          size: 40,
+          render: SetAddon,
+        },
+        {
+          name: 'green',
+          position: 'before',
+          size: 20,
+          render: SetAddon2,
+        },
+      ]}
+    />;
+}
+```

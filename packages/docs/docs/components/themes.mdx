@@ -1,0 +1,90 @@
+---
+title: Themes + Colors
+---
+
+## Dark Theme
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  return (
+    <div style={{backgroundColor: '#303030'}}>
+      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} theme="dark" />
+      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} theme="dark" />
+      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection} theme="dark" />
+    </div>
+  );
+}
+```
+
+## Vega Theme
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  return (
+    <div style={{backgroundColor: '#303030'}}>
+      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} theme="vega" />
+      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} theme="vega" />
+      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection} theme="vega" />
+    </div>
+  );
+}
+```
+
+## Custom Theming
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = GameOfThronesDataSet.sets;
+  return (
+    <div style={{backgroundColor: '#303030'}}>
+      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection}  color="darkorchid"
+      selectionColor="darkorchid"
+      hasSelectionOpacity={0.6}
+      alternatingBackgroundColor={false}/>
+      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} color="darkorchid"
+      selectionColor="darkorchid"
+      hasSelectionOpacity={0.6}
+      filled />
+      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection}
+      color="darkorchid" selectionColor="darkorchid" hasSelectionOpacity={0.6} />
+    </div>
+  );
+}
+```
+
+## Set Colors
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = React.useState(null);
+  const sets = useMemo(() => GameOfThronesDataSet.sets.map((s, i) => ({ ...s, color: colors[i] })), []);
+  const combinations = useMemo(() => ({mergeColors}), []);
+  return (
+    <div style={{backgroundColor: '#303030'}}>
+      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection}
+      combinations={combinations}
+      hasSelectionOpacity={0.6}
+      selectionColor=""/>
+      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} combinations={combinations}
+      hasSelectionOpacity={0.6}
+      selectionColor=""/>
+      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection}combinations={combinations}
+      hasSelectionOpacity={0.6}
+      selectionColor=""/>
+    </div>
+  );
+}
+```

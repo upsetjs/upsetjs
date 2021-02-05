@@ -1,0 +1,104 @@
+---
+title: Venn Diagram
+---
+
+```jsx live
+// import React from 'react';
+
+function Default() {
+  return <VennDiagram sets={GameOfThronesDataSet.sets} width={1200} height={500} />;
+}
+```
+
+## Skeleton
+
+```jsx live
+// import React from 'react';
+
+function Skeleton() {
+  return <VennDiagramSkeleton width={1200} height={500} />;
+}
+```
+
+## Title
+
+```jsx live
+// import React from 'react';
+
+function Title() {
+  return <VennDiagram
+      sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500}
+      title="Game of Thrones"
+      description="Information about the characters of the tv series Game of Thrones"
+    />;
+}
+```
+
+## Interactivity
+
+```jsx live
+// import React from 'react';
+
+function Interactivity() {
+ const [selection, setSelection] = React.useState(null);
+  return <VennDiagram sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} selection={selection} onHover={setSelection} />;
+}
+```
+
+## Click
+
+```jsx live
+// import React from 'react';
+
+function Click() {
+ const [selection, setSelection] = React.useState(null);
+  return <VennDiagram sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} selection={selection} onClick={setSelection} />;
+}
+```
+
+## Queries
+
+```jsx live
+// import React from 'react';
+
+function Queries() {
+  return <VennDiagram sets={GameOfThronesDataSet.sets}
+      width={1200}
+      height={500} queries={GameOfThronesDataSet.queries} queryLegend />;
+}
+```
+
+## Small Sets
+
+```jsx live
+// import React from 'react';
+
+function SmallSets() {
+  return <div>
+      <VennDiagram
+        width={1200}
+      height={500}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
+          { name: 'two', elems: [1, 2, 4, 5, 10] },
+          { name: 'three', elems: [1, 5, 6, 7, 8, 9, 10, 12, 13] },
+        ])}
+      />
+      <VennDiagram
+        width={1200}
+      height={500}
+        sets={asSets([
+          { name: 'one', elems: [1, 2, 3] },
+          { name: 'two', elems: [1, 2, 4, 5] },
+          { name: 'three', elems: [1, 5] },
+        ])}
+      />
+    </div>;
+}
+```
