@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "before:init": "yarn clear",
+    "before:bump": "yarn workspaces foreach --verbose version ${version} --deferred",
+    "after:bump": "yarn version apply --all",
+    "before:release": "yarn build && yarn pack:libs",
+    "before:github:release": "yarn release:npm",
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "git": {
+    "tagName": "v${version}"
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true,
+    "assets": ["packages/*/*.tgz"]
+  }
+}

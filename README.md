@@ -537,16 +537,10 @@ yarn build
 
 ### Release
 
+[Release-it](https://github.com/release-it/release-it/) is used:
+
 ```sh
-yarn workspaces foreach --verbose version X.X.X --deferred
-yarn version apply --all
-git commit -am 'release vX.X.X'
-git push
-git tag vX.X.X
-git push --tags
-yarn clean
-yarn build
-yarn workspaces foreach --verbose npm publish --access public
+yarn release
 ```
 
 ### Release Policy

@@ -30,7 +30,8 @@
     "test": "yarn workspaces foreach -v -p --topological-dev run test",
     "build": "yarn workspaces foreach -v -p --topological-dev run build",
     "build:packages": "yarn workspaces foreach -v --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" run build",
-    "build:preapp": "yarn workspaces foreach -v --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" run build",
+    "libs": "yarn workspaces foreach -v --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" run build",
+    "pack:libs": "yarn workspaces foreach -v -p --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" pack --out '%s-%v.tgz'",
     "docs": "yarn workspaces foreach -v -p run docs",
     "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
@@ -55,6 +56,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.2.1",
+    "release-it": "^14.3.0",
     "typescript": "^4.1.3"
   }
 }
