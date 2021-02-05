@@ -4475,7 +4475,7 @@ __metadata:
     eslint-plugin-react: ^7.22.0
     eslint-plugin-react-hooks: ^4.2.0
     file-loader: ^6.2.0
-    html-webpack-plugin: ^5.0.0
+    html-webpack-plugin: ^4.5.0
     lz-string: ^1.4.4
     mdi-material-ui: ^6.21.0
     mobx: ^6.1.5
@@ -12563,7 +12563,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:^4.2.1":
+"html-webpack-plugin@npm:^4.2.1, html-webpack-plugin@npm:^4.5.0":
   version: 4.5.1
   resolution: "html-webpack-plugin@npm:4.5.1"
   dependencies:
@@ -12579,22 +12579,6 @@ fsevents@^1.2.7:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 58979a6adb605bb0d0eb489d587eb3b980724dcbe5fb2fdccce7033a13dd46e75d12062bc0ca8943d3598d012717c84df9f250549b728bd07fae244f9d1ecefd
-  languageName: node
-  linkType: hard
-
-"html-webpack-plugin@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "html-webpack-plugin@npm:5.0.0"
-  dependencies:
-    "@types/html-minifier-terser": ^5.0.0
-    html-minifier-terser: ^5.0.1
-    loader-utils: ^2.0.0
-    lodash: ^4.17.20
-    pretty-error: ^2.1.1
-    tapable: ^2.0.0
-  peerDependencies:
-    webpack: ^5.20.0
-  checksum: 2b72c3639d220d0ca3b858b355905dc0df2410722c568fb8fb1814ad157f4a3726e35440783d19bc5353c130a0607afad199580fe85257883bf5e110f943a745
   languageName: node
   linkType: hard
 
@@ -21373,7 +21357,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"tapable@npm:^2.0.0, tapable@npm:^2.1.1, tapable@npm:^2.2.0":
+"tapable@npm:^2.1.1, tapable@npm:^2.2.0":
   version: 2.2.0
   resolution: "tapable@npm:2.2.0"
   checksum: f8ed725aedb3d777bf908ff06c02d1a2108667d3e64af87dd45354ac8de67e7e4fe1a567e215057fb1a2a5437b31d80cc5e5ddbb8327f7280afd4494967a9a93

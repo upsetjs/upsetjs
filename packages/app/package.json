@@ -59,7 +59,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.0.0",
+    "html-webpack-plugin": "^4.5.0",
     "pnp-webpack-plugin": "^1.6.4",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
