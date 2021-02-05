@@ -1,0 +1,85 @@
+---
+title: Scatterplot
+---
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = useState < UpSetSelection < any >> null;
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.random(),
+          b: Math.random(),
+        })),
+    []
+  );
+  return (
+    <Scatterplot
+      selection={selection}
+      onHover={setSelection}
+      width={500}
+      height={500}
+      elems={elems}
+      xAttr="a"
+      yAttr="b"
+      title="As"
+    />
+  );
+}
+```
+
+## Selection
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.random(),
+          b: Math.random(),
+        })),
+    []
+  );
+  return (
+    <Scatterplot width={500} height={500} elems={elems} xAttr="a" yAttr="b" title="As" selection={elems.slice(0, 7)} />
+  );
+}
+```
+
+## Queries
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.random(),
+          b: Math.random(),
+        })),
+    []
+  );
+  return (
+    <Scatterplot
+      width={500}
+      height={500}
+      elems={elems}
+      xAttr="a"
+      yAttr="b"
+      title="As"
+      queries={[{ name: 'test', color: 'green', elems: elems.slice(0, 10) }]}
+    />
+  );
+}
+```

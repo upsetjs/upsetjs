@@ -1,0 +1,70 @@
+---
+title: PieChart
+---
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = useState < UpSetSelection < any >> null;
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.floor(Math.random() * 4).toString(),
+        })),
+    []
+  );
+  return (
+    <PieChart selection={selection} onHover={setSelection} width={500} height={500} elems={elems} attr="a" title="As" />
+  );
+}
+```
+
+## Selection
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.floor(Math.random() * 4).toString(),
+        })),
+    []
+  );
+  return <PieChart width={500} height={500} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />;
+}
+```
+
+## Queries
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map(() => ({
+          a: Math.floor(Math.random() * 4).toString(),
+        })),
+    []
+  );
+  return (
+    <PieChart
+      width={500}
+      height={500}
+      elems={elems}
+      attr="a"
+      title="As"
+      queries={[{ name: 'test', color: 'green', elems: elems.slice(0, 10) }]}
+    />
+  );
+}
+```

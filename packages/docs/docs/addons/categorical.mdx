@@ -1,0 +1,142 @@
+---
+title: Categorical
+---
+
+The `Cateogrical` addon summarizes categorical attributes using a mosaic chart.
+
+## Example
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = useState(null);
+
+  const categories = ['c1', 'c2', 'c3'];
+  const elems = useMemo(() => [
+    { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
+    { name: '2', sets: ['one', 'two'], value: categories[1] },
+    { name: '3', sets: ['one'], value: categories[2] },
+    { name: '4', sets: ['two'], value: categories[0] },
+    { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
+    { name: '6', sets: ['three'], value: categories[2] },
+    { name: '7', sets: ['one', 'three'], value: categories[0] },
+    { name: '8', sets: ['one', 'three'], value: categories[1] },
+    { name: '9', sets: ['three'], value: categories[2] },
+    { name: '10', sets: ['two', 'three'], value: categories[0] },
+    { name: '11', sets: ['one'], value: categories[1] },
+    { name: '12', sets: ['one', 'three'], value: categories[2] },
+    { name: '13', sets: ['one', 'three'], value: categories[0] },
+  ]), []);
+  const sets = useMemo(() => extractSets(elems), []);
+
+  return (
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={500}
+      selection={selection}
+      onHover={setSelection}
+      setAddons={[categoricalAddon('value', elems)]}
+      combinationAddons={[categoricalAddon('value', elems, { orient: 'vertical' })]}
+    />
+  );
+}
+```
+
+## Queries
+
+This addon also support queries
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = useState(null);
+
+  const categories = ['c1', 'c2', 'c3'];
+  const elems = useMemo(() => [
+    { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
+    { name: '2', sets: ['one', 'two'], value: categories[1] },
+    { name: '3', sets: ['one'], value: categories[2] },
+    { name: '4', sets: ['two'], value: categories[0] },
+    { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
+    { name: '6', sets: ['three'], value: categories[2] },
+    { name: '7', sets: ['one', 'three'], value: categories[0] },
+    { name: '8', sets: ['one', 'three'], value: categories[1] },
+    { name: '9', sets: ['three'], value: categories[2] },
+    { name: '10', sets: ['two', 'three'], value: categories[0] },
+    { name: '11', sets: ['one'], value: categories[1] },
+    { name: '12', sets: ['one', 'three'], value: categories[2] },
+    { name: '13', sets: ['one', 'three'], value: categories[0] },
+  ]), []);
+  const sets = useMemo(() => extractSets(elems), []);
+
+  return (
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={500}
+      queries={[{ name: 'Q1', color: 'green', set: sets[0] }]}
+      setAddons={[categoricalAddon('value', elems)]}
+      combinationAddons={[categoricalAddon('value', elems, { orient: 'vertical' })]}
+    />
+  );
+}
+```
+
+## Basic Component
+
+### Horizontal
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const categories = ['c1', 'c2', 'c3'];
+  const values = Array(100)
+    .fill(0)
+    .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
+  return (
+    <svg width={200} height={50}>
+      <Categorical width={200} height={50} categories={categories} values={values} />
+    </svg>
+  );
+}
+```
+
+### Vertical
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const categories = ['c1', 'c2', 'c3'];
+  const values = Array(100)
+    .fill(0)
+    .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
+  return (
+    <svg width={50} height={200}>
+      <Categorical width={50} height={200} categories={categories} values={values} orient="vertical" />
+    </svg>
+  );
+}
+```
+
+### Dark
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const categories = ['c1', 'c2', 'c3'];
+  const values = Array(100)
+    .fill(0)
+    .map(() => categories[Math.floor(Math.random() * 3 - 0.01)]);
+  return (
+    <svg width={200} height={50}>
+      <Categorical width={200} height={50} categories={categories} values={values} theme="dark" />
+    </svg>
+  );
+}
+```

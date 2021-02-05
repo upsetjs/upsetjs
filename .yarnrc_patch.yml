@@ -38,3 +38,6 @@ packageExtensions:
   '@upsetjs/react@*':
     peerDependencies:
       'react-refresh': '*'
+  'typedoc@*':
+    dependencies:
+      'shiki-themes': '*'

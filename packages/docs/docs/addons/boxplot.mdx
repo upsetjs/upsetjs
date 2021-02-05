@@ -1,0 +1,122 @@
+---
+title: BoxPlot
+---
+
+The `BoxPlot` addons summarizes numerical attributes using a box plot.
+
+## Example
+
+```jsx live
+// import React from 'react';
+
+function BoxPlot() {
+  const [selection, setSelection] = useState(null);
+
+  const elems = useMemo(() => [
+    { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
+    { name: '2', sets: ['one', 'two'], value: Math.random() },
+    { name: '3', sets: ['one'], value: Math.random() },
+    { name: '4', sets: ['two'], value: Math.random() },
+    { name: '5', sets: ['one', 'two', 'three'], value: Math.random() },
+    { name: '6', sets: ['three'], value: Math.random() },
+    { name: '7', sets: ['one', 'three'], value: Math.random() },
+    { name: '8', sets: ['one', 'three'], value: Math.random() },
+    { name: '9', sets: ['three'], value: Math.random() },
+    { name: '10', sets: ['two', 'three'], value: Math.random() },
+    { name: '11', sets: ['one'], value: Math.random() },
+    { name: '12', sets: ['one', 'three'], value: Math.random() },
+    { name: '13', sets: ['one', 'three'], value: Math.random() },
+  ]), []);
+  const sets = useMemo(() => extractSets(elems), []);
+
+  return (
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={500}
+      selection={selection}
+      onHover={setSelection}
+      setAddons={[boxplotAddon('value', elems)]}
+      combinationAddons={[boxplotAddon('value', elems, { orient: 'vertical' })]}
+    />
+  );
+}
+```
+
+## Queries
+
+This addon also support queries
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const [selection, setSelection] = useState(null);
+
+  const elems = useMemo(() => [
+    { name: '1', sets: ['one', 'two', 'three'], value: Math.random() },
+    { name: '2', sets: ['one', 'two'], value: Math.random() },
+    { name: '3', sets: ['one'], value: Math.random() },
+    { name: '4', sets: ['two'], value: Math.random() },
+    { name: '5', sets: ['one', 'two', 'three'], value: Math.random() },
+    { name: '6', sets: ['three'], value: Math.random() },
+    { name: '7', sets: ['one', 'three'], value: Math.random() },
+    { name: '8', sets: ['one', 'three'], value: Math.random() },
+    { name: '9', sets: ['three'], value: Math.random() },
+    { name: '10', sets: ['two', 'three'], value: Math.random() },
+    { name: '11', sets: ['one'], value: Math.random() },
+    { name: '12', sets: ['one', 'three'], value: Math.random() },
+    { name: '13', sets: ['one', 'three'], value: Math.random() },
+  ]), []);
+  const sets = useMemo(() => extractSets(elems), []);
+
+  return (
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={500}
+      selection={selection}
+      onHover={setSelection}
+      queries={[{ name: 'Q1', color: 'green', set: sets[0] }]}
+      setAddons={[boxplotAddon('value', elems)]}
+      combinationAddons={[boxplotAddon('value', elems, { orient: 'vertical' })]}
+    />
+  );
+}
+```
+
+## Basic Component
+
+### Horizontal
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const values = Array(100)
+    .fill(0)
+    .map(() => Math.random());
+  return (
+    <svg width={200} height={50}>
+      <Boxplot width={200} height={50} min={0} max={1} values={values} />
+    </svg>
+  );
+}
+```
+
+### Vertical
+
+```jsx live
+// import React from 'react';
+
+function Example() {
+  const values = Array(100)
+    .fill(0)
+    .map(() => Math.random());
+  return (
+    <svg width={50} height={200}>
+      <Boxplot width={50} height={200} min={0} max={1} values={values} orient="vertical" />
+    </svg>
+  );
+}
+```

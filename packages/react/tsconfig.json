@@ -13,5 +13,14 @@
       "@": ["./"],
       "*": ["src/*", "node_modules/*"]
     }
+  },
+  "typedocOptions": {
+    "name": "UpSet.js React",
+    "out": "./docs",
+    "theme": "default",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "includeVersion": true,
+    "hideGenerator": true,
   }
 }

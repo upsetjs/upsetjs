@@ -15,9 +15,5 @@
       "*": ["src/*", "node_modules/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.json"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"]
 }
