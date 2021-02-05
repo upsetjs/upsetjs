@@ -33,7 +33,6 @@
     "libs": "yarn workspaces foreach -v --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" run build",
     "pack:libs": "yarn workspaces foreach -v -p --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots)\" pack --out '%s-%v.tgz'",
     "docs": "yarn workspaces foreach -v -p run docs",
-    "storybook": "yarn workspace @upsetjs/react run storybook",
     "app": "yarn workspace @upsetjs/app run start",
     "prettier": "prettier .eslintrc.js .prettierrc.js *.json .yarnrc_patch.yml \".github/**\"",
     "prettier:write": "npm run prettier -- --write",

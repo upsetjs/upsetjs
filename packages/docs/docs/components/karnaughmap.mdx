@@ -26,13 +26,15 @@ function Skeleton() {
 // import React from 'react';
 
 function Title() {
-  return <KarnaughMap
+  return (
+    <KarnaughMap
       sets={GameOfThronesDataSet.sets}
       width={1200}
       height={500}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
-    />;
+    />
+  );
 }
 ```
 
@@ -42,10 +44,16 @@ function Title() {
 // import React from 'react';
 
 function Interactivity() {
- const [selection, setSelection] = React.useState(null);
-  return <KarnaughMap sets={GameOfThronesDataSet.sets}
+  const [selection, setSelection] = React.useState(null);
+  return (
+    <KarnaughMap
+      sets={GameOfThronesDataSet.sets}
       width={1200}
-      height={500} selection={selection} onHover={setSelection} />;
+      height={500}
+      selection={selection}
+      onHover={setSelection}
+    />
+  );
 }
 ```
 
@@ -55,10 +63,16 @@ function Interactivity() {
 // import React from 'react';
 
 function Click() {
- const [selection, setSelection] = React.useState(null);
-  return <KarnaughMap sets={GameOfThronesDataSet.sets}
+  const [selection, setSelection] = React.useState(null);
+  return (
+    <KarnaughMap
+      sets={GameOfThronesDataSet.sets}
       width={1200}
-      height={500} selection={selection} onClick={setSelection} />;
+      height={500}
+      selection={selection}
+      onClick={setSelection}
+    />
+  );
 }
 ```
 
@@ -68,9 +82,15 @@ function Click() {
 // import React from 'react';
 
 function Queries() {
-  return <KarnaughMap sets={GameOfThronesDataSet.sets}
+  return (
+    <KarnaughMap
+      sets={GameOfThronesDataSet.sets}
       width={1200}
-      height={500} queries={GameOfThronesDataSet.queries} queryLegend />;
+      height={500}
+      queries={GameOfThronesDataSet.queries}
+      queryLegend
+    />
+  );
 }
 ```
 
@@ -80,10 +100,11 @@ function Queries() {
 // import React from 'react';
 
 function SmallSets() {
-  return <div>
+  return (
+    <div>
       <KarnaughMap
         width={1200}
-      height={500}
+        height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
           { name: 'two', elems: [1, 2, 4, 5, 10] },
@@ -92,13 +113,14 @@ function SmallSets() {
       />
       <KarnaughMap
         width={1200}
-      height={500}
+        height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3] },
           { name: 'two', elems: [1, 2, 4, 5] },
           { name: 'three', elems: [1, 5] },
         ])}
       />
-    </div>;
+    </div>
+  );
 }
 ```

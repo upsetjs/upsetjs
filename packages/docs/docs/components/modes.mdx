@@ -10,14 +10,25 @@ title: Combination Modes
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    type: 'intersection',
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      type: 'intersection',
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
+
 ## Set Union
 
 ```jsx live
@@ -26,11 +37,22 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    type: 'union',
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      type: 'union',
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations} combinationName="Union Size"/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+      combinationName="Union Size"
+    />
   );
 }
 ```
@@ -43,11 +65,22 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    type: 'distinctIntersection',
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      type: 'distinctIntersection',
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations} combinationName="Distinct Intersection Size"/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+      combinationName="Distinct Intersection Size"
+    />
   );
 }
 ```
@@ -60,11 +93,21 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    empty: true
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      empty: true,
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
@@ -77,11 +120,21 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    min: 2
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      min: 2,
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
@@ -94,11 +147,21 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    limit: 10
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      limit: 10,
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
@@ -111,11 +174,21 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    order: 'degree:desc'
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      order: 'degree:desc',
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
@@ -128,12 +201,21 @@ function Example() {
 function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
-  const combinations = useMemo(() => ({
-    order: ['group:asc', 'degree:desc'],
-  }), []);
+  const combinations = useMemo(
+    () => ({
+      order: ['group:asc', 'degree:desc'],
+    }),
+    []
+  );
   return (
-    <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} combinations={combinations}/>
+    <UpSetJS
+      sets={sets}
+      width={1200}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+      combinations={combinations}
+    />
   );
 }
 ```
-

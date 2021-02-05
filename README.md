@@ -508,14 +508,6 @@ yarn pnpify --sdk vscode
 
 ### Commands
 
-### Storybook
-
-Run inside another terminal:
-
-```sh
-yarn workspace @upsetjs/react storybook
-```
-
 ### Testing
 
 ```sh

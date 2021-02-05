@@ -11,7 +11,7 @@ function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
   return (
-    <div style={{backgroundColor: '#303030'}}>
+    <div style={{ backgroundColor: '#303030' }}>
       <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} theme="dark" />
       <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} theme="dark" />
       <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection} theme="dark" />
@@ -29,7 +29,7 @@ function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
   return (
-    <div style={{backgroundColor: '#303030'}}>
+    <div style={{ backgroundColor: '#303030' }}>
       <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} theme="vega" />
       <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} theme="vega" />
       <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection} theme="vega" />
@@ -47,17 +47,39 @@ function Example() {
   const [selection, setSelection] = React.useState(null);
   const sets = GameOfThronesDataSet.sets;
   return (
-    <div style={{backgroundColor: '#303030'}}>
-      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection}  color="darkorchid"
-      selectionColor="darkorchid"
-      hasSelectionOpacity={0.6}
-      alternatingBackgroundColor={false}/>
-      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} color="darkorchid"
-      selectionColor="darkorchid"
-      hasSelectionOpacity={0.6}
-      filled />
-      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection}
-      color="darkorchid" selectionColor="darkorchid" hasSelectionOpacity={0.6} />
+    <div style={{ backgroundColor: '#303030' }}>
+      <UpSetJS
+        sets={sets}
+        width={1200}
+        height={400}
+        selection={selection}
+        onHover={setSelection}
+        color="darkorchid"
+        selectionColor="darkorchid"
+        hasSelectionOpacity={0.6}
+        alternatingBackgroundColor={false}
+      />
+      <VennDiagram
+        sets={sets}
+        width={500}
+        height={430}
+        selection={selection}
+        onHover={setSelection}
+        color="darkorchid"
+        selectionColor="darkorchid"
+        hasSelectionOpacity={0.6}
+        filled
+      />
+      <KarnaughMap
+        sets={sets}
+        width={700}
+        height={430}
+        selection={selection}
+        onHover={setSelection}
+        color="darkorchid"
+        selectionColor="darkorchid"
+        hasSelectionOpacity={0.6}
+      />
     </div>
   );
 }
@@ -70,20 +92,43 @@ function Example() {
 
 function Example() {
   const [selection, setSelection] = React.useState(null);
-  const sets = useMemo(() => GameOfThronesDataSet.sets.map((s, i) => ({ ...s, color: colors[i] })), []);
-  const combinations = useMemo(() => ({mergeColors}), []);
+  const sets = useMemo(() => {
+    const colors = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494'];
+    return GameOfThronesDataSet.sets.map((s, i) => ({ ...s, color: colors[i] }));
+  }, []);
+  const combinations = useMemo(() => ({ mergeColors }), []);
   return (
-    <div style={{backgroundColor: '#303030'}}>
-      <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection}
-      combinations={combinations}
-      hasSelectionOpacity={0.6}
-      selectionColor=""/>
-      <VennDiagram sets={sets} width={500} height={430} selection={selection} onHover={setSelection} combinations={combinations}
-      hasSelectionOpacity={0.6}
-      selectionColor=""/>
-      <KarnaughMap sets={sets} width={700} height={430} selection={selection} onHover={setSelection}combinations={combinations}
-      hasSelectionOpacity={0.6}
-      selectionColor=""/>
+    <div style={{ backgroundColor: '#303030' }}>
+      <UpSetJS
+        sets={sets}
+        width={1200}
+        height={400}
+        selection={selection}
+        onHover={setSelection}
+        combinations={combinations}
+        hasSelectionOpacity={0.6}
+        selectionColor=""
+      />
+      <VennDiagram
+        sets={sets}
+        width={500}
+        height={430}
+        selection={selection}
+        onHover={setSelection}
+        combinations={combinations}
+        hasSelectionOpacity={0.6}
+        selectionColor=""
+      />
+      <KarnaughMap
+        sets={sets}
+        width={700}
+        height={430}
+        selection={selection}
+        onHover={setSelection}
+        combinations={combinations}
+        hasSelectionOpacity={0.6}
+        selectionColor=""
+      />
     </div>
   );
 }

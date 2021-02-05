@@ -1,7 +1,4 @@
 packageExtensions:
-  '@storybook/preset-typescript@*':
-    dependencies:
-      '@babel/core': '^7.9.6'
   '@vue/cli-service@*':
     peerDependencies:
       '@vue/cli-plugin-eslint': '*'
