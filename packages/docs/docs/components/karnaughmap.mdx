@@ -6,7 +6,7 @@ title: Karnaugh Map
 // import React from 'react';
 
 function Default() {
-  return <KarnaughMap sets={GameOfThronesDataSet.sets} width={1200} height={500} />;
+  return <KarnaughMap sets={GameOfThronesDataSet.sets} width={780} height={500} />;
 }
 ```
 
@@ -16,7 +16,7 @@ function Default() {
 // import React from 'react';
 
 function Skeleton() {
-  return <KarnaughMapSkeleton width={1200} height={500} />;
+  return <KarnaughMapSkeleton width={780} height={500} />;
 }
 ```
 
@@ -29,7 +29,7 @@ function Title() {
   return (
     <KarnaughMap
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
@@ -48,7 +48,7 @@ function Interactivity() {
   return (
     <KarnaughMap
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       selection={selection}
       onHover={setSelection}
@@ -67,7 +67,7 @@ function Click() {
   return (
     <KarnaughMap
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       selection={selection}
       onClick={setSelection}
@@ -85,7 +85,7 @@ function Queries() {
   return (
     <KarnaughMap
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       queries={GameOfThronesDataSet.queries}
       queryLegend
@@ -103,7 +103,7 @@ function SmallSets() {
   return (
     <div>
       <KarnaughMap
-        width={1200}
+        width={780}
         height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
@@ -112,7 +112,7 @@ function SmallSets() {
         ])}
       />
       <KarnaughMap
-        width={1200}
+        width={780}
         height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3] },

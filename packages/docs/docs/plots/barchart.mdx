@@ -6,13 +6,17 @@ title: Bar Chart
 // import React from 'react';
 
 function Example() {
-  const [selection, setSelection] = useState<UpSetSelection<any>>(null);
-  const elems = useMemo(() => Array(10)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
+  const [selection, setSelection] = useState(null);
+  const elems = useMemo(
+    () =>
+      Array(10)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
+  );
   return (
     <BarChart width={500} height={100} selection={selection} onHover={setSelection} elems={elems} vAttr="a" iAttr="n" />
   );
@@ -25,15 +29,17 @@ function Example() {
 // import React from 'react';
 
 function Example() {
-  const elems = useMemo(() => Array(10)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
-  return (
-    <BarChart width={500} height={100} elems={elems} vAttr="a" iAttr="n" selection={elems.slice(0, 7)} />
+  const elems = useMemo(
+    () =>
+      Array(10)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
   );
+  return <BarChart width={500} height={100} elems={elems} vAttr="a" iAttr="n" selection={elems.slice(0, 7)} />;
 }
 ```
 
@@ -43,12 +49,16 @@ function Example() {
 // import React from 'react';
 
 function Example() {
-  const elems = useMemo(() => Array(10)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
+  const elems = useMemo(
+    () =>
+      Array(10)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
+  );
   return (
     <BarChart
       width={500}

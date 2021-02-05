@@ -6,15 +6,27 @@ title: Histogram
 // import React from 'react';
 
 function Example() {
-  const [selection, setSelection] = useState<UpSetSelection<any>>(null);
-  const elems = useMemo(() => Array(100)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
+  const [selection, setSelection] = useState(null);
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
+  );
   return (
-    <Histogram selection={selection} onHover={setSelection} width={500} height={100} elems={elems} attr="a" title="As" />
+    <Histogram
+      selection={selection}
+      onHover={setSelection}
+      width={500}
+      height={100}
+      elems={elems}
+      attr="a"
+      title="As"
+    />
   );
 }
 ```
@@ -25,15 +37,17 @@ function Example() {
 // import React from 'react';
 
 function Example() {
-  const elems = useMemo(() => Array(100)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
-  return (
-    <Histogram width={500} height={100} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
   );
+  return <Histogram width={500} height={100} elems={elems} attr="a" title="As" selection={elems.slice(0, 7)} />;
 }
 ```
 
@@ -43,14 +57,18 @@ function Example() {
 // import React from 'react';
 
 function Example() {
-  const elems = useMemo(() => Array(100)
-    .fill(0)
-    .map((_, i) => ({
-      n: i.toString(),
-      a: Math.random(),
-    }), []);
+  const elems = useMemo(
+    () =>
+      Array(100)
+        .fill(0)
+        .map((_, i) => ({
+          n: i.toString(),
+          a: Math.random(),
+        })),
+    []
+  );
   return (
-    <BarChart
+    <Histogram
       width={500}
       height={100}
       elems={elems}

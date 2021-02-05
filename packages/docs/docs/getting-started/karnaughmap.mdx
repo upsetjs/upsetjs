@@ -1,5 +1,4 @@
 ---
-id: _index
 title: Karnaugh Map
 ---
 
@@ -214,6 +213,6 @@ function GettingStarted() {
   const sets = useMemo(() => extractSets(elems), [elems]);
 
   const [selection, setSelection] = React.useState(null);
-  return <KarnaughMap sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} />;
+  return <KarnaughMap sets={sets} width={780} height={400} selection={selection} onHover={setSelection} />;
 }
 ```

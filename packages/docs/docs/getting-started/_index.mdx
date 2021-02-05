@@ -215,6 +215,6 @@ function GettingStarted() {
   const sets = useMemo(() => extractSets(elems), [elems]);
 
   const [selection, setSelection] = React.useState(null);
-  return <UpSetJS sets={sets} width={1200} height={400} selection={selection} onHover={setSelection} />;
+  return <UpSetJS sets={sets} width={780} height={400} selection={selection} onHover={setSelection} />;
 }
 ```

@@ -9,7 +9,29 @@ module.exports = {
       type: 'category',
       label: 'Getting started',
       collapsed: false,
-      items: ['getting-started/_index'],
+      items: ['getting-started/_index', 'getting-started/venndiagram', 'getting-started/karnaughmap'],
+    },
+    {
+      type: 'category',
+      label: 'Components',
+      items: [
+        'components/_index',
+        'components/upsetjs',
+        'components/venndiagram',
+        'components/karnaughmap',
+        'components/modes',
+        'components/themes',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Addons',
+      items: ['addons/_index', 'addons/boxplot', 'addons/categorical'],
+    },
+    {
+      type: 'category',
+      label: 'Plots',
+      items: ['plots/_index', 'plots/barchart', 'plots/histogram', 'plots/piechart', 'plots/scatterplot'],
     },
     {
       type: 'category',

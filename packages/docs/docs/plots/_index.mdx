@@ -12,122 +12,117 @@ function Example() {
   const elems = useMemo(() => {
     const cats = ['c1', 'c2', 'c3'];
     return [
-  {
-    name: '1',
-    sets: ['one', 'two', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '2',
-    sets: ['one', 'two'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '3',
-    sets: ['one'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '4',
-    sets: ['two'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '5',
-    sets: ['one', 'two', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '6',
-    sets: ['three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '7',
-    sets: ['one', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '8',
-    sets: ['one', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '9',
-    sets: ['three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '10',
-    sets: ['two', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '11',
-    sets: ['one'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '12',
-    sets: ['one', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-  {
-    name: '13',
-    sets: ['one', 'three'],
-    a: Math.random(),
-    b: Math.random(),
-    c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
-  },
-];}
-, []);
-  const sets = useMemo((() => extractSets(elems), [elems]);
+      {
+        name: '1',
+        sets: ['one', 'two', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '2',
+        sets: ['one', 'two'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '3',
+        sets: ['one'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '4',
+        sets: ['two'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '5',
+        sets: ['one', 'two', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '6',
+        sets: ['three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '7',
+        sets: ['one', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '8',
+        sets: ['one', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '9',
+        sets: ['three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '10',
+        sets: ['two', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '11',
+        sets: ['one'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '12',
+        sets: ['one', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+      {
+        name: '13',
+        sets: ['one', 'three'],
+        a: Math.random(),
+        b: Math.random(),
+        c: cats[Math.min(cats.length - 1, Math.floor(Math.random() * cats.length))],
+      },
+    ];
+  }, []);
+  const sets = useMemo(() => extractSets(elems), [elems]);
   const [selection, setSelection] = useState(null);
 
-  const f = 0.75;
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      <UpSetJS selection={selection} onHover={setSelection} sets={sets} width={1200 * f} height={500 * f} />
-      <Scatterplot
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', placeItems: 'center' }}>
+      <UpSetJS
         selection={selection}
-        onClick={setSelection}
-        // onHover={setSelection}
-        width={500 * f}
-        height={500 * f}
-        xAttr="a"
-        yAttr="b"
-        elems={elems}
-        actions={false}
+        onHover={setSelection}
+        sets={sets}
+        width={780}
+        height={400}
+        style={{ gridColumn: 'span 2' }}
       />
       <Histogram
         selection={selection}
         onHover={setSelection}
-        width={500 * f}
-        height={300 * f}
+        width={300}
+        height={200}
         attr="a"
         elems={elems}
         actions={false}
@@ -135,18 +130,29 @@ function Example() {
       <BarChart
         selection={selection}
         onHover={setSelection}
-        width={500 * f}
-        height={300 * f}
+        width={300}
+        height={200}
         vAttr="a"
         iAttr="name"
+        elems={elems}
+        actions={false}
+      />
+      <Scatterplot
+        selection={selection}
+        onClick={setSelection}
+        // onHover={setSelection}
+        width={300}
+        height={300}
+        xAttr="a"
+        yAttr="b"
         elems={elems}
         actions={false}
       />
       <PieChart
         selection={selection}
         onHover={setSelection}
-        width={500 * f}
-        height={500 * f}
+        width={300}
+        height={300}
         attr="c"
         elems={elems}
         actions={false}

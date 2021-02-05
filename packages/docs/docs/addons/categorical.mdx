@@ -13,27 +13,30 @@ function Example() {
   const [selection, setSelection] = useState(null);
 
   const categories = ['c1', 'c2', 'c3'];
-  const elems = useMemo(() => [
-    { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
-    { name: '2', sets: ['one', 'two'], value: categories[1] },
-    { name: '3', sets: ['one'], value: categories[2] },
-    { name: '4', sets: ['two'], value: categories[0] },
-    { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
-    { name: '6', sets: ['three'], value: categories[2] },
-    { name: '7', sets: ['one', 'three'], value: categories[0] },
-    { name: '8', sets: ['one', 'three'], value: categories[1] },
-    { name: '9', sets: ['three'], value: categories[2] },
-    { name: '10', sets: ['two', 'three'], value: categories[0] },
-    { name: '11', sets: ['one'], value: categories[1] },
-    { name: '12', sets: ['one', 'three'], value: categories[2] },
-    { name: '13', sets: ['one', 'three'], value: categories[0] },
-  ]), []);
+  const elems = useMemo(
+    () => [
+      { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
+      { name: '2', sets: ['one', 'two'], value: categories[1] },
+      { name: '3', sets: ['one'], value: categories[2] },
+      { name: '4', sets: ['two'], value: categories[0] },
+      { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
+      { name: '6', sets: ['three'], value: categories[2] },
+      { name: '7', sets: ['one', 'three'], value: categories[0] },
+      { name: '8', sets: ['one', 'three'], value: categories[1] },
+      { name: '9', sets: ['three'], value: categories[2] },
+      { name: '10', sets: ['two', 'three'], value: categories[0] },
+      { name: '11', sets: ['one'], value: categories[1] },
+      { name: '12', sets: ['one', 'three'], value: categories[2] },
+      { name: '13', sets: ['one', 'three'], value: categories[0] },
+    ],
+    []
+  );
   const sets = useMemo(() => extractSets(elems), []);
 
   return (
     <UpSetJS
       sets={sets}
-      width={1200}
+      width={780}
       height={500}
       selection={selection}
       onHover={setSelection}
@@ -55,27 +58,30 @@ function Example() {
   const [selection, setSelection] = useState(null);
 
   const categories = ['c1', 'c2', 'c3'];
-  const elems = useMemo(() => [
-    { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
-    { name: '2', sets: ['one', 'two'], value: categories[1] },
-    { name: '3', sets: ['one'], value: categories[2] },
-    { name: '4', sets: ['two'], value: categories[0] },
-    { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
-    { name: '6', sets: ['three'], value: categories[2] },
-    { name: '7', sets: ['one', 'three'], value: categories[0] },
-    { name: '8', sets: ['one', 'three'], value: categories[1] },
-    { name: '9', sets: ['three'], value: categories[2] },
-    { name: '10', sets: ['two', 'three'], value: categories[0] },
-    { name: '11', sets: ['one'], value: categories[1] },
-    { name: '12', sets: ['one', 'three'], value: categories[2] },
-    { name: '13', sets: ['one', 'three'], value: categories[0] },
-  ]), []);
+  const elems = useMemo(
+    () => [
+      { name: '1', sets: ['one', 'two', 'three'], value: categories[0] },
+      { name: '2', sets: ['one', 'two'], value: categories[1] },
+      { name: '3', sets: ['one'], value: categories[2] },
+      { name: '4', sets: ['two'], value: categories[0] },
+      { name: '5', sets: ['one', 'two', 'three'], value: categories[1] },
+      { name: '6', sets: ['three'], value: categories[2] },
+      { name: '7', sets: ['one', 'three'], value: categories[0] },
+      { name: '8', sets: ['one', 'three'], value: categories[1] },
+      { name: '9', sets: ['three'], value: categories[2] },
+      { name: '10', sets: ['two', 'three'], value: categories[0] },
+      { name: '11', sets: ['one'], value: categories[1] },
+      { name: '12', sets: ['one', 'three'], value: categories[2] },
+      { name: '13', sets: ['one', 'three'], value: categories[0] },
+    ],
+    []
+  );
   const sets = useMemo(() => extractSets(elems), []);
 
   return (
     <UpSetJS
       sets={sets}
-      width={1200}
+      width={780}
       height={500}
       queries={[{ name: 'Q1', color: 'green', set: sets[0] }]}
       setAddons={[categoricalAddon('value', elems)]}

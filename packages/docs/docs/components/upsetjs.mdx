@@ -6,7 +6,7 @@ title: UpSet.js Plot
 // import React from 'react';
 
 function Default() {
-  return <UpSetJS sets={GameOfThronesDataSet.sets} width={1200} height={500} />;
+  return <UpSetJS sets={GameOfThronesDataSet.sets} width={780} height={500} />;
 }
 ```
 
@@ -16,7 +16,7 @@ function Default() {
 // import React from 'react';
 
 function Skeleton() {
-  return <UpSetJSSkeleton width={1200} height={500} />;
+  return <UpSetJSSkeleton width={780} height={500} />;
 }
 ```
 
@@ -29,7 +29,7 @@ function Title() {
   return (
     <UpSetJS
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       title="Game of Thrones"
       description="Information about the characters of the tv series Game of Thrones"
@@ -46,7 +46,7 @@ function Title() {
 function Interactivity() {
   const [selection, setSelection] = React.useState(null);
   return (
-    <UpSetJS sets={GameOfThronesDataSet.sets} width={1200} height={500} selection={selection} onHover={setSelection} />
+    <UpSetJS sets={GameOfThronesDataSet.sets} width={780} height={500} selection={selection} onHover={setSelection} />
   );
 }
 ```
@@ -59,7 +59,7 @@ function Interactivity() {
 function Click() {
   const [selection, setSelection] = React.useState(null);
   return (
-    <UpSetJS sets={GameOfThronesDataSet.sets} width={1200} height={500} selection={selection} onClick={setSelection} />
+    <UpSetJS sets={GameOfThronesDataSet.sets} width={780} height={500} selection={selection} onClick={setSelection} />
   );
 }
 ```
@@ -73,7 +73,7 @@ function Queries() {
   return (
     <UpSetJS
       sets={GameOfThronesDataSet.sets}
-      width={1200}
+      width={780}
       height={500}
       queries={GameOfThronesDataSet.queries}
       queryLegend
@@ -91,7 +91,7 @@ function SmallSets() {
   return (
     <div>
       <UpSetJS
-        width={1200}
+        width={780}
         height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3, 5, 7, 8, 11, 12, 13] },
@@ -100,7 +100,7 @@ function SmallSets() {
         ])}
       />
       <UpSetJS
-        width={1200}
+        width={780}
         height={500}
         sets={asSets([
           { name: 'one', elems: [1, 2, 3] },
@@ -130,7 +130,7 @@ function Addons() {
   const [selection, setSelection] = React.useState(null);
   return (
     <UpSetJS
-      width={1200}
+      width={780}
       height={500}
       sets={GameOfThronesDataSet.sets}
       selection={selection}

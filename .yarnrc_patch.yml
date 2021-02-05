@@ -38,3 +38,6 @@ packageExtensions:
   'typedoc@*':
     dependencies:
       'shiki-themes': '*'
+  'postcss-loader@*':
+    dependencies:
+      'postcss': '*'
