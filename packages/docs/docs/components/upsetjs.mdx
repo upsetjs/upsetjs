@@ -118,15 +118,14 @@ function SmallSets() {
 ```jsx live
 // import React from 'react';
 
-const SetAddon = ({ width, height }) => {
-  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="red"></rect>;
-};
-
-const SetAddon2 = ({ width, height }) => {
-  return <rect x={1} y={1} width={width - 2} height={height - 2} fill="green"></rect>;
-};
-
 function Addons() {
+  const SetAddon = ({ width, height }) => {
+    return <rect x={1} y={1} width={width - 2} height={height - 2} fill="red"></rect>;
+  };
+
+  const SetAddon2 = ({ width, height }) => {
+    return <rect x={1} y={1} width={width - 2} height={height - 2} fill="green"></rect>;
+  };
   const [selection, setSelection] = React.useState(null);
   return (
     <UpSetJS

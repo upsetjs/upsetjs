@@ -14,27 +14,27 @@ More details about UpSet.js can be found on the Medium article series about it:
 
 This monorepo contains following packages:
 
-- [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/master/packages/model) the data model definition of UpSet.js
+- [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/main/packages/model) the data model definition of UpSet.js
   [![Open Docs][docs]](https://upset.js.org/api/model)
 
-- [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/master/packages/react) the main UpSet.js React component
+- [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/main/packages/react) the main UpSet.js React component
   [![Open Docs][docs]](https://upset.js.org/api/react)
 
-- [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/master/packages/math) utility package for computing stats
+- [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/main/packages/math) utility package for computing stats
 
-- [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/master/packages/addons) extensions to the React component for rendering boxplots
+- [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/main/packages/addons) extensions to the React component for rendering boxplots
   [![Open Docs][docs]](https://upset.js.org/api/addons)
 
-- [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/master/packages/bundle) zero dependency bundle of the react and addons component using Preact
+- [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/main/packages/bundle) zero dependency bundle of the react and addons component using Preact
   [![Open Docs][docs]](https://upset.js.org/api/bundle)
 
-- [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/master/packages/plots) VEGA plot helper to be linked with UpSet.js
+- [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/main/packages/plots) VEGA plot helper to be linked with UpSet.js
   [![Open Docs][docs]](https://upset.js.org/api/plots)
 
-- [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/master/packages/app) example application to explore datasets using UpSet.js with import and export features
+- [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/main/packages/app) example application to explore datasets using UpSet.js with import and export features
   [![Open Example][example]](https://upset.js.org/app)
 
-- [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/master/packages/vue) vue wrapper based on the bundled version
+- [@upsetjs/vue](https://github.com/upsetjs/upsetjs/tree/main/packages/vue) vue wrapper based on the bundled version
 
 In addition, there are the following sibling repositories and projects
 
@@ -334,7 +334,7 @@ render(document.body, {
 
 Similar to the original UpSet and UpSetR, support plots showing histograms, scatterplots, bar charts, or pie charts of attributes of the elements can be created and linked.
 
-The [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/master/packages/plots) package contains wrappers around VEGA plots which support selection and queries, to be easily linked with UpSet.js plots.
+The [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/main/packages/plots) package contains wrappers around VEGA plots which support selection and queries, to be easily linked with UpSet.js plots.
 
 ![plots](https://user-images.githubusercontent.com/4129778/84775584-b0fa8f80-afdf-11ea-9875-f4ae8b9baccb.png)
 
@@ -392,7 +392,7 @@ A [ObservableHQ](https://observablehq.com/) wrapper is located at [upset-js](htt
 
 ```js
 data = fetch(
-  'https://raw.githubusercontent.com/upsetjs/upsetjs/master/packages/bundle/example/got.json'
+  'https://raw.githubusercontent.com/upsetjs/upsetjs/main/packages/bundle/example/got.json'
 ).then(r => r.json())
 }
 ```
@@ -443,7 +443,7 @@ upsetjs() %>% fromList(listInput) %>% interactiveChart()
 
 ![List Input Example](https://user-images.githubusercontent.com/4129778/79375541-10dda700-7f59-11ea-933a-a3ffbca1bfd2.png)
 
-see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/master/vignettes/basic.Rmd)
+see also [Basic.Rmd](https://github.com/upsetjs/upsetjs_r/main/vignettes/basic.Rmd)
 
 ### Jupyter Widget
 
@@ -570,7 +570,7 @@ In case of a commercial use, please get in touch regarding a commercial license.
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
 [codesandbox]: https://img.shields.io/badge/CodeSandbox-open-blue?logo=codesandbox
 [nbviewer]: https://img.shields.io/badge/NBViewer-open-blue?logo=jupyter
-[nbviewer-url]: https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/master/examples/introduction.ipynb
+[nbviewer-url]: https://nbviewer.jupyter.org/github/upsetjs/upsetjs_jupyter_widget/blob/main/examples/introduction.ipynb
 [binder]: https://mybinder.org/badge_logo.svg
 [binder-r-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_r/master?urlpath=rstudio
 [binder-j-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_jupyter_widget/master?urlpath=lab/tree/examples/introduction.ipynb

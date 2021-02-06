@@ -3,7 +3,7 @@ module.exports = {
     {
       type: 'category',
       label: 'UpSet.js',
-      items: ['_index', 'design-principles'],
+      items: ['_index', 'design-principles', 'data'],
     },
     {
       type: 'category',
@@ -36,13 +36,25 @@ module.exports = {
     {
       type: 'category',
       label: 'Integrations',
+      collapsed: false,
       items: [
         'integrations/_index',
-        'integrations/vue',
-        'integrations/r',
-        'integrations/jupyter',
-        'integrations/powerbi',
-        'integrations/tableau',
+        {
+          type: 'category',
+          label: 'Web Frameworks',
+          items: ['integrations/react', 'integrations/vanilla', 'integrations/vue'],
+        },
+        {
+          type: 'category',
+          label: 'Data Science',
+          items: [
+            'integrations/observablehq',
+            'integrations/r',
+            'integrations/jupyter',
+            'integrations/powerbi',
+            'integrations/tableau',
+          ],
+        },
       ],
     },
     {

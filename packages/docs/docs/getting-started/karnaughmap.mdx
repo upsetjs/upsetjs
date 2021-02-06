@@ -5,13 +5,13 @@ title: Karnaugh Map
 ## Install Upset.js
 
 ```sh
-npm install @upsetjs/react
+npm install @upsetjs/react react react-dom
 ```
 
 or
 
 ```sh
-yarn add @upsetjs/react
+yarn add @upsetjs/react react react-dom
 ```
 
 ## Defining your elements
@@ -19,90 +19,10 @@ yarn add @upsetjs/react
 ```tsx
 const elems = useMemo(
   () => [
-    {
-      name: 'Alton Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Arya Stark',
-      sets: ['Stark', 'female'],
-    },
-    {
-      name: 'Benjen Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Bran Stark',
-      sets: ['royal', 'Stark', 'male'],
-    },
-    {
-      name: 'Brandon Stark',
-      sets: ['was killed', 'Stark'],
-    },
-    {
-      name: 'Catelyn Stark',
-      sets: ['was killed', 'Stark', 'female'],
-    },
-    {
-      name: 'Cersei Lannister',
-      sets: ['royal', 'was killed', 'Lannister', 'female'],
-    },
-    {
-      name: 'Eddard Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Jaime Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Jon Snow',
-      sets: ['royal', 'was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Kevan Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Lancel Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Lyanna Stark',
-      sets: ['was killed', 'Stark', 'female'],
-    },
-    {
-      name: 'Martyn Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Rickard Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Rickon Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Robb Stark',
-      sets: ['royal', 'was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Sansa Stark',
-      sets: ['royal', 'Stark', 'female'],
-    },
-    {
-      name: 'Tyrion Lannister',
-      sets: ['Lannister', 'male'],
-    },
-    {
-      name: 'Tywin Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Willem Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
+    { name: 'A', sets: ['S1', 'S2'] },
+    { name: 'B', sets: ['S1'] },
+    { name: 'C', sets: ['S2'] },
+    { name: 'D', sets: ['S1', 'S3'] },
   ],
   []
 );
@@ -111,108 +31,80 @@ const elems = useMemo(
 ## Extract the sets
 
 ```tsx
+// import { extractSets, generateCombinations } from '@upsetjs/react';
 const sets = useMemo(() => extractSets(elems), [elems]);
+const combinations = useMemo(() => generateCombinations(sets), [sets]);
 ```
 
 ## Result
 
 ```jsx live
 // import React from 'react';
+// import { extractSets, generateCombinations, KarnaughMap } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
     () => [
-      {
-        name: 'Alton Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Arya Stark',
-        sets: ['Stark', 'female'],
-      },
-      {
-        name: 'Benjen Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Bran Stark',
-        sets: ['royal', 'Stark', 'male'],
-      },
-      {
-        name: 'Brandon Stark',
-        sets: ['was killed', 'Stark'],
-      },
-      {
-        name: 'Catelyn Stark',
-        sets: ['was killed', 'Stark', 'female'],
-      },
-      {
-        name: 'Cersei Lannister',
-        sets: ['royal', 'was killed', 'Lannister', 'female'],
-      },
-      {
-        name: 'Eddard Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Jaime Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Jon Snow',
-        sets: ['royal', 'was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Kevan Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Lancel Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Lyanna Stark',
-        sets: ['was killed', 'Stark', 'female'],
-      },
-      {
-        name: 'Martyn Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Rickard Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Rickon Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Robb Stark',
-        sets: ['royal', 'was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Sansa Stark',
-        sets: ['royal', 'Stark', 'female'],
-      },
-      {
-        name: 'Tyrion Lannister',
-        sets: ['Lannister', 'male'],
-      },
-      {
-        name: 'Tywin Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Willem Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
+      { name: 'A', sets: ['S1', 'S2'] },
+      { name: 'B', sets: ['S1'] },
+      { name: 'C', sets: ['S2'] },
+      { name: 'D', sets: ['S1', 'S3'] },
     ],
     []
   );
 
   const sets = useMemo(() => extractSets(elems), [elems]);
+  const combinations = useMemo(() => generateCombinations(sets), [sets]);
 
   const [selection, setSelection] = React.useState(null);
-  return <KarnaughMap sets={sets} width={780} height={400} selection={selection} onHover={setSelection} />;
+  return (
+    <KarnaughMap
+      sets={sets}
+      combinations={combinations}
+      width={780}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+    />
+  );
 }
+```
+
+## Bundle version
+
+```sh
+npm install @upsetjs/bundle
+```
+
+or
+
+```sh
+yarn add @upsetjs/bundle
+```
+
+```jsx
+import { extractSets, generateCombinations, renderKarnaughMap } from '@upsetjs/bundle';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+const sets = useMemo(() => extractSets(elems), [elems]);
+const combinations = useMemo(() => generateCombinations(sets), [sets]);
+
+let selection = null;
+
+function onHover(set) {
+  selection = set;
+  rerender();
+}
+
+function rerender() {
+  const props = { sets, combinations, width: 780, height: 400, selection, onHover };
+  renderKarnaughMap(document.body, props);
+}
+
+rerender();
 ```

@@ -6,14 +6,18 @@ slug: /getting-started
 
 ## Install Upset.js
 
+UpSet.js comes with an React based version `@upsetjs/react` and a pure Vanilla JavaScript version `@upsetjs/bundle`.
+In addition, there is a Vue.js wrapper at `@upsetjs/vue`. All of them have the same feature set and interface.
+The bundle version has no framework dependencies and can be used in general cases. In the followign the React version is shown, later also the bundled version.
+
 ```sh
-npm install @upsetjs/react
+npm install @upsetjs/react react react-dom
 ```
 
 or
 
 ```sh
-yarn add @upsetjs/react
+yarn add @upsetjs/react react react-dom
 ```
 
 ## Defining your elements
@@ -21,90 +25,10 @@ yarn add @upsetjs/react
 ```tsx
 const elems = useMemo(
   () => [
-    {
-      name: 'Alton Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Arya Stark',
-      sets: ['Stark', 'female'],
-    },
-    {
-      name: 'Benjen Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Bran Stark',
-      sets: ['royal', 'Stark', 'male'],
-    },
-    {
-      name: 'Brandon Stark',
-      sets: ['was killed', 'Stark'],
-    },
-    {
-      name: 'Catelyn Stark',
-      sets: ['was killed', 'Stark', 'female'],
-    },
-    {
-      name: 'Cersei Lannister',
-      sets: ['royal', 'was killed', 'Lannister', 'female'],
-    },
-    {
-      name: 'Eddard Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Jaime Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Jon Snow',
-      sets: ['royal', 'was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Kevan Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Lancel Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Lyanna Stark',
-      sets: ['was killed', 'Stark', 'female'],
-    },
-    {
-      name: 'Martyn Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Rickard Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Rickon Stark',
-      sets: ['was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Robb Stark',
-      sets: ['royal', 'was killed', 'Stark', 'male'],
-    },
-    {
-      name: 'Sansa Stark',
-      sets: ['royal', 'Stark', 'female'],
-    },
-    {
-      name: 'Tyrion Lannister',
-      sets: ['Lannister', 'male'],
-    },
-    {
-      name: 'Tywin Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
-    {
-      name: 'Willem Lannister',
-      sets: ['was killed', 'Lannister', 'male'],
-    },
+    { name: 'A', sets: ['S1', 'S2'] },
+    { name: 'B', sets: ['S1'] },
+    { name: 'C', sets: ['S2'] },
+    { name: 'D', sets: ['S1', 'S3'] },
   ],
   []
 );
@@ -113,108 +37,141 @@ const elems = useMemo(
 ## Extract the sets
 
 ```tsx
+// import { extractSets, generateCombinations } from '@upsetjs/react';
 const sets = useMemo(() => extractSets(elems), [elems]);
+const combinations = useMemo(() => generateCombinations(sets), [sets]);
 ```
 
 ## Result
 
 ```jsx live
 // import React from 'react';
+// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
     () => [
-      {
-        name: 'Alton Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Arya Stark',
-        sets: ['Stark', 'female'],
-      },
-      {
-        name: 'Benjen Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Bran Stark',
-        sets: ['royal', 'Stark', 'male'],
-      },
-      {
-        name: 'Brandon Stark',
-        sets: ['was killed', 'Stark'],
-      },
-      {
-        name: 'Catelyn Stark',
-        sets: ['was killed', 'Stark', 'female'],
-      },
-      {
-        name: 'Cersei Lannister',
-        sets: ['royal', 'was killed', 'Lannister', 'female'],
-      },
-      {
-        name: 'Eddard Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Jaime Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Jon Snow',
-        sets: ['royal', 'was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Kevan Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Lancel Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Lyanna Stark',
-        sets: ['was killed', 'Stark', 'female'],
-      },
-      {
-        name: 'Martyn Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Rickard Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Rickon Stark',
-        sets: ['was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Robb Stark',
-        sets: ['royal', 'was killed', 'Stark', 'male'],
-      },
-      {
-        name: 'Sansa Stark',
-        sets: ['royal', 'Stark', 'female'],
-      },
-      {
-        name: 'Tyrion Lannister',
-        sets: ['Lannister', 'male'],
-      },
-      {
-        name: 'Tywin Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
-      {
-        name: 'Willem Lannister',
-        sets: ['was killed', 'Lannister', 'male'],
-      },
+      { name: 'A', sets: ['S1', 'S2'] },
+      { name: 'B', sets: ['S1'] },
+      { name: 'C', sets: ['S2'] },
+      { name: 'D', sets: ['S1', 'S3'] },
     ],
     []
   );
 
   const sets = useMemo(() => extractSets(elems), [elems]);
+  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+
+  return <UpSetJS sets={sets} combinations={combinations} width={780} height={400} />;
+}
+```
+
+## Interactivity
+
+By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
+
+```jsx live
+// import React from 'react';
+// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+
+function GettingStarted() {
+  const elems = useMemo(
+    () => [
+      { name: 'A', sets: ['S1', 'S2'] },
+      { name: 'B', sets: ['S1'] },
+      { name: 'C', sets: ['S2'] },
+      { name: 'D', sets: ['S1', 'S3'] },
+    ],
+    []
+  );
+
+  const sets = useMemo(() => extractSets(elems), [elems]);
+  const combinations = useMemo(() => generateCombinations(sets), [sets]);
 
   const [selection, setSelection] = React.useState(null);
-  return <UpSetJS sets={sets} width={780} height={400} selection={selection} onHover={setSelection} />;
+  return (
+    <UpSetJS
+      sets={sets}
+      combinations={combinations}
+      width={780}
+      height={400}
+      selection={selection}
+      onHover={setSelection}
+    />
+  );
 }
+```
+
+## Queries
+
+Similar to the original UpSetR, UpSet.js allows to specify queries by a set of elements which are then highlighted in the plot.
+The first query is shown in full detail while others are shown using small indicators.
+
+```jsx live
+// import React from 'react';
+// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+
+function GettingStarted() {
+  const elems = useMemo(
+    () => [
+      { name: 'A', sets: ['S1', 'S2'] },
+      { name: 'B', sets: ['S1'] },
+      { name: 'C', sets: ['S2'] },
+      { name: 'D', sets: ['S1', 'S3'] },
+    ],
+    []
+  );
+
+  const sets = useMemo(() => extractSets(elems), [elems]);
+  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+
+  const queries = useMemo(
+    () => [
+      { name: 'Q1', color: 'steelblue', elems: elems.slice(0, 2) },
+      { name: 'Q2', color: 'red', elems: elems.slice(2) },
+    ],
+    [elems]
+  );
+
+  return <UpSetJS sets={sets} combinations={combinations} width={780} height={400} queries={queries} />;
+}
+```
+
+## Bundle version
+
+```sh
+npm install @upsetjs/bundle
+```
+
+or
+
+```sh
+yarn add @upsetjs/bundle
+```
+
+```jsx
+import { extractSets, generateCombinations, renderUpSetJS } from '@upsetjs/bundle';
+
+const elems = [
+  { name: 'A', sets: ['S1', 'S2'] },
+  { name: 'B', sets: ['S1'] },
+  { name: 'C', sets: ['S2'] },
+  { name: 'D', sets: ['S1', 'S3'] },
+];
+const sets = useMemo(() => extractSets(elems), [elems]);
+const combinations = useMemo(() => generateCombinations(sets), [sets]);
+
+let selection = null;
+
+function onHover(set) {
+  selection = set;
+  rerender();
+}
+
+function rerender() {
+  const props = { sets, combinations, width: 780, height: 400, selection, onHover };
+  renderUpSetJS(document.body, props);
+}
+
+rerender();
 ```
