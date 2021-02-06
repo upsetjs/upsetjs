@@ -1,5 +1,5 @@
 ---
-title: Jupyter Widget
+title: Python Jupyter
 ---
 
 [![Open in NBViewer][nbviewer]][nbviewer-url] [![Open in Binder][binder]][binder-j-url] [![Open API Docs][docs]][docs-j-url] [![Open Example][example]][example-j-url]

@@ -49,8 +49,70 @@ module.exports = {
           label: 'Data Science',
           items: [
             'integrations/observablehq',
-            'integrations/r',
-            'integrations/jupyter',
+            {
+              type: 'category',
+              label: 'R/RMarkdown/RShiny',
+              items: [
+                'integrations/r',
+                {
+                  type: 'link',
+                  label: 'Package Docs',
+                  href: '/integrations/r',
+                },
+                {
+                  type: 'link',
+                  label: 'Introduction Rmd',
+                  href: '/integrations/r/articles/basic',
+                },
+                {
+                  type: 'link',
+                  label: 'Combination Modes Rmd',
+                  href: '/integrations/r/articles/combinationModes',
+                },
+                {
+                  type: 'link',
+                  label: 'Colors Rmd',
+                  href: '/integrations/r/articles/colors',
+                },
+                {
+                  type: 'link',
+                  label: 'VennDiagram Rmd',
+                  href: '/integrations/r/articles/venn',
+                },
+                {
+                  type: 'link',
+                  label: 'KarnaughMap Rmd',
+                  href: '/integrations/r/articles/kmap',
+                },
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Python Jupyter',
+              items: [
+                'integrations/jupyter',
+                {
+                  type: 'link',
+                  label: 'Introduction NB',
+                  href: '/integrations/jupyter/',
+                },
+                {
+                  type: 'link',
+                  label: 'Colors NB',
+                  href: '/integrations/jupyter/colors',
+                },
+                {
+                  type: 'link',
+                  label: 'Venn Diagram NB',
+                  href: '/integrations/jupyter/venn',
+                },
+                {
+                  type: 'link',
+                  label: 'Karnaugh Map NB',
+                  href: '/integrations/jupyter/kmap',
+                },
+              ],
+            },
             'integrations/powerbi',
             'integrations/tableau',
           ],
@@ -98,7 +160,12 @@ module.exports = {
         },
         {
           type: 'link',
-          label: 'Jupyter',
+          label: 'R/RMarkdown/RShiny',
+          href: '/integrations/r',
+        },
+        {
+          type: 'link',
+          label: 'Python Jupyter',
           href: '/api/jupyter',
         },
       ],

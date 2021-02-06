@@ -45,9 +45,6 @@ jobs:
           mv packages/model/docs/* public/api/model/
           mkdir -p public/api/react
           mv packages/react/docs/* public/api/react/
-          mkdir -p public/integrations/vue
-          mv packages/vue-example/dist/* public/integrations/vue/
-          cp README.md public/
 
       - name: Deploy Master
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
