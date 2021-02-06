@@ -40,8 +40,8 @@ module.exports = {
       },
       items: [
         {
-          to: 'app',
-          activeBasePath: 'app',
+          to: 'app/',
+          activeBasePath: 'app/',
           label: 'Demo App',
           position: 'left',
         },

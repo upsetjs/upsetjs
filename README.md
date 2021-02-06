@@ -575,11 +575,11 @@ In case of a commercial use, please get in touch regarding a commercial license.
 [binder-r-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_r/master?urlpath=rstudio
 [binder-j-url]: https://mybinder.org/v2/gh/upsetjs/upsetjs_jupyter_widget/master?urlpath=lab/tree/examples/introduction.ipynb
 [docs]: https://img.shields.io/badge/API-open-blue
-[docs-r-url]: https://upset.js.org/integrations/r
-[docs-j-url]: https://upset.js.org/api/jupyter
+[docs-r-url]: https://upset.js.org/integrations/r/
+[docs-j-url]: https://upset.js.org/api/jupyter/
 [example]: https://img.shields.io/badge/Example-open-red
 [example-r-url]: https://upset.js.org/integrations/r/articles/basic
-[example-j-url]: https://upset.js.org/integrations/jupyter
+[example-j-url]: https://upset.js.org/integrations/jupyter/
 [example-o-url]: https://observablehq.com/@sgratzl/upset-observable-example
 [cran-image]: https://img.shields.io/cran/v/upsetjs
 [cran-url]: https://www.rdocumentation.org/packages/upsetjs

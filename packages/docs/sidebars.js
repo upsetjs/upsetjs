@@ -57,7 +57,7 @@ module.exports = {
                 {
                   type: 'link',
                   label: 'Package Docs',
-                  href: '/integrations/r',
+                  href: '/integrations/r/',
                 },
                 {
                   type: 'link',
