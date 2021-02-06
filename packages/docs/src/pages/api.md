@@ -4,9 +4,9 @@ title: API
 
 # API
 
-- [React Component](/api/react)
-- [React Addons Component](/api/addons)
-- [Model](/api/model)
-- [Math](/api/math)
-- [Vanilla Bundle](/api/bundle)
-- [Jupyter Widget](/api/jupyter)
+- [React Component](https://upset.js.org/api/react)
+- [React Addons Component](https://upset.js.org/api/addons)
+- [Model](https://upset.js.org/api/model)
+- [Math](https://upset.js.org/api/math)
+- [Vanilla Bundle](https://upset.js.org/api/bundle)
+- [Python Jupyter](https://upset.js.org/api/jupyter)

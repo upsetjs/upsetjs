@@ -4,7 +4,7 @@ title: Integrations
 
 # Integrations
 
-- [R Example](/integrations/r/)
-- [Jupyter Widget](/integrations/jupyter/)
-- [PowerBI](/integrations/powerbi/)
-- [Tableau](/integrations/tableau/)
+- [R Example](https://upset.js.org/integrations/r/)
+- [Jupyter Widget](https://upset.js.org/integrations/jupyter/)
+- [PowerBI](https://upset.js.org/integrations/powerbi/)
+- [Tableau](https://upset.js.org/integrations/tableau/)

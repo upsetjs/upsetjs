@@ -89,7 +89,7 @@ export default function Home() {
               </Feature>
               <Feature title="Demo Application" imageUrl={<MicroscopeFillIcon className={styles.featureImageSVG} />}>
                 {`UpSet.js has a `}
-                <Link to={useBaseUrl('app')}>demo application</Link>
+                <a href="https://upset.js.org/app/">demo application</a>
                 {` supporting loading custom datasets, exploring them, sharing, and exporting them.`}
               </Feature>
               <Feature

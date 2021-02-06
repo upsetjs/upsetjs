@@ -20,7 +20,7 @@ UpSet.js is build based on the following design principles:
   The basic implementation is written in React (`@upsetjs/react`). However, by creating a bundled version (`@upsetjs/bundle`) which has no dependencies to any web framework, UpSet.js can be easily integrated into other web frameworks.
 
 - **Shareability** -
-  Generated UpSet.js plots should be able to be shared across different tools and web frameworks. UpSet.js plots can be exported to common image formats such as PNG and SVG. However, it also can be exported to [Vega-lite](https://vega.github.io/vega-lite/) and into a JSON format that can be shared and viewed using the [embedded app viewer](/app/embed.html).
+  Generated UpSet.js plots should be able to be shared across different tools and web frameworks. UpSet.js plots can be exported to common image formats such as PNG and SVG. However, it also can be exported to [Vega-lite](https://vega.github.io/vega-lite/) and into a JSON format that can be shared and viewed using the [embedded app viewer](https://upset.js.org/app/embed.html).
 
 More can be found in the Medium post: [UpSet.js — Behind the (technical) Scenes](https://medium.com/@sgratzl/upset-js-behind-the-technical-scenes-6eb0c880a03e?source=friends_link&sk=2e90d4b2e21a9f65e1d387985612dc2b)
 

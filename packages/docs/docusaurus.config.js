@@ -9,8 +9,8 @@ module.exports = {
     'UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets',
   url: 'https://upset.js.org',
   baseUrl: '/',
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'log',
   favicon: 'img/favicon.ico',
   organizationName: 'upsetjs', // Usually your GitHub org/user name.
   projectName: 'upsetjs', // Usually your repo name.
@@ -40,8 +40,7 @@ module.exports = {
       },
       items: [
         {
-          to: 'app/',
-          activeBasePath: 'app/',
+          href: 'https://upset.js.org/app/',
           label: 'Demo App',
           position: 'left',
         },
