@@ -4,7 +4,6 @@ This package is part of the UpSet.js ecosystem located at the main [Github Monor
 
 [Open this example in a new CodeSandbox](https://codesandbox.io/s/github/upsetjs/upsetjs/tree/main/examples/vue)
 
-
 ## Privacy Policy
 
 UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server.
