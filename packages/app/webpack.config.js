@@ -5,8 +5,8 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
-// see https://github.com/DustinJackson/html-webpack-inline-source-plugin/issues/75
-class InlineSourceHtmlPlugin {
+// see https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/InlineChunkHtmlPlugin.js#L10-L60
+class InlineChunkHtmlPlugin {
   constructor(htmlWebpackPlugin, tests) {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
     this.tests = tests;
@@ -33,13 +33,24 @@ class InlineSourceHtmlPlugin {
       publicPath += '/';
     }
 
-    compiler.hooks.compilation.tap('InlineSourceHtmlPlugin', (compilation) => {
+    compiler.hooks.compilation.tap('InlineChunkHtmlPlugin', (compilation) => {
       const tagFunction = (tag) => this.getInlinedTag(publicPath, compilation.assets, tag);
+
       const hooks = this.htmlWebpackPlugin.getHooks(compilation);
       hooks.alterAssetTagGroups.tap('InlineChunkHtmlPlugin', (assets) => {
         assets.headTags = assets.headTags.map(tagFunction);
         assets.bodyTags = assets.bodyTags.map(tagFunction);
       });
+
+      // Still emit the runtime chunk for users who do not use our generated
+      // index.html file.
+      // hooks.afterEmit.tap('InlineChunkHtmlPlugin', () => {
+      //   Object.keys(compilation.assets).forEach(assetName => {
+      //     if (this.tests.some(test => assetName.match(test))) {
+      //       delete compilation.assets[assetName];
+      //     }
+      //   });
+      // });
     });
   }
 }
@@ -62,7 +73,7 @@ const babel = {
 };
 
 module.exports = function (env, argv) {
-  const p = (env && env.production) || argv.p;
+  const p = (env && env.production) || argv.mode === 'production';
   return {
     entry: {
       app: './src/index.tsx',
@@ -91,7 +102,7 @@ module.exports = function (env, argv) {
         },
         {
           test: /\.css$/,
-          loader: 'style-loader!css-loader',
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.(png|jpg|gif|jpeg)$/,
@@ -116,10 +127,11 @@ module.exports = function (env, argv) {
         title: 'UpSet.js Embedded App',
         filename: 'embed.html',
         template: path.resolve('./src/index.html'),
+        inject: 'body',
         chunks: ['embed'],
         inlineSource: '.(js|css)$', // embed all javascript and css inline
       }),
-      p && new InlineSourceHtmlPlugin(HtmlWebpackPlugin, [/embed/]),
+      p && new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/embed/]),
       p &&
         new WorkboxPlugin.GenerateSW({
           // these options encourage the ServiceWorkers to get in there fast
@@ -131,6 +143,7 @@ module.exports = function (env, argv) {
     ].filter(Boolean),
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
+      mainFields: ['module', 'browser', 'main'],
       alias: { '@': path.resolve(__dirname) },
       plugins: [PnpWebpackPlugin],
       symlinks: false,

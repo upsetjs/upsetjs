@@ -9,6 +9,7 @@
     "useDefineForClassFields": true,
     "declaration": false,
     "sourceMap": true,
+    "noEmit": false,
     "skipLibCheck": true,
     "paths": {
       "@": ["./"],
