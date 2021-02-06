@@ -49,7 +49,7 @@
     "prettier:write": "prettier */** --write",
     "prettier": "prettier */** --check",
     "eslint": "eslint src --ext .ts,.tsx",
-    "eslint:fix": "yarn run eslint -- --fix",
+    "eslint:fix": "yarn run eslint --fix",
     "prepare": "yarn run build"
   },
   "devDependencies": {
