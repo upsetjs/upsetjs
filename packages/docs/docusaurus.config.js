@@ -18,9 +18,12 @@ module.exports = {
     branch: resolveGitBranch(),
   },
   themeConfig: {
+    hideableSidebar: true,
     image: 'img/preview.png',
     metadatas: [{ name: 'twitter:card', content: 'summary' }],
     colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
       respectPrefersColorScheme: true,
     },
     announcementBar: {
@@ -30,6 +33,7 @@ module.exports = {
     },
     navbar: {
       title: 'UpSet.js',
+      hideOnScroll: true,
       logo: {
         alt: 'UpSet.js',
         src: 'img/logo.svg',
