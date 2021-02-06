@@ -29,10 +29,6 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
-    "@upsetjs/addons": "~1.7.0",
-    "@upsetjs/math": "~1.7.0",
-    "@upsetjs/model": "~1.7.0",
-    "@upsetjs/plots": "~1.7.0",
     "@upsetjs/react": "~1.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"

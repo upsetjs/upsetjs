@@ -7,34 +7,93 @@
 
 export interface Row {
   name: string;
-  age: number;
-  shirtSize: 'S' | 'M' | 'L';
+  sets: string[];
 }
 
-export const data: Row[] = [
+const data: Row[] = [
   {
-    name: 'Panchito Green',
-    age: 10,
-    shirtSize: 'S',
+    name: 'Alton Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
   },
   {
-    name: 'Rubia Robker',
-    age: 25,
-    shirtSize: 'M',
+    name: 'Arya Stark',
+    sets: ['Stark', 'female'],
   },
   {
-    name: 'Micheil Sappell',
-    age: 50,
-    shirtSize: 'L',
+    name: 'Benjen Stark',
+    sets: ['was killed', 'Stark', 'male'],
   },
   {
-    name: 'Geoffrey Sprason',
-    age: 30,
-    shirtSize: 'M',
+    name: 'Bran Stark',
+    sets: ['royal', 'Stark', 'male'],
   },
   {
-    name: 'Grissel Rounsefull',
-    age: 21,
-    shirtSize: 'S',
+    name: 'Brandon Stark',
+    sets: ['was killed', 'Stark'],
+  },
+  {
+    name: 'Catelyn Stark',
+    sets: ['was killed', 'Stark', 'female'],
+  },
+  {
+    name: 'Cersei Lannister',
+    sets: ['royal', 'was killed', 'Lannister', 'female'],
+  },
+  {
+    name: 'Eddard Stark',
+    sets: ['was killed', 'Stark', 'male'],
+  },
+  {
+    name: 'Jaime Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
+  },
+  {
+    name: 'Jon Snow',
+    sets: ['royal', 'was killed', 'Stark', 'male'],
+  },
+  {
+    name: 'Kevan Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
+  },
+  {
+    name: 'Lancel Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
+  },
+  {
+    name: 'Lyanna Stark',
+    sets: ['was killed', 'Stark', 'female'],
+  },
+  {
+    name: 'Martyn Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
+  },
+  {
+    name: 'Rickard Stark',
+    sets: ['was killed', 'Stark', 'male'],
+  },
+  {
+    name: 'Rickon Stark',
+    sets: ['was killed', 'Stark', 'male'],
+  },
+  {
+    name: 'Robb Stark',
+    sets: ['royal', 'was killed', 'Stark', 'male'],
+  },
+  {
+    name: 'Sansa Stark',
+    sets: ['royal', 'Stark', 'female'],
+  },
+  {
+    name: 'Tyrion Lannister',
+    sets: ['Lannister', 'male'],
+  },
+  {
+    name: 'Tywin Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
+  },
+  {
+    name: 'Willem Lannister',
+    sets: ['was killed', 'Lannister', 'male'],
   },
 ];
+export default data;
