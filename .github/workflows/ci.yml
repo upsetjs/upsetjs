@@ -30,58 +30,33 @@ jobs:
       - run: yarn test --ci --coverage --maxWorkers=2
       - run: yarn docs
       - run: |
+          mkdir -p public
+          mv packages/docs/build/* public/
           mkdir -p public/api/addons
           mv packages/addons/docs/* public/api/addons/
-          mkdir -p public/api/plots
-          mv packages/plots/docs/* public/api/plots/
           mkdir -p public/app
-          cp packages/react/src/dump/schema* public/
           mv packages/app/dist/* public/app/
+          cp packages/react/src/dump/schema* public/
           mkdir -p public/api/bundle
           mv packages/bundle/docs/* public/api/bundle/
           mkdir -p public/api/math
           mv packages/math/docs/* public/api/math/
           mkdir -p public/api/model
           mv packages/model/docs/* public/api/model/
+          mkdir -p public/api/plots
+          mv packages/plots/docs/* public/api/plots/
           mkdir -p public/api/react
           mv packages/react/docs/* public/api/react/
 
-      - name: Deploy Master
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      - name: Deploy Main
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: upsetjs/actions-gh-pages@sgratzl
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: upsetjs/upsetjs.github.io
-          publish_branch: master
+          publish_branch: main
           publish_dir: ./public
-          enable_jekyll: true
-          remove_path_spec: 'api/addons/,api/plots/,app/,api/bundle/,api/math/,api/model/,api/react/,integrations/vue/'
-
-      - if: github.ref == 'refs/heads/develop'
-        # move to next directory
-        run: |
-          mv public public2
-          mkdir -p public
-          mv public2 public/next
-
-      - name: Deploy Develop
-        if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-        uses: upsetjs/actions-gh-pages@sgratzl
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: upsetjs/upsetjs.github.io
-          publish_branch: master
-          publish_dir: ./public
-          enable_jekyll: true
-          remove_path_spec: 'next/api/addons/,next/api/plots/,next/app/,next/api/bundle/,next/api/math/,next/api/model/,next/api/react/,next/integrations/vue/'
-
-      - name: Publish
-        if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
-        run: |
-          yarn workspaces foreach --verbose npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          enable_jekyll: false
+          remove_path_spec: '*,:!integrations/,:!.git*,:!README.md,:!CNAME,:!api/jupyter'
