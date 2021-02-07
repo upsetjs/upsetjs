@@ -122,7 +122,22 @@ module.exports = {
     {
       type: 'category',
       label: 'Examples',
-      items: ['examples/_index', 'examples/vue'],
+      items: [
+        'examples/_index',
+        'examples/colored',
+        'examples/queries',
+        'examples/title',
+        'examples/staticData',
+        'examples/skeletons',
+        'examples/big',
+        'examples/venn',
+        'examples/vennColored',
+        'examples/vennQueries',
+        'examples/euler',
+        'examples/kmap',
+        'examples/kmapQueries',
+        'examples/vue',
+      ],
     },
     {
       type: 'category',
