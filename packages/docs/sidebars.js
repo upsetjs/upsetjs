@@ -131,32 +131,32 @@ module.exports = {
         {
           type: 'link',
           label: 'Model',
-          href: 'https://upset.js.org/api/model',
+          href: 'https://upset.js.org/api/model/modules.html',
         },
         {
           type: 'link',
           label: 'React',
-          href: 'https://upset.js.org/api/react',
+          href: 'https://upset.js.org/api/react/modules.html',
         },
         {
           type: 'link',
           label: 'Bundle',
-          href: 'https://upset.js.org/api/bundle',
+          href: 'https://upset.js.org/api/bundle/modules.html',
         },
         {
           type: 'link',
           label: 'Math',
-          href: 'https://upset.js.org/api/math',
+          href: 'https://upset.js.org/api/math/modules.html',
         },
         {
           type: 'link',
           label: 'Addons',
-          href: 'https://upset.js.org/api/addons',
+          href: 'https://upset.js.org/api/addons/modules.html',
         },
         {
           type: 'link',
           label: 'Plots',
-          href: 'https://upset.js.org/api/plots',
+          href: 'https://upset.js.org/api/plots/modules.html',
         },
         {
           type: 'link',

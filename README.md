@@ -15,21 +15,21 @@ More details about UpSet.js can be found on the Medium article series about it:
 This monorepo contains following packages:
 
 - [@upsetjs/model](https://github.com/upsetjs/upsetjs/tree/main/packages/model) the data model definition of UpSet.js
-  [![Open Docs][docs]](https://upset.js.org/api/model)
+  [![Open Docs][docs]](https://upset.js.org/api/model/modules.hml)
 
 - [@upsetjs/react](https://github.com/upsetjs/upsetjs/tree/main/packages/react) the main UpSet.js React component
-  [![Open Docs][docs]](https://upset.js.org/api/react)
+  [![Open Docs][docs]](https://upset.js.org/api/react/modules.hml)
 
 - [@upsetjs/math](https://github.com/upsetjs/upsetjs/tree/main/packages/math) utility package for computing stats
 
 - [@upsetjs/addons](https://github.com/upsetjs/upsetjs/tree/main/packages/addons) extensions to the React component for rendering boxplots
-  [![Open Docs][docs]](https://upset.js.org/api/addons)
+  [![Open Docs][docs]](https://upset.js.org/api/addons/modules.hml)
 
 - [@upsetjs/bundle](https://github.com/upsetjs/upsetjs/tree/main/packages/bundle) zero dependency bundle of the react and addons component using Preact
-  [![Open Docs][docs]](https://upset.js.org/api/bundle)
+  [![Open Docs][docs]](https://upset.js.org/api/bundle/modules.hml)
 
 - [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/main/packages/plots) VEGA plot helper to be linked with UpSet.js
-  [![Open Docs][docs]](https://upset.js.org/api/plots)
+  [![Open Docs][docs]](https://upset.js.org/api/plots/modules.hml)
 
 - [@upsetjs/app](https://github.com/upsetjs/upsetjs/tree/main/packages/app) example application to explore datasets using UpSet.js with import and export features
   [![Open Example][example]](https://upset.js.org/app)
@@ -86,8 +86,6 @@ const UpSetJSSelection = (props: any) => {
 ```
 
 ![simple](https://user-images.githubusercontent.com/4129778/79372711-4cc33d00-7f56-11ea-865e-e1f74261ccb2.png)
-
-see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-sample-cq5do) and [Storybook Documentation](https://upset.js.org/api/?path=/docs/upset--default)
 
 ### Bundled version
 
@@ -166,8 +164,6 @@ const VennDiagramSelection = (props: any) => {
 ```
 
 ![venn diagram](https://user-images.githubusercontent.com/4129778/84775176-2580fe80-afdf-11ea-80b6-7b7a45a32b72.png)
-
-see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-venndiagram-dhsj5) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/venndiagram--default)
 
 ```js
 import { extractSets, renderVennDiagram } from '@upsetjs/bundle';
@@ -269,8 +265,6 @@ rerender();
 
 ![Karnaugh Map](https://user-images.githubusercontent.com/4129778/85573750-75db0a80-b636-11ea-819c-8ee1525edab0.png)
 
-see also [![Open in CodeSandbox][codesandbox]](https://codesandbox.io/s/upsetjs-karnaughmap-udd15) and [Storybook Documentation](https://upset.js.org/api/react/?path=/story/karnaughmap--default)
-
 ## Interactivity
 
 By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alternative there is also the `onClick` property.
@@ -338,17 +332,11 @@ The [@upsetjs/plots](https://github.com/upsetjs/upsetjs/tree/main/packages/plots
 
 ![plots](https://user-images.githubusercontent.com/4129778/84775584-b0fa8f80-afdf-11ea-9875-f4ae8b9baccb.png)
 
-see also [Storybook Documentation](https://upset.js.org/api/plots/?path=/story/upsetjs-plot-addons--up-set-scatterplot)
-
 ## UpSet.js App
 
 The UpSet.js App is an web application for exploring sets and set intersections. It is the counterpart to the original [UpSet](http://vcg.github.io/upset/about/) and [UpSet2](https://vdl.sci.utah.edu/upset2/). The app is deployed at [https://upset.js.org/app](https://upset.js.org/app).
 
 ![upset_app1](https://user-images.githubusercontent.com/4129778/80863152-97dd8f80-8c7a-11ea-8677-c86598fc6161.png)
-
-## Components
-
-see [Storybook](https://upset.js.org/api/?path=/docs/upset--default) for demos and properties.
 
 ### UpSetJS
 
