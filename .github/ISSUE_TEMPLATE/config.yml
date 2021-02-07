@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🤗 Question, Discussions
+    url: https://github.com/upsetjs/upsetjs/discussions
+    about: Ask question about the library (usage, features,...)
+  # - name: Samuel Gratzl
+  #   url: https://www.sgratzl.com
+  #   about: Please ask and answer questions here.
