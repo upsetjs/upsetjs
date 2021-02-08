@@ -81,18 +81,18 @@ export default function extractCombinations<T>(
   function getOrCreateCombination(
     setsOfElem: string[]
   ): ISetCombination<T> & { readonly elems: T[]; cardinality: number } {
-    const key = setsOfElem.join(joiner);
-    let entry = csLookup.get(key) as ISetCombination<T> & { readonly elems: T[]; cardinality: number };
+    const name = setsOfElem.length === 1 ? setsOfElem[0] : `(${setsOfElem.join(joiner)})`;
+    let entry = csLookup.get(name) as ISetCombination<T> & { readonly elems: T[]; cardinality: number };
     if (!entry) {
       entry = {
         type,
-        name: key,
+        name,
         degree: setsOfElem.length,
         sets: new Set(setsOfElem.map((s) => setLookup.get(s)![0])),
         cardinality: 0,
         elems: [],
       };
-      csLookup.set(key, entry);
+      csLookup.set(name, entry);
       cs.push(entry);
     }
     return entry;
