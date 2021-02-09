@@ -5,14 +5,14 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import type { ISet, ISetCombination, ISetCombinations, ISetLike, ISets, SetCombinationType } from '../model';
+import type { ISet, ISetCombination, ISetCombinations, ISets, SetCombinationType } from '../model';
 import { postprocessCombinations, SortCombinationOrder, SortCombinationOrders } from './asCombinations';
 import type { SortSetOrder } from './asSets';
 import { SET_JOINERS } from './constants';
 import extractSets from './extractSets';
 import generateCombinations from './generateCombinations';
 
-export interface ExtractCombinationsOptions {
+export interface ExtractCombinationsOptions<T> {
   type?: SetCombinationType;
 
   setOrder?: SortSetOrder;
@@ -21,13 +21,9 @@ export interface ExtractCombinationsOptions {
   combinationOrder?: SortCombinationOrder | SortCombinationOrders;
   combinationLimit?: number;
 
-  joiner?: string;
+  sets?: ISets<T>;
 
-  /**
-   * optional function to identify the same sets
-   * @param set the set to generate a key for
-   */
-  toKey?: (set: ISetLike<unknown>) => string;
+  joiner?: string;
 }
 
 type IWriteAbleSetCombination<T> = ISetCombination<T> & {
@@ -72,7 +68,7 @@ function createTree<T>(
 export default function extractCombinations<T>(
   elements: readonly T[],
   acc: (elem: T) => string[],
-  options?: ExtractCombinationsOptions
+  options?: ExtractCombinationsOptions<T>
 ): { sets: ISets<T>; combinations: ISetCombinations<T> };
 /**
  * extract sets out of a given element array which have a `.sets` property
@@ -82,26 +78,28 @@ export default function extractCombinations<T>(
 // eslint-disable-next-line no-redeclare
 export default function extractCombinations<T extends { sets: string[] }>(
   elements: readonly T[],
-  options?: ExtractCombinationsOptions
+  options?: ExtractCombinationsOptions<T>
 ): { sets: ISets<T>; combinations: ISetCombinations<T> };
 
 // eslint-disable-next-line no-redeclare
 export default function extractCombinations<T>(
   elements: readonly T[],
-  accOrOptions?: ExtractCombinationsOptions | ((elem: T) => string[]),
-  o: ExtractCombinationsOptions = {}
+  accOrOptions?: ExtractCombinationsOptions<T> | ((elem: T) => string[]),
+  o: ExtractCombinationsOptions<T> = {}
 ): { sets: ISets<T>; combinations: ISetCombinations<T> } {
   const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => ((e as unknown) as { sets: string[] }).sets;
-  const options: ExtractCombinationsOptions = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
+  const options: ExtractCombinationsOptions<T> = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
 
   const type = options.type ?? 'intersection';
 
   // extract all sets
   // O(N)
-  const sets = extractSets(elements, acc, {
-    limit: options.setLimit,
-    order: options.setOrder,
-  });
+  const sets =
+    options.sets ??
+    extractSets(elements, acc, {
+      limit: options.setLimit,
+      order: options.setOrder,
+    });
 
   if (type === 'union') {
     // TODO find more optimized way

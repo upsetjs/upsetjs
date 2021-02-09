@@ -3909,7 +3909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.22":
+"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.22, @types/node@npm:^14.14.25":
   version: 14.14.25
   resolution: "@types/node@npm:14.14.25"
   checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
@@ -4944,6 +4944,7 @@ __metadata:
     "@rollup/plugin-replace": ^2.3.4
     "@rollup/plugin-typescript": ^8.1.1
     "@types/jest": ^26.0.20
+    "@types/node": ^14.14.25
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
     eslint: ^7.19.0
