@@ -7,24 +7,29 @@
 
 /// <reference types="jest" />
 import type { ISet, ISetCombination, SetCombinationType } from 'src/model';
-import extractCombinations from './extractCombinations';
+import extract from './extractCombinations';
 
-function expectSet<T>(s: ISet<T>, name: string, elems: readonly T[]) {
+interface Elem {
+  i: number;
+  sets: string[];
+}
+
+function expectSet(s: ISet<Elem>, name: string, elems: readonly Elem[]) {
   expect(s.type).toBe('set');
   expect(s.name).toBe(name);
-  expect(s.elems.slice().sort()).toEqual(elems.slice().sort());
+  expect(s.elems.map((d) => d.i).sort()).toEqual(elems.map((d) => d.i).sort());
   expect(s.cardinality).toBe(elems.length);
 }
-function expectCombination<T>(s: ISetCombination<T>, type: SetCombinationType, name: string, elems: readonly T[]) {
+function expectCombination(s: ISetCombination<Elem>, type: SetCombinationType, name: string, elems: readonly Elem[]) {
   expect(s.type).toBe(type);
   expect(s.name).toBe(name);
-  expect(s.elems.slice().sort()).toEqual(elems.slice().sort());
+  expect(s.elems.map((d) => d.i).sort()).toEqual(elems.map((d) => d.i).sort());
   expect(s.cardinality).toBe(elems.length);
 }
 
 function fromSets(sets: { name: string; elems: number[] }[]) {
-  const elems: { i: number; sets: string[] }[] = [];
-  const byKey = new Map<number, { i: number; sets: string[] }>();
+  const elems: Elem[] = [];
+  const byKey = new Map<number, Elem>();
 
   for (const set of sets) {
     for (const i of set.elems) {
@@ -38,19 +43,19 @@ function fromSets(sets: { name: string; elems: number[] }[]) {
       }
     }
   }
-  return { elems, byKey: byKey.get.bind(byKey) };
+  return { elems, byKey: (d: number) => byKey.get(d)! };
 }
 
 describe('extractCombinations', () => {
   test('base', () => {
-    expect(extractCombinations([])).toStrictEqual({ sets: [], combinations: [] });
+    expect(extract([])).toStrictEqual({ sets: [], combinations: [] });
   });
 
   describe('single set', () => {
-    for (const type of ['intersection', 'distinctIntersection', 'union'] as SetCombinationType[]) {
+    for (const type of ['intersection', 'distinctIntersection'] as SetCombinationType[]) {
       test(`${type} simple`, () => {
-        const elems = [{ sets: ['A'] }];
-        const { sets: s, combinations: c } = extractCombinations(elems, {
+        const elems = [{ i: 0, sets: ['A'] }];
+        const { sets: s, combinations: c } = extract(elems, {
           type,
         });
         expect(s).toHaveLength(1);
@@ -60,8 +65,11 @@ describe('extractCombinations', () => {
         expectCombination(c[0], type, 'A', elems);
       });
       test(`${type} two elems`, () => {
-        const elems = [{ sets: ['A'] }, { sets: ['A'] }];
-        const { sets: s, combinations: c } = extractCombinations(elems, {
+        const elems = [
+          { i: 0, sets: ['A'] },
+          { i: 1, sets: ['A'] },
+        ];
+        const { sets: s, combinations: c } = extract(elems, {
           type,
         });
         expect(s).toHaveLength(1);
@@ -71,8 +79,11 @@ describe('extractCombinations', () => {
         expectCombination(c[0], type, 'A', elems);
       });
       test(`${type} two sets`, () => {
-        const elems = [{ sets: ['A'] }, { sets: ['B'] }];
-        const { sets: s, combinations: c } = extractCombinations(elems, {
+        const elems = [
+          { i: 0, sets: ['A'] },
+          { i: 1, sets: ['B'] },
+        ];
+        const { sets: s, combinations: c } = extract(elems, {
           type,
         });
         expect(s).toHaveLength(2);
@@ -97,33 +108,32 @@ describe('extractCombinations', () => {
         elems: [3, 4],
       },
     ]);
-    // test('intersection', () => {
-    //   const type: SetCombinationType = 'intersection';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expect(r).toHaveLength(3);
-    //   expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4].map(byKey));
-    //   expectCombination(r[2], type, '(A ∩ B)', [3].map(byKey));
-    // });
-    // test('union', () => {
-    //   const type: SetCombinationType = 'union';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4].map(byKey));
-    //   expectCombination(r[2], type, '(A ∪ B)', [1, 2, 3, 4].map(byKey));
-    // });
-    // test('composite', () => {
-    //   const type: SetCombinationType = 'composite';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expect(r).toHaveLength(3);
-    //   expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4].map(byKey));
-    //   expectCombination(r[2], type, '(A,B)', [3].map(byKey));
-    // });
+    test('intersection', () => {
+      const type: SetCombinationType = 'intersection';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expect(r).toHaveLength(3);
+      expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4].map(byKey));
+      expectCombination(r[2], type, '(A ∩ B)', [3].map(byKey));
+    });
+    test('union', () => {
+      const type: SetCombinationType = 'union';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4].map(byKey));
+      expectCombination(r[2], type, '(A ∪ B)', [1, 2, 3, 4].map(byKey));
+    });
+    test('composite', () => {
+      const type: SetCombinationType = 'composite';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expect(r).toHaveLength(3);
+      expectCombination(r[0], type, 'A', [1, 2, 3].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4].map(byKey));
+      expectCombination(r[2], type, '(A,B)', [3].map(byKey));
+    });
     test('distinctIntersection', () => {
       const type: SetCombinationType = 'distinctIntersection';
-      const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] })
-        .combinations;
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
       expect(r).toHaveLength(3);
       expectCombination(r[0], type, 'A', [1, 2].map(byKey));
       expectCombination(r[1], type, 'B', [4].map(byKey));
@@ -146,46 +156,45 @@ describe('extractCombinations', () => {
         elems: [1, 3, 4, 6, 7],
       },
     ]);
-    // test('intersection', () => {
-    //   const type: SetCombinationType = 'intersection';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expect(r).toHaveLength(7);
-    //   expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
-    //   expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
-    //   expectCombination(r[3], type, '(A ∩ B)', [3, 4].map(byKey));
-    //   expectCombination(r[4], type, '(A ∩ C)', [1, 3, 4].map(byKey));
-    //   expectCombination(r[5], type, '(A ∩ B ∩ C)', [3, 4].map(byKey));
-    //   expectCombination(r[6], type, '(B ∩ C)', [3, 4, 6].map(byKey));
-    // });
-    // test('union', () => {
-    //   const type: SetCombinationType = 'union';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expect(r).toHaveLength(7);
-    //   expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
-    //   expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
-    //   expectCombination(r[3], type, '(A ∪ B)', [1, 2, 3, 4, 5, 6].map(byKey));
-    //   expectCombination(r[4], type, '(A ∪ C)', [1, 2, 3, 4, 6, 7].map(byKey));
-    //   expectCombination(r[5], type, '(A ∪ B ∪ C)', [1, 2, 3, 4, 5, 6, 7].map(byKey));
-    //   expectCombination(r[6], type, '(B ∪ C)', [1, 3, 4, 5, 6, 7].map(byKey));
-    // });
-    // test('composite', () => {
-    //   const type: SetCombinationType = 'composite';
-    //   const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
-    //   expect(r).toHaveLength(7);
-    //   expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
-    //   expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
-    //   expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
-    //   expectCombination(r[3], type, '(A,B)', [3, 4].map(byKey));
-    //   expectCombination(r[4], type, '(A,C)', [1, 3, 4].map(byKey));
-    //   expectCombination(r[5], type, '(A,B,C)', [3, 4].map(byKey));
-    //   expectCombination(r[6], type, '(B,C)', [3, 4, 6].map(byKey));
-    // });
+    test('intersection', () => {
+      const type: SetCombinationType = 'intersection';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expect(r.map((d) => d.name)).toHaveLength(7);
+      expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
+      expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
+      expectCombination(r[3], type, '(A ∩ B)', [3, 4].map(byKey));
+      expectCombination(r[4], type, '(A ∩ C)', [1, 3, 4].map(byKey));
+      expectCombination(r[5], type, '(B ∩ C)', [3, 4, 6].map(byKey));
+      expectCombination(r[6], type, '(A ∩ B ∩ C)', [3, 4].map(byKey));
+    });
+    test('union', () => {
+      const type: SetCombinationType = 'union';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expect(r).toHaveLength(7);
+      expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
+      expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
+      expectCombination(r[3], type, '(A ∪ B)', [1, 2, 3, 4, 5, 6].map(byKey));
+      expectCombination(r[4], type, '(A ∪ C)', [1, 2, 3, 4, 6, 7].map(byKey));
+      expectCombination(r[5], type, '(B ∪ C)', [1, 3, 4, 5, 6, 7].map(byKey));
+      expectCombination(r[6], type, '(A ∪ B ∪ C)', [1, 2, 3, 4, 5, 6, 7].map(byKey));
+    });
+    test('composite', () => {
+      const type: SetCombinationType = 'composite';
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
+      expect(r).toHaveLength(7);
+      expectCombination(r[0], type, 'A', [1, 2, 3, 4].map(byKey));
+      expectCombination(r[1], type, 'B', [3, 4, 5, 6].map(byKey));
+      expectCombination(r[2], type, 'C', [1, 3, 4, 6, 7].map(byKey));
+      expectCombination(r[3], type, '(A,B)', [3, 4].map(byKey));
+      expectCombination(r[4], type, '(A,C)', [1, 3, 4].map(byKey));
+      expectCombination(r[5], type, '(B,C)', [3, 4, 6].map(byKey));
+      expectCombination(r[6], type, '(A,B,C)', [3, 4].map(byKey));
+    });
     test('distinctIntersection', () => {
       const type: SetCombinationType = 'distinctIntersection';
-      const r = extractCombinations(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] })
-        .combinations;
+      const r = extract(elems, { type, setOrder: 'name', combinationOrder: ['degree', 'name'] }).combinations;
       expect(r).toHaveLength(7 - 1);
       expectCombination(r[0], type, 'A', [2].map(byKey));
       expectCombination(r[1], type, 'B', [5].map(byKey));
