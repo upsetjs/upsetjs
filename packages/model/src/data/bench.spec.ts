@@ -99,7 +99,7 @@ describe('generate vs extract toy', () => {
   }
 });
 
-describe.only('generate vs extract toy2', () => {
+describe('generate vs extract toy2', () => {
   const set = readFileSync(resolve(__dirname, './bench2.txt')).toString();
   const setNames = Array.from('abcdefghijklmnopqrstuvwxyz01234567');
   const items = set.split('\n').map((encoded, i) => ({ i, sets: setNames.filter((_, i) => encoded.charAt(i) === '1') }));
