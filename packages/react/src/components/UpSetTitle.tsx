@@ -36,7 +36,12 @@ const MultilineText = /*!#__PURE__*/ React.memo(function MultilineText({
   }, [text]);
 
   useLayoutEffect(() => {
-    if (!ref.current || ref.current.childElementCount > 0 || typeof text !== 'string') {
+    if (
+      !ref.current ||
+      ref.current.childElementCount > 0 ||
+      typeof text !== 'string' ||
+      typeof ref.current.getComputedTextLength !== 'function'
+    ) {
       // already multi lines
       return;
     }
