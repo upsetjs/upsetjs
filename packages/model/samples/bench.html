@@ -9,10 +9,13 @@
   <body>
     <label>Items: 10e<input type="number" id="items" min="1" step="1" value="6" /></label>
     <label>Sets: <input type="number" id="sets" min="2" step="1" value="50" /></label>
-    <label>Type: <select id="type">
-      <option selected>intersection</option>
-      <option>distinctIntersection</option>
-    </select></label>
+    <label
+      >Type:
+      <select id="type">
+        <option selected>intersection</option>
+        <option>distinctIntersection</option>
+      </select></label
+    >
     <button id="button">Run</button>
     <script type="module">
       import { generateCombinations, extractSets, extractCombinations } from '../dist/index.js';
@@ -58,7 +61,7 @@
         // console.timeEnd('generate');
         console.time('extract');
         let c;
-        for(let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) {
           c = extractCombinations(rows, { type: type.value });
         }
         console.timeEnd('extract');

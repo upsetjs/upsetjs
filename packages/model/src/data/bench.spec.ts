@@ -48,7 +48,9 @@ function runScenario(numItems: number, numSets: number, type: SetCombinationType
   const { combinations: extract } = extractCombinations(items, { sets, type });
   const extractEnd = performance.now();
   console.log(
-    `${type}: ${numItems}x${numSets} generate: ${Math.round(genEnd - genStart)}ms, extract: ${Math.round(extractEnd - genEnd)}ms`
+    `${type}: ${numItems}x${numSets} generate: ${Math.round(genEnd - genStart)}ms, extract: ${Math.round(
+      extractEnd - genEnd
+    )}ms`
   );
   return {
     gen: gen.map(toString).sort(),
@@ -81,18 +83,26 @@ describe('generate vs extract', () => {
 describe('generate vs extract toy', () => {
   const set = readFileSync(resolve(__dirname, './bench1.txt')).toString();
   const setNames = Array.from('abcdef');
-  const items = set.split('\n').map((encoded, i) => ({ i, sets: setNames.filter((_, i) => encoded.charAt(i) === '1') }));
+  const items = set
+    .split('\n')
+    .map((encoded, i) => ({ i, sets: setNames.filter((_, i) => encoded.charAt(i) === '1') }));
   const sets = extractSets(items);
   const types: SetCombinationType[] = ['intersection', 'distinctIntersection'];
   for (const type of types) {
     test(`${type}`, () => {
       const genStart = performance.now();
-      const gen = generateCombinations(sets, { type, min: 0, notPartOfAnySet: items.filter((d) => d.sets.length === 0) });
+      const gen = generateCombinations(sets, {
+        type,
+        min: 0,
+        notPartOfAnySet: items.filter((d) => d.sets.length === 0),
+      });
       const genEnd = performance.now();
       const { combinations: extract } = extractCombinations(items, { sets, type });
       const extractEnd = performance.now();
       console.log(
-        `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(extractEnd - genEnd)}ms`
+        `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(
+          extractEnd - genEnd
+        )}ms`
       );
       expect(gen.map(toString).sort()).toStrictEqual(extract.map(toString).sort());
     });
@@ -102,18 +112,26 @@ describe('generate vs extract toy', () => {
 describe('generate vs extract toy2', () => {
   const set = readFileSync(resolve(__dirname, './bench2.txt')).toString();
   const setNames = Array.from('abcdefghijklmnopqrstuvwxyz01234567');
-  const items = set.split('\n').map((encoded, i) => ({ i, sets: setNames.filter((_, i) => encoded.charAt(i) === '1') }));
+  const items = set
+    .split('\n')
+    .map((encoded, i) => ({ i, sets: setNames.filter((_, i) => encoded.charAt(i) === '1') }));
   const sets = extractSets(items);
   const types: SetCombinationType[] = ['intersection', 'distinctIntersection'];
   for (const type of types) {
     test(`${type}`, () => {
       const genStart = performance.now();
-      const gen = generateCombinations(sets, { type, min: 0, notPartOfAnySet: items.filter((d) => d.sets.length === 0) });
+      const gen = generateCombinations(sets, {
+        type,
+        min: 0,
+        notPartOfAnySet: items.filter((d) => d.sets.length === 0),
+      });
       const genEnd = performance.now();
       const { combinations: extract } = extractCombinations(items, { sets, type });
       const extractEnd = performance.now();
       console.log(
-        `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(extractEnd - genEnd)}ms`
+        `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(
+          extractEnd - genEnd
+        )}ms`
       );
       expect(gen.map(toString).sort()).toStrictEqual(extract.map(toString).sort());
     });
