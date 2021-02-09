@@ -116,7 +116,10 @@ export default function extractCombinations<T>(
     };
   }
 
-  const setLookup = new Map<string, [ISet<T>, number]>(sets.map((d, i) => [d.name, [d, i]]));
+  const setLookup: Record<string, [ISet<T>, number]> = Object.create(null);
+  sets.forEach((set, i) => {
+    setLookup[set.name] = [set, i];
+  });
   const isSortedAlphabetically = sets
     .map((d) => d.name)
     .sort()
@@ -124,14 +127,14 @@ export default function extractCombinations<T>(
   const bySet = isSortedAlphabetically
     ? undefined
     : (a: string, b: string) => {
-        const ai = setLookup.get(a)?.[1] ?? -1;
-        const bi = setLookup.get(b)?.[1] ?? -1;
+        const ai = setLookup[a]?.[1] ?? -1;
+        const bi = setLookup[b]?.[1] ?? -1;
         return ai - bi;
       };
-  const validSet = new Set(sets.map((d) => d.name));
+  const validSet = options.sets == null && options.setLimit == null ? null : new Set(sets.map((d) => d.name));
   const joiner = options.joiner ?? SET_JOINERS[type];
   const cs: ISetCombination<T>[] = [];
-  const csLookup = new Map<string, IWriteAbleSetCombination<T>>();
+  const csLookup: Record<string, IWriteAbleSetCombination<T>> = Object.create(null);
   const byDegree: IWriteAbleSetCombination<T>[][] = Array(sets.length + 1)
     .fill(0)
     .map((_) => []);
@@ -142,35 +145,49 @@ export default function extractCombinations<T>(
         return '()';
       case 1:
         return setsOfElem[0];
+      default:
+        const sorted = setsOfElem.slice().sort(bySet);
+        const joined = sorted.join(joiner);
+        return '(' + joined + ')';
+    }
+  }
+
+  function genKey(setsOfElem: string[]) {
+    switch (setsOfElem.length) {
+      case 0:
+        return '';
+      case 1:
+        return setsOfElem[0];
       case 2: {
         if (
           (bySet != null && bySet(setsOfElem[0], setsOfElem[1]) > 0) ||
           (bySet == null && setsOfElem[1] > setsOfElem[0])
         ) {
-          return `(${setsOfElem[1]}${joiner}${setsOfElem[0]})`;
+          return setsOfElem[1] + '&' + setsOfElem[0];
         }
-        return `(${setsOfElem[0]}${joiner}${setsOfElem[1]})`;
+        return setsOfElem[0] + '&' + setsOfElem[1];
       }
       default:
-        return `(${setsOfElem.sort(bySet).join(joiner)})`;
+        const sorted = setsOfElem.slice().sort(bySet);
+        return sorted.join('&');
     }
   }
 
   function getOrCreateCombination(setsOfElem: string[]) {
-    const name = genName(setsOfElem);
-    let entry = csLookup.get(name);
+    const key = genKey(setsOfElem);
+    let entry = csLookup[key];
     if (entry) {
       return entry;
     }
     const newEntry: IWriteAbleSetCombination<T> = {
       type,
-      name,
+      name: genName(setsOfElem),
       degree: setsOfElem.length,
-      sets: new Set(setsOfElem.map((s) => setLookup.get(s)![0])),
+      sets: new Set(setsOfElem.map((s) => setLookup[s]![0])),
       cardinality: 0,
       elems: [],
     };
-    csLookup.set(name, newEntry);
+    csLookup[key] = newEntry;
     cs.push(newEntry);
     byDegree[newEntry.degree]!.push(newEntry);
     return newEntry;
@@ -178,7 +195,10 @@ export default function extractCombinations<T>(
 
   // O(N)
   elements.forEach((elem) => {
-    const setsOfElem = acc(elem).filter((d) => validSet.has(d));
+    let setsOfElem = acc(elem);
+    if (validSet) {
+      setsOfElem = setsOfElem.filter((d) => validSet.has(d));
+    }
     const c = getOrCreateCombination(setsOfElem);
     c.elems.push(elem);
     (c as { cardinality: number }).cardinality++;
@@ -207,7 +227,11 @@ export default function extractCombinations<T>(
       return;
     }
     visited.add(node);
-    agg.push(node.elems);
+    if (node.elems.length < 1000) {
+      agg[0].push(...node.elems);
+    } else {
+      agg.push(node.elems);
+    }
     (children.get(node) ?? []).forEach((child) => visit(child, visited, agg));
   }
 
@@ -221,7 +245,7 @@ export default function extractCombinations<T>(
       (children.get(node) ?? []).forEach((child) => {
         visit(child, visited, agg);
       });
-      const elems = agg.flat();
+      const elems = agg.length === 1 ? agg[0] : agg.flat();
       Object.assign(node, { elems, cardinality: elems.length });
     });
   });

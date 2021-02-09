@@ -10,13 +10,22 @@
     <label>Items: 10e<input type="number" id="items" min="1" step="1" value="6" /></label>
     <label>Sets: <input type="number" id="sets" min="2" step="1" value="50" /></label>
     <label>Type: <select id="type">
-      <option>intersection</option>
-      <option selected>distinctIntersection</option>
+      <option selected>intersection</option>
+      <option>distinctIntersection</option>
     </select></label>
+    <button id="button">Run</button>
     <script type="module">
       import { generateCombinations, extractSets, extractCombinations } from '../dist/index.js';
 
-      function generate(numItems, numSets) {
+      function rand(seed = Date.now()) {
+        // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+        return () => {
+          seed = (seed * 9301 + 49297) % 233280;
+          return seed / 233280;
+        };
+      }
+
+      function generate(r, numItems, numSets) {
         const sets = Array(numSets)
           .fill(0)
           .map((_, i) => `s${i}`);
@@ -24,27 +33,36 @@
           .fill(0)
           .map((_, i) => ({
             name: `e${i}`,
-            sets: sets.filter(() => Math.random() < 1 / sets.length),
+            sets: sets.filter(() => r() < 1 / sets.length),
           }));
       }
       const items = document.getElementById('items');
       const sets = document.getElementById('sets');
       const type = document.getElementById('type');
+      const click = document.getElementById('button');
 
-      items.onchange = sets.onchange = type.onchange = run;
+      items.onchange = sets.onchange = type.onchange = click.onclick = run;
 
       function run() {
+        const r = rand(1000000);
         console.log(Math.pow(10, items.valueAsNumber), sets.valueAsNumber, type.value);
-        const rows = generate(Math.pow(10, items.valueAsNumber), sets.valueAsNumber);
-        console.time('sets');
-        const s = extractSets(rows);
-        console.timeEnd('sets');
+        const rows = generate(r, Math.pow(10, items.valueAsNumber), sets.valueAsNumber);
+        // console.time('sets');
+        // let s;
+        // for(let i = 0; i < 10; i++) {
+        //   s = extractSets(rows);
+        // }
+        // console.timeEnd('sets');
         // console.time('generate');
         // const rNew = generateCombinations(s, {type: type.value});
         // console.timeEnd('generate');
         console.time('extract');
-        const rExtract = extractCombinations(rows, { sets: s, type: type.value });
+        let c;
+        for(let i = 0; i < 10; i++) {
+          c = extractCombinations(rows, { type: type.value });
+        }
         console.timeEnd('extract');
+        console.log(c.combinations.length);
       }
       // run();
     </script>

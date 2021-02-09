@@ -39,20 +39,21 @@ export default function extractSets<T>(
   const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => ((e as unknown) as { sets: string[] }).sets;
   const options: PostprocessSetOptions = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
 
-  const sets = new Map<string, T[]>();
+  const sets: Record<string, T[]> = Object.create(null);
 
   elements.forEach((elem) => {
     acc(elem).forEach((set) => {
-      const s = String(set);
-      if (!sets.has(s)) {
-        sets.set(s, [elem]);
+      const s = typeof set === 'string' ? set : String(set);
+      const r = sets[s];
+      if (r == null) {
+        sets[s] = [elem];
       } else {
-        sets.get(s)!.push(elem);
+        r.push(elem);
       }
     });
   });
   return postprocessSets(
-    Array.from(sets).map(([set, elems]) => {
+    Object.entries(sets).map(([set, elems]) => {
       const r: ISet<T> = {
         type: 'set',
         elems,
