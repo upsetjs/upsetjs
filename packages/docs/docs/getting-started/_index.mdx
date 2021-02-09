@@ -37,16 +37,15 @@ const elems = useMemo(
 ## Extract the sets
 
 ```tsx
-// import { extractSets, generateCombinations } from '@upsetjs/react';
-const sets = useMemo(() => extractSets(elems), [elems]);
-const combinations = useMemo(() => generateCombinations(sets), [sets]);
+// import { extractCombinations } from '@upsetjs/react';
+const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 ```
 
 ## Result
 
 ```jsx live
 // import React from 'react';
-// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+// import { extractCombinations, UpSetJS } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
@@ -59,8 +58,7 @@ function GettingStarted() {
     []
   );
 
-  const sets = useMemo(() => extractSets(elems), [elems]);
-  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   return <UpSetJS sets={sets} combinations={combinations} width={780} height={400} />;
 }
@@ -72,7 +70,7 @@ By specifying `onHover` and `selection` UpSet.js is fully interactive. As an alt
 
 ```jsx live
 // import React from 'react';
-// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+// import { extractCombinations, UpSetJS } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
@@ -85,8 +83,7 @@ function GettingStarted() {
     []
   );
 
-  const sets = useMemo(() => extractSets(elems), [elems]);
-  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   const [selection, setSelection] = React.useState(null);
   return (
@@ -109,7 +106,7 @@ The first query is shown in full detail while others are shown using small indic
 
 ```jsx live
 // import React from 'react';
-// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+// import { extractCombinations, UpSetJS } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
@@ -122,8 +119,7 @@ function GettingStarted() {
     []
   );
 
-  const sets = useMemo(() => extractSets(elems), [elems]);
-  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   const queries = useMemo(
     () => [
@@ -150,7 +146,7 @@ yarn add @upsetjs/bundle
 ```
 
 ```jsx
-import { extractSets, generateCombinations, renderUpSetJS } from '@upsetjs/bundle';
+import { extractCombinations, renderUpSetJS } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -158,8 +154,7 @@ const elems = [
   { name: 'C', sets: ['S2'] },
   { name: 'D', sets: ['S1', 'S3'] },
 ];
-const sets = useMemo(() => extractSets(elems), [elems]);
-const combinations = useMemo(() => generateCombinations(sets), [sets]);
+const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
 let selection = null;
 

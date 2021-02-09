@@ -17,7 +17,7 @@ yarn add @upsetjs/bundle
 ## Example
 
 ```jsx
-import { extractSets, generateCombinations, renderUpSetJS } from '@upsetjs/bundle';
+import { extractCombinations, renderUpSetJS } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -25,8 +25,7 @@ const elems = [
   { name: 'C', sets: ['S2'] },
   { name: 'D', sets: ['S1', 'S3'] },
 ];
-const sets = useMemo(() => extractSets(elems), [elems]);
-const combinations = useMemo(() => generateCombinations(sets), [sets]);
+const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
 let selection = null;
 

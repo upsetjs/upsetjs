@@ -123,7 +123,7 @@ function Example() {
       },
     ];
   }, []);
-  const sets = useMemo(() => extractSets(elems), [elems]);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
   const [selection, setSelection] = useState(null);
 
   return (
@@ -132,6 +132,7 @@ function Example() {
         selection={selection}
         onHover={setSelection}
         sets={sets}
+        combinations={combinations}
         width={780}
         height={400}
         style={{ gridColumn: 'span 2' }}

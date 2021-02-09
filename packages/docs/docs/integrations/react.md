@@ -18,7 +18,7 @@ yarn add @upsetjs/react react react-dom
 
 ```jsx live
 // import React from 'react';
-// import { extractSets, generateCombinations, UpSetJS } from '@upsetjs/react';
+// import { extractCombinations, UpSetJS } from '@upsetjs/react';
 
 function GettingStarted() {
   const elems = useMemo(
@@ -30,14 +30,13 @@ function GettingStarted() {
     ],
     []
   );
-
-  const sets = useMemo(() => extractSets(elems), [elems]);
-  const combinations = useMemo(() => generateCombinations(sets), [sets]);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   const [selection, setSelection] = React.useState(null);
   return (
     <UpSetJS
       sets={sets}
+      combinations={combinations}
       combinations={combinations}
       width={780}
       height={400}

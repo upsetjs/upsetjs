@@ -15,8 +15,7 @@ import * as UpSetJS from '@upsetjs/bundle';
 
 const elems = [...];
 
-const sets = UpSetJS.extractSets(elems);
-const combinations = UpSetJS.generateIntersections(elems);
+const { sets, combinations } = UpSetJS.extractCombinations(elems);
 
 UpSetJS.render(document.body, {sets, combinations, width: 500, height: 300});
 ```

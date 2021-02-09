@@ -43,11 +43,12 @@ function BoxPlot() {
     ],
     []
   );
-  const sets = useMemo(() => extractSets(elems), []);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   return (
     <UpSetJS
       sets={sets}
+      combinations={combinations}
       width={780}
       height={500}
       selection={selection}
