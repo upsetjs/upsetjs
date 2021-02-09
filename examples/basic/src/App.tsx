@@ -6,16 +6,17 @@
  */
 
 import React, { useMemo } from 'react';
-import { UpSetJS, extractSets, ISetLike } from '@upsetjs/react';
+import { UpSetJS, extractCombinations, ISetLike } from '@upsetjs/react';
 import elems, { Row } from './data';
 import './styles.css';
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   const [selection, setSelection] = React.useState<ISetLike<Row> | null>(null);
-  const sets = useMemo(() => extractSets(elems), []);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), []);
   return (
     <UpSetJS
       sets={sets}
+      combinations={combinations}
       width={780}
       height={500}
       selection={selection}

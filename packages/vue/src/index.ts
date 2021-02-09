@@ -23,6 +23,8 @@ export {
   asSet,
   asSets,
   extractSets,
+  extractFromExpression,
+  extractCombinations,
   fromSetName,
   isCalcQuery,
   isElemQuery,

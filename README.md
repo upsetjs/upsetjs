@@ -58,7 +58,7 @@ npm install @upsetjs/react react react-dom
 
 ```ts
 import React from 'react';
-import UpSetJS, { extractSets, generateCombinations, ISetLike } from '@upsetjs/react';
+import UpSetJS, { extractCombinations, ISetLike } from '@upsetjs/react';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -67,8 +67,7 @@ const elems = [
   { name: 'D', sets: ['S1', 'S3'] },
 ];
 
-const sets = extractSets(elems);
-const combinations = generateCombinations(sets);
+const { sets, combinations } = extractCombinations(elems);
 
 <UpSetJS sets={sets} combinations={combinations} width={500} height={300} />;
 ```
@@ -94,7 +93,7 @@ npm install @upsetjs/bundle
 ```
 
 ```js
-import { extractSets, generateCombinations, render } from '@upsetjs/bundle';
+import { extractCombinations, render } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -103,8 +102,7 @@ const elems = [
   { name: 'D', sets: ['S1', 'S3'] },
 ];
 
-const sets = extractSets(elems);
-const combinations = generateCombinations(sets);
+const { sets, combinations } = extractCombinations(elems);
 
 render(document.body, { sets, combinations, width: 500, height: 300 });
 ```

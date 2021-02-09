@@ -31,11 +31,12 @@ function Example() {
     ],
     []
   );
-  const sets = useMemo(() => extractSets(elems), []);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   return (
     <UpSetJS
       sets={sets}
+      combinations={combinations}
       width={780}
       height={500}
       selection={selection}
@@ -76,11 +77,12 @@ function Example() {
     ],
     []
   );
-  const sets = useMemo(() => extractSets(elems), []);
+  const { sets, combinations } = useMemo(() => extractCombinations(elems), [elems]);
 
   return (
     <UpSetJS
       sets={sets}
+      combinations={combinations}
       width={780}
       height={500}
       queries={[{ name: 'Q1', color: 'green', set: sets[0] }]}

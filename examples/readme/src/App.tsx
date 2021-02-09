@@ -6,25 +6,31 @@
  */
 
 import React, { useMemo } from 'react';
-import { UpSetJS, VennDiagram, KarnaughMap, extractSets, ISetLike } from '@upsetjs/react';
+import { UpSetJS, VennDiagram, KarnaughMap, extractCombinations, ISetLike } from '@upsetjs/react';
 import './styles.css';
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   const [selection, setSelection] = React.useState<ISetLike<any> | null>(null);
-  const sets = useMemo(
+  const { sets, combinations } = useMemo(
     () =>
-      extractSets([
-        { name: 'A', sets: ['S1', 'S2'] },
-        { name: 'B', sets: ['S1'] },
-        { name: 'C', sets: ['S2'] },
-        { name: 'D', sets: ['S1', 'S3'] },
-      ]),
+      extractCombinations(
+        [
+          { name: 'A', sets: ['S1', 'S2'] },
+          { name: 'B', sets: ['S1'] },
+          { name: 'C', sets: ['S2'] },
+          { name: 'D', sets: ['S1', 'S3'] },
+        ],
+        {
+          type: 'distinctIntersection',
+        }
+      ),
     []
   );
   return (
     <div>
       <UpSetJS
         sets={sets}
+        combinations={combinations}
         width={500}
         height={300}
         selection={selection}
@@ -33,6 +39,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
       />
       <VennDiagram
         sets={sets}
+        combinations={combinations}
         width={500}
         height={300}
         selection={selection}
@@ -41,6 +48,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
       />
       <KarnaughMap
         sets={sets}
+        combinations={combinations}
         width={500}
         height={300}
         selection={selection}
