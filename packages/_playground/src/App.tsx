@@ -5,20 +5,35 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { useState, Suspense } from 'react';
+// import { useData } from './bench2';
 import { sets } from './data';
 import './styles.css';
-import { UpSetJS } from '@upsetjs/react';
+import { UpSetJS, UpSetSelection } from '@upsetjs/react';
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
-  return <UpSetJS sets={sets} width={1200} height={500} theme={isDarkTheme ? 'dark' : 'light'} />;
+  // const { sets, combinations } = useData();
+  const [selection, setSelection] = useState<UpSetSelection<any>>(null);
+  return (
+    <UpSetJS
+      sets={sets}
+      // combinations={combinations}
+      width={1900}
+      height={1200}
+      theme={isDarkTheme ? 'dark' : 'light'}
+      selection={selection}
+      onHover={setSelection}
+    />
+  );
 }
 
 export default function App() {
   const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">
-      <UpSetPlot isDarkTheme={isDarkTheme} />
+      <Suspense fallback="Loading...">
+        <UpSetPlot isDarkTheme={isDarkTheme} />
+      </Suspense>
     </div>
   );
 }
