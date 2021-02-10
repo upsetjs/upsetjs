@@ -9,11 +9,6 @@ import type { ISet, ISetCombination, ISetLike, ISets, SetCombinationType } from 
 import { postprocessCombinations, SortCombinationOrder, SortCombinationOrders } from './asCombinations';
 import { postprocessSets, SortSetOrder } from './asSets';
 import { SET_JOINERS } from './constants';
-import {
-  generateDistinctOverlapFunction,
-  generateIntersectionOverlapFunction,
-  generateUnionOverlapFunction,
-} from './generateOverlapFunction';
 
 export interface ExtractFromExpressionOptions {
   type?: SetCombinationType;
@@ -28,10 +23,6 @@ export interface ExtractFromExpressionOptions {
    * @param set the set to generate a key for
    */
   toKey?: (set: ISetLike<unknown>) => string;
-}
-
-function dontKnow() {
-  return 0;
 }
 
 /**
@@ -72,15 +63,6 @@ export default function extractFromExpression<T extends { cardinality: number }>
   const sets: ISet<unknown>[] = [];
   const setLookup = new Map<string, ISet<unknown>>();
 
-  let overlapFunction: null | ((a: ISetLike<unknown>, b: ISetLike<unknown>) => number) = null;
-
-  function overlap(this: ISetLike<unknown>, that: ISetLike<unknown>) {
-    if (this === that) {
-      return this.cardinality;
-    }
-    return overlapFunction == null ? 0 : overlapFunction(this, that);
-  }
-
   const cs: (T & ISetCombination<unknown>)[] = combinations.map((c) => {
     const containedSets = acc(c);
 
@@ -93,7 +75,6 @@ export default function extractFromExpression<T extends { cardinality: number }>
         elems: [],
         name: s,
         type: 'set',
-        overlap,
       };
       sets.push(set);
       setLookup.set(set.name, set);
@@ -132,7 +113,6 @@ export default function extractFromExpression<T extends { cardinality: number }>
         type,
         elems: [],
         name,
-        overlap,
       },
       c,
       {
@@ -149,19 +129,6 @@ export default function extractFromExpression<T extends { cardinality: number }>
   const sortedCombinations = postprocessCombinations(sortedSets, cs, {
     order: options.combinationOrder,
   });
-
-  // no since we are done we can compute a proper overlap with the given data
-  switch (type) {
-    case 'distinctIntersection':
-      overlapFunction = generateDistinctOverlapFunction(sortedCombinations, dontKnow, options.toKey);
-      break;
-    case 'union':
-      overlapFunction = generateUnionOverlapFunction(sortedCombinations, dontKnow, options.toKey);
-      break;
-    default:
-      overlapFunction = generateIntersectionOverlapFunction(sortedCombinations, dontKnow, options.toKey);
-      break;
-  }
 
   return {
     sets: sortedSets,
