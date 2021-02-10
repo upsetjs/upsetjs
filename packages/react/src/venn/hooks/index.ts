@@ -6,26 +6,26 @@
  */
 import { ISetCombinations, ISetLike, queryOverlap } from '@upsetjs/model';
 import React, { useCallback, useMemo } from 'react';
-import deriveVennSizeDependent, { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
-import deriveVennStyleDependent, { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 import { exportSVG } from '../../exporter';
 import { exportDump, exportSharedLink } from '../../exporter/exportDump';
 import useHandler, { Handlers } from '../../hooks/useHandler';
 import type {
   UpSetBaseDataProps,
+  UpSetExportOptions,
   UpSetProps,
   VennDiagramDataProps,
   VennDiagramFullProps,
-  UpSetExportOptions,
 } from '../../interfaces';
 import { baseRules } from '../../rules';
-import { generateId, generateSelectionName, generateSelectionOverlap, isSetLike } from '../../utils';
+import { generateId } from '../../utils';
+import deriveVennSizeDependent, { VennDiagramSizeInfo } from '../derive/deriveVennSizeDependent';
+import deriveVennStyleDependent, { VennDiagramStyleInfo } from '../derive/deriveVennStyleDependent';
 
 export function useCreateCommon<T>(
   p: Omit<VennDiagramFullProps, keyof VennDiagramDataProps<T>> &
     UpSetBaseDataProps<T> & { toKey: (set: ISetLike<T>) => string }
 ) {
-  const { selection = null, queries = [], fontSizes } = p;
+  const { queries = [], fontSizes } = p;
   // generate a "random" but attribute stable id to avoid styling conflicts
   const styleId = useMemo(
     () =>
@@ -91,9 +91,6 @@ export function useCreateCommon<T>(
   ]);
 
   const h = useHandler(p);
-  const selectionKey = selection != null && isSetLike(selection) ? p.toKey(selection) : null;
-  const selectionOverlap = selection == null ? null : generateSelectionOverlap(selection, p.toElemKey);
-  const selectionName = generateSelectionName(selection);
   const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', p.toElemKey)), [
     queries,
     p.toElemKey,
@@ -106,9 +103,6 @@ export function useCreateCommon<T>(
     size: sizeInfo,
     style: styleInfo,
     h,
-    selectionKey,
-    selectionName,
-    selectionOverlap,
     qs,
     rulesHelper,
   };

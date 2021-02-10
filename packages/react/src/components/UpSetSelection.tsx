@@ -34,7 +34,7 @@ export default function UpSetSelection<T>({
 }>) {
   const empty = style.emptySelection;
 
-  const selectionOverlap = generateSelectionOverlap(selection, data.toElemKey);
+  const selectionOverlap = generateSelectionOverlap(selection, data.overlapGuesser, data.toElemKey);
   const selectionName = generateSelectionName(selection);
 
   const someAddon =

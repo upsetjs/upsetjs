@@ -6,28 +6,23 @@
  */
 
 import type { ISetCombination } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import { mergeColor } from '../../components/utils';
 import { clsx } from '../../utils';
 import type { KMapDataInfo } from '../derive/deriveDataDependent';
 import type { KMapStyleInfo } from '../derive/deriveStyleDependent';
 import type { UpSetSelection } from '../../components/interfaces';
 
-const KMapCell = /*!#__PURE__*/ React.memo(function KMapCell<T>({
-  d,
-  i,
-  h,
-  className,
-  data,
-  style,
-}: PropsWithChildren<{
+export type KMapCellProps<T> = PropsWithChildren<{
   d: ISetCombination<T>;
   i: number;
   style: KMapStyleInfo;
   data: KMapDataInfo<T>;
   className?: string;
   h: UpSetSelection;
-}>) {
+}>;
+
+const KMapCell = /*!#__PURE__*/ React.memo(function KMapCell<T>({ d, i, h, className, data, style }: KMapCellProps<T>) {
   const l = data.cs.l[i];
   const y = data.cs.scale(d.cardinality);
   const x = (data.cell - data.cs.bandWidth) / 2;
@@ -68,4 +63,4 @@ const KMapCell = /*!#__PURE__*/ React.memo(function KMapCell<T>({
   );
 });
 
-export default KMapCell;
+export default KMapCell as <T>(props: KMapCellProps<T>) => ReactElement;

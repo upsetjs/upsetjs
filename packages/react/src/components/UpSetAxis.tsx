@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import Axis from './Axis';
 import UpSetTitle from './UpSetTitle';
 import type { UpSetDataInfo } from '../derive/deriveDataDependent';
@@ -14,15 +14,13 @@ import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import { addonPositionGenerator } from './utils';
 import { clsx } from '../utils';
 
-export default /*!#__PURE__*/ React.memo(function UpSetAxis<T>({
-  size,
-  style,
-  data,
-}: PropsWithChildren<{
+export type UpSetAxisProps<T> = PropsWithChildren<{
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
-}>) {
+}>;
+
+const UpSetAxis = /*!#__PURE__*/ React.memo(function UpSetAxis<T>({ size, style, data }: UpSetAxisProps<T>) {
   const setPosGen = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
   const combinationPosGen = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
   const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
@@ -119,3 +117,5 @@ export default /*!#__PURE__*/ React.memo(function UpSetAxis<T>({
     </g>
   );
 });
+
+export default UpSetAxis as <T>(props: UpSetAxisProps<T>) => ReactElement;

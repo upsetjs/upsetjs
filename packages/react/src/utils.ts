@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
-import { ISetLike, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
+import { ISetLike, ISetOverlapFunction, setElemOverlapFactory, setOverlapFactory } from '@upsetjs/model';
 import type { UpSetSelection } from './interfaces';
 
 export function clsx(...classNames: (boolean | string | undefined)[]) {
@@ -26,8 +26,13 @@ function elemOverlapOf<T>(query: Set<T> | readonly T[], toElemKey?: (e: T) => st
   };
 }
 
+export function noGuessPossible() {
+  return -1;
+}
+
 export function generateSelectionOverlap<T>(
-  selection: ISetLike<T> | null | readonly T[] | ((s: ISetLike<T>) => number) | undefined,
+  selection: UpSetSelection<T>,
+  overlapGuesser: ISetOverlapFunction<T>,
   toElemKey?: (e: T) => string
 ): (s: ISetLike<T>) => number {
   if (!selection) {
@@ -43,9 +48,19 @@ export function generateSelectionOverlap<T>(
   if (ss.overlap) {
     return ss.overlap.bind(ss);
   }
-  const f = elemOverlapOf(ss.elems, toElemKey);
+  let f: ((v: ISetLike<T>) => number) | null = null;
   return (s) => {
-    return s.overlap ? s.overlap(ss) : f(s);
+    if (s.overlap) {
+      return s.overlap(ss);
+    }
+    const guess = overlapGuesser(s, ss);
+    if (guess >= 0) {
+      return guess;
+    }
+    if (!f) {
+      f = elemOverlapOf(ss.elems, toElemKey);
+    }
+    return f(s);
   };
 }
 

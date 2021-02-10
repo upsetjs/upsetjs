@@ -25,7 +25,7 @@ export default function KMapSelection<T>({
 }>) {
   const empty = style.emptySelection;
 
-  const selectionOverlap = generateSelectionOverlap(selection, data.toElemKey);
+  const selectionOverlap = generateSelectionOverlap(selection, data.overlapGuesser, data.toElemKey);
   const selectionName = generateSelectionName(selection);
 
   return (

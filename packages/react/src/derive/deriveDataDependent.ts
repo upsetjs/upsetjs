@@ -19,10 +19,12 @@ import {
   ISetLike,
   ISet,
   ISetCombination,
+  generateOverlapFunction,
+  ISetOverlapFunction,
 } from '@upsetjs/model';
 import type { ReactNode } from 'react';
 import type { UpSetSizeInfo } from './deriveSizeDependent';
-import { generateId } from '../utils';
+import { generateId, noGuessPossible } from '../utils';
 import { DEFAULT_COMBINATIONS } from '../defaults';
 import type { UpSetAddon, UpSetDataProps } from '../interfaces';
 
@@ -42,7 +44,7 @@ function resolveBandScale(factory: NonNullable<UpSetDataProps<any, any>['bandSca
   return factory === 'band' ? bandScale : factory;
 }
 
-export declare type UpSetDataInfo<T> = {
+export interface UpSetDataInfo<T> {
   id: string;
   r: number;
   triangleSize: number;
@@ -74,7 +76,8 @@ export declare type UpSetDataInfo<T> = {
   };
   toKey(s: ISetLike<T>): string;
   toElemKey?(e: T): string;
-};
+  overlapGuesser: ISetOverlapFunction<T>;
+}
 
 export function areCombinations<T>(
   combinations: ISetCombinations<T> | GenerateSetCombinationsOptions
@@ -187,5 +190,6 @@ export default function deriveDataDependent<T>(
     },
     toKey,
     toElemKey,
+    overlapGuesser: generateOverlapFunction(cs, noGuessPossible, toKey),
   };
 }

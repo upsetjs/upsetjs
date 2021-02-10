@@ -6,7 +6,7 @@
  */
 
 import type { ISetCombination } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import type { UpSetDataInfo } from '../derive/deriveDataDependent';
 import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
@@ -25,6 +25,15 @@ export function computeOverflowValues(value: number, max: number, scale: (v: num
   return scaled;
 }
 
+export type CombinationChartProps<T> = PropsWithChildren<{
+  d: ISetCombination<T>;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
+  className?: string;
+  h: UpSetSelection;
+}>;
+
 const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>({
   d,
   h,
@@ -33,14 +42,7 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
   size,
   style,
   children,
-}: PropsWithChildren<{
-  d: ISetCombination<T>;
-  size: UpSetSizeInfo;
-  style: UpSetStyleInfo;
-  data: UpSetDataInfo<T>;
-  className?: string;
-  h: UpSetSelection;
-}>) {
+}: CombinationChartProps<T>) {
   const yValues = computeOverflowValues(d.cardinality, data.cs.max, data.cs.y);
 
   const genPosition = addonPositionGenerator(size.cs.h + size.sets.h, size.cs.addonPadding);
@@ -156,4 +158,4 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
   );
 });
 
-export default CombinationChart;
+export default CombinationChart as <T>(props: CombinationChartProps<T>) => ReactElement;

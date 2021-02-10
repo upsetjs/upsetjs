@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Axis from '../../components/Axis';
 import type { Handlers } from '../../hooks/useHandler';
 import { clsx } from '../../utils';
@@ -22,17 +22,14 @@ export function generateGridPath(cell: number, vCells: number, hCells: number, l
     .join(' ');
 }
 
-export default /*!#__PURE__*/ React.memo(function KMapChart<T>({
-  data,
-  style,
-  size,
-  h,
-}: {
+export type KMapChartProps<T> = {
   style: KMapStyleInfo;
   data: KMapDataInfo<T>;
   size: VennDiagramSizeInfo;
   h: Handlers;
-}) {
+};
+
+const KMapChart = /*!#__PURE__*/ React.memo(function KMapChart<T>({ data, style, size, h }: KMapChartProps<T>) {
   const csNameOffset = style.cs.offset === 'auto' ? data.cs.labelOffset : style.cs.offset;
   return (
     <g>
@@ -106,3 +103,5 @@ export default /*!#__PURE__*/ React.memo(function KMapChart<T>({
     </g>
   );
 });
+
+export default KMapChart as <T>(props: KMapChartProps<T>) => ReactElement;

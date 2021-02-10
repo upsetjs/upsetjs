@@ -14,8 +14,10 @@ import {
   ISets,
   NumericScaleLike,
   generateCombinations,
+  generateOverlapFunction,
+  ISetOverlapFunction,
 } from '@upsetjs/model';
-import { generateId } from '../../utils';
+import { generateId, noGuessPossible } from '../../utils';
 import type { VennDiagramSizeInfo } from '../../venn/derive/deriveVennSizeDependent';
 import { generate } from '../layout';
 import { resolveNumericScale, areCombinations } from '../../derive/deriveDataDependent';
@@ -23,7 +25,7 @@ import type { KarnaughMapDataProps } from 'interfaces';
 
 export declare type IPoints = readonly { x: number; y: number }[];
 
-export declare type KMapDataInfo<T> = {
+export interface KMapDataInfo<T> {
   id: string;
   grid: {
     x: number;
@@ -53,7 +55,8 @@ export declare type KMapDataInfo<T> = {
   };
   toKey(s: ISetLike<T>): string;
   toElemKey?(e: T): string;
-};
+  overlapGuesser: ISetOverlapFunction<T>;
+}
 
 export default function deriveKarnaughDataDependent<T>(
   sets: ISets<T>,
@@ -130,5 +133,6 @@ export default function deriveKarnaughDataDependent<T>(
     },
     toKey,
     toElemKey,
+    overlapGuesser: generateOverlapFunction(cs, noGuessPossible, toKey),
   };
 }

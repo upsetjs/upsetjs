@@ -6,7 +6,7 @@
  */
 
 import type { ISetCombination, ISet } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import CombinationChart from './CombinationChart';
 import type { UpSetDataInfo } from '../derive/deriveDataDependent';
 import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
@@ -14,14 +14,14 @@ import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
 import SetChart from './SetChart';
 import type { Handlers } from '../hooks/useHandler';
 
-declare type Props<T> = {
+declare type UpSetChartProps<T> = PropsWithChildren<{
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
   h: Handlers;
   setChildrenFactory?: (set: ISet<T>) => React.ReactNode;
   combinationChildrenFactory?: (combination: ISetCombination<T>) => React.ReactNode;
-};
+}>;
 
 const UpSetChart = /*!#__PURE__*/ React.memo(function UpSetChart<T>({
   data,
@@ -30,7 +30,7 @@ const UpSetChart = /*!#__PURE__*/ React.memo(function UpSetChart<T>({
   h,
   setChildrenFactory,
   combinationChildrenFactory,
-}: PropsWithChildren<Props<T>>) {
+}: UpSetChartProps<T>) {
   return (
     <g className={h.hasClick ? `clickAble-${style.id}` : undefined}>
       <g transform={`translate(${size.sets.x},${size.sets.y})`} data-upset="sets">
@@ -69,4 +69,4 @@ const UpSetChart = /*!#__PURE__*/ React.memo(function UpSetChart<T>({
   );
 });
 
-export default UpSetChart as <T>(props: PropsWithChildren<Props<T>>) => JSX.Element;
+export default UpSetChart as <T>(props: UpSetChartProps<T>) => ReactElement;

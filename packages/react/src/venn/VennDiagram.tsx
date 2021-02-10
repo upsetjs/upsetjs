@@ -4,11 +4,11 @@
  *
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
-import { isSet } from '@upsetjs/model';
+import { isSet, isSetLike } from '@upsetjs/model';
 import React, { Ref, useMemo } from 'react';
 import { fillVennDiagramDefaults } from '../fillDefaults';
 import type { VennDiagramProps } from '../interfaces';
-import { clsx } from '../utils';
+import { clsx, generateSelectionName, generateSelectionOverlap } from '../utils';
 import SVGWrapper from './components/SVGWrapper';
 import VennArcSliceSelection from './components/VennArcSliceSelection';
 import deriveVennDataDependent from './derive/deriveVennDataDependent';
@@ -29,6 +29,11 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
     () => deriveVennDataDependent(p.sets, p.combinations, size, p.layout, p.valueFormat, p.toKey, p.toElemKey, p.id),
     [p.sets, p.combinations, size, p.valueFormat, p.toKey, p.toElemKey, p.id, p.layout]
   );
+
+  const selectionKey = selection != null && isSetLike(selection) ? p.toKey(selection) : null;
+  const selectionOverlap =
+    selection == null ? null : generateSelectionOverlap(selection, dataInfo.overlapGuesser, dataInfo.toElemKey);
+  const selectionName = generateSelectionName(selection);
 
   const rules = `
   ${rulesHelper.root}
@@ -87,7 +92,7 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
     <SVGWrapper
       rules={rules}
       style={style}
-      selectionName={v.selectionName}
+      selectionName={selectionName}
       size={size}
       p={p}
       data={dataInfo}
@@ -129,9 +134,9 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
             data={dataInfo}
             fill={p.filled}
             h={v.h}
-            selectionName={v.selectionName}
-            selected={v.selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}
-            elemOverlap={v.selectionOverlap}
+            selectionName={selectionName}
+            selected={selectionKey === l.key || (isSet(selection) && dataInfo.cs.has(l.v, selection))}
+            elemOverlap={selectionOverlap}
             queries={queries}
             qs={v.qs}
           />

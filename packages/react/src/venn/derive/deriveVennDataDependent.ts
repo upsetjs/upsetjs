@@ -13,13 +13,15 @@ import {
   ISet,
   ISetCombination,
   GenerateSetCombinationsOptions,
+  ISetOverlapFunction,
+  generateDistinctOverlapFunction,
 } from '@upsetjs/model';
-import { generateId } from '../../utils';
+import { generateId, noGuessPossible } from '../../utils';
 import type { ITextCircle, ITextArcSlice, IVennDiagramLayoutGenerator, ITextEllipse } from '../layout/interfaces';
 import type { VennDiagramSizeInfo } from './deriveVennSizeDependent';
 import { areCombinations } from '../../derive/deriveDataDependent';
 
-export declare type VennDiagramDataInfo<T> = {
+export interface VennDiagramDataInfo<T> {
   id: string;
   format(v: number): string;
   sets: {
@@ -34,7 +36,8 @@ export declare type VennDiagramDataInfo<T> = {
   };
   toKey(s: ISetLike<T>): string;
   toElemKey?(e: T): string;
-};
+  overlapGuesser: ISetOverlapFunction<T>;
+}
 
 export default function deriveVennDataDependent<T>(
   sets: ISets<T>,
@@ -69,6 +72,7 @@ export default function deriveVennDataDependent<T>(
     },
     toKey,
     toElemKey,
+    overlapGuesser: generateDistinctOverlapFunction(cs, noGuessPossible, toKey),
   };
 }
 

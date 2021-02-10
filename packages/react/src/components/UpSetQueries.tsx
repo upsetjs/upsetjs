@@ -16,21 +16,23 @@ import SetSelectionChart from './SetSelectionChart';
 
 const EMPTY_ARRAY: any[] = [];
 
-export default /*!#__PURE__*/ React.memo(function UpSetQueries<T>({
-  size,
-  data,
-  style,
-  hasHover,
-  secondary,
-  queries,
-}: PropsWithChildren<{
+export type UpSetQueriesProps<T> = PropsWithChildren<{
   size: UpSetSizeInfo;
   style: UpSetStyleInfo;
   data: UpSetDataInfo<T>;
   hasHover?: boolean;
   secondary: boolean;
   queries: readonly UpSetQuery<T>[];
-}>) {
+}>;
+
+export const UpSetQueries = /*!#__PURE__*/ React.memo(function UpSetQueries<T>({
+  size,
+  data,
+  style,
+  hasHover,
+  secondary,
+  queries,
+}: UpSetQueriesProps<T>) {
   const someAddon =
     size.sets.addons.some((s) => s.renderQuery != null) || size.cs.addons.some((s) => s.renderQuery != null);
   const qs = useMemo(
@@ -43,9 +45,13 @@ export default /*!#__PURE__*/ React.memo(function UpSetQueries<T>({
     [queries, someAddon, data.toElemKey]
   );
 
-  function wrapAddon<
-    S extends ISetLike<T>
-  >(addon: UpSetAddon<S, T, React.ReactNode>, query: UpSetQuery<T>, index: number, overlapper: (set: S) => readonly T[] | null, secondary: boolean) {
+  function wrapAddon<S extends ISetLike<T>>(
+    addon: UpSetAddon<S, T, React.ReactNode>,
+    query: UpSetQuery<T>,
+    index: number,
+    overlapper: (set: S) => readonly T[] | null,
+    secondary: boolean
+  ) {
     return {
       ...addon,
       render: (props: UpSetAddonProps<S, T>) => {
@@ -98,3 +104,5 @@ export default /*!#__PURE__*/ React.memo(function UpSetQueries<T>({
     </g>
   );
 });
+
+export default UpSetQueries as <T>(props: UpSetQueriesProps<T>) => React.ReactElement;

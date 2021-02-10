@@ -219,3 +219,27 @@ export function generateUnionOverlapFunction<T>(
     return a.cardinality + b.cardinality - combinationsByKey.get(key)!;
   };
 }
+
+export function generateOverlapFunction<T>(
+  combinations: ISetCombinations<T>,
+  fallback: ISetOverlapFunction<T>,
+  toKey = toDefaultKey
+): ISetOverlapFunction<T> {
+  if (combinations.length === 0) {
+    return fallback;
+  }
+  const firstType = combinations[0].type;
+  if (combinations.some((s) => s.type !== firstType)) {
+    // cannot compute a guess since mixed types
+    return fallback;
+  }
+  switch (firstType) {
+    case 'union':
+      return generateUnionOverlapFunction(combinations, fallback, toKey);
+    case 'intersection':
+      return generateIntersectionOverlapFunction(combinations, fallback, toKey);
+    case 'distinctIntersection':
+      return generateDistinctOverlapFunction(combinations, fallback, toKey);
+  }
+  return fallback;
+}

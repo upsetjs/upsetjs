@@ -24,6 +24,7 @@ export {
   generateDistinctOverlapFunction,
   generateIntersectionOverlapFunction,
   generateUnionOverlapFunction,
+  generateOverlapFunction,
 } from './generateOverlapFunction';
 export {
   GenerateOverlapLookupOptions,

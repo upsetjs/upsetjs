@@ -6,7 +6,7 @@
  */
 
 import type { ISet } from '@upsetjs/model';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import type { UpSetDataInfo } from '../derive/deriveDataDependent';
 import type { UpSetSizeInfo } from '../derive/deriveSizeDependent';
 import type { UpSetStyleInfo } from '../derive/deriveStyleDependent';
@@ -15,6 +15,16 @@ import { addonPositionGenerator, mergeColor } from './utils';
 import { clsx } from '../utils';
 import { OVERFLOW_PADDING_FACTOR } from '../defaults';
 import { computeOverflowValues } from './CombinationChart';
+
+export type SetChartProps<T> = PropsWithChildren<{
+  d: ISet<T>;
+  i: number;
+  className?: string;
+  size: UpSetSizeInfo;
+  style: UpSetStyleInfo;
+  data: UpSetDataInfo<T>;
+  h: UpSetSelection;
+}>;
 
 const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   d,
@@ -25,15 +35,7 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   data,
   style,
   children,
-}: PropsWithChildren<{
-  d: ISet<T>;
-  i: number;
-  className?: string;
-  size: UpSetSizeInfo;
-  style: UpSetStyleInfo;
-  data: UpSetDataInfo<T>;
-  h: UpSetSelection;
-}>) {
+}: SetChartProps<T>) {
   const xValues = computeOverflowValues(d.cardinality, data.sets.max, data.sets.x);
   const genPosition = addonPositionGenerator(size.sets.w + size.labels.w + size.cs.w, size.sets.addonPadding);
   const anchorOffset =
@@ -118,4 +120,4 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
   );
 });
 
-export default SetChart;
+export default SetChart as <T>(props: SetChartProps<T>) => ReactElement;
