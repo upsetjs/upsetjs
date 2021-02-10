@@ -6,7 +6,7 @@
  */
 
 import { ISetCombinations, ISetLike, ISets, toKey as toKeyImpl } from '../model';
-import { SetOverlap, setOverlapFactory } from './setOverlap';
+import { SetOverlap, setOverlapFactory, ISetOverlapFunction } from './setOverlap';
 
 export interface GenerateOverlapLookupOptions<T> {
   toElemKey?(v: T): string;
@@ -107,7 +107,7 @@ export function generateOverlapLookup<T>(
   combinations: ISetCombinations<T>,
   { toElemKey, what = 'intersection', compress = 'auto' }: GenerateOverlapLookupOptions<T> = {}
 ): readonly (readonly number[])[] | string {
-  // generate a distnace matrix of all combinations
+  // generate a distance matrix of all combinations
   const data = (sets as ISetLike<T>[]).concat(combinations);
 
   function overlapF(set: ISetLike<T>) {
@@ -157,12 +157,12 @@ export function generateOverlapLookupFunction<T>(
   sets: ISets<T>,
   combinations: ISetCombinations<T>,
   toKey: (v: ISetLike<T>) => string = toKeyImpl
-) {
+): { setIndex: Map<string, number>; compute: ISetOverlapFunction<T>; combinationIndex: Map<string, number> } {
   const lookup = typeof matrix == 'string' ? decompressMatrix(matrix) : matrix;
   const setIndex = new Map(sets.map((set, i) => [toKey(set), i]));
   const combinationIndex = new Map(combinations.map((set, i) => [toKey(set), i + sets.length]));
 
-  const compute = (a: ISetLike<T>, b: ISetLike<T>) => {
+  const compute: ISetOverlapFunction<T> = (a, b) => {
     if (a === b) {
       return a.cardinality;
     }

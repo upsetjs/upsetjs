@@ -5,6 +5,12 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import type { ISetLike } from '../model';
+
+export interface ISetOverlapFunction<T> {
+  (a: ISetLike<T>, b: ISetLike<T>): number;
+}
+
 export interface SetOverlap {
   setA: number;
   setB: number;

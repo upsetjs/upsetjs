@@ -20,3 +20,13 @@ export { default as extractSets } from './extractSets';
 
 export * from './setOverlap';
 export { default as setOverlap } from './setOverlap';
+export {
+  generateDistinctOverlapFunction,
+  generateIntersectionOverlapFunction,
+  generateUnionOverlapFunction,
+} from './generateOverlapFunction';
+export {
+  GenerateOverlapLookupOptions,
+  generateOverlapLookup,
+  generateOverlapLookupFunction,
+} from './generateOverlapLookup';

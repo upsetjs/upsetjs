@@ -81,7 +81,7 @@ describe('generate vs extract', () => {
 });
 
 describe('generate vs extract toy', () => {
-  const set = readFileSync(resolve(__dirname, './bench1.txt')).toString();
+  const set = readFileSync(resolve(__dirname, './__tests__/bench1.txt')).toString();
   const setNames = Array.from('abcdef');
   const items = set
     .split('\n')
@@ -110,7 +110,7 @@ describe('generate vs extract toy', () => {
 });
 
 describe('generate vs extract toy2', () => {
-  const set = readFileSync(resolve(__dirname, './bench2.txt')).toString();
+  const set = readFileSync(resolve(__dirname, './__tests__/bench2.txt')).toString();
   const setNames = Array.from('abcdefghijklmnopqrstuvwxyz01234567');
   const items = set
     .split('\n')
