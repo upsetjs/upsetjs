@@ -245,18 +245,25 @@ export default function generateCombinations<T = any>(
     if (s.degree < min || s.degree > max || (s.cardinality === 0 && !empty)) {
       return;
     }
-    if (type !== 'distinctIntersection') {
+    if (type !== 'distinctIntersection' || s.degree === 1) {
       combinations.push(s);
       return;
     }
 
+    // need to filter out common elements in other sets
     const others = sets.filter((d) => !s.sets.has(d));
-    const elems = toElemKey
-      ? s.elems.filter((e) => {
-          const key = toElemKey(e);
-          return others.every((o) => !setKeyElems!.get(o)!.has(key));
-        })
-      : s.elems.filter((e) => others.every((o) => !setDirectElems!.get(o)!.has(e)));
+    let elems: T[] = [];
+    if (toElemKey) {
+      const othersSets = others.map((o) => setKeyElems!.get(o)!);
+      elems = s.elems.filter((e) => {
+        const key = toElemKey(e);
+        return othersSets.every((o) => !o.has(key));
+      });
+    } else {
+      const othersSets = others.map((o) => setDirectElems!.get(o)!);
+      elems = s.elems.filter((e) => othersSets.every((o) => !o.has(e)));
+    }
+
     if (elems.length === s.cardinality) {
       combinations.push(s);
       return;
