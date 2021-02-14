@@ -118,7 +118,7 @@ export function combinedKey<T>(a: ISetLike<T>, b: ISetLike<T>, r: CommonInfo) {
 export function generateDistinctOverlapFunction<T>(
   combinations: ISetCombinations<T>,
   fallback: ISetOverlapFunction<T>,
-  toKey = toDefaultKey
+  toKey: (s: ISetLike<T>) => string = toDefaultKey
 ): ISetOverlapFunction<T> {
   const combinationsBySet = new Map<string, { cardinality: number; sets: Set<string> }[]>();
   for (const c of keyedCombinations(combinations, toKey)) {
@@ -165,7 +165,7 @@ export function generateDistinctOverlapFunction<T>(
 export function generateIntersectionOverlapFunction<T>(
   combinations: ISetCombinations<T>,
   fallback: ISetOverlapFunction<T>,
-  toKey = toDefaultKey
+  toKey: (s: ISetLike<T>) => string = toDefaultKey
 ): ISetOverlapFunction<T> {
   const combinationsByKey = new Map(keyedCombinations(combinations, toKey).map((d) => [d.key, d.cardinality]));
 
@@ -194,7 +194,7 @@ export function generateIntersectionOverlapFunction<T>(
 export function generateUnionOverlapFunction<T>(
   combinations: ISetCombinations<T>,
   fallback: ISetOverlapFunction<T>,
-  toKey = toDefaultKey
+  toKey: (s: ISetLike<T>) => string = toDefaultKey
 ): ISetOverlapFunction<T> {
   const combinationsByKey = new Map(keyedCombinations(combinations, toKey).map((d) => [d.key, d.cardinality]));
 
@@ -223,7 +223,7 @@ export function generateUnionOverlapFunction<T>(
 export function generateOverlapFunction<T>(
   combinations: ISetCombinations<T>,
   fallback: ISetOverlapFunction<T>,
-  toKey = toDefaultKey
+  toKey: (s: ISetLike<T>) => string = toDefaultKey
 ): ISetOverlapFunction<T> {
   if (combinations.length === 0) {
     return fallback;
