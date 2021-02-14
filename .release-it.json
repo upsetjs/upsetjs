@@ -1,7 +1,7 @@
 {
   "hooks": {
     "before:init": "yarn clean",
-    "before:bump": "yarn workspaces foreach --verbose version ${version} --deferred",
+    "before:bump": "yarn workspaces foreach --exclude '.' --verbose version ${version} --deferred",
     "after:bump": "yarn version apply --all",
     "before:release": "yarn build && yarn pack:libs",
     "before:github:release": "yarn release:npm",
