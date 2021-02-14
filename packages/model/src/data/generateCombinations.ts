@@ -245,7 +245,7 @@ export default function generateCombinations<T = any>(
     if (s.degree < min || s.degree > max || (s.cardinality === 0 && !empty)) {
       return;
     }
-    if (type !== 'distinctIntersection' || s.degree === 1) {
+    if (type !== 'distinctIntersection') {
       combinations.push(s);
       return;
     }
