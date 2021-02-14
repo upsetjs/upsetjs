@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "before:init": "yarn clear",
+    "before:init": "yarn clean",
     "before:bump": "yarn workspaces foreach --verbose version ${version} --deferred",
     "after:bump": "yarn version apply --all",
     "before:release": "yarn build && yarn pack:libs",
