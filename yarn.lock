@@ -4399,11 +4399,11 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/addons": ~1.8.0
-    "@upsetjs/math": ~1.8.0
-    "@upsetjs/model": ~1.8.0
-    "@upsetjs/plots": ~1.8.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/addons": ~1.9.1
+    "@upsetjs/math": ~1.9.1
+    "@upsetjs/model": ~1.9.1
+    "@upsetjs/plots": ~1.9.1
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4412,7 +4412,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/addons@1.8.0, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.8.0":
+"@upsetjs/addons@1.9.1, @upsetjs/addons@workspace:packages/addons, @upsetjs/addons@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/addons@workspace:packages/addons"
   dependencies:
@@ -4428,8 +4428,8 @@ __metadata:
     "@types/testing-library__react": ^10.2.0
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/math": ~1.8.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/math": ~1.9.1
+    "@upsetjs/react": ~1.9.1
     eslint: ^7.19.0
     eslint-config-prettier: ^7.2.0
     eslint-config-react-app: ^6.0.0
@@ -4475,12 +4475,12 @@ __metadata:
     "@types/react-resize-detector": ^5.0.0
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/addons": ~1.8.0
-    "@upsetjs/bundle": ~1.8.0
-    "@upsetjs/math": ~1.8.0
-    "@upsetjs/model": ~1.8.0
-    "@upsetjs/plots": ~1.8.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/addons": ~1.9.1
+    "@upsetjs/bundle": ~1.9.1
+    "@upsetjs/math": ~1.9.1
+    "@upsetjs/model": ~1.9.1
+    "@upsetjs/plots": ~1.9.1
+    "@upsetjs/react": ~1.9.1
     babel-eslint: ^10.1.0
     babel-loader: ^8.2.2
     clsx: ^1.1.1
@@ -4524,7 +4524,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.8.0":
+"@upsetjs/bundle@workspace:packages/bundle, @upsetjs/bundle@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/bundle@workspace:packages/bundle"
   dependencies:
@@ -4539,10 +4539,10 @@ __metadata:
     "@types/jest": ^26.0.20
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/addons": 1.8.0
-    "@upsetjs/math": 1.8.0
-    "@upsetjs/model": 1.8.0
-    "@upsetjs/react": 1.8.0
+    "@upsetjs/addons": 1.9.1
+    "@upsetjs/math": 1.9.1
+    "@upsetjs/model": 1.9.1
+    "@upsetjs/react": 1.9.1
     eslint: ^7.19.0
     eslint-config-prettier: ^7.2.0
     eslint-config-react-app: ^6.0.0
@@ -4581,11 +4581,11 @@ __metadata:
     "@types/react": ^17.0.0
     "@types/react-helmet": ^6.1.0
     "@types/react-router-dom": ^5.1.7
-    "@upsetjs/addons": ~1.8.0
-    "@upsetjs/math": ~1.8.0
-    "@upsetjs/model": ~1.8.0
-    "@upsetjs/plots": ~1.8.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/addons": ~1.9.1
+    "@upsetjs/math": ~1.9.1
+    "@upsetjs/model": ~1.9.1
+    "@upsetjs/plots": ~1.9.1
+    "@upsetjs/react": ~1.9.1
     clsx: ^1.1.1
     eslint: ^7.18.0
     eslint-config-prettier: ^7.1.0
@@ -4613,7 +4613,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4631,7 +4631,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4650,7 +4650,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     d3-color: ^2.0.0
     react: ^17.0.1
     react-dom: ^17.0.1
@@ -4669,7 +4669,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     "@upsetjs/venn.js": ^1.4.0
     react: ^17.0.1
     react-dom: ^17.0.1
@@ -4688,7 +4688,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4706,7 +4706,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4724,7 +4724,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4742,7 +4742,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4760,7 +4760,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4778,7 +4778,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4796,7 +4796,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4814,7 +4814,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4833,7 +4833,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     d3-color: ^2.0.0
     react: ^17.0.1
     react-dom: ^17.0.1
@@ -4852,7 +4852,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4870,7 +4870,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     react: ^17.0.1
     react-dom: ^17.0.1
     react-refresh: ^0.9.0
@@ -4885,7 +4885,7 @@ __metadata:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/vue": ~1.8.0
+    "@upsetjs/vue": ~1.9.1
     "@vue/cli-plugin-eslint": ~4.5.11
     "@vue/cli-plugin-typescript": ~4.5.11
     "@vue/cli-service": ~4.5.11
@@ -4902,7 +4902,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/math@1.8.0, @upsetjs/math@workspace:packages/math, @upsetjs/math@~1.8.0":
+"@upsetjs/math@1.9.1, @upsetjs/math@workspace:packages/math, @upsetjs/math@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/math@workspace:packages/math"
   dependencies:
@@ -4935,7 +4935,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/model@1.8.0, @upsetjs/model@workspace:packages/model, @upsetjs/model@~1.8.0":
+"@upsetjs/model@1.9.1, @upsetjs/model@workspace:packages/model, @upsetjs/model@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/model@workspace:packages/model"
   dependencies:
@@ -4968,7 +4968,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/plots@workspace:packages/plots, @upsetjs/plots@~1.8.0":
+"@upsetjs/plots@workspace:packages/plots, @upsetjs/plots@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/plots@workspace:packages/plots"
   dependencies:
@@ -4985,7 +4985,7 @@ __metadata:
     "@types/testing-library__react": ^10.2.0
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/react": ~1.8.0
+    "@upsetjs/react": ~1.9.1
     eslint: ^7.19.0
     eslint-config-prettier: ^7.2.0
     eslint-config-react-app: ^6.0.0
@@ -5017,7 +5017,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@upsetjs/react@1.8.0, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.8.0":
+"@upsetjs/react@1.9.1, @upsetjs/react@workspace:packages/react, @upsetjs/react@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/react@workspace:packages/react"
   dependencies:
@@ -5034,7 +5034,7 @@ __metadata:
     "@types/testing-library__react": ^10.2.0
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/model": ~1.8.0
+    "@upsetjs/model": ~1.9.1
     eslint: ^7.19.0
     eslint-config-prettier: ^7.2.0
     eslint-config-react-app: ^6.0.0
@@ -5078,7 +5078,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upsetjs/vue@workspace:packages/vue, @upsetjs/vue@~1.8.0":
+"@upsetjs/vue@workspace:packages/vue, @upsetjs/vue@~1.9.1":
   version: 0.0.0-use.local
   resolution: "@upsetjs/vue@workspace:packages/vue"
   dependencies:
@@ -5089,7 +5089,7 @@ __metadata:
     "@types/jest": ^26.0.20
     "@typescript-eslint/eslint-plugin": ^4.14.2
     "@typescript-eslint/parser": ^4.14.2
-    "@upsetjs/bundle": ~1.8.0
+    "@upsetjs/bundle": ~1.9.1
     eslint: ^7.19.0
     eslint-config-prettier: ^7.2.0
     eslint-config-react-app: ^6.0.0

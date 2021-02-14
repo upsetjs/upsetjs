@@ -2,7 +2,7 @@
   "name": "@upsetjs/example-ratio",
   "private": true,
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.8.0",
+  "version": "1.9.1",
   "license": "MPL-2.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -29,7 +29,7 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
-    "@upsetjs/react": "~1.8.0",
+    "@upsetjs/react": "~1.9.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
