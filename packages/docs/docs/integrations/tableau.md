@@ -15,4 +15,4 @@ Due to the restrictions of the dashboard extension system, you need to have at l
 
 ## Example
 
-see https://github.com/upsetjs/upsetjs_tableau_extension/examples/got.twb
+see https://upset.js.org/integrations/tableau/got.twb and https://upset.js.org/integrations/tableau/got.hyper
