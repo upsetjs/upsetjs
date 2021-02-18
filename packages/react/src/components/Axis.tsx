@@ -112,7 +112,7 @@ export default function Axis({
 
   const values: readonly { value: number; label?: string }[] = scale
     .ticks()
-    .map((d) => (typeof d === 'number' ? { value: d, label: String(d) } : d));
+    .map((d) => (typeof d === 'number' ? { value: d, label: d.toLocaleString() } : d));
 
   return (
     <g transform={transform}>

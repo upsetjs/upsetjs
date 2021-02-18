@@ -30,7 +30,7 @@ export function simpleScale(
         const v = dnDomain(i / (count - 1));
         return {
           value: v,
-          label: v.toFixed(2),
+          label: v.toLocaleString(undefined, { maximumFractionDigits: 2 }),
         };
       });
   f.tickFormat = () => (v) => v.toFixed(2);
