@@ -222,7 +222,7 @@ export default function generateCombinations<T = any>(
   const {
     type = 'intersection',
     min = 0,
-    max = Infinity,
+    max = Number.POSITIVE_INFINITY,
     empty = false,
     elems: allElements = [],
     notPartOfAnySet,
