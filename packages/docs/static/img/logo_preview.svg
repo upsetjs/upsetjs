@@ -72,17 +72,13 @@
        cy="32"
        cx="32"
        id="path10"
-       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2" />
     <circle
        style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
        id="circle20"
        cx="96"
        cy="32"
-       r="24"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       r="24" />
     <circle
        r="24"
        cy="32"
@@ -94,9 +90,7 @@
        id="circle24"
        cx="224"
        cy="32"
-       r="24"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       r="24" />
     <circle
        style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
        id="circle26"
@@ -108,9 +102,7 @@
        cy="96"
        cx="96"
        id="circle28"
-       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2" />
     <circle
        style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
        id="circle30"
@@ -128,9 +120,7 @@
        cy="160"
        cx="32"
        id="circle34"
-       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2" />
     <circle
        style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
        id="circle36"
@@ -142,17 +132,13 @@
        cy="160"
        cx="160"
        id="circle38"
-       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2" />
     <circle
        style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
        id="circle40"
        cx="224"
        cy="160"
-       r="24"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       r="24" />
     <circle
        style="fill:#cccccc;fill-rule:evenodd;stroke-width:1.2"
        id="circle42"
@@ -164,17 +150,13 @@
        cy="224"
        cx="96"
        id="circle44"
-       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2" />
     <circle
        style="fill:#d40000;fill-rule:evenodd;stroke-width:1.2"
        id="circle46"
        cx="160"
        cy="224"
-       r="24"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       r="24" />
     <circle
        r="24"
        cy="224"
@@ -187,27 +169,21 @@
        width="192"
        height="16"
        x="32"
-       y="24"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       y="24" />
     <rect
        y="152"
        x="32"
        height="16"
        width="192"
        id="rect59"
-       style="fill:#d40000;stroke:none"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;stroke:none" />
     <rect
        y="216"
        x="96"
        height="16"
        width="64"
        id="rect61"
-       style="fill:#d40000;stroke:none;stroke-width:0.707107"
-       inkscape:export-xdpi="8"
-       inkscape:export-ydpi="8" />
+       style="fill:#d40000;stroke:none;stroke-width:0.707107" />
     <text
        xml:space="preserve"
        id="text850"
