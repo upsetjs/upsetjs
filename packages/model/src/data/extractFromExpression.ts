@@ -53,7 +53,7 @@ export default function extractFromExpression<T extends { cardinality: number }>
   accOrOptions?: ExtractFromExpressionOptions | ((elem: T) => string[]),
   o: ExtractFromExpressionOptions = {}
 ): { sets: ISets<unknown>; combinations: readonly (T & ISetCombination<unknown>)[] } {
-  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => ((e as unknown) as { sets: string[] }).sets;
+  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => (e as unknown as { sets: string[] }).sets;
   const options: ExtractFromExpressionOptions = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
 
   const type = options.type ?? 'intersection';

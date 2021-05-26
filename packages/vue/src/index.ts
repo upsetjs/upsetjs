@@ -384,7 +384,7 @@ function create<P>(name: string, props: RecordPropsDefinition<P>, render: (node:
         render(
           this.$refs.react as HTMLElement,
           stripUndefined<P>(
-            (Object.assign(
+            Object.assign(
               {},
               this.$props,
               {
@@ -392,7 +392,7 @@ function create<P>(name: string, props: RecordPropsDefinition<P>, render: (node:
               },
               this.$attrs,
               this.createListenerProps()
-            ) as unknown) as P
+            ) as unknown as P
           )
         );
       },

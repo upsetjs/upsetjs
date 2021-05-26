@@ -107,7 +107,7 @@ export function calculateCombinations<T>(
       )
     ).map((c) => {
       const key = Array.from(c.sets)
-        .map((s) => toKey(((s as unknown) as { s: ISet<T> }).s))
+        .map((s) => toKey((s as unknown as { s: ISet<T> }).s))
         .sort()
         .join('#');
       if (given.has(key)) {
@@ -119,7 +119,7 @@ export function calculateCombinations<T>(
         cardinality: 0,
         degree: c.degree,
         elems: [],
-        sets: new Set(Array.from(c.sets).map((s) => ((s as unknown) as { s: ISet<T> }).s)),
+        sets: new Set(Array.from(c.sets).map((s) => (s as unknown as { s: ISet<T> }).s)),
         type: 'distinctIntersection',
       } as ISetCombination<T>;
     });

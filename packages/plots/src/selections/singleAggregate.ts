@@ -107,7 +107,8 @@ export function useVegaAggregatedGroupSelection<T>(
       return undefined;
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
-    const generate = (listener: (v: ISetLike<T> | readonly T[] | null) => void) =>
+    const generate =
+      (listener: (v: ISetLike<T> | readonly T[] | null) => void) =>
       // throttle((_type: string, item: unknown) => {
       (_type: string, item: unknown) => {
         if (!viewRef.current) {

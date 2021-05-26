@@ -4,3 +4,4 @@
 /coverage
 /.prettierignore
 .browserslistrc
+*.txt

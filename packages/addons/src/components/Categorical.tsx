@@ -139,7 +139,7 @@ export function categoricalAddon<T>(
   }: Partial<Pick<UpSetAddon<ISetLike<T>, T, React.ReactNode>, 'size' | 'position' | 'name'>> &
     ICategoricalStyleProps = {}
 ): UpSetAddon<ISetLike<T>, T, React.ReactNode> {
-  const acc = typeof prop === 'function' ? prop : (v: T) => (v[prop as keyof T] as unknown) as string;
+  const acc = typeof prop === 'function' ? prop : (v: T) => v[prop as keyof T] as unknown as string;
   let categories: readonly (string | ICategory)[] = [];
   if (Array.isArray(elems)) {
     const cats = new Set<string>();

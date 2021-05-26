@@ -32,8 +32,8 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactE
   const yName = props.yLabel ?? typeof yAttr === 'function' ? 'y' : yAttr.toString();
 
   const data = useMemo(() => {
-    const xAcc = typeof xAttr === 'function' ? xAttr : (v: T) => (v[xAttr] as unknown) as number;
-    const yAcc = typeof yAttr === 'function' ? yAttr : (v: T) => (v[yAttr] as unknown) as number;
+    const xAcc = typeof xAttr === 'function' ? xAttr : (v: T) => v[xAttr] as unknown as number;
+    const yAcc = typeof yAttr === 'function' ? yAttr : (v: T) => v[yAttr] as unknown as number;
     return { table: elems.map((e) => ({ e, x: xAcc(e), y: yAcc(e), k: toElemKey ? toElemKey(e) : e })) };
   }, [elems, xAttr, yAttr, toElemKey]);
 

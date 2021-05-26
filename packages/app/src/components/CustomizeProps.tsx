@@ -87,9 +87,10 @@ export default observer(() => {
       store.changeProps({ [e.target.name]: e.target.value === '' ? 'auto' : Number.parseFloat(e.target.value) }),
     [store]
   );
-  const handleFontChange = useCallback((name: string, value: string) => store.changeFontSize({ [name]: value }), [
-    store,
-  ]);
+  const handleFontChange = useCallback(
+    (name: string, value: string) => store.changeFontSize({ [name]: value }),
+    [store]
+  );
 
   return (
     <SidePanelEntry id="customize" title="Customize">

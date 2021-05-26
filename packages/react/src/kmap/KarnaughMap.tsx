@@ -100,12 +100,10 @@ export const KarnaughMap = /*!#__PURE__*/ React.forwardRef(function KarnaughMap<
     ]
   );
 
-  const size = useMemo(() => deriveVennSizeDependent(p.width, p.height, p.padding, p.id), [
-    p.width,
-    p.height,
-    p.padding,
-    p.id,
-  ]);
+  const size = useMemo(
+    () => deriveVennSizeDependent(p.width, p.height, p.padding, p.id),
+    [p.width, p.height, p.padding, p.id]
+  );
 
   const data = useMemo(
     () =>

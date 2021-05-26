@@ -61,7 +61,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
       const r = layout(
         overlaps,
         Object.assign(
-          ({} as unknown) as O,
+          {} as unknown as O,
           {
             width,
             height,

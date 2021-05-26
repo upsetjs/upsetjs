@@ -36,7 +36,7 @@ export default function extractSets<T>(
   accOrOptions?: PostprocessSetOptions | ((elem: T) => string[]),
   o: PostprocessSetOptions = {}
 ): ISets<T> {
-  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => ((e as unknown) as { sets: string[] }).sets;
+  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => (e as unknown as { sets: string[] }).sets;
   const options: PostprocessSetOptions = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
 
   const sets: Record<string, T[]> = Object.create(null);

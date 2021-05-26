@@ -82,7 +82,7 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
   const name = props.label ?? typeof attr === 'function' ? 'v' : attr.toString();
 
   const data = useMemo(() => {
-    const acc = typeof attr === 'function' ? attr : (v: T) => (v[attr] as unknown) as number;
+    const acc = typeof attr === 'function' ? attr : (v: T) => v[attr] as unknown as number;
     return { table: elems.map((e) => ({ e, i: 1, v: acc(e), k: toElemKey ? toElemKey(e) : e })) };
   }, [elems, attr, toElemKey]);
 

@@ -38,9 +38,9 @@
     "eslint:fix": "yarn run eslint --fix"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.70",
-    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.70",
+    "@docusaurus/core": "^2.0.0-beta.0",
+    "@docusaurus/preset-classic": "^2.0.0-beta.0",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-beta.0",
     "@mdx-js/react": "^1.6.22",
     "@upsetjs/addons": "~1.9.1",
     "@upsetjs/math": "~1.9.1",
@@ -48,8 +48,8 @@
     "@upsetjs/plots": "~1.9.1",
     "@upsetjs/react": "~1.9.1",
     "clsx": "^1.1.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "remixicon-react": "^1.0.0"
   },
   "browserslist": {
@@ -65,22 +65,22 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-alpha.70",
+    "@docusaurus/module-type-aliases": "^2.0.0-beta.0",
     "@tsconfig/docusaurus": "^1.0.2",
-    "@types/node": "^14.14.22",
-    "@types/react": "^17.0.0",
-    "@types/react-helmet": "^6.1.0",
+    "@types/node": "^15.6.1",
+    "@types/react": "^17.0.8",
+    "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
-    "eslint": "^7.18.0",
-    "eslint-config-prettier": "^7.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.2.1",
-    "typescript": "^4.1.3"
+    "prettier": "^2.3.0",
+    "typescript": "~4.2.4"
   }
 }

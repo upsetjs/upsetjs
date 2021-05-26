@@ -22,8 +22,8 @@
     "url": "https://github.com/upsetjs/upsetjs.git"
   },
   "scripts": {
-    "lint": "npm run prettier:check && yarn workspaces foreach -v -p --topological-dev run lint",
-    "fix": "npm run prettier:write && yarn workspaces foreach -v --topological-dev run fix",
+    "lint": "yarn run prettier:check && yarn workspaces foreach -v -p --topological-dev run lint",
+    "fix": "yarn run prettier:write && yarn workspaces foreach -v --topological-dev run fix",
     "compile": "yarn workspaces foreach -v -p --topological-dev run compile",
     "watch": "yarn workspace @upsetjs/react compile -w",
     "clean": "yarn workspaces foreach -v -p --topological-dev run clean",
@@ -35,27 +35,27 @@
     "docs": "yarn workspaces foreach -v -p run docs",
     "app": "yarn workspace @upsetjs/app run start",
     "prettier": "prettier .eslintrc.js .prettierrc.js *.json .yarnrc_patch.yml \".github/**\"",
-    "prettier:write": "npm run prettier -- --write",
-    "prettier:check": "npm run prettier -- --check",
+    "prettier:write": "yarn run prettier -- --write",
+    "prettier:check": "yarn run prettier -- --check",
     "release": "release-it --disable-metrics",
     "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
     "@yarnpkg/pnpify": "^2.4.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.19.0",
-    "eslint-config-prettier": "^7.2.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.2.1",
-    "release-it": "^14.3.0",
-    "typescript": "^4.1.3"
+    "prettier": "^2.3.0",
+    "release-it": "^14.7.0",
+    "typescript": "~4.2.4"
   }
 }

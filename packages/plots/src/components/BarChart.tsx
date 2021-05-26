@@ -40,8 +40,8 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
   const iName = props.iLabel ?? typeof iAttr === 'function' ? 'i' : iAttr.toString();
 
   const data = useMemo(() => {
-    const vAcc = typeof vAttr === 'function' ? vAttr : (v: T) => (v[vAttr] as unknown) as number;
-    const iAcc = typeof iAttr === 'function' ? iAttr : (v: T) => (v[iAttr] as unknown) as string;
+    const vAcc = typeof vAttr === 'function' ? vAttr : (v: T) => v[vAttr] as unknown as number;
+    const iAcc = typeof iAttr === 'function' ? iAttr : (v: T) => v[iAttr] as unknown as string;
     return { table: elems.map((e) => ({ e, v: vAcc(e), i: iAcc(e), k: toElemKey ? toElemKey(e) : e })) };
   }, [elems, vAttr, iAttr, toElemKey]);
 
@@ -70,12 +70,14 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
       },
       encoding: {
         fill: {
-          condition: ([
-            hoverName && { selection: hoverName, value: selectionColor },
-            selectionName && { selection: selectionName, value: selectionColor },
-            isSelectedTest(selectionColor),
-            ...areQueriesTests(props.queries),
-          ] as any[]).filter(Boolean),
+          condition: (
+            [
+              hoverName && { selection: hoverName, value: selectionColor },
+              selectionName && { selection: selectionName, value: selectionColor },
+              isSelectedTest(selectionColor),
+              ...areQueriesTests(props.queries),
+            ] as any[]
+          ).filter(Boolean),
           value: color,
         },
         [iAxis]: {

@@ -90,7 +90,7 @@ export default function extractCombinations<T>(
   accOrOptions?: ExtractCombinationsOptions<T> | ((elem: T) => string[]),
   o: ExtractCombinationsOptions<T> = {}
 ): { sets: ISets<T>; combinations: ISetCombinations<T> } {
-  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => ((e as unknown) as { sets: string[] }).sets;
+  const acc = typeof accOrOptions === 'function' ? accOrOptions : (e: T) => (e as unknown as { sets: string[] }).sets;
   const options: ExtractCombinationsOptions<T> = (typeof accOrOptions !== 'function' ? accOrOptions : o) ?? {};
 
   const type = options.type ?? 'intersection';

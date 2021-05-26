@@ -83,18 +83,16 @@ export function useCreateCommon<T>(
     [p.theme, p.styles, p.classNames, styleId, p.selectionColor, p.title, p.description, p.tooltips]
   );
 
-  const sizeInfo = useMemo(() => deriveVennSizeDependent(p.width, p.height, p.padding, p.id), [
-    p.width,
-    p.height,
-    p.padding,
-    p.id,
-  ]);
+  const sizeInfo = useMemo(
+    () => deriveVennSizeDependent(p.width, p.height, p.padding, p.id),
+    [p.width, p.height, p.padding, p.id]
+  );
 
   const h = useHandler(p);
-  const qs = React.useMemo(() => queries.map((q) => queryOverlap(q, 'intersection', p.toElemKey)), [
-    queries,
-    p.toElemKey,
-  ]);
+  const qs = React.useMemo(
+    () => queries.map((q) => queryOverlap(q, 'intersection', p.toElemKey)),
+    [queries, p.toElemKey]
+  );
 
   const rulesHelper = baseRules(styleId, p, p.fontFamily, fontSizes);
 
