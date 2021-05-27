@@ -12,6 +12,7 @@ import type { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks, countSelectedExpression, countQueryExpression } from './functions';
 import { useVegaBinSelection } from '../selections';
 import type { UnitSpec, LayerSpec } from 'vega-lite/build/src/spec';
+import type { Field } from 'vega-lite/build/src/channeldef';
 
 export interface HistogramProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -24,13 +25,13 @@ export interface HistogramProps<T> extends UpSetPlotProps<T> {
   label?: string;
 }
 
-function generateLayer(expr: string, color: string): UnitSpec | LayerSpec {
+function generateLayer(expr: string, color: string): UnitSpec<Field> | LayerSpec<Field> {
   return {
     transform: [
       {
         aggregate: [
           {
-            op: 'values' as 'values',
+            op: 'values' as const,
             as: 'values',
           },
         ],
@@ -38,7 +39,7 @@ function generateLayer(expr: string, color: string): UnitSpec | LayerSpec {
       },
     ],
     mark: {
-      type: 'bar' as 'bar',
+      type: 'bar' as const,
       tooltip: false,
     },
     encoding: {
@@ -66,13 +67,13 @@ function generateLayer(expr: string, color: string): UnitSpec | LayerSpec {
   };
 }
 
-function generateSecondaryLayer(expr: string, color: string): UnitSpec | LayerSpec {
+function generateSecondaryLayer(expr: string, color: string): UnitSpec<Field> | LayerSpec<Field> {
   return {
     transform: [
       {
         aggregate: [
           {
-            op: 'values' as 'values',
+            op: 'values' as const,
             as: 'values',
           },
         ],
@@ -116,7 +117,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
 
   const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
-  const { selection, signalListeners, selectionName, hoverName } = useVegaBinSelection(
+  const { params, signalListeners, paramName, hoverParamName } = useVegaBinSelection(
     viewRef,
     props.selection,
     name,
@@ -133,17 +134,17 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
       },
       layer: [
         {
-          selection,
+          params,
           mark: {
             type: 'bar',
-            cursor: selectionName || hoverName ? 'pointer' : undefined,
+            cursor: paramName || hoverParamName ? 'pointer' : undefined,
             tooltip: true,
           },
           encoding: {
             color: {
               condition: [
-                hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
-                selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
+                hoverParamName ? { param: hoverParamName, empty: false, value: selectionColor } : [],
+                paramName ? { param: paramName, empty: false, value: selectionColor } : [],
               ].flat(),
               value: color,
             },
@@ -163,7 +164,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
         },
         generateLayer(countSelectedExpression(), selectionColor),
         ...(props.queries ?? []).map((q, i) =>
-          i > 0 || hoverName != null || selectionName != null
+          i > 0 || paramName != null || hoverParamName != null
             ? generateSecondaryLayer(countQueryExpression(i), q.color)
             : generateLayer(countQueryExpression(i), q.color)
         ),
@@ -174,7 +175,7 @@ export default function Histogram<T>(props: HistogramProps<T>): React.ReactEleme
         },
       },
     };
-  }, [name, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
+  }, [name, title, description, selectionColor, color, props.queries, params, paramName, hoverParamName]);
 
   return (
     <VegaLite

@@ -39,7 +39,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactE
 
   const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection);
 
-  const { signalListeners, selection, selectionName, hoverName } = useVegaIntervalSelection(
+  const { signalListeners, params, paramName, hoverParamName } = useVegaIntervalSelection(
     viewRef,
     props.selection,
     xName,
@@ -54,18 +54,18 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactE
       title,
       description,
       data: { name: 'table' },
-      selection,
+      params,
       mark: {
         type: 'point',
         stroke: null,
-        cursor: hoverName ? 'pointer' : undefined,
+        cursor: hoverParamName ? 'pointer' : undefined,
         tooltip: true,
       },
       encoding: {
         fill: {
           condition: [
-            hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
-            selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
+            hoverParamName ? [{ param: hoverParamName, empty: false, value: selectionColor }] : [],
+            paramName ? [{ param: paramName, empty: false, value: selectionColor }] : [],
             isSelectedTest(selectionColor),
             areQueriesTests(props.queries),
           ].flat(),
@@ -83,7 +83,7 @@ export default function Scatterplot<T>(props: ScatterplotProps<T>): React.ReactE
         },
       },
     };
-  }, [xName, yName, title, description, selectionColor, color, props.queries, selection, selectionName, hoverName]);
+  }, [xName, yName, title, description, selectionColor, color, props.queries, params, paramName, hoverParamName]);
 
   return (
     <VegaLite

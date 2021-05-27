@@ -12,6 +12,7 @@ import type { TopLevelSpec } from 'vega-lite';
 import { useVegaHooks, countQueryExpression, countSelectedExpression } from './functions';
 import { useVegaAggregatedGroupSelection } from '../selections';
 import type { LayerSpec, UnitSpec } from 'vega-lite/build/src/spec';
+import type { Field } from 'vega-lite/build/src/channeldef';
 
 export interface PieChartProps<T> extends UpSetPlotProps<T> {
   width: number;
@@ -32,7 +33,7 @@ function generateLayer(
   secondary: boolean,
   theme?: UpSetThemes,
   innerRadius?: number
-): LayerSpec | UnitSpec {
+): LayerSpec<Field> | UnitSpec<Field> {
   return {
     mark: {
       type: 'arc',
@@ -88,7 +89,7 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
 
   const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
-  const { selection, signalListeners, selectionName, hoverName } = useVegaAggregatedGroupSelection(
+  const { params, signalListeners, paramName, hoverParamName } = useVegaAggregatedGroupSelection(
     viewRef,
     props.selection,
     name,
@@ -127,18 +128,18 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
       ],
       layer: [
         {
-          selection,
+          params,
           mark: {
             type: 'arc',
-            cursor: selectionName || hoverName ? 'pointer' : undefined,
+            cursor: paramName || hoverParamName ? 'pointer' : undefined,
             tooltip: true,
             innerRadius,
           },
           encoding: {
             color: {
               condition: [
-                hoverName ? [{ selection: hoverName, value: selectionColor }] : [],
-                selectionName ? [{ selection: selectionName, value: selectionColor }] : [],
+                hoverParamName ? [{ param: hoverParamName, empty: false, value: selectionColor }] : [],
+                paramName ? [{ param: paramName, empty: false, value: selectionColor }] : [],
               ].flat(),
               field: 'v',
               type: 'nominal',
@@ -160,7 +161,7 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
           generateLayer(
             countQueryExpression(i),
             q.color,
-            i > 0 || hoverName != null || selectionName != null,
+            i > 0 || hoverParamName != null || paramName != null,
             theme,
             innerRadius
           )
@@ -172,18 +173,7 @@ export default function PieChart<T>(props: PieChartProps<T>): React.ReactElement
         },
       },
     };
-  }, [
-    name,
-    title,
-    description,
-    selectionColor,
-    props.queries,
-    selection,
-    selectionName,
-    hoverName,
-    innerRadius,
-    theme,
-  ]);
+  }, [name, title, description, selectionColor, props.queries, params, paramName, hoverParamName, innerRadius, theme]);
 
   return (
     <VegaLite

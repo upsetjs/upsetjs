@@ -8,7 +8,7 @@
 import { ISetComposite, ISetLike, UpSetSelection, isSetCombination, ISetCombination } from '@upsetjs/react';
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
 import type { View } from 'vega';
-import type { SingleSelection, MultiSelection } from 'vega-lite/build/src/selection';
+import type { TopLevelSelectionParameter } from 'vega-lite/build/src/selection';
 import { sameArray } from './utils';
 
 export function createSetComposite<T>(elems: readonly T[]): ISetComposite<T> {
@@ -99,7 +99,7 @@ export function useVegaMultiSelection<T>(
   selection: UpSetSelection<T> | undefined,
   onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
   onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
-  { selectionName = 'select', transformedData = 'data_0', unitData = '', elemField = 'e' } = {}
+  { paramName = 'select', transformedData = 'data_0', unitData = '', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -108,20 +108,13 @@ export function useVegaMultiSelection<T>(
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
     if (onClick) {
-      r[selectionName] = generateListener(viewRef, selectionRef, toElemKey, onClick, transformedData, elemField);
+      r[paramName] = generateListener(viewRef, selectionRef, toElemKey, onClick, transformedData, elemField);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generateListener(
-        viewRef,
-        selectionRef,
-        toElemKey,
-        onHover,
-        transformedData,
-        elemField
-      );
+      r[`${paramName}_hover`] = generateListener(viewRef, selectionRef, toElemKey, onHover, transformedData, elemField);
     }
     return r;
-  }, [onClick, onHover, viewRef, selectionRef, selectionName, transformedData, elemField, toElemKey]);
+  }, [onClick, onHover, viewRef, selectionRef, paramName, transformedData, elemField, toElemKey]);
 
   // update bin selection with selection
   useLayoutEffect(() => {
@@ -130,33 +123,37 @@ export function useVegaMultiSelection<T>(
       return;
     }
     if (isSetCombination(selection)) {
-      updateMulti(selectionName, viewRef.current, selection, transformedData, unitData, elemField);
+      updateMulti(paramName, viewRef.current, selection, transformedData, unitData, elemField);
     } else if (selection == null) {
-      clearMulti(selectionName, viewRef.current);
+      clearMulti(paramName, viewRef.current);
     }
-  }, [viewRef, selection, selectionName, onClick, transformedData, unitData, elemField]);
+  }, [viewRef, selection, paramName, onClick, transformedData, unitData, elemField]);
 
-  const selectionSpec = useMemo(
-    () =>
-      Object.assign(
-        {},
-        onClick
-          ? {
-              [selectionName]: { type: mode, empty: 'none' } as SingleSelection | MultiSelection,
-            }
-          : {},
-        onHover
-          ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
-          : {}
-      ),
-    [mode, selectionName, onClick, onHover]
-  );
+  const paramSpec = useMemo(() => {
+    const r: TopLevelSelectionParameter[] = [];
+    if (onClick) {
+      r.push({
+        name: paramName,
+        select: {
+          type: mode === 'single' ? 'point' : 'interval',
+        },
+      });
+    }
+    if (onHover) {
+      r.push({
+        name: `${paramName}_hover`,
+        select: {
+          type: 'point',
+          on: 'mouseover',
+        },
+      });
+    }
+    return r;
+  }, [mode, paramName, onClick, onHover]);
   return {
     signalListeners: listeners,
-    hoverName: onHover ? `${selectionName}_hover` : null,
-    selectionName: onClick ? selectionName : null,
-    selection: selectionSpec,
+    hoverParamName: onHover ? `${paramName}_hover` : null,
+    paramName: onClick ? paramName : null,
+    params: paramSpec,
   };
 }

@@ -8,7 +8,7 @@
 import { ISetComposite, ISetLike, isSetLike, UpSetSelection } from '@upsetjs/react';
 import { RefObject, useLayoutEffect, useMemo, MutableRefObject, useRef } from 'react';
 import type { View } from 'vega';
-import type { SingleSelection } from 'vega-lite/build/src/selection';
+import type { TopLevelSelectionParameter } from 'vega-lite/build/src/selection';
 import { sameArray } from './utils';
 import { clearMulti } from './single';
 
@@ -84,7 +84,7 @@ export function useVegaAggregatedGroupSelection<T>(
   onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
   onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   {
-    selectionName = 'select',
+    paramName = 'select',
     aggregatedData = 'data_0',
     unitData = 'layer_0',
     aggregateField = 'v',
@@ -92,7 +92,7 @@ export function useVegaAggregatedGroupSelection<T>(
     elemField = 'e',
     nameGen,
   }: {
-    selectionName?: string;
+    paramName?: string;
     aggregatedData?: string;
     unitData?: string;
     aggregateField?: string;
@@ -139,10 +139,10 @@ export function useVegaAggregatedGroupSelection<T>(
         // }, 100);
       };
     if (onClick) {
-      r[selectionName] = generate(onClick);
+      r[paramName] = generate(onClick);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generate(onHover);
+      r[`${paramName}_hover`] = generate(onHover);
     }
     return r;
   }, [
@@ -151,7 +151,7 @@ export function useVegaAggregatedGroupSelection<T>(
     viewRef,
     name,
     selectionRef,
-    selectionName,
+    paramName,
     aggregatedData,
     elemField,
     aggregateField,
@@ -166,33 +166,37 @@ export function useVegaAggregatedGroupSelection<T>(
       return;
     }
     if (isAggregatedGroupSetComposite(selection, name)) {
-      updateGroups(selectionName, viewRef.current, selection, aggregatedData, unitData, aggregateField);
+      updateGroups(paramName, viewRef.current, selection, aggregatedData, unitData, aggregateField);
     } else if (selection == null) {
-      clearMulti(selectionName, viewRef.current);
+      clearMulti(paramName, viewRef.current);
     }
-  }, [viewRef, selection, name, selectionName, onClick, aggregatedData, unitData, aggregateField]);
+  }, [viewRef, selection, name, paramName, onClick, aggregatedData, unitData, aggregateField]);
 
-  const selectionSpec = useMemo(
-    () =>
-      Object.assign(
-        {},
-        onClick
-          ? {
-              [selectionName]: { type: 'single', empty: 'none' } as SingleSelection,
-            }
-          : {},
-        onHover
-          ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
-          : {}
-      ),
-    [selectionName, onClick, onHover]
-  );
+  const paramsSpec = useMemo(() => {
+    const r: TopLevelSelectionParameter[] = [];
+    if (onClick) {
+      r.push({
+        name: paramName,
+        select: {
+          type: 'point',
+        },
+      });
+    }
+    if (onHover) {
+      r.push({
+        name: `${paramName}_hover`,
+        select: {
+          type: 'point',
+          on: 'mouseover',
+        },
+      });
+    }
+    return r;
+  }, [paramName, onClick, onHover]);
   return {
     signalListeners: listeners,
-    hoverName: onHover ? `${selectionName}_hover` : null,
-    selectionName: onClick ? selectionName : null,
-    selection: selectionSpec,
+    hoverParamName: onHover ? `${paramName}_hover` : null,
+    paramName: onClick ? paramName : null,
+    params: paramsSpec,
   };
 }

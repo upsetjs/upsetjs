@@ -17,7 +17,7 @@ export function useVegaBinSelection<T>(
   onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
   onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
   {
-    selectionName = 'select',
+    paramName = 'select',
     aggregatedData = 'data_1',
     unitData = 'layer_0',
     valueField = 'v',
@@ -35,7 +35,7 @@ export function useVegaBinSelection<T>(
     [aggregateField, name]
   );
   return useVegaAggregatedGroupSelection(viewRef, selection, name, onClick, onHover, {
-    selectionName,
+    paramName,
     aggregatedData,
     unitData,
     valuesField,

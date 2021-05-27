@@ -9,8 +9,8 @@ import { ISetComposite, isSetLike, UpSetSelection, ISetLike } from '@upsetjs/rea
 import type { View } from 'vega';
 import { useLayoutEffect, RefObject, useMemo, useRef, MutableRefObject } from 'react';
 import throttle from 'lodash.throttle';
-import type { IntervalSelection, SingleSelection } from 'vega-lite/build/src/selection';
 import { generateListener } from './single';
+import type { TopLevelSelectionParameter } from 'vega-lite/build/src/selection';
 
 export interface IIntervalSetComposite<T> extends ISetComposite<T> {
   readonly subType: 'interval';
@@ -106,7 +106,7 @@ export function useVegaIntervalSelection<T>(
   toElemKey?: (v: any) => string,
   onClick?: (v: ISetLike<T> | readonly T[] | null) => void,
   onHover?: (v: ISetLike<T> | readonly T[] | null) => void,
-  { selectionName = 'select', transformedData = 'data_0', xField = 'x', yField = 'y', elemField = 'e' } = {}
+  { paramName = 'select', transformedData = 'data_0', xField = 'x', yField = 'y', elemField = 'e' } = {}
 ) {
   const selectionRef = useRef(selection);
   const listeners = useMemo(() => {
@@ -115,7 +115,7 @@ export function useVegaIntervalSelection<T>(
     }
     const r: { [key: string]: (type: string, item: unknown) => void } = {};
     if (onClick) {
-      r[selectionName] = throttle((_type: string, item: unknown) => {
+      r[paramName] = throttle((_type: string, item: unknown) => {
         if (!viewRef.current) {
           return;
         }
@@ -146,18 +146,11 @@ export function useVegaIntervalSelection<T>(
       }, 200);
     }
     if (onHover) {
-      r[`${selectionName}_hover`] = generateListener(
-        viewRef,
-        selectionRef,
-        toElemKey,
-        onHover,
-        transformedData,
-        elemField
-      );
+      r[`${paramName}_hover`] = generateListener(viewRef, selectionRef, toElemKey, onHover, transformedData, elemField);
     }
     return r;
   }, [
-    selectionName,
+    paramName,
     onClick,
     onHover,
     toElemKey,
@@ -178,33 +171,37 @@ export function useVegaIntervalSelection<T>(
       return;
     }
     if (isIntervalSetComposite(selection, xName, yName)) {
-      updateIntervalBrush(selectionName, viewRef.current, selection, xField, yField);
+      updateIntervalBrush(paramName, viewRef.current, selection, xField, yField);
     } else if (!selection) {
-      clearIntervalBrush(selectionName, viewRef.current, xField, yField);
+      clearIntervalBrush(paramName, viewRef.current, xField, yField);
     }
-  }, [selectionName, viewRef, selection, xName, yName, onClick, xField, yField]);
+  }, [paramName, viewRef, selection, xName, yName, onClick, xField, yField]);
 
-  const selectionSpec = useMemo(
-    () =>
-      Object.assign(
-        {},
-        onClick
-          ? {
-              [selectionName]: { type: 'interval', empty: 'none' } as IntervalSelection,
-            }
-          : {},
-        onHover
-          ? {
-              [`${selectionName}_hover`]: { type: 'single', empty: 'none', on: 'mouseover' } as SingleSelection,
-            }
-          : {}
-      ),
-    [selectionName, onClick, onHover]
-  );
+  const paramSpec = useMemo(() => {
+    const r: TopLevelSelectionParameter[] = [];
+    if (onClick) {
+      r.push({
+        name: paramName,
+        select: {
+          type: 'interval',
+        },
+      });
+    }
+    if (onHover) {
+      r.push({
+        name: `${paramName}_hover`,
+        select: {
+          type: 'point',
+          on: 'mouseover',
+        },
+      });
+    }
+    return r;
+  }, [paramName, onClick, onHover]);
   return {
     signalListeners: listeners,
-    hoverName: onHover ? `${selectionName}_hover` : null,
-    selectionName: onClick ? selectionName : null,
-    selection: selectionSpec,
+    hoverParamName: onHover ? `${paramName}_hover` : null,
+    paramName: onClick ? paramName : null,
+    params: paramSpec,
   };
 }

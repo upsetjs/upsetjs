@@ -47,7 +47,7 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
 
   const { viewRef, vegaProps } = useVegaHooks(toElemKey, props.queries, props.selection, true);
 
-  const { signalListeners, selection, selectionName, hoverName } = useVegaMultiSelection(
+  const { signalListeners, params, paramName, hoverParamName } = useVegaMultiSelection(
     'multi',
     viewRef,
     toElemKey,
@@ -61,19 +61,19 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
       title,
       description,
       data: { name: 'table' },
-      selection,
+      params,
       mark: {
         type: 'bar',
         stroke: null,
-        cursor: hoverName ? 'pointer' : undefined,
+        cursor: hoverParamName ? 'pointer' : undefined,
         tooltip: true,
       },
       encoding: {
         fill: {
           condition: (
             [
-              hoverName && { selection: hoverName, value: selectionColor },
-              selectionName && { selection: selectionName, value: selectionColor },
+              hoverParamName && { param: hoverParamName, empty: false, value: selectionColor },
+              paramName && { param: paramName, empty: false, value: selectionColor },
               isSelectedTest(selectionColor),
               ...areQueriesTests(props.queries),
             ] as any[]
@@ -101,9 +101,9 @@ export default function BarChart<T>(props: BarChartProps<T>): React.ReactElement
     selectionColor,
     color,
     props.queries,
-    selection,
-    selectionName,
-    hoverName,
+    paramName,
+    params,
+    hoverParamName,
     iAxis,
     vAxis,
   ]);
