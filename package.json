@@ -35,8 +35,8 @@
     "docs": "yarn workspaces foreach -v -p run docs",
     "app": "yarn workspace @upsetjs/app run start",
     "prettier": "prettier .eslintrc.js .prettierrc.js *.json .yarnrc_patch.yml \".github/**\"",
-    "prettier:write": "yarn run prettier -- --write",
-    "prettier:check": "yarn run prettier -- --check",
+    "prettier:write": "yarn run prettier --write",
+    "prettier:check": "yarn run prettier --check",
     "release": "release-it --disable-metrics",
     "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public"
   },

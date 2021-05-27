@@ -47,7 +47,7 @@ export function categoricalHistogram(
   values: readonly string[],
   categories: readonly (string | ICategory)[],
   base?: readonly string[],
-  dark: boolean = false
+  dark = false
 ): readonly ICategoryBin[] {
   const nextColor = colorGen(dark);
   const generateCat = (value: string) => {

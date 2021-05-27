@@ -233,10 +233,10 @@ export function fromStaticDump(
   const combinations: ISetCombinations<never> = dump.combinations.map((set) => {
     const partOf = isCompressed(set) ? fromBit(set.s) : set.sets.map((i) => sets[i]);
     const lookup = {
-      i: 'intersection' as 'intersection',
-      u: 'union' as 'union',
-      c: 'composite' as 'composite',
-      d: 'distinctIntersection' as 'distinctIntersection',
+      i: 'intersection' as const,
+      u: 'union' as const,
+      c: 'composite' as const,
+      d: 'distinctIntersection' as const,
     };
     const type = lookup[(set.type ?? 'i')[0] as 'i' | 'u' | 'c' | 'd'];
     return withOverlap({

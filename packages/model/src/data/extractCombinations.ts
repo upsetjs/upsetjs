@@ -175,7 +175,7 @@ export default function extractCombinations<T>(
 
   function getOrCreateCombination(setsOfElem: string[]) {
     const key = genKey(setsOfElem);
-    let entry = csLookup[key];
+    const entry = csLookup[key];
     if (entry) {
       return entry;
     }

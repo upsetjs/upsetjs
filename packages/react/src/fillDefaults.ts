@@ -96,8 +96,10 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 function fillGeneric<T extends {}>(
   base: T,
+  // eslint-disable-next-line @typescript-eslint/ban-types
   props: { theme?: UpSetThemes; fontSizes?: {}; queries?: readonly unknown[] },
   others = {}
 ) {

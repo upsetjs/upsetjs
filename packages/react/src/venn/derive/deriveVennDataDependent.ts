@@ -88,7 +88,7 @@ export function calculateCombinations<T>(
   if (areCombinations(combinations)) {
     const given = new Map(combinations.map((c) => [Array.from(c.sets).map(toKey).sort().join('#'), c]));
     const helperSets = ss.map((s) => ({
-      type: 'set' as 'set',
+      type: 'set' as const,
       cardinality: 0,
       elems: [],
       name: s.name,

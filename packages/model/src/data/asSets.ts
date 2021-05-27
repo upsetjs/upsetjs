@@ -15,7 +15,7 @@ import { byCardinality, byName, byComposite, negate } from './utils';
 export function asSet<T, S extends { name: string; elems: readonly T[] }>(set: S): S & ISet<T> {
   return Object.assign(
     {
-      type: 'set' as 'set',
+      type: 'set' as const,
       cardinality: set.elems.length,
     },
     set

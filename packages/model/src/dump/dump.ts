@@ -31,7 +31,7 @@ export function fromDump<T>(
     generateCombinations(
       sets,
       Object.assign(
-        { type: 'intersection' as 'intersection', elems, toElemKey: options.toElemKey },
+        { type: 'intersection' as const, elems, toElemKey: options.toElemKey },
         dump.combinationOptions ?? {}
       )
     );

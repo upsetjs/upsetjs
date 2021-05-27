@@ -1,8 +1,14 @@
+const pkg = require('./package.json');
+
 module.exports = {
-  extends: ['react-app', 'prettier', 'plugin:prettier/recommended'],
+  plugins: ['@typescript-eslint', 'prettier'],
+  extends: ['react-app', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'prettier'],
+  parserOptions: {
+    project: './tsconfig.eslint.json',
+  },
   settings: {
     react: {
-      version: '99.99.99',
+      version: pkg.devDependencies.react ? 'detect' : '99.99.99',
     },
   },
 };

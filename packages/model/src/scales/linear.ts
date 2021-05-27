@@ -13,7 +13,7 @@ function toStr(v: number) {
 /**
  * @internal
  */
-export function niceFactors(max: number, maxCount: number = 11) {
+export function niceFactors(max: number, maxCount = 11) {
   const digits = Math.max(0, Math.floor(Math.log10(max) - 0.5));
   const factor = Math.pow(10, digits);
   const factors = [1, 2, 5];

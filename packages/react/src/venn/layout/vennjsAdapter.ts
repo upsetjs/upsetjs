@@ -84,7 +84,7 @@ export function createVennJSAdapter<O extends { width?: number; height?: number 
         sweep: true,
         large: a.width > a.circle.radius,
         ref: setCircles.findIndex((d) => Math.abs(d.x - a.circle.x) < 0.05 && Math.abs(d.y - a.circle.y) < 0.05),
-        mode: 'i' as 'i',
+        mode: 'i' as const,
       });
 
       return {
