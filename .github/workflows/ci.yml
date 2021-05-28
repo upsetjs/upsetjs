@@ -83,5 +83,6 @@ jobs:
             ${{ runner.os }}-yarn2-
       - run: yarn install
       - run: yarn clean
+      - run: yarn libs
       - run: yarn build:examples
       - run: yarn test:examples --ci --coverage --maxWorkers=2
