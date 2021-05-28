@@ -5,11 +5,11 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useThemeContext from '@theme/hooks/useThemeContext';
 
-export default function CodeSandboxExample({ name }: { name: string }) {
+export default function CodeSandboxExample({ name }: { name: string }): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   const { isDarkTheme } = useThemeContext();
 

@@ -332,6 +332,7 @@ function stripUndefined<P>(props: P) {
 }
 
 function create<P>(name: string, props: RecordPropsDefinition<P>, render: (node: HTMLElement, props: P) => void) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   return Vue.extend<{}, { renderImpl(): void; createListenerProps(): UpSetSelectionProps<any> }, {}, P>({
     name,
     props,

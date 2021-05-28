@@ -36,7 +36,7 @@ function Feature({ imageUrl, title, children }: PropsWithChildren<{ imageUrl: st
   );
 }
 
-export default function Home() {
+export default function Home(): ReactNode {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
   return (

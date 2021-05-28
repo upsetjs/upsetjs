@@ -41,9 +41,14 @@ export default function Config(options) {
       resolve(),
       commonjs(),
       replace({
-        // eslint-disable-next-line no-undef
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'production',
-        __VERSION__: JSON.stringify(pkg.version),
+        values: {
+          // eslint-disable-next-line no-undef
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'production',
+          // "from 'react';": `from 'preact/compat/dist/compat.module.js';`,
+          __VERSION__: JSON.stringify(pkg.version),
+          // delimiters: ['', ''],
+        },
+        preventAssignment: true,
       }),
     ],
   };

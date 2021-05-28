@@ -5,12 +5,7 @@ const pkg = require('./package.json');
 
 module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: [
-    'react-app',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'prettier',
-  ],
+  extends: ['react-app', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'prettier'],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },

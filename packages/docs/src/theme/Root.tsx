@@ -5,11 +5,12 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import Head from '@docusaurus/Head';
 
 // Default implementation, that you can customize
-function Root({ children }: PropsWithChildren<{}>) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function Root({ children }: PropsWithChildren<{}>): ReactNode {
   return (
     <>
       <Head>
