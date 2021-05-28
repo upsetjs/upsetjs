@@ -46,7 +46,7 @@ const AppWrapper = observer(() => {
   );
 });
 
-export default function App() {
+export default function App(): React.ReactNode {
   return (
     <StoreProvider>
       <AppWrapper />

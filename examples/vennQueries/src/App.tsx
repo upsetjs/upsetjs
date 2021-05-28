@@ -16,7 +16,7 @@ const baseSets = [
 ];
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
-  const [selection, setSelection] = useState<ISetLike<any> | any[] | null>(null);
+  const [selection, setSelection] = useState<ISetLike<unknown> | unknown[] | null>(null);
   const [value, setValue] = useState(3);
   const changeValue = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   const select = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSelection(
-        Array.from(e.target.closest('div')!.querySelectorAll<HTMLInputElement>('input:checked')).map(
+        Array.from(e.target.closest('div')?.querySelectorAll<HTMLInputElement>('input:checked') ?? []).map(
           (d) => d.valueAsNumber
         )
       );
@@ -72,7 +72,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   );
 }
 
-export default function App() {
+export default function App(): React.ReactNode {
   const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">

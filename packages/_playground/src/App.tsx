@@ -13,7 +13,7 @@ import { UpSetJS, UpSetSelection } from '@upsetjs/react';
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   // const { sets, combinations } = useData();
-  const [selection, setSelection] = useState<UpSetSelection<any>>(null);
+  const [selection, setSelection] = useState<UpSetSelection<unknown>>(null);
   return (
     <UpSetJS
       sets={sets}
@@ -27,7 +27,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   );
 }
 
-export default function App() {
+export default function App(): React.ReactNode {
   const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">

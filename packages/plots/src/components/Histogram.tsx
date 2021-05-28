@@ -94,7 +94,7 @@ function generateSecondaryLayer(expr: string, color: string): UnitSpec<Field> | 
         band: 0,
         field: 'v',
         type: 'quantitative',
-      },
+      } as any,
       y: {
         datum: {
           signal: expr,

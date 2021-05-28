@@ -61,7 +61,7 @@ function UpSetPlot() {
   );
 }
 
-export default function App() {
+export default function App(): React.ReactNode {
   // const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">

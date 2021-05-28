@@ -10,7 +10,7 @@ import { UpSetJS, extractFromExpression, ISetLike } from '@upsetjs/react';
 import './styles.css';
 
 function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
-  const [selection, setSelection] = React.useState<ISetLike<any> | null>(null);
+  const [selection, setSelection] = React.useState<ISetLike<unknown> | null>(null);
   const { sets, combinations } = useMemo(
     () =>
       extractFromExpression(
@@ -38,7 +38,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   );
 }
 
-export default function App() {
+export default function App(): React.ReactNode {
   const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">
