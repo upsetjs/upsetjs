@@ -28,7 +28,7 @@ function UpSetPlot({ isDarkTheme }: { isDarkTheme: boolean }) {
   );
 }
 
-export default function App(): React.ReactNode {
+export default function App(): JSX.Element {
   const isDarkTheme = window.matchMedia != null && window.matchMedia('(prefers-color-scheme: dark)').matches;
   return (
     <div className="App">
