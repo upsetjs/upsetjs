@@ -17,7 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from 'mdi-material-ui/Copyright';
-import License from 'mdi-material-ui/License';
+import License from 'mdi-material-ui/LicenseIcon';
 import Information from 'mdi-material-ui/Information';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
