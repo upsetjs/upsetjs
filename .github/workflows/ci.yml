@@ -17,7 +17,7 @@ jobs:
       - run: yarn config set checksumBehavior ignore
       - run: cat .yarnrc_patch.yml >> .yarnrc.yml
       - name: Cache Node.js modules
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ./.yarn
           key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
