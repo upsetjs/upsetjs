@@ -1,9 +1,5 @@
 /build
 /dist
-/coverage
 /.prettierignore
-.browserslistrc
-/.docusaurus
-/static
 /.yarn
 /node_modules
