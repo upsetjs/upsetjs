@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2.3.4
       - uses: actions/setup-node@v2.1.5
         with:
-          node-version: '12.x'
+          node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm i -g yarn
       - run: yarn set version berry
@@ -25,9 +25,9 @@ jobs:
             ${{ runner.os }}-yarn2-
       - run: yarn install
       - run: yarn clean
-      - run: yarn build
+      - run: yarn build:packages
       - run: yarn lint
-      - run: yarn test --ci --coverage --maxWorkers=2
+      - run: yarn test:packages --ci --coverage --maxWorkers=2
       - run: yarn docs
       - run: |
           mkdir -p public
@@ -60,3 +60,28 @@ jobs:
           publish_dir: ./public
           enable_jekyll: false
           remove_path_spec: '*,:!integrations/,:!.git*,:!README.md,:!CNAME,:!api/jupyter'
+
+  build_examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm i -g yarn
+      - run: yarn set version berry
+      - run: yarn plugin import workspace-tools
+      - run: yarn config set checksumBehavior ignore
+      - run: cat .yarnrc_patch.yml >> .yarnrc.yml
+      - name: Cache Node.js modules
+        uses: actions/cache@v2.1.6
+        with:
+          path: ./.yarn
+          key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn2-
+      - run: yarn install
+      - run: yarn clean
+      - run: yarn build:examples
+      - run: yarn test:examples --ci --coverage --maxWorkers=2
