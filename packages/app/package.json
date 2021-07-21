@@ -32,7 +32,7 @@
     "build": "yarn run clean && webpack-cli --mode production --progress --performance-hints warning",
     "build:stats": "webpack-cli --mode production --json > dist/stats.json",
     "build:dev": "webpack-cli --mode development --devtool none",
-    "start": "webpack-cli serve --devtool cheap-module-eval-source-map"
+    "start": "webpack-cli serve --mode development --devtool eval-cheap-module-source-map"
   },
   "browserslist": [
     "last 2 Chrome versions",
