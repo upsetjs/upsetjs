@@ -6,23 +6,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.2.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.4.0
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm i -g yarn
-      - run: yarn set version berry
-      - run: yarn plugin import workspace-tools
       - run: yarn config set checksumBehavior ignore
-      - run: cat .yarnrc_patch.yml >> .yarnrc.yml
       - name: Cache Node.js modules
         uses: actions/cache@v2.1.6
         with:
-          path: ./.yarn
-          key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            ./.yarn/cache
+            ./.yarn/unplugged
+          key: ${{ runner.os }}-yarn2-v4-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn2-
+            ${{ runner.os }}-yarn2-v4
       - run: yarn install
       - run: yarn clean
       - run: yarn build:packages
@@ -64,23 +63,22 @@ jobs:
   build_examples:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.2.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.4.0
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm i -g yarn
-      - run: yarn set version berry
-      - run: yarn plugin import workspace-tools
       - run: yarn config set checksumBehavior ignore
-      - run: cat .yarnrc_patch.yml >> .yarnrc.yml
       - name: Cache Node.js modules
         uses: actions/cache@v2.1.6
         with:
-          path: ./.yarn
-          key: ${{ runner.os }}-yarn2-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            ./.yarn/cache
+            ./.yarn/unplugged
+          key: ${{ runner.os }}-yarn2-v4-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn2-
+            ${{ runner.os }}-yarn2-v4
       - run: yarn install
       - run: yarn clean
       - run: yarn libs

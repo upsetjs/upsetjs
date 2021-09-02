@@ -9,9 +9,12 @@ dist
 *.map
 *.tgz
 *.tsbuildinfo
-.yarn
-.yarnrc.yml
-.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/versions
+.pnp.*
 /packages/*/docs/
 .tmp
 .rollup.cache
