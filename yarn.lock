@@ -3998,10 +3998,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-color@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/d3-color@npm:3.0.2"
-  checksum: 9009aa52e41638442ca4884666e694f177b650b46df5d2495f80437659545c9f3afd598ab95c4ff6d0d13e445df4bd893a89887ca3d34239279a37215d148873
+"@types/d3-color@npm:^2":
+  version: 2.0.3
+  resolution: "@types/d3-color@npm:2.0.3"
+  checksum: b4a963b15f4fe0e7e49b0898df3e51b46392d91c21038b7ec61aef0f13e04bd7bcfebf06c9fad9ee92317c9682a105e18942c9295a7e2715855622d4d6fc415a
   languageName: node
   linkType: hard
 
@@ -5042,12 +5042,12 @@ __metadata:
   dependencies:
     "@rescripts/cli": ^0.0.16
     "@rescripts/utilities": ^0.0.8
-    "@types/d3-color": ^3.0.2
+    "@types/d3-color": ^2
     "@types/jest": ^27.0.1
     "@types/react": ^17.0.19
     "@types/react-dom": ^17.0.9
     "@upsetjs/react": ~1.9.1
-    d3-color: ^3.0.1
+    d3-color: ^2
     react: ^17.0.2
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
@@ -5225,12 +5225,12 @@ __metadata:
   dependencies:
     "@rescripts/cli": ^0.0.16
     "@rescripts/utilities": ^0.0.8
-    "@types/d3-color": ^3.0.2
+    "@types/d3-color": ^2
     "@types/jest": ^27.0.1
     "@types/react": ^17.0.19
     "@types/react-dom": ^17.0.9
     "@upsetjs/react": ~1.9.1
-    d3-color: ^3.0.1
+    d3-color: ^2
     react: ^17.0.2
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
@@ -9859,14 +9859,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-color@npm:1 - 2, d3-color@npm:^2.0.0":
+"d3-color@npm:1 - 2, d3-color@npm:^2, d3-color@npm:^2.0.0":
   version: 2.0.0
   resolution: "d3-color@npm:2.0.0"
   checksum: b887354aa383937abd04fbffed3e26e5d6a788472cd3737fb10735930e427763e69fe93398663bccf88c0b53ee3e638ac6fcf0c02226b00ed9e4327c2dfbf3dc
   languageName: node
   linkType: hard
 
-"d3-color@npm:1 - 3, d3-color@npm:^3.0.1":
+"d3-color@npm:1 - 3":
   version: 3.0.1
   resolution: "d3-color@npm:3.0.1"
   checksum: 5096af3bd342d0cfad4719c1860915d0a2fd2f9078b1f0d960ab16e541eb71886d8f3b5e3df0e298d5c139aff43516295543304c65acf8cb4850e71c93f4df0c
