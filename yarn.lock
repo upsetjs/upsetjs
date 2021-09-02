@@ -4901,7 +4901,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -4943,7 +4943,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
   peerDependencies:
     react: ">=17"
   languageName: unknown
@@ -5008,7 +5008,7 @@ __metadata:
     style-loader: ^3.2.1
     ts-loader: ^9.2.5
     tslib: ^2.3.1
-    typescript: ^4.4.2
+    typescript: ~4.3
     url-loader: ^4.1.1
     webpack: ^5.51.2
     webpack-cli: ^4.8.0
@@ -5056,7 +5056,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5093,7 +5093,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     remixicon-react: ^1.0.0
-    typescript: ^4.4.2
+    typescript: ~4.3
     url-loader: ^4.1.1
   languageName: unknown
   linkType: soft
@@ -5112,7 +5112,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5130,7 +5130,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5150,7 +5150,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5169,7 +5169,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5187,7 +5187,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5205,7 +5205,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5223,7 +5223,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5241,7 +5241,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5259,7 +5259,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5277,7 +5277,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5295,7 +5295,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5313,7 +5313,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5333,7 +5333,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5351,7 +5351,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5369,7 +5369,7 @@ __metadata:
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
     react-scripts: ^4.0.3
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5390,7 +5390,7 @@ __metadata:
     eslint-plugin-vue: ^7.17.0
     prettier: ^2.3.2
     rimraf: ^3.0.2
-    typescript: ^4.4.2
+    typescript: ~4.3
     vue: ^2.6.14
     vue-template-compiler: ^2.6.14
   languageName: unknown
@@ -5425,7 +5425,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5458,7 +5458,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 
@@ -5502,7 +5502,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
     vega: ^5.20.2
     vega-lite: ^5.1.0
     vega-typings: ^0.21.0
@@ -5550,7 +5550,7 @@ __metadata:
     ts-jest: ^27.0.5
     tslib: ^2.3.1
     typedoc: ^0.21.9
-    typescript: ^4.4.2
+    typescript: ~4.3
   peerDependencies:
     react: ">=17"
   languageName: unknown
@@ -5600,7 +5600,7 @@ __metadata:
     rollup-plugin-dts: ^4.0.0
     ts-jest: ^27.0.5
     tslib: ^2.3.1
-    typescript: ^4.4.2
+    typescript: ~4.3
     vue: ^2.6.14
   peerDependencies:
     vue: ^2.6.14
@@ -6230,19 +6230,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/core@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@yarnpkg/core@npm:3.0.0"
+"@yarnpkg/core@npm:^3.1.0-rc.3":
+  version: 3.1.0-rc.3
+  resolution: "@yarnpkg/core@npm:3.1.0-rc.3"
   dependencies:
     "@arcanis/slice-ansi": ^1.0.2
     "@types/semver": ^7.1.0
     "@types/treeify": ^1.0.0
-    "@yarnpkg/fslib": ^2.5.0
+    "@yarnpkg/fslib": ^2.6.0-rc.2
     "@yarnpkg/json-proxy": ^2.1.1
     "@yarnpkg/libzip": ^2.2.2
-    "@yarnpkg/parsers": ^2.4.0
-    "@yarnpkg/pnp": ^3.0.0
-    "@yarnpkg/shell": ^3.0.0
+    "@yarnpkg/parsers": ^2.4.1-rc.2
+    "@yarnpkg/pnp": ^3.0.1-rc.2
+    "@yarnpkg/shell": ^3.0.1-rc.4
     camelcase: ^5.3.1
     chalk: ^3.0.0
     ci-info: ^2.0.0
@@ -6266,7 +6266,7 @@ __metadata:
     treeify: ^1.1.0
     tslib: ^1.13.0
     tunnel: ^0.0.6
-  checksum: 87341e83e648eb121a5436ebd65ad85e44e2ea836646a7a77cc22a1e10a156390020e961701996cf79e477a10ec37ea4059a798447c574c786cf7b38a7a78042
+  checksum: 9656fbdd4fd88419e95ce2513590a01d5557f0e9290e63d7796abba0ffce38d8de194b6f39b56e9a61d00a2c88e01cb002676b50e46606c2d0d89c5ad20ab740
   languageName: node
   linkType: hard
 
@@ -6277,6 +6277,16 @@ __metadata:
     "@yarnpkg/libzip": ^2.2.2
     tslib: ^1.13.0
   checksum: 7dbf458b92c4cc52b574ccaf39f70c50d441ac6c705445e8f08c7a4029be8a8640128d7e51e86827288fcd339ff42d96c7864424d68fd500d09bcfc824f7eab2
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/fslib@npm:^2.6.0-rc.2":
+  version: 2.6.0-rc.2
+  resolution: "@yarnpkg/fslib@npm:2.6.0-rc.2"
+  dependencies:
+    "@yarnpkg/libzip": ^2.2.2
+    tslib: ^1.13.0
+  checksum: b60f3009d281a3744fe5c6332462c887722bac21f2d405a908fb51fad127dd5c5c27baaa5184dcd35079cb119a737123ca0e953d282f1ecdd7d8dfd7414d84f9
   languageName: node
   linkType: hard
 
@@ -6300,27 +6310,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/nm@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@yarnpkg/nm@npm:2.4.1"
-  dependencies:
-    "@yarnpkg/core": ^3.0.0
-    "@yarnpkg/fslib": ^2.5.0
-  checksum: e3b0978f136e4a354ab23a1e9d999158459a2df03149e3c98a1cf8101d931964bafb1a03794db0949899df9262d6b0bba4255b779464b9386d1e09790e1bfe16
-  languageName: node
-  linkType: hard
-
-"@yarnpkg/parsers@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@yarnpkg/parsers@npm:2.4.0"
+"@yarnpkg/parsers@npm:^2.4.1-rc.2":
+  version: 2.4.1-rc.2
+  resolution: "@yarnpkg/parsers@npm:2.4.1-rc.2"
   dependencies:
     js-yaml: ^3.10.0
     tslib: ^1.13.0
-  checksum: ae077862b829defc95e85a328270dac5f242628656bb938e5da37913b1d0caab545de9ed9d1df3bc17f4e8da842b545df87931d39902aa2132e90699d96ecc33
+  checksum: cdddaf361c3465b113ec0cdc21e34c0c60523af9246b8978928862f23a83194c5b051ce7ae989be31d5350fd58785e1e84032b7e37a76abe45363ea38d4e1e55
   languageName: node
   linkType: hard
 
-"@yarnpkg/pnp@npm:^3.0.0":
+"@yarnpkg/pnp@npm:^3.0.1-rc.2":
   version: 3.0.1
   resolution: "@yarnpkg/pnp@npm:3.0.1"
   dependencies:
@@ -6332,28 +6332,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/pnpify@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@yarnpkg/pnpify@npm:3.0.1"
+"@yarnpkg/sdks@npm:^2.4.2-rc.2":
+  version: 2.4.2-rc.2
+  resolution: "@yarnpkg/sdks@npm:2.4.2-rc.2"
   dependencies:
-    "@yarnpkg/core": ^3.0.0
-    "@yarnpkg/fslib": ^2.5.1
-    "@yarnpkg/nm": ^2.4.1
+    "@yarnpkg/core": ^3.1.0-rc.3
+    "@yarnpkg/fslib": ^2.6.0-rc.2
+    "@yarnpkg/parsers": ^2.4.1-rc.2
+    chalk: ^3.0.0
     clipanion: ^3.0.1
-    cross-spawn: 7.0.3
+    comment-json: ^2.2.0
+    lodash: ^4.17.15
     tslib: ^1.13.0
   bin:
-    pnpify: ./lib/cli.js
-  checksum: 96572833604f3016679a56564ace79e877e6d2fe319f59a0987147c849d7c2bc87bc65afb897a9c9c1ee1a181b540dbc1f2968a6caf4776c754cf1005d589167
+    sdks: ./lib/cli.js
+  checksum: a6395d5643430e3a1c035de7bd9f38b71fb36e4fb1979135fb848f5f89e9630e0aff618d8d2a86cf36f5d757044521f9515d3633e1b11dfe74b9436e868ef0a3
   languageName: node
   linkType: hard
 
-"@yarnpkg/shell@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@yarnpkg/shell@npm:3.0.0"
+"@yarnpkg/shell@npm:^3.0.1-rc.4":
+  version: 3.0.1-rc.4
+  resolution: "@yarnpkg/shell@npm:3.0.1-rc.4"
   dependencies:
-    "@yarnpkg/fslib": ^2.5.0
-    "@yarnpkg/parsers": ^2.4.0
+    "@yarnpkg/fslib": ^2.6.0-rc.2
+    "@yarnpkg/parsers": ^2.4.1-rc.2
     chalk: ^3.0.0
     clipanion: ^3.0.1
     cross-spawn: 7.0.3
@@ -6363,7 +6365,7 @@ __metadata:
     tslib: ^1.13.0
   bin:
     shell: ./lib/cli.js
-  checksum: fcddc49af7d3098ff959880e4fe4841d10efcc8424dbc0268daf5735485a6a91d04b3bf85a1e08f8571ddd3ac1437e4f8100cff88dd65c58f8688f9523357069
+  checksum: 349bc69fc5d7d69f4dc1056709dfb2a86d3d2009a41004376fb4c41ac229ce150236a3936064cf528e8174860a62bf8a2d0200ccc21877190204f6c81d68ef72
   languageName: node
   linkType: hard
 
@@ -8919,6 +8921,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"comment-json@npm:^2.2.0":
+  version: 2.4.2
+  resolution: "comment-json@npm:2.4.2"
+  dependencies:
+    core-util-is: ^1.0.2
+    esprima: ^4.0.1
+    has-own-prop: ^2.0.0
+    repeat-string: ^1.6.1
+  checksum: 1e52aa6ddc7aaab4b66b2fbca8758f1035c9ea42bacf7ccd3c446a46b635fff83366cd8a490043675a345402a13675a9e22581671ebbd202e6987ecb6d4d5280
+  languageName: node
+  linkType: hard
+
 "common-tags@npm:^1.8.0":
   version: 1.8.0
   resolution: "common-tags@npm:1.8.0"
@@ -9245,7 +9259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-util-is@npm:~1.0.0":
+"core-util-is@npm:^1.0.2, core-util-is@npm:~1.0.0":
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
   checksum: 9de8597363a8e9b9952491ebe18167e3b36e7707569eed0ebf14f8bba773611376466ae34575bca8cfe3c767890c859c74056084738f09d4e4a6f902b2ad7d99
@@ -13264,6 +13278,13 @@ fsevents@^1.2.7:
   version: 4.0.0
   resolution: "has-flag@npm:4.0.0"
   checksum: 261a1357037ead75e338156b1f9452c016a37dcd3283a972a30d9e4a87441ba372c8b81f818cd0fbcd9c0354b4ae7e18b9e1afa1971164aef6d18c2b6095a8ad
+  languageName: node
+  linkType: hard
+
+"has-own-prop@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "has-own-prop@npm:2.0.0"
+  checksum: ca6336e85ead2295c9603880cbc199e2d3ff7eaea0e9035d68fbc79892e9cf681abc62c0909520f112c671dad9961be2173b21dff951358cc98425c560e789e0
   languageName: node
   linkType: hard
 
@@ -24875,23 +24896,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^4.4.2:
-  version: 4.4.2
-  resolution: "typescript@npm:4.4.2"
+"typescript@patch:typescript@~4.3#~builtin<compat/typescript>":
+  version: 4.3.5
+  resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 194e08e9d1971d667d6fd1a0554616b7022312a2319d70e81a64e502a265992061ee7817ed9a69b52bbabe7a9b85e7938cb8c11c433e40a516b277f8c4dacd51
+  checksum: bc2c4fdf0f1557fdafe4ef74848c72ebd9c8c60829568248f869121aea2bb20e16649a252431d0acb185ec118143be22bed73d08f64379557810d82756afedde
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.2#~builtin<compat/typescript>":
-  version: 4.4.2
-  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=d8b4e7"
+typescript@~4.3:
+  version: 4.3.5
+  resolution: "typescript@npm:4.3.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 11d6ab6e868117908c388401e2ac06d503c5c8709115ab80ee69a1a6352c1f98471d1e595636bfe6a2d6b20b03a44df6bb2d3d198cea97c0c328968cd18d2b70
+  checksum: bab033b5e2b0790dd35b77fd005df976ef80b8d84fd2c6e63cc31808151875beae9216e5a315fe7068e8499905c3c354248fe83272cdfc13b7705635f0c66c97
   languageName: node
   linkType: hard
 
@@ -25260,7 +25281,7 @@ typescript@^4.4.2:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^4.30.0
     "@typescript-eslint/parser": ^4.30.0
-    "@yarnpkg/pnpify": ^3.0.1
+    "@yarnpkg/sdks": ^2.4.2-rc.2
     babel-eslint: ^10.1.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
@@ -25273,7 +25294,7 @@ typescript@^4.4.2:
     eslint-plugin-react-hooks: ^4.2.0
     prettier: ^2.3.2
     release-it: ^14.11.5
-    typescript: ^4.4.2
+    typescript: ~4.3
   languageName: unknown
   linkType: soft
 

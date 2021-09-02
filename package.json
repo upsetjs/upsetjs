@@ -42,12 +42,13 @@
     "prettier:write": "yarn run prettier --write",
     "prettier:check": "yarn run prettier --check",
     "release": "release-it --disable-metrics",
-    "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public"
+    "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public",
+    "postinstall": "yarn sdks vscode"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
-    "@yarnpkg/pnpify": "^3.0.1",
+    "@yarnpkg/sdks": "^2.4.2-rc.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -60,6 +61,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.3.2",
     "release-it": "^14.11.5",
-    "typescript": "^4.4.2"
+    "typescript": "~4.3"
   }
 }
