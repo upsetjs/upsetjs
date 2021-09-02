@@ -13,6 +13,11 @@ import extractSets from './extractSets';
 import generateCombinations from './generateCombinations';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { hrtime } from 'process';
+
+function now() {
+  return Number(hrtime.bigint() / BigInt(1000));
+}
 
 function rand(seed = Date.now()) {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
@@ -42,11 +47,11 @@ function toString(d: ISetLike<any>) {
 function runScenario(numItems: number, numSets: number, type: SetCombinationType = 'intersection') {
   const items = generate(rand(1), numItems, numSets);
   const sets = extractSets(items);
-  const genStart = performance.now();
+  const genStart = now();
   const gen = generateCombinations(sets, { type, min: 1 });
-  const genEnd = performance.now();
+  const genEnd = now();
   const { combinations: extract } = extractCombinations(items, { sets, type });
-  const extractEnd = performance.now();
+  const extractEnd = now();
   console.log(
     `${type}: ${numItems}x${numSets} generate: ${Math.round(genEnd - genStart)}ms, extract: ${Math.round(
       extractEnd - genEnd
@@ -90,15 +95,15 @@ describe('generate vs extract toy', () => {
   const types: SetCombinationType[] = ['intersection', 'distinctIntersection'];
   for (const type of types) {
     test(`${type}`, () => {
-      const genStart = performance.now();
+      const genStart = now();
       const gen = generateCombinations(sets, {
         type,
         min: 0,
         notPartOfAnySet: items.filter((d) => d.sets.length === 0),
       });
-      const genEnd = performance.now();
+      const genEnd = now();
       const { combinations: extract } = extractCombinations(items, { sets, type });
-      const extractEnd = performance.now();
+      const extractEnd = now();
       console.log(
         `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(
           extractEnd - genEnd
@@ -119,15 +124,15 @@ describe('generate vs extract toy2', () => {
   const types: SetCombinationType[] = ['intersection', 'distinctIntersection'];
   for (const type of types) {
     test(`${type}`, () => {
-      const genStart = performance.now();
+      const genStart = now();
       const gen = generateCombinations(sets, {
         type,
         min: 0,
         notPartOfAnySet: items.filter((d) => d.sets.length === 0),
       });
-      const genEnd = performance.now();
+      const genEnd = now();
       const { combinations: extract } = extractCombinations(items, { sets, type });
-      const extractEnd = performance.now();
+      const extractEnd = now();
       console.log(
         `${type}: generate(${gen.length}): ${Math.round(genEnd - genStart)}ms, extract(${extract.length}): ${Math.round(
           extractEnd - genEnd
