@@ -250,7 +250,7 @@ ${HTML_CODE}
         content: `
 import {render, generateCombinations, ${hasIndices ? 'fromIndicesArray, ' : ''}${
           hasAddons ? 'boxplotAddon, ' : ''
-        }asSets)} from "@upsetjs/bundle";
+        }asSets} from "@upsetjs/bundle";
 import elems from './data.json';
 import "./main.css";
 

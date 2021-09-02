@@ -22,7 +22,7 @@ ReactDOM.render(
 );
 
 // register service worker
-if (process.env.PRODUCTION && 'serviceWorker' in navigator) {
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('./service-worker.js')

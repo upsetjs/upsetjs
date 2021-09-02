@@ -116,7 +116,7 @@ module.exports = function (env, argv) {
     plugins: [
       new DefinePlugin({
         __VERSION__: JSON.stringify(pkg.version),
-        // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        // 'process.env.NODE_ENV': JSON.stringify(p ? 'production' : 'development'),
       }),
       new HtmlWebpackPlugin({
         title: 'UpSet.js App',

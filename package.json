@@ -38,28 +38,29 @@
     "pack:libs": "yarn workspaces foreach -v -p --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots|vue)\" pack --out '%s-%v.tgz'",
     "docs": "yarn workspaces foreach -v -p run docs",
     "app": "yarn workspace @upsetjs/app run start",
-    "prettier": "prettier .eslintrc.js .prettierrc.js *.json .yarnrc_patch.yml \".github/**\"",
+    "prettier": "prettier .eslintrc.js .prettierrc.js *.json \".github/**\"",
     "prettier:write": "yarn run prettier --write",
     "prettier:check": "yarn run prettier --check",
     "release": "release-it --disable-metrics",
-    "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public"
+    "release:npm": "yarn workspaces foreach --verbose --no-private npm publish --access public",
+    "postinstall": "yarn sdks vscode"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@typescript-eslint/parser": "^4.25.0",
-    "@yarnpkg/pnpify": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "@yarnpkg/sdks": "^2.4.2-rc.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.27.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.7.2",
-    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-flowtype": "^5.9.2",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.0",
-    "release-it": "^14.7.0",
-    "typescript": "~4.2.4"
+    "prettier": "^2.3.2",
+    "release-it": "^14.11.5",
+    "typescript": "~4.3"
   }
 }
