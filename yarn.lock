@@ -2289,7 +2289,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docusaurus/theme-classic@npm:2.0.0-beta.ff31de0ff":
+"@docusaurus/theme-classic@npm:2.0.0-beta.ff31de0ff, @docusaurus/theme-classic@npm:^2.0.0-beta.5":
   version: 2.0.0-beta.ff31de0ff
   resolution: "@docusaurus/theme-classic@npm:2.0.0-beta.ff31de0ff"
   dependencies:
@@ -3834,111 +3834,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@taufik-nurrohman/color-picker@npm:~2.3.1":
-  version: 2.3.1
-  resolution: "@taufik-nurrohman/color-picker@npm:2.3.1"
+"@taufik-nurrohman/color-picker@npm:~2.1.6":
+  version: 2.1.6
+  resolution: "@taufik-nurrohman/color-picker@npm:2.1.6"
   dependencies:
-    "@taufik-nurrohman/document": ^0.1.8
-    "@taufik-nurrohman/event": ^0.3.1
-    "@taufik-nurrohman/from": ^0.0.7
-    "@taufik-nurrohman/has": ^0.0.3
-    "@taufik-nurrohman/hook": ^0.1.2
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/pattern": ^0.1.7
-    "@taufik-nurrohman/rect": 0.0.8
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 526394da7e6b78b7652725872409a6d68be72545706074481e6276c4ff94e1f08f7e214695fe68c42f82554d32aed224fb3a8286814214640472e1a9c14a6a1a
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/document@npm:^0.1.8":
-  version: 0.1.10
-  resolution: "@taufik-nurrohman/document@npm:0.1.10"
-  dependencies:
-    "@taufik-nurrohman/from": ^0.0.9
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 00d3b2b9d11d58a6b12827bcceca9f57899b939d5ed474a9fcbccb60e0f958220bafcb4e13621ed3af7d35b60807b418c16f5c1d3fba365e0c50e29167f2a3c7
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/event@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@taufik-nurrohman/event@npm:0.3.1"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: 0bc0a72f29dfaa372118dbca8171f0c5279d1209d0f5106c68ff6243278089381acdbf6324ee483c283c12f96d1c0ab8d285831c1087c4bd0f0e7eca692938e7
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/from@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@taufik-nurrohman/from@npm:0.0.7"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: b4945c4a15ad4e5eab5c6692010eaa320d82b763a6447b55758e45caf7e04c494486f61c1b37feb614bd484c40928cc369827c07f30b941f68a4577c80e6047a
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/from@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@taufik-nurrohman/from@npm:0.0.9"
-  dependencies:
-    "@taufik-nurrohman/has": ^0.0.3
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: f7548783d3661a856de21d679b7228b57a4da19ca0580d09b02d5b48071e6baf2527ae138ac1fd5ba0466bc440fabccc3b44c91d8f6d7a4a7b35738d3cb549af
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/has@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@taufik-nurrohman/has@npm:0.0.3"
-  checksum: 41ad56ee14d5d78f07569102c86648d0b9b14fdc1e3aac544936ee996e489e7b9b3fd2e9e87949ac022329992fbacbc488ae17528b813603e59b02d11b8f468e
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/hook@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@taufik-nurrohman/hook@npm:0.1.2"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: 9f0bf910b1a89af1969457ca61279c33a21b1dbc837e1e03bf215f279af0a70a8de38a80e74d6488213f6ba3f289602f9b6f2ba0c03c4efa189a09127d284d40
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/is@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@taufik-nurrohman/is@npm:0.1.2"
-  checksum: 3ced112648db9ba458c0c93737795a69f7e6075cefc6102b310fcbb239209d0711e8b36b339c5555fd0e1f0e74a277311a6fb7b35912e0c3ab64059faeda11c3
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/pattern@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "@taufik-nurrohman/pattern@npm:0.1.7"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 2d27e74de1b6fb4eccf2d64fd72caac710089a3b955511fd07e2ebde547c7045e89c3ce2a51b97b5310297d05919e3a7a88627ccc5c480f5cb01a26173769445
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/rect@npm:0.0.8":
-  version: 0.0.8
-  resolution: "@taufik-nurrohman/rect@npm:0.0.8"
-  dependencies:
-    "@taufik-nurrohman/document": ^0.1.8
-  checksum: adc2c7a134c643ec5592adc2a06800fe78af4334cc676039e10d16d727825e57d1cee8d2f5b7511040acbb54a61f9e95d68862de08c8f9e33122b3b2aa0f8c27
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/to@npm:^0.0.18":
-  version: 0.0.18
-  resolution: "@taufik-nurrohman/to@npm:0.0.18"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: c140a46787fe4f46bdb668176bc41b653de48baf1e5485e86b9cee82bbf399eb0f0a02491b590414d51d0c49e34231ae4219f742ee4d5eb8009180e441022ca7
+    opencollective-postinstall: ^2.0.2
+  checksum: a87a1617d95b15ec1ee85cb9e2e1055b98b8ef95d81ea72567f8173211b7bc6eb9d030300d0cbc707271757265fdf25aeadee3ad3a4df19a194c0c6f2c5d43dc
   languageName: node
   linkType: hard
 
@@ -4957,7 +4858,7 @@ __metadata:
     "@babel/preset-env": ^7.15.0
     "@material-ui/core": ^4.12.3
     "@material-ui/lab": ^4.0.0-alpha.60
-    "@taufik-nurrohman/color-picker": ~2.3.1
+    "@taufik-nurrohman/color-picker": ~2.1.6
     "@types/d3-scale-chromatic": ^3.0.0
     "@types/dexie": ^1.3.32
     "@types/jest": ^27.0.1
@@ -5067,6 +4968,7 @@ __metadata:
     "@docusaurus/core": ^2.0.0-beta.5
     "@docusaurus/module-type-aliases": ^2.0.0-beta.5
     "@docusaurus/preset-classic": ^2.0.0-beta.5
+    "@docusaurus/theme-classic": ^2.0.0-beta.5
     "@docusaurus/theme-live-codeblock": ^2.0.0-beta.5
     "@mdx-js/react": ^1.6.22
     "@tsconfig/docusaurus": ^1.0.4
@@ -18551,6 +18453,15 @@ fsevents@^1.2.7:
     is-docker: ^2.1.1
     is-wsl: ^2.2.0
   checksum: fcde0059188dd497e080436f81c5240dad0bebd331d1c856a532d4b870808bdc5770ef7c5c4b83143fd0c0577fe2b580e54c03357d695771259aa59f64cf0f40
+  languageName: node
+  linkType: hard
+
+"opencollective-postinstall@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "opencollective-postinstall@npm:2.0.3"
+  bin:
+    opencollective-postinstall: index.js
+  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
   languageName: node
   linkType: hard
 
