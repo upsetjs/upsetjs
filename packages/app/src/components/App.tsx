@@ -10,16 +10,16 @@ import React, { useEffect } from 'react';
 import { StoreProvider, useStore } from '../store';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Content from './Content';
 // import gray from '@material-ui/core/colors/gray';
 
-const darkTheme = createMuiTheme({
+const darkTheme = createTheme({
   palette: {
     type: 'dark',
   },
 });
-const lightTheme = createMuiTheme({
+const lightTheme = createTheme({
   palette: {
     type: 'light',
     // secondary: gray,
