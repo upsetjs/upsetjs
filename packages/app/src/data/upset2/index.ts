@@ -10,12 +10,7 @@ import type { IDataSet, IElem, IAttrs } from '../interfaces';
 import { extractSets } from '@upsetjs/model';
 
 function fetchCors(url: string) {
-  const u = new URL(url);
-  return fetch(`https://cors-anywhere.herokuapp.com/${url}`, {
-    headers: {
-      Origin: `${u.protocol}://${u.hostname}`,
-    },
-  });
+  return fetch(`https://get-to-post.vercel.app/api/get-to-get?url=${encodeURIComponent(url)}`);
 }
 
 const baseUrlV1 = 'https://vcg.github.io/upset/';
