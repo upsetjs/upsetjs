@@ -529,9 +529,9 @@ upsetjs -> 0.5.10, upsetjs_r -> 0.5.5 bad should be upsetjs_r -> 0.5.10, too
 
 ## Privacy Policy
 
-UpSet.js is a client only library. The library or any of its integrations doesn't track you or transfers your data to any server.
-The uploaded data in the app are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests.
-However, as soon as you export your session within the app to an external service (e.g., Codepen.io) your data will be transferred.
+UpSet.js is a client only library. The library and all of its integrations (such as `Ultimate UpSet Plot` and `Ultimate Venn Digramm` for PowerBI) don't track you or transfer your data or personal information to any server.
+The uploaded data in the app (located at https://upset.js.org/app) are stored in your browser only using IndexedDB. The Tableau extension can run in a sandbox environment prohibiting any server requests.
+However, as soon as you export your session within the app (located at https://upset.js.org/app) to an external service (e.g., Codepen.io) your data will be transferred.
 
 ## License / Terms of Service
 
