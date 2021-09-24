@@ -537,7 +537,7 @@ However, as soon as you export your session within the app (located at https://u
 
 ### Commercial license
 
-If you want to use UpSet.js for a commercial application the commercial license is the appropriate license. Contact [@sgratzl](mailto:sam@sgratzl.com) for details.
+If you want to use UpSet.js for a commercial application or in a commercial environment, the commercial license is the appropriate license. Contact [@sgratzl](mailto:sam@sgratzl.com) for details.
 
 ### Open-source license
 

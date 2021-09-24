@@ -55,11 +55,11 @@ UpSet.js is a client only library. The library or any of its integrations doesn'
 
 ### Commercial license
 
-If you want to use UpSet.js for a commercial application the commercial license is the appropriate license. Contact [@sgratzl](mailto:sam@sgratzl.com) for details.
+If you want to use UpSet.js for a commercial application or in a commercial environment, the commercial license is the appropriate license. Contact [@sgratzl](mailto:sam@sgratzl.com) for details.
 
 ### Open-source license
 
-This library is released under the `GNU AGPLv3` version to be used for private and academic purposes. In case of a commercial use, please get in touch regarding a commercial license.
-
+This library is released under the `GNU AGPLv3` version to be used for private and academic purposes.
+In case of a commercial use, please get in touch regarding a commercial license.
 [github-actions-image]: https://github.com/upsetjs/upsetjs/workflows/nodeci/badge.svg
 [github-actions-url]: https://github.com/upsetjs/upsetjs/actions

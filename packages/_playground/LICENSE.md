@@ -1,10 +1,10 @@
 ## License
 
-If you are using UpSet.js for a commercial project, you would need to get a commercial license by contacting sam@sgratzl.com.
+If you are using UpSet.js for a commercial project or in a commercial environment, you would need to get a commercial license by contacting sam@sgratzl.com.
 
 ### Commercial license
 
-If you want to use UpSet.js for a commercial application, theme or plugin the commercial license is the appropriate license. With this option, your source code is kept proprietary.
+If you want to use UpSet.js for a commercial application or in a commercial environment, the commercial license is the appropriate license. With this option, your source code is kept proprietary.
 
 ### Open-source license
 
