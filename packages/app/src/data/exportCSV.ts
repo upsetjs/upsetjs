@@ -5,7 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
-import { unparse, parse } from 'papaparse';
+import { unparse, parse, ParseResult } from 'papaparse';
 import type Store from '../store/Store';
 import type { IDataSet, IElems, IAttrs } from './interfaces';
 import { extractSets } from '@upsetjs/model';
@@ -115,39 +115,49 @@ function safeName(name: string | undefined | number, i: number) {
 export function importCSV(file: File | string): Promise<IDataSet> {
   const name = deriveDataSetName(file);
   return new Promise<IDataSet>((resolve) => {
-    parse<{ [key: string]: string | number }>(file, {
-      download: typeof file === 'string',
-      dynamicTyping: true,
-      header: true,
-      skipEmptyLines: true,
-      complete(results) {
-        const fields = results.meta.fields!;
-        const nameAttr = findNameAttr(fields);
-        const setNames = determineSets(results.data, fields);
-        const attrs = determineAttrs(
-          results.data,
-          fields.filter((d) => !setNames.includes(d) && d !== nameAttr)
-        );
-        resolve({
-          id: name,
-          name,
-          creationDate: new Date(),
-          author: 'User',
-          description: `imported from ${name}`,
-          attrs,
-          load: () => {
-            const elems = results.data.map((e, i) => ({
-              name: safeName(e[nameAttr], i),
-              sets: setNames.filter((f) => isTrue(e[f])),
-              attrs: toAttrs(attrs, e),
-            }));
-            return Promise.resolve({
-              elems,
-              sets: extractSets(elems),
-            });
-          },
-        });
-      },
-    });
+    const complete = (results: ParseResult<{ [key: string]: string | number }>) => {
+      const fields = results.meta.fields!;
+      const nameAttr = findNameAttr(fields);
+      const setNames = determineSets(results.data, fields);
+      const attrs = determineAttrs(
+        results.data,
+        fields.filter((d) => !setNames.includes(d) && d !== nameAttr)
+      );
+      resolve({
+        id: name,
+        name,
+        creationDate: new Date(),
+        author: 'User',
+        description: `imported from ${name}`,
+        attrs,
+        load: () => {
+          const elems = results.data.map((e, i) => ({
+            name: safeName(e[nameAttr], i),
+            sets: setNames.filter((f) => isTrue(e[f])),
+            attrs: toAttrs(attrs, e),
+          }));
+          return Promise.resolve({
+            elems,
+            sets: extractSets(elems),
+          });
+        },
+      });
+    };
+    if (typeof file === 'string') {
+      parse<{ [key: string]: string | number }>(file, {
+        download: true,
+        dynamicTyping: true,
+        header: true,
+        skipEmptyLines: true,
+        complete,
+      });
+    } else {
+      parse<{ [key: string]: string | number }>(file, {
+        dynamicTyping: true,
+        header: true,
+        skipEmptyLines: true,
+        complete,
+      });
+    }
   });
 }

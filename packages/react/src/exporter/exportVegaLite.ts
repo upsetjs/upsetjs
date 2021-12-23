@@ -11,8 +11,8 @@ import type { UpSetThemes } from '../interfaces';
 import { getDefaultTheme } from '../fillDefaults';
 
 export function createVegaSpec(svg: SVGSVGElement, title?: string) {
-  const resolveStyle =
-    (svg.getComputedStyle || svg.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
+  const resolveStyle: (elt: Element, pseudoElt?: string | null | undefined) => CSSStyleDeclaration =
+    ((svg as any).getComputedStyle || svg.ownerDocument?.defaultView?.getComputedStyle) ?? window.getComputedStyle;
   const styleId = extractStyleId(svg);
 
   const chartTitle = title ?? extractTitle(svg, styleId);

@@ -45,14 +45,19 @@ export default function Config(options) {
         values: {
           // eslint-disable-next-line no-undef
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'production',
-          // "from 'react';": `from 'preact/compat/dist/compat.module.js';`,
+          // "from 'react';": `from 'preact/compat';`,
           __VERSION__: JSON.stringify(pkg.version),
           // delimiters: ['', ''],
         },
         preventAssignment: true,
       }),
       alias({
-        entries: [{ find: 'react', replacement: require.resolve('preact/compat/dist/compat.module.js') }],
+        entries: [
+          { find: 'react', replacement: require.resolve('preact/compat') },
+          { find: 'react-dom/test-utils', replacement: require.resolve('preact/test-utils') },
+          { find: 'react-dom', replacement: require.resolve('preact/compat') },
+          { find: 'react/jsx-runtime', replacement: require.resolve('preact/jsx-runtime') }
+        ]
       }),
       resolve(),
       commonjs(),
@@ -114,7 +119,12 @@ export default function Config(options) {
       external: (v) => isPeerDependency(v) || isDependency(v) || v === 'react' || v.startsWith('preact'),
       plugins: [
         alias({
-          entries: [{ find: 'react', replacement: require.resolve('preact/compat/dist/compat.module.js') }],
+          entries: [
+          { find: 'react', replacement: require.resolve('preact/compat') },
+          { find: 'react-dom/test-utils', replacement: require.resolve('preact/test-utils') },
+          { find: 'react-dom', replacement: require.resolve('preact/compat') },
+          { find: 'react/jsx-runtime', replacement: require.resolve('preact/jsx-runtime') }
+        ]
         }),
         dts({
           compilerOptions: {
