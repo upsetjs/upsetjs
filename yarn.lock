@@ -813,7 +813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-private-property-in-object@npm:^7.16.5":
+"@babel/plugin-proposal-private-property-in-object@npm:*, @babel/plugin-proposal-private-property-in-object@npm:^7.16.5":
   version: 7.16.5
   resolution: "@babel/plugin-proposal-private-property-in-object@npm:7.16.5"
   dependencies:
