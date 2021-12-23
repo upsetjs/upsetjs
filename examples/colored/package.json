@@ -2,7 +2,7 @@
   "name": "@upsetjs/example-colored",
   "private": true,
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.9.1",
+  "version": "1.10.0",
   "license": "MPL-2.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -30,7 +30,7 @@
   "main": "src/index.tsx",
   "dependencies": {
     "@types/d3-color": "^3",
-    "@upsetjs/react": "~1.9.1",
+    "@upsetjs/react": "~1.10.0",
     "d3-color": "^2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
