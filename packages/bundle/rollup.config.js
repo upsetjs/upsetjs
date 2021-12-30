@@ -44,7 +44,7 @@ export default function Config(options) {
       replace({
         values: {
           // eslint-disable-next-line no-undef
-          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'production',
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || JSON.stringify(JSON.stringify('production')),
           // "from 'react';": `from 'preact/compat';`,
           __VERSION__: JSON.stringify(pkg.version),
           // delimiters: ['', ''],
@@ -53,11 +53,17 @@ export default function Config(options) {
       }),
       alias({
         entries: [
-          { find: 'react', replacement: require.resolve('preact/compat') },
-          { find: 'react-dom/test-utils', replacement: require.resolve('preact/test-utils') },
-          { find: 'react-dom', replacement: require.resolve('preact/compat') },
-          { find: 'react/jsx-runtime', replacement: require.resolve('preact/jsx-runtime') }
-        ]
+          { find: 'react', replacement: require.resolve('preact/compat').replace('.js', '.module.js') },
+          {
+            find: 'react-dom/test-utils',
+            replacement: require.resolve('preact/test-utils').replace('.js', '.module.js'),
+          },
+          { find: 'react-dom', replacement: require.resolve('preact/compat').replace('.js', '.module.js') },
+          {
+            find: 'react/jsx-runtime',
+            replacement: require.resolve('preact/jsx-runtime').replace('.js', '.module.js'),
+          },
+        ],
       }),
       resolve(),
       commonjs(),
@@ -85,15 +91,15 @@ export default function Config(options) {
         },
       ].filter(Boolean),
     },
-    ((buildFormat('umd') && pkg.browser) || (buildFormat('umd-min') && pkg.unpkg)) && {
+    ((buildFormat('umd') && pkg['umd:main']) || (buildFormat('umd-min') && pkg.unpkg)) && {
       ...base,
       input: fs.existsSync(base.input.replace('.ts', '.umd.ts')) ? base.input.replace('.ts', '.umd.ts') : base.input,
       output: [
         buildFormat('umd') &&
-          pkg.browser && {
+          pkg['umd:main'] && {
             ...base.output,
             sourcemap: false,
-            file: pkg.browser,
+            file: pkg['umd:main'],
             format: 'umd',
             name: pkg.global,
           },
@@ -120,11 +126,11 @@ export default function Config(options) {
       plugins: [
         alias({
           entries: [
-          { find: 'react', replacement: require.resolve('preact/compat') },
-          { find: 'react-dom/test-utils', replacement: require.resolve('preact/test-utils') },
-          { find: 'react-dom', replacement: require.resolve('preact/compat') },
-          { find: 'react/jsx-runtime', replacement: require.resolve('preact/jsx-runtime') }
-        ]
+            { find: 'react', replacement: 'preact/compat' },
+            { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
+            { find: 'react-dom', replacement: 'preact/compat' },
+            { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
+          ],
         }),
         dts({
           compilerOptions: {

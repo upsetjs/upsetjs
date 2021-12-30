@@ -45,7 +45,7 @@ export default function Config(options) {
       replace({
         values: {
           // eslint-disable-next-line no-undef
-          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'production',
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || JSON.stringify('production'),
           __VERSION__: JSON.stringify(pkg.version),
         },
         preventAssignment: true,
