@@ -2,7 +2,7 @@
   "name": "@upsetjs/example-kmap-queries",
   "private": true,
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.10.1",
+  "version": "1.10.10",
   "license": "MPL-2.0",
   "author": {
     "name": "Samuel Gratzl",
@@ -29,7 +29,7 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
-    "@upsetjs/react": "~1.10.1",
+    "@upsetjs/react": "~1.10.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
