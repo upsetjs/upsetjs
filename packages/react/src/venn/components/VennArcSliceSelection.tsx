@@ -185,7 +185,8 @@ export default function VennArcSliceSelection<T>({
         y={slice.text.y}
         className={clsx(
           `${d.type === 'set' ? 'set' : 'value'}TextStyle-${style.id}`,
-          `pnone-${style.id}`
+          `pnone-${style.id}`,
+          d.type === 'set' ? style.classNames.setLabel : style.classNames.valueLabel
           // circle.align === 'left' && `startText-${style.id}`,
           // circle.align === 'right' && `endText-${style.id}`
         )}
