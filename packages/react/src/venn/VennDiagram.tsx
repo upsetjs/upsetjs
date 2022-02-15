@@ -118,6 +118,11 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
               `${d.l.verticalAlign}Text-${style.id}`
             )}
           >
+            {style.tooltips && (
+              <title>
+                {dataInfo.sets.v[i].name}: {dataInfo.format(dataInfo.sets.v[i].cardinality)}
+              </title>
+            )}
             {dataInfo.sets.v[i].name}
           </text>
         ))}
