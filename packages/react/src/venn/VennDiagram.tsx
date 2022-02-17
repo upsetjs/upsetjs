@@ -115,9 +115,15 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
             className={clsx(
               `setTextStyle-${style.id}`,
               `${d.l.align}Text-${style.id}`,
-              `${d.l.verticalAlign}Text-${style.id}`
+              `${d.l.verticalAlign}Text-${style.id}`,
+              style.classNames.setLabel
             )}
           >
+            {style.tooltips && (
+              <title>
+                {dataInfo.sets.v[i].name}: {dataInfo.format(dataInfo.sets.v[i].cardinality)}
+              </title>
+            )}
             {dataInfo.sets.v[i].name}
           </text>
         ))}

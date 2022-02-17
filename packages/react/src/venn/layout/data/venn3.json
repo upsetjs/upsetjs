@@ -1,7 +1,7 @@
 {
   "sets": [
-    { "cx": -3.464, "cy": -2, "r": 5, "text": { "x": -7, "y": -6 }, "align": "end" },
-    { "cx": 3.464, "cy": -2, "r": 5, "text": { "x": 7, "y": -6 }, "align": "start" },
+    { "cx": -3.464, "cy": -2, "r": 5, "text": { "x": -7, "y": -6 }, "align": "end", "verticalAlign": "bottom" },
+    { "cx": 3.464, "cy": -2, "r": 5, "text": { "x": 7, "y": -6 }, "align": "start", "verticalAlign": "bottom" },
     { "cx": 0, "cy": 4, "r": 5, "text": { "x": 4, "y": 7.5 }, "align": "start", "verticalAlign": "top" }
   ],
   "intersections": [
