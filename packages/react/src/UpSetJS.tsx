@@ -327,7 +327,7 @@ export const UpSetJS = /*!#__PURE__*/ React.forwardRef(function UpSetJS<T = any>
       data-theme={p.theme ?? 'light'}
       data-selection={selectionName ? selectionName : undefined}
     >
-      <style>{rules}</style>
+      {p.styleFactory(rules)}
       <defs>
         <clipPath id={`clip-${sizeInfo.id}`}>
           <rect x={sizeInfo.sets.w} y={0} width={sizeInfo.labels.w} height={sizeInfo.sets.h} />

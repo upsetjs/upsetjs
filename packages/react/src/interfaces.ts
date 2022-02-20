@@ -475,7 +475,7 @@ export interface KarnaughMapThemeProps extends UpSetBaseThemeProps {
 
 export declare type UpSetStyleClassNames = UpSetMultiStyle<string>;
 
-export interface UpSetBaseElementProps<C> {
+export interface UpSetBaseElementProps<C, N> {
   /**
    * optional unique id of the set element. Note: if set, it is will also be used as a CSS class suffix
    */
@@ -488,9 +488,13 @@ export interface UpSetBaseElementProps<C> {
    * style object applied to the SVG element
    */
   style?: C;
+  /**
+   * factory to create the style tag
+   */
+  styleFactory?: (rules: string) => N;
 }
 
-export interface UpSetElementProps<T, C, N> extends UpSetBaseElementProps<C> {
+export interface UpSetElementProps<T, C, N> extends UpSetBaseElementProps<C, N> {
   /**
    * object of classnames for certain sub elements
    */
@@ -509,7 +513,7 @@ export interface UpSetElementProps<T, C, N> extends UpSetBaseElementProps<C> {
   combinationChildrenFactory?: (combination: ISetCombination<T>) => N;
 }
 
-export interface VennDiagramElementProps<C> extends UpSetBaseElementProps<C> {
+export interface VennDiagramElementProps<C, N> extends UpSetBaseElementProps<C, N> {
   /**
    * object of classnames for certain sub elements
    */
@@ -519,7 +523,7 @@ export interface VennDiagramElementProps<C> extends UpSetBaseElementProps<C> {
    */
   styles?: VennDiagramMultiStyle<C>;
 }
-export interface KarnaughMapElementProps<C> extends UpSetBaseElementProps<C> {
+export interface KarnaughMapElementProps<C, N> extends UpSetBaseElementProps<C, N> {
   /**
    * object of classnames for certain sub elements
    */
@@ -528,6 +532,10 @@ export interface KarnaughMapElementProps<C> extends UpSetBaseElementProps<C> {
    * object for applying styles to certain sub elements
    */
   styles?: KarnaughMapMultiStyle<C>;
+  /**
+   * factory to create the style tag
+   */
+  styleFactory?: (rules: string) => N;
 }
 
 export interface UpSetExportOptions {
@@ -681,7 +689,7 @@ export interface VennDiagramPropsG<T, C, N, L>
     VennDiagramLayoutProps,
     VennDiagramStyleProps<L>,
     VennDiagramThemeProps,
-    VennDiagramElementProps<C>,
+    VennDiagramElementProps<C, N>,
     UpSetSelectionProps<T> {
   children?: N;
 }
@@ -698,7 +706,7 @@ export interface VennDiagramFullPropsG<T, C, N, L>
     Required<VennDiagramLayoutProps>,
     Required<VennDiagramStyleProps<L>>,
     Required<VennDiagramThemeProps>,
-    Required<VennDiagramElementProps<C>>,
+    Required<VennDiagramElementProps<C, N>>,
     UpSetSelectionProps<T> {
   toElemKey?: (elem: T) => string;
   children?: N;
@@ -716,7 +724,7 @@ export interface KarnaughMapPropsG<T, C, N, L>
     KarnaughMapLayoutProps,
     KarnaughMapStyleProps<L>,
     KarnaughMapThemeProps,
-    KarnaughMapElementProps<C>,
+    KarnaughMapElementProps<C, N>,
     UpSetSelectionProps<T> {
   children?: N;
 }
@@ -733,7 +741,7 @@ export interface KarnaughMapFullPropsG<T, C, N, L>
     Required<KarnaughMapLayoutProps>,
     Required<KarnaughMapStyleProps<L>>,
     Required<KarnaughMapThemeProps>,
-    Required<KarnaughMapElementProps<C>>,
+    Required<KarnaughMapElementProps<C, N>>,
     UpSetSelectionProps<T> {
   toElemKey?: (elem: T) => string;
   children?: N;
