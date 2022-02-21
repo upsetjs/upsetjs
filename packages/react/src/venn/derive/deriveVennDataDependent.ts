@@ -62,7 +62,7 @@ export default function deriveVennDataDependent<T>(
         v: ss[i],
         l,
         key: setKeys[i],
-        offset: setLabelOffsets != null && setLabelOffsets.length >= i ? setLabelOffsets[i] : { x: 0, y: 0 },
+        offset: setLabelOffsets != null && i < setLabelOffsets.length ? setLabelOffsets[i] : { x: 0, y: 0 },
       })),
       v: ss,
       format,
