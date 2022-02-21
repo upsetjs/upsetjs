@@ -256,6 +256,7 @@ const baseElementProps = {
     type: Object,
     validator: propValidators.styles,
   },
+  styleFactory: Function,
 };
 
 const baseStyleProps = {
