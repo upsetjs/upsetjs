@@ -5204,6 +5204,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@upsetjs/example-style-factory-bundle@workspace:examples/styleFactoryBundle":
+  version: 0.0.0-use.local
+  resolution: "@upsetjs/example-style-factory-bundle@workspace:examples/styleFactoryBundle"
+  dependencies:
+    "@rescripts/cli": ^0.0.16
+    "@rescripts/utilities": ^0.0.8
+    "@types/jest": ^27.0.3
+    "@upsetjs/bundle": ~1.10.10
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-scripts: ^5.0.0
+    typescript: ~4.5
+  languageName: unknown
+  linkType: soft
+
 "@upsetjs/example-style-factory@workspace:examples/styleFactory":
   version: 0.0.0-use.local
   resolution: "@upsetjs/example-style-factory@workspace:examples/styleFactory"
