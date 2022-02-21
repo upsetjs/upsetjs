@@ -359,6 +359,11 @@ export interface VennDiagramLayoutProps extends UpSetBaseLayoutProps {
    * function used to perform the venn diagram layout
    */
   layout?: IVennDiagramLayoutGenerator;
+
+  /**
+   * optional offsets for the x and y positions of each set label
+   */
+  setLabelOffsets?: readonly { x: number; y: number }[];
 }
 
 export interface KarnaughMapLayoutProps extends UpSetBaseLayoutProps {
