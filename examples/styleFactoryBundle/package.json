@@ -43,7 +43,7 @@
   "scripts": {
     "start": "rescripts start",
     "build": "rescripts build",
-    "test": "rescripts test --env=jsdom",
+    "test": "rescripts test --env=jsdom --passWithNoTests",
     "eject": "rescripts eject"
   },
   "browserslist": [
