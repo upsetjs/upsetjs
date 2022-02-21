@@ -22,6 +22,7 @@ import type {
   UpSetBaseStyleProps,
   UpSetStyleProps,
   KarnaughMapFontSizes,
+  VennDiagramLayoutProps,
 } from './interfaces';
 import { FONT_SIZES_KEYS, MULTI_STYLE_KEYS, EXPORT_OPTION_KEYS } from './defaults';
 
@@ -69,6 +70,13 @@ export function queries(value?: UpSetSelectionProps<any>['queries']) {
 
 export function stringOrFalse(value?: string | false) {
   return value == null || typeof value === 'string' || value === false;
+}
+
+export function setLabelOffsets(value?: VennDiagramLayoutProps['setLabelOffsets']) {
+  return (
+    value == null ||
+    (Array.isArray(value) && value.every((v) => (v! = null && typeof v?.x === 'number' && typeof v?.y === 'number')))
+  );
 }
 
 export function theme(value?: UpSetThemes) {

@@ -26,8 +26,19 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
   const { size, style, rulesHelper } = v;
 
   const dataInfo = useMemo(
-    () => deriveVennDataDependent(p.sets, p.combinations, size, p.layout, p.valueFormat, p.toKey, p.toElemKey, p.id),
-    [p.sets, p.combinations, size, p.valueFormat, p.toKey, p.toElemKey, p.id, p.layout]
+    () =>
+      deriveVennDataDependent(
+        p.sets,
+        p.combinations,
+        size,
+        p.layout,
+        p.valueFormat,
+        p.toKey,
+        p.toElemKey,
+        p.id,
+        p.setLabelOffsets
+      ),
+    [p.sets, p.combinations, size, p.valueFormat, p.toKey, p.toElemKey, p.id, p.layout, p.setLabelOffsets]
   );
 
   const selectionKey = selection != null && isSetLike(selection) ? p.toKey(selection) : null;
@@ -105,8 +116,8 @@ export const VennDiagram = /*!#__PURE__*/ React.forwardRef(function VennDiagram<
         {dataInfo.sets.d.map((d, i) => (
           <text
             key={d.key}
-            x={d.l.text.x}
-            y={d.l.text.y}
+            x={d.l.text.x + d.offset.x}
+            y={d.l.text.y + d.offset.y}
             onClick={v.h.onClick(dataInfo.sets.v[i], [])}
             onMouseEnter={v.h.onMouseEnter(dataInfo.sets.v[i], [])}
             onMouseLeave={v.h.onMouseLeave}

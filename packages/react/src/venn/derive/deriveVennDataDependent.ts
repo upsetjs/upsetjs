@@ -25,7 +25,7 @@ export interface VennDiagramDataInfo<T> {
   id: string;
   format(v: number): string;
   sets: {
-    d: readonly { v: ISet<T>; l: ITextCircle | ITextEllipse; key: string }[];
+    d: readonly { v: ISet<T>; l: ITextCircle | ITextEllipse; key: string; offset: { x: number; y: number } }[];
     v: ISets<T>;
     format(v: number): string;
   };
@@ -47,7 +47,8 @@ export default function deriveVennDataDependent<T>(
   format: (v: number) => string,
   toKey: (s: ISetLike<T>) => string,
   toElemKey?: (e: T) => string,
-  id?: string
+  id?: string,
+  setLabelOffsets?: readonly { x: number; y: number }[]
 ): VennDiagramDataInfo<T> {
   const ss = sets.length > layout.maxSets ? sets.slice(0, layout.maxSets) : sets;
   const { cs, setKeys, csKeys } = calculateCombinations<T>(ss, toKey, combinations);
@@ -57,7 +58,12 @@ export default function deriveVennDataDependent<T>(
   return {
     id: id ? id : generateId(),
     sets: {
-      d: l.sets.map((l, i) => ({ v: ss[i], l, key: setKeys[i] })),
+      d: l.sets.map((l, i) => ({
+        v: ss[i],
+        l,
+        key: setKeys[i],
+        offset: setLabelOffsets != null && i < setLabelOffsets.length ? setLabelOffsets[i] : { x: 0, y: 0 },
+      })),
       v: ss,
       format,
     },

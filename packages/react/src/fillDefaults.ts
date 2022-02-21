@@ -186,6 +186,7 @@ export function fillVennDiagramDefaultsG<T, C, N, L = N>(
     {
       valueFormat,
       layout: vennDiagramLayout,
+      setLabelOffsets: EMPTY_ARRAY,
     },
     props,
     {
