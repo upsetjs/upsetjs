@@ -50,6 +50,7 @@ export {
   BandScaleLike,
   NumericScaleFactory,
   NumericScaleLike,
+  createElement,
 } from '@upsetjs/bundle';
 
 const baseDataProps = {

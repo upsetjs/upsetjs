@@ -37,7 +37,7 @@ import UpSetElement, {
   KarnaughMapSkeleton,
   UpSetJSSkeleton,
 } from '@upsetjs/react';
-import type { UpSetReactElement } from './react';
+import type { UpSetReactElement, UpSetReactElementComponentChildren } from './react';
 
 export * from './addons';
 export * from '@upsetjs/model';
@@ -291,4 +291,12 @@ export function toUpSetJSStaticDump(
     author,
     mode
   );
+}
+
+export function createElement(
+  type: string,
+  props: Record<string, any> | null,
+  ...children: UpSetReactElementComponentChildren[]
+): UpSetReactElement {
+  return h(type, props, ...children);
 }
