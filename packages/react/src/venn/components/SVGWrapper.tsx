@@ -49,7 +49,7 @@ export default function SVGWrapper<T>({
   style: SVGWrapperStyle;
   selectionName?: string;
   size: { w: number; h: number; legend: { x: number }; area: { w: number } };
-  p: UpSetBaseElementProps<React.CSSProperties> &
+  p: UpSetBaseElementProps<React.CSSProperties, React.ReactNode> &
     UpSetBaseLayoutProps &
     UpSetBaseThemeProps &
     UpSetBaseStyleProps<React.ReactNode> &
@@ -74,7 +74,7 @@ export default function SVGWrapper<T>({
       data-theme={p.theme ?? 'light'}
       data-selection={selectionName ? selectionName : undefined}
     >
-      <style>{rules}</style>
+      {p.styleFactory!(rules)}
       {p.onClick && <rect width={size.w} height={size.h} onClick={h.reset} className={`fillTransparent-${style.id}`} />}
       {p.queryLegend && <QueryLegend queries={p.queries ?? []} x={size.legend.x} style={style} data={data} />}
       <ExportButtons

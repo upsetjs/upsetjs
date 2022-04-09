@@ -5,6 +5,7 @@
  * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
  */
 
+import React from 'react';
 import { ISetCombinations, GenerateSetCombinationsOptions, toKey } from '@upsetjs/model';
 import {
   DEFAULT_COMBINATIONS,
@@ -96,6 +97,10 @@ function areCombinations<T>(
   return Array.isArray(combinations);
 }
 
+function styleFactory(rules: string) {
+  return <style>{rules}</style>;
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 function fillGeneric<T extends {}>(
   base: T,
@@ -123,6 +128,7 @@ function fillGeneric<T extends {}>(
       styles: EMPTY_OBJECT,
       toKey,
       tooltips: true,
+      styleFactory,
     },
     theme,
     props,
