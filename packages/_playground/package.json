@@ -1,7 +1,7 @@
 {
   "name": "@upsetjs/_playground",
   "description": "UpSet.js is a re-implementation of UpSetR to create interactive set visualizations for more than three sets",
-  "version": "1.10.10",
+  "version": "1.11.0",
   "private": true,
   "license": "SEE LICENSE IN LICENSE.md",
   "author": {
@@ -29,11 +29,11 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
-    "@upsetjs/addons": "~1.10.10",
-    "@upsetjs/math": "~1.10.10",
-    "@upsetjs/model": "~1.10.10",
-    "@upsetjs/plots": "~1.10.10",
-    "@upsetjs/react": "~1.10.10",
+    "@upsetjs/addons": "~1.11.0",
+    "@upsetjs/math": "~1.11.0",
+    "@upsetjs/model": "~1.11.0",
+    "@upsetjs/plots": "~1.11.0",
+    "@upsetjs/react": "~1.11.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
