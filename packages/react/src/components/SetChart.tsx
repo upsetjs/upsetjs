@@ -74,33 +74,37 @@ const SetChart = /*!#__PURE__*/ React.memo(function SetChart<T>({
           className={`fillAlternating-${style.id}`}
         />
       )}
-      {xValues.map((x, i) => {
-        const offset = i > 0 ? Math.floor(data.sets.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
-        return (
-          <rect
-            key={i}
-            x={x}
-            y={offset}
-            width={size.sets.w - x}
-            height={data.sets.bandWidth - offset * 2}
-            className={clsx(
-              `fillPrimary-${style.id}`,
-              i < xValues.length - 1 && `fillOverflow${xValues.length - 1 - i}-${style.id}`,
-              style.classNames.bar
-            )}
-            style={mergeColor(style.styles.bar, d.color)}
-          />
-        );
-      })}
-      <text
-        x={xValues[0]}
-        dx={-style.barLabelOffset}
-        y={data.sets.bandWidth / 2}
-        style={style.styles.barLabel}
-        className={clsx(`sBarTextStyle-${style.id}`, style.classNames.barLabel)}
-      >
-        {data.sets.format(d.cardinality)}
-      </text>
+      {size.sets.w > 0 && (
+        <>
+          {xValues.map((x, i) => {
+            const offset = i > 0 ? Math.floor(data.sets.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
+            return (
+              <rect
+                key={i}
+                x={x}
+                y={offset}
+                width={size.sets.w - x}
+                height={data.sets.bandWidth - offset * 2}
+                className={clsx(
+                  `fillPrimary-${style.id}`,
+                  i < xValues.length - 1 && `fillOverflow${xValues.length - 1 - i}-${style.id}`,
+                  style.classNames.bar
+                )}
+                style={mergeColor(style.styles.bar, d.color)}
+              />
+            );
+          })}
+          <text
+            x={xValues[0]}
+            dx={-style.barLabelOffset}
+            y={data.sets.bandWidth / 2}
+            style={style.styles.barLabel}
+            className={clsx(`sBarTextStyle-${style.id}`, style.classNames.barLabel)}
+          >
+            {data.sets.format(d.cardinality)}
+          </text>
+        </>
+      )}
       <text
         x={size.sets.w + anchorOffset}
         y={data.sets.bandWidth / 2}

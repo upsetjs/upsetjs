@@ -68,32 +68,36 @@ const CombinationChart = /*!#__PURE__*/ React.memo(function CombinationChart<T>(
         height={size.sets.h + size.cs.h + size.cs.before + size.cs.after}
         className={`hoverBar-${style.id}`}
       />
-      {yValues.map((y, i) => {
-        const offset = i > 0 ? Math.floor(data.cs.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
-        return (
-          <rect
-            key={i}
-            x={offset}
-            y={y}
-            height={size.cs.h - y}
-            width={data.cs.bandWidth - offset * 2}
-            className={clsx(
-              `fillPrimary-${style.id}`,
-              i < yValues.length - 1 && `fillOverflow${yValues.length - 1 - i}-${style.id}`,
-              style.classNames.bar
-            )}
-            style={mergeColor(style.styles.bar, d.color)}
-          />
-        );
-      })}
-      <text
-        y={yValues[0] - style.barLabelOffset}
-        x={data.cs.bandWidth / 2}
-        style={style.styles.barLabel}
-        className={clsx(`cBarTextStyle-${style.id}`, style.classNames.barLabel)}
-      >
-        {data.cs.format(d.cardinality)}
-      </text>
+      {size.cs.h > 0 && (
+        <>
+          {yValues.map((y, i) => {
+            const offset = i > 0 ? Math.floor(data.cs.bandWidth * OVERFLOW_PADDING_FACTOR[i - 1]) : 0;
+            return (
+              <rect
+                key={i}
+                x={offset}
+                y={y}
+                height={size.cs.h - y}
+                width={data.cs.bandWidth - offset * 2}
+                className={clsx(
+                  `fillPrimary-${style.id}`,
+                  i < yValues.length - 1 && `fillOverflow${yValues.length - 1 - i}-${style.id}`,
+                  style.classNames.bar
+                )}
+                style={mergeColor(style.styles.bar, d.color)}
+              />
+            );
+          })}
+          <text
+            y={yValues[0] - style.barLabelOffset}
+            x={data.cs.bandWidth / 2}
+            style={style.styles.barLabel}
+            className={clsx(`cBarTextStyle-${style.id}`, style.classNames.barLabel)}
+          >
+            {data.cs.format(d.cardinality)}
+          </text>
+        </>
+      )}
       <text
         y={-style.barLabelOffset - size.cs.before}
         x={data.cs.bandWidth / 2}
