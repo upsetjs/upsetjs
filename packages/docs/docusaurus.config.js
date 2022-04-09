@@ -20,7 +20,7 @@ module.exports = {
   themeConfig: {
     hideableSidebar: true,
     image: 'img/preview.png',
-    metadatas: [{ name: 'twitter:card', content: 'summary' }],
+    metadata: [{ name: 'twitter:card', content: 'summary' }],
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
