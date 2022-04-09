@@ -190,6 +190,8 @@ const vennDiagramLayoutProps = {
   layout: Function,
 
   filled: Boolean,
+
+  setLabelOffsets: propValidators.setLabelOffsets,
 };
 
 const kMapLayoutProps = {
