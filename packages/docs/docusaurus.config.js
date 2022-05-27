@@ -123,7 +123,9 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} <a href="https://www.sgratzl.com">Samuel Gratzl</a>. All rights reserved. Built with Docusaurus.`,
     },
     algolia: {
-      apiKey: '4c319c51f6cdbcf1e756068157b4d3da',
+      appId: 'BJXARA6L4Z',
+      apiKey: '<NEW_SEARCH_API_KEY>',
+      apiKey: 'a5ef8f4956ba930080e39d610c0e7c98',
       indexName: 'upset',
 
       // Optional: see doc section bellow
