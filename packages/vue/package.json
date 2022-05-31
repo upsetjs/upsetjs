@@ -21,7 +21,7 @@
     "url": "https://github.com/upsetjs/upsetjs.git"
   },
   "peerDependencies": {
-    "vue": "^3.2.36"
+    "vue": "^2.6.14"
   },
   "dependencies": {
     "@upsetjs/bundle": "~1.11.0"
@@ -77,6 +77,6 @@
     "ts-jest": "^28.0.3",
     "tslib": "^2.4.0",
     "typescript": "~4.7.1",
-    "vue": "^3.2.36"
+    "vue": "^2.6.14"
   }
 }

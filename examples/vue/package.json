@@ -33,14 +33,14 @@
   },
   "dependencies": {
     "@upsetjs/vue": "~1.11.0",
-    "vue": "^3.2.36"
+    "vue": "^2.6.14"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
-    "@vue/cli-plugin-eslint": "~5.0.4",
-    "@vue/cli-plugin-typescript": "~5.0.4",
-    "@vue/cli-service": "~5.0.4",
+    "@vue/cli-plugin-eslint": "~4.5.13",
+    "@vue/cli-plugin-typescript": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
     "eslint": "^8.16.0",
