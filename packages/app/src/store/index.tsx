@@ -12,7 +12,7 @@ import Store from './Store';
 export { TEMP_QUERY_COLOR, UpSetDataQuery } from './Store';
 const storeContext = React.createContext<Store | null>(null);
 
-export const StoreProvider: React.FC = ({ children }) => {
+export const StoreProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const store = useLocalObservable(() => new Store());
   return <storeContext.Provider value={store}> {children} </storeContext.Provider>;
 };

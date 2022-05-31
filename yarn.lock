@@ -4343,102 +4343,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@taufik-nurrohman/color-picker@npm:~2.4.1":
-  version: 2.4.1
-  resolution: "@taufik-nurrohman/color-picker@npm:2.4.1"
+"@taufik-nurrohman/color-picker@npm:~2.1.6":
+  version: 2.1.6
+  resolution: "@taufik-nurrohman/color-picker@npm:2.1.6"
   dependencies:
-    "@taufik-nurrohman/document": ^0.3.1
-    "@taufik-nurrohman/event": ^0.3.1
-    "@taufik-nurrohman/from": ^0.0.10
-    "@taufik-nurrohman/has": ^0.0.3
-    "@taufik-nurrohman/hook": ^0.1.2
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/pattern": ^0.1.7
-    "@taufik-nurrohman/rect": 0.0.11
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 7349f2c67a23adaefbadf86f6ba0ba963f7011e611b5b37923826beb220e3e1df9f2cad74e81a52bba630a71841344857a4ff950550e0424e778598b099d307b
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/document@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@taufik-nurrohman/document@npm:0.3.1"
-  dependencies:
-    "@taufik-nurrohman/from": ^0.0.10
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 7244de3847d6acdb5edcaf47556c3f7863b6739f90352d12ceb855246d94833cba53dbc665e912d19c59c29aab3a5f9dfa74d0c3cb96282271d7f77fd1bae26a
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/event@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@taufik-nurrohman/event@npm:0.3.1"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: 0bc0a72f29dfaa372118dbca8171f0c5279d1209d0f5106c68ff6243278089381acdbf6324ee483c283c12f96d1c0ab8d285831c1087c4bd0f0e7eca692938e7
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/from@npm:^0.0.10":
-  version: 0.0.10
-  resolution: "@taufik-nurrohman/from@npm:0.0.10"
-  dependencies:
-    "@taufik-nurrohman/has": ^0.0.3
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: dba7c2adb0f330ff728e12982ec6b8c0b1b0fa909d7705a7614669ff450b4b0e38c243048a7dd7a6279f25264b3d38aa19d5b47e73657c090cbd2d5f70a17e55
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/has@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@taufik-nurrohman/has@npm:0.0.3"
-  checksum: 41ad56ee14d5d78f07569102c86648d0b9b14fdc1e3aac544936ee996e489e7b9b3fd2e9e87949ac022329992fbacbc488ae17528b813603e59b02d11b8f468e
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/hook@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@taufik-nurrohman/hook@npm:0.1.2"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: 9f0bf910b1a89af1969457ca61279c33a21b1dbc837e1e03bf215f279af0a70a8de38a80e74d6488213f6ba3f289602f9b6f2ba0c03c4efa189a09127d284d40
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/is@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@taufik-nurrohman/is@npm:0.1.2"
-  checksum: 3ced112648db9ba458c0c93737795a69f7e6075cefc6102b310fcbb239209d0711e8b36b339c5555fd0e1f0e74a277311a6fb7b35912e0c3ab64059faeda11c3
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/pattern@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "@taufik-nurrohman/pattern@npm:0.1.7"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-    "@taufik-nurrohman/to": ^0.0.18
-  checksum: 2d27e74de1b6fb4eccf2d64fd72caac710089a3b955511fd07e2ebde547c7045e89c3ce2a51b97b5310297d05919e3a7a88627ccc5c480f5cb01a26173769445
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/rect@npm:0.0.11":
-  version: 0.0.11
-  resolution: "@taufik-nurrohman/rect@npm:0.0.11"
-  dependencies:
-    "@taufik-nurrohman/document": ^0.3.1
-  checksum: beb77553ab44eda310a6b7c9e32986003ef60aec419bfad0961442a102e9b4e96fe092ea234b16a819bf3c7f39af85b30915355c93e97755d7af1bf8f8c288d2
-  languageName: node
-  linkType: hard
-
-"@taufik-nurrohman/to@npm:^0.0.18":
-  version: 0.0.18
-  resolution: "@taufik-nurrohman/to@npm:0.0.18"
-  dependencies:
-    "@taufik-nurrohman/is": ^0.1.2
-  checksum: c140a46787fe4f46bdb668176bc41b653de48baf1e5485e86b9cee82bbf399eb0f0a02491b590414d51d0c49e34231ae4219f742ee4d5eb8009180e441022ca7
+    opencollective-postinstall: ^2.0.2
+  checksum: a87a1617d95b15ec1ee85cb9e2e1055b98b8ef95d81ea72567f8173211b7bc6eb9d030300d0cbc707271757265fdf25aeadee3ad3a4df19a194c0c6f2c5d43dc
   languageName: node
   linkType: hard
 
@@ -5385,7 +5295,7 @@ __metadata:
     "@material-ui/core": ^4.12.4
     "@material-ui/lab": ^4.0.0-alpha.61
     "@mui/material": ^5.8.1
-    "@taufik-nurrohman/color-picker": ~2.4.1
+    "@taufik-nurrohman/color-picker": ~2.1.6
     "@types/d3-scale-chromatic": ^3.0.0
     "@types/dexie": ^1.3.32
     "@types/jest": ^27.5.1
@@ -17121,6 +17031,15 @@ __metadata:
     is-docker: ^2.1.1
     is-wsl: ^2.2.0
   checksum: e9545bec64cdbf30a0c35c1bdc310344adf8428a117f7d8df3c0af0a0a24c513b304916a6d9b11db0190ff7225c2d578885080b761ed46a3d5f6f1eebb98b63c
+  languageName: node
+  linkType: hard
+
+"opencollective-postinstall@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "opencollective-postinstall@npm:2.0.3"
+  bin:
+    opencollective-postinstall: index.js
+  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
   languageName: node
   linkType: hard
 

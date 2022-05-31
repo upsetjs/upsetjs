@@ -141,7 +141,7 @@ export default observer(({ className }: { className?: string }) => {
             <Select
               className={classes.select}
               onChange={useCallback(
-                (v) => {
+                (v: React.ChangeEvent<{ value: unknown }>) => {
                   store.selectDataSet(v.target.value as string);
                 },
                 [store]
