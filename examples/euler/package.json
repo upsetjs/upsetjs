@@ -42,7 +42,7 @@
     "@types/react-dom": "^18.0.5",
     "react-refresh": "^0.13.0",
     "react-scripts": "^5.0.1",
-    "typescript": "~4.7"
+    "typescript": "~4.7.1"
   },
   "scripts": {
     "start": "rescripts start",
