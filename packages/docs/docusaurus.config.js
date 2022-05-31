@@ -1,5 +1,9 @@
-require('dotenv').config();
+const path = require('path');
 const exec = require('child_process').execSync;
+
+require('dotenv').config({
+  path: path.resolve('../../.env'),
+});
 
 function resolveGitBranch() {
   return exec('git rev-parse --abbrev-ref HEAD').toString();
@@ -20,7 +24,6 @@ module.exports = {
     branch: resolveGitBranch(),
   },
   themeConfig: {
-    hideableSidebar: true,
     image: 'img/preview.png',
     metadata: [{ name: 'twitter:card', content: 'summary' }],
     colorMode: {
@@ -32,6 +35,11 @@ module.exports = {
       id: 'star_me', // Any value that will identify this message.
       content:
         '⭐️ If you like and use <a target="_blank" rel="noopener noreferrer" href="https://github.com/upsetjs/upsetjs">@upsetjs</a>, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/upsetjs/upsetjs">GitHub</a>! ⭐️!',
+    },
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
     },
     navbar: {
       title: 'UpSet.js',
