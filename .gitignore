@@ -20,3 +20,4 @@ dist
 .rollup.cache
 .eslintcache
 /examples/*/build
+.env

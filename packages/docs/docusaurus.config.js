@@ -1,8 +1,10 @@
+require('dotenv').config();
 const exec = require('child_process').execSync;
 
 function resolveGitBranch() {
   return exec('git rev-parse --abbrev-ref HEAD').toString();
 }
+
 module.exports = {
   title: 'UpSet.js',
   tagline:
@@ -123,9 +125,8 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} <a href="https://www.sgratzl.com">Samuel Gratzl</a>. All rights reserved. Built with Docusaurus.`,
     },
     algolia: {
-      appId: 'BJXARA6L4Z',
-      apiKey: '<NEW_SEARCH_API_KEY>',
-      apiKey: 'a5ef8f4956ba930080e39d610c0e7c98',
+      appId: process.env.ALGOLIA_APP_ID,
+      apiKey: process.env.ALGOLIA_API_KEY,
       indexName: 'upset',
 
       // Optional: see doc section bellow
