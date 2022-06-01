@@ -21,6 +21,6 @@
     "excludeExternals": true,
     "excludePrivate": true,
     "includeVersion": true,
-    "hideGenerator": true,
+    "hideGenerator": true
   }
 }

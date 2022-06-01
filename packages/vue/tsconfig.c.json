@@ -7,7 +7,5 @@
     "noEmit": false,
     "composite": true
   },
-  "references": [
-    { "path": "../bundle/tsconfig.c.json" }
-  ]
+  "references": [{ "path": "../bundle/tsconfig.c.json" }]
 }

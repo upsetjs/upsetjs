@@ -7,3 +7,7 @@
 /static
 /.yarn
 /node_modules
+*.tsbuildinfo
+/src/**.js
+*.map
+.gitignore
