@@ -7,8 +7,5 @@
     "noEmit": false,
     "composite": true
   },
-  "references": [
-    { "path": "../math/tsconfig.c.json" },
-    { "path": "../react/tsconfig.c.json" }
-  ]
+  "references": [{ "path": "../math/tsconfig.c.json" }, { "path": "../react/tsconfig.c.json" }]
 }

@@ -6,11 +6,7 @@ const pkg = require('./package.json');
 module.exports = {
   root: true,
   plugins: ['prettier'],
-  extends: [
-    'react-app',
-    'plugin:prettier/recommended',
-    'prettier',
-  ],
+  extends: ['react-app', 'plugin:prettier/recommended', 'prettier'],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },

@@ -3,19 +3,21 @@ module.exports = {
     {
       type: 'category',
       label: 'UpSet.js',
-      items: ['_index', 'design-principles', 'data'],
+      link: { type: 'doc', id: 'index' },
+      items: ['design-principles', 'data'],
     },
     {
       type: 'category',
       label: 'Getting started',
       collapsed: false,
-      items: ['getting-started/_index', 'getting-started/venndiagram', 'getting-started/karnaughmap'],
+      link: { type: 'doc', id: 'getting-started/index' },
+      items: ['getting-started/venndiagram', 'getting-started/karnaughmap'],
     },
     {
       type: 'category',
       label: 'Components',
+      link: { type: 'doc', id: 'components/index' },
       items: [
-        'components/_index',
         'components/upsetjs',
         'components/venndiagram',
         'components/karnaughmap',
@@ -26,19 +28,21 @@ module.exports = {
     {
       type: 'category',
       label: 'Addons',
-      items: ['addons/_index', 'addons/boxplot', 'addons/categorical'],
+      link: { type: 'doc', id: 'addons/index' },
+      items: ['addons/boxplot', 'addons/categorical'],
     },
     {
       type: 'category',
       label: 'Plots',
-      items: ['plots/_index', 'plots/barchart', 'plots/histogram', 'plots/piechart', 'plots/scatterplot'],
+      link: { type: 'doc', id: 'plots/index' },
+      items: ['plots/barchart', 'plots/histogram', 'plots/piechart', 'plots/scatterplot'],
     },
     {
       type: 'category',
       label: 'Integrations',
       collapsed: false,
+      link: { type: 'doc', id: 'integrations/index' },
       items: [
-        'integrations/_index',
         {
           type: 'category',
           label: 'Web Frameworks',
@@ -122,8 +126,8 @@ module.exports = {
     {
       type: 'category',
       label: 'Examples',
+      link: { type: 'doc', id: 'examples/index' },
       items: [
-        'examples/_index',
         'examples/colored',
         'examples/queries',
         'examples/title',

@@ -6,7 +6,7 @@ Function run_function{
     cd $dir.DirectoryName
     # git branch -D main
 
-    # yarn set version latest
+      # yarn set version latest
     ncu -u --reject "d3-*"
     # yarn clean
     # yarn compile

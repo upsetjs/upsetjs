@@ -4,4 +4,7 @@
 /coverage
 /.prettierignore
 .browserslistrc
+*.tsbuildinfo
+/src/**.js
+*.map
 *.txt

@@ -7,11 +7,11 @@
 
 import React, { ReactNode } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useThemeContext from '@theme/hooks/useThemeContext';
+import { useColorMode } from '@docusaurus/theme-common';
 
 export default function CodeSandboxExample({ name }: { name: string }): ReactNode {
   const { siteConfig } = useDocusaurusContext();
-  const { isDarkTheme } = useThemeContext();
+  const { colorMode } = useColorMode();
 
   const path = `${siteConfig.organizationName}/${siteConfig.projectName}/tree/${siteConfig.customFields.branch}/examples/${name}`;
   return (
@@ -27,9 +27,7 @@ export default function CodeSandboxExample({ name }: { name: string }): ReactNod
       <iframe
         title="Example Preview"
         className="embedded-iframe"
-        src={`https://codesandbox.io/embed/github/${path}?autoresize=1&fontsize=14&theme=${
-          isDarkTheme ? 'dark' : 'light'
-        }`}
+        src={`https://codesandbox.io/embed/github/${path}?autoresize=1&fontsize=14&theme=${colorMode}`}
       >
         Example Preview not available
       </iframe>

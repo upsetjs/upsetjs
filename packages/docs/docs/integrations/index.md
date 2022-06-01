@@ -1,5 +1,4 @@
 ---
-id: _index
 slug: /integrations
 title: Overview
 ---

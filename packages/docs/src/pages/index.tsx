@@ -38,7 +38,7 @@ function Feature({ imageUrl, title, children }: PropsWithChildren<{ imageUrl: st
 
 export default function Home(): ReactNode {
   const context = useDocusaurusContext();
-  const { siteConfig = {} } = context;
+  const { siteConfig } = context;
   return (
     <Layout title="Homepage" description="X">
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
