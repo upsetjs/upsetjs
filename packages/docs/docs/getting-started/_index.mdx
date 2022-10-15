@@ -8,7 +8,7 @@ slug: /getting-started
 
 UpSet.js comes with an React based version `@upsetjs/react` and a pure Vanilla JavaScript version `@upsetjs/bundle`.
 In addition, there is a Vue.js wrapper at `@upsetjs/vue`. All of them have the same feature set and interface.
-The bundle version has no framework dependencies and can be used in general cases. In the followign the React version is shown, later also the bundled version.
+The bundle version has no framework dependencies and can be used in general cases. In the following the React version is shown, later also the bundled version.
 
 ```sh
 npm install @upsetjs/react react react-dom
@@ -146,7 +146,7 @@ yarn add @upsetjs/bundle
 ```
 
 ```jsx
-import { extractCombinations, renderUpSetJS } from '@upsetjs/bundle';
+import { extractCombinations, renderUpSet } from '@upsetjs/bundle';
 
 const elems = [
   { name: 'A', sets: ['S1', 'S2'] },
@@ -165,7 +165,7 @@ function onHover(set) {
 
 function rerender() {
   const props = { sets, combinations, width: 780, height: 400, selection, onHover };
-  renderUpSetJS(document.body, props);
+  renderUpSet(document.body, props);
 }
 
 rerender();
