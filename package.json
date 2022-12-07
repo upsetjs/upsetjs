@@ -38,7 +38,7 @@
     "pack:libs": "yarn workspaces foreach -v -p --topological-dev --include \"@upsetjs/(math|model|bundle|react|addons|plots|vue)\" pack --out '%s-%v.tgz'",
     "docs": "yarn workspaces foreach -v -p run docs",
     "app": "yarn workspace @upsetjs/app run start",
-    "prettier": "prettier .eslintrc.js .prettierrc.js *.json \".github/**\"",
+    "prettier": "prettier .eslintrc.cjs .prettierrc.js *.json \".github/**\"",
     "prettier:write": "yarn run prettier --write",
     "prettier:check": "yarn run prettier --check",
     "release": "release-it --disable-metrics",
