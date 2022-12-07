@@ -2,7 +2,7 @@
  * @upsetjs/app
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2019-2022 Samuel Gratzl <sam@sgratzl.com>
  */
 
 function getComparator<T>(orderBy: keyof T | ((v: T) => number | string), order: 'asc' | 'desc') {

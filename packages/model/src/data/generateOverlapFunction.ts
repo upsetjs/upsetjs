@@ -2,7 +2,7 @@
  * @upsetjs/model
  * https://github.com/upsetjs/upsetjs
  *
- * Copyright (c) 2021 Samuel Gratzl <sam@sgratzl.com>
+ * Copyright (c) 2019-2022 Samuel Gratzl <sam@sgratzl.com>
  */
 
 import { ISetCombination, ISetCombinations, ISetLike, toKey as toDefaultKey } from '../model';
