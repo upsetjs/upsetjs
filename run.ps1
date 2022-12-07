@@ -6,8 +6,8 @@ Function run_function{
     cd $dir.DirectoryName
     # git branch -D main
 
-      # yarn set version latest
-    ncu -u --reject "d3-*"
+    # yarn set version latest
+    ncu -u
     # yarn clean
     # yarn compile
     # yarn build
@@ -16,6 +16,10 @@ Function run_function{
     # git commit -am 'build: update deps'
     # git push
 }
+
+yarn set version latest
+rm yarn.lock
+ncu -u
 
 Get-ChildItem -force packages/*/* | where {$_.name -eq "package.json"} | foreach {
     run_function $_
