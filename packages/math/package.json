@@ -23,7 +23,7 @@
   "dependencies": {
     "@sgratzl/boxplots": "^1.3.0"
   },
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,

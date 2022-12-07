@@ -21,7 +21,7 @@
     "url": "https://github.com/upsetjs/upsetjs.git"
   },
   "module": "dist/index.js",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
