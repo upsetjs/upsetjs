@@ -7,8 +7,12 @@ import replace from '@rollup/plugin-replace';
 import babel from '@rollup/plugin-babel';
 import alias from '@rollup/plugin-alias';
 import cleanup from 'rollup-plugin-cleanup';
+import json from '@rollup/plugin-json';
+import require from 'node:module';
 
 import fs from 'fs';
+
+const req = require.createRequire(import.meta.url);
 
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
@@ -53,18 +57,19 @@ export default function Config(options) {
       }),
       alias({
         entries: [
-          { find: 'react', replacement: require.resolve('preact/compat').replace('.js', '.module.js') },
+          { find: 'react', replacement: req.resolve('preact/compat').replace('.js', '.module.js') },
           {
             find: 'react-dom/test-utils',
-            replacement: require.resolve('preact/test-utils').replace('.js', '.module.js'),
+            replacement: req.resolve('preact/test-utils').replace('.js', '.module.js'),
           },
-          { find: 'react-dom', replacement: require.resolve('preact/compat').replace('.js', '.module.js') },
+          { find: 'react-dom', replacement: req.resolve('preact/compat').replace('.js', '.module.js') },
           {
             find: 'react/jsx-runtime',
-            replacement: require.resolve('preact/jsx-runtime').replace('.js', '.module.js'),
+            replacement: req.resolve('preact/jsx-runtime').replace('.js', '.module.js'),
           },
         ],
       }),
+      json(),
       resolve(),
       commonjs(),
       typescript(),
