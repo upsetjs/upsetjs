@@ -25,7 +25,7 @@ export function withColor<T>(v: T, s: { color?: string }): T & { color?: string 
   if (s.color) {
     (v as T & { color?: string }).color = s.color;
   }
-  return v;
+  return v as T & { color?: string };
 }
 
 function toJSCode(store: Store, prefix = 'UpSetJS.') {
